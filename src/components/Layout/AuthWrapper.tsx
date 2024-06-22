@@ -1,18 +1,10 @@
-import type { User } from "firebase/auth";
-
-import { Alert, App, Button, Form, Input, Modal, Spin } from "antd";
+import { Alert, Button, Form, Input, Modal, Spin } from "antd";
+import { useAuthContext } from "hooks/useAuthContext";
 import { ReactNode, useState } from "react";
-import { useEffectOnce } from "react-use";
-import { auth, signIn } from "services/firebase";
-import { useMutation } from "@tanstack/react-query";
+import { SignInProps } from "services/AuthProvider";
 
 type AuthWrapperProps = {
   children: ReactNode;
-};
-
-type FormValues = {
-  email: string;
-  password: string;
 };
 
 const layout = {
@@ -24,38 +16,13 @@ const tailLayout = {
 };
 
 export function AuthWrapper({ children }: AuthWrapperProps) {
-  const [authenticatedUser, setAuthenticatedUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { message } = App.useApp();
+  const { signIn, isSigningIn, isLoading, isAuthenticated } = useAuthContext();
   const [openLogin, setOpenLogin] = useState(false);
-  const [values, setValues] = useState<FormValues>({ email: "", password: "" });
+  const [values, setValues] = useState<SignInProps>({ email: "", password: "" });
 
-  useEffectOnce(() => {
-    auth.onAuthStateChanged((user) => {
-      if (user) {
-        setAuthenticatedUser(user);
-        message.info("You are logged in!");
-      } else {
-        setAuthenticatedUser(null);
-      }
-
-      setIsLoading(false);
-    });
-  });
-
-  const onValuesChange = (data: Partial<FormValues>) => {
-    console.log(data);
+  const onValuesChange = (data: Partial<SignInProps>) => {
     setValues((prev) => ({ ...prev, ...data }));
   };
-
-  const mutation = useMutation({
-    mutationFn: () => signIn(values.email, values.password),
-    onSuccess: (data) => {
-      setAuthenticatedUser(data.user);
-      message.success("You are logged in!");
-      setOpenLogin(false);
-    },
-  });
 
   if (isLoading) {
     return (
@@ -65,12 +32,12 @@ export function AuthWrapper({ children }: AuthWrapperProps) {
     );
   }
 
-  if (!authenticatedUser) {
+  if (!isAuthenticated) {
     return (
       <div className="h-screen w-screen grid place-items-center">
         <Alert
           message="You are not logged in"
-          description="This app does not feature login capabilities."
+          description="You can't use this app unless you are logged in."
           type="info"
           showIcon
           action={
@@ -83,8 +50,8 @@ export function AuthWrapper({ children }: AuthWrapperProps) {
           <Modal
             title="Login"
             open={openLogin}
-            onOk={() => mutation.mutate()}
-            confirmLoading={mutation.isPending}
+            onOk={() => signIn(values)}
+            confirmLoading={isSigningIn}
             onCancel={() => setOpenLogin(false)}
             okText="Login"
             okButtonProps={{
