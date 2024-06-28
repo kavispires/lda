@@ -30,7 +30,8 @@
     "test": "react-scripts test",
     "format": "prettier --write \"**/src/*.js\"",
     "eject": "react-scripts eject",
-    "prepare": "husky"
+    "prepare": "husky",
+    "clean": "rm -rf node_modules"
   },
   "eslintConfig": {
     "extends": [
