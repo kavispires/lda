@@ -1,0 +1,153 @@
+import { FUID, RecordTimestamps, UID } from './common';
+
+export type Song = {
+  /**
+   * Unique identifier
+   */
+  id: FUID;
+  /**
+   * The type of the entity
+   */
+  type: 'song';
+  /**
+   * The title of the song
+   */
+  title: string;
+  /**
+   * The version of the song (acoustic, remix, etc.)
+   */
+  version?: string;
+  /**
+   * The Youtube video id
+   */
+  videoId: string;
+  /**
+   * The original artist of the song
+   */
+  originalArtist: string;
+  /**
+   * The duration of the song in milliseconds
+   */
+  duration: number;
+  /**
+   * The start of the song in milliseconds
+   * In case the video has an intro
+   */
+  startAt?: number;
+  /**
+   * The end of the song in milliseconds
+   * In case the video has an outro
+   */
+  endAt?: number;
+  /**
+   * Ordered section ids
+   */
+  sectionIds: UID[];
+  /**
+   * Collection of sections, lines, and parts of the song
+   */
+  content: Record<UID, SongSection | SongLine | SongPart>;
+  /**
+   * Additional metadata
+   */
+  metadata?: {
+    /**
+     * The key/scale of the song
+     */
+    key: string;
+    /**
+     * The tempo of the song in BPM
+     */
+    tempo: number;
+    /**
+     * The genre of the song
+     */
+    genre: string;
+    /**
+     * The style of the song
+     */
+    style: string;
+  };
+} & RecordTimestamps;
+
+export type SongSection = {
+  /**
+   * Unique identifier
+   */
+  id: UID;
+  /**
+   * The type of the entity
+   */
+  type: 'song-section';
+  /**
+   * The kind of the section (verse, chorus, etc.)
+   */
+  kind: string;
+  /**
+   * The number of the section (used to differentiate between sections of the same kind)
+   */
+  number: number;
+  /**
+   * Ordered line ids
+   */
+  lineIds: UID[];
+};
+
+export type SongLine = {
+  /**
+   * Unique identifier
+   */
+  id: UID;
+  /**
+   * The type of the entity
+   */
+  type: 'song-line';
+  /**
+   * Flag indicating if the line is dismissible (not displayed during a distribution)
+   */
+  dismissible?: boolean;
+  /**
+   * Ordered part ids
+   */
+  partsIds: UID[];
+  /**
+   * Additional metadata
+   */
+  skill?: {
+    /**
+     * The type of the skill (vocal, rap, choir)
+     */
+    type: string;
+    /**
+     * The level of the skill (beginner, intermediate, advanced)
+     */
+    level: number;
+  };
+};
+
+export type SongPart = {
+  /**
+   * Unique identifier
+   */
+  id: UID;
+  /**
+   * The type of the entity
+   */
+  type: 'song-part';
+  /**
+   * The text of the part
+   */
+  text: string;
+  /**
+   * The start time of the part in milliseconds
+   */
+  startTime: number;
+  /**
+   * The end time of the part in milliseconds
+   */
+  endTime: number;
+  /**
+   * The recommended assignee of the part
+   */
+  recommendedAssignee: FUID;
+};
