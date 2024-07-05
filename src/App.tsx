@@ -1,10 +1,9 @@
-import { App as AntApp } from "antd";
-import { AuthWrapper } from "components/Layout/AuthWrapper";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { AuthProvider } from "services/AuthProvider";
-import { HashRouter, Route, Routes } from "react-router-dom";
-import { Layout } from "components/Layout/Layout";
-import { HomePage } from "./pages/Home";
+import { App as AntApp } from 'antd';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from 'services/AuthProvider';
+import { HashRouter, Route, Routes } from 'react-router-dom';
+import { Layout } from 'components/Layout/Layout';
+import { HomePage } from './pages/Home';
 
 const queryClient = new QueryClient({
   defaultOptions: {
