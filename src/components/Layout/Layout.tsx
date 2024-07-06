@@ -1,10 +1,11 @@
-import { Layout as AntLayout } from 'antd';
-import { useAuthContext } from 'hooks/useAuthContext';
-import { ReactNode } from 'react';
-
-import { Menu } from './Menu';
-import { AuthWrapper } from './AuthWrapper';
 import './Layout.scss';
+
+import { Layout as AntLayout } from 'antd';
+import { ReactNode } from 'react';
+import { useAuthContext } from 'services/AuthProvider';
+
+import { AuthWrapper } from './AuthWrapper';
+import { Menu } from './Menu';
 
 type LayoutProps = {
   /**

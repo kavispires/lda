@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { FirebaseError } from 'firebase/app';
 import { User } from 'firebase/auth';
-import { createContext, PropsWithChildren, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useState } from 'react';
 import { useEffectOnce } from 'react-use';
 
 import { UseMutateFunction, useMutation } from '@tanstack/react-query';
@@ -78,4 +78,14 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuthContext = () => {
+  const context = useContext(AuthContext);
+
+  if (!context) {
+    throw new Error('useAuthContext must be used within an AuthProvider');
+  }
+
+  return context;
 };

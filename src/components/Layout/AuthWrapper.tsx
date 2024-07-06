@@ -1,11 +1,6 @@
-import { Alert, Button, Form, Input, Modal, Spin } from "antd";
-import { useAuthContext } from "hooks/useAuthContext";
-import { ReactNode, useState } from "react";
-import { SignInProps } from "services/AuthProvider";
-
-type AuthWrapperProps = {
-  children: ReactNode;
-};
+import { Alert, Button, Form, Input, Modal, Spin } from 'antd';
+import { PropsWithChildren, useState } from 'react';
+import { SignInProps, useAuthContext } from 'services/AuthProvider';
 
 const layout = {
   labelCol: { span: 8 },
@@ -15,10 +10,10 @@ const tailLayout = {
   wrapperCol: { offset: 0, span: 8 },
 };
 
-export function AuthWrapper({ children }: AuthWrapperProps) {
+export function AuthWrapper({ children }: PropsWithChildren) {
   const { signIn, isSigningIn, isLoading, isAuthenticated } = useAuthContext();
   const [openLogin, setOpenLogin] = useState(false);
-  const [values, setValues] = useState<SignInProps>({ email: "", password: "" });
+  const [values, setValues] = useState<SignInProps>({ email: '', password: '' });
 
   const onValuesChange = (data: Partial<SignInProps>) => {
     setValues((prev) => ({ ...prev, ...data }));
@@ -55,7 +50,7 @@ export function AuthWrapper({ children }: AuthWrapperProps) {
             onCancel={() => setOpenLogin(false)}
             okText="Login"
             okButtonProps={{
-              htmlType: "submit",
+              htmlType: 'submit',
             }}
           >
             <Form.Item {...tailLayout} label="E-mail" name="email" className="login__form-item">
