@@ -34,7 +34,7 @@ export function useCreateSongMutation() {
         message: 'Success',
         description: 'Song created successfully',
       });
-      navigate(`/song/${response.id}`);
+      navigate(`/song/${response.id}/edit`);
     },
     onError(error) {
       notification.error({

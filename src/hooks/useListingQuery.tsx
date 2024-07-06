@@ -1,13 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
+import { orderBy } from 'lodash';
 import { getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
 import { Dictionary, ListingEntry } from 'types';
 
 export function useListingQuery(listingType: string) {
-  return useQuery<Dictionary<ListingEntry>, Error>({
-    queryKey: ['listing', listingType],
+  return useQuery<Dictionary<ListingEntry>, Error, ListingEntry[]>({
+    queryKey: ['listings', listingType],
     queryFn: async () => {
-      return await getDocQueryFunction<Dictionary<ListingEntry>>('listing', listingType);
+      return await getDocQueryFunction<Dictionary<ListingEntry>>('listings', listingType);
+    },
+    select: (data) => {
+      return orderBy(Object.values(data), (obj) => obj.name.toLowerCase());
     },
   });
 }
