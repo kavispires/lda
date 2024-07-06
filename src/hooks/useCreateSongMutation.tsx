@@ -1,16 +1,16 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
 import { createDoc } from 'services/firebase';
 import { FirestoreSong, Song } from 'types';
 import { distributor } from 'utils';
+
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { useListingMutation } from './useListingQuery';
-import { useNavigate } from 'react-router-dom';
 
 export function useCreateSongMutation() {
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
   const updateListingMutation = useListingMutation('songs');
-  const navigate = useNavigate();
 
   return useMutation<FirestoreSong, Error, Song>({
     // This function will be called when the mutation is triggered
@@ -34,7 +34,6 @@ export function useCreateSongMutation() {
         message: 'Success',
         description: 'Song created successfully',
       });
-      navigate(`/song/${response.id}/edit`);
     },
     onError(error) {
       notification.error({

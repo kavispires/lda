@@ -9,6 +9,10 @@ import { DatabaseFilled, MessageFilled, NotificationFilled } from '@ant-design/i
 
 import { NewSong } from '../NewSongPage';
 import { NewSongQuickLog } from './NewSongQuickLog';
+import { useLocalStorage } from 'react-use';
+import { useNavigate } from 'react-router-dom';
+
+const TEMP_TEXTAREA_LYRICS = 'TEMP_TEXTAREA_LYRICS';
 
 type StepTwoProps = {
   newSong: NewSong;
@@ -17,6 +21,9 @@ type StepTwoProps = {
 };
 
 export function StepTwo({ newSong, updateNewSong, setStep }: StepTwoProps) {
+  const navigate = useNavigate();
+  const songMutation = useCreateSongMutation();
+
   const [song, setSong] = useState<Song>(
     distributor.generateSong({
       title: newSong.title,
@@ -26,12 +33,33 @@ export function StepTwo({ newSong, updateNewSong, setStep }: StepTwoProps) {
     })
   );
 
-  const [textarea, setTextarea] = useState<string>('Sample lyrics\nSample |lyrics\n\nSampleLyrics');
-  const onParse = () => {
-    setSong(buildSections(textarea, song));
+  // Saves lyrics in local storage in case context is lost, this date is removed upon saving
+  const [tempLyrics, setTempLyrics, removeTempLyrics] = useLocalStorage<string>(TEMP_TEXTAREA_LYRICS, '', {
+    raw: true,
+  });
+  const [textarea, setTextarea] = useState<string>(
+    tempLyrics || 'Sample lyrics\nSample |lyrics\n\nSampleLyrics'
+  );
+  const [textareaUsedValue, setTextareaUsedValue] = useState<string>('');
+
+  const onTextAreaChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTextarea(e.target.value);
+    setTempLyrics(e.target.value);
   };
 
-  const songMutation = useCreateSongMutation();
+  const onParse = () => {
+    setSong(buildSections(textarea, song));
+    setTextareaUsedValue(textarea);
+  };
+
+  const onSave = () => {
+    songMutation.mutate(song, {
+      onSuccess: (response) => {
+        removeTempLyrics();
+        navigate(`/songs/${response.id}/edit`);
+      },
+    });
+  };
 
   return (
     <>
@@ -50,7 +78,7 @@ export function StepTwo({ newSong, updateNewSong, setStep }: StepTwoProps) {
         <Input.TextArea
           placeholder="Insert lyrics here"
           className="lyrics-textarea-container__textarea"
-          onChange={(e) => setTextarea(e.target.value)}
+          onChange={onTextAreaChange}
           value={textarea}
           autoSize={{ minRows: 10, maxRows: 30 }}
         />
@@ -70,8 +98,9 @@ export function StepTwo({ newSong, updateNewSong, setStep }: StepTwoProps) {
             <Button
               type="primary"
               size="large"
-              onClick={() => songMutation.mutate(song)}
+              onClick={onSave}
               loading={songMutation.isPending}
+              disabled={textareaUsedValue !== textarea}
             >
               Create Song
             </Button>

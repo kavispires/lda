@@ -6,8 +6,8 @@
 }
 
 .lyrics-quick-log {
-  overflow-y: hidden;
-  height: 230px;
+  overflow-y: auto;
+  height: 100%;
   min-height: 230px;
   max-height: 670px;
   border-radius: var(--border-radius);

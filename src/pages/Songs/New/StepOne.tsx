@@ -97,7 +97,7 @@ export function StepOne({ newSong, updateNewSong, setStep }: StepOneProps) {
 
             <Form.Item label="Duration" name="duration">
               <TimePicker
-                defaultValue={dayjs('0:00', DURATION_FORMAT)}
+                // defaultValue={dayjs('0:00', DURATION_FORMAT)}
                 format={DURATION_FORMAT}
                 showNow={false}
               />
