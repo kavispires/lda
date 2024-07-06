@@ -1,0 +1,48 @@
+@use 'styles/sass' as *;
+
+.ld-menu.ld-menu {
+  background-image: linear-gradient(to top, #0f1014, #131725, #161d36, #1a2348, #1f295a, #203b73);
+}
+
+.ld-menu {
+  padding: get-unit(3);
+
+  &__nav {
+    display: grid;
+    width: 100%;
+    justify-items: center;
+  }
+
+  &__home {
+    display: flex;
+    width: 100%;
+    padding: get-unit(1 2 6 2);
+  }
+
+  &__logo {
+    width: 2rem;
+  }
+
+  &__logo-text {
+    margin-left: get-unit(1);
+  }
+
+  &__nav-link {
+    font-size: 1.1em;
+    display: flex;
+    margin: get-unit(1 0);
+    padding: get-unit(3);
+    align-items: center;
+    border-radius: var(--border-radius);
+    color: get-color('white');
+
+    &:hover {
+      background-color: var(--color-primary);
+      color: get-color('white', 5, 0.5);
+    }
+  }
+
+  &__nav-text {
+    margin-left: get-unit(2);
+  }
+}
