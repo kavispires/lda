@@ -1,12 +1,12 @@
-import { message } from "antd";
-import { FirebaseError } from "firebase/app";
-import { User } from "firebase/auth";
-import { createContext, ReactNode, useState } from "react";
-import { useEffectOnce } from "react-use";
+import { message } from 'antd';
+import { FirebaseError } from 'firebase/app';
+import { User } from 'firebase/auth';
+import { createContext, PropsWithChildren, useState } from 'react';
+import { useEffectOnce } from 'react-use';
 
-import { UseMutateFunction, useMutation } from "@tanstack/react-query";
+import { UseMutateFunction, useMutation } from '@tanstack/react-query';
 
-import { auth, signIn } from "./firebase";
+import { auth, signIn } from './firebase';
 
 export type SignInProps = {
   email: string;
@@ -27,11 +27,7 @@ export const AuthContext = createContext<{
   signIn: () => {},
 });
 
-type AuthProviderProps = {
-  children: ReactNode;
-};
-
-export const AuthProvider = ({ children }: AuthProviderProps) => {
+export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [authenticatedUser, setAuthenticatedUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -40,7 +36,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       if (user) {
         setAuthenticatedUser(user);
 
-        message.info("You are logged in");
+        message.info('You are logged in');
       } else {
         setAuthenticatedUser(null);
       }
@@ -59,7 +55,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       return response.user;
     },
     onSuccess: (data) => {
-      message.success("You were logged in");
+      message.success('You were logged in');
       setAuthenticatedUser(data);
     },
     onError: (error) => {

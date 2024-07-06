@@ -1,0 +1,25 @@
+:root {
+  // Small smartphones (portrait view)
+  --screen-xs-max: 400px;
+
+  // Small tablets and large smartphones (landscape view)
+  --screen-sm-max: 576px;
+
+  // Small tablets (portrait view)
+  --screen-md-max: 768px;
+
+  // Tablets and small desktops
+  --screen-lg-max: 992px;
+
+  // Base unit
+  --unit: 3px;
+
+  // Default border-radius
+  --border-radius: 6px;
+
+  --color-primary: #3636bc;
+  --color-primary-light: #96abf6;
+  --color-primary-dark: #292b72;
+  --color-secondary: #faa6ff;
+  --color-tertiary: #c2f970;
+}

@@ -12,3 +12,9 @@ body {
   background: hsl(209, 97%, 13%);
   color: rgba($color: #ffffff, $alpha: 0.85);
 }
+
+.container-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

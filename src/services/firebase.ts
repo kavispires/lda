@@ -1,20 +1,20 @@
-import { FirebaseApp, initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getFirestore, Firestore } from "firebase/firestore";
+import { FirebaseApp, initializeApp } from 'firebase/app';
+import { getAnalytics } from 'firebase/analytics';
+import { getFirestore, Firestore, setDoc, collection, updateDoc, doc, getDoc } from 'firebase/firestore';
 import {
   Auth,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
   UserCredential,
-} from "firebase/auth";
+} from 'firebase/auth';
 
 const buildKey = () => {
   return [
     process.env.REACT_APP_FIREBASE_A,
     process.env.REACT_APP_FIREBASE_P,
     process.env.REACT_APP_FIREBASE_I,
-  ].join("");
+  ].join('');
 };
 
 const firebaseConfig = {
@@ -61,4 +61,47 @@ export function signIn(email: string, password: string): Promise<UserCredential>
  */
 export async function signOut(callback?: Function): Promise<void> {
   return auth.signOut().then(() => callback?.());
+}
+
+/**
+ * Creates a new document in the specified collection with the provided data.
+ * @param collectionPath - The path of the collection where the document will be created.
+ * @param data - The data to be stored in the document.
+ * @returns A promise that resolves to the created document with an additional `id` field.
+ */
+export async function createDoc<TData = Record<string, any>>(
+  collectionPath: string,
+  data: TData
+): Promise<TData & { id: string }> {
+  const docRef = doc(collection(firestore, collectionPath));
+  console.log(`%cCreating a document on ${collectionPath} on firestore`, 'color: #f0f');
+  const dataWithId = { ...data, id: docRef.id };
+  await setDoc(docRef, dataWithId);
+  return dataWithId;
+}
+
+/**
+ * Retrieves a document from Firestore using the specified path and document ID.
+ * @param path - The path to the collection containing the document.
+ * @param docId - The ID of the document to retrieve.
+ * @returns A promise that resolves to the data of the retrieved document.
+ */
+export async function getDocQueryFunction<TQueryFnData>(path: string, docId: string) {
+  console.log(`%cQuerying ${path}/${docId} from firestore`, 'color: #f0f');
+  const docRef = doc(firestore, path, docId);
+  const querySnapshot = await getDoc(docRef);
+  return (querySnapshot.data() ?? {}) as TQueryFnData;
+}
+
+/**
+ * Updates a document in Firestore using the provided path, document ID, and data.
+ * @param path - The path to the collection containing the document.
+ * @param docId - The ID of the document to update.
+ * @param data - The data to update the document with.
+ * @returns A Promise that resolves when the document is successfully updated.
+ */
+export async function updateDocQueryFunction<TData>(path: string, docId: string, data: TData) {
+  console.log(`%cUpdating ${path}/${docId} on firestore`, 'color: #f0f');
+  const docRef = doc(firestore, path, docId);
+  return updateDoc(docRef, data as any); // TODO: Fix this any
 }

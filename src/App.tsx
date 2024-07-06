@@ -4,6 +4,7 @@ import { AuthProvider } from 'services/AuthProvider';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { Layout } from 'components/Layout/Layout';
 import { HomePage } from './pages/Home';
+import { NewSongPage } from 'pages/Songs/NewSongPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,6 +25,7 @@ function App() {
             <Layout>
               <Routes>
                 <Route path="/" element={<HomePage />} />
+                <Route path="/songs/new" element={<NewSongPage />} />
               </Routes>
             </Layout>
           </AuthProvider>

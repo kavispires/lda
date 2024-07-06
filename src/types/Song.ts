@@ -70,6 +70,10 @@ export type Song = {
   };
 } & RecordTimestamps;
 
+export type FirestoreSong = Omit<Song, 'content'> & {
+  content: string;
+};
+
 export type SongSection = {
   /**
    * Unique identifier
@@ -78,7 +82,7 @@ export type SongSection = {
   /**
    * The type of the entity
    */
-  type: 'song-section';
+  type: 'section';
   /**
    * The kind of the section (verse, chorus, etc.)
    */
@@ -90,7 +94,7 @@ export type SongSection = {
   /**
    * Ordered line ids
    */
-  lineIds: UID[];
+  linesIds: UID[];
 };
 
 export type SongLine = {
@@ -101,7 +105,7 @@ export type SongLine = {
   /**
    * The type of the entity
    */
-  type: 'song-line';
+  type: 'line';
   /**
    * Flag indicating if the line is dismissible (not displayed during a distribution)
    */
@@ -123,6 +127,10 @@ export type SongLine = {
      */
     level: number;
   };
+  /**
+   * The section id this line belongs to
+   */
+  sectionId: UID;
 };
 
 export type SongPart = {
@@ -133,7 +141,7 @@ export type SongPart = {
   /**
    * The type of the entity
    */
-  type: 'song-part';
+  type: 'part';
   /**
    * The text of the part
    */
@@ -150,4 +158,8 @@ export type SongPart = {
    * The recommended assignee of the part
    */
   recommendedAssignee: FUID;
+  /**
+   * The line id this part belongs to
+   */
+  lineId: UID;
 };

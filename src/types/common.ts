@@ -25,3 +25,9 @@ export type RecordTimestamps = {
    */
   updatedAt?: RecordDate;
 };
+
+/**
+ * Represents a dictionary object that maps string keys to values of type T.
+ * @template T - The type of values stored in the dictionary.
+ */
+export type Dictionary<T> = Record<string, T>;

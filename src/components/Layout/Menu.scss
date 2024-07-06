@@ -23,10 +23,6 @@
     width: 2rem;
   }
 
-  &__logo-text {
-    margin-left: get-unit(1);
-  }
-
   &__nav-link {
     font-size: 1.1em;
     display: flex;
@@ -37,7 +33,7 @@
     color: get-color('white');
 
     &:hover {
-      background-color: var(--color-primary);
+      background-color: get-color('blue', 5, 0.5);
       color: get-color('white', 5, 0.5);
     }
   }
