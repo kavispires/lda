@@ -18,3 +18,11 @@ body {
   justify-content: center;
   align-items: center;
 }
+
+.grid {
+  display: grid;
+}
+
+.grid-cols-2 {
+  grid-template-columns: 1fr 1fr;
+}

@@ -9,6 +9,7 @@ export function NewSongStepper({ step }: NewSongStepperProps) {
     <Steps
       current={step}
       size="small"
+      type="navigation"
       className="mb-8"
       items={[
         {

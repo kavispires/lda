@@ -1,10 +1,5 @@
 @use 'styles/sass' as *;
 
-.lyrics-textarea-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-}
-
 .lyrics-quick-log {
   overflow-y: auto;
   height: 100%;

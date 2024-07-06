@@ -14,13 +14,13 @@ import { useNavigate } from 'react-router-dom';
 
 const TEMP_TEXTAREA_LYRICS = 'TEMP_TEXTAREA_LYRICS';
 
-type StepTwoProps = {
+type StepLyricsProps = {
   newSong: NewSong;
   updateNewSong: (data: Partial<NewSong>) => void;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export function StepTwo({ newSong, updateNewSong, setStep }: StepTwoProps) {
+export function StepLyrics({ newSong, updateNewSong, setStep }: StepLyricsProps) {
   const navigate = useNavigate();
   const songMutation = useCreateSongMutation();
 
@@ -74,10 +74,9 @@ export function StepTwo({ newSong, updateNewSong, setStep }: StepTwoProps) {
         edit their options.
       </Typography.Paragraph>
 
-      <div className="lyrics-textarea-container">
+      <div className="grid grid-cols-2">
         <Input.TextArea
           placeholder="Insert lyrics here"
-          className="lyrics-textarea-container__textarea"
           onChange={onTextAreaChange}
           value={textarea}
           autoSize={{ minRows: 10, maxRows: 30 }}

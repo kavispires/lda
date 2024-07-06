@@ -7,13 +7,13 @@ import { NewSong } from '../NewSongPage';
 
 const DURATION_FORMAT = 'mm:ss';
 
-type StepOneProps = {
+type StepVideoIdProps = {
   newSong: NewSong;
   updateNewSong: (data: Partial<NewSong>) => void;
   setStep: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export function StepOne({ newSong, updateNewSong, setStep }: StepOneProps) {
+export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProps) {
   const [videoIdInput, setVideoIdInput] = useState<string>('');
   const [form] = Form.useForm();
 
