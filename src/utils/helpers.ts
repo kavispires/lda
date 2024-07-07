@@ -1,4 +1,4 @@
-import { isEqual, isObject, isPlainObject, mergeWith } from 'lodash';
+import { isEqual, isObject } from 'lodash';
 
 /**
  * Returns the plural form of a word based on the quantity.
@@ -39,9 +39,19 @@ export const getInstanceType = (uid: string) => {
 
 export const getCompletionPercentage = (criteria: (boolean | number)[]): number => {
   const totalCriteria = criteria.length;
-  const completedCriteria = criteria.filter(Boolean).length;
+  const completedCriteria = criteria.filter((v) => {
+    if (typeof v === 'boolean') {
+      return v;
+    }
 
-  return (completedCriteria / totalCriteria) * 100;
+    if (typeof v === 'number') {
+      return v === 100;
+    }
+
+    return false;
+  }).length;
+
+  return Math.floor((completedCriteria / totalCriteria) * 100);
 };
 
 type DiffObject = {
@@ -69,3 +79,12 @@ export function getDifference(obj1: any, obj2: any): DiffObject {
 
   return result;
 }
+
+/**
+ * Remove duplicated elements from a list
+ * @param arr
+ * @returns
+ */
+export const removeDuplicates = <T>(arr: T[]): T[] => {
+  return Array.from(new Set(arr));
+};

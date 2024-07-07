@@ -2,6 +2,7 @@ import { Progress, Typography } from 'antd';
 import { EditorsLog } from 'components/Log/EditorsLog';
 import { PlaybackVideo } from 'components/Video/PlaybackVideo';
 import { useSongEditContext } from 'services/SongEditProvider';
+import { distributor } from 'utils';
 
 type StepCategorizerProps = {
   videoWidth: number;
@@ -28,7 +29,7 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
           </div>
         </div>
       </div>
-      <Progress percent={50} />
+      <Progress percent={distributor.getSongCompletion(song)} />
     </>
   );
 }

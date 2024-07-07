@@ -74,7 +74,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
       </div>
 
       <Form.Item label="Lyric" help={`Collection of lyrics from all lines (${tempSection.linesIds.length}).`}>
-        <Input.TextArea value={'text'} disabled autoSize={{ minRows: 1, maxRows: 6 }} />
+        <Input.TextArea value={'...'} disabled autoSize={{ minRows: 1, maxRows: 6 }} />
       </Form.Item>
 
       <Divider className="my-4" />

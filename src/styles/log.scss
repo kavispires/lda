@@ -26,6 +26,7 @@
   &__section {
     display: flex;
     gap: get-unit(2);
+    align-items: center;
   }
 
   &__lines {
@@ -46,6 +47,7 @@
   &__line {
     display: flex;
     gap: get-unit(2);
+    align-items: center;
   }
 
   &__line-text {

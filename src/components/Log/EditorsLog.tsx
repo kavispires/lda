@@ -5,7 +5,7 @@ import { LogSection } from './LogSection';
 import { UID } from 'types';
 import { useState } from 'react';
 import { LogLine } from './LogLine';
-import { distributor, getInstanceName } from 'utils';
+import { distributor, getInstanceName, removeDuplicates } from 'utils';
 import { LogPart } from './LogPart';
 import { EditDrawer } from './EditDrawer';
 
@@ -35,6 +35,19 @@ export function EditorsLog({ className }: LogProps) {
     }
 
     setSelection([id]);
+  };
+
+  const onSelectMany = (ids: UID[]) => {
+    console.log(ids);
+    if (selection.length === 0) {
+      setSelection([...ids]);
+      return;
+    }
+
+    if (selection[0][1] === ids[0][1]) {
+      setSelection((prevSelection) => removeDuplicates([...prevSelection, ...ids]));
+      return;
+    }
   };
 
   const onDeselectAll = () => setSelection([]);
@@ -80,6 +93,7 @@ export function EditorsLog({ className }: LogProps) {
                 onClick={onEntityClick}
                 onSelect={onSelect}
                 selected={selection.includes(lineId)}
+                onSelectParts={onSelectMany}
               >
                 {distributor.getLine(lineId, song).partsIds.map((partId) => (
                   <LogPart
