@@ -46,4 +46,8 @@
     padding-top: get-unit($i);
     padding-bottom: get-unit($i);
   }
+
+  .gap-#{$i} {
+    gap: get-unit($i);
+  }
 }

@@ -1,0 +1,82 @@
+@use 'styles/sass' as *;
+
+.log {
+  max-height: 100svh;
+}
+
+.log-sections {
+  list-style: none;
+  padding: get-unit(1 2);
+  display: flex;
+  flex-direction: column;
+  gap: get-unit(2);
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.log-section {
+  display: flex;
+  flex-direction: column;
+  gap: get-unit(2);
+  margin-bottom: get-unit(4);
+  border-radius: var(--border-radius);
+  background: get-color('gray', 1, 0.1);
+  padding: get-unit(2);
+
+  &__section {
+    display: flex;
+    gap: get-unit(2);
+  }
+
+  &__lines {
+    list-style: none;
+    margin-left: get-unit(3);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: get-unit(2);
+  }
+}
+
+.log-line {
+  display: flex;
+  flex-direction: column;
+  gap: get-unit(2);
+
+  &__line {
+    display: flex;
+    gap: get-unit(2);
+  }
+
+  &__line-text {
+    font-style: italic;
+    color: get-color('gray', 3, 0.5);
+    padding: get-unit(1);
+  }
+
+  &__parts {
+    list-style: none;
+    margin-left: get-unit(3);
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: get-unit(2);
+  }
+}
+
+.log-part {
+  background: get-color('gray', 3, 0.25);
+  display: flex;
+  gap: get-unit(1);
+  border-radius: get-unit(1);
+  padding: get-unit(0 1);
+}
+
+.log-icon {
+  &--green {
+    color: get-color('green');
+  }
+  &--red {
+    color: get-color('red');
+  }
+}

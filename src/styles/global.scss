@@ -19,10 +19,28 @@ body {
   align-items: center;
 }
 
+.surface {
+  border-radius: var(--border-radius);
+  background: var(--surface-color);
+  padding: get-unit(1);
+}
+.bordered {
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.w-100 {
+  width: 100%;
+}
+
 .grid {
   display: grid;
 }
 
 .grid-cols-2 {
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.grid-cols-3 {
+  grid-template-columns: repeat(3, 1fr);
 }

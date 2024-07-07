@@ -12,5 +12,6 @@ export function useSongQuery(songId: string) {
     select: (data) => {
       return distributor.deserializeSong(data);
     },
+    enabled: !!songId,
   });
 }

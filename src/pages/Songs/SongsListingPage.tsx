@@ -1,5 +1,5 @@
 import { Button, Space, Table, Typography } from 'antd';
-import { ContentError } from 'components/Content';
+import { Content, ContentError } from 'components/Content';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { useNavigate } from 'react-router-dom';
@@ -42,7 +42,7 @@ export function SongsListingPage() {
   ];
 
   return (
-    <div className="m-4">
+    <Content>
       <Typography.Title level={2}>Songs</Typography.Title>
       <Table
         dataSource={songsQuery.data}
@@ -51,6 +51,6 @@ export function SongsListingPage() {
         pagination={paginationProps}
         loading={songsQuery.isLoading}
       />
-    </div>
+    </Content>
   );
 }

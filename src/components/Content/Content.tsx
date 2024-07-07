@@ -1,11 +1,15 @@
 import clsx from 'clsx';
-import { ReactNode } from 'react';
+import { forwardRef, ReactNode } from 'react';
 
 type ContentProps = {
   children: ReactNode;
   className?: string;
 };
 
-export function Content({ children, className }: ContentProps) {
-  return <main className={clsx('m-4', className)}>{children}</main>;
-}
+export const Content = forwardRef<HTMLElement, ContentProps>(({ children, className }, ref) => {
+  return (
+    <main ref={ref} className={clsx('m-4', className)}>
+      {children}
+    </main>
+  );
+});
