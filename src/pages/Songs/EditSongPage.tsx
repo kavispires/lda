@@ -1,4 +1,4 @@
-import { Typography } from 'antd';
+import { Button, Space, Typography } from 'antd';
 import { EditSongStepper } from './Edit/EditSongStepper';
 
 import './EditSongPage.scss';
@@ -22,9 +22,11 @@ function EditSongContent() {
   const {
     song,
     stepper: { step },
+    isSaving,
+    saveSong,
   } = useSongEditContext();
-  const [ref, { width, height }] = useMeasure<HTMLElement>();
-  console.log({ height });
+  const [ref, { width }] = useMeasure<HTMLElement>();
+
   return (
     <Content ref={ref}>
       <Typography.Title level={2}>Edit Song: {song.title}</Typography.Title>
@@ -38,6 +40,12 @@ function EditSongContent() {
       {step === 2 && <StepPreview />}
 
       {step === 3 && <StepMetadata />}
+
+      <Space className="container-center my-10">
+        <Button size="large" type="primary" loading={isSaving} onClick={saveSong}>
+          Save
+        </Button>
+      </Space>
     </Content>
   );
 }

@@ -1,7 +1,7 @@
 import { Song, SongLine, SongSection } from 'types';
 import { generateUniqueId } from './common';
 import { NULL, ROMAN_NUMERALS } from 'utils/constants';
-import { getLine, getLineEndTime, getLineStartTime } from './line-getters';
+import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-getters';
 import { getCompletionPercentage } from 'utils/helpers';
 
 /**
@@ -91,6 +91,20 @@ export const getSectionSummary = (sectionId: string, song: Song) => {
     completion,
     status: completion === 100 ? 'complete' : 'pending',
   };
+};
+
+export const getSectionsTypeahead = (song: Song) => {
+  const allSectionsIds = Object.keys(song.content).filter((id) => id.startsWith('_s'));
+
+  return allSectionsIds.map((id) => {
+    const section = getSection(id, song);
+    const sectionName = getSectionName(id, song);
+    const lineText = section.linesIds[0] ? getLineText(section.linesIds[0], song) : '';
+    return {
+      value: id,
+      label: `${sectionName} - ${lineText} [${id}]`,
+    };
+  });
 };
 
 /**

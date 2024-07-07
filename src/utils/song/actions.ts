@@ -1,6 +1,7 @@
 import { Dictionary, FirestoreSong, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { cloneDeep, get, set } from 'lodash';
 import { getPart } from './part-getters';
+import { getDifference } from 'utils/helpers';
 
 /**
  * Serializes a Song object into a FirestoreSong object.
@@ -86,6 +87,32 @@ export const mergeParts = (song: Song, partIds: UID[]): Song => {
 
   // Update song with merged part
   set(copy, `content.${basePart.id}`, mergedPart);
+
+  return copy;
+};
+
+export const movePart = (song: Song, partId: UID, targetLineId: UID): Song => {
+  const copy = cloneDeep(song);
+  const part = getPart(partId, song);
+  console.log('START MOVE');
+  // Disconnect previous line
+  set(
+    copy,
+    `content.${part.lineId}.partsIds`,
+    (get(copy, `content.${part.lineId}.partsIds`) ?? []).filter((id: UID) => id !== partId)
+  );
+
+  // Connect new line
+  set(copy, `content.${partId}.lineId`, targetLineId);
+  set(copy, `content.${targetLineId}.partsIds`, [
+    ...(get(copy, `content.${targetLineId}.partsIds`) ?? []),
+    partId,
+  ]);
+  console.log('END MOVE');
+
+  console.log(getDifference(copy, song));
+
+  copy.updatedAt = Date.now();
 
   return copy;
 };

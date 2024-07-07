@@ -1,15 +1,16 @@
 import { ContentError, ContentLoading } from 'components/Content';
-import { useSongQuery } from 'hooks/useSongQuery';
+import { useSongMutation, useSongQuery } from 'hooks/useSongQuery';
 import { UseStep, useStep } from 'hooks/useStep';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Song, SongLine, SongPart, SongSection } from 'types';
-import { distributor } from 'utils';
+import { Song } from 'types';
 
 type SongEditContextType = {
   stepper: UseStep;
   song: Song;
   setSong: React.Dispatch<React.SetStateAction<Song | null>>;
+  saveSong: () => void;
+  isSaving: boolean;
 };
 
 const SongEditContext = createContext<SongEditContextType | undefined>(undefined);
@@ -20,6 +21,7 @@ export const SongEditProvider = ({ children }: PropsWithChildren) => {
 
   // Song Data
   const songQuery = useSongQuery(songId ?? '');
+  const { mutate, isPending: isSaving } = useSongMutation();
 
   const [song, setSong] = useState<Song | null>(null);
 
@@ -48,7 +50,13 @@ export const SongEditProvider = ({ children }: PropsWithChildren) => {
     return <ContentLoading>Building local song instance</ContentLoading>;
   }
 
-  return <SongEditContext.Provider value={{ stepper, song, setSong }}>{children}</SongEditContext.Provider>;
+  const saveSong = () => mutate(song);
+
+  return (
+    <SongEditContext.Provider value={{ stepper, song, setSong, saveSong, isSaving }}>
+      {children}
+    </SongEditContext.Provider>
+  );
 };
 
 export const useSongEditContext = () => {

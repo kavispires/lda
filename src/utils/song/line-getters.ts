@@ -67,7 +67,7 @@ const getLineParts = (lineId: string, song: Song): SongPart[] => {
  * @param song - The song object containing the line.
  * @returns The text of the line.
  */
-const getLineText = (lineId: string, song: Song): string => {
+export const getLineText = (lineId: string, song: Song): string => {
   const line = getLine(lineId, song);
   if (line.partsIds.length === 0) return '[Empty Line]';
 
@@ -143,6 +143,17 @@ export const getLineSummary = (lineId: string, song: Song) => {
     completion,
     status: completion === 100 ? 'complete' : 'pending',
   };
+};
+
+export const getLinesTypeahead = (song: Song) => {
+  const allLinesIds = Object.keys(song.content).filter((id) => id.startsWith('_l'));
+
+  return allLinesIds.map((id) => {
+    return {
+      value: id,
+      label: `${getLineText(id, song)} [${id}]`,
+    };
+  });
 };
 
 /**

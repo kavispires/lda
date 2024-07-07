@@ -1,9 +1,22 @@
-import { Button, Divider, Flex, Form, Input, InputNumber, Popconfirm, Progress, Radio, Space } from 'antd';
+import {
+  Button,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  InputNumber,
+  Popconfirm,
+  Progress,
+  Radio,
+  Select,
+  Space,
+} from 'antd';
 import { useLogPart } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useSongEditContext } from 'services/SongEditProvider';
 import { SongPart, UID } from 'types';
-import { getCompletionPercentage } from 'utils';
+import { distributor, getCompletionPercentage } from 'utils';
 import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
 
 import { DeleteOutlined } from '@ant-design/icons';
@@ -20,6 +33,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
   const { part } = useLogPart(partId);
   const { onUpdateSongContent } = useSongActions();
   const [tempPart, setTempPart] = useState<SongPart>(part);
+  const [showMoveFlow, setShowMoveFlow] = useState(false);
 
   const [form] = Form.useForm<SongPart>();
   const isDirty = form.isFieldsTouched();
@@ -88,7 +102,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
           label="Line Id"
           name="lineId"
           help={
-            <Button type="link" size="small" disabled>
+            <Button type="link" size="small" onClick={() => setShowMoveFlow((prev) => !prev)} disabled>
               Move
             </Button>
           }
@@ -96,6 +110,8 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
           <Input disabled />
         </Form.Item>
       </div>
+
+      {showMoveFlow && <MovePartFlow partId={partId} />}
 
       <Divider className="my-4" />
 
@@ -127,5 +143,35 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
         </Flex>
       </Form.Item>
     </Form>
+  );
+}
+
+type MovePartFlowProps = {
+  partId: UID;
+};
+
+function MovePartFlow({ partId }: MovePartFlowProps) {
+  const { song } = useSongEditContext();
+  const { onMovePart } = useSongActions();
+  const [targetLineId, setTargetLineId] = useState('');
+
+  const typeahead = useMemo(() => {
+    return distributor.getLinesTypeahead(song);
+  }, [song]);
+
+  const onMove = () => {
+    onMovePart(partId, targetLineId);
+  };
+
+  return (
+    <div className="bordered p-2">
+      <Form.Item label="Choose Destination Line" className="w-100">
+        <Select options={typeahead} onChange={(e) => setTargetLineId(e)} />
+      </Form.Item>
+
+      <Button disabled={!targetLineId} onClick={onMove}>
+        Move to {targetLineId}
+      </Button>
+    </div>
   );
 }

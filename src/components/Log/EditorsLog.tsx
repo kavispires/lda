@@ -43,10 +43,15 @@ export function EditorsLog({ className }: LogProps) {
     setDrawerOpen([id]);
   };
 
+  const onClose = () => {
+    setDrawerOpen([]);
+    setSelection([]);
+  };
+
   const instanceName = getInstanceName(selection);
 
   return (
-    <div className={clsx('log', 'surface', className)}>
+    <div className={clsx('log', 'surface', className)} key={song.updatedAt}>
       <header className="grid grid-cols-3">
         <Button type="link" disabled={!selection.length} onClick={() => setDrawerOpen([...selection])}>
           Edit {selection.length} {instanceName}
@@ -90,7 +95,7 @@ export function EditorsLog({ className }: LogProps) {
           </LogSection>
         ))}
       </ul>
-      <EditDrawer activeIds={drawerOpen} onClose={() => setDrawerOpen([])} />
+      <EditDrawer activeIds={drawerOpen} onClose={onClose} />
     </div>
   );
 }

@@ -8,9 +8,8 @@ type StepCategorizerProps = {
 };
 
 export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
-  const {
-    song: { videoId },
-  } = useSongEditContext();
+  const { song } = useSongEditContext();
+
   return (
     <>
       <Typography.Title level={3}>Categorize Sections</Typography.Title>
@@ -20,9 +19,9 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
       </Typography.Paragraph>
 
       <div className="grid grid-cols-2 gap-2">
-        <EditorsLog />
+        <EditorsLog key={song.updatedAt} />
         <div>
-          <PlaybackVideo videoId={videoId} width={videoWidth} />
+          <PlaybackVideo videoId={song.videoId} width={videoWidth} />
 
           <div className="mt-4 surface">
             <span>TODO: Add section</span>

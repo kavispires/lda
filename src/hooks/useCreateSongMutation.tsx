@@ -13,7 +13,6 @@ export function useCreateSongMutation() {
   const updateListingMutation = useListingMutation('songs');
 
   return useMutation<FirestoreSong, Error, Song>({
-    // This function will be called when the mutation is triggered
     mutationFn: async (data) => {
       // Create new song document in Firestore
       const dataWithId = await createDoc('songs', distributor.serializeSong(data));
@@ -26,10 +25,9 @@ export function useCreateSongMutation() {
 
       // Update query cache with new song to avoid refetching
       queryClient.setQueryData(['song', dataWithId.id], dataWithId);
-
       return dataWithId;
     },
-    onSuccess(response) {
+    onSuccess() {
       notification.success({
         message: 'Success',
         description: 'Song created successfully',

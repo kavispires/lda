@@ -17,30 +17,19 @@ export function useSongActions() {
     setSong((prev) => distributor.updateSongContent(prev!, id, value));
   };
 
+  const onMovePart = (partId: UID, targetLineId: UID) => {
+    setSong((prev) => distributor.movePart(prev!, partId, targetLineId));
+  };
+
   const onMergeParts = (partIds: UID[]) => {
     setSong((prev) => distributor.mergeParts(prev!, partIds));
   };
-
-  // const onConnectPartToLine = (partId: string, lineId: string) => {
-  //   setSong((prev) => distributor.connectPartToLine(partId, lineId, prev!));
-  // };
-
-  // const onConnectLineToSection = (lineId: string, sectionId: string) => {
-  //   setSong((prev) => distributor.connectLineToSection(lineId, sectionId, prev!));
-  // };
-
-  // const onDisconnectPartFromLine = (partId: string, lineId: string) => {
-  //   setSong((prev) => distributor.disconnectPartFromLine(partId, lineId, prev!));
-  // };
-
-  // const onDisconnectLineFromSection = (lineId: string, sectionId: string) => {
-  //   setSong((prev) => distributor.disconnectLineFromSection(lineId, sectionId, prev!));
-  // };
 
   return {
     onUpdateSong,
     onUpdateSongContent,
     onBatchUpdateSong,
+    onMovePart,
     onMergeParts,
     // onConnectPartToLine,
     // onConnectLineToSection,

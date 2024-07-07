@@ -1,3 +1,5 @@
+import { isEqual, isObject, isPlainObject, mergeWith } from 'lodash';
+
 /**
  * Returns the plural form of a word based on the quantity.
  * @param quantity - The quantity to determine the plural form.
@@ -41,3 +43,29 @@ export const getCompletionPercentage = (criteria: (boolean | number)[]): number 
 
   return (completedCriteria / totalCriteria) * 100;
 };
+
+type DiffObject = {
+  [key: string]: any;
+};
+
+export function getDifference(obj1: any, obj2: any): DiffObject {
+  let result: DiffObject = {};
+
+  const keys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
+
+  keys.forEach((key) => {
+    const value1 = obj1[key];
+    const value2 = obj2[key];
+
+    if (isObject(value1) && isObject(value2)) {
+      const diff = getDifference(value1, value2);
+      if (Object.keys(diff).length > 0) {
+        result[key] = diff;
+      }
+    } else if (!isEqual(value1, value2)) {
+      result[key] = { from: value1, to: value2 };
+    }
+  });
+
+  return result;
+}
