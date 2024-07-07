@@ -1,4 +1,4 @@
-import { FirestoreSong, Song, SongLine, SongPart, SongSection, UID } from 'types';
+import { Dictionary, FirestoreSong, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { cloneDeep, get, set } from 'lodash';
 import { getPart } from './part-getters';
 
@@ -26,7 +26,6 @@ export const deserializeSong = (fbSong: FirestoreSong): Song => {
   };
 };
 
-export type UpdateValue = Song[keyof Song] | SongPart | SongLine | SongSection;
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
  * @template T - The type of the property to update.
@@ -43,7 +42,7 @@ export const updateSong = (song: Song, path: string, value: UpdateValue): Song =
   return copy;
 };
 
-export const batchUpdateSong = (song: Song, updates: Record<string, UpdateValue>): Song => {
+export const batchUpdateSong = (song: Song, updates: Dictionary<UpdateValue>): Song => {
   const copy = cloneDeep(song);
 
   Object.entries(updates).forEach(([path, value]) => {

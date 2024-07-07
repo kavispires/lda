@@ -22,6 +22,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
   const [tempPart, setTempPart] = useState<SongPart>(part);
 
   const [form] = Form.useForm<SongPart>();
+  const isDirty = form.isFieldsTouched();
 
   const criteria = {
     lyric: Boolean(tempPart.text.trim()),
@@ -35,8 +36,8 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
   };
 
   useEffect(() => {
-    setDirty(form.isFieldsTouched());
-  }, [form]); // eslint-disable-line react-hooks/exhaustive-deps
+    setDirty(isDirty);
+  }, [isDirty]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const onSave = () => {
     onUpdateSongContent(partId, tempPart);
@@ -120,7 +121,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
-          <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
+          <Button type="primary" htmlType="submit" disabled={!isDirty} block>
             Save Changes
           </Button>
         </Flex>
