@@ -1,5 +1,6 @@
 import { FirestoreSong, Song, SongLine, SongPart, SongSection, UID } from 'types';
 import { cloneDeep, get, set } from 'lodash';
+import { getPart } from './part-getters';
 
 /**
  * Serializes a Song object into a FirestoreSong object.
@@ -25,6 +26,7 @@ export const deserializeSong = (fbSong: FirestoreSong): Song => {
   };
 };
 
+export type UpdateValue = Song[keyof Song] | SongPart | SongLine | SongSection;
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
  * @template T - The type of the property to update.
@@ -33,10 +35,20 @@ export const deserializeSong = (fbSong: FirestoreSong): Song => {
  * @param {Song[T]} value - The new value for the property.
  * @returns {Song} - A new copy of the song object with the updated property.
  */
-export const updateSong = <T extends keyof Song>(song: Song, path: string, value: Song[T]): Song => {
+export const updateSong = (song: Song, path: string, value: UpdateValue): Song => {
   const copy = cloneDeep(song);
 
   set(copy, path, value);
+
+  return copy;
+};
+
+export const batchUpdateSong = (song: Song, updates: Record<string, UpdateValue>): Song => {
+  const copy = cloneDeep(song);
+
+  Object.entries(updates).forEach(([path, value]) => {
+    set(copy, path, value);
+  });
 
   return copy;
 };
@@ -45,6 +57,36 @@ export const updateSongContent = (song: Song, id: UID, value: SongSection | Song
   const copy = cloneDeep(song);
 
   set(copy, `content.${id}`, value);
+
+  return copy;
+};
+
+export const mergeParts = (song: Song, partIds: UID[]): Song => {
+  const copy = cloneDeep(song);
+
+  // Order parts by start time
+  const parts = partIds
+    .map((id) => getPart(id, song))
+    .sort((a, b) => {
+      return a.startTime - b.startTime;
+    });
+
+  const basePart = parts[0];
+
+  // Merge parts
+  const mergedPart: SongPart = {
+    ...basePart,
+    id: basePart.id,
+    startTime: basePart.startTime,
+    endTime: parts[parts.length - 1].endTime,
+    text: parts.map((part) => part.text).join(' '),
+  };
+
+  // Delete old parts
+  partIds.forEach((id) => delete copy.content[id]);
+
+  // Update song with merged part
+  set(copy, `content.${basePart.id}`, mergedPart);
 
   return copy;
 };

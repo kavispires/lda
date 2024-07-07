@@ -163,3 +163,5 @@ export type SongPart = {
    */
   lineId: UID;
 };
+
+export type UpdateValue = Song[keyof Song] | SongPart | SongLine | SongSection;

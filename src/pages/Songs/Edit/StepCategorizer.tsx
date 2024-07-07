@@ -23,6 +23,10 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
         <EditorsLog />
         <div>
           <PlaybackVideo videoId={videoId} width={videoWidth} />
+
+          <div className="mt-4 surface">
+            <span>TODO: Add section</span>
+          </div>
         </div>
       </div>
       <Progress percent={50} />

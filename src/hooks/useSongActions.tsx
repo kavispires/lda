@@ -1,5 +1,5 @@
 import { useSongEditContext } from 'services/SongEditProvider';
-import { Song, SongLine, SongPart, SongSection, UID } from 'types';
+import { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { distributor } from 'utils';
 
 export function useSongActions() {
@@ -9,8 +9,16 @@ export function useSongActions() {
     setSong((prev) => distributor.updateSong(prev!, path, value));
   };
 
+  const onBatchUpdateSong = (updates: Dictionary<UpdateValue>) => {
+    setSong((prev) => distributor.batchUpdateSong(prev!, updates));
+  };
+
   const onUpdateSongContent = (id: UID, value: SongSection | SongLine | SongPart) => {
     setSong((prev) => distributor.updateSongContent(prev!, id, value));
+  };
+
+  const onMergeParts = (partIds: UID[]) => {
+    setSong((prev) => distributor.mergeParts(prev!, partIds));
   };
 
   // const onConnectPartToLine = (partId: string, lineId: string) => {
@@ -32,6 +40,8 @@ export function useSongActions() {
   return {
     onUpdateSong,
     onUpdateSongContent,
+    onBatchUpdateSong,
+    onMergeParts,
     // onConnectPartToLine,
     // onConnectLineToSection,
     // onDisconnectPartFromLine,

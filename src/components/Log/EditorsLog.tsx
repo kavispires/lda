@@ -18,11 +18,6 @@ export function EditorsLog({ className }: LogProps) {
   const [selection, setSelection] = useState<UID[]>([]);
   const [drawerOpen, setDrawerOpen] = useState<UID[]>([]);
 
-  /**
-   * Behavior:
-   * On click opens modal
-   * On select adds to selectedSections
-   */
   const onSelect = (id: UID) => {
     if (selection.includes(id)) {
       setSelection(selection.filter((selectedId) => selectedId !== id));

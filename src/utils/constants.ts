@@ -63,7 +63,7 @@ export const ASSIGNEES: Dictionary<{ label: string; value: string; color: string
     color: '#fee6fb',
   },
   X: {
-    label: 'DEFAULT',
+    label: 'UNASSIGNED',
     value: 'X',
     color: '#dee0e7',
   },
