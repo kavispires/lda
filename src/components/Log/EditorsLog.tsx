@@ -1,13 +1,15 @@
 import { Button, Divider } from 'antd';
 import clsx from 'clsx';
-import { useSongEditContext } from 'services/SongEditProvider';
-import { LogSection } from './LogSection';
-import { UID } from 'types';
+import { useSongActions } from 'hooks/useSongActions';
 import { useState } from 'react';
-import { LogLine } from './LogLine';
+import { useSongEditContext } from 'services/SongEditProvider';
+import { UID } from 'types';
 import { distributor, getInstanceName, removeDuplicates } from 'utils';
-import { LogPart } from './LogPart';
+
 import { EditDrawer } from './EditDrawer';
+import { LogLine } from './LogLine';
+import { LogPart } from './LogPart';
+import { LogSection } from './LogSection';
 
 type LogProps = {
   className?: string;
@@ -15,6 +17,7 @@ type LogProps = {
 
 export function EditorsLog({ className }: LogProps) {
   const { song } = useSongEditContext();
+  const { onAddNewPart } = useSongActions();
   const [selection, setSelection] = useState<UID[]>([]);
   const [drawerOpen, setDrawerOpen] = useState<UID[]>([]);
 
@@ -38,7 +41,6 @@ export function EditorsLog({ className }: LogProps) {
   };
 
   const onSelectMany = (ids: UID[]) => {
-    console.log(ids);
     if (selection.length === 0) {
       setSelection([...ids]);
       return;
@@ -94,6 +96,7 @@ export function EditorsLog({ className }: LogProps) {
                 onSelect={onSelect}
                 selected={selection.includes(lineId)}
                 onSelectParts={onSelectMany}
+                onAddPart={onAddNewPart}
               >
                 {distributor.getLine(lineId, song).partsIds.map((partId) => (
                   <LogPart

@@ -1,7 +1,8 @@
 import { Dictionary, FirestoreSong, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { cloneDeep, get, set } from 'lodash';
-import { getPart } from './part-getters';
+import { generatePart, getPart } from './part-getters';
 import { getDifference } from 'utils/helpers';
+import { getLine } from './line-getters';
 
 /**
  * Serializes a Song object into a FirestoreSong object.
@@ -57,6 +58,28 @@ export const updateSongContent = (song: Song, id: UID, value: SongSection | Song
   const copy = cloneDeep(song);
 
   set(copy, `content.${id}`, value);
+
+  return copy;
+};
+
+export const addNewPartToLine = (song: Song, lineId: UID): Song => {
+  const copy = cloneDeep(song);
+
+  const line = getLine(lineId, song);
+  const newPartProps: Partial<SongPart> & Pick<SongPart, 'lineId'> = { lineId };
+
+  // If the line has other parts, copy over some attributes
+  if (line.partsIds.length > 0) {
+    const lastPart = getPart(line.partsIds[line.partsIds.length - 1], song);
+
+    newPartProps.recommendedAssignee = lastPart.recommendedAssignee;
+  }
+
+  const part = generatePart(newPartProps);
+  set(copy, `content.${part.id}`, part);
+  set(copy, `content.${lineId}.partsIds`, [...line.partsIds, part.id]);
+
+  copy.updatedAt = Date.now();
 
   return copy;
 };

@@ -17,6 +17,10 @@ export function useSongActions() {
     setSong((prev) => distributor.updateSongContent(prev!, id, value));
   };
 
+  const onAddNewPart = (lineId: UID) => {
+    setSong((prev) => distributor.addNewPartToLine(prev!, lineId));
+  };
+
   const onMovePart = (partId: UID, targetLineId: UID) => {
     setSong((prev) => distributor.movePart(prev!, partId, targetLineId));
   };
@@ -31,6 +35,7 @@ export function useSongActions() {
     onBatchUpdateSong,
     onMovePart,
     onMergeParts,
+    onAddNewPart,
     // onConnectPartToLine,
     // onConnectLineToSection,
     // onDisconnectPartFromLine,

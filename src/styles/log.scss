@@ -46,6 +46,7 @@
 
   &__line {
     display: flex;
+    flex-wrap: wrap;
     gap: get-unit(2);
     align-items: center;
   }

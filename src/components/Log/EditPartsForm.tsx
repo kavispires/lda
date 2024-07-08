@@ -40,7 +40,6 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
 
   const onSave = () => {
     const values = form.getFieldsValue();
-    console.log(values);
     if (values.recommendedAssignee) {
       const updates = partsIds.reduce((acc: Dictionary<UpdateValue>, partId) => {
         Object.entries(values).forEach(([key, value]) => {

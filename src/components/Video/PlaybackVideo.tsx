@@ -4,16 +4,21 @@ type PlaybackVideoProps = {
   videoId: string;
   width?: number;
 };
+
 export function PlaybackVideo({ videoId, width = 640 }: PlaybackVideoProps) {
   const w = Math.max(320, width);
   const h = (9 * w) / 16;
-  console.log(w, h);
+  if (w <= 0 || h <= 0) {
+    console.log(w, h);
+    alert('Invalid width or height');
+  }
   return (
     <YouTube
       key={videoId}
       videoId={videoId}
       // TODO: App crashes upon setting width
       // opts={{ width: w, height: h, videoId }}
+      opts={{ videoId }}
     />
   );
 }

@@ -11,9 +11,9 @@ import { getCompletionPercentage } from 'utils/helpers';
  */
 export const generatePart = ({
   id = generateUniqueId('p', 3),
-  text = '',
-  startTime = 0,
+  text = '[No text]',
   endTime = 0,
+  startTime = 0,
   recommendedAssignee = DEFAULT_ASSIGNEE,
   ...rest
 }: Partial<SongPart> & Pick<SongPart, 'lineId'>): SongPart => {

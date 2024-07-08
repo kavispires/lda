@@ -1,4 +1,4 @@
-import { CheckCircleOutlined, MessageFilled, UnorderedListOutlined } from '@ant-design/icons';
+import { CheckCircleOutlined, MessageFilled, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import { Button, Checkbox } from 'antd';
 import { useLogLine } from 'hooks/useLogInstances';
 import { ReactNode } from 'react';
@@ -12,12 +12,12 @@ type LogLineProps = {
   /**
    * The function to call when the line is clicked
    **/
-  onClick?: (lineId: string) => void;
+  onClick?: (lineId: UID) => void;
   /**
    * The function to call when the line is selected
    * If present, the checkbox is displayed
    */
-  onSelect?: (lineId: string) => void;
+  onSelect?: (lineId: UID) => void;
   /**
    * Flag indicating if the line is selected
    * Only used if onSelect is provided
@@ -30,10 +30,22 @@ type LogLineProps = {
   /**
    * The function to call to select all parts belonging to the line
    */
-  onSelectParts?: (partsIds: string[]) => void;
+  onSelectParts?: (partsIds: UID[]) => void;
+  /**
+   * the function to call to add a new part to the line
+   */
+  onAddPart?: (lineId: UID) => void;
 };
 
-export function LogLine({ id, onClick, onSelect, selected, children, onSelectParts }: LogLineProps) {
+export function LogLine({
+  id,
+  onClick,
+  onSelect,
+  selected,
+  children,
+  onSelectParts,
+  onAddPart,
+}: LogLineProps) {
   const { text, status, line } = useLogLine(id);
 
   return (
@@ -57,6 +69,10 @@ export function LogLine({ id, onClick, onSelect, selected, children, onSelectPar
             icon={<UnorderedListOutlined />}
             onClick={() => onSelectParts(line.partsIds)}
           />
+        )}
+
+        {!!onAddPart && (
+          <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddPart(id)} />
         )}
       </span>
       <ul className="log-line__parts">{children}</ul>

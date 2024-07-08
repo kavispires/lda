@@ -51,7 +51,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const { isPending: isSigningIn, mutate } = useMutation<User, FirebaseError, SignInProps>({
     mutationFn: async ({ email, password }) => {
       const response = await signIn(email, password);
-      console.log({ response });
       return response.user;
     },
     onSuccess: (data) => {
