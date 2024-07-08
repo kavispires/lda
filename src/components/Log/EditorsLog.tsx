@@ -4,12 +4,13 @@ import { useSongActions } from 'hooks/useSongActions';
 import { useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
 import { UID } from 'types';
-import { distributor, getInstanceName, removeDuplicates } from 'utils';
+import { distributor, getInstanceName } from 'utils';
 
 import { EditDrawer } from './EditDrawer';
 import { LogLine } from './LogLine';
 import { LogPart } from './LogPart';
 import { LogSection } from './LogSection';
+import { useSelectionIdModel } from 'hooks/useSelectionIdModel';
 
 type LogProps = {
   className?: string;
@@ -18,41 +19,8 @@ type LogProps = {
 export function EditorsLog({ className }: LogProps) {
   const { song } = useSongEditContext();
   const { onAddNewPart } = useSongActions();
-  const [selection, setSelection] = useState<UID[]>([]);
+  const { selection, onSelect, onSelectMany, onDeselectAll } = useSelectionIdModel([]);
   const [drawerOpen, setDrawerOpen] = useState<UID[]>([]);
-
-  const onSelect = (id: UID) => {
-    if (selection.includes(id)) {
-      setSelection(selection.filter((selectedId) => selectedId !== id));
-      return;
-    }
-
-    if (selection.length === 0) {
-      setSelection([id]);
-      return;
-    }
-
-    if (selection[0][1] === id[1]) {
-      setSelection((prevSelection) => [...prevSelection, id]);
-      return;
-    }
-
-    setSelection([id]);
-  };
-
-  const onSelectMany = (ids: UID[]) => {
-    if (selection.length === 0) {
-      setSelection([...ids]);
-      return;
-    }
-
-    if (selection[0][1] === ids[0][1]) {
-      setSelection((prevSelection) => removeDuplicates([...prevSelection, ...ids]));
-      return;
-    }
-  };
-
-  const onDeselectAll = () => setSelection([]);
 
   const onEntityClick = (id: UID) => {
     setDrawerOpen([id]);
@@ -60,7 +28,7 @@ export function EditorsLog({ className }: LogProps) {
 
   const onClose = () => {
     setDrawerOpen([]);
-    setSelection([]);
+    onDeselectAll();
   };
 
   const instanceName = getInstanceName(selection);
