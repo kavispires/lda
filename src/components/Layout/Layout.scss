@@ -1,5 +1,6 @@
 .chrome {
   height: 100svh;
+  overflow-y: hidden;
 }
 
 .chrome-layout {
@@ -8,4 +9,6 @@
 
 .chrome-layout-content {
   min-height: 100svh;
+  max-height: 100svh;
+  overflow-y: auto;
 }

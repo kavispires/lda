@@ -35,7 +35,7 @@ function EditSongContent() {
 
       {step === 0 && <StepCategorizer videoWidth={width / 2 - 12} />}
 
-      {step === 1 && <StepSync />}
+      {step === 1 && <StepSync videoWidth={width / 2 - 12} />}
 
       {step === 2 && <StepPreview />}
 

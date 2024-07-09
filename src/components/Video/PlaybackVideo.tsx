@@ -18,7 +18,14 @@ export function PlaybackVideo({ videoId, width = 640 }: PlaybackVideoProps) {
       videoId={videoId}
       // TODO: App crashes upon setting width
       // opts={{ width: w, height: h, videoId }}
-      opts={{ videoId }}
+      opts={{
+        width: w,
+        height: h,
+        playerVars: {
+          autoplay: 0,
+          controls: 1,
+        },
+      }}
     />
   );
 }

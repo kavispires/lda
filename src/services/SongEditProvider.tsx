@@ -1,4 +1,5 @@
 import { ContentError, ContentLoading } from 'components/Content';
+import { useSelectionIdModel } from 'hooks/useSelectionIdModel';
 import { useSongMutation, useSongQuery } from 'hooks/useSongQuery';
 import { UseStep, useStep } from 'hooks/useStep';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
@@ -7,6 +8,7 @@ import { Song } from 'types';
 
 type SongEditContextType = {
   stepper: UseStep;
+  selectionIdModel: ReturnType<typeof useSelectionIdModel>;
   song: Song;
   setSong: React.Dispatch<React.SetStateAction<Song | null>>;
   saveSong: () => void;
@@ -18,6 +20,7 @@ const SongEditContext = createContext<SongEditContextType | undefined>(undefined
 export const SongEditProvider = ({ children }: PropsWithChildren) => {
   const { songId } = useParams();
   const stepper = useStep();
+  const selectionIdModel = useSelectionIdModel([]);
 
   // Song Data
   const songQuery = useSongQuery(songId ?? '');
@@ -53,7 +56,7 @@ export const SongEditProvider = ({ children }: PropsWithChildren) => {
   const saveSong = () => mutate(song);
 
   return (
-    <SongEditContext.Provider value={{ stepper, song, setSong, saveSong, isSaving }}>
+    <SongEditContext.Provider value={{ stepper, song, setSong, saveSong, isSaving, selectionIdModel }}>
       {children}
     </SongEditContext.Provider>
   );

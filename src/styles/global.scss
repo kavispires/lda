@@ -44,3 +44,14 @@ body {
 .grid-cols-3 {
   grid-template-columns: repeat(3, 1fr);
 }
+
+.grid-cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.header {
+  display: flex;
+  gap: get-unit(2);
+  justify-content: space-between;
+  align-items: center;
+}

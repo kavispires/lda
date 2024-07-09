@@ -74,6 +74,7 @@ export const getSectionCompletion = (sectionId: string, song: Song): number => {
 export const getSectionSummary = (sectionId: string, song: Song) => {
   const section = getSection(sectionId, song);
   const lines = getSectionLines(sectionId, song);
+  const partIds = lines.flatMap((line) => line.partsIds);
   const name = getSectionName(sectionId, song);
   const startTime = getSectionStartTime(sectionId, song);
   const endTime = getSectionEndTime(sectionId, song);
@@ -83,6 +84,7 @@ export const getSectionSummary = (sectionId: string, song: Song) => {
   return {
     id: sectionId,
     section,
+    partIds,
     lines,
     name,
     startTime,

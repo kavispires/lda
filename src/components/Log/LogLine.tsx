@@ -35,6 +35,10 @@ type LogLineProps = {
    * the function to call to add a new part to the line
    */
   onAddPart?: (lineId: UID) => void;
+  /**
+   * Flag indicating if only the parts should be shown
+   */
+  showPartsOnly?: boolean;
 };
 
 export function LogLine({
@@ -45,36 +49,40 @@ export function LogLine({
   children,
   onSelectParts,
   onAddPart,
+  showPartsOnly,
 }: LogLineProps) {
   const { text, status, line } = useLogLine(id);
 
   return (
     <li className="log-line">
-      <span className="log-line__line">
-        {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
-        {status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <MessageFilled />}
+      {!showPartsOnly && (
+        <span className="log-line__line">
+          {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
+          {status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <MessageFilled />}
 
-        {!!onClick ? (
-          <Button onClick={() => onClick(id)} type="text" className="log-line__line-text">
-            {text}
-          </Button>
-        ) : (
-          <span className="log-line__line-text">{text}</span>
-        )}
+          {!!onClick ? (
+            <Button onClick={() => onClick(id)} type="text" className="log-line__line-text">
+              {text}
+            </Button>
+          ) : (
+            <span className="log-line__line-text">{text}</span>
+          )}
 
-        {!!onSelectParts && (
-          <Button
-            size="small"
-            shape="circle"
-            icon={<UnorderedListOutlined />}
-            onClick={() => onSelectParts(line.partsIds)}
-          />
-        )}
+          {!!onSelectParts && (
+            <Button
+              size="small"
+              shape="circle"
+              icon={<UnorderedListOutlined />}
+              onClick={() => onSelectParts(line.partsIds)}
+            />
+          )}
 
-        {!!onAddPart && (
-          <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddPart(id)} />
-        )}
-      </span>
+          {!!onAddPart && (
+            <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddPart(id)} />
+          )}
+        </span>
+      )}
+
       <ul className="log-line__parts">{children}</ul>
     </li>
   );

@@ -1,8 +1,7 @@
-import { Progress, Typography } from 'antd';
+import { Typography } from 'antd';
 import { EditorsLog } from 'components/Log/EditorsLog';
 import { PlaybackVideo } from 'components/Video/PlaybackVideo';
 import { useSongEditContext } from 'services/SongEditProvider';
-import { distributor } from 'utils';
 
 type StepCategorizerProps = {
   videoWidth: number;
@@ -26,10 +25,10 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
 
           <div className="mt-4 surface">
             <span>TODO: Add section</span>
+            <span>TODO: Add merge options</span>
           </div>
         </div>
       </div>
-      <Progress percent={distributor.getSongCompletion(song)} />
     </>
   );
 }

@@ -10,7 +10,7 @@
   display: flex;
   flex-direction: column;
   gap: get-unit(2);
-  max-height: 60vh;
+  max-height: 80vh;
   overflow-y: auto;
 }
 
@@ -81,5 +81,40 @@
   }
   &--red {
     color: get-color('red');
+  }
+}
+
+.recording {
+  background-color: get-color('red', 1);
+  animation: color-red-pulse 500ms infinite ease-in-out;
+}
+
+@keyframes color-red-pulse {
+  0% {
+    background-color: get-color('red');
+  }
+
+  50% {
+    background-color: get-color('red', 3);
+  }
+
+  100% {
+    background-color: get-color('red');
+  }
+}
+
+.pulse {
+  animation: pulse 500ms infinite;
+}
+
+@keyframes pulse {
+  0% {
+    background-color: gold;
+  }
+  50% {
+    background-color: get-color('white');
+  }
+  100% {
+    background-color: gold;
   }
 }

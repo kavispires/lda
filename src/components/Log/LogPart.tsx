@@ -2,7 +2,7 @@ import { Button, Checkbox } from 'antd';
 import { useLogPart } from 'hooks/useLogInstances';
 import { UID } from 'types';
 
-import { CheckCircleOutlined, NotificationFilled } from '@ant-design/icons';
+import { ApiFilled, ApiOutlined, CheckCircleOutlined, NotificationFilled } from '@ant-design/icons';
 import { ASSIGNEES } from 'utils/constants';
 
 type LogPartProps = {
@@ -24,12 +24,17 @@ type LogPartProps = {
    * Only used if onSelect is provided
    */
   selected?: boolean;
+  /**
+   *
+   */
+  onConnect?: (partId: string) => void;
 };
 
-export function LogPart({ id, onClick, onSelect, selected }: LogPartProps) {
+export function LogPart({ id, onClick, onSelect, selected, onConnect }: LogPartProps) {
   const {
     part: { text, recommendedAssignee },
     status,
+    duration,
   } = useLogPart(id);
   const color = ASSIGNEES[recommendedAssignee].color;
 
@@ -48,6 +53,15 @@ export function LogPart({ id, onClick, onSelect, selected }: LogPartProps) {
         <span>
           {icon} {text}
         </span>
+      )}
+
+      {!!onConnect && (
+        <Button
+          size="small"
+          shape="circle"
+          icon={duration > 0 ? <ApiFilled /> : <ApiOutlined />}
+          onClick={() => onConnect(id)}
+        />
       )}
     </li>
   );

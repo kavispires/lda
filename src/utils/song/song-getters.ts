@@ -1,4 +1,4 @@
-import { Song } from 'types';
+import { Song, SongPart } from 'types';
 import { getSection, getSectionCompletion } from './section-getters';
 import { getLine, getLineCompletion } from './line-getters';
 import { getPartCompletion } from './part-getters';
@@ -49,4 +49,12 @@ export const getSongCompletion = (song: Song): number => {
     ...linesCompletion,
     ...partsCompletion,
   ]);
+};
+
+export const getPartsWithDurationCompletion = (song: Song) => {
+  const allParts = Object.values(song.content).filter((entity) => entity.type === 'part') as SongPart[];
+
+  const partsWithDuration = allParts.filter((part) => part.startTime !== part.endTime);
+
+  return Math.floor((partsWithDuration.length / allParts.length) * 100);
 };
