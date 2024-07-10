@@ -26,19 +26,15 @@ export type Song = {
    */
   originalArtist: string;
   /**
-   * The duration of the song in milliseconds
-   */
-  duration: number;
-  /**
    * The start of the song in milliseconds
    * In case the video has an intro
    */
-  startAt?: number;
+  startAt: number;
   /**
    * The end of the song in milliseconds
    * In case the video has an outro
    */
-  endAt?: number;
+  endAt: number;
   /**
    * Ordered section ids
    */

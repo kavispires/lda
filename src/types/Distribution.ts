@@ -31,9 +31,13 @@ export type Distribution = {
    */
   name?: string;
   /**
+   * Total max assigned seconds for an assignee
+   */
+  maxAssigneeDuration: number;
+  /**
    *
    */
   summary?: {
-    // TODO
+    // TDB
   };
 } & RecordTimestamps;

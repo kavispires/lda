@@ -13,17 +13,19 @@ export const generateSong = ({
   title,
   videoId,
   originalArtist,
-  duration,
-}: Pick<Song, 'title' | 'videoId' | 'originalArtist' | 'duration'>): Song => {
+  startAt,
+  endAt,
+}: Pick<Song, 'title' | 'videoId' | 'originalArtist' | 'startAt' | 'endAt'>): Song => {
   return {
     id: '_',
     type: 'song',
     title,
     videoId,
     originalArtist,
-    duration,
     sectionIds: [],
     content: {},
+    startAt,
+    endAt,
     createdAt: Date.now(),
     updatedAt: Date.now(),
   };
@@ -51,8 +53,12 @@ export const getSongCompletion = (song: Song): number => {
   ]);
 };
 
+export const getAllParts = (song: Song) => {
+  return Object.values(song.content).filter((entity) => entity.type === 'part') as SongPart[];
+};
+
 export const getPartsWithDurationCompletion = (song: Song) => {
-  const allParts = Object.values(song.content).filter((entity) => entity.type === 'part') as SongPart[];
+  const allParts = getAllParts(song);
 
   const partsWithDuration = allParts.filter((part) => part.startTime !== part.endTime);
 

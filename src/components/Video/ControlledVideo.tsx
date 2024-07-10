@@ -1,17 +1,20 @@
-import YouTube from 'react-youtube';
+import clsx from 'clsx';
+import { memo } from 'react';
+import YouTube, { YouTubeEvent } from 'react-youtube';
 
 export type ControlledVideoProps = {
   videoId: string;
   playerRef: React.LegacyRef<YouTube>;
-  onStateChange?: (event: any) => void;
+  onStateChange?: (event: YouTubeEvent<number>) => void;
   width?: number;
-  setRecording: (value: boolean) => void;
   setPlaying: (value: boolean) => void;
+  setRecording?: (value: boolean) => void;
   setEnd: (value: boolean) => void;
   className?: string;
+  hideControls?: boolean;
 };
 
-export function ControlledVideo({
+export function ControlledVideoComponent({
   videoId,
   width = 640,
   playerRef,
@@ -20,6 +23,7 @@ export function ControlledVideo({
   setRecording,
   setPlaying,
   setEnd,
+  hideControls = false,
 }: ControlledVideoProps) {
   const w = Math.max(320, width);
   const h = (9 * w) / 16;
@@ -43,7 +47,7 @@ export function ControlledVideo({
 
   const onEnd = () => {
     setEnd(true);
-    setRecording(false);
+    setRecording?.(false);
     setPlaying(false);
   };
 
@@ -53,7 +57,7 @@ export function ControlledVideo({
       id={videoId}
       key={videoId}
       ref={playerRef}
-      className="video"
+      className={clsx('video', className)}
       iframeClassName="video__iframe"
       onReady={onReady}
       onPlay={onPlay}
@@ -65,10 +69,13 @@ export function ControlledVideo({
         height: h,
         playerVars: {
           autoplay: 0,
-          controls: 1,
+          controls: hideControls ? 0 : 1,
           fs: 0,
         },
       }}
     />
   );
 }
+
+const ControlledVideo = memo(ControlledVideoComponent);
+export { ControlledVideo };

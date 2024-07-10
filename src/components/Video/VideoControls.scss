@@ -1,0 +1,14 @@
+@use 'styles/sass' as *;
+
+.video-controls {
+  display: grid;
+  grid-template-columns: auto auto auto 1fr;
+  background: get-color('black');
+  border-top-left-radius: var(--border-radius);
+  padding: get-unit(1);
+
+  &__slider {
+    margin-left: get-unit(4);
+    margin-right: get-unit(4);
+  }
+}

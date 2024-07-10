@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import YouTube from 'react-youtube';
 
 type PlaybackVideoProps = {
@@ -5,7 +6,7 @@ type PlaybackVideoProps = {
   width?: number;
 };
 
-export function PlaybackVideo({ videoId, width = 640 }: PlaybackVideoProps) {
+function PlaybackVideoComponent({ videoId, width = 640 }: PlaybackVideoProps) {
   const w = Math.max(320, width);
   const h = (9 * w) / 16;
   if (w <= 0 || h <= 0) {
@@ -29,3 +30,6 @@ export function PlaybackVideo({ videoId, width = 640 }: PlaybackVideoProps) {
     />
   );
 }
+
+const PlaybackVideo = memo(PlaybackVideoComponent);
+export { PlaybackVideo };

@@ -11,6 +11,7 @@ import { NewSong } from '../NewSongPage';
 import { NewSongQuickLog } from './NewSongQuickLog';
 import { useLocalStorage } from 'react-use';
 import { useNavigate } from 'react-router-dom';
+import { PlaybackVideo } from 'components/Video/PlaybackVideo';
 
 const TEMP_TEXTAREA_LYRICS = 'TEMP_TEXTAREA_LYRICS';
 
@@ -29,7 +30,8 @@ export function StepLyrics({ newSong, updateNewSong, setStep }: StepLyricsProps)
       title: newSong.title,
       videoId: newSong.videoId,
       originalArtist: newSong.originalArtist,
-      duration: newSong.duration,
+      startAt: newSong.startAt,
+      endAt: newSong.endAt,
     })
   );
 
@@ -63,16 +65,24 @@ export function StepLyrics({ newSong, updateNewSong, setStep }: StepLyricsProps)
 
   return (
     <>
-      <Typography.Title level={3}>Building Sections from Lyrics</Typography.Title>
-      <Typography.Paragraph>
-        Paste the lyrics and press enter to auto-generate the sections and lines.
-        <br />
-        An line break creates a Line, a double line break generates a Section, and <code>|</code> generates
-        parts.
-        <br />
-        Click on each Section <DatabaseFilled />, Line <MessageFilled />, and Part <NotificationFilled /> to
-        edit their options.
-      </Typography.Paragraph>
+      <div className="grid grid-cols-2">
+        <div>
+          <Typography.Title level={3}>Building Sections from Lyrics</Typography.Title>
+          <Typography.Paragraph>
+            Paste the lyrics and press enter to auto-generate the sections and lines.
+            <br />
+            An line break creates a Line, a double line break generates a Section, and <code>|</code>{' '}
+            generates parts.
+            <br />
+            Click on each Section <DatabaseFilled />, Line <MessageFilled />, and Part <NotificationFilled />{' '}
+            to edit their options.
+          </Typography.Paragraph>
+        </div>
+
+        <div className="container-center">
+          <PlaybackVideo videoId={newSong.videoId} width={240} />
+        </div>
+      </div>
 
       <div className="grid grid-cols-2">
         <Input.TextArea

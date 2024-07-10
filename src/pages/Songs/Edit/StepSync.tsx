@@ -64,12 +64,12 @@ export function StepSync({ videoWidth }: StepSyncProps) {
 
   return (
     <>
-      <Progress percent={timeStampProgress} strokeColor={isRecording ? 'red' : undefined} />
       <Typography.Title level={3}>Sync</Typography.Title>
       <Typography.Paragraph>
         Press the Record button and use the keyboard numbers (1-9) press and hold while the video is playing
         to create timestamps. Then, assign the timestamps to their parts.
       </Typography.Paragraph>
+      <Progress percent={timeStampProgress} strokeColor={isRecording ? 'red' : undefined} />
 
       <div className="grid grid-cols-2 gap-2">
         <SyncLog activeTimestamp={activeTimestamp} seekAndPlay={seekAndPlay} handleConnect={handleConnect} />

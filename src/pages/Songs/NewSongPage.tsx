@@ -11,7 +11,7 @@ import { StepVideoId } from './New/StepVideoId';
 
 export type NewSong = Pick<
   Song,
-  'videoId' | 'originalArtist' | 'title' | 'duration' | 'sectionIds' | 'content'
+  'videoId' | 'originalArtist' | 'title' | 'sectionIds' | 'content' | 'startAt' | 'endAt'
 >;
 
 export function NewSongPage() {
@@ -20,7 +20,8 @@ export function NewSongPage() {
     videoId: '',
     originalArtist: '',
     title: '',
-    duration: 0,
+    startAt: 0,
+    endAt: 0,
     sectionIds: [],
     content: {},
   });

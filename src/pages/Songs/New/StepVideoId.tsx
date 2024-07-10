@@ -39,10 +39,12 @@ export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProp
     updateNewSong(value);
   };
 
-  const onFinish = ({ duration, ...values }: Partial<NewSong>) => {
-    const dayjsDuration = dayjs(duration ?? 0, DURATION_FORMAT);
-    const durationInMs = (dayjsDuration.minute() * 60 + dayjsDuration.second()) * 1000;
-    updateNewSong({ ...values, duration: durationInMs });
+  const onFinish = ({ startAt, endAt, ...values }: Partial<NewSong>) => {
+    const dayjsStartAt = dayjs(startAt ?? 0, DURATION_FORMAT);
+    const startAtInMs = (dayjsStartAt.minute() * 60 + dayjsStartAt.second()) * 1000;
+    const dayjsEndAt = dayjs(endAt ?? 0, DURATION_FORMAT);
+    const endAtInMs = (dayjsEndAt.minute() * 60 + dayjsEndAt.second()) * 1000;
+    updateNewSong({ ...values, startAt: startAtInMs, endAt: endAtInMs });
     setStep((prev) => prev + 1);
   };
 
@@ -70,7 +72,7 @@ export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProp
       {newSong.videoId && (
         <>
           <Typography.Text>Video ID: {newSong.videoId}</Typography.Text>
-          <YouTube key={newSong.videoId} videoId={newSong.videoId} />
+          <YouTube videoId={newSong.videoId} />
 
           <Divider />
 
@@ -87,28 +89,40 @@ export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProp
             autoComplete="off"
             onFinish={onFinish}
           >
-            <Form.Item label="Song Title" name="title">
-              <Input />
-            </Form.Item>
+            <div className="grid grid-cols-2 gap-2 max-width-large">
+              <Form.Item label="Song Title" name="title">
+                <Input />
+              </Form.Item>
 
-            <Form.Item label="Original Artist" name="originalArtist">
-              <Input />
-            </Form.Item>
+              <Form.Item label="Original Artist" name="originalArtist">
+                <Input />
+              </Form.Item>
+            </div>
 
-            <Form.Item label="Duration" name="duration">
-              <TimePicker
-                // defaultValue={dayjs('0:00', DURATION_FORMAT)}
-                format={DURATION_FORMAT}
-                showNow={false}
-              />
-            </Form.Item>
+            <div className="grid grid-cols-2 gap-2 max-width-large">
+              <Form.Item label="Start At" name="startAt">
+                <TimePicker
+                  // defaultValue={dayjs('0:00', DURATION_FORMAT)}
+                  format={DURATION_FORMAT}
+                  showNow={false}
+                />
+              </Form.Item>
+
+              <Form.Item label="End At" name="endAt">
+                <TimePicker
+                  // defaultValue={dayjs('0:00', DURATION_FORMAT)}
+                  format={DURATION_FORMAT}
+                  showNow={false}
+                />
+              </Form.Item>
+            </div>
 
             <Form.Item>
               <Button
                 size="large"
                 type="primary"
                 htmlType="submit"
-                disabled={!confirmCheckbox || !newSong.title || !newSong.originalArtist || !newSong.duration}
+                disabled={!confirmCheckbox || !newSong.title || !newSong.originalArtist || !newSong.endAt}
               >
                 Next Step
               </Button>
