@@ -28,23 +28,11 @@ export function Menu() {
           </Tooltip>
         </NavLink>
 
-        <Divider />
+        <Divider className="ld-menu__divider" />
 
         <NavLink to="/songs/new" className="ld-menu__nav-link">
           <Tooltip title="Create Song" arrow placement="right">
             <i className="fi fi-rs-album-circle-plus" />
-          </Tooltip>
-        </NavLink>
-
-        <NavLink to="/distributions/new" className="ld-menu__nav-link">
-          <Tooltip title="Create Distribution" arrow placement="right">
-            <i className="fi fi-rr-books-medical" />
-          </Tooltip>
-        </NavLink>
-
-        <NavLink to="/groups/new" className="ld-menu__nav-link">
-          <Tooltip title="Create Group" arrow placement="right">
-            <i className="fi fi-rr-users-medical" />
           </Tooltip>
         </NavLink>
       </nav>
