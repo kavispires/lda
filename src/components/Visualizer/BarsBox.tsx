@@ -1,5 +1,5 @@
-import { Avatar } from 'antd';
 import clsx from 'clsx';
+import { ArtistAvatar } from 'components/Artist';
 import { useEffect, useRef, useState } from 'react';
 import { useMeasure } from 'react-use';
 import { AssigneeSnapshot, RATE } from 'services/DistributionVisualizerProvider';
@@ -46,14 +46,13 @@ export function BarsBox({ assignees, snapshots }: BarsBoxProps) {
             }}
           >
             <div className="bar__avatar">
-              <Avatar
-                src={assignee.id}
+              <ArtistAvatar
+                id={assignee.id}
+                name={assignee.name}
                 style={{
                   border: `3px solid ${assignee.color}`,
                 }}
-              >
-                {assignee.name[0]}
-              </Avatar>
+              />
             </div>
 
             <div className="bar__data">
