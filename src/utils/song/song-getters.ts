@@ -1,8 +1,9 @@
 import { Song, SongPart } from 'types';
-import { getSection, getSectionCompletion } from './section-getters';
+import { getCompletionPercentage } from 'utils/helpers';
+
 import { getLine, getLineCompletion } from './line-getters';
 import { getPartCompletion } from './part-getters';
-import { getCompletionPercentage } from 'utils/helpers';
+import { getSection, getSectionCompletion } from './section-getters';
 
 /**
  * Generates a new Song object with the provided properties.

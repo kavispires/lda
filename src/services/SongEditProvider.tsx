@@ -1,6 +1,6 @@
 import { ContentError, ContentLoading } from 'components/Content';
 import { useSelectionIdModel } from 'hooks/useSelectionIdModel';
-import { useSongMutation, useSongQuery } from 'hooks/useSongQuery';
+import { useSongMutation, useSongQuery } from 'hooks/useSong';
 import { UseStep, useStep } from 'hooks/useStep';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';

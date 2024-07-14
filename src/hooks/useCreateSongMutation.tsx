@@ -1,11 +1,11 @@
 import { App } from 'antd';
 import { createDoc } from 'services/firebase';
 import { FirestoreSong, Song } from 'types';
-import { distributor } from 'utils';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { useListingMutation } from './useListingQuery';
+import { serializeSong } from './useSong';
 
 export function useCreateSongMutation() {
   const { notification } = App.useApp();
@@ -15,7 +15,7 @@ export function useCreateSongMutation() {
   return useMutation<FirestoreSong, Error, Song>({
     mutationFn: async (data) => {
       // Create new song document in Firestore
-      const dataWithId = await createDoc('songs', distributor.serializeSong(data));
+      const dataWithId = await createDoc('songs', serializeSong(data));
       // Create new listing entry
       await updateListingMutation.mutateAsync({
         id: dataWithId.id,

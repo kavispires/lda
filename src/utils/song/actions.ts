@@ -1,32 +1,9 @@
-import { Dictionary, FirestoreSong, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { cloneDeep, get, set } from 'lodash';
-import { generatePart, getPart } from './part-getters';
+import { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { getDifference } from 'utils/helpers';
+
 import { getLine } from './line-getters';
-
-/**
- * Serializes a Song object into a FirestoreSong object.
- * @param song - The Song object to be serialized.
- * @returns The serialized FirestoreSong object.
- */
-export const serializeSong = (song: Song): FirestoreSong => {
-  return {
-    ...song,
-    content: JSON.stringify(song.content),
-  };
-};
-
-/**
- * Deserializes a FirestoreSong object into a Song object.
- * @param fbSong - The FirestoreSong object to deserialize.
- * @returns The deserialized Song object.
- */
-export const deserializeSong = (fbSong: FirestoreSong): Song => {
-  return {
-    ...fbSong,
-    content: JSON.parse(fbSong.content),
-  };
-};
+import { generatePart, getPart } from './part-getters';
 
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
