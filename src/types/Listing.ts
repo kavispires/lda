@@ -1,7 +1,8 @@
 import { FUID } from './common';
 
-export type ListingEntry = {
+export type ListingEntry<TData = unknown> = {
   id: FUID;
   name: string;
   type: string;
+  data?: TData;
 };

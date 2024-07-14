@@ -1,3 +1,5 @@
+import './GroupsListingPage.scss';
+
 import { Button, Space, Table, Typography } from 'antd';
 import { Content, ContentError, ContentLoading } from 'components/Content';
 import { useListingQuery } from 'hooks/useListingQuery';
@@ -5,17 +7,17 @@ import { useTablePagination } from 'hooks/useTablePagination';
 import { useNavigate } from 'react-router-dom';
 import { ListingEntry } from 'types';
 
-export function SongsListingPage() {
-  const songsQuery = useListingQuery('songs');
+export function DistributionsListingPage() {
+  const distributionsQuery = useListingQuery('distributions');
   const navigate = useNavigate();
-  const paginationProps = useTablePagination({ total: songsQuery.data?.list?.length ?? 0 });
+  const paginationProps = useTablePagination({ total: distributionsQuery.data?.list?.length ?? 0 });
 
-  if (songsQuery.isLoading) {
+  if (distributionsQuery.isLoading) {
     return <ContentLoading />;
   }
 
-  if (songsQuery.isError) {
-    return <ContentError>{songsQuery.error.message}</ContentError>;
+  if (distributionsQuery.isError) {
+    return <ContentError>{distributionsQuery.error.message}</ContentError>;
   }
 
   const columns = [
@@ -34,11 +36,11 @@ export function SongsListingPage() {
       key: 'id',
       render: (record: ListingEntry) => (
         <Space size="middle">
-          <Button type="default" onClick={() => navigate(`/songs/${record.id}/edit`)}>
+          <Button type="default" onClick={() => navigate(`/distributions/${record.id}/edit`)}>
             Edit
           </Button>
-          <Button type="primary" onClick={() => navigate(`/distributions/new?songId=${record.id}`)}>
-            Distribute
+          <Button type="primary" onClick={() => navigate(`/distributions/${record.id}`)}>
+            View
           </Button>
         </Space>
       ),
@@ -47,13 +49,13 @@ export function SongsListingPage() {
 
   return (
     <Content>
-      <Typography.Title level={2}>Songs</Typography.Title>
+      <Typography.Title level={2}>Distributions</Typography.Title>
       <Table
-        dataSource={songsQuery.data?.list}
+        dataSource={distributionsQuery.data?.list}
         columns={columns}
         rowKey="id"
         pagination={paginationProps}
-        loading={songsQuery.isLoading}
+        loading={distributionsQuery.isLoading}
       />
     </Content>
   );

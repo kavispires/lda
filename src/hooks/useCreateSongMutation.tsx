@@ -4,13 +4,13 @@ import { FirestoreSong, Song } from 'types';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { useListingMutation } from './useListingQuery';
+import { useAddListingEntryMutation } from './useListingQuery';
 import { serializeSong } from './useSong';
 
 export function useCreateSongMutation() {
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
-  const updateListingMutation = useListingMutation('songs');
+  const updateListingMutation = useAddListingEntryMutation('songs');
 
   return useMutation<FirestoreSong, Error, Song>({
     mutationFn: async (data) => {

@@ -146,13 +146,10 @@ type ObjectWithKeyAndValue<K extends string, V extends string> = {
 
 /**
  * Builds a typeahead list from the given data.
- * @template K - The type of the key property.
- * @template V - The type of the value property.
- * @template T - The type of the data object.
- * @param {T[] | Record<string, T>} data - The data to build the typeahead from.
- * @param {V} [valueProperty='name'] - The property to use as the value in the typeahead entry.
- * @param {K} [keyProperty='id'] - The property to use as the key in the typeahead entry.
- * @returns {TypeaheadEntry[]} - The built typeahead list.
+ * @param data - The data to build the typeahead from.
+ * @param [valueProperty='name'] - The property to use as the value in the typeahead entry.
+ * @param [keyProperty='id'] - The property to use as the key in the typeahead entry.
+ * @returns - The built typeahead list.
  */
 export const buildTypeahead = <K extends string, V extends string, T extends ObjectWithKeyAndValue<K, V>>(
   data: T[] | Record<string, T>,

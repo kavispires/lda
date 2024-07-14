@@ -1,4 +1,5 @@
-import { FUID } from './common';
+import { FUID, TypeaheadEntry } from './common';
+import { ListingEntry } from './Listing';
 
 export type Group = {
   /**
@@ -16,7 +17,20 @@ export type Group = {
   /**
    * The artists ids in the group
    */
-  artistsIds: FUID[];
+  artistsIds: Record<FUID, true>;
+  /**
+   * The distributions ids in the group;
+   */
+  distributionIds: Record<FUID, number>;
+};
+
+export type FirebaseGroup = ListingEntry<Group>;
+
+export type FirebaseGroups = Record<FUID, ListingEntry<Group>>;
+
+export type GroupsData = {
+  groupsTypeahead: TypeaheadEntry[];
+  groups: FirebaseGroups;
 };
 
 export type Artist = {
@@ -26,3 +40,5 @@ export type Artist = {
   color: string; // probably change to hsl?
   track: 'VOCAL' | 'RAP' | 'DANCE';
 };
+
+export type FirebaseArtist = ListingEntry<Artist>;

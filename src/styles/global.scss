@@ -24,6 +24,7 @@ body {
   background: var(--surface-color);
   padding: get-unit(1);
 }
+
 .bordered {
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
@@ -51,6 +52,10 @@ body {
 
 .grid-cols-4 {
   grid-template-columns: repeat(4, 1fr);
+}
+
+.grid-cols-5 {
+  grid-template-columns: repeat(5, 1fr);
 }
 
 .header {

@@ -38,6 +38,10 @@ export type Distribution = {
    *
    */
   summary?: {
-    // TDB
+    [artistId: FUID]: 0;
   };
 } & RecordTimestamps;
+
+export type FirestoreDistribution = Omit<Distribution, 'mapping'> & {
+  mapping: string;
+};

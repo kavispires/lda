@@ -31,3 +31,8 @@ export type RecordTimestamps = {
  * @template T - The type of values stored in the dictionary.
  */
 export type Dictionary<T> = Record<string, T>;
+
+export type TypeaheadEntry = {
+  key: string;
+  value: string;
+};
