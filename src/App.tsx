@@ -34,7 +34,7 @@ function App() {
                 <Route path="/" element={<HomePage />} />
 
                 <Route path="/distributions/new" element={<NewDistributionPage />} />
-                <Route path="/distributions/:distributionId" element={<div>New Distribution</div>} />
+                <Route path="/distributions/:distributionId" element={<div>Distribution</div>} />
                 <Route path="/distributions/:distributionId/edit" element={<div>New Distribution</div>} />
                 <Route path="/distributions" element={<div>Distributions</div>} />
 

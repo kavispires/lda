@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { Artist, Dictionary, Distribution, Song, SongPart } from 'types';
+import { distributor } from 'utils';
 
 const SIMULATED_ASSIGNEES: Dictionary<Artist> = {
   A: {
@@ -76,7 +77,7 @@ const SIMULATED_ASSIGNEES: Dictionary<Artist> = {
 
 export function useDistributionEmulator(song: Song): Distribution {
   return useMemo(() => {
-    const parts = Object.values(song.content).filter((entity) => entity.type === 'part') as SongPart[];
+    const parts = distributor.getAllParts(song);
 
     const totals: Dictionary<number> = {};
 

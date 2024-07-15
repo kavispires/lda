@@ -2,14 +2,14 @@ import './NewDistributionPage.scss';
 
 import { Typography } from 'antd';
 import { Content, ContentError } from 'components/Content';
-import { useState } from 'react';
-import { Song } from 'types';
-
-// import { NewDistributionStepper } from './New/NewDistributionStepper';
-// import { StepLyrics } from './New/StepLyrics';
-// import { StepVideoId } from './New/StepVideoId';
-import { useSongQuery } from 'hooks/useSong';
+import { useCreateDistributionMutation } from 'hooks/useCreateDistributionMutation';
 import { useQueryParams } from 'hooks/useQueryParams';
+import { useSongQuery } from 'hooks/useSong';
+import { useState } from 'react';
+import { Artist, Group, Song } from 'types';
+
+import { ArtistsSelectionStep } from './ArtistsSelectionStep';
+import { useNavigate } from 'react-router-dom';
 
 export type NewDistribution = Pick<
   Song,
@@ -17,24 +17,46 @@ export type NewDistribution = Pick<
 >;
 
 export function NewDistributionPage() {
-  const [step, setStep] = useState<number>(0);
+  const navigate = useNavigate();
   const { queryParams } = useQueryParams();
   const songId = queryParams.get('songId');
   const songQuery = useSongQuery(songId ?? '');
+  const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
+  const [selectedArtists, setSelectedArtists] = useState<Artist[]>([]);
+  const { mutate: saveNewDistribution } = useCreateDistributionMutation();
 
-  if (!songId) {
+  if (!songId || !songQuery.data) {
     return <ContentError>You haven't selected a song</ContentError>;
   }
 
+  const onCreate = () => {
+    if (selectedGroup) {
+      saveNewDistribution(
+        {
+          song: songQuery.data,
+          group: selectedGroup!,
+          selectedArtists,
+        },
+        {
+          onSuccess: (newDistribution) => {
+            navigate(`/distributions/${newDistribution.id}`);
+          },
+        }
+      );
+    }
+  };
+
   return (
     <Content>
-      <Typography.Title level={2}>Create Distribution</Typography.Title>
+      <Typography.Title level={2}>Create Distribution for: {songQuery.data?.title}</Typography.Title>
 
-      {/* <NewDistributionStepper step={step} /> */}
-
-      {step === 0 && <>Select artists</>}
-
-      {step === 1 && <>Distribute</>}
+      <ArtistsSelectionStep
+        selectedArtists={selectedArtists}
+        setSelectedArtists={setSelectedArtists}
+        selectedGroup={selectedGroup}
+        setSelectedGroup={setSelectedGroup}
+        onNextStep={onCreate}
+      />
     </Content>
   );
 }
