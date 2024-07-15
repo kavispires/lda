@@ -17,7 +17,7 @@ export type Group = {
   /**
    * The artists ids in the group
    */
-  artistsIds: Record<FUID, true>;
+  artistsIds: Record<FUID, number>;
   /**
    * The distributions ids in the group;
    */

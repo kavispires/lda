@@ -90,7 +90,7 @@ function GroupArtists({ group, artists }: GroupArtistsProps) {
     return orderBy(Object.entries(group.artistsIds), ([, position]) => position).map(([id]) => artists[id]);
   }, [group.artistsIds, artists]);
   return (
-    <div className="grid grid-cols-5 gap-2">
+    <Flex wrap gap={12}>
       {artistsList.map((artist) => {
         return (
           <Flex key={artist.id} className="surface" vertical>
@@ -112,6 +112,6 @@ function GroupArtists({ group, artists }: GroupArtistsProps) {
         );
       })}
       <NewArtistDrawer group={group} />
-    </div>
+    </Flex>
   );
 }
