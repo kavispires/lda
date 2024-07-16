@@ -79,9 +79,7 @@ export function SyncMethods({
           <Button
             block
             type="primary"
-            disabled={
-              selection.length === 0 || selection.length !== unassignedTimestamps.length || isRecording
-            }
+            disabled={selection.length === 0 || selection.length !== unassignedTimestamps.length}
             onClick={onLinearSync}
           >
             One-time Linear Sync ({selection.length}/{unassignedTimestamps.length})

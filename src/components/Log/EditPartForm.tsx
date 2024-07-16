@@ -30,7 +30,8 @@ type EditPartFormProps = {
 };
 
 export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
-  const { part } = useLogPart(partId);
+  const { song } = useSongEditContext();
+  const { part } = useLogPart(partId, song);
   const { onUpdateSongContent } = useSongActions();
   const [tempPart, setTempPart] = useState<SongPart>(part);
   const [showMoveFlow, setShowMoveFlow] = useState(false);

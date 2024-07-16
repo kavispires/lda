@@ -2,6 +2,7 @@ import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Select, Space
 import { useLogSection } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
 import React, { useEffect, useState } from 'react';
+import { useSongEditContext } from 'services/SongEditProvider';
 import { SongSection, UID } from 'types';
 import { getCompletionPercentage } from 'utils';
 import { NULL, SECTION_KINDS } from 'utils/constants';
@@ -19,7 +20,8 @@ type EditSectionFormProps = {
 };
 
 export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFormProps) {
-  const { section } = useLogSection(sectionId);
+  const { song } = useSongEditContext();
+  const { section } = useLogSection(sectionId, song);
   const { onUpdateSongContent } = useSongActions();
   const [tempSection, setTempSection] = useState<SongSection>(section);
 

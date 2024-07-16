@@ -3,6 +3,8 @@ import { Dictionary } from 'types';
 export const NULL = 'NULL';
 export const DEFAULT_ASSIGNEE = 'X';
 export const ROMAN_NUMERALS: string[] = ['', 'I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X'];
+export const ALL_ID = 'ALL';
+export const NONE_ID = 'NONE';
 
 export const ASSIGNEE: Dictionary<string> = {
   A: 'A',

@@ -32,15 +32,17 @@ export function SyncLog({ activeTimestamp, seekAndPlay, handleConnect }: SyncLog
           <LogSection
             key={sectionId}
             id={sectionId}
+            song={song}
             onSelectParts={onSelectMany}
             onPlay={(startTime) => seekAndPlay(startTime)}
           >
             {distributor.getSection(sectionId, song).linesIds.map((lineId) => (
-              <LogLine key={lineId} id={lineId} showPartsOnly>
+              <LogLine key={lineId} id={lineId} song={song} showPartsOnly>
                 {distributor.getLine(lineId, song).partsIds.map((partId) => (
                   <LogPart
                     key={partId}
                     id={partId}
+                    song={song}
                     onClick={() => {
                       seekAndPlay(distributor.getPart(partId, song).startTime);
                     }}

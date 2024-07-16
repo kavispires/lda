@@ -51,6 +51,7 @@ export function EditorsLog({ className }: LogProps) {
           <LogSection
             key={sectionId}
             id={sectionId}
+            song={song}
             onClick={onEntityClick}
             onSelect={onSelect}
             selected={selection.includes(sectionId)}
@@ -59,6 +60,7 @@ export function EditorsLog({ className }: LogProps) {
               <LogLine
                 key={lineId}
                 id={lineId}
+                song={song}
                 onClick={onEntityClick}
                 onSelect={onSelect}
                 selected={selection.includes(lineId)}
@@ -69,6 +71,7 @@ export function EditorsLog({ className }: LogProps) {
                   <LogPart
                     key={partId}
                     id={partId}
+                    song={song}
                     onClick={onEntityClick}
                     onSelect={onSelect}
                     selected={selection.includes(partId)}

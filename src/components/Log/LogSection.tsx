@@ -1,7 +1,7 @@
 import { Button, Checkbox } from 'antd';
 import { useLogPart, useLogSection } from 'hooks/useLogInstances';
 import { ReactNode } from 'react';
-import { UID } from 'types';
+import { Song, UID } from 'types';
 
 import {
   CheckCircleOutlined,
@@ -11,6 +11,10 @@ import {
 } from '@ant-design/icons';
 
 type LogSectionProps = {
+  /**
+   * The current song
+   */
+  song: Song;
   /**
    * The unique identifier of the section.
    */
@@ -45,6 +49,7 @@ type LogSectionProps = {
 
 export function LogSection({
   id,
+  song,
   onClick,
   onSelect,
   selected,
@@ -52,8 +57,8 @@ export function LogSection({
   onSelectParts,
   onPlay,
 }: LogSectionProps) {
-  const { name, status, partIds } = useLogSection(id);
-  const { part } = useLogPart(partIds[0]);
+  const { name, status, partIds } = useLogSection(id, song);
+  const { part } = useLogPart(partIds[0], song);
 
   const icon =
     status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <DatabaseFilled />;

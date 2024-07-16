@@ -44,6 +44,11 @@
   flex-direction: column;
   gap: get-unit(2);
 
+  &--inline {
+    flex-direction: row;
+    gap: get-unit(1);
+  }
+
   &__line {
     display: flex;
     flex-wrap: wrap;

@@ -5,6 +5,7 @@ import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { useLocalStorage, useToggle } from 'react-use';
 import { Artist, Dictionary, Distribution, Song, UID } from 'types';
 import { distributor } from 'utils';
+import { ALL_ID, NONE_ID } from 'utils/constants';
 
 type DistributionVisualizerContextType = {
   fullScreenMode: boolean;
@@ -128,13 +129,15 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
   // Create a reference snapshot for each assignee
   let previousAssigneeSnapshot: Dictionary<AssigneeSnapshot> = Object.values(distribution.assignees).reduce(
     (acc: Dictionary<AssigneeSnapshot>, assignee) => {
-      acc[assignee.id] = {
-        id: assignee.id,
-        rank: -1,
-        active: false,
-        duration: 0,
-        percentage: 0,
-      };
+      if (![ALL_ID, NONE_ID].includes(assignee.id)) {
+        acc[assignee.id] = {
+          id: assignee.id,
+          rank: -1,
+          active: false,
+          duration: 0,
+          percentage: 0,
+        };
+      }
       return acc;
     },
     {}
@@ -165,9 +168,10 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
     // For each part, activate assignees
     partsIds.forEach((partId) => {
       const assigneeIds = distribution.mapping[partId];
-      assigneesInUnit.push(...assigneeIds);
+      const cleanupAssigneesIds = assigneeIds.filter((assigneeId) => ![ALL_ID, NONE_ID].includes(assigneeId));
+      assigneesInUnit.push(...cleanupAssigneesIds);
 
-      assigneeIds.forEach((assigneeId) => {
+      cleanupAssigneesIds.forEach((assigneeId) => {
         const snapshot = { ...snapshotsPerUnit[unit][assigneeId] };
 
         snapshot.active = true;

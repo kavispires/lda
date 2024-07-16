@@ -49,7 +49,7 @@ export const getPart = (partId: UID, song: Song): SongPart => {
  * @param song - The song object containing the part.
  * @returns The duration of the song part in milliseconds.
  */
-const getPartDuration = (partId: UID, song: Song): number => {
+export const getPartDuration = (partId: UID, song: Song): number => {
   const part = getPart(partId, song);
 
   return part.endTime - part.startTime;

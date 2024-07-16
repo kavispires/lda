@@ -11,6 +11,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { HomePage } from './pages/Home';
 import { NewDistributionPage } from 'pages/Distributions/NewDistributionPage';
 import { GroupsListingPage } from 'pages/Groups/GroupsListingPage';
+import { EditDistributionPage } from 'pages/Distributions/EditDistributionPage';
+import { DistributionPage } from 'pages/Distributions/DistributionPage';
+import { DistributionsListingPage } from 'pages/Distributions/DistributionsListingPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,9 +37,9 @@ function App() {
                 <Route path="/" element={<HomePage />} />
 
                 <Route path="/distributions/new" element={<NewDistributionPage />} />
-                <Route path="/distributions/:distributionId" element={<div>Distribution</div>} />
-                <Route path="/distributions/:distributionId/edit" element={<div>New Distribution</div>} />
-                <Route path="/distributions" element={<div>Distributions</div>} />
+                <Route path="/distributions/:distributionId" element={<DistributionPage />} />
+                <Route path="/distributions/:distributionId/edit" element={<EditDistributionPage />} />
+                <Route path="/distributions" element={<DistributionsListingPage />} />
 
                 <Route path="/groups" element={<GroupsListingPage />} />
 

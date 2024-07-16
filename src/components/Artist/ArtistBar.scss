@@ -2,13 +2,19 @@
 
 .bar {
   display: grid;
-  grid-template-columns: auto 1fr 5ch;
+  grid-template-columns: auto 2fr 5ch;
   gap: get-unit(2);
-  opacity: 0.5;
+  opacity: 0.3;
   transition:
     opacity 250ms,
     transform 2s;
+
   position: absolute;
+
+  &--fixed {
+    opacity: 1;
+    position: static;
+  }
 
   &--active {
     opacity: 1;

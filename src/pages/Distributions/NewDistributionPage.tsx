@@ -1,5 +1,3 @@
-import './NewDistributionPage.scss';
-
 import { Typography } from 'antd';
 import { Content, ContentError } from 'components/Content';
 import { useCreateDistributionMutation } from 'hooks/useCreateDistributionMutation';
@@ -39,7 +37,7 @@ export function NewDistributionPage() {
         },
         {
           onSuccess: (newDistribution) => {
-            navigate(`/distributions/${newDistribution.id}`);
+            navigate(`/distributions/${newDistribution.id}/edit `);
           },
         }
       );

@@ -2,6 +2,7 @@ import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Rate, Select,
 import { useLogLine } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
 import React, { useEffect, useState } from 'react';
+import { useSongEditContext } from 'services/SongEditProvider';
 import { SongLine, UID } from 'types';
 import { getCompletionPercentage } from 'utils';
 import { LINE_SKILL } from 'utils/constants';
@@ -19,7 +20,8 @@ type EditLineFormProps = {
 };
 
 export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
-  const { line, text } = useLogLine(lineId);
+  const { song } = useSongEditContext();
+  const { line, text } = useLogLine(lineId, song);
   const { onUpdateSongContent } = useSongActions();
   const [tempLine, setTempLine] = useState<SongLine>(line);
 

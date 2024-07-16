@@ -31,15 +31,13 @@ export type Distribution = {
    */
   name?: string;
   /**
-   * Total max assigned seconds for an assignee
+   * Total max assigned milliseconds for an assignee
    */
   maxAssigneeDuration: number;
   /**
-   *
+   * Total assigned milliseconds per assignee
    */
-  summary?: {
-    [artistId: FUID]: 0;
-  };
+  summary?: Record<FUID, number>;
 } & RecordTimestamps;
 
 export type FirestoreDistribution = Omit<Distribution, 'mapping'> & {

@@ -1,10 +1,21 @@
-import { CheckCircleOutlined, MessageFilled, PlusOutlined, UnorderedListOutlined } from '@ant-design/icons';
+import {
+  CheckCircleOutlined,
+  DoubleRightOutlined,
+  MessageFilled,
+  PlusOutlined,
+  UnorderedListOutlined,
+} from '@ant-design/icons';
 import { Button, Checkbox } from 'antd';
+import clsx from 'clsx';
 import { useLogLine } from 'hooks/useLogInstances';
 import { ReactNode } from 'react';
-import { UID } from 'types';
+import { Song, UID } from 'types';
 
 type LogLineProps = {
+  /**
+   * The current song
+   */
+  song: Song;
   /**
    * The unique identifier of the line.
    */
@@ -36,6 +47,10 @@ type LogLineProps = {
    */
   onAddPart?: (lineId: UID) => void;
   /**
+   * Display button to trigger the line
+   */
+  onApplyToLine?: (lineId: UID) => void;
+  /**
    * Flag indicating if only the parts should be shown
    */
   showPartsOnly?: boolean;
@@ -43,18 +58,23 @@ type LogLineProps = {
 
 export function LogLine({
   id,
+  song,
   onClick,
   onSelect,
   selected,
   children,
   onSelectParts,
   onAddPart,
+  onApplyToLine,
   showPartsOnly,
 }: LogLineProps) {
-  const { text, status, line } = useLogLine(id);
+  const { text, status, line } = useLogLine(id, song);
 
   return (
-    <li className="log-line">
+    <li className={clsx('log-line', showPartsOnly && 'log-line--inline')}>
+      {!!onApplyToLine && (
+        <Button onClick={() => onApplyToLine(id)} icon={<DoubleRightOutlined />} size="small" />
+      )}
       {!showPartsOnly && (
         <span className="log-line__line">
           {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}

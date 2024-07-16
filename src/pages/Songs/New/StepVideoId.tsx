@@ -59,7 +59,7 @@ export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProp
         <Input
           placeholder="Enter a YouTube video ID"
           onChange={(e) => setVideoIdInput(e.target.value)}
-          value={videoIdInput || 'https://www.youtube.com/watch?v=7UecFm_bSTU&pp=ygUFbm1peHg%3D'}
+          value={videoIdInput}
           onPressEnter={onParse}
         />
         <Button disabled={!videoIdInput || videoIdInput.length < 5} onClick={onParse}>

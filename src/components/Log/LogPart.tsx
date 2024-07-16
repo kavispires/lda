@@ -1,11 +1,16 @@
 import { Button, Checkbox } from 'antd';
 import { useLogPart } from 'hooks/useLogInstances';
-import { UID } from 'types';
+import { Song, UID } from 'types';
 
 import { ApiFilled, ApiOutlined, CheckCircleOutlined, NotificationFilled } from '@ant-design/icons';
 import { ASSIGNEES } from 'utils/constants';
+import { ReactNode } from 'react';
 
 type LogPartProps = {
+  /**
+   * The current song
+   */
+  song: Song;
   /**
    * The unique identifier of the part.
    */
@@ -28,21 +33,46 @@ type LogPartProps = {
    *
    */
   onConnect?: (partId: string) => void;
+  /**
+   * The element to display after the part text
+   */
+  after?: ReactNode;
+  /**
+   * Flag indicating if the status icon should be hidden
+   */
+  hideStatusIcon?: boolean;
+  /**
+   * Flag indicating if the recommended assignee color should be displayed
+   */
+  color?: string;
 };
 
-export function LogPart({ id, onClick, onSelect, selected, onConnect }: LogPartProps) {
+export function LogPart({
+  id,
+  song,
+  onClick,
+  onSelect,
+  selected,
+  onConnect,
+  after = null,
+  hideStatusIcon = false,
+  color,
+}: LogPartProps) {
   const {
     part: { text, recommendedAssignee },
     status,
     duration,
-  } = useLogPart(id);
-  const color = ASSIGNEES[recommendedAssignee].color;
+  } = useLogPart(id, song);
+  const bgColor = color ?? ASSIGNEES[recommendedAssignee].color;
 
-  const icon =
-    status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <NotificationFilled />;
+  const icon = hideStatusIcon ? null : status === 'complete' ? (
+    <CheckCircleOutlined className="log-icon--green" />
+  ) : (
+    <NotificationFilled />
+  );
 
   return (
-    <li className="log-part" style={{ background: color }}>
+    <li className="log-part" style={{ background: bgColor }}>
       {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
 
       {!!onClick ? (
@@ -63,6 +93,8 @@ export function LogPart({ id, onClick, onSelect, selected, onConnect }: LogPartP
           onClick={() => onConnect(id)}
         />
       )}
+
+      {after}
     </li>
   );
 }

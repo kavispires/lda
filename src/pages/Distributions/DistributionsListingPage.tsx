@@ -1,4 +1,4 @@
-import './GroupsListingPage.scss';
+// import './GroupsListingPage.scss';
 
 import { Button, Space, Table, Typography } from 'antd';
 import { Content, ContentError, ContentLoading } from 'components/Content';

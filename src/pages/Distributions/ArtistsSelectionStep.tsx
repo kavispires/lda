@@ -22,9 +22,6 @@ export function ArtistsSelectionStep({
   const artistsQuery = useListingDataQuery<Artist>('artists');
   // const groupsMutation = useGroupsMutation();
   const artists = artistsQuery.data?.data ?? {};
-  console.log(artists);
-
-  console.log(selectedArtists);
 
   if (groupsQuery.isLoading || artistsQuery.isLoading) {
     return <ContentLoading />;

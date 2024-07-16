@@ -1,31 +1,76 @@
-import './NewDistributionPage.scss';
+import './EditDistributionPage.scss';
 
-import { Typography } from 'antd';
-import { Content, ContentError } from 'components/Content';
-import { useState } from 'react';
+import { Button, Progress, Space, Typography } from 'antd';
+import { Content } from 'components/Content';
+import { DistributionLog } from 'components/Log/DistributionLog';
+import { ControlledVideo } from 'components/Video/ControlledVideo';
+import { VideoControls } from 'components/Video/VideoControls';
+import { useMeasure } from 'react-use';
+import { SongDistributionProvider, useSongDistributionContext } from 'services/SongDistributionProvider';
 
-import { useSongQuery } from 'hooks/useSong';
-import { useQueryParams } from 'hooks/useQueryParams';
+import { DistributionLiveStats } from './DistributionLiveStats';
+import { SaveOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
-export function NewDistributionPage() {
-  const [step, setStep] = useState<number>(0);
-  const { queryParams } = useQueryParams();
-  const songId = queryParams.get('songId');
-  const songQuery = useSongQuery(songId ?? '');
+export function EditDistributionPage() {
+  return (
+    <SongDistributionProvider>
+      <EditDistributionContent />
+    </SongDistributionProvider>
+  );
+}
 
-  if (!songId) {
-    return <ContentError>You haven't selected a song</ContentError>;
-  }
+export function EditDistributionContent() {
+  const { song, group, videoControls, mappingProgress, onSave, isSaving, distribution } =
+    useSongDistributionContext();
+  const navigate = useNavigate();
+  const [ref, { width }] = useMeasure<HTMLElement>();
 
   return (
-    <Content>
-      <Typography.Title level={2}>Create Distribution</Typography.Title>
+    <Content ref={ref}>
+      <Typography.Title level={2}>
+        Edit Distribution: <em>{group.name}</em> sings <em>{song.title}</em>
+      </Typography.Title>
 
-      {/* <NewDistributionStepper step={step} /> */}
+      <Space size="small" direction="vertical" className="w-100">
+        <Progress percent={mappingProgress} className="w-100" />
+      </Space>
 
-      {step === 0 && <>Select artists</>}
+      <div className="distributor">
+        <div>
+          <VideoControls videoControls={videoControls} className="distributor__controls" />
+          <div className="distributor__metadata">
+            <ControlledVideo
+              width={Math.min(width / 2 - 12, 320)}
+              videoId={song.videoId}
+              playerRef={videoControls.playerRef}
+              setPlaying={() => {}}
+              setEnd={() => {}}
+              className="distributor__video"
+              hideControls
+              onStateChange={videoControls.onStateChange}
+            />
+            <div className="visualizer__title">
+              <h3>{song.title}</h3>
+              <p>{group.name}</p>
+            </div>
+          </div>
 
-      {step === 1 && <>Distribute</>}
+          <div className="mt-4 surface">
+            <DistributionLiveStats />
+          </div>
+        </div>
+
+        <DistributionLog />
+      </div>
+      <Space className="surface my-2">
+        <Button type="primary" size="large" onClick={onSave} loading={isSaving} icon={<SaveOutlined />}>
+          Save
+        </Button>
+        <Button size="large" onClick={() => navigate(`/distributions/${distribution.id}`)}>
+          View
+        </Button>
+      </Space>
     </Content>
   );
 }
