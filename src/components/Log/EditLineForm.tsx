@@ -72,7 +72,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
 
       <Form.Item
         label="Dismissible"
-        name="isDismissible"
+        name="dismissible"
         valuePropName="checked"
         help="Check if line does not need to be displayed (vocalizing, ad-libs, effects)."
       >

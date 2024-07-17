@@ -1,7 +1,8 @@
-import { Song, SongPart } from 'types';
+import { orderBy } from 'lodash';
+import { Song, SongLine, SongPart } from 'types';
 import { getCompletionPercentage } from 'utils/helpers';
 
-import { getLine, getLineCompletion } from './line-getters';
+import { getLine, getLineCompletion, getLineStartTime } from './line-getters';
 import { getPartCompletion } from './part-getters';
 import { getSection, getSectionCompletion } from './section-getters';
 
@@ -56,6 +57,14 @@ export const getSongCompletion = (song: Song): number => {
 
 export const getAllParts = (song: Song) => {
   return Object.values(song.content).filter((entity) => entity.type === 'part') as SongPart[];
+};
+
+export const getAllLines = (song: Song) => {
+  return orderBy(
+    Object.values(song.content).filter((entity) => entity.type === 'line') as SongLine[],
+    (o) => getLineStartTime(o.id, song),
+    'asc'
+  );
 };
 
 export const getPartsWithDurationCompletion = (song: Song) => {

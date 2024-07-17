@@ -56,7 +56,7 @@ const getLineSection = (lineId: string, song: Song): SongSection => {
  * @param song - The song object containing the line.
  * @returns The parts of the line.
  */
-const getLineParts = (lineId: string, song: Song): SongPart[] => {
+export const getLineParts = (lineId: string, song: Song): SongPart[] => {
   const line = getLine(lineId, song);
   return line.partsIds.map((partId) => getPart(partId, song));
 };

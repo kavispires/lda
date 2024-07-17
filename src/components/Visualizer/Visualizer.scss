@@ -49,17 +49,24 @@
   }
 
   &__distribution {
-    background: get-color('pink', 8);
+    background: linear-gradient(45deg, get-color('black', 6), get-color('black', 4));
     display: grid;
     grid-template-columns: 3fr 1fr;
+    color: get-color('white');
   }
 
   &__lyrics {
-    background: get-color('pink', 9);
+    // background: get-color('pink', 9);
+    padding: get-unit(6);
+    overflow: hidden;
   }
 
   &__adlibs {
-    background: rosybrown;
+    padding: get-unit(6);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
   }
 }
 
@@ -70,4 +77,103 @@
   padding: get-unit(2);
   color: get-color('white');
   position: relative;
+}
+
+.lyric-box-container {
+  opacity: 0.05;
+  transition: opacity 1s;
+  padding-bottom: get-unit(10);
+
+  &--past {
+    opacity: 0.5;
+  }
+
+  &--active {
+    opacity: 1;
+  }
+}
+
+.lyric-box {
+  display: grid;
+  grid-template-columns: auto 2fr;
+  gap: get-unit(2);
+  font-size: 1.25em;
+
+  &__avatars {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__content {
+    background: get-color('black', 9);
+    border-radius: get-unit(4);
+    padding: get-unit(6);
+  }
+
+  &__speakers {
+    text-transform: uppercase;
+    font-size: 0.85em;
+    display: flex;
+    gap: get-unit(2);
+  }
+
+  &__text {
+    background: get-color('white');
+    font-weight: bold;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-fill-color: transparent;
+  }
+}
+
+.adlib-box-container {
+  padding-bottom: get-unit(10);
+
+  &--active {
+    animation: fadeOut 2s forwards;
+  }
+}
+
+.adlib-box {
+  display: grid;
+  gap: get-unit(2);
+  font-size: 1em;
+
+  &__content {
+    background: get-color('gray', 9, 0.3);
+    border-radius: get-unit(4);
+    padding: get-unit(6);
+  }
+
+  &__speakers {
+    text-transform: uppercase;
+    font-size: 0.75em;
+    display: flex;
+    gap: get-unit(2);
+  }
+
+  &__text {
+    background: get-color('white');
+    font-weight: bold;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    text-fill-color: transparent;
+  }
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+  }
+  2% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
 }

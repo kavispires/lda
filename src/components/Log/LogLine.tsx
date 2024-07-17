@@ -82,10 +82,14 @@ export function LogLine({
 
           {!!onClick ? (
             <Button onClick={() => onClick(id)} type="text" className="log-line__line-text">
+              {!!line.dismissible && '* '}
               {text}
             </Button>
           ) : (
-            <span className="log-line__line-text">{text}</span>
+            <span className="log-line__line-text">
+              {!!line.dismissible && '* '}
+              {text}
+            </span>
           )}
 
           {!!onSelectParts && (

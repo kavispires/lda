@@ -1,27 +1,105 @@
-import { Avatar } from 'antd';
+import { ArtistAvatar } from 'components/Artist';
+import { LyricSnapshot } from 'services/DistributionVisualizerProvider';
+import { Distribution } from 'types';
 
-export function LyricBox() {
+type LyricBoxProps = {
+  snapshot: LyricSnapshot;
+  assignees: Distribution['assignees'];
+};
+
+export function LyricBox({ snapshot, assignees }: LyricBoxProps) {
   return (
     <div className="lyric-box">
       <div className="lyric-box__avatars">
-        <Avatar src="https://randomuser.me/api/portraits/men/94.jpg" alt="avatar" />
-        <Avatar src="https://randomuser.me/api/portraits/women/93.jpg" alt="avatar" />
+        {snapshot.assigneesIds.map((assigneeId, index) => {
+          const artist = assignees?.[assigneeId];
+
+          return (
+            <ArtistAvatar
+              key={assigneeId}
+              id={artist?.id ?? assigneeId}
+              name={artist?.name ?? assigneeId}
+              style={{
+                border: `3px solid ${artist?.color ?? '#f1f1f1'}`,
+                marginTop: `${index * -12}px`,
+                zIndex: snapshot.assigneesIds.length - index,
+              }}
+              size="large"
+            />
+          );
+        })}
       </div>
       <div className="lyric-box__content">
         <div className="lyric-box__speakers">
-          <span>John Doe</span>
-          <span>Jane Doe</span>
+          {snapshot.assigneesIds.map((assigneeId) => {
+            const artist = assignees?.[assigneeId];
+
+            return (
+              <span
+                key={assigneeId}
+                style={{
+                  color: artist?.color ?? '#f1f1f1',
+                }}
+              >
+                {artist?.name ?? assigneeId}
+              </span>
+            );
+          })}
         </div>
         <div className="lyric-box__text">
-          <p>Some lyrics here</p>
-          <p>Some more lyrics here</p>
-          <p>Even more lyrics here</p>
+          {snapshot.text.map((line, index) => (
+            <div
+              key={`${line}-${index}`}
+              style={{
+                background: `linear-gradient(to right, ${snapshot.colors[index]})`,
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              {line}
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-export function AdlibBox() {
-  return <div className="lyric-box">?</div>;
+export function AdlibBox({ snapshot, assignees }: LyricBoxProps) {
+  return (
+    <div className="adlib-box">
+      <div className="adlib-box__content">
+        <div className="adlib-box__speakers">
+          {snapshot.assigneesIds.map((assigneeId) => {
+            const artist = assignees?.[assigneeId];
+
+            return (
+              <span
+                key={assigneeId}
+                style={{
+                  color: artist?.color ?? '#f1f1f1',
+                }}
+              >
+                {artist?.name ?? assigneeId}
+              </span>
+            );
+          })}
+        </div>
+        <div className="adlib-box__text">
+          {snapshot.text.map((line, index) => (
+            <div
+              key={`${line}-${index}`}
+              style={{
+                background: `linear-gradient(to right, ${snapshot.colors[index]})`,
+                backgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+              }}
+            >
+              {line}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }

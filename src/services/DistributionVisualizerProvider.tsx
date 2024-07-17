@@ -1,10 +1,10 @@
 import { useVideoControls } from 'hooks/useVideoControls';
 import { useVisualizerMeasurements, UseVisualizerMeasurementsResult } from 'hooks/useVisualizerMeasurements';
-import { cloneDeep, orderBy } from 'lodash';
+import { cloneDeep, orderBy, sortBy } from 'lodash';
 import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
 import { useLocalStorage, useToggle } from 'react-use';
 import { Artist, Dictionary, Distribution, Song, UID } from 'types';
-import { distributor } from 'utils';
+import { distributor, removeDuplicates } from 'utils';
 import { ALL_ID, NONE_ID } from 'utils/constants';
 
 type DistributionVisualizerContextType = {
@@ -19,8 +19,11 @@ type DistributionVisualizerContextType = {
   videoControls: ReturnType<typeof useVideoControls>;
   song: Song;
   assignees: Artist[];
+  assigneesDict: Dictionary<Artist>;
   measurements: UseVisualizerMeasurementsResult;
   barSnapshots: Dictionary<Dictionary<AssigneeSnapshot>>;
+  adlibsSnapshots: Dictionary<LyricSnapshot>;
+  lyricsSnapshots: Dictionary<LyricSnapshot>;
 };
 
 const DistributionVisualizerContext = createContext<DistributionVisualizerContextType | undefined>(undefined);
@@ -51,9 +54,12 @@ export const DistributionVisualizerProvider = ({
     return orderBy(Object.values(distribution.assignees), 'name');
   }, [distribution]);
 
-  const barSnapshots = useMemo(() => {
-    return buildBarSnapshots(distribution, song);
-  }, [distribution, song]);
+  const barSnapshots = useMemo(() => buildBarSnapshots(distribution, song), [distribution, song]);
+
+  const { adlibsSnapshots, lyricsSnapshots } = useMemo(
+    () => buildLyricsSnapshots(distribution, song),
+    [distribution, song]
+  );
 
   return (
     <DistributionVisualizerContext.Provider
@@ -70,7 +76,10 @@ export const DistributionVisualizerProvider = ({
         song,
         measurements,
         assignees,
+        assigneesDict: distribution.assignees,
         barSnapshots,
+        adlibsSnapshots,
+        lyricsSnapshots,
       }}
     >
       <div ref={ref} style={{ height: measurements.container.height }}>
@@ -150,18 +159,28 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
   for (let unit = Math.floor(song.startAt / RATE); unit < Math.ceil(song.endAt / RATE); unit++) {
     const partsIds = partsInUnits?.[unit] || [];
 
+    // Just use the previousAssignee
     snapshotsPerUnit[unit] = previousAssigneeSnapshot;
 
     if (partsIds.length === 0) {
-      assigneesIdsList.forEach((assigneeId) => {
-        if (snapshotsPerUnit[unit][assigneeId].active) {
-          const snapshot = { ...snapshotsPerUnit[unit][assigneeId] };
-          snapshot.active = false;
-          snapshotsPerUnit[unit][assigneeId] = snapshot;
-        }
-      });
+      // Deactivate all assignees, if necessary
+      const isAnyActive = assigneesIdsList.some((assigneeId) => snapshotsPerUnit[unit][assigneeId].active);
+
+      if (isAnyActive) {
+        assigneesIdsList.forEach((assigneeId) => {
+          if (snapshotsPerUnit[unit][assigneeId].active) {
+            const snapshot = { ...snapshotsPerUnit[unit][assigneeId] };
+            snapshot.active = false;
+            snapshotsPerUnit[unit][assigneeId] = snapshot;
+          }
+        });
+        previousAssigneeSnapshot = cloneDeep(snapshotsPerUnit[unit]);
+      }
+
       continue;
     }
+
+    snapshotsPerUnit[unit] = cloneDeep(previousAssigneeSnapshot);
 
     const assigneesInUnit: UID[] = [];
 
@@ -210,4 +229,75 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
   }
 
   return snapshotsPerUnit;
+};
+
+export type LyricSnapshot = {
+  id: UID;
+  text: string[];
+  assigneesIds: UID[];
+  colors: string[];
+};
+
+const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
+  const lyricsSnapshots: Dictionary<LyricSnapshot> = {};
+  const adlibsSnapshots: Dictionary<LyricSnapshot> = {};
+
+  let latestTimestamp = 0;
+  let latestKey = '';
+  // A snapshot is comprised of lines with the same assignees
+
+  // If the line has same assignees as previous line, append
+
+  distributor.getAllLines(song).forEach((line) => {
+    const { startTime, text } = distributor.getLineSummary(line.id, song);
+    const timestamp = Math.floor(startTime / RATE);
+
+    const assigneesIds = removeDuplicates(line.partsIds.map((partId) => distribution.mapping[partId]).flat());
+    // TODO: Check if the parts have the exact same assignees
+
+    const colors = assigneesIds
+      .map((assigneeId) =>
+        [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color
+      )
+      .join(', ');
+
+    if (line.dismissible) {
+      adlibsSnapshots[timestamp] = {
+        id: line.id,
+        text: [text],
+        assigneesIds: assigneesIds,
+        colors: [colors],
+      };
+      return;
+    }
+
+    if (lyricsSnapshots[timestamp]) {
+      console.warn('Duplicate timestamp', timestamp);
+    }
+
+    const key = sortBy(assigneesIds).join('::');
+
+    if (latestKey === key) {
+      lyricsSnapshots[latestTimestamp].text.push(text);
+      lyricsSnapshots[latestTimestamp].colors.push();
+      return;
+    }
+
+    latestKey = key;
+    latestTimestamp = timestamp;
+    lyricsSnapshots[timestamp] = {
+      id: line.id,
+      text: [text],
+      assigneesIds: assigneesIds,
+      colors: [colors],
+    };
+  });
+
+  console.log(lyricsSnapshots);
+  console.log(adlibsSnapshots);
+
+  return {
+    adlibsSnapshots,
+    lyricsSnapshots,
+  };
 };

@@ -4,10 +4,21 @@ import './Visualizer.scss';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { VideoControls } from 'components/Video/VideoControls';
 import { BarsBox } from './BarsBox';
+import { LyricsScroller } from './LyricsScroller';
+import { AdlibsScroller } from './AdlibsScroller';
 
 export function Visualizer() {
-  const { song, fullScreenMode, videoControls, measurements, assignees, barSnapshots } =
-    useDistributionVisualizerContext();
+  const {
+    song,
+    fullScreenMode,
+    videoControls,
+    measurements,
+    assignees,
+    assigneesDict,
+    barSnapshots,
+    lyricsSnapshots,
+    adlibsSnapshots,
+  } = useDistributionVisualizerContext();
   /**
    * TODO:
    * View:
@@ -24,6 +35,8 @@ export function Visualizer() {
    * - Light mode?
    * - Display dismissible
    */
+
+  const timestamp = Math.floor(videoControls.currentTime / RATE);
 
   return (
     <div className={clsx('visualizer', fullScreenMode && 'visualizer--fullscreen')}>
@@ -46,20 +59,25 @@ export function Visualizer() {
           />
         </div>
         <div className="distribution__bars">
-          <BarsBox
-            assignees={assignees}
-            snapshots={barSnapshots[Math.floor(videoControls.currentTime / RATE)]}
-          />
+          <BarsBox assignees={assignees} snapshots={barSnapshots[timestamp]} />
         </div>
       </div>
 
       <div className="visualizer__distribution">
-        <div className="visualizer__lyrics">
-          <p>Lyrics</p>
-        </div>
-        <div className="visualizer__add-libs">
-          <p>Adlibs</p>
-        </div>
+        <LyricsScroller
+          assignees={assigneesDict}
+          lyricsSnapshots={lyricsSnapshots}
+          timestamp={timestamp}
+          songTitle={song.title}
+          maxHeight={measurements.distribution.height}
+        />
+
+        <AdlibsScroller
+          assignees={assigneesDict}
+          adlibsSnapshots={adlibsSnapshots}
+          timestamp={timestamp}
+          maxHeight={measurements.distribution.height}
+        />
       </div>
     </div>
   );
