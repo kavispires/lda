@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
+import { cloneDeep } from 'lodash';
 import { getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
 import { FirestoreSong, Song } from 'types';
 
@@ -34,9 +35,23 @@ export function useSongQuery(songId: string) {
  * @returns The serialized FirestoreSong object.
  */
 export const serializeSong = (song: Song): FirestoreSong => {
+  const copy = cloneDeep(song);
+
+  // Delete any dismissible and adlib properties from the song lines if false
+  Object.values(copy.content).forEach((entry) => {
+    if (entry.type === 'line') {
+      if (entry.dismissible === false) {
+        delete entry.dismissible;
+      }
+      if (entry.adlib === false) {
+        delete entry.adlib;
+      }
+    }
+  });
+
   return {
-    ...song,
-    content: JSON.stringify(song.content),
+    ...copy,
+    content: JSON.stringify(copy.content),
   };
 };
 

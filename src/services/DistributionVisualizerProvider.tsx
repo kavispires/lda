@@ -131,7 +131,7 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
   });
 
   // Max value for assignee duration to use in percentage calculation
-  const maxAssigneeDuration = Math.round(distribution.maxAssigneeDuration / RATE);
+  const maxAssigneeDuration = Math.round(distribution.maxAssigneeDuration / RATE) + 1;
   // List of all assignees
   const assigneesIdsList = Object.keys(distribution.assignees);
 
@@ -249,6 +249,10 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
   // If the line has same assignees as previous line, append
 
   distributor.getAllLines(song).forEach((line) => {
+    if (line.dismissible) {
+      return;
+    }
+
     const { startTime, text } = distributor.getLineSummary(line.id, song);
     const timestamp = Math.floor(startTime / RATE);
 
@@ -261,7 +265,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       )
       .join(', ');
 
-    if (line.dismissible) {
+    if (line.adlib) {
       adlibsSnapshots[timestamp] = {
         id: line.id,
         text: [text],

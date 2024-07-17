@@ -103,9 +103,13 @@ export type SongLine = {
    */
   type: 'line';
   /**
-   * Flag indicating if the line is dismissible (not displayed during a distribution)
+   * Flag indicating if the line is dismissible (not displayed during a distribution) - Usually used for effects or vocalizing
    */
   dismissible?: boolean;
+  /**
+   * Flag indicating if the line is an adlib
+   */
+  adlib?: boolean;
   /**
    * Ordered part ids
    */

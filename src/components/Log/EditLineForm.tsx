@@ -70,14 +70,25 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
         </Form.Item>
       </div>
 
-      <Form.Item
-        label="Dismissible"
-        name="dismissible"
-        valuePropName="checked"
-        help="Check if line does not need to be displayed (vocalizing, ad-libs, effects)."
-      >
-        <Switch />
-      </Form.Item>
+      <div className="grid grid-cols-2 gap-2">
+        <Form.Item
+          label="Adlib"
+          name="adlib"
+          valuePropName="checked"
+          help="Check if line is an adlib not in the flow of the song."
+        >
+          <Switch />
+        </Form.Item>
+
+        <Form.Item
+          label="Dismissible"
+          name="dismissible"
+          valuePropName="checked"
+          help="Check if line does not need to be displayed (vocalizing or effects)."
+        >
+          <Switch />
+        </Form.Item>
+      </div>
 
       <Form.Item label="Lyric" help={`Collection of lyrics from all parts (${tempLine.partsIds.length}).`}>
         <Input value={text} disabled />
