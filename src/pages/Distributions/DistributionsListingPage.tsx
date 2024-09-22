@@ -33,7 +33,7 @@ export function DistributionsListingPage() {
     },
     {
       title: 'Actions',
-      key: 'id',
+      key: 'actions',
       render: (record: ListingEntry) => (
         <Space size="middle">
           <Button type="default" onClick={() => navigate(`/distributions/${record.id}/edit`)}>
@@ -44,6 +44,11 @@ export function DistributionsListingPage() {
           </Button>
         </Space>
       ),
+    },
+    {
+      title: 'id',
+      dataIndex: 'id',
+      'key:': 'id',
     },
   ];
 

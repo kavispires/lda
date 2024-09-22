@@ -31,7 +31,7 @@ export function SongsListingPage() {
     },
     {
       title: 'Actions',
-      key: 'id',
+      key: 'actions',
       render: (record: ListingEntry) => (
         <Space size="middle">
           <Button type="default" onClick={() => navigate(`/songs/${record.id}/edit`)}>
@@ -42,6 +42,11 @@ export function SongsListingPage() {
           </Button>
         </Space>
       ),
+    },
+    {
+      title: 'id',
+      dataIndex: 'id',
+      'key:': 'id',
     },
   ];
 
