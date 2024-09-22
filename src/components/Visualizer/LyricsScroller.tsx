@@ -32,7 +32,7 @@ export function LyricsScroller({
     const currentLyric = lyricsRef.current[timestamp];
     if (currentLyric) {
       currentLyric.scrollIntoView({
-        behavior: 'smooth',
+        behavior: timestamp > Number(previousTimestampKey.current ?? 0) ? 'smooth' : 'auto',
         block: 'end',
       });
       previousTimestampKey.current = String(timestamp);

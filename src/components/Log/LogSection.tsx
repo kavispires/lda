@@ -1,4 +1,4 @@
-import { Button, Checkbox } from 'antd';
+import { Alert, Button, Checkbox } from 'antd';
 import { useLogPart, useLogSection } from 'hooks/useLogInstances';
 import { ReactNode } from 'react';
 import { Song, UID } from 'types';
@@ -7,6 +7,7 @@ import {
   CheckCircleOutlined,
   DatabaseFilled,
   PlayCircleFilled,
+  PlusOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
 
@@ -42,9 +43,13 @@ type LogSectionProps = {
    */
   onSelectParts?: (partsIds: UID[]) => void;
   /**
-   *
+   * The function to call to trigger the play of the section
    */
   onPlay?: (startTime: number) => void;
+  /**
+   * The function to call to add a new line to the section
+   */
+  onAddLine?: (sectionId: UID) => void;
 };
 
 export function LogSection({
@@ -56,9 +61,17 @@ export function LogSection({
   children,
   onSelectParts,
   onPlay,
+  onAddLine,
 }: LogSectionProps) {
-  const { name, status, partIds } = useLogSection(id, song);
+  const { name, status, partIds, section } = useLogSection(id, song);
   const { part } = useLogPart(partIds[0], song);
+
+  if (!section || !section.id)
+    return (
+      <li className="log-section">
+        <Alert message="Section doesn't exist" type="error" />
+      </li>
+    );
 
   const icon =
     status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <DatabaseFilled />;
@@ -66,6 +79,8 @@ export function LogSection({
   return (
     <li className="log-section">
       <span className="log-section__section">
+        {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
+
         {!!onPlay && (
           <Button
             size="small"
@@ -74,8 +89,6 @@ export function LogSection({
             onClick={() => onPlay(part.startTime)}
           />
         )}
-
-        {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
 
         {!!onClick ? (
           <Button role="button" onClick={() => onClick(id)} shape="round" icon={icon}>
@@ -94,6 +107,10 @@ export function LogSection({
             icon={<UnorderedListOutlined />}
             onClick={() => onSelectParts(partIds)}
           />
+        )}
+
+        {!!onAddLine && (
+          <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddLine(id)} />
         )}
       </span>
       <ul className="log-section__lines">{children}</ul>

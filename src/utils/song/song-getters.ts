@@ -1,5 +1,5 @@
 import { orderBy } from 'lodash';
-import { Song, SongLine, SongPart } from 'types';
+import { Song, SongLine, SongPart, SongSection } from 'types';
 import { getCompletionPercentage } from 'utils/helpers';
 
 import { getLine, getLineCompletion, getLineStartTime } from './line-getters';
@@ -30,6 +30,7 @@ export const generateSong = ({
     endAt,
     createdAt: Date.now(),
     updatedAt: Date.now(),
+    ready: false,
   };
 };
 
@@ -55,10 +56,16 @@ export const getSongCompletion = (song: Song): number => {
   ]);
 };
 
-export const getAllParts = (song: Song) => {
-  return Object.values(song.content).filter((entity) => entity.type === 'part') as SongPart[];
+/**
+ * Retrieves all sections of a song.
+ */
+export const getAllSections = (song: Song) => {
+  return song.sectionIds.map((sectionId) => getSection(sectionId, song)) as SongSection[];
 };
 
+/**
+ * Retrieves all lines from a song and returns them in ascending order based on their start time.
+ */
 export const getAllLines = (song: Song) => {
   return orderBy(
     Object.values(song.content).filter((entity) => entity.type === 'line') as SongLine[],
@@ -67,10 +74,27 @@ export const getAllLines = (song: Song) => {
   );
 };
 
+/**
+ * Retrieves all parts from a song.
+ */
+export const getAllParts = (song: Song) => {
+  return Object.values(song.content).filter((entity) => entity.type === 'part') as SongPart[];
+};
+
 export const getPartsWithDurationCompletion = (song: Song) => {
   const allParts = getAllParts(song);
 
   const partsWithDuration = allParts.filter((part) => part.startTime !== part.endTime);
 
   return Math.floor((partsWithDuration.length / allParts.length) * 100);
+};
+
+export const isSongReady = (song: Song) => {
+  return [
+    !!song.title.trim(),
+    !!song.videoId.trim(),
+    !!song.originalArtist.trim(),
+    song.sectionIds.length > 0,
+    getAllParts(song).every((part) => (part.endTime ?? 0) - (part.startTime ?? 0) > 0),
+  ].every(Boolean);
 };

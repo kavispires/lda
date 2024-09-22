@@ -64,6 +64,10 @@ export type Song = {
      */
     style: string;
   };
+  /**
+   * If every part has a part, this song can be distributed
+   */
+  ready: boolean;
 } & RecordTimestamps;
 
 export type FirestoreSong = Omit<Song, 'content'> & {

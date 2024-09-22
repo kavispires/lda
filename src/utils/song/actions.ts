@@ -2,8 +2,9 @@ import { cloneDeep, get, set } from 'lodash';
 import { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { getDifference } from 'utils/helpers';
 
-import { getLine } from './line-getters';
+import { generateLine, getLine } from './line-getters';
 import { generatePart, getPart } from './part-getters';
+import { getSection } from './section-getters';
 
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
@@ -61,6 +62,19 @@ export const addNewPartToLine = (song: Song, lineId: UID): Song => {
   return copy;
 };
 
+export const addNewLineToSection = (song: Song, sectionId: UID): Song => {
+  const copy = cloneDeep(song);
+
+  const section = getSection(sectionId, song);
+  const newLineProps: Partial<SongLine> & Pick<SongLine, 'sectionId'> = { sectionId };
+
+  const line = generateLine(newLineProps);
+  set(copy, `content.${line.id}`, line);
+  set(copy, `content.${sectionId}.linesIds`, [...section.linesIds, line.id]);
+
+  return addNewPartToLine(copy, line.id);
+};
+
 export const mergeParts = (song: Song, partIds: UID[]): Song => {
   const copy = cloneDeep(song);
 
@@ -111,6 +125,74 @@ export const movePart = (song: Song, partId: UID, targetLineId: UID): Song => {
   console.log('END MOVE');
 
   console.log(getDifference(copy, song));
+
+  copy.updatedAt = Date.now();
+
+  return copy;
+};
+
+export const deletePart = (song: Song, partId: UID): Song => {
+  const copy = cloneDeep(song);
+  const part = getPart(partId, song);
+
+  // Disconnect part from line
+  set(
+    copy,
+    `content.${part.lineId}.partsIds`,
+    (get(copy, `content.${part.lineId}.partsIds`) ?? []).filter((id: UID) => id !== partId)
+  );
+
+  // Delete part
+  delete copy.content[partId];
+
+  copy.updatedAt = Date.now();
+
+  return copy;
+};
+
+export const deleteLine = (song: Song, lineId: UID): Song => {
+  const copy = cloneDeep(song);
+  const line = getLine(lineId, song);
+
+  if (line.partsIds.length > 0) {
+    throw new Error(`You must delete all parts from a line before deleting the line.`);
+  }
+  console.log('PRE', get(copy, `content.${line.sectionId}.linesIds`)?.join(', '));
+  // Disconnect line from section
+  set(
+    copy,
+    `content.${line.sectionId}.linesIds`,
+    (get(copy, `content.${line.sectionId}.linesIds`) ?? []).filter((id: UID) => id !== lineId)
+  );
+
+  console.log('POST', get(copy, `content.${line.sectionId}.linesIds`)?.join(', '));
+
+  // Delete line
+  delete copy.content[lineId];
+
+  try {
+    const line = getLine(lineId, copy);
+    console.log(line);
+  } catch (e) {
+    console.log('ERROR', e);
+  }
+
+  copy.updatedAt = Date.now();
+
+  console.log('IT WORKED');
+  return copy;
+};
+
+export const deleteSection = (song: Song, sectionId: UID): Song => {
+  const copy = cloneDeep(song);
+  const section = getSection(sectionId, song);
+
+  if (section.linesIds.length > 0) {
+    throw new Error(`You must delete all lines from a section before deleting the section.`);
+  }
+
+  // Delete lines
+  section.linesIds.forEach((lineId) => deleteLine(copy, lineId));
 
   copy.updatedAt = Date.now();
 

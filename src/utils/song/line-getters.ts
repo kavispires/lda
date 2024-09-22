@@ -31,10 +31,14 @@ export const generateLine = ({
  * @returns The line object corresponding to the given ID.
  * @throws An error if the line with the specified ID is not found in the song.
  */
-export const getLine = (lineId: string, song: Song): SongLine => {
+export const getLine = (lineId: string, song: Song, bypassError?: boolean): SongLine => {
   const line = song.content[lineId] as SongLine;
 
-  if (!line) throw new Error(`Line with id ${lineId} not found in song ${song.id}`);
+  if (!line) {
+    // TODO: this is hacky af
+    if (bypassError) return { partsIds: [] } as unknown as SongLine;
+    throw new Error(`Line with id ${lineId} not found in song ${song.id}`);
+  }
 
   return line;
 };
@@ -83,7 +87,7 @@ export const getLineText = (lineId: string, song: Song): string => {
  * @returns The start time of the line.
  */
 export const getLineStartTime = (lineId: string, song: Song): number => {
-  return getLineParts(lineId, song)[0].startTime;
+  return getLineParts(lineId, song)?.[0]?.startTime ?? 0;
 };
 
 /**
@@ -93,7 +97,7 @@ export const getLineStartTime = (lineId: string, song: Song): number => {
  * @returns The end time of the line.
  */
 export const getLineEndTime = (lineId: string, song: Song): number => {
-  return getLineParts(lineId, song).slice(-1)[0].endTime;
+  return getLineParts(lineId, song).slice(-1)?.[0]?.endTime ?? 0;
 };
 
 /**

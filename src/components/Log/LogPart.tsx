@@ -1,4 +1,4 @@
-import { Button, Checkbox } from 'antd';
+import { Alert, Button, Checkbox } from 'antd';
 import { useLogPart } from 'hooks/useLogInstances';
 import { Song, UID } from 'types';
 
@@ -58,12 +58,15 @@ export function LogPart({
   hideStatusIcon = false,
   color,
 }: LogPartProps) {
-  const {
-    part: { text, recommendedAssignee },
-    status,
-    duration,
-  } = useLogPart(id, song);
-  const bgColor = color ?? ASSIGNEES[recommendedAssignee].color;
+  const { part, status, duration } = useLogPart(id, song);
+  const bgColor = color ?? ASSIGNEES[part.recommendedAssignee].color;
+
+  if (!part || !part.id)
+    return (
+      <li className="log-section">
+        <Alert message="Line doesn't exist" type="error" />
+      </li>
+    );
 
   const icon = hideStatusIcon ? null : status === 'complete' ? (
     <CheckCircleOutlined className="log-icon--green" />
@@ -77,11 +80,11 @@ export function LogPart({
 
       {!!onClick ? (
         <Button size="small" type="text" onClick={() => onClick(id)} icon={icon}>
-          {text}
+          {part.text}
         </Button>
       ) : (
         <span>
-          {icon} {text}
+          {icon} {part.text}
         </span>
       )}
 

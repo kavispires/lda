@@ -10,17 +10,21 @@ import { EditDrawer } from './EditDrawer';
 import { LogLine } from './LogLine';
 import { LogPart } from './LogPart';
 import { LogSection } from './LogSection';
+import { useVideoControls } from 'hooks/useVideoControls';
+import { usePreserveScrollPosition } from 'hooks/usePreserveScrollPosition';
 
 type LogProps = {
   className?: string;
+  videoControls: ReturnType<typeof useVideoControls>;
 };
 
-export function EditorsLog({ className }: LogProps) {
+export function EditorsLog({ className, videoControls }: LogProps) {
   const {
     song,
     selectionIdModel: { selection, onSelect, onSelectMany, onDeselectAll },
   } = useSongEditContext();
-  const { onAddNewPart } = useSongActions();
+  const { onAddNewPart, onAddNewLine } = useSongActions();
+  const ref = usePreserveScrollPosition<HTMLUListElement>();
 
   const [drawerOpen, setDrawerOpen] = useState<UID[]>([]);
 
@@ -46,7 +50,7 @@ export function EditorsLog({ className }: LogProps) {
         </Button>
       </header>
       <Divider className="my-1" />
-      <ul className="log-sections">
+      <ul className="log-sections" ref={ref} key={song.updatedAt}>
         {song.sectionIds.map((sectionId) => (
           <LogSection
             key={sectionId}
@@ -55,8 +59,10 @@ export function EditorsLog({ className }: LogProps) {
             onClick={onEntityClick}
             onSelect={onSelect}
             selected={selection.includes(sectionId)}
+            onAddLine={onAddNewLine}
+            onPlay={(startTime) => videoControls.seekAndPlay(startTime)}
           >
-            {distributor.getSection(sectionId, song).linesIds.map((lineId) => (
+            {distributor.getSection(sectionId, song)?.linesIds.map((lineId) => (
               <LogLine
                 key={lineId}
                 id={lineId}
@@ -67,16 +73,18 @@ export function EditorsLog({ className }: LogProps) {
                 onSelectParts={onSelectMany}
                 onAddPart={onAddNewPart}
               >
-                {distributor.getLine(lineId, song).partsIds.map((partId) => (
-                  <LogPart
-                    key={partId}
-                    id={partId}
-                    song={song}
-                    onClick={onEntityClick}
-                    onSelect={onSelect}
-                    selected={selection.includes(partId)}
-                  />
-                ))}
+                {distributor
+                  .getLine(lineId, song, true)
+                  ?.partsIds.map((partId) => (
+                    <LogPart
+                      key={partId}
+                      id={partId}
+                      song={song}
+                      onClick={onEntityClick}
+                      onSelect={onSelect}
+                      selected={selection.includes(partId)}
+                    />
+                  ))}
               </LogLine>
             ))}
           </LogSection>

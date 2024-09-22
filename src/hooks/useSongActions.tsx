@@ -1,8 +1,10 @@
+import { App } from 'antd';
 import { useSongEditContext } from 'services/SongEditProvider';
 import { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { distributor } from 'utils';
 
 export function useSongActions() {
+  const { notification } = App.useApp();
   const { setSong } = useSongEditContext();
 
   const onUpdateSong = <T extends keyof Song>(path: string, value: Song[T]) => {
@@ -21,12 +23,58 @@ export function useSongActions() {
     setSong((prev) => distributor.addNewPartToLine(prev!, lineId));
   };
 
+  const onAddNewLine = (sectionId: UID) => {
+    setSong((prev) => distributor.addNewLineToSection(prev!, sectionId));
+  };
+
   const onMovePart = (partId: UID, targetLineId: UID) => {
     setSong((prev) => distributor.movePart(prev!, partId, targetLineId));
   };
 
   const onMergeParts = (partIds: UID[]) => {
     setSong((prev) => distributor.mergeParts(prev!, partIds));
+  };
+
+  const onDeletePart = (partId: UID) => {
+    try {
+      setSong((prev) => distributor.deletePart(prev!, partId));
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        notification.error({
+          message: 'Could not delete part',
+          description: e.message,
+        });
+        console.error(e);
+      }
+    }
+  };
+
+  const onDeleteLine = (lineId: UID) => {
+    try {
+      setSong((prev) => distributor.deleteLine(prev!, lineId));
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        notification.error({
+          message: 'Could not delete line',
+          description: e.message,
+        });
+        console.error(e);
+      }
+    }
+  };
+
+  const onDeleteSection = (sectionId: UID) => {
+    try {
+      setSong((prev) => distributor.deleteSection(prev!, sectionId));
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        notification.error({
+          message: 'Could not delete section',
+          description: e.message,
+        });
+      }
+      console.error(e);
+    }
   };
 
   return {
@@ -36,9 +84,9 @@ export function useSongActions() {
     onMovePart,
     onMergeParts,
     onAddNewPart,
-    // onConnectPartToLine,
-    // onConnectLineToSection,
-    // onDisconnectPartFromLine,
-    // onDisconnectLineFromSection,
+    onAddNewLine,
+    onDeletePart,
+    onDeleteLine,
+    onDeleteSection,
   };
 }

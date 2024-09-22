@@ -2,9 +2,10 @@ import { ContentError, ContentLoading } from 'components/Content';
 import { useSelectionIdModel } from 'hooks/useSelectionIdModel';
 import { useSongMutation, useSongQuery } from 'hooks/useSong';
 import { UseStep, useStep } from 'hooks/useStep';
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Song } from 'types';
+import { distributor } from 'utils';
 
 type SongEditContextType = {
   stepper: UseStep;
@@ -13,6 +14,7 @@ type SongEditContextType = {
   setSong: React.Dispatch<React.SetStateAction<Song | null>>;
   saveSong: () => void;
   isSaving: boolean;
+  isReady: boolean;
 };
 
 const SongEditContext = createContext<SongEditContextType | undefined>(undefined);
@@ -33,6 +35,11 @@ export const SongEditProvider = ({ children }: PropsWithChildren) => {
       setSong(songQuery.data);
     }
   }, [songQuery.data, songQuery.isSuccess]);
+
+  const isReady = useMemo(() => {
+    if (!song) return false;
+    return distributor.isSongReady(song);
+  }, [song]);
 
   // Song Summary
 
@@ -56,7 +63,9 @@ export const SongEditProvider = ({ children }: PropsWithChildren) => {
   const saveSong = () => mutate(song);
 
   return (
-    <SongEditContext.Provider value={{ stepper, song, setSong, saveSong, isSaving, selectionIdModel }}>
+    <SongEditContext.Provider
+      value={{ stepper, song, isReady, setSong, saveSong, isSaving, selectionIdModel }}
+    >
       {children}
     </SongEditContext.Provider>
   );

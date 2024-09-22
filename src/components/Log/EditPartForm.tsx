@@ -31,8 +31,9 @@ type EditPartFormProps = {
 
 export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
   const { song } = useSongEditContext();
+
   const { part } = useLogPart(partId, song);
-  const { onUpdateSongContent } = useSongActions();
+  const { onUpdateSongContent, onDeletePart } = useSongActions();
   const [tempPart, setTempPart] = useState<SongPart>(part);
   const [showMoveFlow, setShowMoveFlow] = useState(false);
 
@@ -127,8 +128,8 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
       <Divider className="my-4" />
 
       <Form.Item label="" help="Permanently delete this entire part.">
-        <Popconfirm title="Are you sure you want to delete this part?" onConfirm={() => {}}>
-          <Button type="primary" danger icon={<DeleteOutlined />} block disabled>
+        <Popconfirm title="Are you sure you want to delete this part?" onConfirm={() => onDeletePart(partId)}>
+          <Button type="primary" danger icon={<DeleteOutlined />} block ghost>
             Delete This Part
           </Button>
         </Popconfirm>

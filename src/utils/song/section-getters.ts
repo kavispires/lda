@@ -44,7 +44,7 @@ export const getSection = (sectionId: string, song: Song): SongSection => {
 
 const getSectionLines = (sectionId: string, song: Song): SongLine[] => {
   const section = getSection(sectionId, song);
-  return section.linesIds.map((lineId) => getLine(lineId, song));
+  return section?.linesIds?.map((lineId) => getLine(lineId, song));
 };
 
 const getSectionName = (sectionId: string, song: Song): string => {
@@ -52,7 +52,7 @@ const getSectionName = (sectionId: string, song: Song): string => {
   return `${section.kind} ${ROMAN_NUMERALS[section.number]}`;
 };
 
-const getSectionStartTime = (sectionId: string, song: Song): number => {
+export const getSectionStartTime = (sectionId: string, song: Song): number => {
   const section = getSection(sectionId, song);
   return getLineStartTime(section.linesIds[0], song);
 };

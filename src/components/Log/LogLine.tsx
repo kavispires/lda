@@ -5,7 +5,7 @@ import {
   PlusOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { Button, Checkbox } from 'antd';
+import { Alert, Button, Checkbox } from 'antd';
 import clsx from 'clsx';
 import { useLogLine } from 'hooks/useLogInstances';
 import { ReactNode } from 'react';
@@ -69,6 +69,13 @@ export function LogLine({
   showPartsOnly,
 }: LogLineProps) {
   const { text, status, line } = useLogLine(id, song);
+
+  if (!line || !line.id)
+    return (
+      <li className="log-section">
+        <Alert message="Line doesn't exist" type="error" />
+      </li>
+    );
 
   return (
     <li className={clsx('log-line', showPartsOnly && 'log-line--inline')}>

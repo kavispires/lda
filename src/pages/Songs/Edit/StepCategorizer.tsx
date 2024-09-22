@@ -1,6 +1,8 @@
 import { Typography } from 'antd';
 import { EditorsLog } from 'components/Log/EditorsLog';
-import { PlaybackVideo } from 'components/Video/PlaybackVideo';
+import { ControlledVideo } from 'components/Video/ControlledVideo';
+import { useVideoControls } from 'hooks/useVideoControls';
+import YouTube from 'react-youtube';
 import { useSongEditContext } from 'services/SongEditProvider';
 
 type StepCategorizerProps = {
@@ -9,6 +11,7 @@ type StepCategorizerProps = {
 
 export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
   const { song } = useSongEditContext();
+  const videoControls = useVideoControls();
 
   return (
     <>
@@ -19,9 +22,15 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
       </Typography.Paragraph>
 
       <div className="grid grid-cols-2 gap-2">
-        <EditorsLog key={song.updatedAt} />
+        <EditorsLog key={song.updatedAt} videoControls={videoControls} />
         <div>
-          <PlaybackVideo videoId={song.videoId} width={videoWidth} />
+          <ControlledVideo
+            videoId={song.videoId}
+            width={Math.min(videoWidth, 480)}
+            playerRef={videoControls.playerRef as React.LegacyRef<YouTube>}
+            setPlaying={videoControls.setPlaying}
+            setEnd={videoControls.setEnd}
+          />
 
           <div className="mt-4 surface">
             <span>TODO: Add section</span>

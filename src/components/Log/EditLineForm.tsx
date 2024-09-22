@@ -22,7 +22,7 @@ type EditLineFormProps = {
 export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
   const { song } = useSongEditContext();
   const { line, text } = useLogLine(lineId, song);
-  const { onUpdateSongContent } = useSongActions();
+  const { onUpdateSongContent, onDeleteLine } = useSongActions();
   const [tempLine, setTempLine] = useState<SongLine>(line);
 
   const [form] = Form.useForm<SongLine>();
@@ -107,9 +107,16 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
 
       <div className="my-4">TODO: Nudge line</div>
 
-      <Form.Item label="" name="text" help="You can only delete a line with not parts">
-        <Popconfirm title="Are you sure you want to delete this line?" onConfirm={() => {}}>
-          <Button type="primary" danger icon={<DeleteOutlined />} block disabled>
+      <Form.Item label="" name="text" help="You can only delete a line with no parts">
+        <Popconfirm title="Are you sure you want to delete this line?" onConfirm={() => onDeleteLine(lineId)}>
+          <Button
+            type="primary"
+            danger
+            ghost
+            icon={<DeleteOutlined />}
+            block
+            disabled={line.partsIds.length > 0}
+          >
             Delete This Line
           </Button>
         </Popconfirm>

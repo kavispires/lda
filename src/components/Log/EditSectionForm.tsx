@@ -22,7 +22,7 @@ type EditSectionFormProps = {
 export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFormProps) {
   const { song } = useSongEditContext();
   const { section } = useLogSection(sectionId, song);
-  const { onUpdateSongContent } = useSongActions();
+  const { onUpdateSongContent, onDeleteSection } = useSongActions();
   const [tempSection, setTempSection] = useState<SongSection>(section);
 
   const [form] = Form.useForm<SongSection>();
@@ -90,8 +90,18 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
       <Divider className="my-4" />
 
       <Form.Item label="" name="text" help="You can only delete a section with not lines">
-        <Popconfirm title="Are you sure you want to delete this section?" onConfirm={() => {}}>
-          <Button type="primary" danger icon={<DeleteOutlined />} block disabled>
+        <Popconfirm
+          title="Are you sure you want to delete this section?"
+          onConfirm={() => onDeleteSection(sectionId)}
+        >
+          <Button
+            type="primary"
+            danger
+            ghost
+            icon={<DeleteOutlined />}
+            block
+            disabled={section.linesIds.length > 0}
+          >
             Delete This Section
           </Button>
         </Popconfirm>

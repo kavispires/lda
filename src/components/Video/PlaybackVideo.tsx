@@ -6,7 +6,7 @@ type PlaybackVideoProps = {
   width?: number;
 };
 
-function PlaybackVideoComponent({ videoId, width = 640 }: PlaybackVideoProps) {
+function PlaybackVideoComponent({ videoId, width = 320 }: PlaybackVideoProps) {
   const w = Math.max(320, width);
   const h = (9 * w) / 16;
   if (w <= 0 || h <= 0) {
