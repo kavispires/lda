@@ -6,6 +6,7 @@ import { VideoControls } from 'components/Video/VideoControls';
 import { BarsBox } from './BarsBox';
 import { LyricsScroller } from './LyricsScroller';
 import { AdlibsScroller } from './AdlibsScroller';
+import { UpNext } from './UpNext';
 
 export function Visualizer() {
   const {
@@ -18,6 +19,7 @@ export function Visualizer() {
     barSnapshots,
     lyricsSnapshots,
     adlibsSnapshots,
+    upNextSnapshots,
   } = useDistributionVisualizerContext();
   /**
    * TODO:
@@ -26,8 +28,6 @@ export function Visualizer() {
    *  - Bar only mode
    *  - Lyrics only mode
    * Controls:
-   * - Seek bar
-   * - Play/Pause
    * - Restart
    * - Results
    * Adjustments
@@ -69,7 +69,7 @@ export function Visualizer() {
           lyricsSnapshots={lyricsSnapshots}
           timestamp={timestamp}
           songTitle={song.title}
-          maxHeight={measurements.distribution.height}
+          maxHeight={measurements.distribution.height - 32}
         />
 
         <AdlibsScroller
@@ -78,6 +78,8 @@ export function Visualizer() {
           timestamp={timestamp}
           maxHeight={measurements.distribution.height}
         />
+
+        <UpNext upNextSnapshots={upNextSnapshots} timestamp={timestamp} />
       </div>
     </div>
   );

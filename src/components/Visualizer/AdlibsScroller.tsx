@@ -12,9 +12,31 @@ type AdlibsScrollerProps = {
   maxHeight: number;
 };
 
+/**
+ * AdlibsScroller component is responsible for displaying adlib snapshots
+ * within a scrollable container. It dynamically updates the active adlibs
+ * based on the provided timestamp and adlibsSnapshots.
+ * @param props - The properties object.
+ * @param props.assignees - A record of assignees.
+ * @param props.timestamp - The current timestamp used to determine active adlibs.
+ * @param props.adlibsSnapshots - A record of adlib snapshots keyed by timestamp.
+ * @param  props.maxHeight - The maximum height of the scrollable container.
+ * @returns The rendered AdlibsScroller component.
+ */
 export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeight }: AdlibsScrollerProps) {
   const [activeAdlibs, setActiveAdlibs] = useState<Record<string, number>>({});
 
+  /**
+   * Effect hook that updates the `activeAdlibs` state based on the current `timestamp`.
+   *
+   * When the `timestamp` changes, this effect checks if there is a corresponding snapshot
+   * in `adlibsSnapshots`. If a snapshot exists, it updates the `activeAdlibs` state by
+   * adding the current `timestamp` with a fixed value of 40. It also removes any entries
+   * from `activeAdlibs` where the sum of the key and its value is less than the current
+   * `timestamp`.
+   *
+   * @param {number} timestamp - The current timestamp used to determine active adlibs.
+   */
   useEffect(() => {
     if (adlibsSnapshots[timestamp]) {
       console.log('THERE IS SNAPSHOT');
@@ -22,11 +44,9 @@ export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeigh
         const copy = { ...prev };
         // copy[timestamp] = Math.ceil(adlibsSnapshots[timestamp]?.text.length / 2);
         copy[timestamp] = 40;
-        console.log('COPY', copy);
 
         Object.keys(copy).forEach((key) => {
           if (Number(key) + copy[key] < timestamp) {
-            console.log('deleting', key);
             delete copy[key];
           }
         });

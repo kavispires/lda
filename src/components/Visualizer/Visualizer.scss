@@ -52,6 +52,8 @@
     background: linear-gradient(45deg, get-color('black', 6), get-color('black', 4));
     display: grid;
     grid-template-columns: 3fr 1fr;
+    grid-template-rows: 1fr 2rem;
+
     color: get-color('white');
   }
 
@@ -67,6 +69,37 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+  }
+
+  &__up-next {
+    font-style: italic;
+    padding: get-unit(0 6);
+    display: flex;
+    align-items: center;
+    opacity: 0.75;
+    gap: get-unit(2);
+  }
+
+  &__up-next-names {
+    animation: upNext 2s forwards;
+  }
+}
+
+@keyframes upNext {
+  0% {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+  10% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(0);
   }
 }
 

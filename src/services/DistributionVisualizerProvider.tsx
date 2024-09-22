@@ -24,6 +24,7 @@ type DistributionVisualizerContextType = {
   barSnapshots: Dictionary<Dictionary<AssigneeSnapshot>>;
   adlibsSnapshots: Dictionary<LyricSnapshot>;
   lyricsSnapshots: Dictionary<LyricSnapshot>;
+  upNextSnapshots: Dictionary<string[]>;
 };
 
 const DistributionVisualizerContext = createContext<DistributionVisualizerContextType | undefined>(undefined);
@@ -61,6 +62,8 @@ export const DistributionVisualizerProvider = ({
     [distribution, song]
   );
 
+  const upNextSnapshots = useMemo(() => buildUpNextSnapshots(distribution, song), [distribution, song]);
+
   return (
     <DistributionVisualizerContext.Provider
       value={{
@@ -80,6 +83,7 @@ export const DistributionVisualizerProvider = ({
         barSnapshots,
         adlibsSnapshots,
         lyricsSnapshots,
+        upNextSnapshots,
       }}
     >
       <div ref={ref} style={{ height: measurements.container.height }}>
@@ -107,7 +111,10 @@ export type AssigneeSnapshot = {
   percentage: number;
 };
 
-export const RATE = 100; // 1 second
+/**
+ * The rate at which the visualizer updates (1 second)
+ */
+export const RATE = 100;
 
 /**
  * For each unit in the in the song, from startAt to endAt, create an AssigneeSnapshot snapshot for each assignee
@@ -304,4 +311,53 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
     adlibsSnapshots,
     lyricsSnapshots,
   };
+};
+
+const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
+  const upNextSnapshots: Dictionary<string[]> = {};
+  let latestTimestamp = 0;
+  let latestKey = '';
+  // A snapshot is comprised of members 2 seconds before they start singing
+  const THRESHOLD = RATE * 12;
+
+  distributor.getAllLines(song).forEach((line) => {
+    if (line.dismissible) {
+      return;
+    }
+
+    const { startTime } = distributor.getLineSummary(line.id, song);
+    const timestamp = Math.floor(Math.max(startTime - THRESHOLD, 0) / RATE);
+
+    const assigneesIds = removeDuplicates(line.partsIds.map((partId) => distribution.mapping[partId]).flat());
+    const assigneesNames = assigneesIds
+      .map((assigneeId) => {
+        if ([ALL_ID, NONE_ID].includes(assigneeId)) {
+          return '';
+        }
+        if (distribution.assignees[assigneeId]?.name) {
+          return distribution.assignees[assigneeId].name;
+        }
+        console.log('Unknown assignee', assigneeId);
+        return 'Unknown';
+      })
+      .filter(Boolean);
+
+    const key = sortBy(assigneesIds).join('::');
+
+    if (latestKey === key) {
+      upNextSnapshots[latestTimestamp] = removeDuplicates([
+        ...upNextSnapshots[latestTimestamp],
+        ...assigneesNames,
+      ]);
+      return;
+    }
+
+    latestKey = key;
+    latestTimestamp = timestamp;
+    upNextSnapshots[latestTimestamp] = assigneesNames;
+  });
+
+  console.log(upNextSnapshots);
+
+  return upNextSnapshots;
 };
