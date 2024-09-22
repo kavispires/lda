@@ -109,6 +109,7 @@ export type AssigneeSnapshot = {
   active: boolean;
   duration: number;
   percentage: number;
+  done?: boolean;
 };
 
 /**
@@ -235,6 +236,27 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
     previousAssigneeSnapshot = cloneDeep(snapshotsPerUnit[unit]);
   }
 
+  const reverseList = sortBy(Object.keys(snapshotsPerUnit).map((timestamp) => Number(timestamp))).reverse();
+  const verifiedDone: UID[] = [];
+
+  for (let i = 0; i < reverseList.length - 1; i++) {
+    const currentTimestamp = reverseList[i];
+    const nextTimestamp = reverseList[i + 1];
+    assigneesIdsList.forEach((assigneeId) => {
+      if (!verifiedDone.includes(assigneeId)) {
+        snapshotsPerUnit[currentTimestamp][assigneeId].done = true;
+
+        if (snapshotsPerUnit[nextTimestamp][assigneeId].active) {
+          verifiedDone.push(assigneeId);
+        }
+      }
+    });
+
+    if (verifiedDone.length === assigneesIdsList.length) {
+      break;
+    }
+  }
+
   return snapshotsPerUnit;
 };
 
@@ -304,8 +326,8 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
     };
   });
 
-  console.log(lyricsSnapshots);
-  console.log(adlibsSnapshots);
+  // console.log(lyricsSnapshots);
+  // console.log(adlibsSnapshots);
 
   return {
     adlibsSnapshots,
@@ -357,7 +379,7 @@ const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
     upNextSnapshots[latestTimestamp] = assigneesNames;
   });
 
-  console.log(upNextSnapshots);
+  // console.log(upNextSnapshots);
 
   return upNextSnapshots;
 };

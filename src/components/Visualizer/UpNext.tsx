@@ -13,7 +13,6 @@ export function UpNext({ upNextSnapshots, timestamp }: UpNextProps) {
 
   useEffect(() => {
     if (upNextSnapshots[timestamp]) {
-      console.log('THERE IS SNAPSHOT');
       setActiveUpNext((prev) => {
         const copy = { ...prev };
 
@@ -21,7 +20,6 @@ export function UpNext({ upNextSnapshots, timestamp }: UpNextProps) {
 
         Object.keys(copy).forEach((key) => {
           if (Number(key) + copy[key] < timestamp) {
-            console.log('deleting upnext', key);
             delete copy[key];
           }
         });

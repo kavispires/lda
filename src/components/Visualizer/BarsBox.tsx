@@ -24,13 +24,20 @@ export function BarsBox({ assignees, snapshots }: BarsBoxProps) {
   return (
     <div className="bars-box" ref={boxRef}>
       {assignees.map((assignee, index, allAssignees) => {
-        const { rank = -1, percentage = 0, active = false, duration = 0 } = snapshots?.[assignee.id] ?? {};
+        const {
+          rank = -1,
+          percentage = 0,
+          active = false,
+          duration = 0,
+          done,
+        } = snapshots?.[assignee.id] ?? {};
 
         return (
           <div key={assignee.id} ref={index === 0 ? entryRef : null}>
             <ArtistBar
               artist={assignee}
               active={active}
+              done={done}
               idle={rank < 0}
               progress={percentage}
               value={`${(duration / (1000 / RATE)).toFixed(1)}s`}

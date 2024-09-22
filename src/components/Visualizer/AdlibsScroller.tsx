@@ -39,7 +39,6 @@ export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeigh
    */
   useEffect(() => {
     if (adlibsSnapshots[timestamp]) {
-      console.log('THERE IS SNAPSHOT');
       setActiveAdlibs((prev) => {
         const copy = { ...prev };
         // copy[timestamp] = Math.ceil(adlibsSnapshots[timestamp]?.text.length / 2);
