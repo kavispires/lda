@@ -34,6 +34,14 @@ body {
   width: 100%;
 }
 
+.w-screen {
+  width: 100vw;
+}
+
+.h-screen {
+  height: 100vh;
+}
+
 .max-width-large {
   max-width: 1024px;
 }
@@ -56,6 +64,10 @@ body {
 
 .grid-cols-5 {
   grid-template-columns: repeat(5, 1fr);
+}
+
+.place-items-center {
+  place-items: center;
 }
 
 .header {
