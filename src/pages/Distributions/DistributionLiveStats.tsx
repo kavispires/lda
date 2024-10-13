@@ -41,6 +41,7 @@ export function DistributionLiveStats() {
               track: 'VOCAL',
             }}
             progress={progress[ALL_ID].percentage}
+            fullProgress={progress[ALL_ID].percentage}
             value={`${progress[ALL_ID].duration}s`}
             className="distribution-live-stats__assignee"
             fixed
@@ -63,6 +64,7 @@ export function DistributionLiveStats() {
               track: 'VOCAL',
             }}
             progress={progress[NONE_ID].percentage}
+            fullProgress={progress[NONE_ID].percentage}
             value={`${progress[NONE_ID].duration}s`}
             className="distribution-live-stats__assignee"
             fixed
@@ -86,6 +88,7 @@ export function DistributionLiveStats() {
             <ArtistBar
               artist={assignee}
               progress={progress[assignee.id].percentage}
+              fullProgress={progress[assignee.id].percentage}
               value={`${progress[assignee.id].duration}s`}
               className="distribution-live-stats__assignee"
               fixed

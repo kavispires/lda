@@ -109,6 +109,8 @@ export type AssigneeSnapshot = {
   active: boolean;
   duration: number;
   percentage: number;
+  fullDuration: number;
+  fullPercentage: number;
   done?: boolean;
 };
 
@@ -152,7 +154,9 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
           rank: -1,
           active: false,
           duration: 0,
+          fullDuration: 0,
           percentage: 0,
+          fullPercentage: 0,
         };
       }
       return acc;
@@ -197,13 +201,20 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
       const assigneeIds = distribution.mapping[partId];
       const cleanupAssigneesIds = assigneeIds.filter((assigneeId) => ![ALL_ID, NONE_ID].includes(assigneeId));
       assigneesInUnit.push(...cleanupAssigneesIds);
+      const part = distributor.getPart(partId, song);
+      const line = distributor.getLine(part.lineId, song);
 
       cleanupAssigneesIds.forEach((assigneeId) => {
         const snapshot = { ...snapshotsPerUnit[unit][assigneeId] };
 
+        if (!line.adlib && !line.dismissible) {
+          snapshot.duration += 1;
+          snapshot.percentage = Math.floor((snapshot.duration / maxAssigneeDuration) * 100);
+        }
+
         snapshot.active = true;
-        snapshot.duration += 1;
-        snapshot.percentage = Math.floor((snapshot.duration / maxAssigneeDuration) * 100);
+        snapshot.fullDuration += 1;
+        snapshot.fullPercentage = Math.floor((snapshot.fullDuration / maxAssigneeDuration) * 100);
         snapshotsPerUnit[unit][assigneeId] = snapshot;
       });
     });
@@ -221,12 +232,12 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
     // Sort assignees by duration (determining their rank)
     const sortedAssignees = orderBy(
       Object.values(snapshotsPerUnit[unit]),
-      ['duration'],
+      ['fullDuration'],
       ['desc']
     ) as AssigneeSnapshot[];
 
     sortedAssignees.forEach((assignee, index) => {
-      if (assignee.duration > 0 && index !== snapshotsPerUnit[unit][assignee.id].rank) {
+      if (assignee.fullDuration > 0 && index !== snapshotsPerUnit[unit][assignee.id].rank) {
         const snapshot = { ...snapshotsPerUnit[unit][assignee.id] };
         snapshot.rank = index;
         snapshotsPerUnit[unit][assignee.id] = snapshot;

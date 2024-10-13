@@ -1,7 +1,7 @@
 import './ArtistBar.scss';
 
 import clsx from 'clsx';
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef } from 'react';
 import { Artist } from 'types';
 
 import { ArtistAvatar } from './ArtistAvatar';
@@ -10,7 +10,8 @@ import { PushpinFilled } from '@ant-design/icons';
 type ArtistBarProps = {
   artist: Artist;
   progress: number;
-  value: ReactNode;
+  fullProgress: number;
+  value: string;
   active?: boolean;
   idle?: boolean;
   fixed?: boolean;
@@ -18,7 +19,18 @@ type ArtistBarProps = {
 } & React.ComponentPropsWithRef<'div'>;
 
 export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
-  ({ artist, progress, value, active, idle, fixed, className, done, ...props }: ArtistBarProps) => {
+  ({
+    artist,
+    progress,
+    value,
+    active,
+    idle,
+    fixed,
+    className,
+    done,
+    fullProgress,
+    ...props
+  }: ArtistBarProps) => {
     return (
       <div
         id={artist.id}
@@ -52,6 +64,10 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
             <span
               className="bar__progress"
               style={{ width: `${Math.min(progress, 100)}%`, backgroundColor: artist.color }}
+            />
+            <span
+              className="bar__full-progress"
+              style={{ width: `${Math.min(fullProgress, 100)}%`, backgroundColor: artist.color }}
             />
             <span className="bar__progress-gutter" />
           </div>

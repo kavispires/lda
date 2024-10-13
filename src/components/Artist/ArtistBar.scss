@@ -49,6 +49,15 @@
     transition: 1s;
   }
 
+  &__full-progress {
+    height: get-unit(2);
+    content: ' ';
+    position: absolute;
+    border-radius: get-unit(1);
+    transition: 1s;
+    opacity: 0.5;
+  }
+
   &__progress-gutter {
     width: 100%;
     height: get-unit(2);

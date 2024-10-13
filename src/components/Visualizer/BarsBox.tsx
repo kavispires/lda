@@ -27,8 +27,9 @@ export function BarsBox({ assignees, snapshots }: BarsBoxProps) {
         const {
           rank = -1,
           percentage = 0,
+          fullPercentage = 0,
           active = false,
-          duration = 0,
+          fullDuration = 0,
           done,
         } = snapshots?.[assignee.id] ?? {};
 
@@ -40,7 +41,8 @@ export function BarsBox({ assignees, snapshots }: BarsBoxProps) {
               done={done}
               idle={rank < 0}
               progress={percentage}
-              value={`${(duration / (1000 / RATE)).toFixed(1)}s`}
+              fullProgress={fullPercentage}
+              value={`${(fullDuration / (1000 / RATE)).toFixed(1)}s`}
               style={{
                 width,
                 top: 0,
