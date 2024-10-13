@@ -75,7 +75,7 @@ export function ArtistsSelectionStep({
       </div>
 
       <div>
-        <Typography.Title level={5}>Groups</Typography.Title>
+        <Typography.Title level={5}>Artists</Typography.Title>
 
         <Space wrap>
           {artistsQuery.data?.list.map((artist) => {
