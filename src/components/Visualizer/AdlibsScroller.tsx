@@ -52,7 +52,7 @@ export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeigh
         return copy;
       });
     }
-  }, [timestamp]);
+  }, [timestamp]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className="visualizer__adlibs" style={{ maxHeight }}>
