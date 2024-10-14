@@ -57,9 +57,10 @@ export function LyricBox({ snapshot, assignees }: LyricBoxProps) {
             <div
               key={`${line}-${index}`}
               style={{
-                background: `linear-gradient(90deg, ${snapshot.colors[index]})`,
+                background: `linear-gradient(180deg, ${snapshot.colors[index]})`,
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
+                fontStyle: isAllOrNone ? 'italic' : 'normal',
               }}
             >
               {line}

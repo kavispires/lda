@@ -323,7 +323,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
 
     if (latestKey === key) {
       lyricsSnapshots[latestTimestamp].text.push(text);
-      lyricsSnapshots[latestTimestamp].colors.push();
+      lyricsSnapshots[latestTimestamp].colors.push(colors);
       return;
     }
 
