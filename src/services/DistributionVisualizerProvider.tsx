@@ -276,6 +276,7 @@ export type LyricSnapshot = {
   text: string[];
   assigneesIds: UID[];
   colors: string[];
+  startTimes: number[];
 };
 
 const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
@@ -293,7 +294,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       return;
     }
 
-    const { startTime, text } = distributor.getLineSummary(line.id, song);
+    const { startTime, text, section } = distributor.getLineSummary(line.id, song);
     const timestamp = Math.floor(startTime / RATE);
 
     const assigneesIds = removeDuplicates(line.partsIds.map((partId) => distribution.mapping[partId]).flat());
@@ -311,6 +312,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
         text: [text],
         assigneesIds: assigneesIds,
         colors: [colors],
+        startTimes: [startTime / RATE],
       };
       return;
     }
@@ -319,12 +321,18 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       console.warn('Duplicate timestamp', timestamp);
     }
 
-    const key = sortBy(assigneesIds).join('::');
+    const key = `${sortBy(assigneesIds).join('::')}+${section.id}`;
 
     if (latestKey === key) {
       lyricsSnapshots[latestTimestamp].text.push(text);
       lyricsSnapshots[latestTimestamp].colors.push(colors);
+      lyricsSnapshots[latestTimestamp].startTimes.push(startTime / RATE);
       return;
+    }
+
+    if (latestKey !== key) {
+      // console.log(lyricsSnapshots[latestTimestamp]);
+      // TODO: Split long sections
     }
 
     latestKey = key;
@@ -334,11 +342,9 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       text: [text],
       assigneesIds: assigneesIds,
       colors: [colors],
+      startTimes: [startTime / RATE],
     };
   });
-
-  // console.log(lyricsSnapshots);
-  // console.log(adlibsSnapshots);
 
   return {
     adlibsSnapshots,

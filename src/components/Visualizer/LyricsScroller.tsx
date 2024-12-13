@@ -68,7 +68,7 @@ export function LyricsScroller({
             )}
             ref={(el) => (lyricsRef.current[Number(key)] = el)}
           >
-            <LyricBox snapshot={snapshot} assignees={assignees} />
+            <LyricBox snapshot={snapshot} assignees={assignees} timestamp={timestamp} />
           </div>
         );
       })}

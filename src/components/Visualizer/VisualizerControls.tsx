@@ -9,6 +9,7 @@ import { Button } from 'antd';
 import clsx from 'clsx';
 import { useVideoControls } from 'hooks/useVideoControls';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useKeyPressEvent } from 'react-use';
 
 type VisualizerControlsProps = {
   isVisible: boolean;
@@ -21,6 +22,10 @@ export function VisualizerControls({ videoControls, isVisible, songId }: Visuali
   const { isPlaying, pauseVideo, playVideo, seekToStart, seekToEnd, onRestart } = videoControls;
   const navigate = useNavigate();
   const { distributionId } = useParams();
+
+  useKeyPressEvent(' ', () => {
+    isPlaying ? pauseVideo() : playVideo();
+  });
 
   return (
     <div className={clsx('visualizer-controls', isVisible && 'visualizer-controls--visible')}>

@@ -6,9 +6,10 @@ import { ALL_ID, NONE_ID } from 'utils/constants';
 type LyricBoxProps = {
   snapshot: LyricSnapshot;
   assignees: Distribution['assignees'];
+  timestamp: number;
 };
 
-export function LyricBox({ snapshot, assignees }: LyricBoxProps) {
+export function LyricBox({ snapshot, assignees, timestamp }: LyricBoxProps) {
   const isAllOrNone =
     snapshot.assigneesIds.length === 1 && [ALL_ID, NONE_ID].includes(snapshot.assigneesIds[0]);
 
@@ -61,9 +62,16 @@ export function LyricBox({ snapshot, assignees }: LyricBoxProps) {
                 backgroundClip: 'text',
                 WebkitTextFillColor: 'transparent',
                 fontStyle: isAllOrNone ? 'italic' : 'normal',
+                fontWeight: timestamp < snapshot.startTimes[index] ? 'normal' : 'bold',
               }}
             >
-              {line}
+              <span
+                style={{
+                  textDecoration: 'line-through dotter',
+                }}
+              >
+                {line}
+              </span>
             </div>
           ))}
         </div>
@@ -72,7 +80,7 @@ export function LyricBox({ snapshot, assignees }: LyricBoxProps) {
   );
 }
 
-export function AdlibBox({ snapshot, assignees }: LyricBoxProps) {
+export function AdlibBox({ snapshot, assignees }: Omit<LyricBoxProps, 'timestamp'>) {
   const isAllOrNone =
     snapshot.assigneesIds.length === 1 && [ALL_ID, NONE_ID].includes(snapshot.assigneesIds[0]);
 
