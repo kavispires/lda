@@ -12,9 +12,11 @@ type SongEditContextType = {
   selectionIdModel: ReturnType<typeof useSelectionIdModel>;
   song: Song;
   setSong: React.Dispatch<React.SetStateAction<Song | null>>;
+  updateSong: (updatedSong: Partial<Song>) => void;
   saveSong: () => void;
   isSaving: boolean;
   isReady: boolean;
+  isDirty: boolean;
 };
 
 const SongEditContext = createContext<SongEditContextType | undefined>(undefined);
@@ -27,8 +29,21 @@ export const SongEditProvider = ({ children }: PropsWithChildren) => {
   // Song Data
   const songQuery = useSongQuery(songId ?? '');
   const { mutate, isPending: isSaving } = useSongMutation();
-
+  const [isDirty, setIsDirty] = useState(false);
   const [song, setSong] = useState<Song | null>(null);
+
+  const onSetSong: React.Dispatch<React.SetStateAction<Song | null>> = (updatedSong) => {
+    setSong(updatedSong);
+    setIsDirty(true);
+  };
+
+  const onUpdateSong = (updatedSong: Partial<Song>) => {
+    setSong((prevSong) => {
+      if (!prevSong) return null;
+      return { ...prevSong, ...updatedSong };
+    });
+    setIsDirty(true);
+  };
 
   useEffect(() => {
     if (songQuery.isSuccess) {
@@ -60,11 +75,21 @@ export const SongEditProvider = ({ children }: PropsWithChildren) => {
     return <ContentLoading>Building local song instance</ContentLoading>;
   }
 
-  const saveSong = () => mutate(song);
+  const saveSong = () => mutate(song, { onSuccess: () => setIsDirty(false) });
 
   return (
     <SongEditContext.Provider
-      value={{ stepper, song, isReady, setSong, saveSong, isSaving, selectionIdModel }}
+      value={{
+        stepper,
+        song,
+        isReady,
+        isDirty,
+        setSong: onSetSong,
+        updateSong: onUpdateSong,
+        saveSong,
+        isSaving,
+        selectionIdModel,
+      }}
     >
       {children}
     </SongEditContext.Provider>

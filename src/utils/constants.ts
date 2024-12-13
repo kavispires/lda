@@ -69,6 +69,11 @@ export const ASSIGNEES: Dictionary<{ label: string; value: string; color: string
     value: 'X',
     color: '#dee0e7',
   },
+  NULL: {
+    label: 'UNASSIGNED',
+    value: 'X',
+    color: '#dee0e7',
+  },
 };
 
 export const LINE_SKILL = {
@@ -96,3 +101,5 @@ export const SECTION_KINDS = {
   SPECIAL: 'SPECIAL',
   UNKNOWN: 'UNKNOWN',
 };
+
+export const DURATION_FORMAT = 'mm:ss';

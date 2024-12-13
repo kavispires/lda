@@ -26,6 +26,7 @@ function EditSongContent() {
     isSaving,
     saveSong,
     isReady,
+    isDirty,
   } = useSongEditContext();
   const [ref, { width }] = useMeasure<HTMLElement>();
 
@@ -49,7 +50,7 @@ function EditSongContent() {
             {isReady ? <Tag color="success">Ready</Tag> : <Tag color="error">Not Ready</Tag>}
           </Tooltip>
         </div>
-        <Button size="large" type="primary" loading={isSaving} onClick={saveSong}>
+        <Button size="large" type="primary" loading={isSaving} onClick={saveSong} disabled={!isDirty}>
           Save
         </Button>
       </Space>

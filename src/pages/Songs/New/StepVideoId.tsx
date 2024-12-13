@@ -4,8 +4,7 @@ import { useState } from 'react';
 import YouTube from 'react-youtube';
 
 import { NewSong } from '../NewSongPage';
-
-const DURATION_FORMAT = 'mm:ss';
+import { DURATION_FORMAT } from 'utils/constants';
 
 type StepVideoIdProps = {
   newSong: NewSong;
