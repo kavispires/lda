@@ -307,9 +307,11 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       .join(', ');
 
     if (line.adlib) {
+      const cleanedText = text.replace(/^\(|\)$/g, '');
+
       adlibsSnapshots[timestamp] = {
         id: line.id,
-        text: [text],
+        text: [cleanedText],
         assigneesIds: assigneesIds,
         colors: [colors],
         startTimes: [startTime / RATE],
@@ -321,18 +323,13 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       console.warn('Duplicate timestamp', timestamp);
     }
 
-    const key = `${sortBy(assigneesIds).join('::')}+${section.id}`;
+    const key = `${sortBy(assigneesIds.filter((v) => v !== 'ALL')).join('::')}+${section.id}`;
 
     if (latestKey === key) {
       lyricsSnapshots[latestTimestamp].text.push(text);
       lyricsSnapshots[latestTimestamp].colors.push(colors);
       lyricsSnapshots[latestTimestamp].startTimes.push(startTime / RATE);
       return;
-    }
-
-    if (latestKey !== key) {
-      // console.log(lyricsSnapshots[latestTimestamp]);
-      // TODO: Split long sections
     }
 
     latestKey = key;
@@ -344,6 +341,35 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       colors: [colors],
       startTimes: [startTime / RATE],
     };
+  });
+
+  // For every lyric snapshot with text length of 8, 10, 12, split it in half
+  Object.keys(lyricsSnapshots).forEach((timestamp) => {
+    const snapshot = lyricsSnapshots[timestamp];
+    const textLength = snapshot.text.length;
+
+    if ([6, 10, 12].includes(textLength)) {
+      const half = Math.floor(textLength / 2);
+
+      const firstHalfSnapshot = {
+        id: snapshot.id,
+        text: snapshot.text.slice(0, half),
+        assigneesIds: snapshot.assigneesIds,
+        colors: snapshot.colors.slice(0, half),
+        startTimes: snapshot.startTimes.slice(0, half),
+      };
+
+      const secondHalfSnapshot = {
+        id: snapshot.id,
+        text: snapshot.text.slice(half),
+        assigneesIds: snapshot.assigneesIds,
+        colors: snapshot.colors.slice(half),
+        startTimes: snapshot.startTimes.slice(half),
+      };
+
+      lyricsSnapshots[timestamp] = firstHalfSnapshot;
+      lyricsSnapshots[Math.floor(secondHalfSnapshot.startTimes[0])] = secondHalfSnapshot;
+    }
   });
 
   return {
