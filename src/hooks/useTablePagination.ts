@@ -1,5 +1,6 @@
 import { TableProps } from 'antd';
 import { useQueryParams } from './useQueryParams';
+import { usePrevious } from 'react-use';
 
 /**
  * Options for configuring table pagination.
@@ -34,6 +35,10 @@ type UseTablePaginationOptions = {
    * Whether to show the quick jumper input.
    */
   showQuickJumper?: boolean;
+  /**
+   * The value that triggers the reset of the pagination.
+   */
+  resetter?: string;
 };
 
 export function useTablePagination({
@@ -43,10 +48,12 @@ export function useTablePagination({
   pageSizeOptions = [10, 20, 50, 100],
   total,
   showQuickJumper,
+  resetter,
 }: UseTablePaginationOptions): TableProps['pagination'] {
   const { queryParams, addParam } = useQueryParams();
   const currentPage = Number(queryParams.get(`${prefix}page`) ?? String(defaultCurrent));
   const pageSize = Number(queryParams.get(`${prefix}pageSize`) ?? String(defaultPageSize));
+  const previous = usePrevious(resetter);
 
   const onChange = (page: number) => {
     addParam(`${prefix}page`, page.toString(), String(defaultCurrent));
@@ -54,6 +61,10 @@ export function useTablePagination({
   const onShowSizeChange = (_: number, size: number) => {
     addParam(`${prefix}pageSize`, size.toString(), String(defaultPageSize));
   };
+
+  if (resetter !== previous) {
+    onChange(defaultCurrent);
+  }
 
   return {
     current: currentPage,
