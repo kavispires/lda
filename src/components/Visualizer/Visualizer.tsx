@@ -2,13 +2,17 @@ import clsx from 'clsx';
 import { RATE, useDistributionVisualizerContext } from 'services/DistributionVisualizerProvider';
 import './Visualizer.scss';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
-import { VideoControls } from 'components/Video/VideoControls';
 import { BarsBox } from './BarsBox';
 import { LyricsScroller } from './LyricsScroller';
 import { AdlibsScroller } from './AdlibsScroller';
 import { UpNext } from './UpNext';
+import { SeekBar } from './SeekBar';
+import { VisualizerControls } from './VisualizerControls';
+import { useToggle } from 'react-use';
 
 export function Visualizer() {
+  const [areControlsVisible, setControlsVisible] = useToggle(false);
+
   const {
     song,
     fullScreenMode,
@@ -39,9 +43,15 @@ export function Visualizer() {
   const timestamp = Math.floor(videoControls.currentTime / RATE);
 
   return (
-    <div className={clsx('visualizer', fullScreenMode && 'visualizer--fullscreen')}>
+    <div
+      className={clsx('visualizer', fullScreenMode && 'visualizer--fullscreen')}
+      onMouseEnter={() => setControlsVisible(true)}
+      onMouseLeave={() => setControlsVisible(false)}
+      key={videoControls.refreshKey}
+    >
+      <VisualizerControls isVisible={areControlsVisible} videoControls={videoControls} songId={song.id} />
       <div className="visualizer__stats">
-        <VideoControls videoControls={videoControls} className="visualizer__controls" />
+        <SeekBar videoControls={videoControls} className="visualizer__seek-bar" />
         <div className="visualizer__metadata">
           <div className="visualizer__title">
             <h3>{song.title}</h3>

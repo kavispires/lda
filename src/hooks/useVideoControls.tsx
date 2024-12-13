@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { YouTubeEvent } from 'react-youtube';
+import { wait } from 'utils';
 
 type UseVideoControlsOptions = {
   /**
@@ -27,6 +28,7 @@ export function useVideoControls(
   const startAt = options.startAt || 0;
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   useEffect(() => {
     if (!duration) {
@@ -78,6 +80,14 @@ export function useVideoControls(
     }
   };
 
+  const onRestart = async () => {
+    pauseVideo();
+    seekToStart();
+    setRefreshKey(Date.now());
+    await wait(1000);
+    playVideo();
+  };
+
   useEffect(() => {
     if (duration && currentTime >= duration) {
       setPlaying(false);
@@ -102,5 +112,7 @@ export function useVideoControls(
     endAt: options.endAt || duration || 0,
     seekToStart,
     seekToEnd,
+    onRestart,
+    refreshKey,
   };
 }
