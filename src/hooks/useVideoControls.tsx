@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
+import { useEffectOnce } from 'react-use';
 import { YouTubeEvent } from 'react-youtube';
 import { wait } from 'utils';
 
@@ -30,13 +32,13 @@ export function useVideoControls(
   const [currentTime, setCurrentTime] = useState(0);
   const [refreshKey, setRefreshKey] = useState(0);
 
-  useEffect(() => {
+  useEffectOnce(() => {
     if (!duration) {
       playerRef?.current?.internalPlayer.getDuration().then((d: number) => {
         setDuration(options.endAt || d * 1000);
       });
     }
-  }, []);
+  });
 
   const playVideo = () => {
     if (currentTime < startAt) {
@@ -81,11 +83,21 @@ export function useVideoControls(
   };
 
   const onRestart = async () => {
-    pauseVideo();
-    seekToStart();
-    setRefreshKey(Date.now());
-    await wait(1000);
+    flushSync(() => {
+      pauseVideo();
+      seekToStart();
+      playVideo();
+    });
+
+    await wait(500);
+    flushSync(() => pauseVideo());
+
+    flushSync(() => setRefreshKey(Date.now()));
+
+    await wait(3000);
+
     playVideo();
+    setRefreshKey(Date.now());
   };
 
   useEffect(() => {
