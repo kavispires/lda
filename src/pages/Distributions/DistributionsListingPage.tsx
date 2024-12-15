@@ -1,17 +1,18 @@
-// import './GroupsListingPage.scss';
-
-import { Button, Space, Table, Typography } from 'antd';
+import { ArrowRightOutlined, DeleteFilled } from '@ant-design/icons';
+import { Button, Popconfirm, Space, Table, Typography } from 'antd';
 import { Content, ContentError, ContentLoading } from 'components/Content';
 import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
+import { useDeleteDistributionMutation } from 'hooks/useDistribution';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useTablePagination } from 'hooks/useTablePagination';
-import { useNavigate } from 'react-router-dom';
-import { ListingEntry } from 'types';
+import { Link, useNavigate } from 'react-router-dom';
+import { ListingEntry, UID } from 'types';
 
 const ALL_GROUPS = 'All Groups';
 
 export function DistributionsListingPage() {
   const distributionsQuery = useListingQuery('distributions');
+  const deleteDistributionMutation = useDeleteDistributionMutation();
   const navigate = useNavigate();
 
   const { options, activeValue, activeList } = useListingSelect(distributionsQuery.data, 'group', ALL_GROUPS);
@@ -31,6 +32,11 @@ export function DistributionsListingPage() {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
+      render: (name: string, record: ListingEntry) => (
+        <Link to={`/distributions/${record.id}`}>
+          {name} <ArrowRightOutlined />
+        </Link>
+      ),
     },
     {
       title: 'Type',
@@ -45,8 +51,8 @@ export function DistributionsListingPage() {
           <Button type="default" onClick={() => navigate(`/distributions/${record.id}/edit`)}>
             Edit
           </Button>
-          <Button type="primary" onClick={() => navigate(`/distributions/${record.id}`)}>
-            View
+          <Button type="primary" disabled>
+            Position
           </Button>
         </Space>
       ),
@@ -55,6 +61,20 @@ export function DistributionsListingPage() {
       title: 'id',
       dataIndex: 'id',
       'key:': 'id',
+    },
+    {
+      title: 'More',
+      dataIndex: 'id',
+      render: (distributionId: UID) => (
+        <Space size="middle">
+          <Popconfirm
+            title="Are you sure you want to delete this distribution?"
+            onConfirm={() => deleteDistributionMutation.mutate(distributionId)}
+          >
+            <Button icon={<DeleteFilled />} loading={deleteDistributionMutation.isPending} danger />
+          </Popconfirm>
+        </Space>
+      ),
     },
   ];
 

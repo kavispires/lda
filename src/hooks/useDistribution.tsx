@@ -1,7 +1,8 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
-import { getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
-import { FirestoreDistribution, Distribution } from 'types';
+import { deleteField } from 'firebase/firestore';
+import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
+import { FirestoreDistribution, Distribution, UID } from 'types';
 
 /**
  * Deserializes a FirestoreDistribution object into a Distribution object.
@@ -57,6 +58,38 @@ export function useDistributionMutation() {
       notification.success({
         message: 'Success',
         description: 'Distribution updated successfully',
+      });
+    },
+    onError(error) {
+      notification.error({
+        message: 'Error',
+        description: error.message,
+      });
+    },
+  });
+}
+
+export function useDeleteDistributionMutation() {
+  const { notification } = App.useApp();
+  const queryClient = useQueryClient();
+
+  return useMutation<boolean, Error, UID>({
+    mutationFn: async (distributionId) => {
+      // Delete distribution itself
+      await deleteDocQueryFunction('distributions', distributionId);
+
+      // Update listing
+      await updateDocQueryFunction('listings', 'distributions', { [distributionId]: deleteField() });
+
+      return true;
+    },
+    onSuccess() {
+      notification.success({
+        message: 'Success',
+        description: 'Distribution deleted successfully',
+      });
+      queryClient.refetchQueries({
+        queryKey: ['listings', 'distributions'],
       });
     },
     onError(error) {

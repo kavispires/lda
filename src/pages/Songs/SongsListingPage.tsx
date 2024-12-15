@@ -66,7 +66,7 @@ export function SongsListingPage() {
             title="Are you sure you want to delete this song?"
             onConfirm={() => deleteSongMutation.mutate(songId)}
           >
-            <Button icon={<DeleteFilled />} loading={deleteSongMutation.isPending} />
+            <Button icon={<DeleteFilled />} loading={deleteSongMutation.isPending} danger />
           </Popconfirm>
         </Space>
       ),

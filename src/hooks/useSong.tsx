@@ -118,11 +118,11 @@ export function useDeleteSongMutation() {
 
   return useMutation<boolean, Error, UID>({
     mutationFn: async (songId) => {
-      // Update listing
-      await updateDocQueryFunction('listings', 'songs', { [songId]: deleteField() });
-
       // Delete song itself
       await deleteDocQueryFunction('songs', songId);
+
+      // Update listing
+      await updateDocQueryFunction('listings', 'songs', { [songId]: deleteField() });
 
       return true;
     },
