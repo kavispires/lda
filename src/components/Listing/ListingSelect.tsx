@@ -1,0 +1,64 @@
+import { Select } from 'antd';
+import { DefaultOptionType } from 'antd/es/select';
+import { useListingQuery } from 'hooks/useListingQuery';
+import { useQueryParams } from 'hooks/useQueryParams';
+import { useMemo } from 'react';
+
+type ListingSelectProps = {
+  options: DefaultOptionType[];
+  paramKey: string;
+  allKey: string;
+  className?: string;
+};
+
+export function ListingSelect({ options, paramKey, allKey, className }: ListingSelectProps) {
+  const { queryParams, addParam } = useQueryParams();
+
+  return (
+    <Select
+      options={options}
+      onChange={(value) => addParam(paramKey, value)}
+      value={queryParams.get(paramKey) ?? allKey}
+      style={{ minWidth: 200 }}
+      className={className ?? 'mb-2'}
+    />
+  );
+}
+
+export const useListingSelect = (
+  listingData: ReturnType<typeof useListingQuery>['data'],
+  paramKey: string,
+  allKey: string
+) => {
+  const { queryParams } = useQueryParams();
+
+  const list = useMemo(() => listingData?.list ?? [], [listingData]);
+
+  const options = useMemo(() => {
+    const optionsArr = list.reduce(
+      (acc: any[], listingEntry) => {
+        const [groupName] = listingEntry.name.split(' - ');
+        return acc.includes(groupName) ? acc : [...acc, groupName];
+      },
+      [allKey]
+    );
+    return optionsArr.map((option) => ({ label: option, value: option }));
+  }, [list, allKey]);
+
+  const activeValue = queryParams.get(paramKey) ?? allKey;
+
+  const activeList = useMemo(() => {
+    if (activeValue === allKey) {
+      return list;
+    }
+
+    return list.filter((listingEntry) => listingEntry.name.startsWith(activeValue));
+  }, [list, activeValue, allKey]);
+
+  return {
+    list,
+    options,
+    activeValue,
+    activeList,
+  };
+};

@@ -1,17 +1,23 @@
 import { DeleteFilled } from '@ant-design/icons';
 import { Button, Popconfirm, Space, Table, Typography } from 'antd';
 import { Content, ContentError, ContentLoading } from 'components/Content';
+import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useDeleteSongMutation } from 'hooks/useSong';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { useNavigate } from 'react-router-dom';
 import { ListingEntry, UID } from 'types';
 
+const ALL_SONGS = 'All Songs';
+
 export function SongsListingPage() {
   const songsQuery = useListingQuery('songs');
   const deleteSongMutation = useDeleteSongMutation();
   const navigate = useNavigate();
-  const paginationProps = useTablePagination({ total: songsQuery.data?.list?.length ?? 0 });
+
+  const { options, activeValue, activeList } = useListingSelect(songsQuery.data, 'group', ALL_SONGS);
+
+  const paginationProps = useTablePagination({ total: activeList.length, resetter: activeValue });
 
   if (songsQuery.isLoading) {
     return <ContentLoading />;
@@ -70,8 +76,9 @@ export function SongsListingPage() {
   return (
     <Content>
       <Typography.Title level={2}>Songs</Typography.Title>
+      <ListingSelect options={options} paramKey="group" allKey={ALL_SONGS} className="mb-2" />
       <Table
-        dataSource={songsQuery.data?.list}
+        dataSource={activeList}
         columns={columns}
         rowKey="id"
         pagination={paginationProps}

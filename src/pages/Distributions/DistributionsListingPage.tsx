@@ -1,11 +1,10 @@
 // import './GroupsListingPage.scss';
 
-import { Button, Select, Space, Table, Typography } from 'antd';
+import { Button, Space, Table, Typography } from 'antd';
 import { Content, ContentError, ContentLoading } from 'components/Content';
+import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
 import { useListingQuery } from 'hooks/useListingQuery';
-import { useQueryParams } from 'hooks/useQueryParams';
 import { useTablePagination } from 'hooks/useTablePagination';
-import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ListingEntry } from 'types';
 
@@ -14,31 +13,10 @@ const ALL_GROUPS = 'All Groups';
 export function DistributionsListingPage() {
   const distributionsQuery = useListingQuery('distributions');
   const navigate = useNavigate();
-  const { queryParams, addParam } = useQueryParams();
-  const list = useMemo(() => distributionsQuery.data?.list ?? [], [distributionsQuery.data]);
 
-  const groupsSelectOptions = useMemo(() => {
-    const optionsArr = list.reduce(
-      (acc: any[], listingEntry) => {
-        const [groupName] = listingEntry.name.split(' - ');
-        return acc.includes(groupName) ? acc : [...acc, groupName];
-      },
-      [ALL_GROUPS]
-    );
-    return optionsArr.map((option) => ({ label: option, value: option }));
-  }, [list]);
+  const { options, activeValue, activeList } = useListingSelect(distributionsQuery.data, 'group', ALL_GROUPS);
 
-  const activeGroup = queryParams.get('group') ?? ALL_GROUPS;
-
-  const currentList = useMemo(() => {
-    if (activeGroup === ALL_GROUPS) {
-      return list;
-    }
-
-    return list.filter((listingEntry) => listingEntry.name.startsWith(activeGroup));
-  }, [list, activeGroup]);
-
-  const paginationProps = useTablePagination({ total: currentList?.length ?? 0, resetter: activeGroup });
+  const paginationProps = useTablePagination({ total: activeList.length, resetter: activeValue });
 
   if (distributionsQuery.isLoading) {
     return <ContentLoading />;
@@ -83,15 +61,9 @@ export function DistributionsListingPage() {
   return (
     <Content>
       <Typography.Title level={2}>Distributions</Typography.Title>
-      <Select
-        options={groupsSelectOptions}
-        onChange={(value) => addParam('group', value)}
-        value={activeGroup}
-        style={{ minWidth: 200 }}
-        className="mb-2"
-      />
+      <ListingSelect options={options} paramKey="group" allKey={ALL_GROUPS} className="mb-2" />
       <Table
-        dataSource={currentList}
+        dataSource={activeList}
         columns={columns}
         rowKey="id"
         pagination={paginationProps}
