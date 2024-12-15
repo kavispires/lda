@@ -1,8 +1,9 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
+import { deleteField } from 'firebase/firestore';
 import { cloneDeep, orderBy } from 'lodash';
-import { getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
-import { FirestoreSong, Song } from 'types';
+import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
+import { FirestoreSong, Song, UID } from 'types';
 import { distributor } from 'utils';
 
 /**
@@ -100,6 +101,38 @@ export function useSongMutation() {
       notification.success({
         message: 'Success',
         description: 'Song updated successfully',
+      });
+    },
+    onError(error) {
+      notification.error({
+        message: 'Error',
+        description: error.message,
+      });
+    },
+  });
+}
+
+export function useDeleteSongMutation() {
+  const { notification } = App.useApp();
+  const queryClient = useQueryClient();
+
+  return useMutation<boolean, Error, UID>({
+    mutationFn: async (songId) => {
+      // Update listing
+      await updateDocQueryFunction('listings', 'songs', { [songId]: deleteField() });
+
+      // Delete song itself
+      await deleteDocQueryFunction('songs', songId);
+
+      return true;
+    },
+    onSuccess() {
+      notification.success({
+        message: 'Success',
+        description: 'Song deleted successfully',
+      });
+      queryClient.refetchQueries({
+        queryKey: ['listings', 'songs'],
       });
     },
     onError(error) {

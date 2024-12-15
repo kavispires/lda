@@ -10,17 +10,17 @@ interface BaseData {
   name: string;
 }
 
-type ListingResult<TData = any> = {
+type ListingResult<TData = unknown> = {
   data: Dictionary<ListingEntry<TData>>;
   list: ListingEntry<TData>[];
   typeahead: TypeaheadEntry[];
 };
 
-export function useListingQuery(listingType: string) {
-  return useQuery<Dictionary<ListingEntry>, Error, ListingResult>({
+export function useListingQuery<TData = unknown>(listingType: string) {
+  return useQuery<Dictionary<ListingEntry<TData>>, Error, ListingResult<TData>>({
     queryKey: ['listings', listingType],
     queryFn: async () => {
-      return await getDocQueryFunction<Dictionary<ListingEntry>>('listings', listingType);
+      return await getDocQueryFunction<Dictionary<ListingEntry<TData>>>('listings', listingType);
     },
     placeholderData: {},
     select: (response) => {

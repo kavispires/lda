@@ -1,6 +1,15 @@
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import { getFirestore, Firestore, setDoc, collection, updateDoc, doc, getDoc } from 'firebase/firestore';
+import {
+  getFirestore,
+  Firestore,
+  setDoc,
+  collection,
+  updateDoc,
+  doc,
+  getDoc,
+  deleteDoc,
+} from 'firebase/firestore';
 import {
   Auth,
   createUserWithEmailAndPassword,
@@ -104,4 +113,16 @@ export async function updateDocQueryFunction<TData>(path: string, docId: string,
   console.log(`%cUpdating ${path}/${docId} on firestore`, 'color: #f0f');
   const docRef = doc(firestore, path, docId);
   return updateDoc(docRef, data as any); // TODO: Fix this any
+}
+
+/**
+ * Deletes a document from Firestore at the specified path and document ID.
+ * @param path - The path to the collection containing the document.
+ * @param docId - The ID of the document to delete.
+ * @returns A promise that resolves when the document is successfully deleted.
+ */
+export async function deleteDocQueryFunction(path: string, docId: string) {
+  console.log(`%cDeleting doc ${path}/${docId} on firestore`, 'color: #f00');
+  const docRef = doc(firestore, path, docId);
+  return deleteDoc(docRef);
 }
