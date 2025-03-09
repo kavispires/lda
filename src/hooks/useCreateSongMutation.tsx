@@ -1,6 +1,6 @@
 import { App } from 'antd';
 import { createDoc } from 'services/firebase';
-import { FirestoreSong, Song } from 'types';
+import type { FirestoreSong, Song } from 'types';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 

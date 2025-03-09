@@ -1,6 +1,5 @@
-import clsx from 'clsx';
 import { useEffect, useMemo, useState } from 'react';
-import { Dictionary } from 'types';
+import type { Dictionary } from 'types';
 import { removeDuplicates } from 'utils';
 
 type UpNextProps = {
@@ -30,7 +29,7 @@ export function UpNext({ upNextSnapshots, timestamp }: UpNextProps) {
 
   const names = useMemo(
     () => removeDuplicates(Object.keys(activeSnapshots).map((key) => upNextSnapshots[key])).join(', '),
-    [activeSnapshots, upNextSnapshots]
+    [activeSnapshots, upNextSnapshots],
   );
 
   return (

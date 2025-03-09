@@ -4,9 +4,9 @@ import { useListingDataQuery } from 'hooks/useListingQuery';
 import { useSongQuery } from 'hooks/useSong';
 import { useVideoControls } from 'hooks/useVideoControls';
 import { isEmpty } from 'lodash';
-import { createContext, PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Dictionary, Distribution, FUID, Group, Song, UID } from 'types';
+import type { Dictionary, Distribution, FUID, Group, Song, UID } from 'types';
 import { distributor, removeDuplicates } from 'utils';
 import { ALL_ID, NONE_ID } from 'utils/constants';
 

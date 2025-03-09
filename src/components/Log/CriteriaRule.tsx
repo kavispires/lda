@@ -1,6 +1,6 @@
 import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type CriteriaRuleProps = {
   label: ReactNode;

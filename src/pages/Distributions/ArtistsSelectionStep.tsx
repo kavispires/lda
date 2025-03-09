@@ -1,7 +1,7 @@
 import { Button, Divider, Space, Typography } from 'antd';
 import { ContentLoading } from 'components/Content';
 import { useListingDataQuery } from 'hooks/useListingQuery';
-import { Artist, Group } from 'types';
+import type { Artist, Group } from 'types';
 
 type ArtistsSelectionStepProps = {
   selectedArtists: Artist[];
@@ -41,7 +41,7 @@ export function ArtistsSelectionStep({
 
     if (isSelected) {
       setSelectedArtists((prev) =>
-        prev.filter((artist) => !Object.keys(group.artistsIds).includes(artist.id))
+        prev.filter((artist) => !Object.keys(group.artistsIds).includes(artist.id)),
       );
     } else {
       setSelectedArtists((prev) => [...prev, ...Object.keys(group.artistsIds).map((id) => artists[id])]);
@@ -85,7 +85,7 @@ export function ArtistsSelectionStep({
                 key={artist.id}
                 onClick={() =>
                   setSelectedArtists((prev) =>
-                    isSelected ? prev.filter((a) => a.id !== artist.id) : [...prev, artist]
+                    isSelected ? prev.filter((a) => a.id !== artist.id) : [...prev, artist],
                   )
                 }
                 icon={isSelected ? <i className="fi fi-rr-check"></i> : <i className="fi fi-rr-user" />}

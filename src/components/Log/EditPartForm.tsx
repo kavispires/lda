@@ -13,9 +13,10 @@ import {
 } from 'antd';
 import { useLogPart } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
-import React, { useEffect, useMemo, useState } from 'react';
+import type React from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
-import { SongPart, UID } from 'types';
+import type { SongPart, UID } from 'types';
 import { distributor, getCompletionPercentage } from 'utils';
 import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
 
@@ -53,7 +54,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
 
   useEffect(() => {
     setDirty(isDirty);
-  }, [isDirty]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isDirty]);
 
   const onSave = () => {
     onUpdateSongContent(partId, tempPart);

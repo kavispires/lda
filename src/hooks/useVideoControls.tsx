@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useEffectOnce } from 'react-use';
-import { YouTubeEvent } from 'react-youtube';
+import type { YouTubeEvent } from 'react-youtube';
 import { wait } from 'utils';
 
 type UseVideoControlsOptions = {
@@ -19,7 +19,7 @@ export function useVideoControls(
   options: UseVideoControlsOptions = {
     startAt: 0,
     endAt: 0,
-  }
+  },
 ) {
   const playerRef = useRef<any>(null);
   const intervalId = useRef<any>(null);

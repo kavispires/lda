@@ -1,10 +1,10 @@
 import { Alert, Button, Checkbox } from 'antd';
 import { useLogPart } from 'hooks/useLogInstances';
-import { Song, UID } from 'types';
+import type { Song, UID } from 'types';
 
 import { ApiFilled, ApiOutlined, CheckCircleOutlined, NotificationFilled } from '@ant-design/icons';
 import { ASSIGNEES } from 'utils/constants';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 type LogPartProps = {
   /**
@@ -78,7 +78,7 @@ export function LogPart({
     <li className="log-part" style={{ background: bgColor }}>
       {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
 
-      {!!onClick ? (
+      {onClick ? (
         <Button size="small" type="text" onClick={() => onClick(id)} icon={icon}>
           {part.text}
         </Button>

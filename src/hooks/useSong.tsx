@@ -3,7 +3,7 @@ import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
 import { cloneDeep, orderBy } from 'lodash';
 import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
-import { FirestoreSong, Song, UID } from 'types';
+import type { FirestoreSong, Song, UID } from 'types';
 import { distributor } from 'utils';
 
 /**
@@ -43,10 +43,12 @@ export const serializeSong = (song: Song): FirestoreSong => {
   Object.values(copy.content).forEach((entry) => {
     if (entry.type === 'line') {
       if (entry.dismissible === false) {
-        delete entry.dismissible;
+        // TODO: Verify if it won't cagar everything
+        entry.dismissible = undefined;
       }
       if (entry.adlib === false) {
-        delete entry.adlib;
+        // TODO: Verify if it won't cagar everything
+        entry.adlib = undefined;
       }
     }
   });
@@ -59,7 +61,7 @@ export const serializeSong = (song: Song): FirestoreSong => {
       line.partsIds = orderBy(
         line.partsIds,
         [(partId) => distributor.getPart(partId, copy).startTime],
-        ['asc']
+        ['asc'],
       );
     });
     // Song lines in sections
@@ -67,14 +69,14 @@ export const serializeSong = (song: Song): FirestoreSong => {
       section.linesIds = orderBy(
         section.linesIds,
         [(lineId) => distributor.getLineStartTime(lineId, copy)],
-        ['asc']
+        ['asc'],
       );
     });
     // Sort section Ids
     copy.sectionIds = orderBy(
       copy.sectionIds,
       [(sectionId) => distributor.getSectionStartTime(sectionId, copy)],
-      ['asc']
+      ['asc'],
     );
   }
 

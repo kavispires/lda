@@ -1,5 +1,5 @@
 import { Alert, Result } from 'antd';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 export function ContentError({ children }: PropsWithChildren) {
   return (

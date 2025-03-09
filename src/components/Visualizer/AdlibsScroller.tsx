@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { useEffect, useState } from 'react';
-import { LyricSnapshot } from 'services/DistributionVisualizerProvider';
-import { Dictionary, Distribution } from 'types';
+import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
+import type { Dictionary, Distribution } from 'types';
 
 import { AdlibBox } from './LyricBox';
 
@@ -37,6 +37,8 @@ export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeigh
    *
    * @param {number} timestamp - The current timestamp used to determine active adlibs.
    */
+
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     if (adlibsSnapshots[timestamp]) {
       setActiveAdlibs((prev) => {
@@ -52,7 +54,7 @@ export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeigh
         return copy;
       });
     }
-  }, [timestamp]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [timestamp]);
 
   return (
     <div className="visualizer__adlibs" style={{ maxHeight }}>

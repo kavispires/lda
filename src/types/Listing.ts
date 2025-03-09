@@ -1,4 +1,4 @@
-import { FUID } from './common';
+import type { FUID } from './common';
 
 export type ListingEntry<TData = unknown> = {
   id: FUID;

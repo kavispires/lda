@@ -1,6 +1,6 @@
-import { Slider, SliderSingleProps } from 'antd';
+import { Slider, type SliderSingleProps } from 'antd';
 import clsx from 'clsx';
-import { useVideoControls } from 'hooks/useVideoControls';
+import type { useVideoControls } from 'hooks/useVideoControls';
 import { useKeyPressEvent } from 'react-use';
 
 type SeekBarProps = {

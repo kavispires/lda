@@ -1,10 +1,10 @@
 import { message } from 'antd';
-import { FirebaseError } from 'firebase/app';
-import { User } from 'firebase/auth';
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import type { FirebaseError } from 'firebase/app';
+import type { User } from 'firebase/auth';
+import { createContext, type PropsWithChildren, useContext, useState } from 'react';
 import { useEffectOnce } from 'react-use';
 
-import { UseMutateFunction, useMutation } from '@tanstack/react-query';
+import { type UseMutateFunction, useMutation } from '@tanstack/react-query';
 
 import { auth, signIn } from './firebase';
 

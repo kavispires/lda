@@ -5,7 +5,7 @@ import { Content, ContentError, ContentLoading } from 'components/Content';
 import { useListingDataQuery } from 'hooks/useListingQuery';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { orderBy } from 'lodash';
-import { Artist, Dictionary, Group } from 'types';
+import type { Artist, Dictionary, Group } from 'types';
 
 import { NewArtistDrawer } from './NewArtistDrawer';
 import { NewGroupDrawer } from './NewGroupDrawer';

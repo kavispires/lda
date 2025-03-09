@@ -1,4 +1,4 @@
-import { Dictionary } from 'types';
+import type { Dictionary } from 'types';
 
 export const NULL = 'NULL';
 export const DEFAULT_ASSIGNEE = 'X';

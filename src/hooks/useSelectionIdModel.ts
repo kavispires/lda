@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react';
-import { UID } from 'types';
+import type { UID } from 'types';
 import { removeDuplicates } from 'utils';
 
 export type SelectionIdModel = {
@@ -31,7 +31,7 @@ export function useSelectionIdModel(initialSelection: UID[] = []): SelectionIdMo
 
       setSelection([id]);
     },
-    [selection]
+    [selection],
   );
 
   const onSelectMany = useCallback(
@@ -46,7 +46,7 @@ export function useSelectionIdModel(initialSelection: UID[] = []): SelectionIdMo
         return;
       }
     },
-    [selection]
+    [selection],
   );
 
   const onDeselectAll = () => setSelection([]);

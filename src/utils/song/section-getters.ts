@@ -1,4 +1,4 @@
-import { Song, SongLine, SongSection } from 'types';
+import type { Song, SongLine, SongSection } from 'types';
 import { generateUniqueId } from './common';
 import { NULL, ROMAN_NUMERALS } from 'utils/constants';
 import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-getters';

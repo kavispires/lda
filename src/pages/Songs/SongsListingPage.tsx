@@ -6,7 +6,7 @@ import { useListingQuery } from 'hooks/useListingQuery';
 import { useDeleteSongMutation } from 'hooks/useSong';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { useNavigate } from 'react-router-dom';
-import { ListingEntry, UID } from 'types';
+import type { ListingEntry, UID } from 'types';
 
 const ALL_SONGS = 'All Songs';
 

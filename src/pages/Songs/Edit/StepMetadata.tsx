@@ -1,6 +1,6 @@
 import { Button, Flex, Form, Input, TimePicker, Typography } from 'antd';
 import { useSongEditContext } from 'services/SongEditProvider';
-import { Song } from 'types';
+import type { Song } from 'types';
 import { DURATION_FORMAT } from 'utils/constants';
 import dayjs from 'dayjs';
 import { useState } from 'react';

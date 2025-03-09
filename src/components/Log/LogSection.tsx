@@ -1,7 +1,7 @@
 import { Alert, Button, Checkbox } from 'antd';
 import { useLogPart, useLogSection } from 'hooks/useLogInstances';
-import { ReactNode } from 'react';
-import { Song, UID } from 'types';
+import type { ReactNode } from 'react';
+import type { Song, UID } from 'types';
 
 import {
   CheckCircleOutlined,
@@ -90,7 +90,7 @@ export function LogSection({
           />
         )}
 
-        {!!onClick ? (
+        {onClick ? (
           <Button role="button" onClick={() => onClick(id)} shape="round" icon={icon}>
             {name}
           </Button>

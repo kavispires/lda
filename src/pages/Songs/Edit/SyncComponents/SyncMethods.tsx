@@ -2,8 +2,8 @@ import { Button, Typography } from 'antd';
 import { useSongActions } from 'hooks/useSongActions';
 import { useSongEditContext } from 'services/SongEditProvider';
 
-import { RecordingTimestamp } from './KeyCapture';
-import { Dictionary, UpdateValue } from 'types';
+import type { RecordingTimestamp } from './KeyCapture';
+import type { Dictionary, UpdateValue } from 'types';
 import { DEFAULT_ASSIGNEE } from 'utils/constants';
 import { useEffect, useState } from 'react';
 import clsx from 'clsx';
@@ -38,7 +38,7 @@ export function SyncMethods({
 
     selection.forEach((partId, index) => {
       const timestamp = unassignedTimestamps[index];
-      if (timestamp && timestamp.endTime) {
+      if (timestamp?.endTime) {
         updates[`content.${partId}.startTime`] = timestamp.startTime;
         updates[`content.${partId}.endTime`] = timestamp.endTime;
         if (timestamp.assignee !== DEFAULT_ASSIGNEE) {

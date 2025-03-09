@@ -8,8 +8,8 @@ import {
 import { Alert, Button, Checkbox } from 'antd';
 import clsx from 'clsx';
 import { useLogLine } from 'hooks/useLogInstances';
-import { ReactNode } from 'react';
-import { Song, UID } from 'types';
+import type { ReactNode } from 'react';
+import type { Song, UID } from 'types';
 
 type LogLineProps = {
   /**
@@ -87,7 +87,7 @@ export function LogLine({
           {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
           {status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <MessageFilled />}
 
-          {!!onClick ? (
+          {onClick ? (
             <Button onClick={() => onClick(id)} type="text" className="log-line__line-text">
               {!!line.adlib && '> '}
               {!!line.dismissible && '* '}

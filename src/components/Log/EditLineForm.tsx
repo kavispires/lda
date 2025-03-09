@@ -1,9 +1,10 @@
 import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Rate, Select, Space, Switch } from 'antd';
 import { useLogLine } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
-import { SongLine, UID } from 'types';
+import type { SongLine, UID } from 'types';
 import { getCompletionPercentage } from 'utils';
 import { LINE_SKILL } from 'utils/constants';
 
@@ -37,9 +38,10 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
     setTempLine({ ...tempLine, ...changedValues });
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setDirty(isDirty);
-  }, [isDirty]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isDirty]);
 
   const onSave = () => {
     onUpdateSongContent(lineId, tempLine);

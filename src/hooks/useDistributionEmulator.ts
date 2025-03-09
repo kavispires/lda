@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Artist, Dictionary, Distribution, Song } from 'types';
+import type { Artist, Dictionary, Distribution, Song } from 'types';
 import { distributor } from 'utils';
 
 const SIMULATED_ASSIGNEES: Dictionary<Artist> = {
@@ -82,7 +82,7 @@ export function useDistributionEmulator(song: Song): Distribution {
     const totals: Dictionary<number> = {};
 
     const mapping = parts.reduce((acc: Distribution['mapping'], part) => {
-      let assignee = part.recommendedAssignee;
+      const assignee = part.recommendedAssignee;
 
       acc[part.id] = [assignee];
       totals[assignee] = (totals[assignee] || 0) + (part.endTime - part.startTime);

@@ -1,6 +1,6 @@
 import { App } from 'antd';
 import { createDoc } from 'services/firebase';
-import { Artist, Group } from 'types';
+import type { Artist, Group } from 'types';
 
 import { useMutation } from '@tanstack/react-query';
 

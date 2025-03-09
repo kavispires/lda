@@ -1,6 +1,6 @@
 import { ArtistAvatar } from 'components/Artist';
-import { LyricSnapshot } from 'services/DistributionVisualizerProvider';
-import { Distribution } from 'types';
+import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
+import type { Distribution } from 'types';
 import { ALL_ID, NONE_ID } from 'utils/constants';
 
 type LyricBoxProps = {

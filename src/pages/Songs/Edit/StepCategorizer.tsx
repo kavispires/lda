@@ -2,7 +2,7 @@ import { Typography } from 'antd';
 import { EditorsLog } from 'components/Log/EditorsLog';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { useVideoControls } from 'hooks/useVideoControls';
-import YouTube from 'react-youtube';
+import type YouTube from 'react-youtube';
 import { useSongEditContext } from 'services/SongEditProvider';
 
 type StepCategorizerProps = {

@@ -1,9 +1,12 @@
 import { useVideoControls } from 'hooks/useVideoControls';
-import { useVisualizerMeasurements, UseVisualizerMeasurementsResult } from 'hooks/useVisualizerMeasurements';
+import {
+  useVisualizerMeasurements,
+  type UseVisualizerMeasurementsResult,
+} from 'hooks/useVisualizerMeasurements';
 import { cloneDeep, orderBy, sortBy } from 'lodash';
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
+import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { useLocalStorage, useToggle } from 'react-use';
-import { Artist, Dictionary, Distribution, Song, UID } from 'types';
+import type { Artist, Dictionary, Distribution, Song, UID } from 'types';
 import { distributor, removeDuplicates } from 'utils';
 import { ALL_ID, NONE_ID } from 'utils/constants';
 
@@ -59,7 +62,7 @@ export const DistributionVisualizerProvider = ({
 
   const { adlibsSnapshots, lyricsSnapshots } = useMemo(
     () => buildLyricsSnapshots(distribution, song),
-    [distribution, song]
+    [distribution, song],
   );
 
   const upNextSnapshots = useMemo(() => buildUpNextSnapshots(distribution, song), [distribution, song]);
@@ -161,7 +164,7 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
       }
       return acc;
     },
-    {}
+    {},
   );
 
   const snapshotsPerUnit: Dictionary<Dictionary<AssigneeSnapshot>> = {
@@ -233,7 +236,7 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
     const sortedAssignees = orderBy(
       Object.values(snapshotsPerUnit[unit]),
       ['fullDuration'],
-      ['desc']
+      ['desc'],
     ) as AssigneeSnapshot[];
 
     sortedAssignees.forEach((assignee, index) => {
@@ -297,12 +300,12 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
     const { startTime, text, section } = distributor.getLineSummary(line.id, song);
     const timestamp = Math.floor(startTime / RATE);
 
-    const assigneesIds = removeDuplicates(line.partsIds.map((partId) => distribution.mapping[partId]).flat());
+    const assigneesIds = removeDuplicates(line.partsIds.flatMap((partId) => distribution.mapping[partId]));
     // TODO: Check if the parts have the exact same assignees
 
     const colors = assigneesIds
       .map((assigneeId) =>
-        [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color
+        [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
       )
       .join(', ');
 
@@ -393,7 +396,7 @@ const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
     const { startTime } = distributor.getLineSummary(line.id, song);
     const timestamp = Math.floor(Math.max(startTime - THRESHOLD, 0) / RATE);
 
-    const assigneesIds = removeDuplicates(line.partsIds.map((partId) => distribution.mapping[partId]).flat());
+    const assigneesIds = removeDuplicates(line.partsIds.flatMap((partId) => distribution.mapping[partId]));
     const assigneesNames = assigneesIds
       .map((assigneeId) => {
         if ([ALL_ID, NONE_ID].includes(assigneeId)) {

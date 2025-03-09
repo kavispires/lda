@@ -1,5 +1,5 @@
 import { cloneDeep, get, set } from 'lodash';
-import { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
+import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { getDifference } from 'utils/helpers';
 
 import { generateLine, getLine } from './line-getters';
@@ -113,7 +113,7 @@ export const movePart = (song: Song, partId: UID, targetLineId: UID): Song => {
   set(
     copy,
     `content.${part.lineId}.partsIds`,
-    (get(copy, `content.${part.lineId}.partsIds`) ?? []).filter((id: UID) => id !== partId)
+    (get(copy, `content.${part.lineId}.partsIds`) ?? []).filter((id: UID) => id !== partId),
   );
 
   // Connect new line
@@ -139,7 +139,7 @@ export const deletePart = (song: Song, partId: UID): Song => {
   set(
     copy,
     `content.${part.lineId}.partsIds`,
-    (get(copy, `content.${part.lineId}.partsIds`) ?? []).filter((id: UID) => id !== partId)
+    (get(copy, `content.${part.lineId}.partsIds`) ?? []).filter((id: UID) => id !== partId),
   );
 
   // Delete part
@@ -155,14 +155,14 @@ export const deleteLine = (song: Song, lineId: UID): Song => {
   const line = getLine(lineId, song);
 
   if (line.partsIds.length > 0) {
-    throw new Error(`You must delete all parts from a line before deleting the line.`);
+    throw new Error('You must delete all parts from a line before deleting the line.');
   }
   console.log('PRE', get(copy, `content.${line.sectionId}.linesIds`)?.join(', '));
   // Disconnect line from section
   set(
     copy,
     `content.${line.sectionId}.linesIds`,
-    (get(copy, `content.${line.sectionId}.linesIds`) ?? []).filter((id: UID) => id !== lineId)
+    (get(copy, `content.${line.sectionId}.linesIds`) ?? []).filter((id: UID) => id !== lineId),
   );
 
   console.log('POST', get(copy, `content.${line.sectionId}.linesIds`)?.join(', '));
@@ -188,7 +188,7 @@ export const deleteSection = (song: Song, sectionId: UID): Song => {
   const section = getSection(sectionId, song);
 
   if (section.linesIds.length > 0) {
-    throw new Error(`You must delete all lines from a section before deleting the section.`);
+    throw new Error('You must delete all lines from a section before deleting the section.');
   }
 
   // Delete lines
@@ -229,7 +229,7 @@ export const disconnectPartFromLine = (partId: UID, lineId: UID, song: Song): So
   set(
     copy,
     `content.${lineId}.partsIds`,
-    (get(copy, `content.${lineId}.partsIds`) ?? []).filter((id: UID) => id !== partId)
+    (get(copy, `content.${lineId}.partsIds`) ?? []).filter((id: UID) => id !== partId),
   );
 
   return copy;
@@ -267,7 +267,7 @@ export const disconnectLineFromSection = (lineId: UID, sectionId: UID, song: Son
   set(
     copy,
     `content.${sectionId}.linesIds`,
-    (get(copy, `content.${sectionId}.linesIds`) ?? []).filter((id: UID) => id !== lineId)
+    (get(copy, `content.${sectionId}.linesIds`) ?? []).filter((id: UID) => id !== lineId),
   );
 
   return copy;
