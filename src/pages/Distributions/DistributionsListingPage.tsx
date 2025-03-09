@@ -6,7 +6,7 @@ import { useDeleteDistributionMutation } from 'hooks/useDistribution';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { Link, useNavigate } from 'react-router-dom';
-import type { ListingEntry, UID } from 'types';
+import type { DistributionListingData, ListingEntry } from 'types';
 
 const ALL_GROUPS = 'All Groups';
 
@@ -44,6 +44,11 @@ export function DistributionsListingPage() {
       key: 'type',
     },
     {
+      title: 'Id',
+      dataIndex: 'id',
+      'key:': 'id',
+    },
+    {
       title: 'Actions',
       key: 'actions',
       render: (record: ListingEntry) => (
@@ -51,28 +56,35 @@ export function DistributionsListingPage() {
           <Button type="default" onClick={() => navigate(`/distributions/${record.id}/edit`)}>
             Edit
           </Button>
-          <Button type="primary" disabled>
-            Position
-          </Button>
+
+          <Popconfirm
+            title="Are you sure you want to delete this distribution?"
+            onConfirm={() => deleteDistributionMutation.mutate(record.id)}
+          >
+            <Button icon={<DeleteFilled />} loading={deleteDistributionMutation.isPending} danger />
+          </Popconfirm>
         </Space>
       ),
     },
     {
-      title: 'id',
-      dataIndex: 'id',
-      'key:': 'id',
-    },
-    {
-      title: 'More',
-      dataIndex: 'id',
-      render: (distributionId: UID) => (
+      title: 'Formation',
+      render: (record: ListingEntry<DistributionListingData>) => (
         <Space size="middle">
-          <Popconfirm
-            title="Are you sure you want to delete this distribution?"
-            onConfirm={() => deleteDistributionMutation.mutate(distributionId)}
-          >
-            <Button icon={<DeleteFilled />} loading={deleteDistributionMutation.isPending} danger />
-          </Popconfirm>
+          {record?.data?.formationId ? (
+            <Button
+              icon={<i className="fi fi-rr-map-marker-edit"></i>}
+              onClick={() => navigate(`/distributions/${record.id}/formation/${record?.data?.formationId}`)}
+            >
+              Edit
+            </Button>
+          ) : (
+            <Button
+              icon={<i className="fi fi-rr-marker"></i>}
+              onClick={() => navigate(`/distributions/${record.id}/formation/$draft`)}
+            >
+              Create
+            </Button>
+          )}
         </Space>
       ),
     },

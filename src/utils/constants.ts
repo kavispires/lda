@@ -103,3 +103,5 @@ export const SECTION_KINDS = {
 };
 
 export const DURATION_FORMAT = 'mm:ss';
+
+export const SEPARATOR = '::';

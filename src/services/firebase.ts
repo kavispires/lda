@@ -89,6 +89,18 @@ export async function createDoc<TData = Record<string, any>>(
   return dataWithId;
 }
 
+export async function createDocWithId<TData = Record<string, any>>(
+  collectionPath: string,
+  docId: string,
+  data: TData
+): Promise<TData & { id: string }> {
+  const docRef = doc(collection(firestore, collectionPath), docId);
+  console.log(`%cCreating a document on ${collectionPath} on firestore`, 'color: #f0f');
+  const dataWithId = { ...data, id: docRef.id };
+  await setDoc(docRef, dataWithId);
+  return dataWithId;
+}
+
 /**
  * Retrieves a document from Firestore using the specified path and document ID.
  * @param path - The path to the collection containing the document.

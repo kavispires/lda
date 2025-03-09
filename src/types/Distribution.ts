@@ -11,15 +11,15 @@ export type Distribution = {
    */
   type: 'distribution';
   /**
-   *
+   * The song id
    */
   songId: FUID;
   /**
-   *
+   * The group id
    */
   groupId: FUID;
   /**
-   *
+   * The assignees
    */
   assignees: Record<FUID, Artist>;
   /**
@@ -27,7 +27,7 @@ export type Distribution = {
    */
   mapping: Record<UID, FUID[]>;
   /**
-   *
+   * The name of the distribution
    */
   name?: string;
   /**
@@ -42,4 +42,9 @@ export type Distribution = {
 
 export type FirestoreDistribution = Omit<Distribution, 'mapping'> & {
   mapping: string;
+};
+
+export type DistributionListingData = {
+  status: 'draft' | 'active';
+  formationId?: FUID;
 };
