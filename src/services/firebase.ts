@@ -92,7 +92,7 @@ export async function createDoc<TData = Record<string, any>>(
 export async function createDocWithId<TData = Record<string, any>>(
   collectionPath: string,
   docId: string,
-  data: TData
+  data: TData,
 ): Promise<TData & { id: string }> {
   const docRef = doc(collection(firestore, collectionPath), docId);
   console.log(`%cCreating a document on ${collectionPath} on firestore`, 'color: #f0f');
