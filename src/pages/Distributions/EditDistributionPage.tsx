@@ -20,7 +20,7 @@ export function EditDistributionPage() {
   );
 }
 
-export function EditDistributionContent() {
+function EditDistributionContent() {
   const { song, group, videoControls, mappingProgress, onSave, isSaving, distribution } =
     useSongDistributionContext();
   const navigate = useNavigate();

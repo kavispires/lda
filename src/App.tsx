@@ -14,6 +14,7 @@ import { GroupsListingPage } from 'pages/Groups/GroupsListingPage';
 import { EditDistributionPage } from 'pages/Distributions/EditDistributionPage';
 import { DistributionPage } from 'pages/Distributions/DistributionPage';
 import { DistributionsListingPage } from 'pages/Distributions/DistributionsListingPage';
+import { EditFormationPage } from 'pages/Distributions/EditFormationPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +40,10 @@ function App() {
                 <Route path="/distributions/new" element={<NewDistributionPage />} />
                 <Route path="/distributions/:distributionId" element={<DistributionPage />} />
                 <Route path="/distributions/:distributionId/edit" element={<EditDistributionPage />} />
+                <Route
+                  path="/distributions/:distributionId/formation/:formationId"
+                  element={<EditFormationPage />}
+                />
                 <Route path="/distributions" element={<DistributionsListingPage />} />
 
                 <Route path="/groups" element={<GroupsListingPage />} />
