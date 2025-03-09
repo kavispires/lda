@@ -1,6 +1,6 @@
 import { Button, Drawer } from 'antd';
 import { useToggle } from 'react-use';
-import { Group } from 'types';
+import type { Group } from 'types';
 
 import { NewArtistForm } from './NewArtistForm';
 

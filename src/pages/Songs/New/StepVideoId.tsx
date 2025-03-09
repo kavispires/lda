@@ -3,7 +3,7 @@ import dayjs from 'dayjs';
 import { useState } from 'react';
 import YouTube from 'react-youtube';
 
-import { NewSong } from '../NewSongPage';
+import type { NewSong } from '../NewSongPage';
 import { DURATION_FORMAT } from 'utils/constants';
 
 type StepVideoIdProps = {
@@ -141,7 +141,7 @@ function extractYouTubeVideoId(input: string): string | null {
 
   for (const pattern of patterns) {
     const match = input.match(pattern);
-    if (match && match[1]) {
+    if (match?.[1]) {
       return match[1];
     }
   }

@@ -1,5 +1,5 @@
-import { Artist } from './Group';
-import { FUID, RecordTimestamps, UID } from './common';
+import type { Artist } from './Group';
+import type { FUID, RecordTimestamps, UID } from './common';
 
 export type Distribution = {
   /**

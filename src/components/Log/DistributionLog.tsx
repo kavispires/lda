@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Artist, Dictionary, UID } from 'types';
+import type { Artist, Dictionary, UID } from 'types';
 import { distributor } from 'utils';
 
 import { LogLine } from './LogLine';

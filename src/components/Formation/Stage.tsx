@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import type React from 'react';
+import { useState, useEffect } from 'react';
 import './Stage.scss'; // Create CSS file for styling
 import { motion, AnimatePresence } from 'framer-motion'; // For animations
 
@@ -40,12 +41,12 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
     e: MouseEvent | TouchEvent | PointerEvent,
     dancerId: string,
     gridX: number,
-    gridY: number
+    gridY: number,
   ) => {
     const updatedSnapshot = {
       ...currentSnapshot,
       dancers: currentSnapshot.dancers.map((dancer) =>
-        dancer.id === dancerId ? { ...dancer, position: { x: gridX, y: gridY } } : dancer
+        dancer.id === dancerId ? { ...dancer, position: { x: gridX, y: gridY } } : dancer,
       ),
     };
 
@@ -90,7 +91,7 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
                   </motion.div>
                 ))}
             </div>
-          ))
+          )),
         )}
       </div>
 
@@ -98,6 +99,7 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
       <div className="timeline">
         {timeline.map((snapshot, index) => (
           <button
+            type="button"
             key={snapshot.time}
             onClick={() => setCurrentSnapshotIndex(index)}
             className={index === currentSnapshotIndex ? 'active' : ''}
@@ -109,10 +111,10 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
 
       {/* Controls */}
       <div className="controls">
-        <button onClick={handlePrevious} disabled={currentSnapshotIndex === 0}>
+        <button type="button" onClick={handlePrevious} disabled={currentSnapshotIndex === 0}>
           Previous
         </button>
-        <button onClick={handleNext} disabled={currentSnapshotIndex === timeline.length - 1}>
+        <button type="button" onClick={handleNext} disabled={currentSnapshotIndex === timeline.length - 1}>
           Next
         </button>
       </div>

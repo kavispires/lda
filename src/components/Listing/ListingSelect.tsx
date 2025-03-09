@@ -1,6 +1,6 @@
 import { Select } from 'antd';
-import { DefaultOptionType } from 'antd/es/select';
-import { useListingQuery } from 'hooks/useListingQuery';
+import type { DefaultOptionType } from 'antd/es/select';
+import type { useListingQuery } from 'hooks/useListingQuery';
 import { useQueryParams } from 'hooks/useQueryParams';
 import { useMemo } from 'react';
 
@@ -28,7 +28,7 @@ export function ListingSelect({ options, paramKey, allKey, className }: ListingS
 export const useListingSelect = (
   listingData: ReturnType<typeof useListingQuery>['data'],
   paramKey: string,
-  allKey: string
+  allKey: string,
 ) => {
   const { queryParams } = useQueryParams();
 
@@ -38,9 +38,12 @@ export const useListingSelect = (
     const optionsArr = list.reduce(
       (acc: any[], listingEntry) => {
         const [groupName] = listingEntry.name.split(' - ');
-        return acc.includes(groupName) ? acc : [...acc, groupName];
+        if (!acc.includes(groupName)) {
+          acc.push(groupName);
+        }
+        return acc;
       },
-      [allKey]
+      [allKey],
     );
     return optionsArr.map((option) => ({ label: option, value: option }));
   }, [list, allKey]);

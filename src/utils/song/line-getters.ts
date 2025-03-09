@@ -1,4 +1,4 @@
-import { Song, SongLine, SongPart, SongSection } from 'types';
+import type { Song, SongLine, SongPart, SongSection } from 'types';
 import { generateUniqueId } from './common';
 import { getSection } from './section-getters';
 import { getPart } from './part-getters';

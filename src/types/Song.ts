@@ -1,4 +1,4 @@
-import { FUID, RecordTimestamps, UID } from './common';
+import type { FUID, RecordTimestamps, UID } from './common';
 
 export type Song = {
   /**

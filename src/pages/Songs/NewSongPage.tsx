@@ -3,7 +3,7 @@ import './NewSongPage.scss';
 import { Typography } from 'antd';
 import { Content } from 'components/Content';
 import { useState } from 'react';
-import { Song } from 'types';
+import type { Song } from 'types';
 
 import { NewSongStepper } from './New/NewSongStepper';
 import { StepLyrics } from './New/StepLyrics';

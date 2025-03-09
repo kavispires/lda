@@ -1,5 +1,5 @@
 import { Drawer } from 'antd';
-import { UID } from 'types';
+import type { UID } from 'types';
 import { getInstanceName } from 'utils';
 import { EditPartForm } from './EditPartForm';
 import { useState } from 'react';

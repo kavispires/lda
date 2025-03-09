@@ -1,8 +1,8 @@
 import clsx from 'clsx';
 import { orderBy } from 'lodash';
 import { useEffect, useMemo, useRef } from 'react';
-import { LyricSnapshot } from 'services/DistributionVisualizerProvider';
-import { Dictionary, Distribution } from 'types';
+import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
+import type { Dictionary, Distribution } from 'types';
 
 import { LyricBox } from './LyricBox';
 
@@ -64,9 +64,11 @@ export function LyricsScroller({
             className={clsx(
               'lyric-box-container',
               isActive && 'lyric-box-container--active',
-              isPast && 'lyric-box-container--past'
+              isPast && 'lyric-box-container--past',
             )}
-            ref={(el) => (lyricsRef.current[Number(key)] = el)}
+            ref={(el) => {
+              lyricsRef.current[Number(key)] = el;
+            }}
           >
             <LyricBox snapshot={snapshot} assignees={assignees} timestamp={timestamp} />
           </div>

@@ -4,7 +4,7 @@ import { ASSIGNEES } from 'utils/constants';
 
 import { ApiOutlined, ClearOutlined, ClockCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 
-import { RecordingTimestamp } from './KeyCapture';
+import type { RecordingTimestamp } from './KeyCapture';
 
 type TimestampsManagementProps = {
   unassignedTimestamps: RecordingTimestamp[];

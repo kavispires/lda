@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { forwardRef, ReactNode } from 'react';
+import { forwardRef, type ReactNode } from 'react';
 
 type ContentProps = {
   children: ReactNode;

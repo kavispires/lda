@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { Song } from 'types';
+import type { Song } from 'types';
 import { distributor } from 'utils';
 
 export function useLogPart(partId: string, song: Song) {

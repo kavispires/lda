@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Button } from 'antd';
 import clsx from 'clsx';
-import { useVideoControls } from 'hooks/useVideoControls';
+import type { useVideoControls } from 'hooks/useVideoControls';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useKeyPressEvent } from 'react-use';
 

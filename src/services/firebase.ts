@@ -1,8 +1,8 @@
-import { FirebaseApp, initializeApp } from 'firebase/app';
+import { type FirebaseApp, initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
 import {
   getFirestore,
-  Firestore,
+  type Firestore,
   setDoc,
   collection,
   updateDoc,
@@ -11,11 +11,11 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import {
-  Auth,
+  type Auth,
   createUserWithEmailAndPassword,
   getAuth,
   signInWithEmailAndPassword,
-  UserCredential,
+  type UserCredential,
 } from 'firebase/auth';
 
 const buildKey = () => {
@@ -68,7 +68,7 @@ export function signIn(email: string, password: string): Promise<UserCredential>
  * Sign out current user
  * @returns - a promise that resolves when the user is signed out
  */
-export async function signOut(callback?: Function): Promise<void> {
+export async function signOut(callback?: () => void): Promise<void> {
   return auth.signOut().then(() => callback?.());
 }
 
@@ -80,7 +80,7 @@ export async function signOut(callback?: Function): Promise<void> {
  */
 export async function createDoc<TData = Record<string, any>>(
   collectionPath: string,
-  data: TData
+  data: TData,
 ): Promise<TData & { id: string }> {
   const docRef = doc(collection(firestore, collectionPath));
   console.log(`%cCreating a document on ${collectionPath} on firestore`, 'color: #f0f');
@@ -92,7 +92,7 @@ export async function createDoc<TData = Record<string, any>>(
 export async function createDocWithId<TData = Record<string, any>>(
   collectionPath: string,
   docId: string,
-  data: TData
+  data: TData,
 ): Promise<TData & { id: string }> {
   const docRef = doc(collection(firestore, collectionPath), docId);
   console.log(`%cCreating a document on ${collectionPath} on firestore`, 'color: #f0f');

@@ -2,7 +2,7 @@ import './ArtistBar.scss';
 
 import clsx from 'clsx';
 import { forwardRef } from 'react';
-import { Artist } from 'types';
+import type { Artist } from 'types';
 
 import { ArtistAvatar } from './ArtistAvatar';
 import { PushpinFilled } from '@ant-design/icons';
@@ -39,7 +39,7 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
           active && 'bar--active',
           idle && 'bar--idle',
           fixed && 'bar--fixed',
-          className
+          className,
         )}
         {...props}
       >
@@ -76,5 +76,5 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
         <pre className="bar__timestamp">{value}</pre>
       </div>
     );
-  }
+  },
 );

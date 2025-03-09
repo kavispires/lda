@@ -1,4 +1,4 @@
-import { TableProps } from 'antd';
+import type { TableProps } from 'antd';
 import { useQueryParams } from './useQueryParams';
 import { usePrevious } from 'react-use';
 

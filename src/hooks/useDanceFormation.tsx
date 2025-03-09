@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { createDocWithId, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
-import { FirestoreFormation, Formation } from 'types';
+import type { FirestoreFormation, Formation } from 'types';
 
 /**
  * Deserializes a FirestoreFormation object into a Formation object.
@@ -58,7 +58,7 @@ export function useFormationMutation() {
         const dataWithId = await createDocWithId(
           'formations',
           serializedFormation.id,
-          serializeFormation(data)
+          serializeFormation(data),
         );
         queryClient.setQueryData(['formations', serializedFormation.id], serializedFormation);
         return dataWithId;

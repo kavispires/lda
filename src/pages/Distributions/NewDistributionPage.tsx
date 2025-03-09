@@ -4,7 +4,7 @@ import { useCreateDistributionMutation } from 'hooks/useCreateDistributionMutati
 import { useQueryParams } from 'hooks/useQueryParams';
 import { useSongQuery } from 'hooks/useSong';
 import { useState } from 'react';
-import { Artist, Group, Song } from 'types';
+import type { Artist, Group, Song } from 'types';
 
 import { ArtistsSelectionStep } from './ArtistsSelectionStep';
 import { useNavigate } from 'react-router-dom';
@@ -39,7 +39,7 @@ export function NewDistributionPage() {
           onSuccess: (newDistribution) => {
             navigate(`/distributions/${newDistribution.id}/edit `);
           },
-        }
+        },
       );
     }
   };

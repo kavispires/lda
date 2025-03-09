@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
 import { orderBy } from 'lodash';
 import { getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
-import { Dictionary, ListingEntry, TypeaheadEntry } from 'types';
+import type { Dictionary, ListingEntry, TypeaheadEntry } from 'types';
 import { buildTypeahead } from 'utils';
 
 interface BaseData {
@@ -56,7 +56,7 @@ export function useListingDataQuery<TData extends BaseData>(listingType: string)
     select: (response) => {
       const data = Object.values(response).reduce((acc: Dictionary<TData>, entry) => {
         if (entry.data) {
-          return { ...acc, [entry.id]: entry.data };
+          acc[entry.id] = entry.data;
         }
         return acc;
       }, {});

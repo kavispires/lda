@@ -1,9 +1,10 @@
 import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Select, Space } from 'antd';
 import { useLogSection } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
-import { SongSection, UID } from 'types';
+import type { SongSection, UID } from 'types';
 import { getCompletionPercentage } from 'utils';
 import { NULL, SECTION_KINDS } from 'utils/constants';
 
@@ -37,9 +38,10 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
     setTempSection({ ...tempSection, ...changedValues });
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     setDirty(isDirty);
-  }, [isDirty]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isDirty]);
 
   const onSave = () => {
     onUpdateSongContent(sectionId, tempSection);

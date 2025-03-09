@@ -3,14 +3,14 @@ import clsx from 'clsx';
 import { useSongActions } from 'hooks/useSongActions';
 import { useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
-import { UID } from 'types';
+import type { UID } from 'types';
 import { distributor, getInstanceName } from 'utils';
 
 import { EditDrawer } from './EditDrawer';
 import { LogLine } from './LogLine';
 import { LogPart } from './LogPart';
 import { LogSection } from './LogSection';
-import { useVideoControls } from 'hooks/useVideoControls';
+import type { useVideoControls } from 'hooks/useVideoControls';
 import { usePreserveScrollPosition } from 'hooks/usePreserveScrollPosition';
 
 type LogProps = {
@@ -73,18 +73,16 @@ export function EditorsLog({ className, videoControls }: LogProps) {
                 onSelectParts={onSelectMany}
                 onAddPart={onAddNewPart}
               >
-                {distributor
-                  .getLine(lineId, song, true)
-                  ?.partsIds.map((partId) => (
-                    <LogPart
-                      key={partId}
-                      id={partId}
-                      song={song}
-                      onClick={onEntityClick}
-                      onSelect={onSelect}
-                      selected={selection.includes(partId)}
-                    />
-                  ))}
+                {distributor.getLine(lineId, song, true)?.partsIds.map((partId) => (
+                  <LogPart
+                    key={partId}
+                    id={partId}
+                    song={song}
+                    onClick={onEntityClick}
+                    onSelect={onSelect}
+                    selected={selection.includes(partId)}
+                  />
+                ))}
               </LogLine>
             ))}
           </LogSection>

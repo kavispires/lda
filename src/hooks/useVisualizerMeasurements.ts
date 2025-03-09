@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useMeasure, useWindowSize } from 'react-use';
-import { UseMeasureRef } from 'react-use/lib/useMeasure';
+import type { UseMeasureRef } from 'react-use/lib/useMeasure';
 
 function calculateAspectRatio(width: number, maxWidth: number, maxHeight: number) {
   const aspectRatio = 16 / 9;
@@ -35,7 +35,7 @@ export type UseVisualizerMeasurementsResult = {
 };
 
 export function useVisualizerMeasurements(
-  fullScreenMode: boolean
+  fullScreenMode: boolean,
 ): [UseMeasureRef<HTMLDivElement>, UseVisualizerMeasurementsResult] {
   const [containerRef, containerMeasures] = useMeasure<HTMLDivElement>();
   const windowSize = useWindowSize();
@@ -45,7 +45,7 @@ export function useVisualizerMeasurements(
     const container = calculateAspectRatio(
       fullScreenMode ? windowSize.width : containerMeasures.width,
       windowSize.width,
-      windowSize.height
+      windowSize.height,
     );
 
     const stats = {

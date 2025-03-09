@@ -1,4 +1,4 @@
-import { FUID, RecordTimestamps } from './common';
+import type { FUID, RecordTimestamps } from './common';
 
 export type Formation = {
   /**

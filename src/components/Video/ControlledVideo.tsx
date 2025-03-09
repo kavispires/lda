@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { memo } from 'react';
-import YouTube, { YouTubeEvent } from 'react-youtube';
+import YouTube, { type YouTubeEvent } from 'react-youtube';
 
 export type ControlledVideoProps = {
   videoId: string;

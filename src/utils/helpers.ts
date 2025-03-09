@@ -1,21 +1,18 @@
 import { isEqual, isObject, orderBy } from 'lodash';
-import { TypeaheadEntry } from 'types';
+import type { TypeaheadEntry } from 'types';
 
 /**
  * Generates a unique identifier.
  * @param length The length of the generated identifier. Default is 5.
  * @returns A unique identifier.
  */
-export const generateUniqueId = (function () {
+export const generateUniqueId = (() => {
   const cache: Record<string, true> = {};
 
   function generate(prefix = '', length = 3): string {
-    const id =
-      '_' +
-      prefix +
-      Math.random()
-        .toString(36)
-        .slice(2, 2 + length);
+    const id = `_${prefix}${Math.random()
+      .toString(36)
+      .slice(2, 2 + length)}`;
     if (cache[id]) {
       return generate(prefix, length);
     }
@@ -110,7 +107,7 @@ type DiffObject = {
  * @returns An object representing the difference between obj1 and obj2.
  */
 export function getDifference(obj1: any, obj2: any): DiffObject {
-  let result: DiffObject = {};
+  const result: DiffObject = {};
 
   const keys = new Set([...Object.keys(obj1), ...Object.keys(obj2)]);
 
@@ -154,7 +151,7 @@ type ObjectWithKeyAndValue<K extends string, V extends string> = {
 export const buildTypeahead = <K extends string, V extends string, T extends ObjectWithKeyAndValue<K, V>>(
   data: T[] | Record<string, T>,
   valueProperty: V = 'name' as V,
-  keyProperty: K = 'id' as K
+  keyProperty: K = 'id' as K,
 ): TypeaheadEntry[] => {
   const entries = Array.isArray(data) ? data : Object.values(data);
 
@@ -163,7 +160,7 @@ export const buildTypeahead = <K extends string, V extends string, T extends Obj
       key: entry[keyProperty],
       value: entry[valueProperty],
     })),
-    'value'
+    'value',
   );
 };
 

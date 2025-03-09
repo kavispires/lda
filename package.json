@@ -9,10 +9,6 @@
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
     "@testing-library/user-event": "^14.6.1",
-    "@types/jest": "^29.5.14",
-    "@types/node": "^22.13.10",
-    "@types/react": "^18.3.11",
-    "@types/react-dom": "^18.3.1",
     "antd": "^5.24.3",
     "clsx": "^2.1.1",
     "firebase": "^11.4.0",
@@ -32,24 +28,12 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "format": "prettier --write",
+    "format": "biome check --write",
     "eject": "react-scripts eject",
     "prepare": "husky",
     "clean": "rm -rf node_modules",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build"
-  },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
-  },
-  "prettier": {
-    "printWidth": 110,
-    "singleQuote": true,
-    "trailingComma": "es5",
-    "bracketSpacing": true
   },
   "browserslist": {
     "production": [
@@ -64,18 +48,20 @@
     ]
   },
   "lint-staged": {
-    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
-      "yarn format"
-    ]
-  },
+  "**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+    "biome check --write"
+  ]
+},
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.16",
+    "@types/node": "^22.13.10",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.1",
     "@types/youtube-player": "^5.5.11",
-    "eslint-config-prettier": "^9.1.0",
-    "eslint-plugin-prettier": "^5.2.1",
     "gh-pages": "^6.3.0",
     "husky": "^9.1.7",
-    "lint-staged": "^15.4.3",
-    "prettier": "^3.3.3"
+    "lint-staged": "^15.4.3"
   }
 }

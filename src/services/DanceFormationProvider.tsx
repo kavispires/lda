@@ -1,8 +1,8 @@
 import { ContentError, ContentLoading } from 'components/Content';
 import { assign, cloneDeep } from 'lodash';
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { createContext, type PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Dictionary, Distribution, Formation, FUID, Group, Song } from 'types';
+import type { Dictionary, Distribution, Formation, FUID, Group, Song } from 'types';
 import { useSongDistributionContext } from './SongDistributionProvider';
 import { useDanceFormationQuery, useFormationMutation } from 'hooks/useDanceFormation';
 import { SEPARATOR } from 'utils/constants';
@@ -40,7 +40,7 @@ export const DanceFormationProvider = ({ children }: PropsWithChildren) => {
 
   const formationQuery = useDanceFormationQuery(
     formationId ?? '',
-    generateDraftFormation(distribution, song, group)
+    generateDraftFormation(distribution, song, group),
   );
   const mutation = useFormationMutation();
   const formation = formationQuery.data ?? generateDraftFormation(distribution, song, group);
@@ -66,7 +66,7 @@ export const DanceFormationProvider = ({ children }: PropsWithChildren) => {
   }
 
   const previousTimestamp = String(
-    Math.max(0, Number(timestampHistory.history[timestampHistory.history.length - 2] ?? 0))
+    Math.max(0, Number(timestampHistory.history[timestampHistory.history.length - 2] ?? 0)),
   );
 
   const onNextTimestamp = () => {

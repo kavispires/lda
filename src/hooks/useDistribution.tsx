@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
 import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
-import { FirestoreDistribution, Distribution, UID } from 'types';
+import type { FirestoreDistribution, Distribution, UID } from 'types';
 
 /**
  * Deserializes a FirestoreDistribution object into a Distribution object.

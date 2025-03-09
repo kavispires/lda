@@ -2,10 +2,10 @@ import { Button } from 'antd';
 import { LogLine } from 'components/Log/LogLine';
 import { LogPart } from 'components/Log/LogPart';
 import { LogSection } from 'components/Log/LogSection';
-import { UID } from 'types';
+import type { UID } from 'types';
 import { distributor } from 'utils';
 
-import { RecordingTimestamp } from './KeyCapture';
+import type { RecordingTimestamp } from './KeyCapture';
 import { useSongEditContext } from 'services/SongEditProvider';
 
 type SyncLogProps = {
@@ -48,7 +48,7 @@ export function SyncLog({ activeTimestamp, seekAndPlay, handleConnect }: SyncLog
                     }}
                     onSelect={onSelect}
                     selected={selection.includes(partId)}
-                    onConnect={!!activeTimestamp ? () => handleConnect(partId) : undefined}
+                    onConnect={activeTimestamp ? () => handleConnect(partId) : undefined}
                   />
                 ))}
               </LogLine>

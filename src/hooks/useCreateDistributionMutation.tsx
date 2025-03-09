@@ -1,7 +1,7 @@
 import { App } from 'antd';
 import { keyBy } from 'lodash';
 import { createDoc } from 'services/firebase';
-import { Artist, Distribution, FirestoreDistribution, Group, Song } from 'types';
+import type { Artist, Distribution, FirestoreDistribution, Group, Song } from 'types';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 

@@ -4,17 +4,17 @@ import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { useSongActions } from 'hooks/useSongActions';
 import { useVideoControls } from 'hooks/useVideoControls';
 import { useMemo, useState } from 'react';
-import YouTube from 'react-youtube';
+import type YouTube from 'react-youtube';
 import { useSongEditContext } from 'services/SongEditProvider';
 import { distributor } from 'utils';
 
 import { PlayCircleOutlined } from '@ant-design/icons';
 
-import { KeyCapture, RecordingTimestamp } from './SyncComponents/KeyCapture';
+import { KeyCapture, type RecordingTimestamp } from './SyncComponents/KeyCapture';
 import { TimestampsManagement } from './SyncComponents/TimestampsManagement';
 import { SyncLog } from './SyncComponents/SyncLog';
 import { SyncMethods } from './SyncComponents/SyncMethods';
-import { Dictionary, UpdateValue } from 'types';
+import type { Dictionary, UpdateValue } from 'types';
 import { DEFAULT_ASSIGNEE } from 'utils/constants';
 
 type StepSyncProps = {
@@ -45,7 +45,7 @@ export function StepSync({ videoWidth }: StepSyncProps) {
   const handleConnect = (partId: string) => {
     if (!activeTimestamp) return;
     const timestamp = activeTimestamp;
-    if (timestamp && timestamp.endTime) {
+    if (timestamp?.endTime) {
       const updates: Dictionary<UpdateValue> = {};
       updates[`content.${partId}.startTime`] = timestamp.startTime;
       updates[`content.${partId}.endTime`] = timestamp.endTime;

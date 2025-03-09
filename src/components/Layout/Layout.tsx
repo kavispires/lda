@@ -1,7 +1,7 @@
 import './Layout.scss';
 
 import { Layout as AntLayout } from 'antd';
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 import { useAuthContext } from 'services/AuthProvider';
 
 import { AuthWrapper } from './AuthWrapper';

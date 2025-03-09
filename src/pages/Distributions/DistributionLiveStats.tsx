@@ -4,7 +4,7 @@ import { ArtistBar } from 'components/Artist';
 import { orderBy } from 'lodash';
 import { useMemo } from 'react';
 import { useSongDistributionContext } from 'services/SongDistributionProvider';
-import { Dictionary, Distribution, FUID, Song } from 'types';
+import type { Dictionary, Distribution, FUID, Song } from 'types';
 import { distributor } from 'utils';
 import { ALL_ID, NONE_ID } from 'utils/constants';
 
@@ -13,12 +13,12 @@ export function DistributionLiveStats() {
 
   const assignees = useMemo(
     () => orderBy(Object.values(distribution.assignees), 'name'),
-    [distribution.assignees]
+    [distribution.assignees],
   );
 
   const progress = useMemo(
     () => calculateLiveProgress(song, mapping, distribution.assignees),
-    [song, mapping, distribution.assignees]
+    [song, mapping, distribution.assignees],
   );
 
   return (
@@ -27,7 +27,7 @@ export function DistributionLiveStats() {
         <div
           className={clsx(
             'distribution-live-stats__button',
-            activeAssignee === ALL_ID && 'distribution-live-stats__button--active'
+            activeAssignee === ALL_ID && 'distribution-live-stats__button--active',
           )}
           role="button"
           onClick={() => onActivateAssignee(ALL_ID)}
@@ -50,7 +50,7 @@ export function DistributionLiveStats() {
         <div
           className={clsx(
             'distribution-live-stats__button',
-            activeAssignee === NONE_ID && 'distribution-live-stats__button--active'
+            activeAssignee === NONE_ID && 'distribution-live-stats__button--active',
           )}
           role="button"
           onClick={() => onActivateAssignee(NONE_ID)}
@@ -80,7 +80,7 @@ export function DistributionLiveStats() {
             key={assignee.id}
             className={clsx(
               'distribution-live-stats__button',
-              activeAssignee === assignee.id && 'distribution-live-stats__button--active'
+              activeAssignee === assignee.id && 'distribution-live-stats__button--active',
             )}
             role="button"
             onClick={() => onActivateAssignee(assignee.id)}
@@ -108,7 +108,7 @@ type AssigneeProgress = {
 const calculateLiveProgress = (
   song: Song,
   mapping: Distribution['mapping'],
-  assignees: Distribution['assignees']
+  assignees: Distribution['assignees'],
 ): Record<FUID, AssigneeProgress> => {
   let totalDuration = 0;
   let progressForALL = 0;
@@ -154,7 +154,7 @@ const calculateLiveProgress = (
         };
         return acc;
       },
-      {}
+      {},
     ),
   };
 };

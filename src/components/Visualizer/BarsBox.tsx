@@ -1,7 +1,7 @@
 import { ArtistBar } from 'components/Artist';
 import { useMeasure } from 'react-use';
-import { AssigneeSnapshot, RATE } from 'services/DistributionVisualizerProvider';
-import { Artist, Dictionary } from 'types';
+import { type AssigneeSnapshot, RATE } from 'services/DistributionVisualizerProvider';
+import type { Artist, Dictionary } from 'types';
 
 type BarsBoxProps = {
   assignees: Artist[];

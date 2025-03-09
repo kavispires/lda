@@ -1,5 +1,5 @@
 import { orderBy } from 'lodash';
-import { Song, SongLine, SongPart, SongSection } from 'types';
+import type { Song, SongLine, SongPart, SongSection } from 'types';
 import { getCompletionPercentage } from 'utils/helpers';
 
 import { getLine, getLineCompletion, getLineStartTime } from './line-getters';
@@ -45,7 +45,7 @@ export const getSongCompletion = (song: Song): number => {
   const lines = sections.flatMap((section) => section.linesIds.map((lineId) => getLine(lineId, song)));
   const linesCompletion = lines.map((line) => getLineCompletion(line.id, song));
   const partsCompletion = lines.flatMap((line) =>
-    line.partsIds.map((partId) => getPartCompletion(partId, song))
+    line.partsIds.map((partId) => getPartCompletion(partId, song)),
   );
 
   return getCompletionPercentage([
@@ -70,7 +70,7 @@ export const getAllLines = (song: Song) => {
   return orderBy(
     Object.values(song.content).filter((entity) => entity.type === 'line') as SongLine[],
     (o) => getLineStartTime(o.id, song),
-    'asc'
+    'asc',
   );
 };
 

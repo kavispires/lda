@@ -1,11 +1,11 @@
-import { AggregationColor } from 'antd/es/color-picker/color';
+import type { AggregationColor } from 'antd/es/color-picker/color';
 import './NewArtistForm.scss';
 
 import { Button, ColorPicker, Flex, Form, Input, Select } from 'antd';
 
 import { useCreateArtistMutation } from 'hooks/useCreateArtistMutation';
 import { useState } from 'react';
-import { Artist, Group } from 'types';
+import type { Artist, Group } from 'types';
 import { createArtist } from 'utils/groups';
 
 type NewArtistFormFields = Pick<Artist, 'name' | 'track'> & {
@@ -42,7 +42,7 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
           setColorValue('#FFFFFF');
           onClose();
         },
-      }
+      },
     );
   };
 

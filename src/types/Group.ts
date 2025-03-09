@@ -1,5 +1,5 @@
-import { FUID, TypeaheadEntry } from './common';
-import { ListingEntry } from './Listing';
+import type { FUID, TypeaheadEntry } from './common';
+import type { ListingEntry } from './Listing';
 
 export type Group = {
   /**

@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import { useKeyDown, useKeyUp } from 'hooks/useOnKeyPress';
 import { uniqueId } from 'lodash';
 import { useEffect } from 'react';
-import { Dictionary } from 'types';
+import type { Dictionary } from 'types';
 import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
 
 export type RecordingTimestamp = {
@@ -38,8 +38,8 @@ const KEY_ASSIGNEE: Dictionary<string> = {
 };
 
 let playing = false;
-let tempKeyPressing: Dictionary<boolean> = {};
-let tempPart: Dictionary<RecordingTimestamp | null> = {};
+const tempKeyPressing: Dictionary<boolean> = {};
+const tempPart: Dictionary<RecordingTimestamp | null> = {};
 
 const convertStoMS = (seconds: number) => {
   return Math.round(seconds * 1000);
@@ -47,7 +47,7 @@ const convertStoMS = (seconds: number) => {
 
 async function handleActionDown(
   key: string,
-  playerRef: { current: { internalPlayer: { getCurrentTime: () => any } } }
+  playerRef: { current: { internalPlayer: { getCurrentTime: () => any } } },
 ) {
   // Don't run if video is not playing
   if (!playing) return;
@@ -71,7 +71,7 @@ async function handleActionDown(
 
 async function handleActionUp(
   key: string | number,
-  playerRef: { current: { internalPlayer: { getCurrentTime: () => any } } }
+  playerRef: { current: { internalPlayer: { getCurrentTime: () => any } } },
 ) {
   // Don't run if video is not playing
   if (!playing) return;
@@ -117,7 +117,7 @@ export function KeyCapture({
   const onCaptureButtonUp = async (key: string) => {
     const result = await handleActionUp(key, playerRef);
 
-    if (result && result?.endTime) {
+    if (result?.endTime) {
       setUnassignedTimestamps((prev) => [...prev, result]);
     }
   };
@@ -160,7 +160,7 @@ function KeyboardCapture({ playerRef, setUnassignedTimestamps }: KeyboardCapture
   useKeyUp(KEYS, async (key) => {
     const result = await handleActionUp(key, playerRef);
 
-    if (result && result?.endTime) {
+    if (result?.endTime) {
       setUnassignedTimestamps((prev) => [...prev, result]);
     }
   });

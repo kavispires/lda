@@ -1,4 +1,4 @@
-import { Avatar, AvatarProps } from 'antd';
+import { Avatar, type AvatarProps } from 'antd';
 
 type ArtistAvatarProps = {
   id: string;

@@ -2,12 +2,12 @@ import { Button, Divider, Input, Space, Typography } from 'antd';
 import { useCreateSongMutation } from 'hooks/useCreateSongMutation';
 import { cloneDeep } from 'lodash';
 import { useState } from 'react';
-import { Song, UID } from 'types';
+import type { Song, UID } from 'types';
 import { distributor } from 'utils';
 
 import { DatabaseFilled, MessageFilled, NotificationFilled } from '@ant-design/icons';
 
-import { NewSong } from '../NewSongPage';
+import type { NewSong } from '../NewSongPage';
 import { NewSongQuickLog } from './NewSongQuickLog';
 import { useLocalStorage } from 'react-use';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +32,7 @@ export function StepLyrics({ newSong, updateNewSong, setStep }: StepLyricsProps)
       originalArtist: newSong.originalArtist,
       startAt: newSong.startAt,
       endAt: newSong.endAt,
-    })
+    }),
   );
 
   // Saves lyrics in local storage in case context is lost, this date is removed upon saving
@@ -40,7 +40,7 @@ export function StepLyrics({ newSong, updateNewSong, setStep }: StepLyricsProps)
     raw: true,
   });
   const [textarea, setTextarea] = useState<string>(
-    tempLyrics || 'Sample lyrics\nSample |lyrics\n\nSampleLyrics'
+    tempLyrics || 'Sample lyrics\nSample |lyrics\n\nSampleLyrics',
   );
   const [textareaUsedValue, setTextareaUsedValue] = useState<string>('');
 
@@ -132,9 +132,9 @@ const buildSections = (textarea: string, song: Song) => {
       // First line
       if (index === 0) return false;
       // Last line is empty
-      else if (index === list.length - 1) return false;
+      if (index === list.length - 1) return false;
       // Double empty lines
-      else if (list[index - 1]?.trim() === '') return false;
+      if (list[index - 1]?.trim() === '') return false;
     }
     return true;
   });

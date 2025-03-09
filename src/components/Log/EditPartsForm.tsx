@@ -1,8 +1,9 @@
 import { Button, Flex, Form, Radio } from 'antd';
 import { useSongActions } from 'hooks/useSongActions';
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
-import { Dictionary, Song, SongPart, UID, UpdateValue } from 'types';
+import type { Dictionary, Song, SongPart, UID, UpdateValue } from 'types';
 import { distributor } from 'utils';
 import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
 
@@ -36,7 +37,7 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
 
   useEffect(() => {
     setDirty(isDirty);
-  }, [isDirty]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [isDirty]);
 
   const onSave = () => {
     const values = form.getFieldsValue();

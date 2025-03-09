@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import { Artist, Dictionary, UID } from 'types';
+import type { Artist, Dictionary, UID } from 'types';
 import { distributor } from 'utils';
 import { useSongDistributionContext } from 'services/SongDistributionProvider';
 import { ApiOutlined, PlayCircleFilled } from '@ant-design/icons';
@@ -126,7 +126,7 @@ function ViewLine({ instanceId }: ViewEntryProps) {
           {!!line.dismissible && '* '}
         </span>
         {distributor.getLine(instanceId, song).partsIds.map((partId) => (
-          <ViewPart instanceId={partId} />
+          <ViewPart key={partId} instanceId={partId} />
         ))}
         {timeline[startTime] ? (
           <Button

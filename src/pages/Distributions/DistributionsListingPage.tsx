@@ -6,7 +6,7 @@ import { useDeleteDistributionMutation } from 'hooks/useDistribution';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { Link, useNavigate } from 'react-router-dom';
-import { DistributionListingData, ListingEntry } from 'types';
+import type { DistributionListingData, ListingEntry } from 'types';
 
 const ALL_GROUPS = 'All Groups';
 
