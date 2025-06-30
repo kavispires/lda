@@ -7,7 +7,7 @@ export function Menu() {
     <Layout.Sider className="ld-menu" collapsedWidth={64} defaultCollapsed>
       <nav className="ld-menu__nav">
         <NavLink to="/" className="ld-menu__nav-link">
-          <img src={`${process.env.PUBLIC_URL}/images/logo.svg`} alt="LD logo" className="ld-menu__logo" />
+          <img src={'images/logo.svg'} alt="LD logo" className="ld-menu__logo" />
         </NavLink>
 
         <NavLink to="/songs" className="ld-menu__nav-link">
