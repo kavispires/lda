@@ -58,7 +58,7 @@
     ]
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
+    "@biomejs/biome": "2.0.0",
     "@types/jest": "^30.0.0",
     "@types/lodash": "^4.17.19",
     "@types/node": "^24.0.8",
