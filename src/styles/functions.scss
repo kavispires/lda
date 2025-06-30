@@ -1,3 +1,8 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:color";
+
 /*
  * Converts a value (or list of values) into a standard scale with base 3px
  * Example:
@@ -7,10 +12,10 @@
  */
 @function get-unit($value) {
   //  If value is a list
-  @if type-of($value) == list {
+  @if meta.type-of($value) == list {
     $result: ();
     @each $i in $value {
-      $result: append($result, get-unit($i));
+      $result: list.append($result, get-unit($i));
     }
     @return $result;
   }
@@ -34,56 +39,56 @@
 */
 @function get-color($color-name, $shade: 5, $alpha-value: 1) {
   $colors: (
-    'brown': #6e5135,
-    'yellow': #f7cb15,
-    'orange': #f08119,
-    'green': #0f9539,
-    'teal': #519e8a,
-    'blue': #598ffd,
-    'purple': #7652b7,
-    'violet': #ac7ad8,
-    'pink': #e85d75,
-    'red': #d72638,
-    'gray': #6f7273,
-    'white': #f8f8f8,
-    'black': #1a1b1b,
-    'lime': #2dec2d,
+    "brown": #6e5135,
+    "yellow": #f7cb15,
+    "orange": #f08119,
+    "green": #0f9539,
+    "teal": #519e8a,
+    "blue": #598ffd,
+    "purple": #7652b7,
+    "violet": #ac7ad8,
+    "pink": #e85d75,
+    "red": #d72638,
+    "gray": #6f7273,
+    "white": #f8f8f8,
+    "black": #1a1b1b,
+    "lime": #2dec2d,
     // slate: #4e576a,
   );
 
   $colors-light: (
-    'brown': #ece0d5,
-    'yellow': #fef6d8,
-    'orange': #fef5ec,
-    'green': #dafbe4,
-    'teal': #f2f8f6,
-    'blue': #d6e2ff,
-    'purple': #ddd4ed,
-    'violet': #f5effa,
-    'pink': #fceef1,
-    'red': #f9dce0,
-    'gray': #c1c2c3,
-    'white': #ffffff,
-    'black': #464749,
-    'lime': #2dec2d,
+    "brown": #ece0d5,
+    "yellow": #fef6d8,
+    "orange": #fef5ec,
+    "green": #dafbe4,
+    "teal": #f2f8f6,
+    "blue": #d6e2ff,
+    "purple": #ddd4ed,
+    "violet": #f5effa,
+    "pink": #fceef1,
+    "red": #f9dce0,
+    "gray": #c1c2c3,
+    "white": #ffffff,
+    "black": #464749,
+    "lime": #2dec2d,
     // "slate": #4e576a,
   );
 
   $colors-dark: (
-    'brown': #0d0a07,
-    'yellow': #141001,
-    'orange': #130a01,
-    'green': #021207,
-    'teal': #070d0b,
-    'blue': #000c29,
-    'purple': #09060e,
-    'violet': #0b0510,
-    'pink': #120305,
-    'red': #110304,
-    'gray': #464749,
-    'white': #c1c2c3,
-    'black': #000000,
-    'lime': #2dec2d,
+    "brown": #0d0a07,
+    "yellow": #141001,
+    "orange": #130a01,
+    "green": #021207,
+    "teal": #070d0b,
+    "blue": #000c29,
+    "purple": #09060e,
+    "violet": #0b0510,
+    "pink": #120305,
+    "red": #110304,
+    "gray": #464749,
+    "white": #c1c2c3,
+    "black": #000000,
+    "lime": #2dec2d,
     // slate: #4e576a,
   );
 
@@ -102,8 +107,8 @@
   $color-base: null;
 
   // Determine color
-  @if map-has-key($colors, $color-name) {
-    $color-base: map-get($colors, $color-name);
+  @if map.has-key($colors, $color-name) {
+    $color-base: map.get($colors, $color-name);
   } @else {
     @error "Invalid color name: `#{$color-name}`.";
   }
@@ -111,21 +116,21 @@
   $color-extra: null;
 
   @if $shade <= 5 {
-    $color-extra: map-get($colors-light, $color-name);
+    $color-extra: map.get($colors-light, $color-name);
   } @else {
-    $color-extra: map-get($colors-dark, $color-name);
+    $color-extra: map.get($colors-dark, $color-name);
   }
 
   $mix-level: null;
 
   // Determine shade
-  @if map-has-key($shade-levels, $shade) {
-    $mix-level: map-get($shade-levels, $shade);
+  @if map.has-key($shade-levels, $shade) {
+    $mix-level: map.get($shade-levels, $shade);
   } @else {
     @error "Invalid shade value: `#{$shade}`.";
   }
 
-  $mix: mix($color-base, $color-extra, $mix-level);
+  $mix: color.mix($color-base, $color-extra, $mix-level);
 
   @if $alpha-value < 1 {
     @return rgba($mix, $alpha-value);
