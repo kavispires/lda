@@ -6,7 +6,7 @@ type ArtistAvatarProps = {
 } & Omit<AvatarProps, 'src' | 'children'>;
 
 export function ArtistAvatar({ id, name, ...props }: ArtistAvatarProps) {
-  const artistAvatarUrl = `${process.env.PUBLIC_URL}/images/artists/${id}.jpg`;
+  const artistAvatarUrl = `images/artists/${id}.jpg`;
 
   return (
     <Avatar src={artistAvatarUrl} {...props}>
