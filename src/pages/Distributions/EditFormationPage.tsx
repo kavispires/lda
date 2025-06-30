@@ -1,21 +1,17 @@
 import './EditFormationPage.scss';
 
-import { Button, Flex, Progress, Slider, Space, Typography } from 'antd';
+import { SaveOutlined } from '@ant-design/icons';
+import { Button, Flex, Slider, Space, Typography } from 'antd';
 import { Content } from 'components/Content';
-import { DistributionLog } from 'components/Log/DistributionLog';
+import { FormationDistributionLog } from 'components/Formation/FormationDistributionLog';
+import { TimelineEntry } from 'components/Formation/StageEdit';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { VideoControls } from 'components/Video/VideoControls';
-import { useMeasure } from 'react-use';
-import { SongDistributionProvider, useSongDistributionContext } from 'services/SongDistributionProvider';
-
-import { DistributionLiveStats } from './DistributionLiveStats';
-import { SaveOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
-import { FormationDistributionLog } from 'components/Formation/FormationDistributionLog';
-import { DanceFormationProvider, useDanceFormationContext } from 'services/DanceFormationProvider';
-import { Demo } from 'components/Formation/Stage';
-import { Timeline, TimelineEntry } from 'components/Formation/StageEdit';
 import { useQueryParams } from 'hooks/useQueryParams';
+import { useNavigate } from 'react-router-dom';
+import { useMeasure } from 'react-use';
+import { DanceFormationProvider, useDanceFormationContext } from 'services/DanceFormationProvider';
+import { SongDistributionProvider, useSongDistributionContext } from 'services/SongDistributionProvider';
 
 export function EditFormationPage() {
   return (

@@ -2,9 +2,8 @@ import { App, Button, Checkbox, Divider, Form, Input, Space, TimePicker, Typogra
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import YouTube from 'react-youtube';
-
-import type { NewSong } from '../NewSongPage';
 import { DURATION_FORMAT } from 'utils/constants';
+import type { NewSong } from '../NewSongPage';
 
 type StepVideoIdProps = {
   newSong: NewSong;

@@ -52,14 +52,14 @@
       "style": {
         "useSelfClosingElements": "off",
         "noParameterAssign": "warn",
-        "useAsConstAssertion": "error",
-        "useDefaultParameterLast": "error",
-        "useEnumInitializers": "error",
-        "useSingleVarDeclarator": "error",
-        "noUnusedTemplateLiteral": "error",
-        "useNumberNamespace": "error",
-        "noInferrableTypes": "error",
-        "noUselessElse": "error"
+        "useAsConstAssertion": "warn",
+        "useDefaultParameterLast": "warn",
+        "useEnumInitializers": "warn",
+        "useSingleVarDeclarator": "warn",
+        "noUnusedTemplateLiteral": "warn",
+        "useNumberNamespace": "warn",
+        "noInferrableTypes": "warn",
+        "noUselessElse": "warn"
       },
       "suspicious": {
         "noExplicitAny": "warn",

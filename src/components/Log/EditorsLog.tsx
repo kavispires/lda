@@ -1,17 +1,16 @@
 import { Button, Divider } from 'antd';
 import clsx from 'clsx';
+import { usePreserveScrollPosition } from 'hooks/usePreserveScrollPosition';
 import { useSongActions } from 'hooks/useSongActions';
+import type { useVideoControls } from 'hooks/useVideoControls';
 import { useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
 import type { UID } from 'types';
 import { distributor, getInstanceName } from 'utils';
-
 import { EditDrawer } from './EditDrawer';
 import { LogLine } from './LogLine';
 import { LogPart } from './LogPart';
 import { LogSection } from './LogSection';
-import type { useVideoControls } from 'hooks/useVideoControls';
-import { usePreserveScrollPosition } from 'hooks/usePreserveScrollPosition';
 
 type LogProps = {
   className?: string;

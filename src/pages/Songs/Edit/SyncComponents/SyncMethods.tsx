@@ -1,12 +1,11 @@
 import { Button, Typography } from 'antd';
+import clsx from 'clsx';
 import { useSongActions } from 'hooks/useSongActions';
+import { useEffect, useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
-
-import type { RecordingTimestamp } from './KeyCapture';
 import type { Dictionary, UpdateValue } from 'types';
 import { DEFAULT_ASSIGNEE } from 'utils/constants';
-import { useEffect, useState } from 'react';
-import clsx from 'clsx';
+import type { RecordingTimestamp } from './KeyCapture';
 
 type StepSyncProps = {
   unassignedTimestamps: RecordingTimestamp[];

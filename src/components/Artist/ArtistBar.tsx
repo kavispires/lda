@@ -1,11 +1,10 @@
 import './ArtistBar.scss';
 
+import { PushpinFilled } from '@ant-design/icons';
 import clsx from 'clsx';
 import { forwardRef } from 'react';
 import type { Artist } from 'types';
-
 import { ArtistAvatar } from './ArtistAvatar';
-import { PushpinFilled } from '@ant-design/icons';
 
 type ArtistBarProps = {
   artist: Artist;

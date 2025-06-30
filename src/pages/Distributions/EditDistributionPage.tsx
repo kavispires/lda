@@ -1,16 +1,15 @@
 import './EditDistributionPage.scss';
 
+import { SaveOutlined } from '@ant-design/icons';
 import { Button, Progress, Space, Typography } from 'antd';
 import { Content } from 'components/Content';
 import { DistributionLog } from 'components/Log/DistributionLog';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { VideoControls } from 'components/Video/VideoControls';
+import { useNavigate } from 'react-router-dom';
 import { useMeasure } from 'react-use';
 import { SongDistributionProvider, useSongDistributionContext } from 'services/SongDistributionProvider';
-
 import { DistributionLiveStats } from './DistributionLiveStats';
-import { SaveOutlined } from '@ant-design/icons';
-import { useNavigate } from 'react-router-dom';
 
 export function EditDistributionPage() {
   return (

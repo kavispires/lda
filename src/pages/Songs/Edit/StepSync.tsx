@@ -1,3 +1,4 @@
+import { PlayCircleOutlined } from '@ant-design/icons';
 import { Button, Flex, Progress, Typography } from 'antd';
 import clsx from 'clsx';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
@@ -6,16 +7,13 @@ import { useVideoControls } from 'hooks/useVideoControls';
 import { useMemo, useState } from 'react';
 import type YouTube from 'react-youtube';
 import { useSongEditContext } from 'services/SongEditProvider';
+import type { Dictionary, UpdateValue } from 'types';
 import { distributor } from 'utils';
-
-import { PlayCircleOutlined } from '@ant-design/icons';
-
+import { DEFAULT_ASSIGNEE } from 'utils/constants';
 import { KeyCapture, type RecordingTimestamp } from './SyncComponents/KeyCapture';
-import { TimestampsManagement } from './SyncComponents/TimestampsManagement';
 import { SyncLog } from './SyncComponents/SyncLog';
 import { SyncMethods } from './SyncComponents/SyncMethods';
-import type { Dictionary, UpdateValue } from 'types';
-import { DEFAULT_ASSIGNEE } from 'utils/constants';
+import { TimestampsManagement } from './SyncComponents/TimestampsManagement';
 
 type StepSyncProps = {
   videoWidth: number;

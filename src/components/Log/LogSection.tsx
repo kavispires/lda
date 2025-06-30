@@ -1,8 +1,3 @@
-import { Alert, Button, Checkbox } from 'antd';
-import { useLogPart, useLogSection } from 'hooks/useLogInstances';
-import type { ReactNode } from 'react';
-import type { Song, UID } from 'types';
-
 import {
   CheckCircleOutlined,
   DatabaseFilled,
@@ -10,6 +5,10 @@ import {
   PlusOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
+import { Alert, Button, Checkbox } from 'antd';
+import { useLogPart, useLogSection } from 'hooks/useLogInstances';
+import type { ReactNode } from 'react';
+import type { Song, UID } from 'types';
 
 type LogSectionProps = {
   /**
@@ -91,7 +90,7 @@ export function LogSection({
         )}
 
         {onClick ? (
-          <Button role="button" onClick={() => onClick(id)} shape="round" icon={icon}>
+          <Button onClick={() => onClick(id)} shape="round" icon={icon}>
             {name}
           </Button>
         ) : (

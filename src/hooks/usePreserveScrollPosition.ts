@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useQueryParams } from './useQueryParams';
 
 export const usePreserveScrollPosition = <T extends HTMLElement>() => {

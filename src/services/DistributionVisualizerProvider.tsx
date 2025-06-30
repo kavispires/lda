@@ -1,7 +1,7 @@
 import { useVideoControls } from 'hooks/useVideoControls';
 import {
-  useVisualizerMeasurements,
   type UseVisualizerMeasurementsResult,
+  useVisualizerMeasurements,
 } from 'hooks/useVisualizerMeasurements';
 import { cloneDeep, orderBy, sortBy } from 'lodash';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';

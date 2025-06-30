@@ -1,6 +1,5 @@
-import type { Song, SongLine, SongPart, SongSection, UID } from 'types';
-
 import { DatabaseFilled, MessageFilled, NotificationFilled } from '@ant-design/icons';
+import type { Song, SongLine, SongPart, SongSection, UID } from 'types';
 
 type NewSongQuickLogProps = {
   song: Song;

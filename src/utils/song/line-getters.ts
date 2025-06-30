@@ -1,8 +1,8 @@
 import type { Song, SongLine, SongPart, SongSection } from 'types';
-import { generateUniqueId } from './common';
-import { getSection } from './section-getters';
-import { getPart } from './part-getters';
 import { getCompletionPercentage } from 'utils/helpers';
+import { generateUniqueId } from './common';
+import { getPart } from './part-getters';
+import { getSection } from './section-getters';
 
 /**
  * Generates a song line object.
