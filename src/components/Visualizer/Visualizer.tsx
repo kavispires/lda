@@ -2,13 +2,13 @@ import clsx from 'clsx';
 import { RATE, useDistributionVisualizerContext } from 'services/DistributionVisualizerProvider';
 import './Visualizer.scss';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
+import { useToggle } from 'react-use';
+import { AdlibsScroller } from './AdlibsScroller';
 import { BarsBox } from './BarsBox';
 import { LyricsScroller } from './LyricsScroller';
-import { AdlibsScroller } from './AdlibsScroller';
-import { UpNext } from './UpNext';
 import { SeekBar } from './SeekBar';
+import { UpNext } from './UpNext';
 import { VisualizerControls } from './VisualizerControls';
-import { useToggle } from 'react-use';
 
 export function Visualizer() {
   const [areControlsVisible, setControlsVisible] = useToggle(false);

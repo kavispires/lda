@@ -1,17 +1,15 @@
+import { DatabaseFilled, MessageFilled, NotificationFilled } from '@ant-design/icons';
 import { Button, Divider, Input, Space, Typography } from 'antd';
+import { PlaybackVideo } from 'components/Video/PlaybackVideo';
 import { useCreateSongMutation } from 'hooks/useCreateSongMutation';
 import { cloneDeep } from 'lodash';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useLocalStorage } from 'react-use';
 import type { Song, UID } from 'types';
 import { distributor } from 'utils';
-
-import { DatabaseFilled, MessageFilled, NotificationFilled } from '@ant-design/icons';
-
 import type { NewSong } from '../NewSongPage';
 import { NewSongQuickLog } from './NewSongQuickLog';
-import { useLocalStorage } from 'react-use';
-import { useNavigate } from 'react-router-dom';
-import { PlaybackVideo } from 'components/Video/PlaybackVideo';
 
 const TEMP_TEXTAREA_LYRICS = 'TEMP_TEXTAREA_LYRICS';
 

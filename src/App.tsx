@@ -1,20 +1,18 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App as AntApp } from 'antd';
 import { Layout } from 'components/Layout/Layout';
+import { DistributionPage } from 'pages/Distributions/DistributionPage';
+import { DistributionsListingPage } from 'pages/Distributions/DistributionsListingPage';
+import { EditDistributionPage } from 'pages/Distributions/EditDistributionPage';
+import { EditFormationPage } from 'pages/Distributions/EditFormationPage';
+import { NewDistributionPage } from 'pages/Distributions/NewDistributionPage';
+import { GroupsListingPage } from 'pages/Groups/GroupsListingPage';
 import { EditSongPage } from 'pages/Songs/EditSongPage';
 import { NewSongPage } from 'pages/Songs/NewSongPage';
 import { SongsListingPage } from 'pages/Songs/SongsListingPage';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from 'services/AuthProvider';
-
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-
 import { HomePage } from './pages/Home';
-import { NewDistributionPage } from 'pages/Distributions/NewDistributionPage';
-import { GroupsListingPage } from 'pages/Groups/GroupsListingPage';
-import { EditDistributionPage } from 'pages/Distributions/EditDistributionPage';
-import { DistributionPage } from 'pages/Distributions/DistributionPage';
-import { DistributionsListingPage } from 'pages/Distributions/DistributionsListingPage';
-import { EditFormationPage } from 'pages/Distributions/EditFormationPage';
 
 const queryClient = new QueryClient({
   defaultOptions: {

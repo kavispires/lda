@@ -1,7 +1,7 @@
 import type { Song, SongPart, UID } from 'types';
-import { generateUniqueId } from './common';
 import { DEFAULT_ASSIGNEE } from 'utils/constants';
 import { getCompletionPercentage } from 'utils/helpers';
+import { generateUniqueId } from './common';
 
 /**
  * Generates a song part object.

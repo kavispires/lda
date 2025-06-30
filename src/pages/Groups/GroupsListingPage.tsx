@@ -1,16 +1,15 @@
 import './GroupsListingPage.scss';
 
 import { ColorPicker, Flex, Space, Table, Tag, Typography } from 'antd';
+import { ArtistAvatar } from 'components/Artist';
 import { Content, ContentError, ContentLoading } from 'components/Content';
 import { useListingDataQuery } from 'hooks/useListingQuery';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { orderBy } from 'lodash';
+import { useMemo } from 'react';
 import type { Artist, Dictionary, Group } from 'types';
-
 import { NewArtistDrawer } from './NewArtistDrawer';
 import { NewGroupDrawer } from './NewGroupDrawer';
-import { ArtistAvatar } from 'components/Artist';
-import { useMemo } from 'react';
 
 export function GroupsListingPage() {
   const groupsQuery = useListingDataQuery<Group>('groups');

@@ -1,15 +1,5 @@
-import { type FirebaseApp, initializeApp } from 'firebase/app';
 import { getAnalytics } from 'firebase/analytics';
-import {
-  getFirestore,
-  type Firestore,
-  setDoc,
-  collection,
-  updateDoc,
-  doc,
-  getDoc,
-  deleteDoc,
-} from 'firebase/firestore';
+import { type FirebaseApp, initializeApp } from 'firebase/app';
 import {
   type Auth,
   createUserWithEmailAndPassword,
@@ -17,6 +7,16 @@ import {
   signInWithEmailAndPassword,
   type UserCredential,
 } from 'firebase/auth';
+import {
+  collection,
+  deleteDoc,
+  doc,
+  type Firestore,
+  getDoc,
+  getFirestore,
+  setDoc,
+  updateDoc,
+} from 'firebase/firestore';
 
 const buildKey = () => {
   return [

@@ -4,10 +4,9 @@ import { useCreateDistributionMutation } from 'hooks/useCreateDistributionMutati
 import { useQueryParams } from 'hooks/useQueryParams';
 import { useSongQuery } from 'hooks/useSong';
 import { useState } from 'react';
-import type { Artist, Group, Song } from 'types';
-
-import { ArtistsSelectionStep } from './ArtistsSelectionStep';
 import { useNavigate } from 'react-router-dom';
+import type { Artist, Group, Song } from 'types';
+import { ArtistsSelectionStep } from './ArtistsSelectionStep';
 
 export type NewDistribution = Pick<
   Song,

@@ -1,10 +1,9 @@
+import { useMutation } from '@tanstack/react-query';
 import { App } from 'antd';
 import { createDoc } from 'services/firebase';
 import type { Artist, Group } from 'types';
 
-import { useMutation } from '@tanstack/react-query';
-
-import { usePartialUpdateListingEntryMutation, useAddListingEntryMutation } from './useListingQuery';
+import { useAddListingEntryMutation, usePartialUpdateListingEntryMutation } from './useListingQuery';
 
 type NewArtistMutationVariables = { artist: Artist; group: Group };
 

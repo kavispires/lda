@@ -1,3 +1,4 @@
+import { DeleteOutlined } from '@ant-design/icons';
 import {
   Button,
   Divider,
@@ -19,8 +20,6 @@ import { useSongEditContext } from 'services/SongEditProvider';
 import type { SongPart, UID } from 'types';
 import { distributor, getCompletionPercentage } from 'utils';
 import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
-
-import { DeleteOutlined } from '@ant-design/icons';
 
 import { CriteriaRule } from './CriteriaRule';
 

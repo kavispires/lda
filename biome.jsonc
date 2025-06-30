@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.0.6/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -7,8 +7,7 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "include": ["src/**"],
-    "ignore": ["node_modules/**", "dist/**", "coverage/**", "public/**", "build/**", "out/**", "lib/**"]
+    "includes": ["**/src/**"]
   },
   "formatter": {
     "enabled": true,
@@ -19,8 +18,12 @@
     "attributePosition": "auto",
     "bracketSpacing": true
   },
-  "organizeImports": {
-    "enabled": false
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "enabled": true,
@@ -29,9 +32,9 @@
       "a11y": {
         "noSvgWithoutTitle": "off",
         "useKeyWithClickEvents": "off",
-        "useSemanticElements": "warn",
-        "noNoninteractiveElementToInteractiveRole": "warn",
-        "useFocusableInteractive": "warn"
+        "useSemanticElements": "off",
+        "noNoninteractiveElementToInteractiveRole": "off",
+        "useFocusableInteractive": "off"
       },
       "complexity": {
         "noForEach": "off"
@@ -45,12 +48,19 @@
       },
       "style": {
         "useSelfClosingElements": "off",
-        "noParameterAssign": "warn"
+        "noParameterAssign": "warn",
+        "useAsConstAssertion": "warn",
+        "useDefaultParameterLast": "error",
+        "useEnumInitializers": "error",
+        "useSingleVarDeclarator": "error",
+        "noUnusedTemplateLiteral": "error",
+        "useNumberNamespace": "error",
+        "noInferrableTypes": "error",
+        "noUselessElse": "error"
       },
       "suspicious": {
-        "noExplicitAny": "warn",
-        "noArrayIndexKey": "warn",
-        "noConsole": "warn"
+        "noExplicitAny": "off",
+        "noArrayIndexKey": "off"
       }
     }
   },

@@ -1,3 +1,4 @@
+import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Rate, Select, Space, Switch } from 'antd';
 import { useLogLine } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
@@ -7,8 +8,6 @@ import { useSongEditContext } from 'services/SongEditProvider';
 import type { SongLine, UID } from 'types';
 import { getCompletionPercentage } from 'utils';
 import { LINE_SKILL } from 'utils/constants';
-
-import { DeleteOutlined } from '@ant-design/icons';
 
 import { CriteriaRule } from './CriteriaRule';
 
@@ -38,7 +37,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
     setTempLine({ ...tempLine, ...changedValues });
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies: idk
   useEffect(() => {
     setDirty(isDirty);
   }, [isDirty]);

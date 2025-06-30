@@ -1,11 +1,11 @@
 import { Drawer } from 'antd';
+import { useState } from 'react';
 import type { UID } from 'types';
 import { getInstanceName } from 'utils';
-import { EditPartForm } from './EditPartForm';
-import { useState } from 'react';
 import { EditLineForm } from './EditLineForm';
-import { EditSectionForm } from './EditSectionForm';
+import { EditPartForm } from './EditPartForm';
 import { EditPartsForm } from './EditPartsForm';
+import { EditSectionForm } from './EditSectionForm';
 
 type EditDrawerProps = {
   onClose: () => void;

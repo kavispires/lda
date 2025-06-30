@@ -1,3 +1,4 @@
+import { DeleteOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Select, Space } from 'antd';
 import { useLogSection } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
@@ -7,8 +8,6 @@ import { useSongEditContext } from 'services/SongEditProvider';
 import type { SongSection, UID } from 'types';
 import { getCompletionPercentage } from 'utils';
 import { NULL, SECTION_KINDS } from 'utils/constants';
-
-import { DeleteOutlined } from '@ant-design/icons';
 
 import { CriteriaRule } from './CriteriaRule';
 

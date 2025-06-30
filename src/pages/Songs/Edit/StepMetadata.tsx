@@ -1,9 +1,9 @@
 import { Button, Flex, Form, Input, TimePicker, Typography } from 'antd';
+import dayjs from 'dayjs';
+import { useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
 import type { Song } from 'types';
 import { DURATION_FORMAT } from 'utils/constants';
-import dayjs from 'dayjs';
-import { useState } from 'react';
 
 export function StepMetadata() {
   const { song, updateSong } = useSongEditContext();

@@ -1,8 +1,8 @@
 import type { Song, SongLine, SongSection } from 'types';
-import { generateUniqueId } from './common';
 import { NULL, ROMAN_NUMERALS } from 'utils/constants';
-import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-getters';
 import { getCompletionPercentage } from 'utils/helpers';
+import { generateUniqueId } from './common';
+import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-getters';
 
 /**
  * Generates a new song section object.
