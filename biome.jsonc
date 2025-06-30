@@ -29,30 +29,28 @@
       "a11y": {
         "noSvgWithoutTitle": "off",
         "useKeyWithClickEvents": "off",
-        "useSemanticElements": "off",
-        "noNoninteractiveElementToInteractiveRole": "off",
-        "useFocusableInteractive": "off"
+        "useSemanticElements": "warn",
+        "noNoninteractiveElementToInteractiveRole": "warn",
+        "useFocusableInteractive": "warn"
       },
       "complexity": {
         "noForEach": "off"
       },
       "correctness": {
-        "noUnusedImports": "off",
-        "noUnusedVariables": "off",
-        "useExhaustiveDependencies": "off"
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn"
       },
       "security": {
-        "noDangerouslySetInnerHtml": "off"
+        "noDangerouslySetInnerHtml": "warn"
       },
       "style": {
         "useSelfClosingElements": "off",
-        "noParameterAssign": "off",
-        "noNonNullAssertion": "off"
+        "noParameterAssign": "warn"
       },
       "suspicious": {
-        "noExplicitAny": "off",
-        "noArrayIndexKey": "off",
-        "noConsole": "off"
+        "noExplicitAny": "warn",
+        "noArrayIndexKey": "warn",
+        "noConsole": "warn"
       }
     }
   },
