@@ -5,6 +5,7 @@ import commonjs from 'vite-plugin-commonjs';
 import svgr from 'vite-plugin-svgr';
 import vitetsConfigPaths from 'vite-tsconfig-paths';
 import checker from 'vite-plugin-checker';
+import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   base: '/lda/',
@@ -12,6 +13,7 @@ export default defineConfig({
     react(),
     vitetsConfigPaths(),
     commonjs(),
+    tailwindcss(),
     svgr({
       include: [
         'src/**/*.svg',

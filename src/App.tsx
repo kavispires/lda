@@ -1,3 +1,4 @@
+import { StyleProvider } from '@ant-design/cssinjs';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App as AntApp } from 'antd';
 import { Layout } from 'components/Layout/Layout';
@@ -28,33 +29,35 @@ const queryClient = new QueryClient({
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AntApp>
-        <HashRouter>
-          <AuthProvider>
-            <Layout>
-              <Routes>
-                <Route path="/" element={<HomePage />} />
+      <StyleProvider layer>
+        <AntApp>
+          <HashRouter>
+            <AuthProvider>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
 
-                <Route path="/distributions/new" element={<NewDistributionPage />} />
-                <Route path="/distributions/:distributionId" element={<DistributionPage />} />
-                <Route path="/distributions/:distributionId/edit" element={<EditDistributionPage />} />
-                <Route
-                  path="/distributions/:distributionId/formation/:formationId"
-                  element={<EditFormationPage />}
-                />
-                <Route path="/distributions" element={<DistributionsListingPage />} />
+                  <Route path="/distributions/new" element={<NewDistributionPage />} />
+                  <Route path="/distributions/:distributionId" element={<DistributionPage />} />
+                  <Route path="/distributions/:distributionId/edit" element={<EditDistributionPage />} />
+                  <Route
+                    path="/distributions/:distributionId/formation/:formationId"
+                    element={<EditFormationPage />}
+                  />
+                  <Route path="/distributions" element={<DistributionsListingPage />} />
 
-                <Route path="/groups" element={<GroupsListingPage />} />
+                  <Route path="/groups" element={<GroupsListingPage />} />
 
-                <Route path="/songs/new" element={<NewSongPage />} />
-                <Route path="/songs/:songId" element={<div>Song</div>} />
-                <Route path="/songs/:songId/edit" element={<EditSongPage />} />
-                <Route path="/songs" element={<SongsListingPage />} />
-              </Routes>
-            </Layout>
-          </AuthProvider>
-        </HashRouter>
-      </AntApp>
+                  <Route path="/songs/new" element={<NewSongPage />} />
+                  <Route path="/songs/:songId" element={<div>Song</div>} />
+                  <Route path="/songs/:songId/edit" element={<EditSongPage />} />
+                  <Route path="/songs" element={<SongsListingPage />} />
+                </Routes>
+              </Layout>
+            </AuthProvider>
+          </HashRouter>
+        </AntApp>
+      </StyleProvider>
     </QueryClientProvider>
   );
 }
