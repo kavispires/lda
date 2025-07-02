@@ -4,7 +4,11 @@ import './Menu.scss';
 
 export function Menu() {
   return (
-    <Layout.Sider className="ld-menu" collapsedWidth={64} defaultCollapsed>
+    <Layout.Sider
+      className="p-3 bg-[linear-gradient(to_top,#0f1014,#131725,#161d36,#1a2348,#1f295a,#203b73)]"
+      collapsedWidth={64}
+      defaultCollapsed
+    >
       <nav className="ld-menu__nav">
         <NavLink to="/" className="ld-menu__nav-link">
           <img src={'images/logo.svg'} alt="LD logo" className="ld-menu__logo" />

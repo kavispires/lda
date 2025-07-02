@@ -5,23 +5,23 @@ import commonjs from 'vite-plugin-commonjs';
 import svgr from 'vite-plugin-svgr';
 import vitetsConfigPaths from 'vite-tsconfig-paths';
 import checker from 'vite-plugin-checker';
-import tailwindcss from '@tailwindcss/vite'
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
   base: '/lda/',
   plugins: [
     react(),
     vitetsConfigPaths(),
-    commonjs(),
-    tailwindcss(),
     svgr({
       include: [
         'src/**/*.svg',
       ],
     }),
+    commonjs(),
+    tailwindcss(),
     checker({
       typescript: {
-        tsconfigPath: 'tsconfig.json', // adjust if needed
+        tsconfigPath: 'tsconfig.json',
         buildMode: false,
       },
     }),

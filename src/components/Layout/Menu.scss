@@ -1,4 +1,4 @@
-@use 'styles/sass' as *;
+@use "styles/sass" as *;
 
 .ld-menu.ld-menu {
   background-image: linear-gradient(to top, #0f1014, #131725, #161d36, #1a2348, #1f295a, #203b73);
@@ -25,16 +25,17 @@
 
   &__nav-link {
     font-size: 1.1em;
-    display: flex;
+    display: grid;
+    place-items: center;
     margin: get-unit(1 0);
     padding: get-unit(3);
-    align-items: center;
     border-radius: var(--border-radius);
-    color: get-color('white');
+    color: get-color("white");
+    aspect-ratio: 1 / 1;
 
     &:hover {
-      background-color: get-color('blue', 5, 0.5);
-      color: get-color('white', 5, 0.5);
+      background-color: get-color("blue", 5, 0.5);
+      color: get-color("white", 5, 0.5);
     }
   }
 
@@ -43,6 +44,6 @@
   }
 
   &__divider {
-    border-color: get-color('gray', 5, 0.5);
+    border-color: get-color("gray", 5, 0.5);
   }
 }
