@@ -89,7 +89,7 @@ export const DistributionVisualizerProvider = ({
         upNextSnapshots,
       }}
     >
-      <div ref={ref} style={{ height: measurements.container.height }}>
+      <div ref={ref} style={{ height: measurements.container.height, fontSize: `${18}px` }}>
         {children}
       </div>
     </DistributionVisualizerContext.Provider>

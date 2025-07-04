@@ -47,7 +47,7 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
             id={artist.id}
             name={artist.name}
             style={{
-              border: `3px solid ${done ? '#ccc' : artist.color}`,
+              border: `0.25em solid ${done ? '#ccc' : artist.color}`,
             }}
           />
         </div>

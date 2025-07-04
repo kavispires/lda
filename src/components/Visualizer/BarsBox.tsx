@@ -46,7 +46,8 @@ export function BarsBox({ assignees, snapshots }: BarsBoxProps) {
               style={{
                 width,
                 top: 0,
-                transform: `translateY(${getTranslatePosition(barHeight, rank, allAssignees.length)}px)`,
+                // TODO: Fix proportion
+                transform: `translateY(${getTranslatePosition(barHeight, rank, allAssignees.length) * 1.25}px)`,
               }}
             />
           </div>

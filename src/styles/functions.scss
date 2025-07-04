@@ -28,7 +28,7 @@
     @return 0;
   }
 
-  $base: 3px;
+  $base: 0.25em;
 
   @return $value * $base;
 }
