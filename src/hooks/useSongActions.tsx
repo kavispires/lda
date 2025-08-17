@@ -49,6 +49,20 @@ export function useSongActions() {
     }
   };
 
+  const onConvertPartToNewLine = (partId: UID) => {
+    try {
+      setSong((prev) => distributor.convertPartToNewLine(prev!, partId));
+    } catch (e: unknown) {
+      if (e instanceof Error) {
+        notification.error({
+          message: 'Could not convert part to new line',
+          description: e.message,
+        });
+        console.error(e);
+      }
+    }
+  };
+
   const onDeleteLine = (lineId: UID) => {
     try {
       setSong((prev) => distributor.deleteLine(prev!, lineId));
@@ -88,5 +102,6 @@ export function useSongActions() {
     onDeletePart,
     onDeleteLine,
     onDeleteSection,
+    onConvertPartToNewLine,
   };
 }

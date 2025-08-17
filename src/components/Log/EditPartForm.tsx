@@ -1,4 +1,4 @@
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, LogoutOutlined } from '@ant-design/icons';
 import {
   Button,
   Divider,
@@ -33,7 +33,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
   const { song } = useSongEditContext();
 
   const { part } = useLogPart(partId, song);
-  const { onUpdateSongContent, onDeletePart } = useSongActions();
+  const { onUpdateSongContent, onDeletePart, onConvertPartToNewLine } = useSongActions();
   const [tempPart, setTempPart] = useState<SongPart>(part);
   const [showMoveFlow, setShowMoveFlow] = useState(false);
 
@@ -51,6 +51,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
     setTempPart({ ...tempPart, ...changedValues });
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: on purpose
   useEffect(() => {
     setDirty(isDirty);
   }, [isDirty]);
@@ -131,6 +132,17 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
         <Popconfirm title="Are you sure you want to delete this part?" onConfirm={() => onDeletePart(partId)}>
           <Button type="primary" danger icon={<DeleteOutlined />} block ghost>
             Delete This Part
+          </Button>
+        </Popconfirm>
+      </Form.Item>
+
+      <Form.Item label="" help="Move this part to a new line keeping its content.">
+        <Popconfirm
+          title="Are you sure you want to convert this part to a new line?"
+          onConfirm={() => onConvertPartToNewLine(partId)}
+        >
+          <Button type="primary" icon={<LogoutOutlined />} block ghost>
+            Convert to New Line
           </Button>
         </Popconfirm>
       </Form.Item>

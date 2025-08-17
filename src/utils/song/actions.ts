@@ -1,6 +1,6 @@
 import { cloneDeep, get, set } from 'lodash';
 import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
-import { getDifference } from 'utils/helpers';
+import { getDifference, removeDuplicates } from 'utils/helpers';
 
 import { generateLine, getLine } from './line-getters';
 import { generatePart, getPart } from './part-getters';
@@ -8,22 +8,29 @@ import { getSection } from './section-getters';
 
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
- * @template T - The type of the property to update.
- * @param {Song} song - The original song object.
- * @param {string} path - The path to the property to update.
- * @param {Song[T]} value - The new value for the property.
- * @returns {Song} - A new copy of the song object with the updated property.
+ * @param song - The original song object.
+ * @param path - The path to the property to update.
+ * @param value - The new value for the property.
+ * @param shallow - Optional flag to determine if the song should be cloned deeply (default) or not (used when another action is called within another action).
+ * @returns A new song object with the applied updates.
  */
-export const updateSong = (song: Song, path: string, value: UpdateValue): Song => {
-  const copy = cloneDeep(song);
+export const updateSong = (song: Song, path: string, value: UpdateValue, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   set(copy, path, value);
 
   return copy;
 };
 
-export const batchUpdateSong = (song: Song, updates: Dictionary<UpdateValue>): Song => {
-  const copy = cloneDeep(song);
+/**
+ * Batch updates a song object with multiple updates.
+ * @param song - The song object to update.
+ * @param updates - A dictionary of updates where keys are object paths and values are the new values.
+ * @param shallow - Optional flag to determine if the song should be cloned deeply (default) or not (used when another action is called within another action).
+ * @returns A new song object with the applied updates.
+ */
+export const batchUpdateSong = (song: Song, updates: Dictionary<UpdateValue>, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   Object.entries(updates).forEach(([path, value]) => {
     set(copy, path, value);
@@ -32,16 +39,21 @@ export const batchUpdateSong = (song: Song, updates: Dictionary<UpdateValue>): S
   return copy;
 };
 
-export const updateSongContent = (song: Song, id: UID, value: SongSection | SongLine | SongPart): Song => {
-  const copy = cloneDeep(song);
+export const updateSongContent = (
+  song: Song,
+  id: UID,
+  value: SongSection | SongLine | SongPart,
+  shallow?: boolean,
+): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   set(copy, `content.${id}`, value);
 
   return copy;
 };
 
-export const addNewPartToLine = (song: Song, lineId: UID): Song => {
-  const copy = cloneDeep(song);
+export const addNewPartToLine = (song: Song, lineId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   const line = getLine(lineId, song);
   const newPartProps: Partial<SongPart> & Pick<SongPart, 'lineId'> = { lineId };
@@ -62,8 +74,8 @@ export const addNewPartToLine = (song: Song, lineId: UID): Song => {
   return copy;
 };
 
-export const addNewLineToSection = (song: Song, sectionId: UID): Song => {
-  const copy = cloneDeep(song);
+export const addNewLineToSection = (song: Song, sectionId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   const section = getSection(sectionId, song);
   const newLineProps: Partial<SongLine> & Pick<SongLine, 'sectionId'> = { sectionId };
@@ -72,11 +84,11 @@ export const addNewLineToSection = (song: Song, sectionId: UID): Song => {
   set(copy, `content.${line.id}`, line);
   set(copy, `content.${sectionId}.linesIds`, [...section.linesIds, line.id]);
 
-  return addNewPartToLine(copy, line.id);
+  return addNewPartToLine(copy, line.id, true);
 };
 
-export const mergeParts = (song: Song, partIds: UID[]): Song => {
-  const copy = cloneDeep(song);
+export const mergeParts = (song: Song, partIds: UID[], shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   // Order parts by start time
   const parts = partIds
@@ -97,7 +109,9 @@ export const mergeParts = (song: Song, partIds: UID[]): Song => {
   };
 
   // Delete old parts
-  partIds.forEach((id) => delete copy.content[id]);
+  partIds.forEach((id) => {
+    delete copy.content[id];
+  });
 
   // Update song with merged part
   set(copy, `content.${basePart.id}`, mergedPart);
@@ -105,8 +119,10 @@ export const mergeParts = (song: Song, partIds: UID[]): Song => {
   return copy;
 };
 
-export const movePart = (song: Song, partId: UID, targetLineId: UID): Song => {
-  const copy = cloneDeep(song);
+// TODO: Verify
+export const movePart = (song: Song, partId: UID, targetLineId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
   const part = getPart(partId, song);
   console.log('START MOVE');
   // Disconnect previous line
@@ -131,8 +147,9 @@ export const movePart = (song: Song, partId: UID, targetLineId: UID): Song => {
   return copy;
 };
 
-export const deletePart = (song: Song, partId: UID): Song => {
-  const copy = cloneDeep(song);
+export const deletePart = (song: Song, partId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
   const part = getPart(partId, song);
 
   // Disconnect part from line
@@ -150,8 +167,10 @@ export const deletePart = (song: Song, partId: UID): Song => {
   return copy;
 };
 
-export const deleteLine = (song: Song, lineId: UID): Song => {
-  const copy = cloneDeep(song);
+// TODO: Verify
+export const deleteLine = (song: Song, lineId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
   const line = getLine(lineId, song);
 
   if (line.partsIds.length > 0) {
@@ -183,8 +202,8 @@ export const deleteLine = (song: Song, lineId: UID): Song => {
   return copy;
 };
 
-export const deleteSection = (song: Song, sectionId: UID): Song => {
-  const copy = cloneDeep(song);
+export const deleteSection = (song: Song, sectionId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
   const section = getSection(sectionId, song);
 
   if (section.linesIds.length > 0) {
@@ -192,9 +211,43 @@ export const deleteSection = (song: Song, sectionId: UID): Song => {
   }
 
   // Delete lines
-  section.linesIds.forEach((lineId) => deleteLine(copy, lineId));
+  section.linesIds.forEach((lineId) => {
+    deleteLine(copy, lineId);
+  });
 
   copy.updatedAt = Date.now();
+
+  return copy;
+};
+
+/**
+ * Converts a part to a new line in the song.
+ * @param song - The song object.
+ * @param partId - The ID of the part to convert.
+ * @param shallow - Whether to perform a shallow copy.
+ * @returns A new song object with the part converted to a new line.
+ */
+export const convertPartToNewLine = (song: Song, partId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  const part = getPart(partId, song);
+  const lineId = part.lineId;
+  const previousLine = getLine(lineId, song);
+
+  // Disconnect part from previous line
+  disconnectPartFromLine(partId, lineId, copy, true);
+
+  // Create new line
+  const newLine = generateLine({
+    partsIds: [partId],
+    sectionId: previousLine.sectionId,
+  });
+  // Add line to song
+  set(copy, `content.${newLine.id}`, newLine);
+
+  // Connect line to section, and line to part
+  connectPartToLine(partId, newLine.id, copy, true);
+  connectLineToSection(newLine.id, previousLine.sectionId, copy, true);
 
   return copy;
 };
@@ -206,11 +259,15 @@ export const deleteSection = (song: Song, sectionId: UID): Song => {
  * @param song - The song object.
  * @returns A new song object with the part connected to the line.
  */
-export const connectPartToLine = (partId: UID, lineId: UID, song: Song): Song => {
-  const copy = cloneDeep(song);
+export const connectPartToLine = (partId: UID, lineId: UID, song: Song, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   set(copy, `content.${partId}.lineId`, lineId);
-  set(copy, `content.${lineId}.partsIds`, [...(get(copy, `content.${lineId}.partsIds`) ?? []), partId]);
+  set(
+    copy,
+    `content.${lineId}.partsIds`,
+    removeDuplicates([...(get(copy, `content.${lineId}.partsIds`) ?? []), partId]),
+  );
 
   return copy;
 };
@@ -222,8 +279,8 @@ export const connectPartToLine = (partId: UID, lineId: UID, song: Song): Song =>
  * @param song - The song object.
  * @returns A new song object with the part disconnected from the line.
  */
-export const disconnectPartFromLine = (partId: UID, lineId: UID, song: Song): Song => {
-  const copy = cloneDeep(song);
+export const disconnectPartFromLine = (partId: UID, lineId: UID, song: Song, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   set(copy, `content.${partId}.lineId`, '');
   set(
@@ -243,11 +300,15 @@ export const disconnectPartFromLine = (partId: UID, lineId: UID, song: Song): So
  * @param song - The song object.
  * @returns A new song object with the line connected to the section.
  */
-export const connectLineToSection = (lineId: UID, sectionId: UID, song: Song): Song => {
-  const copy = cloneDeep(song);
+export const connectLineToSection = (lineId: UID, sectionId: UID, song: Song, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   set(copy, `content.${lineId}.sectionId`, sectionId);
-  set(copy, `content.${sectionId}.linesIds`, [...(get(copy, `content.${sectionId}.linesIds`) ?? []), lineId]);
+  set(
+    copy,
+    `content.${sectionId}.linesIds`,
+    removeDuplicates([...(get(copy, `content.${sectionId}.linesIds`) ?? []), lineId]),
+  );
 
   return copy;
 };
@@ -260,8 +321,13 @@ export const connectLineToSection = (lineId: UID, sectionId: UID, song: Song): S
  * @param song - The song object.
  * @returns A new song object with the line disconnected from the section.
  */
-export const disconnectLineFromSection = (lineId: UID, sectionId: UID, song: Song): Song => {
-  const copy = cloneDeep(song);
+export const disconnectLineFromSection = (
+  lineId: UID,
+  sectionId: UID,
+  song: Song,
+  shallow?: boolean,
+): Song => {
+  const copy = shallow ? song : cloneDeep(song);
 
   set(copy, `content.${lineId}.sectionId`, '');
   set(
