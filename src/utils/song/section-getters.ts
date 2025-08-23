@@ -42,6 +42,25 @@ export const getSection = (sectionId: string, song: Song): SongSection => {
   return section;
 };
 
+/**
+ * Retrieves the value of a specific key from a section.
+ * @template K - The key of the SongSection object to retrieve.
+ * @param sectionId - The ID of the section.
+ * @param key - The key of the value to retrieve.
+ * @param song - The song object containing the section.
+ * @param defaultValue - An optional default value to return if the key is not found.
+ * @returns The value of the specified key from the section.
+ */
+export const getSectionValue = <K extends keyof SongSection>(
+  sectionId: string,
+  key: K,
+  song: Song,
+  defaultValue: SongSection[K],
+): SongSection[K] => {
+  const section = getSection(sectionId, song);
+  return section[key] ?? defaultValue;
+};
+
 const getSectionLines = (sectionId: string, song: Song): SongLine[] => {
   const section = getSection(sectionId, song);
   return section?.linesIds?.map((lineId) => getLine(lineId, song));

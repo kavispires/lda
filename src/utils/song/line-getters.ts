@@ -44,6 +44,25 @@ export const getLine = (lineId: string, song: Song, bypassError?: boolean): Song
 };
 
 /**
+ * Retrieves the value of a specific key from a line.
+ * @template K - The key of the SongLine object to retrieve.
+ * @param lineId - The ID of the line.
+ * @param key - The key of the value to retrieve.
+ * @param song - The song object containing the line.
+ * @param defaultValue - An optional default value to return if the key is not found.
+ * @returns The value of the specified key from the line.
+ */
+export const getLineValue = <K extends keyof SongLine>(
+  lineId: string,
+  key: K,
+  song: Song,
+  defaultValue: SongLine[K],
+): SongLine[K] => {
+  const line = getLine(lineId, song);
+  return line[key] ?? defaultValue;
+};
+
+/**
  * Retrieves the section to which a line belongs.
  * @param lineId - The ID of the line.
  * @param song - The song object containing the line.

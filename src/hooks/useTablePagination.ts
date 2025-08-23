@@ -10,27 +10,22 @@ type UseTablePaginationOptions = {
    * Only necessary if multiple tables are on the same page.
    */
   prefix?: string;
-
   /**
    * The default current page number.
    */
   defaultCurrent?: number;
-
   /**
    * The default number of items per page.
    */
   defaultPageSize?: number;
-
   /**
    * An array of available page size options.
    */
   pageSizeOptions?: number[];
-
   /**
    * The total number of items in the table.
    */
   total: number;
-
   /**
    * Whether to show the quick jumper input.
    */

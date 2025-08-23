@@ -90,7 +90,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
 
       <Divider className="my-4" />
 
-      <Form.Item label="" name="text" help="You can only delete a section with not lines">
+      <Form.Item label="" name="text" help="You can only delete a section without any lines">
         <Popconfirm
           title="Are you sure you want to delete this section?"
           onConfirm={() => onDeleteSection(sectionId)}

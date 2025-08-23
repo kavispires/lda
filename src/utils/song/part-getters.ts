@@ -44,6 +44,25 @@ export const getPart = (partId: UID, song: Song): SongPart => {
 };
 
 /**
+ * Retrieves the value of a specific key from a part.
+ * @template K - The key of the SongPart object to retrieve.
+ * @param partId - The ID of the part.
+ * @param key - The key of the value to retrieve.
+ * @param song - The song object containing the part.
+ * @param defaultValue - An optional default value to return if the key is not found.
+ * @returns The value of the specified key from the part.
+ */
+export const getPartValue = <K extends keyof SongPart>(
+  partId: UID,
+  key: K,
+  song: Song,
+  defaultValue: SongPart[K],
+): SongPart[K] => {
+  const part = getPart(partId, song);
+  return part[key] ?? defaultValue;
+};
+
+/**
  * Calculates the duration of a song part.
  * @param partId - The ID of the song part.
  * @param song - The song object containing the part.

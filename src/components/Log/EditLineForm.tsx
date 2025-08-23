@@ -108,7 +108,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
 
       <div className="my-4">TODO: Nudge line</div>
 
-      <Form.Item label="" name="text" help="You can only delete a line with no parts">
+      <Form.Item label="" name="text" help="You can only delete a line without any parts">
         <Popconfirm title="Are you sure you want to delete this line?" onConfirm={() => onDeleteLine(lineId)}>
           <Button
             type="primary"

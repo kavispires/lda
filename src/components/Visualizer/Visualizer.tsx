@@ -43,6 +43,7 @@ export function Visualizer() {
   const timestamp = Math.floor(videoControls.currentTime / RATE);
 
   return (
+    // biome-ignore lint/a11y/noStaticElementInteractions: TODO
     <div
       className={clsx('visualizer', fullScreenMode && 'visualizer--fullscreen')}
       onMouseEnter={() => setControlsVisible(true)}
