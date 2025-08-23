@@ -1,9 +1,9 @@
-import { cloneDeep, set } from 'lodash';
+import { cloneDeep, orderBy, set } from 'lodash';
 import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { getDifference, removeDuplicates } from 'utils/helpers';
 
 import { generateLine, getLine, getLineValue } from './line-getters';
-import { generatePart, getPart, getPartValue } from './part-getters';
+import { generatePart, getPart } from './part-getters';
 import { getSection, getSectionValue } from './section-getters';
 
 /**
@@ -219,13 +219,18 @@ export const mergeParts = (song: Song, partIds: UID[], shallow?: boolean): Song 
   const copy = shallow ? song : cloneDeep(song);
 
   // Order parts by start time
-  const parts = partIds
-    .map((id) => getPart(id, song))
-    .sort((a, b) => {
-      return a.startTime - b.startTime;
-    });
+  const parts = orderBy(
+    partIds.map((id) => getPart(id, song)),
+    ['startTime'],
+    ['asc'],
+  );
 
   const basePart = parts[0];
+
+  // Disconnect other parts before merge
+  parts.slice(1).forEach((part) => {
+    disconnectPartFromLine(part.id, part.lineId, copy, true);
+  });
 
   // Merge parts
   const mergedPart: SongPart = {
@@ -236,39 +241,81 @@ export const mergeParts = (song: Song, partIds: UID[], shallow?: boolean): Song 
     text: parts.map((part) => part.text).join(' '),
   };
 
-  // Delete old parts
-  partIds.forEach((id) => {
-    delete copy.content[id];
-  });
-
   // Update song with merged part
   updateSongContent(copy, basePart.id, mergedPart, true);
 
   return copy;
 };
 
-// TODO: Verify
-export const movePart = (song: Song, partId: UID, targetLineId: UID, shallow?: boolean): Song => {
+/**
+ * Moves multiple parts to the same line in a song. The parts are rearranged based on their start times.
+ *
+ * @param song - The song object containing the parts to be moved
+ * @param partIds - Array of part IDs to be moved together
+ * @param shallow - If true, modifies the original song object; if false or undefined, creates a deep clone
+ * @returns The modified song object
+ *
+ * @remarks
+ * The function takes the first part's line as the target line and moves all other parts to that line.
+ * Parts are ordered by their start times in ascending order before being processed.
+ */
+export const movePartsTogether = (song: Song, partIds: UID[], shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  // Order parts by start time
+  const parts = orderBy(
+    partIds.map((id) => getPart(id, song)),
+    ['startTime'],
+    ['asc'],
+  );
+
+  const lineId = parts[0].lineId;
+
+  // Disconnect the other lines and connect them to the first line
+  parts.slice(1).forEach((part) => {
+    disconnectPartFromLine(part.id, part.lineId, copy, true);
+    connectPartToLine(part.id, lineId, copy, true);
+  });
+
+  copy.updatedAt = Date.now();
+
+  return copy;
+};
+
+/**
+ * Moves a song part to a different line.
+ *
+ * This function performs the following operations:
+ * 1. Creates a copy of the song (deep or shallow based on the shallow parameter)
+ * 2. Retrieves the part to be moved
+ * 3. Verifies the target line exists
+ * 4. Disconnects the part from its current line
+ * 5. Connects the part to the target line
+ * 6. Updates the song's updatedAt timestamp
+ *
+ * @param song - The song object to modify
+ * @param partId - The unique ID of the part to move
+ * @param targetLineId - The unique ID of the line to move the part to
+ * @param shallow - If true, performs a shallow copy of the song; otherwise performs a deep copy
+ * @returns A modified copy of the song with the part moved to the target line
+ * @throws Error if the target line does not exist
+ */
+export const movePartToLine = (song: Song, partId: UID, targetLineId: UID, shallow?: boolean): Song => {
   const copy = shallow ? song : cloneDeep(song);
 
   const part = getPart(partId, song);
-  console.log('START MOVE');
-  // Disconnect previous line
-  set(
-    copy,
-    `content.${part.lineId}.partsIds`,
-    getLineValue(part.lineId, 'partsIds', song, []).filter((id: UID) => id !== partId),
-  );
+
+  // Make sure the line exists
+  const targetLine = getLine(targetLineId, copy);
+  if (!targetLine) {
+    throw new Error(`Target line ${targetLineId} does not exist`);
+  }
+
+  // Disconnect the current line
+  disconnectPartFromLine(part.id, part.lineId, copy, true);
 
   // Connect new line
-  set(copy, `content.${partId}.lineId`, targetLineId);
-  set(copy, `content.${targetLineId}.partsIds`, [
-    ...getLineValue(targetLineId, 'partsIds', song, []),
-    partId,
-  ]);
-  console.log('END MOVE');
-
-  console.log(getDifference(copy, song));
+  connectPartToLine(part.id, targetLineId, copy, true);
 
   copy.updatedAt = Date.now();
 

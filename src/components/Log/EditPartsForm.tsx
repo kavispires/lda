@@ -1,7 +1,7 @@
-import { Button, Flex, Form, Radio } from 'antd';
+import { Button, Divider, Flex, Form, Popconfirm, Radio, Typography } from 'antd';
 import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
 import type { Dictionary, Song, SongPart, UID, UpdateValue } from 'types';
 import { distributor } from 'utils';
@@ -22,7 +22,7 @@ type EditPartsFormProps = {
 
 export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProps) {
   const { song } = useSongEditContext();
-  const { onBatchUpdateSong } = useSongActions();
+  const { onBatchUpdateSong, onMovePartsTogether, onMergeParts } = useSongActions();
 
   const [groupedPart, setTempPart] = useState<Pick<SongPart, 'recommendedAssignee'>>({
     recommendedAssignee: getInitialValue(partsIds, song),
@@ -35,9 +35,18 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
     setTempPart({ ...groupedPart, ...changedValues });
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: a function shouldn't be part of this dependency
   useEffect(() => {
     setDirty(isDirty);
   }, [isDirty]);
+
+  // Are all parts on the same line?
+  const isSameLine = useMemo(() => {
+    const base = distributor.getPartValue(partsIds[0], 'lineId', song, '');
+    if (!base) return false;
+
+    return partsIds.every((partId) => distributor.getPartValue(partId, 'lineId', song, '') === base);
+  }, [partsIds, song]);
 
   const onSave = () => {
     const values = form.getFieldsValue();
@@ -87,6 +96,35 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
             Save Changes
           </Button>
         </Flex>
+      </Form.Item>
+
+      <Divider />
+
+      <Typography.Paragraph strong>Destructive Actions</Typography.Paragraph>
+
+      <Form.Item help="All parts must be on the same line to merge.">
+        <Popconfirm
+          title="Are you sure you want to merge these parts?"
+          onConfirm={() => {
+            onMergeParts(partsIds);
+            onClose();
+          }}
+        >
+          <Button block icon={<i className="fi fi-rr-arrows-to-line" />} disabled={!isSameLine}>
+            Merge parts into one part
+          </Button>
+        </Popconfirm>
+      </Form.Item>
+
+      <Form.Item help="At least one part must be on a different line">
+        <Popconfirm
+          title="Are you sure you want to move these parts to the same line?"
+          onConfirm={() => onMovePartsTogether(partsIds)}
+        >
+          <Button block icon={<i className="fi fi-rr-arrows-to-dotted-line" />} disabled={isSameLine}>
+            Move parts to the same line
+          </Button>
+        </Popconfirm>
       </Form.Item>
     </Form>
   );

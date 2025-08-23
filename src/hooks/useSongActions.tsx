@@ -8,42 +8,92 @@ export function useSongActions() {
   const { setSong } = useSongEditContext();
 
   const onUpdateSong = <T extends keyof Song>(path: string, value: Song[T]) => {
-    setSong((prev) => distributor.updateSong(prev!, path, value));
+    setSong((prev) => {
+      if (prev) {
+        return distributor.updateSong(prev, path, value);
+      }
+      return prev;
+    });
   };
 
   const onBatchUpdateSong = (updates: Dictionary<UpdateValue>) => {
-    setSong((prev) => distributor.batchUpdateSong(prev!, updates));
+    setSong((prev) => {
+      if (prev) {
+        return distributor.batchUpdateSong(prev, updates);
+      }
+      return prev;
+    });
   };
 
   const onUpdateSongContent = (id: UID, value: SongSection | SongLine | SongPart) => {
-    setSong((prev) => distributor.updateSongContent(prev!, id, value));
+    setSong((prev) => {
+      if (prev) {
+        return distributor.updateSongContent(prev, id, value);
+      }
+      return prev;
+    });
   };
 
   const onAddNewPart = (lineId: UID) => {
-    setSong((prev) => distributor.addNewPartToLine(prev!, lineId));
+    setSong((prev) => {
+      if (prev) {
+        return distributor.addNewPartToLine(prev, lineId);
+      }
+      return prev;
+    });
   };
 
   const onAddNewLine = (sectionId: UID) => {
-    setSong((prev) => distributor.addNewLineToSection(prev!, sectionId));
+    setSong((prev) => {
+      if (prev) {
+        return distributor.addNewLineToSection(prev, sectionId);
+      }
+      return prev;
+    });
   };
 
-  const onMovePart = (partId: UID, targetLineId: UID) => {
-    setSong((prev) => distributor.movePart(prev!, partId, targetLineId));
+  const onMovePartToLine = (partId: UID, targetLineId: UID) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.movePartToLine(prev, partId, targetLineId);
+      }
+      return prev;
+    });
+  };
+
+  const onMovePartsTogether = (partIds: UID[]) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.movePartsTogether(prev, partIds);
+      }
+      return prev;
+    });
   };
 
   const onMergeParts = (partIds: UID[]) => {
-    setSong((prev) => distributor.mergeParts(prev!, partIds));
+    setSong((prev) => {
+      if (prev) {
+        return distributor.mergeParts(prev, partIds);
+      }
+      return prev;
+    });
   };
 
   const onDeletePart = (partId: UID) => {
     try {
-      setSong((prev) => distributor.deletePart(prev!, partId));
+      setSong((prev) => {
+        if (prev) {
+          return distributor.deletePart(prev, partId);
+        }
+        return prev;
+      });
     } catch (e: unknown) {
       if (e instanceof Error) {
         notification.error({
           message: 'Could not delete part',
           description: e.message,
         });
+        // biome-ignore lint/suspicious/noConsole: on purpose
         console.error(e);
       }
     }
@@ -51,13 +101,19 @@ export function useSongActions() {
 
   const onConvertPartToNewLine = (partId: UID) => {
     try {
-      setSong((prev) => distributor.convertPartToNewLine(prev!, partId));
+      setSong((prev) => {
+        if (prev) {
+          return distributor.convertPartToNewLine(prev, partId);
+        }
+        return prev;
+      });
     } catch (e: unknown) {
       if (e instanceof Error) {
         notification.error({
           message: 'Could not convert part to new line',
           description: e.message,
         });
+        // biome-ignore lint/suspicious/noConsole: on purpose
         console.error(e);
       }
     }
@@ -65,13 +121,19 @@ export function useSongActions() {
 
   const onDeleteLine = (lineId: UID) => {
     try {
-      setSong((prev) => distributor.deleteLine(prev!, lineId));
+      setSong((prev) => {
+        if (prev) {
+          return distributor.deleteLine(prev, lineId);
+        }
+        return prev;
+      });
     } catch (e: unknown) {
       if (e instanceof Error) {
         notification.error({
           message: 'Could not delete line',
           description: e.message,
         });
+        // biome-ignore lint/suspicious/noConsole: on purpose
         console.error(e);
       }
     }
@@ -79,7 +141,12 @@ export function useSongActions() {
 
   const onDeleteSection = (sectionId: UID) => {
     try {
-      setSong((prev) => distributor.deleteSection(prev!, sectionId));
+      setSong((prev) => {
+        if (prev) {
+          return distributor.deleteSection(prev, sectionId);
+        }
+        return prev;
+      });
     } catch (e: unknown) {
       if (e instanceof Error) {
         notification.error({
@@ -87,6 +154,7 @@ export function useSongActions() {
           description: e.message,
         });
       }
+      // biome-ignore lint/suspicious/noConsole: on purpose
       console.error(e);
     }
   };
@@ -95,7 +163,8 @@ export function useSongActions() {
     onUpdateSong,
     onUpdateSongContent,
     onBatchUpdateSong,
-    onMovePart,
+    onMovePartToLine,
+    onMovePartsTogether,
     onMergeParts,
     onAddNewPart,
     onAddNewLine,

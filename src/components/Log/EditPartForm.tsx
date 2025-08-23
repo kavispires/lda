@@ -166,7 +166,7 @@ type MovePartFlowProps = {
 
 function MovePartFlow({ partId }: MovePartFlowProps) {
   const { song } = useSongEditContext();
-  const { onMovePart } = useSongActions();
+  const { onMovePartToLine } = useSongActions();
   const [targetLineId, setTargetLineId] = useState('');
 
   const typeahead = useMemo(() => {
@@ -174,7 +174,7 @@ function MovePartFlow({ partId }: MovePartFlowProps) {
   }, [song]);
 
   const onMove = () => {
-    onMovePart(partId, targetLineId);
+    onMovePartToLine(partId, targetLineId);
   };
 
   return (
