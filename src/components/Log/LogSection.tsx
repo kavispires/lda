@@ -9,6 +9,7 @@ import { Alert, Button, Checkbox, Tooltip } from 'antd';
 import { useLogPart, useLogSection } from 'hooks/useLogInstances';
 import type { ReactNode } from 'react';
 import type { Song, UID } from 'types';
+import { NULL } from 'utils/constants';
 
 type LogSectionProps = {
   /**
@@ -92,7 +93,7 @@ export function LogSection({
         )}
 
         {onClick ? (
-          <Button onClick={() => onClick(id)} shape="round" icon={icon}>
+          <Button onClick={() => onClick(id)} shape="round" icon={icon} danger={section?.kind === NULL}>
             {name}
           </Button>
         ) : (

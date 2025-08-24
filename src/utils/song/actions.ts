@@ -636,6 +636,8 @@ export const determineSectionsNumbering = (song: Song, shallow?: boolean): Song 
     sectionsCount[section.kind] = (sectionsCount[section.kind] || 0) + 1;
   });
 
+  if (sectionsCount.NULL > 0) return copy;
+
   // Set the property .number of each section following the rules:
   // If the section kind only happens once, set .number as ''
   // If the sections are consecutive (in order in the allSectionsIds), it should be numbered I, II, III, etc.

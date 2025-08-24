@@ -100,6 +100,7 @@ export const SECTION_KINDS = {
   POST_CHORUS: 'POST_CHORUS',
   RAP: 'RAP',
   SPECIAL: 'SPECIAL',
+  ASIDE: 'ASIDE',
   UNKNOWN: 'UNKNOWN',
 };
 
