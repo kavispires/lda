@@ -169,4 +169,11 @@ export type SongPart = {
   lineId: UID;
 };
 
-export type UpdateValue = Song[keyof Song] | SongPart | SongLine | SongSection;
+export type UpdateValue =
+  | Song[keyof Song]
+  | SongPart
+  | SongPart[keyof SongPart]
+  | SongLine
+  | SongLine[keyof SongLine]
+  | SongSection
+  | SongSection[keyof SongSection];

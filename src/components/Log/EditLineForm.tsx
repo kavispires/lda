@@ -33,7 +33,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
     partsIds: tempLine.partsIds.length > 0,
   };
 
-  const onValuesChange = (changedValues: any) => {
+  const onValuesChange = (changedValues: Partial<SongLine>) => {
     setTempLine({ ...tempLine, ...changedValues });
   };
 

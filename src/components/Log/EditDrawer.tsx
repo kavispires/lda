@@ -3,6 +3,7 @@ import { useState } from 'react';
 import type { UID } from 'types';
 import { getInstanceName } from 'utils';
 import { EditLineForm } from './EditLineForm';
+import { EditLinesForm } from './EditLinesForm';
 import { EditPartForm } from './EditPartForm';
 import { EditPartsForm } from './EditPartsForm';
 import { EditSectionForm } from './EditSectionForm';
@@ -30,11 +31,11 @@ export function EditDrawer({ onClose, activeIds }: EditDrawerProps) {
       maskClosable={!isDirty}
     >
       {instanceType === 'section' && <EditSectionForm sectionId={activeIds[0]} {...props} />}
-      {instanceType === 'line' && <EditLineForm lineId={activeIds[0]} {...props} />}
-      {instanceType === 'part' && <EditPartForm partId={activeIds[0]} {...props} />}
-
-      {instanceType === 'parts' && <EditPartsForm partsIds={activeIds} {...props} />}
       {instanceType === 'sections' && <EditSectionsForm sectionsIds={activeIds} {...props} />}
+      {instanceType === 'line' && <EditLineForm lineId={activeIds[0]} {...props} />}
+      {instanceType === 'lines' && <EditLinesForm linesIds={activeIds} {...props} />}
+      {instanceType === 'part' && <EditPartForm partId={activeIds[0]} {...props} />}
+      {instanceType === 'parts' && <EditPartsForm partsIds={activeIds} {...props} />}
     </Drawer>
   );
 }

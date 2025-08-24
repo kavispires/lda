@@ -2,9 +2,15 @@ import { cloneDeep, orderBy, set } from 'lodash';
 import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { LETTERS, ROMAN_NUMERALS } from 'utils/constants';
 import { removeDuplicates } from 'utils/helpers';
-import { generateLine, getLine, getLineValue } from './line-getters';
+import { generateLine, getLine, getLineSummary, getLineValue } from './line-getters';
 import { generatePart, getPart } from './part-getters';
-import { generateSection, getSection, getSectionsTypeahead, getSectionValue } from './section-getters';
+import {
+  generateSection,
+  getSection,
+  getSectionSummary,
+  getSectionsTypeahead,
+  getSectionValue,
+} from './section-getters';
 
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
@@ -404,6 +410,61 @@ export const deleteLine = (song: Song, lineId: UID, shallow?: boolean): Song => 
 };
 
 /**
+ * Merges multiple lines in a song into a single line.
+ *
+ * This function takes a song and an array of line IDs to merge. It keeps the first line
+ * (ordered by start time) and moves all parts from other lines into this keeper line.
+ *
+ * @param song - The song object containing lines to merge
+ * @param linesIds - Array of line IDs to be merged
+ * @param shallow - If true, performs a shallow copy of the song; otherwise, performs a deep clone
+ * @returns A new song object with the specified lines merged
+ *
+ * @remarks
+ * The function performs the following steps:
+ * 1. Orders the lines by start time
+ * 2. Selects the first line as the "keeper" line
+ * 3. Disconnects all parts from the other lines
+ * 4. Connects all those parts to the keeper line
+ */
+export const mergeLines = (song: Song, linesIds: UID[], shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  // Order lines by start time
+  const lines = orderBy(
+    linesIds.map((id) => getLineSummary(id, song)),
+    ['startTime'],
+    ['asc'],
+  );
+
+  // Get first line as keeper
+  const baseLine = lines[0];
+  const linesToMerge = lines.slice(1);
+
+  // Disconnect all other parts from their lines
+  linesToMerge.forEach((line) => {
+    line.line.partsIds.forEach((partId) => {
+      const part = getPart(partId, copy);
+      disconnectPartFromLine(partId, part.lineId, copy, true);
+    });
+  });
+
+  // Connect all other parts to the keeper
+  linesToMerge.forEach((line) => {
+    line.line.partsIds.forEach((partId) => {
+      connectPartToLine(partId, baseLine.id, copy, true);
+    });
+  });
+
+  // Disconnect the other lines from their original sections
+  linesToMerge.forEach((line) => {
+    disconnectLineFromSection(line.id, line.section.id, copy, true);
+  });
+
+  return copy;
+};
+
+/**
  * Deletes a section from a song.
  *
  * @param song - The song object containing the section to delete
@@ -435,7 +496,7 @@ export const mergeSections = (song: Song, sectionIds: UID[], shallow?: boolean):
 
   // Order sections by start time
   const sections = orderBy(
-    sectionIds.map((id) => getSection(id, song)),
+    sectionIds.map((id) => getSectionSummary(id, song)),
     ['startTime'],
     ['asc'],
   );
@@ -446,7 +507,7 @@ export const mergeSections = (song: Song, sectionIds: UID[], shallow?: boolean):
 
   // Disconnect all other lines from their sections
   sectionsToMerge.forEach((section) => {
-    section.linesIds.forEach((lineId) => {
+    section.section.linesIds.forEach((lineId) => {
       const line = getLine(lineId, copy);
       disconnectLineFromSection(lineId, line.sectionId, copy, true);
     });
@@ -454,7 +515,7 @@ export const mergeSections = (song: Song, sectionIds: UID[], shallow?: boolean):
 
   // Connect all other lines to the keeper
   sectionsToMerge.forEach((section) => {
-    section.linesIds.forEach((lineId) => {
+    section.section.linesIds.forEach((lineId) => {
       connectLineToSection(lineId, baseSection.id, copy, true);
     });
   });
@@ -506,7 +567,7 @@ export const convertPartToNewLine = (song: Song, partId: UID, shallow?: boolean)
 };
 
 /**
- * Connects a part to a line in a song.
+ * Connects a part to a line in a song (and vice-versa).
  * @param partId - The ID of the part to connect.
  * @param lineId - The ID of the line to connect the part to.
  * @param song - The song object.
@@ -528,7 +589,7 @@ export const connectPartToLine = (partId: UID, lineId: UID, song: Song, shallow?
 };
 
 /**
- * Disconnects a part from a line in the song.
+ * Disconnects a part from a line in the song (and vice-versa).
  * @param partId - The ID of the part to disconnect.
  * @param lineId - The ID of the line from which to disconnect the part.
  * @param song - The song object.

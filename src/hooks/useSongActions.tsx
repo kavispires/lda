@@ -148,6 +148,15 @@ export function useSongActions() {
     }
   };
 
+  const onMergeLines = (linesIds: UID[], shallow?: boolean) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.mergeLines(prev, linesIds, shallow);
+      }
+      return prev;
+    });
+  };
+
   const onDeleteSection = (sectionId: UID) => {
     try {
       setSong((prev) => {
@@ -190,17 +199,18 @@ export function useSongActions() {
     onUpdateSong,
     onUpdateSongContent,
     onBatchUpdateSong,
-    onMovePartToLine,
-    onMovePartsTogether,
-    onMergeParts,
     onAddNewPart,
     onAddNewLine,
     onAddNewSection,
+    onConvertPartToNewLine,
     onDeletePart,
     onDeleteLine,
     onDeleteSection,
-    onConvertPartToNewLine,
     onNumberSections,
+    onMergeParts,
     onMergeSections,
+    onMergeLines,
+    onMovePartToLine,
+    onMovePartsTogether,
   };
 }
