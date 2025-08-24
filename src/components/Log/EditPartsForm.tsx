@@ -48,7 +48,7 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
     return partsIds.every((partId) => distributor.getPartValue(partId, 'lineId', song, '') === base);
   }, [partsIds, song]);
 
-  const onSave = () => {
+  const onApplyChanges = () => {
     const values = form.getFieldsValue();
     if (values.recommendedAssignee) {
       const updates = partsIds.reduce((acc: Dictionary<UpdateValue>, partId) => {
@@ -72,7 +72,7 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
       onValuesChange={onValuesChange}
       autoComplete="off"
       preserve={false}
-      onFinish={onSave}
+      onFinish={onApplyChanges}
     >
       <Form.Item label="Batch change Recommended Assignee" name="recommendedAssignee">
         <Radio.Group optionType="button">
@@ -93,7 +93,7 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
         <Flex gap={6}>
           <Button onClick={onClose}>Close</Button>
           <Button type="primary" htmlType="submit" disabled={!isDirty} block>
-            Save Changes
+            Apply Changes
           </Button>
         </Flex>
       </Form.Item>

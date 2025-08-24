@@ -1,5 +1,18 @@
 import { DeleteOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Rate, Select, Space, Switch } from 'antd';
+import {
+  Button,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  Popconfirm,
+  Progress,
+  Rate,
+  Select,
+  Space,
+  Switch,
+  Typography,
+} from 'antd';
 import { useLogLine } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
@@ -10,6 +23,7 @@ import { getCompletionPercentage } from 'utils';
 import { LINE_SKILL } from 'utils/constants';
 
 import { CriteriaRule } from './CriteriaRule';
+import { MoveLinesToSectionSelector } from './MoveLinesToSectionSelector';
 
 const LINE_SKILL_OPTIONS = Object.values(LINE_SKILL).map((skill) => ({ label: skill, value: skill }));
 
@@ -42,7 +56,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
     setDirty(isDirty);
   }, [isDirty]);
 
-  const onSave = () => {
+  const onApplyChanges = () => {
     onUpdateSongContent(lineId, tempLine);
     setDirty(false);
     onClose();
@@ -57,7 +71,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
       onValuesChange={onValuesChange}
       autoComplete="off"
       preserve={false}
-      onFinish={onSave}
+      onFinish={onApplyChanges}
     >
       <div className="grid grid-cols-3 gap-2">
         <Form.Item label="Skill" name="skill.type">
@@ -104,9 +118,23 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
         <CriteriaRule value={criteria.sectionId} label="Has sectionId" />
         <CriteriaRule value={criteria.partsIds} label="Has parts" />
       </Space>
-      <Divider className="my-4" />
 
-      <div className="my-4">TODO: Nudge line</div>
+      <Divider />
+
+      <Form.Item>
+        <Flex gap={6}>
+          <Button onClick={onClose}>Cancel</Button>
+          <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
+            Apply Changes
+          </Button>
+        </Flex>
+      </Form.Item>
+
+      <Typography.Paragraph strong>Destructive Actions</Typography.Paragraph>
+
+      <Form.Item label="Move Lines to another Section">
+        <MoveLinesToSectionSelector linesIds={[lineId]} onSuccess={onClose} />
+      </Form.Item>
 
       <Form.Item label="" name="text" help="You can only delete a line without any parts">
         <Popconfirm title="Are you sure you want to delete this line?" onConfirm={() => onDeleteLine(lineId)}>
@@ -123,15 +151,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
         </Popconfirm>
       </Form.Item>
 
-      <Divider />
-      <Form.Item>
-        <Flex gap={6}>
-          <Button onClick={onClose}>Cancel</Button>
-          <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
-            Save Changes
-          </Button>
-        </Flex>
-      </Form.Item>
+      <div className="my-4">TODO: Nudge line</div>
     </Form>
   );
 }

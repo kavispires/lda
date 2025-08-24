@@ -1,26 +1,12 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import {
-  Button,
-  Divider,
-  Flex,
-  Form,
-  Input,
-  Popconfirm,
-  Progress,
-  Rate,
-  Select,
-  Space,
-  Switch,
-  Typography,
-} from 'antd';
-import { useLogLine } from 'hooks/useLogInstances';
+import { Button, Divider, Flex, Form, Input, Popconfirm, Rate, Select, Switch, Typography } from 'antd';
 import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
 import type { Dictionary, Song, SongLine, UID, UpdateValue } from 'types';
-import { distributor, getCompletionPercentage } from 'utils';
+import { distributor } from 'utils';
 import { LINE_SKILL } from 'utils/constants';
+import { MoveLinesToSectionSelector } from './MoveLinesToSectionSelector';
 
 type CommonLineProps = Pick<SongLine, 'skill' | 'adlib' | 'dismissible'>;
 
@@ -73,7 +59,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
     setDirty(isDirty);
   }, [isDirty]);
 
-  const onSave = () => {
+  const onApplyChanges = () => {
     const values = form.getFieldsValue();
     if (values.adlib || values.dismissible || values.skill) {
       const updates = linesIds.reduce((acc: Dictionary<UpdateValue>, lineId) => {
@@ -102,7 +88,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
       onValuesChange={onValuesChange}
       autoComplete="off"
       preserve={false}
-      onFinish={onSave}
+      onFinish={onApplyChanges}
     >
       <div className="grid grid-cols-3 gap-2">
         <Form.Item label="Skill" name="skill.type">
@@ -143,7 +129,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
           <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
-            Save Changes
+            Apply Changes
           </Button>
         </Flex>
       </Form.Item>
@@ -166,8 +152,8 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
         </Popconfirm>
       </Form.Item>
 
-      <Form.Item>
-        Move to section <>SELECTOR</>
+      <Form.Item label="Move Lines to another Section">
+        <MoveLinesToSectionSelector linesIds={linesIds} onSuccess={onClose} />
       </Form.Item>
     </Form>
   );

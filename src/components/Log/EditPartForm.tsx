@@ -56,7 +56,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
     setDirty(isDirty);
   }, [isDirty]);
 
-  const onSave = () => {
+  const onApplyChanges = () => {
     onUpdateSongContent(partId, tempPart);
     setDirty(false);
     onClose();
@@ -71,7 +71,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
       onValuesChange={onValuesChange}
       autoComplete="off"
       preserve={false}
-      onFinish={onSave}
+      onFinish={onApplyChanges}
     >
       <Form.Item label="Recommended Assignee" name="recommendedAssignee">
         <Radio.Group optionType="button">
@@ -152,7 +152,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
           <Button type="primary" htmlType="submit" disabled={!isDirty} block>
-            Save Changes
+            Apply Changes
           </Button>
         </Flex>
       </Form.Item>

@@ -1,11 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
-import { cloneDeep, orderBy } from 'lodash';
+import { cloneDeep } from 'lodash';
 import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
 import type { FirestoreSong, Song, UID } from 'types';
 import { distributor } from 'utils';
-import { determineSectionsNumbering } from 'utils/song';
 
 /**
  * Deserializes a FirestoreSong object into a Song object.
@@ -70,31 +69,11 @@ export const serializeSong = (song: Song): FirestoreSong => {
   copy.ready = distributor.isSongReady(copy);
 
   if (copy.ready) {
-    // Sort parts in lines
-    distributor.getAllLines(copy).forEach((line) => {
-      line.partsIds = orderBy(
-        line.partsIds,
-        [(partId) => distributor.getPart(partId, copy).startTime],
-        ['asc'],
-      );
-    });
-    // Song lines in sections
-    distributor.getAllSections(copy).forEach((section) => {
-      section.linesIds = orderBy(
-        section.linesIds,
-        [(lineId) => distributor.getLineStartTime(lineId, copy)],
-        ['asc'],
-      );
-    });
-    // Sort section Ids
-    copy.sectionIds = orderBy(
-      copy.sectionIds,
-      [(sectionId) => distributor.getSectionStartTime(sectionId, copy)],
-      ['asc'],
-    );
+    // Sort song
+    distributor.sortSong(copy, true);
 
     // Romanize Sections
-    determineSectionsNumbering(copy, true);
+    distributor.determineSectionsNumbering(copy, true);
   }
 
   return {

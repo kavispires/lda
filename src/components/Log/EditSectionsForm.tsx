@@ -41,7 +41,7 @@ export function EditSectionsForm({ sectionsIds, onClose, setDirty }: EditSection
     setDirty(isDirty);
   }, [isDirty]);
 
-  const onSave = () => {
+  const onApplyChanges = () => {
     const values = form.getFieldsValue();
     if (values.kind) {
       const updates = sectionsIds.reduce((acc: Dictionary<UpdateValue>, sectionId) => {
@@ -65,7 +65,7 @@ export function EditSectionsForm({ sectionsIds, onClose, setDirty }: EditSection
       onValuesChange={onValuesChange}
       autoComplete="off"
       preserve={false}
-      onFinish={onSave}
+      onFinish={onApplyChanges}
     >
       <Form.Item label="Kind" name="kind">
         <Select options={SECTION_SKILL_OPTIONS} />
@@ -75,7 +75,7 @@ export function EditSectionsForm({ sectionsIds, onClose, setDirty }: EditSection
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
           <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
-            Save Changes
+            Apply Changes
           </Button>
         </Flex>
       </Form.Item>

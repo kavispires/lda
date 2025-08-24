@@ -2,7 +2,7 @@ import { cloneDeep, orderBy, set } from 'lodash';
 import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { LETTERS, ROMAN_NUMERALS } from 'utils/constants';
 import { removeDuplicates } from 'utils/helpers';
-import { generateLine, getLine, getLineSummary, getLineValue } from './line-getters';
+import { generateLine, getLine, getLineStartTime, getLineSummary, getLineValue } from './line-getters';
 import { generatePart, getPart } from './part-getters';
 import {
   generateSection,
@@ -307,6 +307,8 @@ export const movePartsTogether = (song: Song, partIds: UID[], shallow?: boolean)
 
   copy.updatedAt = Date.now();
 
+  sortLine(copy, lineId, true);
+
   return copy;
 };
 
@@ -344,6 +346,8 @@ export const movePartToLine = (song: Song, partId: UID, targetLineId: UID, shall
 
   // Connect new line
   connectPartToLine(part.id, targetLineId, copy, true);
+
+  sortLine(copy, targetLineId, true);
 
   copy.updatedAt = Date.now();
 
@@ -461,6 +465,53 @@ export const mergeLines = (song: Song, linesIds: UID[], shallow?: boolean): Song
     disconnectLineFromSection(line.id, line.section.id, copy, true);
   });
 
+  sortLine(copy, baseLine.id, true);
+
+  return copy;
+};
+
+/**
+ * Moves specified lines to a target section within a song.
+ *
+ * This function:
+ * 1. Disconnects the specified lines from their original sections
+ * 2. Connects these lines to the target section
+ * 3. Removes any sections that become empty after the lines are moved
+ *
+ * @param song - The song object to modify
+ * @param linesIds - Array of line IDs to be moved
+ * @param sectionId - Target section ID where lines will be moved to
+ * @param shallow - If true, performs a shallow modification on the original song object;
+ *                  if false or undefined, creates a deep copy before modification
+ * @returns The modified song object (either the original or a deep copy, depending on the shallow parameter)
+ */
+export const moveLinesToSection = (song: Song, linesIds: UID[], sectionId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  const modifiedSections: UID[] = [];
+
+  // Disconnect lines from their original sections
+  linesIds.forEach((lineId) => {
+    const line = getLine(lineId, copy);
+    modifiedSections.push(line.sectionId);
+    disconnectLineFromSection(lineId, line.sectionId, copy, true);
+  });
+
+  // Connect lines to the new section
+  linesIds.forEach((lineId) => {
+    connectLineToSection(lineId, sectionId, copy, true);
+  });
+
+  // Verify if any section is now empty, if so, remove it from song
+  modifiedSections.forEach((sectionId) => {
+    const section = getSection(sectionId, copy);
+    if (section.linesIds.length === 0) {
+      deleteSection(copy, sectionId, true);
+    }
+  });
+
+  sortSection(copy, sectionId, true);
+
   return copy;
 };
 
@@ -530,6 +581,8 @@ export const mergeSections = (song: Song, sectionIds: UID[], shallow?: boolean):
   sectionsIdsToMerge.forEach((sectionId) => {
     delete copy.content[sectionId];
   });
+
+  sortSection(copy, baseSection.id, true);
 
   return copy;
 };
@@ -772,6 +825,41 @@ export const determineSectionsNumbering = (song: Song, shallow?: boolean): Song 
         );
       });
     }
+  });
+
+  return copy;
+};
+
+export const sortLine = (song: Song, lineId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  const line = getLine(lineId, copy);
+  line.partsIds = orderBy(line.partsIds, [(partId) => getPart(partId, copy).startTime], ['asc']);
+
+  return copy;
+};
+
+export const sortSection = (song: Song, sectionId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  const section = getSection(sectionId, copy);
+
+  // Sort all lines first
+  section.linesIds.forEach((lineId) => {
+    sortLine(song, lineId, true);
+  });
+
+  section.linesIds = orderBy(section.linesIds, [(lineId) => getLineStartTime(lineId, copy)], ['asc']);
+
+  return copy;
+};
+
+export const sortSong = (song: Song, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  // Sort all sections
+  copy.sectionIds.forEach((sectionId) => {
+    sortSection(copy, sectionId, true);
   });
 
   return copy;

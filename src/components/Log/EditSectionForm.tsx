@@ -42,7 +42,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
     setDirty(isDirty);
   }, [isDirty]);
 
-  const onSave = () => {
+  const onApplyChanges = () => {
     onUpdateSongContent(sectionId, tempSection);
     setDirty(false);
     onClose();
@@ -57,7 +57,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
       onValuesChange={onValuesChange}
       autoComplete="off"
       preserve={false}
-      onFinish={onSave}
+      onFinish={onApplyChanges}
     >
       <Form.Item label="Kind" name="kind">
         <Select options={SECTION_SKILL_OPTIONS} />
@@ -113,7 +113,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
           <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
-            Save Changes
+            Apply Changes
           </Button>
         </Flex>
       </Form.Item>

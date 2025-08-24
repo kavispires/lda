@@ -79,6 +79,15 @@ export function useSongActions() {
     });
   };
 
+  const onMoveLinesToSection = (linesIds: UID[], targetSectionId: UID) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.moveLinesToSection(prev, linesIds, targetSectionId);
+      }
+      return prev;
+    });
+  };
+
   const onMergeParts = (partIds: UID[]) => {
     setSong((prev) => {
       if (prev) {
@@ -210,6 +219,7 @@ export function useSongActions() {
     onMergeParts,
     onMergeSections,
     onMergeLines,
+    onMoveLinesToSection,
     onMovePartToLine,
     onMovePartsTogether,
   };
