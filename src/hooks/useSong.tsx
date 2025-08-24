@@ -5,6 +5,7 @@ import { cloneDeep, orderBy } from 'lodash';
 import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
 import type { FirestoreSong, Song, UID } from 'types';
 import { distributor } from 'utils';
+import { determineSectionsNumbering } from 'utils/song';
 
 /**
  * Deserializes a FirestoreSong object into a Song object.
@@ -53,6 +54,19 @@ export const serializeSong = (song: Song): FirestoreSong => {
     }
   });
 
+  // Delete any empty entity (parts without lineId, lines without sectionId, sectionIds, without lineIds)
+  Object.values(copy.content).forEach((entry) => {
+    if (entry.type === 'part' && !entry.lineId) {
+      delete copy.content[entry.id];
+    }
+    if (entry.type === 'line' && !entry.sectionId) {
+      delete copy.content[entry.id];
+    }
+    if (entry.type === 'section' && !entry.linesIds.length) {
+      delete copy.content[entry.id];
+    }
+  });
+
   copy.ready = distributor.isSongReady(copy);
 
   if (copy.ready) {
@@ -78,6 +92,9 @@ export const serializeSong = (song: Song): FirestoreSong => {
       [(sectionId) => distributor.getSectionStartTime(sectionId, copy)],
       ['asc'],
     );
+
+    // Romanize Sections
+    determineSectionsNumbering(copy, true);
   }
 
   return {

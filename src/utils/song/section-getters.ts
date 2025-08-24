@@ -1,5 +1,5 @@
 import type { Song, SongLine, SongSection } from 'types';
-import { NULL, ROMAN_NUMERALS } from 'utils/constants';
+import { NULL } from 'utils/constants';
 import { getCompletionPercentage } from 'utils/helpers';
 import { generateUniqueId } from './common';
 import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-getters';
@@ -13,7 +13,7 @@ import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-g
 export const generateSection = ({
   id = generateUniqueId('s', 2),
   kind = NULL,
-  number = 1,
+  number = '',
   linesIds = [],
   ...rest
 }: Partial<SongSection>): SongSection => {
@@ -68,7 +68,7 @@ const getSectionLines = (sectionId: string, song: Song): SongLine[] => {
 
 const getSectionName = (sectionId: string, song: Song): string => {
   const section = getSection(sectionId, song);
-  return `${section.kind} ${ROMAN_NUMERALS[section.number]}`;
+  return `${section.kind} ${section.number}`;
 };
 
 export const getSectionStartTime = (sectionId: string, song: Song): number => {

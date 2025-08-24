@@ -159,6 +159,15 @@ export function useSongActions() {
     }
   };
 
+  const onNumberSections = () => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.determineSectionsNumbering(prev);
+      }
+      return prev;
+    });
+  };
+
   return {
     onUpdateSong,
     onUpdateSongContent,
@@ -172,5 +181,6 @@ export function useSongActions() {
     onDeleteLine,
     onDeleteSection,
     onConvertPartToNewLine,
+    onNumberSections,
   };
 }

@@ -1,6 +1,7 @@
-import { Typography } from 'antd';
+import { Button, Space, Typography } from 'antd';
 import { EditorsLog } from 'components/Log/EditorsLog';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
+import { useSongActions } from 'hooks/useSongActions';
 import { useVideoControls } from 'hooks/useVideoControls';
 import type YouTube from 'react-youtube';
 import { useSongEditContext } from 'services/SongEditProvider';
@@ -12,6 +13,7 @@ type StepCategorizerProps = {
 export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
   const { song } = useSongEditContext();
   const videoControls = useVideoControls();
+  const { onNumberSections } = useSongActions();
 
   return (
     <>
@@ -32,10 +34,14 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
             setEnd={videoControls.setEnd}
           />
 
-          <div className="mt-4 surface">
+          <Space className="mt-4 surface" direction="vertical">
             <span>TODO: Add section</span>
             <span>TODO: Add merge options</span>
-          </div>
+
+            <Button block onClick={onNumberSections} icon={<i className="fi fi-rr-arrow-progress" />}>
+              Number Sections
+            </Button>
+          </Space>
         </div>
       </div>
     </>

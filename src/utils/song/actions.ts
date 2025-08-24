@@ -1,10 +1,10 @@
 import { cloneDeep, orderBy, set } from 'lodash';
 import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
+import { LETTERS, ROMAN_NUMERALS } from 'utils/constants';
 import { getDifference, removeDuplicates } from 'utils/helpers';
-
 import { generateLine, getLine, getLineValue } from './line-getters';
 import { generatePart, getPart } from './part-getters';
-import { getSection, getSectionValue } from './section-getters';
+import { getSection, getSectionsTypeahead, getSectionValue } from './section-getters';
 
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
@@ -322,17 +322,21 @@ export const movePartToLine = (song: Song, partId: UID, targetLineId: UID, shall
   return copy;
 };
 
+/**
+ * Deletes a part from a song
+ *
+ * @param song - The song from which to delete a part
+ * @param partId - The unique identifier of the part to delete
+ * @param shallow - Optional flag to indicate if a shallow copy of the song should be made instead of a deep clone
+ * @returns A copy of the song with the part deleted
+ */
 export const deletePart = (song: Song, partId: UID, shallow?: boolean): Song => {
   const copy = shallow ? song : cloneDeep(song);
 
   const part = getPart(partId, song);
 
   // Disconnect part from line
-  set(
-    copy,
-    `content.${part.lineId}.partsIds`,
-    getLineValue(part.lineId, 'partsIds', song, []).filter((id: UID) => id !== partId),
-  );
+  disconnectPartFromLine(partId, part.lineId, copy, true);
 
   // Delete part
   delete copy.content[partId];
@@ -528,6 +532,119 @@ export const disconnectLineFromSection = (
     getSectionValue(sectionId, 'linesIds', song, []).filter((id: UID) => id !== lineId),
     true,
   );
+
+  return copy;
+};
+
+/**
+ * Determines and applies section numbering for a song based on section types and their sequence.
+ *
+ * Numbering rules:
+ * - If a section kind appears only once in the song, it gets no number ('')
+ * - Consecutive sections of the same kind are numbered with Roman numerals (I, II, III, etc.)
+ * - If multiple sections of the same kind appear consecutively within a group, they get additional
+ *   letter notation (I.A, I.B, I.C, etc.)
+ *
+ * @param song - The song object to process
+ * @param shallow - If true, modifies the original song object; if false or undefined, creates a deep clone
+ * @returns The processed song object with updated section numbering
+ *
+ * @example
+ *  For a song with sections: Verse, Chorus, Verse, Bridge, Chorus
+ *  After processing:
+ *  - First Verse: I
+ *  - First Chorus: I
+ *  - Second Verse: II
+ *  - Bridge: '' (no number since it appears once)
+ *  - Second Chorus: II
+ */
+export const determineSectionsNumbering = (song: Song, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  // Get all sections and order them by starting time
+  const allSectionsIds = getSectionsTypeahead(copy);
+
+  // Count how many time a section kind happens in the song
+  const sectionsCount: Record<string, number> = {};
+  allSectionsIds.forEach((entry) => {
+    const section = getSection(entry.value, copy);
+    sectionsCount[section.kind] = (sectionsCount[section.kind] || 0) + 1;
+  });
+
+  // Set the property .number of each section following the rules:
+  // If the section kind only happens once, set .number as ''
+  // If the sections are consecutive (in order in the allSectionsIds), it should be numbered I, II, III, etc.
+  // However, if the same section type happens within the same chorus block, it should be appended by a capital letter A,B,C (I.A, I.B, I.C...)
+
+  // Track occurrences of each section kind
+  const kindCounter: Record<string, number> = {};
+  // Track consecutive sections of the same kind
+  const consecutiveGroups: Record<string, string[]> = {};
+  let currentGroup: string | null = null;
+  let currentKind: string | null = null;
+
+  // First pass: identify consecutive groups of the same section kind
+  allSectionsIds.forEach((entry, index) => {
+    const sectionId = entry.value;
+    const section = getSection(sectionId, copy);
+
+    if (currentKind === section.kind) {
+      // This section is of the same kind as the previous one
+      if (currentGroup) {
+        consecutiveGroups[currentGroup].push(sectionId);
+      }
+    } else {
+      // This is a new kind of section
+      currentKind = section.kind;
+      currentGroup = `${section.kind}_${index}`;
+      consecutiveGroups[currentGroup] = [sectionId];
+    }
+  });
+
+  // Second pass: apply numbering rules
+  Object.values(consecutiveGroups).forEach((group) => {
+    const firstSectionId = group[0];
+    const firstSection = getSection(firstSectionId, copy);
+    const sectionKind = firstSection.kind;
+
+    // If this section kind only appears once in the song
+    if (sectionsCount[sectionKind] === 1) {
+      updateSongSectionContentValue(copy, firstSectionId, 'number', '', true);
+      return;
+    }
+
+    // If this kind isn't being tracked yet
+    if (kindCounter[sectionKind] === undefined) {
+      kindCounter[sectionKind] = 0;
+    }
+
+    // Increment counter for this kind
+    kindCounter[sectionKind]++;
+
+    // Apply Roman numeral to the first occurrence
+    const romanNumeral = ROMAN_NUMERALS[kindCounter[sectionKind] - 1];
+
+    if (group.length === 1) {
+      // Single section of this kind in this group
+      updateSongSectionContentValue(copy, firstSectionId, 'number', romanNumeral, true);
+    } else {
+      // Multiple consecutive sections of the same kind
+      // First one gets the Roman numeral + '.A'
+      updateSongSectionContentValue(copy, firstSectionId, 'number', `${romanNumeral}.A`, true);
+
+      // Subsequent ones get the same Roman numeral + '.B', '.C', etc.
+      group.slice(1).forEach((sectionId, idx) => {
+        const letterIndex = idx + 1; // Start at B (index 1)
+        updateSongSectionContentValue(
+          copy,
+          sectionId,
+          'number',
+          `${romanNumeral}.${LETTERS[letterIndex]}`,
+          true,
+        );
+      });
+    }
+  });
 
   return copy;
 };

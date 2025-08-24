@@ -88,9 +88,10 @@ export type SongSection = {
    */
   kind: string;
   /**
-   * The number of the section (used to differentiate between sections of the same kind)
+   * The number identifier of the section (used to differentiate between sections of the same kind)
+   * Value as a number has been deprecated but is still supported for backward compatibility
    */
-  number: number;
+  number: number | string;
   /**
    * Ordered line ids
    */
