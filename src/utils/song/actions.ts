@@ -387,29 +387,15 @@ export const deleteLine = (song: Song, lineId: UID, shallow?: boolean): Song => 
   if (line.partsIds.length > 0) {
     throw new Error('You must delete all parts from a line before deleting the line.');
   }
-  console.log('PRE', getLineValue(line.id, 'partsIds', song, [])?.join(', '));
-  // Disconnect line from section
-  set(
-    copy,
-    `content.${line.sectionId}.linesIds`,
-    getSectionValue(line.sectionId, 'linesIds', song, []).filter((id: UID) => id !== lineId),
-  );
 
-  console.log('POST', getSectionValue(line.sectionId, 'linesIds', song, [])?.join(', '));
+  // Disconnect line from section
+  disconnectLineFromSection(line.id, line.sectionId, copy, true);
 
   // Delete line
-  delete copy.content[lineId];
-
-  try {
-    const line = getLine(lineId, copy);
-    console.log(line);
-  } catch (e) {
-    console.log('ERROR', e);
-  }
+  delete copy.content[line.id];
 
   copy.updatedAt = Date.now();
 
-  console.log('IT WORKED');
   return copy;
 };
 

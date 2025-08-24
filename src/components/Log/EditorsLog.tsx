@@ -40,7 +40,19 @@ export function EditorsLog({ className, videoControls }: LogProps) {
 
   return (
     <div className={clsx('log', 'surface', className)} key={song.updatedAt}>
-      <header className="grid grid-cols-2">
+      <header
+        className="grid grid-cols-2"
+        style={
+          selection.length > 0
+            ? {
+                position: 'sticky',
+                top: 0,
+                zIndex: 10,
+                backgroundColor: 'var(--surface-color, #fff)',
+              }
+            : {}
+        }
+      >
         <Button type="link" disabled={!selection.length} onClick={() => setDrawerOpen([...selection])}>
           Edit {selection.length} {instanceName}
         </Button>
