@@ -4,7 +4,7 @@ import { LETTERS, ROMAN_NUMERALS } from 'utils/constants';
 import { removeDuplicates } from 'utils/helpers';
 import { generateLine, getLine, getLineValue } from './line-getters';
 import { generatePart, getPart } from './part-getters';
-import { getSection, getSectionsTypeahead, getSectionValue } from './section-getters';
+import { generateSection, getSection, getSectionsTypeahead, getSectionValue } from './section-getters';
 
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
@@ -159,7 +159,7 @@ export const addNewPartToLine = (song: Song, lineId: UID, shallow?: boolean): So
     newPartProps.recommendedAssignee = lastPart.recommendedAssignee;
   }
 
-  const part = generatePart(newPartProps);
+  const part = generatePart(newPartProps, copy);
   updateSongContent(copy, part.id, part, true);
   updateSongContent(copy, lineId, { ...line, partsIds: removeDuplicates([...line.partsIds, part.id]) }, true);
 
@@ -186,10 +186,10 @@ export const addNewPartToLine = (song: Song, lineId: UID, shallow?: boolean): So
 export const addNewLineToSection = (song: Song, sectionId: UID, shallow?: boolean): Song => {
   const copy = shallow ? song : cloneDeep(song);
 
-  const section = getSection(sectionId, song);
+  const section = getSection(sectionId, copy);
   const newLineProps: Partial<SongLine> & Pick<SongLine, 'sectionId'> = { sectionId };
 
-  const line = generateLine(newLineProps);
+  const line = generateLine(newLineProps, copy);
   updateSongContent(copy, line.id, line, true);
   updateSongContent(
     copy,
@@ -198,7 +198,29 @@ export const addNewLineToSection = (song: Song, sectionId: UID, shallow?: boolea
     true,
   );
 
+  copy.updatedAt = Date.now();
+
   return addNewPartToLine(copy, line.id, true);
+};
+
+/**
+ * Adds a new section to a song.
+ *
+ * @param song - The song to add the section to
+ * @param shallow - When true, modifies the song directly without deep cloning it
+ * @returns A copy of the song with the new section added (or the same object if shallow is true)
+ */
+export const addNewSectionToSong = (song: Song, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  const section = generateSection({}, copy);
+  copy.sectionIds = [...copy.sectionIds, section.id];
+
+  updateSongContent(copy, section.id, section, true);
+
+  copy.updatedAt = Date.now();
+
+  return addNewLineToSection(copy, section.id, true);
 };
 
 /**

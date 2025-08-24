@@ -52,6 +52,15 @@ export function useSongActions() {
     });
   };
 
+  const onAddNewSection = () => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.addNewSectionToSong(prev);
+      }
+      return prev;
+    });
+  };
+
   const onMovePartToLine = (partId: UID, targetLineId: UID) => {
     setSong((prev) => {
       if (prev) {
@@ -186,6 +195,7 @@ export function useSongActions() {
     onMergeParts,
     onAddNewPart,
     onAddNewLine,
+    onAddNewSection,
     onDeletePart,
     onDeleteLine,
     onDeleteSection,

@@ -9,14 +9,12 @@ import { getSection } from './section-getters';
  * @param {Partial<SongLine> & Pick<SongLine, 'sectionId'>} options - The options for generating the song line.
  * @returns {SongLine} The generated song line object.
  */
-export const generateLine = ({
-  id = generateUniqueId('l', 2),
-  partsIds = [],
-  sectionId,
-  ...rest
-}: Partial<SongLine> & Pick<SongLine, 'sectionId'>): SongLine => {
+export const generateLine = (
+  { id = '', partsIds = [], sectionId, ...rest }: Partial<SongLine> & Pick<SongLine, 'sectionId'>,
+  song?: Song,
+): SongLine => {
   return {
-    id,
+    id: id || generateUniqueId('l', 2, song),
     type: 'line',
     partsIds,
     sectionId,

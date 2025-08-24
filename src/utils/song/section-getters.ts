@@ -10,15 +10,12 @@ import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-g
  * @param {Partial<SongSection>} section - The partial song section object.
  * @returns {SongSection} - The generated song section object.
  */
-export const generateSection = ({
-  id = generateUniqueId('s', 2),
-  kind = NULL,
-  number = '',
-  linesIds = [],
-  ...rest
-}: Partial<SongSection>): SongSection => {
+export const generateSection = (
+  { id = '', kind = NULL, number = '', linesIds = [], ...rest }: Partial<SongSection>,
+  song?: Song,
+): SongSection => {
   return {
-    id,
+    id: id || generateUniqueId('s', 2, song),
     type: 'section',
     kind,
     number,

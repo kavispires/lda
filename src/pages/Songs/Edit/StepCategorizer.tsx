@@ -1,3 +1,4 @@
+import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space, Typography } from 'antd';
 import { EditorsLog } from 'components/Log/EditorsLog';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
@@ -13,7 +14,7 @@ type StepCategorizerProps = {
 export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
   const { song } = useSongEditContext();
   const videoControls = useVideoControls();
-  const { onNumberSections } = useSongActions();
+  const { onNumberSections, onAddNewSection } = useSongActions();
 
   return (
     <>
@@ -35,9 +36,11 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
           />
 
           <Space className="mt-4 surface" direction="vertical">
-            <span>TODO: Add section</span>
+            <Button block icon={<PlusOutlined />} onClick={onAddNewSection}>
+              Add Section
+            </Button>
 
-            <Button block onClick={onNumberSections} icon={<i className="fi fi-rr-arrow-progress" />}>
+            <Button block icon={<i className="fi fi-ss-arrow-progress" />} onClick={onNumberSections}>
               Number Sections
             </Button>
           </Space>

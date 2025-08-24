@@ -9,16 +9,19 @@ import { generateUniqueId } from './common';
  * @param {Partial<SongPart> & Pick<SongPart, 'lineId'>} options - The options for generating the song part.
  * @returns {SongPart} The generated song part object.
  */
-export const generatePart = ({
-  id = generateUniqueId('p', 3),
-  text = '[No text]',
-  endTime = 0,
-  startTime = 0,
-  recommendedAssignee = DEFAULT_ASSIGNEE,
-  ...rest
-}: Partial<SongPart> & Pick<SongPart, 'lineId'>): SongPart => {
+export const generatePart = (
+  {
+    id = '',
+    text = '[No text]',
+    endTime = 0,
+    startTime = 0,
+    recommendedAssignee = DEFAULT_ASSIGNEE,
+    ...rest
+  }: Partial<SongPart> & Pick<SongPart, 'lineId'>,
+  song?: Song,
+): SongPart => {
   return {
-    id,
+    id: id || generateUniqueId('p', 2, song),
     type: 'part',
     text,
     startTime,
