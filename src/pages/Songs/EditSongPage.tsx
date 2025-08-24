@@ -1,10 +1,10 @@
 import './EditSongPage.scss';
 
+import { SaveFilled } from '@ant-design/icons';
 import { Button, Space, Tag, Tooltip, Typography } from 'antd';
 import { Content } from 'components/Content';
 import { useMeasure } from 'react-use';
 import { SongEditProvider, useSongEditContext } from 'services/SongEditProvider';
-
 import { EditSongStepper } from './Edit/EditSongStepper';
 import { StepCategorizer } from './Edit/StepCategorizer';
 import { StepMetadata } from './Edit/StepMetadata';
@@ -44,14 +44,14 @@ function EditSongContent() {
 
       {step === 3 && <StepMetadata />}
 
-      <Space className="container-center my-10">
+      <Space className={`container-center my-10 ${isDirty ? 'sticky-bottom' : ''}`}>
         <div>
           <Tooltip title="A song is considered ready when every part has been assigned start and end times.">
             {isReady ? <Tag color="success">Ready</Tag> : <Tag color="error">Not Ready</Tag>}
           </Tooltip>
         </div>
         <Button size="large" type="primary" loading={isSaving} onClick={saveSong} disabled={!isDirty}>
-          Save
+          <SaveFilled /> Save
         </Button>
       </Space>
     </Content>
