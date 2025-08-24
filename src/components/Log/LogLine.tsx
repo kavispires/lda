@@ -5,7 +5,7 @@ import {
   PlusOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { Alert, Button, Checkbox } from 'antd';
+import { Alert, Button, Checkbox, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { useLogLine } from 'hooks/useLogInstances';
 import type { ReactNode } from 'react';
@@ -102,16 +102,20 @@ export function LogLine({
           )}
 
           {!!onSelectParts && (
-            <Button
-              size="small"
-              shape="circle"
-              icon={<UnorderedListOutlined />}
-              onClick={() => onSelectParts(line.partsIds)}
-            />
+            <Tooltip title="Select all parts">
+              <Button
+                size="small"
+                shape="circle"
+                icon={<UnorderedListOutlined />}
+                onClick={() => onSelectParts(line.partsIds)}
+              />
+            </Tooltip>
           )}
 
           {!!onAddPart && (
-            <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddPart(id)} />
+            <Tooltip title="Add part">
+              <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddPart(id)} />
+            </Tooltip>
           )}
         </span>
       )}

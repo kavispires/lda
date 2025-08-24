@@ -5,7 +5,7 @@ import {
   PlusOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
-import { Alert, Button, Checkbox } from 'antd';
+import { Alert, Button, Checkbox, Tooltip } from 'antd';
 import { useLogPart, useLogSection } from 'hooks/useLogInstances';
 import type { ReactNode } from 'react';
 import type { Song, UID } from 'types';
@@ -81,12 +81,14 @@ export function LogSection({
         {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
 
         {!!onPlay && (
-          <Button
-            size="small"
-            shape="circle"
-            icon={<PlayCircleFilled />}
-            onClick={() => onPlay(part.startTime)}
-          />
+          <Tooltip title={part ? `Play from ${part.startTime} ms` : 'No parts to play'}>
+            <Button
+              size="small"
+              shape="circle"
+              icon={<PlayCircleFilled />}
+              onClick={() => onPlay(part.startTime)}
+            />
+          </Tooltip>
         )}
 
         {onClick ? (
@@ -100,16 +102,20 @@ export function LogSection({
         )}
 
         {!!onSelectParts && (
-          <Button
-            size="small"
-            shape="circle"
-            icon={<UnorderedListOutlined />}
-            onClick={() => onSelectParts(partIds)}
-          />
+          <Tooltip title="Select all parts">
+            <Button
+              size="small"
+              shape="circle"
+              icon={<UnorderedListOutlined />}
+              onClick={() => onSelectParts(partIds)}
+            />
+          </Tooltip>
         )}
 
         {!!onAddLine && (
-          <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddLine(id)} />
+          <Tooltip title="Add line with one part">
+            <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddLine(id)} />
+          </Tooltip>
         )}
       </span>
       <ul className="log-section__lines">{children}</ul>
