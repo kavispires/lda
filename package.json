@@ -38,7 +38,8 @@
     "prepare": "husky",
     "clean": "rm -rf node_modules",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "update-commit": "bash scripts/update_commit.sh"
   },
   "browserslist": {
     "production": [
