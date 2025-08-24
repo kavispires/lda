@@ -168,6 +168,15 @@ export function useSongActions() {
     });
   };
 
+  const onMergeSections = (sectionIds: UID[]) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.mergeSections(prev, sectionIds);
+      }
+      return prev;
+    });
+  };
+
   return {
     onUpdateSong,
     onUpdateSongContent,
@@ -182,5 +191,6 @@ export function useSongActions() {
     onDeleteSection,
     onConvertPartToNewLine,
     onNumberSections,
+    onMergeSections,
   };
 }

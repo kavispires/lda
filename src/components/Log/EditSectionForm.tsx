@@ -33,11 +33,11 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
     linesIds: tempSection.linesIds.length > 0,
   };
 
-  const onValuesChange = (changedValues: any) => {
+  const onValuesChange = (changedValues: Partial<SongSection>) => {
     setTempSection({ ...tempSection, ...changedValues });
   };
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+  // biome-ignore lint/correctness/useExhaustiveDependencies:a function shouldn't be part of this dependency
   useEffect(() => {
     setDirty(isDirty);
   }, [isDirty]);

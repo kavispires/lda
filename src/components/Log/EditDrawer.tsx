@@ -6,6 +6,7 @@ import { EditLineForm } from './EditLineForm';
 import { EditPartForm } from './EditPartForm';
 import { EditPartsForm } from './EditPartsForm';
 import { EditSectionForm } from './EditSectionForm';
+import { EditSectionsForm } from './EditSectionsForm';
 
 type EditDrawerProps = {
   onClose: () => void;
@@ -33,6 +34,7 @@ export function EditDrawer({ onClose, activeIds }: EditDrawerProps) {
       {instanceType === 'part' && <EditPartForm partId={activeIds[0]} {...props} />}
 
       {instanceType === 'parts' && <EditPartsForm partsIds={activeIds} {...props} />}
+      {instanceType === 'sections' && <EditSectionsForm sectionsIds={activeIds} {...props} />}
     </Drawer>
   );
 }

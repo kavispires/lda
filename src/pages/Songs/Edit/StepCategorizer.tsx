@@ -36,7 +36,6 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
 
           <Space className="mt-4 surface" direction="vertical">
             <span>TODO: Add section</span>
-            <span>TODO: Add merge options</span>
 
             <Button block onClick={onNumberSections} icon={<i className="fi fi-rr-arrow-progress" />}>
               Number Sections

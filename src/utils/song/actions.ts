@@ -1,7 +1,7 @@
 import { cloneDeep, orderBy, set } from 'lodash';
 import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
 import { LETTERS, ROMAN_NUMERALS } from 'utils/constants';
-import { getDifference, removeDuplicates } from 'utils/helpers';
+import { removeDuplicates } from 'utils/helpers';
 import { generateLine, getLine, getLineValue } from './line-getters';
 import { generatePart, getPart } from './part-getters';
 import { getSection, getSectionsTypeahead, getSectionValue } from './section-getters';
@@ -404,6 +404,49 @@ export const deleteSection = (song: Song, sectionId: UID, shallow?: boolean): So
   });
 
   copy.updatedAt = Date.now();
+
+  return copy;
+};
+
+export const mergeSections = (song: Song, sectionIds: UID[], shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  // Order sections by start time
+  const sections = orderBy(
+    sectionIds.map((id) => getSection(id, song)),
+    ['startTime'],
+    ['asc'],
+  );
+
+  // Get first section as keeper
+  const baseSection = sections[0];
+  const sectionsToMerge = sections.slice(1);
+
+  // Disconnect all other lines from their sections
+  sectionsToMerge.forEach((section) => {
+    section.linesIds.forEach((lineId) => {
+      const line = getLine(lineId, copy);
+      disconnectLineFromSection(lineId, line.sectionId, copy, true);
+    });
+  });
+
+  // Connect all other lines to the keeper
+  sectionsToMerge.forEach((section) => {
+    section.linesIds.forEach((lineId) => {
+      connectLineToSection(lineId, baseSection.id, copy, true);
+    });
+  });
+
+  const sectionsIdsToMerge = sectionsToMerge.map((section) => section.id);
+
+  // Remove empty sections from song
+  // Remove merged sections from song's sectionIds
+  copy.sectionIds = copy.sectionIds.filter((id) => !sectionsIdsToMerge.includes(id));
+
+  // Delete the merged sections from content
+  sectionsIdsToMerge.forEach((sectionId) => {
+    delete copy.content[sectionId];
+  });
 
   return copy;
 };
