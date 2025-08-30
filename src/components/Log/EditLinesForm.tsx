@@ -64,6 +64,8 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
     if (values.adlib || values.dismissible || values.skill) {
       const updates = linesIds.reduce((acc: Dictionary<UpdateValue>, lineId) => {
         Object.entries(values).forEach(([key, value]) => {
+          if (value === undefined) return;
+
           if (typeof value !== 'object') {
             acc[`content.${lineId}.${key}`] = value;
           } else {
