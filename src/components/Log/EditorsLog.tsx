@@ -1,7 +1,6 @@
 import { Button, Divider } from 'antd';
 import clsx from 'clsx';
 import { usePreserveScrollPosition } from 'hooks/usePreserveScrollPosition';
-import { useSongActions } from 'hooks/useSongActions';
 import type { useVideoControls } from 'hooks/useVideoControls';
 import { useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
@@ -22,7 +21,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
     song,
     selectionIdModel: { selection, onSelect, onSelectMany, onDeselectAll },
   } = useSongEditContext();
-  const { onAddNewPart, onAddNewLine } = useSongActions();
+  const [specialModal, setSpecialModal] = useState(false);
   const ref = usePreserveScrollPosition<HTMLUListElement>();
 
   const [drawerOpen, setDrawerOpen] = useState<UID[]>([]);
@@ -70,7 +69,10 @@ export function EditorsLog({ className, videoControls }: LogProps) {
             onClick={onEntityClick}
             onSelect={onSelect}
             selected={selection.includes(sectionId)}
-            onAddLine={onAddNewLine}
+            onAddLine={(sectionId) => {
+              setSpecialModal(true);
+              setDrawerOpen([sectionId]);
+            }}
             onPlay={(startTime) => videoControls.seekAndPlay(startTime)}
           >
             {distributor.getSection(sectionId, song)?.linesIds.map((lineId) => (
@@ -82,7 +84,10 @@ export function EditorsLog({ className, videoControls }: LogProps) {
                 onSelect={onSelect}
                 selected={selection.includes(lineId)}
                 onSelectParts={onSelectMany}
-                onAddPart={onAddNewPart}
+                onAddPart={(lineId) => {
+                  setSpecialModal(true);
+                  setDrawerOpen([lineId]);
+                }}
               >
                 {distributor.getLine(lineId, song, true)?.partsIds.map((partId) => (
                   <LogPart
@@ -99,7 +104,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
           </LogSection>
         ))}
       </ul>
-      <EditDrawer activeIds={drawerOpen} onClose={onClose} />
+      <EditDrawer activeIds={drawerOpen} specialModal={specialModal} onClose={onClose} />
     </div>
   );
 }

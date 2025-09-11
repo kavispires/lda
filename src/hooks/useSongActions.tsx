@@ -43,10 +43,28 @@ export function useSongActions() {
     });
   };
 
+  const onAddNewTextAsPartsToLine = (lineId: UID, text: string[]) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.addNewTextAsPartsToLine(prev, lineId, text);
+      }
+      return prev;
+    });
+  };
+
   const onAddNewLine = (sectionId: UID) => {
     setSong((prev) => {
       if (prev) {
         return distributor.addNewLineToSection(prev, sectionId);
+      }
+      return prev;
+    });
+  };
+
+  const onAddNewTextAsLinesToSection = (sectionId: UID, text: string[][]) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.addTextAsNewLinesToSection(prev, sectionId, text);
       }
       return prev;
     });
@@ -222,5 +240,7 @@ export function useSongActions() {
     onMoveLinesToSection,
     onMovePartToLine,
     onMovePartsTogether,
+    onAddNewTextAsPartsToLine,
+    onAddNewTextAsLinesToSection,
   };
 }

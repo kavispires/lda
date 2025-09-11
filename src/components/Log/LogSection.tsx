@@ -114,7 +114,7 @@ export function LogSection({
         )}
 
         {!!onAddLine && (
-          <Tooltip title="Add line with one part">
+          <Tooltip title="Add content to section">
             <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddLine(id)} />
           </Tooltip>
         )}

@@ -174,6 +174,28 @@ export const addNewPartToLine = (song: Song, lineId: UID, shallow?: boolean): So
   return copy;
 };
 
+export const addNewTextAsPartsToLine = (song: Song, lineId: UID, text: string[], shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  const line = getLine(lineId, copy);
+  const parts = text.map((partText) => {
+    const part = generatePart({ lineId, text: partText }, copy);
+    updateSongContent(copy, part.id, part, true);
+    return part.id;
+  });
+
+  updateSongContent(
+    copy,
+    lineId,
+    { ...line, partsIds: removeDuplicates([...line.partsIds, ...parts]) },
+    true,
+  );
+
+  copy.updatedAt = Date.now();
+
+  return copy;
+};
+
 /**
  * Adds a new line to a specified section in a song.
  *
@@ -207,6 +229,33 @@ export const addNewLineToSection = (song: Song, sectionId: UID, shallow?: boolea
   copy.updatedAt = Date.now();
 
   return addNewPartToLine(copy, line.id, true);
+};
+
+export const addTextAsNewLinesToSection = (
+  song: Song,
+  sectionId: UID,
+  text: string[][],
+  shallow?: boolean,
+): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  // For each line, create its part
+  text.forEach((newLineParts) => {
+    const newLineProps: Partial<SongLine> & Pick<SongLine, 'sectionId'> = { sectionId };
+    const line = generateLine(newLineProps, copy);
+    updateSongContent(copy, line.id, line, true);
+    connectLineToSection(line.id, sectionId, copy, true);
+
+    newLineParts.forEach((partText) => {
+      const part = generatePart({ lineId: line.id, text: partText }, copy);
+      updateSongContent(copy, part.id, part, true);
+      connectPartToLine(part.id, line.id, copy, true);
+    });
+  });
+
+  copy.updatedAt = Date.now();
+
+  return copy;
 };
 
 /**

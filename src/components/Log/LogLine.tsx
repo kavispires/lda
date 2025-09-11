@@ -113,7 +113,7 @@ export function LogLine({
           )}
 
           {!!onAddPart && (
-            <Tooltip title="Add part">
+            <Tooltip title="Add parts to line">
               <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddPart(id)} />
             </Tooltip>
           )}
