@@ -5,6 +5,7 @@ import { removeDuplicates } from 'utils';
 export type SelectionIdModel = {
   selection: UID[];
   onSelect: (id: UID) => void;
+  onSelectOnly: (id: UID) => void;
   onSelectMany: (ids: UID[]) => void;
   onDeselectAll: () => void;
 };
@@ -34,6 +35,10 @@ export function useSelectionIdModel(initialSelection: UID[] = []): SelectionIdMo
     [selection],
   );
 
+  const onSelectOnly = useCallback((id: UID) => {
+    setSelection([id]);
+  }, []);
+
   const onSelectMany = useCallback(
     (ids: UID[]) => {
       if (selection.length === 0) {
@@ -54,6 +59,7 @@ export function useSelectionIdModel(initialSelection: UID[] = []): SelectionIdMo
   return {
     selection,
     onSelect,
+    onSelectOnly,
     onSelectMany,
     onDeselectAll,
   };

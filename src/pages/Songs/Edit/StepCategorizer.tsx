@@ -1,4 +1,3 @@
-import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space, Typography } from 'antd';
 import { AddNewSectionCollapse } from 'components/Log/AddNewSectionCollapse';
 import { EditorsLog } from 'components/Log/EditorsLog';
@@ -38,9 +37,10 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
 
       <div className="grid grid-cols-2 gap-2">
         <EditorsLog key={song.updatedAt} videoControls={videoControls} />
-        <div>
+        <Space direction="vertical">
           <ControlledVideo
             videoId={song.videoId}
+            className="surface"
             width={Math.min(videoWidth, 480)}
             playerRef={videoControls.playerRef as React.LegacyRef<YouTube>}
             setPlaying={videoControls.setPlaying}
@@ -48,9 +48,9 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
           />
 
           <Space
-            className="mt-4 surface"
+            className="surface"
             direction="vertical"
-            style={{ minWidth: 300 }}
+            style={{ minWidth: 300, width: '100%' }}
             classNames={{ item: 'p-1' }}
           >
             <Typography.Title level={5} className="mt-1">
@@ -67,9 +67,9 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
 
             <AddNewSectionCollapse />
 
-            {/* <NudgeSongCollapse /> */}
+            <NudgeSongCollapse />
           </Space>
-        </div>
+        </Space>
       </div>
     </>
   );

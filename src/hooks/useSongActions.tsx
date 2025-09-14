@@ -70,10 +70,10 @@ export function useSongActions() {
     });
   };
 
-  const onAddNewSection = (newSection?: SongSection) => {
+  const onAddNewSection = (newSection?: SongSection, precedingSection?: UID) => {
     setSong((prev) => {
       if (prev) {
-        return distributor.addNewSectionToSong(prev, newSection);
+        return distributor.addNewSectionToSong(prev, newSection, precedingSection);
       }
       return prev;
     });

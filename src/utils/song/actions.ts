@@ -262,14 +262,29 @@ export const addTextAsNewLinesToSection = (
  * Adds a new section to a song.
  *
  * @param song - The song to add the section to
+ * @param newSection - Optional section object to add; if not provided, a new section will be generated
+ * @param precedingSection - The ID of the section to insert the new section before
  * @param shallow - When true, modifies the song directly without deep cloning it
  * @returns A copy of the song with the new section added (or the same object if shallow is true)
  */
-export const addNewSectionToSong = (song: Song, newSection?: SongSection, shallow?: boolean): Song => {
+export const addNewSectionToSong = (
+  song: Song,
+  newSection?: SongSection,
+  precedingSectionId?: UID,
+  shallow?: boolean,
+): Song => {
   const copy = shallow ? song : cloneDeep(song);
 
   const section = newSection || generateSection({}, copy);
-  copy.sectionIds = [...copy.sectionIds, section.id];
+  if (precedingSectionId) {
+    const index = copy.sectionIds.indexOf(precedingSectionId);
+    // Insert the new section exactly after the preceding section
+    if (index !== -1) {
+      copy.sectionIds.splice(index + 1, 0, section.id);
+    }
+  } else {
+    copy.sectionIds = [...copy.sectionIds, section.id];
+  }
 
   updateSongContent(copy, section.id, section, true);
 
