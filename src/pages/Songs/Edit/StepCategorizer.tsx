@@ -1,6 +1,8 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, Space, Typography } from 'antd';
+import { AddNewSectionCollapse } from 'components/Log/AddNewSectionCollapse';
 import { EditorsLog } from 'components/Log/EditorsLog';
+import { NudgeSongCollapse } from 'components/Log/NudgeSongCollapse';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { useSongActions } from 'hooks/useSongActions';
 import { useVideoControls } from 'hooks/useVideoControls';
@@ -45,11 +47,15 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
             setEnd={videoControls.setEnd}
           />
 
-          <Space className="mt-4 surface" direction="vertical">
-            <Button block icon={<PlusOutlined />} onClick={onAddNewSection}>
-              Add Section
-            </Button>
-
+          <Space
+            className="mt-4 surface"
+            direction="vertical"
+            style={{ minWidth: 300 }}
+            classNames={{ item: 'p-1' }}
+          >
+            <Typography.Title level={5} className="mt-1">
+              Actions
+            </Typography.Title>
             <Button
               block
               icon={<i className="fi fi-ss-arrow-progress" />}
@@ -58,6 +64,10 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
             >
               Number Sections
             </Button>
+
+            <AddNewSectionCollapse />
+
+            {/* <NudgeSongCollapse /> */}
           </Space>
         </div>
       </div>

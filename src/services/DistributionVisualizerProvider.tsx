@@ -3,12 +3,18 @@ import {
   type UseVisualizerMeasurementsResult,
   useVisualizerMeasurements,
 } from 'hooks/useVisualizerMeasurements';
-import { cloneDeep, orderBy, sortBy } from 'lodash';
+import { cloneDeep, keyBy, orderBy, sortBy } from 'lodash';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { useLocalStorage, useToggle } from 'react-use';
 import type { Artist, Dictionary, Distribution, Song, UID } from 'types';
 import { distributor, removeDuplicates } from 'utils';
 import { ALL_ID, NONE_ID } from 'utils/constants';
+
+export type DistributionFreshness = {
+  outdated: boolean;
+  missingParts: UID[];
+  extraParts: UID[];
+};
 
 type DistributionVisualizerContextType = {
   fullScreenMode: boolean;
@@ -28,6 +34,7 @@ type DistributionVisualizerContextType = {
   adlibsSnapshots: Dictionary<LyricSnapshot>;
   lyricsSnapshots: Dictionary<LyricSnapshot>;
   upNextSnapshots: Dictionary<string[]>;
+  freshness: DistributionFreshness;
 };
 
 const DistributionVisualizerContext = createContext<DistributionVisualizerContextType | undefined>(undefined);
@@ -54,18 +61,17 @@ export const DistributionVisualizerProvider = ({
 
   const videoControls = useVideoControls({ startAt: song.startAt, endAt: song.endAt });
 
-  const assignees = useMemo(() => {
-    return orderBy(Object.values(distribution.assignees), 'name');
-  }, [distribution]);
-
-  const barSnapshots = useMemo(() => buildBarSnapshots(distribution, song), [distribution, song]);
-
-  const { adlibsSnapshots, lyricsSnapshots } = useMemo(
-    () => buildLyricsSnapshots(distribution, song),
-    [distribution, song],
-  );
-
-  const upNextSnapshots = useMemo(() => buildUpNextSnapshots(distribution, song), [distribution, song]);
+  const { assignees, barSnapshots, adlibsSnapshots, lyricsSnapshots, upNextSnapshots, freshness } =
+    useMemo(() => {
+      return {
+        assignees: orderBy(Object.values(distribution.assignees), 'name'),
+        barSnapshots: buildBarSnapshots(distribution, song),
+        adlibsSnapshots: buildLyricsSnapshots(distribution, song).adlibsSnapshots,
+        lyricsSnapshots: buildLyricsSnapshots(distribution, song).lyricsSnapshots,
+        upNextSnapshots: buildUpNextSnapshots(distribution, song),
+        freshness: verifyDistributionFreshness(song, distribution),
+      };
+    }, [distribution, song]);
 
   return (
     <DistributionVisualizerContext.Provider
@@ -87,6 +93,7 @@ export const DistributionVisualizerProvider = ({
         adlibsSnapshots,
         lyricsSnapshots,
         upNextSnapshots,
+        freshness,
       }}
     >
       <div ref={ref} style={{ height: measurements.container.height, fontSize: `${18}px` }}>
@@ -428,4 +435,33 @@ const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
   // console.log(upNextSnapshots);
 
   return upNextSnapshots;
+};
+
+const verifyDistributionFreshness = (song: Song, distribution: Distribution) => {
+  const allParts = distributor.getAllParts(song);
+
+  const missingParts: UID[] = [];
+  const extraParts: UID[] = [];
+
+  // All parts ids must have be mapped in mapping
+  allParts.forEach((part) => {
+    if (!distribution.mapping[part.id]) {
+      missingParts.push(part.id);
+    }
+  });
+
+  const partsDict = keyBy(allParts, 'id');
+
+  // All mapping parts must be valid parts
+  Object.keys(distribution.mapping).forEach((partId) => {
+    if (!partsDict[partId]) {
+      extraParts.push(partId);
+    }
+  });
+
+  return {
+    outdated: missingParts.length > 0 || extraParts.length > 0,
+    missingParts,
+    extraParts,
+  };
 };

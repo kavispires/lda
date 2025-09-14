@@ -14,8 +14,6 @@ type AddContentToInstanceDrawerProps = {
 };
 
 export function AddContentToInstanceDrawer(props: AddContentToInstanceDrawerProps) {
-  const { song } = useSongEditContext();
-
   if (props.instanceType === 'line') {
     return <AddingNewParts {...props} />;
   }

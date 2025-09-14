@@ -265,15 +265,19 @@ export const addTextAsNewLinesToSection = (
  * @param shallow - When true, modifies the song directly without deep cloning it
  * @returns A copy of the song with the new section added (or the same object if shallow is true)
  */
-export const addNewSectionToSong = (song: Song, shallow?: boolean): Song => {
+export const addNewSectionToSong = (song: Song, newSection?: SongSection, shallow?: boolean): Song => {
   const copy = shallow ? song : cloneDeep(song);
 
-  const section = generateSection({}, copy);
+  const section = newSection || generateSection({}, copy);
   copy.sectionIds = [...copy.sectionIds, section.id];
 
   updateSongContent(copy, section.id, section, true);
 
   copy.updatedAt = Date.now();
+
+  if (newSection) {
+    return copy;
+  }
 
   return addNewLineToSection(copy, section.id, true);
 };

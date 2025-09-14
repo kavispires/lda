@@ -24,6 +24,7 @@ export function Visualizer() {
     lyricsSnapshots,
     adlibsSnapshots,
     upNextSnapshots,
+    freshness,
   } = useDistributionVisualizerContext();
   /**
    * TODO:
@@ -50,7 +51,12 @@ export function Visualizer() {
       onMouseLeave={() => setControlsVisible(false)}
       key={videoControls.refreshKey}
     >
-      <VisualizerControls isVisible={areControlsVisible} videoControls={videoControls} songId={song.id} />
+      <VisualizerControls
+        isVisible={areControlsVisible}
+        videoControls={videoControls}
+        songId={song.id}
+        freshness={freshness}
+      />
       <div className="visualizer__stats">
         <SeekBar videoControls={videoControls} className="visualizer__seek-bar" />
         <div className="visualizer__metadata">
