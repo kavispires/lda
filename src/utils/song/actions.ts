@@ -11,6 +11,7 @@ import {
   getSectionsTypeahead,
   getSectionValue,
 } from './section-getters';
+import { getAllParts } from './song-getters';
 
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
@@ -915,6 +916,37 @@ export const sortSong = (song: Song, shallow?: boolean): Song => {
   copy.sectionIds.forEach((sectionId) => {
     sortSection(copy, sectionId, true);
   });
+
+  return copy;
+};
+/**
+ * Nudge the song by a certain amount.
+ * @param song The song to nudge.
+ * @param nudgeAmount The amount to nudge the song (in milliseconds).
+ * @param fromLine The line to nudge from (if any).
+ * @param shallow Whether to perform a shallow copy of the song.
+ * @returns The nudged song.
+ */
+export const nudgeSong = (song: Song, nudgeAmount: number, fromLine?: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  const referenceLine = fromLine ? getLineSummary(fromLine, copy) : undefined;
+  const referenceStartTime = referenceLine ? referenceLine.startTime : 0;
+
+  getAllParts(song).forEach((part) => {
+    // Only nudge parts that have startTime >= referenceStartTime if referenceLine exists
+    // Otherwise, nudge all parts
+    if (!referenceLine || part.startTime >= referenceStartTime) {
+      const updatedPart = {
+        ...part,
+        startTime: part.startTime + nudgeAmount,
+        endTime: part.endTime + nudgeAmount,
+      };
+      updateSongContent(copy, part.id, updatedPart, true);
+    }
+  });
+
+  copy.updatedAt = Date.now();
 
   return copy;
 };

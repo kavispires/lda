@@ -222,6 +222,15 @@ export function useSongActions() {
     });
   };
 
+  const onNudgeSong = (nudgeAmount: number, fromLine?: UID) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.nudgeSong(prev, nudgeAmount, fromLine);
+      }
+      return prev;
+    });
+  };
+
   return {
     onUpdateSong,
     onUpdateSongContent,
@@ -242,5 +251,6 @@ export function useSongActions() {
     onMovePartsTogether,
     onAddNewTextAsPartsToLine,
     onAddNewTextAsLinesToSection,
+    onNudgeSong,
   };
 }
