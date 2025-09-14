@@ -231,6 +231,15 @@ export function useSongActions() {
     });
   };
 
+  const onSortSection = (sectionId: UID) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.sortSection(prev, sectionId);
+      }
+      return prev;
+    });
+  };
+
   return {
     onUpdateSong,
     onUpdateSongContent,
@@ -252,5 +261,6 @@ export function useSongActions() {
     onAddNewTextAsPartsToLine,
     onAddNewTextAsLinesToSection,
     onNudgeSong,
+    onSortSection,
   };
 }

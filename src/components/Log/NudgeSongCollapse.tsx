@@ -117,7 +117,7 @@ function NudgeSongFlow({ setActivePanel }: NudgeSongFlowProps) {
     <Form
       form={form}
       layout="vertical"
-      name="edit-section-form"
+      name="nudge-song-form"
       initialValues={{
         fromLine: selection[0] || undefined,
         milliseconds: 0,

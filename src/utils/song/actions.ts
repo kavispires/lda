@@ -891,6 +891,8 @@ export const sortLine = (song: Song, lineId: UID, shallow?: boolean): Song => {
   const line = getLine(lineId, copy);
   line.partsIds = orderBy(line.partsIds, [(partId) => getPart(partId, copy).startTime], ['asc']);
 
+  updateSongLineContentValue(copy, lineId, 'partsIds', line.partsIds, true);
+
   return copy;
 };
 
@@ -905,6 +907,8 @@ export const sortSection = (song: Song, sectionId: UID, shallow?: boolean): Song
   });
 
   section.linesIds = orderBy(section.linesIds, [(lineId) => getLineStartTime(lineId, copy)], ['asc']);
+
+  updateSongSectionContentValue(copy, sectionId, 'linesIds', section.linesIds, true);
 
   return copy;
 };

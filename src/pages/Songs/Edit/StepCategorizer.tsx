@@ -1,15 +1,12 @@
-import { Button, Space, Typography } from 'antd';
+import { Space, Typography } from 'antd';
 import { AddNewSectionCollapse } from 'components/Log/AddNewSectionCollapse';
 import { EditorsLog } from 'components/Log/EditorsLog';
 import { NudgeSongCollapse } from 'components/Log/NudgeSongCollapse';
+import { SectionOrganizerCollapse } from 'components/Log/SectionOrganizerCollapse';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
-import { useSongActions } from 'hooks/useSongActions';
 import { useVideoControls } from 'hooks/useVideoControls';
-import { useMemo } from 'react';
 import type YouTube from 'react-youtube';
 import { useSongEditContext } from 'services/SongEditProvider';
-import { NULL } from 'utils/constants';
-import { getSection } from 'utils/song';
 
 type StepCategorizerProps = {
   videoWidth: number;
@@ -18,14 +15,6 @@ type StepCategorizerProps = {
 export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
   const { song } = useSongEditContext();
   const videoControls = useVideoControls();
-  const { onNumberSections, onAddNewSection } = useSongActions();
-
-  const isAnySectionKindNull = useMemo(() => {
-    return song.sectionIds.some((id) => {
-      const section = getSection(id, song);
-      return section.kind === NULL;
-    });
-  }, [song]);
 
   return (
     <>
@@ -56,14 +45,7 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
             <Typography.Title level={5} className="mt-1">
               Actions
             </Typography.Title>
-            <Button
-              block
-              icon={<i className="fi fi-ss-arrow-progress" />}
-              onClick={onNumberSections}
-              disabled={isAnySectionKindNull}
-            >
-              Number Sections
-            </Button>
+            <SectionOrganizerCollapse />
 
             <AddNewSectionCollapse />
 

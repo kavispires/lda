@@ -96,7 +96,7 @@ function NewSectionFlow({ setActivePanel }: NewSectionFlowProps) {
     <Form
       form={form}
       layout="vertical"
-      name="edit-section-form"
+      name="new-section-form"
       initialValues={tempSection}
       onValuesChange={onValuesChange}
       autoComplete="off"
