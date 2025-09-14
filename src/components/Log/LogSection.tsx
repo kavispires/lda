@@ -1,14 +1,16 @@
 import {
   CheckCircleOutlined,
   DatabaseFilled,
+  MenuUnfoldOutlined,
   PlayCircleFilled,
   PlusOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
 import { Alert, Button, Checkbox, Tooltip } from 'antd';
 import { useLogPart, useLogSection } from 'hooks/useLogInstances';
-import type { ReactNode } from 'react';
+import { type ReactNode, useCallback, useMemo } from 'react';
 import type { Song, UID } from 'types';
+import { distributor } from 'utils';
 import { NULL } from 'utils/constants';
 
 type LogSectionProps = {
@@ -50,6 +52,11 @@ type LogSectionProps = {
    * The function to call to add a new line to the section
    */
   onAddLine?: (sectionId: UID) => void;
+  /**
+   * Only available if onSelectParts is present and if any parts has no timestamps
+   * Selects the remaining parts with no timestamps
+   */
+  enableSelectRemainingParts?: boolean;
 };
 
 export function LogSection({
@@ -62,9 +69,27 @@ export function LogSection({
   onSelectParts,
   onPlay,
   onAddLine,
+  enableSelectRemainingParts,
 }: LogSectionProps) {
   const { name, status, partIds, section } = useLogSection(id, song);
   const { part } = useLogPart(partIds[0], song);
+
+  // Get parts without timestamps
+  const remainingParts = useMemo(() => {
+    return partIds.filter((partId) => {
+      const part = distributor.getPart(partId, song);
+      return part && !part.startTime;
+    });
+  }, [partIds, song]);
+
+  // Check if there are parts without timestamps
+  const hasRemainingParts = remainingParts.length > 0;
+
+  const onSelectRemainingParts = useCallback(() => {
+    if (onSelectParts) {
+      onSelectParts(remainingParts);
+    }
+  }, [onSelectParts, remainingParts]);
 
   if (!section || !section.id)
     return (
@@ -109,6 +134,17 @@ export function LogSection({
               shape="circle"
               icon={<UnorderedListOutlined />}
               onClick={() => onSelectParts(partIds)}
+            />
+          </Tooltip>
+        )}
+
+        {!!onSelectParts && enableSelectRemainingParts && hasRemainingParts && (
+          <Tooltip title="Select missing parts">
+            <Button
+              size="small"
+              shape="circle"
+              icon={<MenuUnfoldOutlined />}
+              onClick={onSelectRemainingParts}
             />
           </Tooltip>
         )}

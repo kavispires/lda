@@ -34,6 +34,7 @@ export function SyncLog({ activeTimestamp, seekAndPlay, handleConnect }: SyncLog
             song={song}
             onSelectParts={onSelectMany}
             onPlay={(startTime) => seekAndPlay(startTime)}
+            enableSelectRemainingParts
           >
             {distributor.getSection(sectionId, song).linesIds.map((lineId) => (
               <LogLine key={lineId} id={lineId} song={song} showPartsOnly>
