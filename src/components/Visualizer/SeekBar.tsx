@@ -23,13 +23,13 @@ export function SeekBar({ className, videoControls }: SeekBarProps) {
     <div className={clsx('visualizer-seek-bar', className)}>
       <div className="visualizer-seek-bar__slider">
         <Slider
-          min={startAt}
           max={endAt}
-          value={currentTime}
+          min={startAt}
           onChange={(value) => {
             seekAndPlay(value);
           }}
           tooltip={{ formatter }}
+          value={currentTime}
         />
       </div>
     </div>

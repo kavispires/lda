@@ -52,51 +52,51 @@ export function EditorsLog({ className, videoControls }: LogProps) {
             : {}
         }
       >
-        <Button type="link" disabled={!selection.length} onClick={() => setDrawerOpen([...selection])}>
+        <Button disabled={!selection.length} onClick={() => setDrawerOpen([...selection])} type="link">
           Edit {selection.length} {instanceName}
         </Button>
-        <Button type="link" disabled={!selection.length} onClick={onDeselectAll}>
+        <Button disabled={!selection.length} onClick={onDeselectAll} type="link">
           Deselect {selection.length > 1 ? 'All' : instanceName}
         </Button>
       </header>
       <Divider className="my-1" />
-      <ul className="log-sections" ref={ref} key={song.updatedAt}>
+      <ul className="log-sections" key={song.updatedAt} ref={ref}>
         {song.sectionIds.map((sectionId) => (
           <LogSection
-            key={sectionId}
             id={sectionId}
-            song={song}
-            onClick={onEntityClick}
-            onSelect={onSelect}
-            selected={selection.includes(sectionId)}
+            key={sectionId}
             onAddLine={(sectionId) => {
               setSpecialModal(true);
               setDrawerOpen([sectionId]);
             }}
+            onClick={onEntityClick}
             onPlay={(startTime) => videoControls.seekAndPlay(startTime)}
+            onSelect={onSelect}
+            selected={selection.includes(sectionId)}
+            song={song}
           >
             {distributor.getSection(sectionId, song)?.linesIds.map((lineId) => (
               <LogLine
-                key={lineId}
                 id={lineId}
-                song={song}
-                onClick={onEntityClick}
-                onSelect={onSelect}
-                selected={selection.includes(lineId)}
-                onSelectParts={onSelectMany}
+                key={lineId}
                 onAddPart={(lineId) => {
                   setSpecialModal(true);
                   setDrawerOpen([lineId]);
                 }}
+                onClick={onEntityClick}
+                onSelect={onSelect}
+                onSelectParts={onSelectMany}
+                selected={selection.includes(lineId)}
+                song={song}
               >
                 {distributor.getLine(lineId, song, true)?.partsIds.map((partId) => (
                   <LogPart
-                    key={partId}
                     id={partId}
-                    song={song}
+                    key={partId}
                     onClick={onEntityClick}
                     onSelect={onSelect}
                     selected={selection.includes(partId)}
+                    song={song}
                   />
                 ))}
               </LogLine>
@@ -104,7 +104,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
           </LogSection>
         ))}
       </ul>
-      <EditDrawer activeIds={drawerOpen} specialModal={specialModal} onClose={onClose} />
+      <EditDrawer activeIds={drawerOpen} onClose={onClose} specialModal={specialModal} />
     </div>
   );
 }

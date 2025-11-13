@@ -50,7 +50,7 @@ function EditSongContent() {
             {isReady ? <Tag color="success">Ready</Tag> : <Tag color="error">Not Ready</Tag>}
           </Tooltip>
         </div>
-        <Button size="large" type="primary" loading={isSaving} onClick={saveSong} disabled={!isDirty}>
+        <Button disabled={!isDirty} loading={isSaving} onClick={saveSong} size="large" type="primary">
           <SaveFilled /> Save
         </Button>
       </Space>

@@ -36,9 +36,9 @@ export function NewSongPage() {
 
       <NewSongStepper step={step} />
 
-      {step === 0 && <StepVideoId newSong={newSong} updateNewSong={onUpdateNewSong} setStep={setStep} />}
+      {step === 0 && <StepVideoId newSong={newSong} setStep={setStep} updateNewSong={onUpdateNewSong} />}
 
-      {step === 1 && <StepLyrics newSong={newSong} updateNewSong={onUpdateNewSong} setStep={setStep} />}
+      {step === 1 && <StepLyrics newSong={newSong} setStep={setStep} updateNewSong={onUpdateNewSong} />}
     </Content>
   );
 }

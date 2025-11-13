@@ -53,16 +53,14 @@ export function ControlledVideoComponent({
 
   return (
     <YouTube
-      videoId={videoId}
-      id={videoId}
-      key={videoId}
-      ref={playerRef}
       className={clsx('video', className)}
+      id={videoId}
       iframeClassName="video__iframe"
-      onReady={onReady}
-      onPlay={onPlay}
-      onPause={onPause}
+      key={videoId}
       onEnd={onEnd}
+      onPause={onPause}
+      onPlay={onPlay}
+      onReady={onReady}
       onStateChange={onStateChange}
       opts={{
         width: w,
@@ -73,6 +71,8 @@ export function ControlledVideoComponent({
           fs: 0,
         },
       }}
+      ref={playerRef}
+      videoId={videoId}
     />
   );
 }

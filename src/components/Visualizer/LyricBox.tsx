@@ -21,16 +21,16 @@ export function LyricBox({ snapshot, assignees, timestamp }: LyricBoxProps) {
 
           return (
             <ArtistAvatar
-              key={assigneeId}
               id={artist?.id ?? assigneeId}
+              key={assigneeId}
               name={artist?.name ?? assigneeId}
+              size="large"
               style={{
                 border: `3px solid ${artist?.color ?? '#f1f1f1'}`,
                 marginTop: `${index * -12}px`,
                 zIndex: snapshot.assigneesIds.length - index,
                 opacity: isAllOrNone ? 0 : 1,
               }}
-              size="large"
             />
           );
         })}

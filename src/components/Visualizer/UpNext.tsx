@@ -34,7 +34,7 @@ export function UpNext({ upNextSnapshots, timestamp }: UpNextProps) {
 
   return (
     <div className="visualizer__up-next">
-      <span key={names} className="visualizer__up-next-names">
+      <span className="visualizer__up-next-names" key={names}>
         Up Next: {names}
       </span>
     </div>

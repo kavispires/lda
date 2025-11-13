@@ -32,7 +32,6 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
   }: ArtistBarProps) => {
     return (
       <div
-        id={artist.id}
         className={clsx(
           'bar',
           active && 'bar--active',
@@ -40,6 +39,7 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
           fixed && 'bar--fixed',
           className,
         )}
+        id={artist.id}
         {...props}
       >
         <div className="bar__avatar">

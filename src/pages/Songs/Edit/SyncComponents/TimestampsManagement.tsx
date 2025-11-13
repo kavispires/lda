@@ -45,33 +45,33 @@ export function TimestampsManagement({
       <div className="header mb-2">
         <Typography.Text strong>Unassigned Timestamps ({unassignedTimestamps.length})</Typography.Text>
         <Flex gap={6}>
-          <Button size="small" disabled={!activeTimestamp} onClick={onDeleteTimestamp}>
+          <Button disabled={!activeTimestamp} onClick={onDeleteTimestamp} size="small">
             <DeleteOutlined />
           </Button>
           <Popconfirm
-            title="Are you sure you want to delete all unassigned timestamps?"
             onConfirm={onDeleteAllTimestamps}
+            title="Are you sure you want to delete all unassigned timestamps?"
           >
-            <Button size="small" danger type="primary" disabled={unassignedTimestamps.length === 0}>
+            <Button danger disabled={unassignedTimestamps.length === 0} size="small" type="primary">
               <ClearOutlined />
             </Button>
           </Popconfirm>
         </Flex>
       </div>
       <div className="bordered surface">
-        <Flex wrap gap={3}>
+        <Flex gap={3} wrap>
           {unassignedTimestamps.map((timestamp) => {
             const isActive = activeTimestamp?.id === timestamp.id;
             return (
               <Button
-                key={timestamp.id}
-                size="small"
-                shape="round"
-                type={isActive ? 'dashed' : 'default'}
-                icon={isActive ? <ApiOutlined /> : <ClockCircleOutlined />}
                 className={clsx(isActive && 'pulse')}
+                icon={isActive ? <ApiOutlined /> : <ClockCircleOutlined />}
+                key={timestamp.id}
                 onClick={() => onActivateTimestamp(timestamp)}
+                shape="round"
+                size="small"
                 style={{ backgroundColor: ASSIGNEES[timestamp.assignee].color }}
+                type={isActive ? 'dashed' : 'default'}
               >
                 {timestamp.startTime} ms
               </Button>

@@ -22,33 +22,33 @@ export function SyncLog({ activeTimestamp, seekAndPlay, handleConnect }: SyncLog
   return (
     <div className="surface">
       <header className="grid">
-        <Button type="link" disabled={!selection.length} onClick={onDeselectAll}>
+        <Button disabled={!selection.length} onClick={onDeselectAll} type="link">
           Deselect All
         </Button>
       </header>
       <ul className="log-sections">
         {song.sectionIds.map((sectionId) => (
           <LogSection
-            key={sectionId}
-            id={sectionId}
-            song={song}
-            onSelectParts={onSelectMany}
-            onPlay={(startTime) => seekAndPlay(startTime)}
             enableSelectRemainingParts
+            id={sectionId}
+            key={sectionId}
+            onPlay={(startTime) => seekAndPlay(startTime)}
+            onSelectParts={onSelectMany}
+            song={song}
           >
             {distributor.getSection(sectionId, song).linesIds.map((lineId) => (
-              <LogLine key={lineId} id={lineId} song={song} showPartsOnly>
+              <LogLine id={lineId} key={lineId} showPartsOnly song={song}>
                 {distributor.getLine(lineId, song).partsIds.map((partId) => (
                   <LogPart
-                    key={partId}
                     id={partId}
-                    song={song}
+                    key={partId}
                     onClick={() => {
                       seekAndPlay(distributor.getPart(partId, song).startTime);
                     }}
+                    onConnect={activeTimestamp ? () => handleConnect(partId) : undefined}
                     onSelect={onSelect}
                     selected={selection.includes(partId)}
-                    onConnect={activeTimestamp ? () => handleConnect(partId) : undefined}
+                    song={song}
                   />
                 ))}
               </LogLine>

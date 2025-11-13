@@ -7,10 +7,8 @@ type NewSongStepperProps = {
 export function NewSongStepper({ step }: NewSongStepperProps) {
   return (
     <Steps
-      current={step}
-      size="small"
-      type="navigation"
       className="mb-8"
+      current={step}
       items={[
         {
           title: 'Video ID',
@@ -22,6 +20,8 @@ export function NewSongStepper({ step }: NewSongStepperProps) {
           title: '...',
         },
       ]}
+      size="small"
+      type="navigation"
     />
   );
 }

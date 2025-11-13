@@ -60,17 +60,17 @@ export function LyricsScroller({
 
         return (
           <div
-            key={key}
             className={clsx(
               'lyric-box-container',
               isActive && 'lyric-box-container--active',
               isPast && 'lyric-box-container--past',
             )}
+            key={key}
             ref={(el) => {
               lyricsRef.current[Number(key)] = el;
             }}
           >
-            <LyricBox snapshot={snapshot} assignees={assignees} timestamp={timestamp} />
+            <LyricBox assignees={assignees} snapshot={snapshot} timestamp={timestamp} />
           </div>
         );
       })}

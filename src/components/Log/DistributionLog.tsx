@@ -37,22 +37,22 @@ export function DistributionLog({ className }: LogProps) {
       <ul className="log-sections">
         {song.sectionIds.map((sectionId) => (
           <LogSection
-            key={sectionId}
-            song={song}
             id={sectionId}
+            key={sectionId}
             onPlay={(startTime) => videoControls.seekAndPlay(startTime)}
+            song={song}
           >
             {distributor.getSection(sectionId, song).linesIds.map((lineId) => (
-              <LogLine key={lineId} id={lineId} song={song} showPartsOnly onApplyToLine={onLineClick}>
+              <LogLine id={lineId} key={lineId} onApplyToLine={onLineClick} showPartsOnly song={song}>
                 {distributor.getLine(lineId, song).partsIds.map((partId) => (
                   <LogPart
-                    key={partId}
-                    id={partId}
-                    song={song}
-                    onClick={onPartClick}
-                    after={<PartAssignees mapping={mapping} partId={partId} assignees={assignees} />}
-                    hideStatusIcon
+                    after={<PartAssignees assignees={assignees} mapping={mapping} partId={partId} />}
                     color="#d0d0d0"
+                    hideStatusIcon
+                    id={partId}
+                    key={partId}
+                    onClick={onPartClick}
+                    song={song}
                   />
                 ))}
               </LogLine>
@@ -86,13 +86,13 @@ function PartAssignees({ mapping, partId, assignees }: PartAssigneesProps) {
 
         return (
           <ArtistAvatar
-            key={assigneeId}
             id={assigneeId}
+            key={assigneeId}
             name={assignees?.[assigneeId]?.name ?? assigneeId}
+            size="small"
             style={{
               border: `2px solid ${assignee?.color ?? '#f1f1f1'}`,
             }}
-            size="small"
           />
         );
       })}

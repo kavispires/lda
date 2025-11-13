@@ -43,17 +43,17 @@ function EditFormationContent() {
 
       <div className="formator">
         <div>
-          <VideoControls videoControls={videoControls} className="formator__controls" />
+          <VideoControls className="formator__controls" videoControls={videoControls} />
           <div className="formator__metadata">
             <ControlledVideo
-              width={Math.min(width / 2 - 12, 320)}
-              videoId={song.videoId}
-              playerRef={videoControls.playerRef}
-              setPlaying={() => {}}
-              setEnd={() => {}}
               className="formator__video"
               hideControls
               onStateChange={videoControls.onStateChange}
+              playerRef={videoControls.playerRef}
+              setEnd={() => {}}
+              setPlaying={() => {}}
+              videoId={song.videoId}
+              width={Math.min(width / 2 - 12, 320)}
             />
             <div className="formator__title">
               <h3>{song.title}</h3>
@@ -62,20 +62,20 @@ function EditFormationContent() {
           </div>
 
           <div className="mt-4 surface">
-            <Flex gap={8} align="center">
+            <Flex align="center" gap={8}>
               <Typography.Text>Stage Size</Typography.Text>
               <Slider
-                value={Number(queryParams.get('stageSize') ?? 3)}
-                min={2}
                 max={8}
+                min={2}
                 onChange={(v) => addParam('stageSize', v)}
                 style={{ width: Math.min(width / 2 - 12, 320) }}
+                value={Number(queryParams.get('stageSize') ?? 3)}
               />
               <Typography.Text code>{queryParams.get('stageSize') ?? 3}</Typography.Text>
             </Flex>
 
             <Space className="surface my-2">
-              <Button type="primary" onClick={onSave} loading={isSaving} icon={<SaveOutlined />}>
+              <Button icon={<SaveOutlined />} loading={isSaving} onClick={onSave} type="primary">
                 Save
               </Button>
               <Button onClick={() => navigate(`/distributions/${distribution.id}`)}>

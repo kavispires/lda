@@ -77,9 +77,9 @@ export function SyncMethods({
         <div className="px-2">
           <Button
             block
-            type="primary"
             disabled={selection.length === 0 || selection.length !== unassignedTimestamps.length}
             onClick={onLinearSync}
+            type="primary"
           >
             One-time Linear Sync ({selection.length}/{unassignedTimestamps.length})
           </Button>
@@ -89,8 +89,8 @@ export function SyncMethods({
         <div className="px-2">
           <Button
             block
-            disabled={unassignedTimestamps.length === 0 || isRecording}
             className={clsx(sequentialMode && 'pulse')}
+            disabled={unassignedTimestamps.length === 0 || isRecording}
             onClick={() => setSequentialMode((prev) => !prev)}
           >
             Sequential Mode

@@ -21,7 +21,7 @@ export function AuthWrapper({ children }: PropsWithChildren) {
 
   if (isLoading) {
     return (
-      <Spin tip="Verifying auth..." size="large">
+      <Spin size="large" tip="Verifying auth...">
         <div className="h-screen w-screen" />
       </Spin>
     );
@@ -31,32 +31,32 @@ export function AuthWrapper({ children }: PropsWithChildren) {
     return (
       <div className="h-screen w-screen grid place-items-center">
         <Alert
-          message="You are not logged in"
-          description="You can't use this app unless you are logged in."
-          type="info"
-          showIcon
           action={
-            <Button type="primary" ghost onClick={() => setOpenLogin(true)}>
+            <Button ghost onClick={() => setOpenLogin(true)} type="primary">
               Login
             </Button>
           }
+          description="You can't use this app unless you are logged in."
+          message="You are not logged in"
+          showIcon
+          type="info"
         />
-        <Form {...layout} layout="vertical" name="sign-in" autoComplete="off" onValuesChange={onValuesChange}>
+        <Form {...layout} autoComplete="off" layout="vertical" name="sign-in" onValuesChange={onValuesChange}>
           <Modal
-            title="Login"
-            open={openLogin}
-            onOk={() => signIn(values)}
             confirmLoading={isSigningIn}
-            onCancel={() => setOpenLogin(false)}
-            okText="Login"
             okButtonProps={{
               htmlType: 'submit',
             }}
+            okText="Login"
+            onCancel={() => setOpenLogin(false)}
+            onOk={() => signIn(values)}
+            open={openLogin}
+            title="Login"
           >
-            <Form.Item {...tailLayout} label="E-mail" name="email" className="login__form-item">
+            <Form.Item {...tailLayout} className="login__form-item" label="E-mail" name="email">
               <Input type="email" />
             </Form.Item>
-            <Form.Item {...tailLayout} label="Password" name="password" className="login__form-item">
+            <Form.Item {...tailLayout} className="login__form-item" label="Password" name="password">
               <Input type="password" />
             </Form.Item>
           </Modal>

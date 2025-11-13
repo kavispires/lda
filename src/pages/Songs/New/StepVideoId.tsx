@@ -55,10 +55,10 @@ export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProp
       </Typography.Paragraph>
       <Space>
         <Input
-          placeholder="Enter a YouTube video ID"
           onChange={(e) => setVideoIdInput(e.target.value)}
-          value={videoIdInput}
           onPressEnter={onParse}
+          placeholder="Enter a YouTube video ID"
+          value={videoIdInput}
         />
         <Button disabled={!videoIdInput || videoIdInput.length < 5} onClick={onParse}>
           Parse
@@ -80,12 +80,12 @@ export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProp
           </Typography.Paragraph>
 
           <Form
+            autoComplete="off"
             form={form}
             initialValues={newSong}
-            onValuesChange={onFormLayoutChange}
             layout="vertical"
-            autoComplete="off"
             onFinish={onFinish}
+            onValuesChange={onFormLayoutChange}
           >
             <div className="grid grid-cols-2 gap-2 max-width-large">
               <Form.Item label="Song Title" name="title">
@@ -117,10 +117,10 @@ export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProp
 
             <Form.Item>
               <Button
+                disabled={!confirmCheckbox || !newSong.title || !newSong.originalArtist || !newSong.endAt}
+                htmlType="submit"
                 size="large"
                 type="primary"
-                htmlType="submit"
-                disabled={!confirmCheckbox || !newSong.title || !newSong.originalArtist || !newSong.endAt}
               >
                 Next Step
               </Button>

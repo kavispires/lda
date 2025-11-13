@@ -10,7 +10,7 @@ export function NewSongQuickLog({ song }: NewSongQuickLogProps) {
       {song.sectionIds.map((sectionId) => {
         const section = song.content[sectionId] as SongSection;
         if (section.type !== 'section') return null;
-        return <SectionEntry key={section.id} linesIds={section.linesIds} content={song.content} />;
+        return <SectionEntry content={song.content} key={section.id} linesIds={section.linesIds} />;
       })}
     </ul>
   );
@@ -31,7 +31,7 @@ function SectionEntry({ linesIds, content }: SectionEntryProps) {
         {linesIds.map((lineId) => {
           const line = content[lineId] as SongLine;
           if (line.type !== 'line') return null;
-          return <LineEntry key={line.id} partsIds={line.partsIds} content={content} />;
+          return <LineEntry content={content} key={line.id} partsIds={line.partsIds} />;
         })}
       </ul>
     </li>

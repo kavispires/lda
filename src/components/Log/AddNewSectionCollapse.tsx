@@ -24,14 +24,14 @@ export function AddNewSectionCollapse() {
 
   return (
     <Collapse
-      items={items}
-      size="small"
       activeKey={activePanel}
       expandIcon={({ isActive }) => <PlusOutlined rotate={isActive ? 90 : 0} />}
+      items={items}
       onChange={(keys) => {
         onDeselectAll();
         setActivePanel(keys);
       }}
+      size="small"
     />
   );
 }
@@ -94,14 +94,14 @@ function NewSectionFlow({ setActivePanel }: NewSectionFlowProps) {
 
   return (
     <Form
+      autoComplete="off"
       form={form}
+      initialValues={tempSection}
       layout="vertical"
       name="new-section-form"
-      initialValues={tempSection}
-      onValuesChange={onValuesChange}
-      autoComplete="off"
-      preserve={false}
       onFinish={onCreateSection}
+      onValuesChange={onValuesChange}
+      preserve={false}
     >
       <Flex gap={8}>
         <Form.Item label="Kind" name="kind" style={{ width: '50%' }}>
@@ -109,20 +109,20 @@ function NewSectionFlow({ setActivePanel }: NewSectionFlowProps) {
         </Form.Item>
 
         <Form.Item
-          label="Section Order"
-          // name="order"
-          style={{ width: '50%' }}
           help={
             !selection[0]?.startsWith('_s')
               ? 'Selection must be a section not any other entity'
               : 'Select the section position'
           }
+          // name="order"
+          label="Section Order"
+          style={{ width: '50%' }}
           validateStatus={!selection[0]?.startsWith('_s') ? 'error' : undefined}
         >
           <Select
-            options={sectionOptions}
             defaultValue={sectionOptions[sectionOptions.length - 1]?.value}
             onChange={(value) => onSelectOnly(value)}
+            options={sectionOptions}
             value={selection[0]}
           />
         </Form.Item>
@@ -140,9 +140,9 @@ function NewSectionFlow({ setActivePanel }: NewSectionFlowProps) {
         </Typography.Paragraph>
         <Input.TextArea
           className="mb-2"
-          value={typedValue}
           onChange={(e) => setTypedValue(e.target.value)}
           rows={4}
+          value={typedValue}
         />
         <Button onClick={() => setPreview(parsePreview(typedValue))}>Preview</Button>
         {!!typedValue && preview.length > 0 && (
@@ -151,11 +151,11 @@ function NewSectionFlow({ setActivePanel }: NewSectionFlowProps) {
             <Typography.Paragraph className="mt-4">
               <strong>Preview:</strong>
             </Typography.Paragraph>
-            <Flex wrap vertical>
+            <Flex vertical wrap>
               {preview.map((line, lineIndex) => (
-                <Flex wrap key={lineIndex}>
+                <Flex key={lineIndex} wrap>
                   {line.map((text, index) => (
-                    <Typography.Text key={index} strong keyboard style={{ color: 'dodgerBlue' }}>
+                    <Typography.Text key={index} keyboard strong style={{ color: 'dodgerBlue' }}>
                       {text}
                     </Typography.Text>
                   ))}
@@ -164,10 +164,10 @@ function NewSectionFlow({ setActivePanel }: NewSectionFlowProps) {
             </Flex>
             <Divider />
             <Button
-              type="primary"
-              htmlType="submit"
-              disabled={!preview.length || selection.length === 0 || !selection[0]?.startsWith('_s')}
               className="mt-4"
+              disabled={!preview.length || selection.length === 0 || !selection[0]?.startsWith('_s')}
+              htmlType="submit"
+              type="primary"
             >
               Add Section
             </Button>

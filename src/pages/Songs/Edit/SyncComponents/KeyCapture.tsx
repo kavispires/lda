@@ -126,21 +126,21 @@ export function KeyCapture({
     <div className="grid grid-cols-4 gap-2">
       {isRecording && (
         <KeyboardCapture
-          playerRef={playerRef}
           isPlaying={isPlaying}
           isRecording={isRecording}
+          playerRef={playerRef}
           setUnassignedTimestamps={setUnassignedTimestamps}
         />
       )}
       {Object.values(ASSIGNEES).map((entry, index) => (
         <Button
+          className="TODO"
+          disabled={!(isPlaying && isRecording)}
           key={entry.value}
           onClick={() => {}}
-          className="TODO"
-          style={{ backgroundColor: entry.color }}
           onMouseDown={() => onCaptureButtonDown(entry.value)}
           onMouseUp={() => onCaptureButtonUp(entry.value)}
-          disabled={!(isPlaying && isRecording)}
+          style={{ backgroundColor: entry.color }}
         >
           {index + 1}
           <br />({entry.label})
@@ -165,5 +165,5 @@ function KeyboardCapture({ playerRef, setUnassignedTimestamps }: KeyboardCapture
     }
   });
 
-  return <></>;
+  return null;
 }

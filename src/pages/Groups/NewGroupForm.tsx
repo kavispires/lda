@@ -27,13 +27,13 @@ export function NewGroupForm({ onClose }: NewGroupFormProps) {
   };
 
   return (
-    <Form form={form} layout="vertical" autoComplete="off" onFinish={onFinish}>
+    <Form autoComplete="off" form={form} layout="vertical" onFinish={onFinish}>
       <Form.Item label="Group name" name="name">
         <Input />
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={isPending}>
+        <Button htmlType="submit" loading={isPending} type="primary">
           Add
         </Button>
       </Form.Item>

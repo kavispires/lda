@@ -27,10 +27,10 @@ export function EditDrawer({ onClose, activeIds, specialModal }: EditDrawerProps
 
   return (
     <Drawer
-      title={`Editing ${getInstanceName(activeIds)}: ${activeIds.join(', ')}`}
+      maskClosable={!isDirty}
       onClose={onClose}
       open={!!activeIds.length}
-      maskClosable={!isDirty}
+      title={`Editing ${getInstanceName(activeIds)}: ${activeIds.join(', ')}`}
     >
       {!specialModal ? (
         <>

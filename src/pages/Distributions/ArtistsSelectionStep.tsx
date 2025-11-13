@@ -63,9 +63,9 @@ export function ArtistsSelectionStep({
             const isSelected = selectedGroup?.id === group.id;
             return (
               <Button
+                icon={isSelected ? <i className="fi fi-rr-check"></i> : <i className="fi fi-rr-users" />}
                 key={group.id}
                 onClick={() => onSelectGroup(group)}
-                icon={isSelected ? <i className="fi fi-rr-check"></i> : <i className="fi fi-rr-users" />}
               >
                 {group.name}
               </Button>
@@ -82,13 +82,13 @@ export function ArtistsSelectionStep({
             const isSelected = checkIsSelected(artist.id);
             return (
               <Button
+                icon={isSelected ? <i className="fi fi-rr-check"></i> : <i className="fi fi-rr-user" />}
                 key={artist.id}
                 onClick={() =>
                   setSelectedArtists((prev) =>
                     isSelected ? prev.filter((a) => a.id !== artist.id) : [...prev, artist],
                   )
                 }
-                icon={isSelected ? <i className="fi fi-rr-check"></i> : <i className="fi fi-rr-user" />}
               >
                 {artist.name}
               </Button>
@@ -99,7 +99,7 @@ export function ArtistsSelectionStep({
 
       <Divider />
       <Space>
-        <Button type="primary" disabled={!selectedGroup} onClick={onNextStep}>
+        <Button disabled={!selectedGroup} onClick={onNextStep} type="primary">
           Start Distribution
         </Button>
       </Space>

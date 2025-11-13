@@ -65,14 +65,14 @@ export function GroupsListingPage() {
         </Space>
       </div>
       <Table
-        dataSource={groups}
         columns={columns}
-        rowKey="id"
-        pagination={paginationProps}
-        loading={groupsQuery.isLoading}
+        dataSource={groups}
         expandable={{
-          expandedRowRender: (record: Group) => <GroupArtists group={record} artists={artists} />,
+          expandedRowRender: (record: Group) => <GroupArtists artists={artists} group={record} />,
         }}
+        loading={groupsQuery.isLoading}
+        pagination={paginationProps}
+        rowKey="id"
       />
     </Content>
   );
@@ -89,13 +89,13 @@ function GroupArtists({ group, artists }: GroupArtistsProps) {
     return orderBy(Object.entries(group.artistsIds), ([, position]) => position).map(([id]) => artists[id]);
   }, [group.artistsIds, artists]);
   return (
-    <Flex wrap gap={12}>
+    <Flex gap={12} wrap>
       {artistsList.map((artist) => {
         return (
-          <Flex key={artist.id} className="surface" vertical>
+          <Flex className="surface" key={artist.id} vertical>
             <Typography.Text copyable>{artist.id}</Typography.Text>
             <Typography.Text strong>{artist.name}</Typography.Text>
-            <ArtistAvatar id={artist.id} name={artist.name} size={96} shape="square" />
+            <ArtistAvatar id={artist.id} name={artist.name} shape="square" size={96} />
             <div>
               <Tag>{artist.track}</Tag>
             </div>
@@ -103,9 +103,9 @@ function GroupArtists({ group, artists }: GroupArtistsProps) {
             <Typography.Text copyable>{artist.color}</Typography.Text>
             <ColorPicker
               disabled
-              value={artist.color}
               format="hex"
               showText={(color) => <span>{color.toHexString()}</span>}
+              value={artist.color}
             />
           </Flex>
         );

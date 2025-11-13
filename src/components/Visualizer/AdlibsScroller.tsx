@@ -62,8 +62,8 @@ export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeigh
         const snapshot = adlibsSnapshots[key];
 
         return (
-          <div key={key} className={clsx('adlib-box-container', 'adlib-box-container--active')}>
-            <AdlibBox snapshot={snapshot} assignees={assignees} />
+          <div className={clsx('adlib-box-container', 'adlib-box-container--active')} key={key}>
+            <AdlibBox assignees={assignees} snapshot={snapshot} />
           </div>
         );
       })}

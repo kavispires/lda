@@ -64,14 +64,14 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
 
   return (
     <Form
+      autoComplete="off"
       form={form}
+      initialValues={tempLine}
       layout="vertical"
       name="edit-line-form"
-      initialValues={tempLine}
-      onValuesChange={onValuesChange}
-      autoComplete="off"
-      preserve={false}
       onFinish={onApplyChanges}
+      onValuesChange={onValuesChange}
+      preserve={false}
     >
       <div className="grid grid-cols-3 gap-2">
         <Form.Item label="Skill" name="skill.type">
@@ -87,36 +87,36 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
 
       <div className="grid grid-cols-2 gap-2">
         <Form.Item
+          help="Check if line is an adlib not in the flow of the song."
           label="Adlib"
           name="adlib"
           valuePropName="checked"
-          help="Check if line is an adlib not in the flow of the song."
         >
           <Switch />
         </Form.Item>
 
         <Form.Item
+          help="Check if line does not need to be displayed (vocalizing or effects)."
           label="Dismissible"
           name="dismissible"
           valuePropName="checked"
-          help="Check if line does not need to be displayed (vocalizing or effects)."
         >
           <Switch />
         </Form.Item>
       </div>
 
-      <Form.Item label="Lyric" help={`Collection of lyrics from all parts (${tempLine.partsIds.length}).`}>
-        <Input value={text} disabled />
+      <Form.Item help={`Collection of lyrics from all parts (${tempLine.partsIds.length}).`} label="Lyric">
+        <Input disabled value={text} />
       </Form.Item>
 
       <div className="grid grid-cols-3 gap-2"></div>
 
       <Divider className="my-4" />
 
-      <Space size="small" direction="vertical" className="w-100">
-        <Progress percent={getCompletionPercentage(Object.values(criteria))} className="w-100" />
-        <CriteriaRule value={criteria.sectionId} label="Has sectionId" />
-        <CriteriaRule value={criteria.partsIds} label="Has parts" />
+      <Space className="w-100" direction="vertical" size="small">
+        <Progress className="w-100" percent={getCompletionPercentage(Object.values(criteria))} />
+        <CriteriaRule label="Has sectionId" value={criteria.sectionId} />
+        <CriteriaRule label="Has parts" value={criteria.partsIds} />
       </Space>
 
       <Divider />
@@ -124,7 +124,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
-          <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
+          <Button block disabled={!form.isFieldsTouched()} htmlType="submit" type="primary">
             Apply Changes
           </Button>
         </Flex>
@@ -136,15 +136,15 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
         <MoveLinesToSectionSelector linesIds={[lineId]} onSuccess={onClose} />
       </Form.Item>
 
-      <Form.Item label="" name="text" help="You can only delete a line without any parts">
-        <Popconfirm title="Are you sure you want to delete this line?" onConfirm={() => onDeleteLine(lineId)}>
+      <Form.Item help="You can only delete a line without any parts" label="" name="text">
+        <Popconfirm onConfirm={() => onDeleteLine(lineId)} title="Are you sure you want to delete this line?">
           <Button
-            type="primary"
+            block
             danger
+            disabled={line.partsIds.length > 0}
             ghost
             icon={<DeleteOutlined />}
-            block
-            disabled={line.partsIds.length > 0}
+            type="primary"
           >
             Delete This Line
           </Button>

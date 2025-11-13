@@ -80,15 +80,15 @@ export function LogLine({
   return (
     <li className={clsx('log-line', showPartsOnly && 'log-line--inline')}>
       {!!onApplyToLine && (
-        <Button onClick={() => onApplyToLine(id)} icon={<DoubleRightOutlined />} size="small" />
+        <Button icon={<DoubleRightOutlined />} onClick={() => onApplyToLine(id)} size="small" />
       )}
       {!showPartsOnly && (
         <span className="log-line__line">
-          {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
+          {!!onSelect && <Checkbox checked={selected} onChange={() => onSelect(id)} />}
           {status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <MessageFilled />}
 
           {onClick ? (
-            <Button onClick={() => onClick(id)} type="text" className="log-line__line-text">
+            <Button className="log-line__line-text" onClick={() => onClick(id)} type="text">
               {!!line.adlib && '> '}
               {!!line.dismissible && '* '}
               {text}
@@ -104,17 +104,17 @@ export function LogLine({
           {!!onSelectParts && (
             <Tooltip title="Select all parts">
               <Button
-                size="small"
-                shape="circle"
                 icon={<UnorderedListOutlined />}
                 onClick={() => onSelectParts(line.partsIds)}
+                shape="circle"
+                size="small"
               />
             </Tooltip>
           )}
 
           {!!onAddPart && (
             <Tooltip title="Add parts to line">
-              <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddPart(id)} />
+              <Button icon={<PlusOutlined />} onClick={() => onAddPart(id)} shape="circle" size="small" />
             </Tooltip>
           )}
         </span>

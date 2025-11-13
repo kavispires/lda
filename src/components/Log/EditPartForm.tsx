@@ -64,23 +64,23 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
 
   return (
     <Form
+      autoComplete="off"
       form={form}
+      initialValues={tempPart}
       layout="vertical"
       name="edit-part-form"
-      initialValues={tempPart}
-      onValuesChange={onValuesChange}
-      autoComplete="off"
-      preserve={false}
       onFinish={onApplyChanges}
+      onValuesChange={onValuesChange}
+      preserve={false}
     >
       <Form.Item label="Recommended Assignee" name="recommendedAssignee">
         <Radio.Group optionType="button">
           {Object.values(ASSIGNEES).map((assignee) => (
             <Radio.Button
-              key={assignee.value}
-              value={assignee.value}
-              style={{ backgroundColor: assignee.color }}
               disabled={assignee.value === DEFAULT_ASSIGNEE}
+              key={assignee.value}
+              style={{ backgroundColor: assignee.color }}
+              value={assignee.value}
             >
               {assignee.label}
             </Radio.Button>
@@ -93,22 +93,22 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
       </Form.Item>
 
       <div className="grid grid-cols-3">
-        <Form.Item label="Start Time" name="startTime" help="In ms">
+        <Form.Item help="In ms" label="Start Time" name="startTime">
           <InputNumber />
         </Form.Item>
 
-        <Form.Item label="End Time" name="endTime" help="In ms">
+        <Form.Item help="In ms" label="End Time" name="endTime">
           <InputNumber />
         </Form.Item>
 
         <Form.Item
-          label="Line Id"
-          name="lineId"
           help={
-            <Button type="link" size="small" onClick={() => setShowMoveFlow((prev) => !prev)} disabled>
+            <Button disabled onClick={() => setShowMoveFlow((prev) => !prev)} size="small" type="link">
               Move
             </Button>
           }
+          label="Line Id"
+          name="lineId"
         >
           <Input disabled />
         </Form.Item>
@@ -118,30 +118,30 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
 
       <Divider className="my-4" />
 
-      <Space size="small" direction="vertical" className="w-100">
-        <Progress percent={getCompletionPercentage(Object.values(criteria))} className="w-100" />
-        <CriteriaRule value={criteria.lyric} label="Has lyric" />
-        <CriteriaRule value={criteria.duration} label="Has duration" />
-        <CriteriaRule value={criteria.lineId} label="Has lineId" />
-        <CriteriaRule value={criteria.assignee} label="Has proper assignee" />
+      <Space className="w-100" direction="vertical" size="small">
+        <Progress className="w-100" percent={getCompletionPercentage(Object.values(criteria))} />
+        <CriteriaRule label="Has lyric" value={criteria.lyric} />
+        <CriteriaRule label="Has duration" value={criteria.duration} />
+        <CriteriaRule label="Has lineId" value={criteria.lineId} />
+        <CriteriaRule label="Has proper assignee" value={criteria.assignee} />
       </Space>
 
       <Divider className="my-4" />
 
-      <Form.Item label="" help="Permanently delete this entire part.">
-        <Popconfirm title="Are you sure you want to delete this part?" onConfirm={() => onDeletePart(partId)}>
-          <Button type="primary" danger icon={<DeleteOutlined />} block ghost>
+      <Form.Item help="Permanently delete this entire part." label="">
+        <Popconfirm onConfirm={() => onDeletePart(partId)} title="Are you sure you want to delete this part?">
+          <Button block danger ghost icon={<DeleteOutlined />} type="primary">
             Delete This Part
           </Button>
         </Popconfirm>
       </Form.Item>
 
-      <Form.Item label="" help="Move this part to a new line keeping its content.">
+      <Form.Item help="Move this part to a new line keeping its content." label="">
         <Popconfirm
-          title="Are you sure you want to convert this part to a new line?"
           onConfirm={() => onConvertPartToNewLine(partId)}
+          title="Are you sure you want to convert this part to a new line?"
         >
-          <Button type="primary" icon={<LogoutOutlined />} block ghost>
+          <Button block ghost icon={<LogoutOutlined />} type="primary">
             Convert to New Line
           </Button>
         </Popconfirm>
@@ -151,7 +151,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
-          <Button type="primary" htmlType="submit" disabled={!isDirty} block>
+          <Button block disabled={!isDirty} htmlType="submit" type="primary">
             Apply Changes
           </Button>
         </Flex>
@@ -179,8 +179,8 @@ function MovePartFlow({ partId }: MovePartFlowProps) {
 
   return (
     <div className="bordered p-2">
-      <Form.Item label="Choose Destination Line" className="w-100">
-        <Select options={typeahead} onChange={(e) => setTargetLineId(e)} />
+      <Form.Item className="w-100" label="Choose Destination Line">
+        <Select onChange={(e) => setTargetLineId(e)} options={typeahead} />
       </Form.Item>
 
       <Button disabled={!targetLineId} onClick={onMove}>

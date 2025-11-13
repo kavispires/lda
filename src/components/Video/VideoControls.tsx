@@ -29,7 +29,7 @@ export function VideoControls({ className, videoControls }: VideoControlsProps) 
 
   return (
     <div className={clsx('video-controls', className)}>
-      <Button onClick={isPlaying ? pauseVideo : playVideo} ghost>
+      <Button ghost onClick={isPlaying ? pauseVideo : playVideo}>
         {videoControls.isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
       </Button>
       <Button ghost onClick={seekToStart}>
@@ -40,13 +40,13 @@ export function VideoControls({ className, videoControls }: VideoControlsProps) 
       </Button>
       <div className="video-controls__slider">
         <Slider
-          min={startAt}
           max={endAt}
-          value={currentTime}
+          min={startAt}
           onChange={(value) => {
             seekAndPlay(value);
           }}
           tooltip={{ formatter }}
+          value={currentTime}
         />
       </div>
     </div>

@@ -8,7 +8,7 @@ type ContentProps = {
 
 export const Content = forwardRef<HTMLElement, ContentProps>(({ children, className }, ref) => {
   return (
-    <main ref={ref} className={clsx('m-4', className)}>
+    <main className={clsx('m-4', className)} ref={ref}>
       {children}
     </main>
   );

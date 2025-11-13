@@ -43,10 +43,10 @@ export function SongsListingPage() {
       key: 'actions',
       render: (record: ListingEntry) => (
         <Space size="middle">
-          <Button type="default" onClick={() => navigate(`/songs/${record.id}/edit`)}>
+          <Button onClick={() => navigate(`/songs/${record.id}/edit`)} type="default">
             Edit
           </Button>
-          <Button type="primary" onClick={() => navigate(`/distributions/new?songId=${record.id}`)}>
+          <Button onClick={() => navigate(`/distributions/new?songId=${record.id}`)} type="primary">
             Distribute
           </Button>
         </Space>
@@ -63,10 +63,10 @@ export function SongsListingPage() {
       render: (songId: UID) => (
         <Space size="middle">
           <Popconfirm
-            title="Are you sure you want to delete this song?"
             onConfirm={() => deleteSongMutation.mutate(songId)}
+            title="Are you sure you want to delete this song?"
           >
-            <Button icon={<DeleteFilled />} loading={deleteSongMutation.isPending} danger />
+            <Button danger icon={<DeleteFilled />} loading={deleteSongMutation.isPending} />
           </Popconfirm>
         </Space>
       ),
@@ -76,13 +76,13 @@ export function SongsListingPage() {
   return (
     <Content>
       <Typography.Title level={2}>Songs</Typography.Title>
-      <ListingSelect options={options} paramKey="group" allKey={ALL_SONGS} className="mb-2" />
+      <ListingSelect allKey={ALL_SONGS} className="mb-2" options={options} paramKey="group" />
       <Table
-        dataSource={activeList}
         columns={columns}
-        rowKey="id"
-        pagination={paginationProps}
+        dataSource={activeList}
         loading={songsQuery.isLoading}
+        pagination={paginationProps}
+        rowKey="id"
       />
     </Content>
   );

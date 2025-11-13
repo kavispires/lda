@@ -23,15 +23,15 @@ export function NudgeSongCollapse() {
 
   return (
     <Collapse
-      items={items}
-      size="small"
       activeKey={activePanel}
       expandIcon={({ isActive }) => <DoubleRightOutlined rotate={isActive ? 90 : 0} />}
+      items={items}
       onChange={(keys) => {
         onDeselectAll();
 
         setActivePanel(keys);
       }}
+      size="small"
     />
   );
 }
@@ -115,24 +115,24 @@ function NudgeSongFlow({ setActivePanel }: NudgeSongFlowProps) {
 
   return (
     <Form
+      autoComplete="off"
       form={form}
-      layout="vertical"
-      name="nudge-song-form"
       initialValues={{
         fromLine: selection[0] || undefined,
         milliseconds: 0,
         entireSong: false,
       }}
-      autoComplete="off"
-      preserve={false}
+      layout="vertical"
+      name="nudge-song-form"
       onFinish={onSubmitNudge}
+      preserve={false}
     >
       <Typography.Paragraph>
         You must click any line (or part or section) to be the start of the nudge, or select Entire song.
       </Typography.Paragraph>
       <Flex gap={8}>
         <Form.Item label="Nudge Amount" name="milliseconds" style={{ width: '35%' }}>
-          <InputNumber min={-10000} max={10000} style={{ width: '100%' }} />
+          <InputNumber max={10000} min={-10000} style={{ width: '100%' }} />
         </Form.Item>
 
         <Form.Item label="From Line" name="fromLine" style={{ width: '35%' }}>
@@ -142,8 +142,8 @@ function NudgeSongFlow({ setActivePanel }: NudgeSongFlowProps) {
         <Form.Item
           label="Nudge Entire Song"
           name="entireSong"
-          valuePropName="checked"
           style={{ width: '30%' }}
+          valuePropName="checked"
         >
           <Switch />
         </Form.Item>
@@ -151,15 +151,15 @@ function NudgeSongFlow({ setActivePanel }: NudgeSongFlowProps) {
 
       <div>
         <Divider />
-        <Flex justify="space-between" gap={12}>
-          <Button type="default" onClick={() => setActivePanel([])}>
+        <Flex gap={12} justify="space-between">
+          <Button onClick={() => setActivePanel([])} type="default">
             Cancel
           </Button>
           <Button
-            type="primary"
-            htmlType="submit"
-            disabled={milliseconds === 0 || (!fromLine && !entireSong)}
             block
+            disabled={milliseconds === 0 || (!fromLine && !entireSong)}
+            htmlType="submit"
+            type="primary"
           >
             Perform Nudge
           </Button>

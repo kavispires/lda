@@ -54,9 +54,9 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
 
   return (
     <Form
+      autoComplete="off"
       form={form}
       layout="vertical"
-      autoComplete="off"
       onFinish={onFinish}
       onValuesChange={onValuesChange}
       preserve={false}
@@ -68,9 +68,9 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
       <Form.Item label="Color" name="color" required>
         <ColorPicker
           defaultValue="#FFFFFF"
+          disabledAlpha
           format="hex"
           showText={(color) => <span>{color.toHexString()}</span>}
-          disabledAlpha
         />
       </Form.Item>
 
@@ -94,7 +94,7 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
       </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" loading={isPending}>
+        <Button htmlType="submit" loading={isPending} type="primary">
           Add
         </Button>
       </Form.Item>

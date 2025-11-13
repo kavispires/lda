@@ -50,14 +50,14 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
 
   return (
     <Form
+      autoComplete="off"
       form={form}
+      initialValues={tempSection}
       layout="vertical"
       name="edit-section-form"
-      initialValues={tempSection}
-      onValuesChange={onValuesChange}
-      autoComplete="off"
-      preserve={false}
       onFinish={onApplyChanges}
+      onValuesChange={onValuesChange}
+      preserve={false}
     >
       <Form.Item label="Kind" name="kind">
         <Select options={SECTION_SKILL_OPTIONS} />
@@ -65,43 +65,43 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
 
       <div className="grid grid-cols-2 gap-2">
         <Form.Item
+          help="This number is automatically generated when locking the song."
           label="Number"
           name="number"
-          help="This number is automatically generated when locking the song."
         >
-          <Input type="number" disabled />
+          <Input disabled type="number" />
         </Form.Item>
         <Form.Item label="Lines count">
           <Input disabled value={tempSection.linesIds.length} />
         </Form.Item>
       </div>
 
-      <Form.Item label="Lyric" help={`Collection of lyrics from all lines (${tempSection.linesIds.length}).`}>
-        <Input.TextArea value={'...'} disabled autoSize={{ minRows: 1, maxRows: 6 }} />
+      <Form.Item help={`Collection of lyrics from all lines (${tempSection.linesIds.length}).`} label="Lyric">
+        <Input.TextArea autoSize={{ minRows: 1, maxRows: 6 }} disabled value={'...'} />
       </Form.Item>
 
       <Divider className="my-4" />
 
-      <Space size="small" direction="vertical" className="w-100">
-        <Progress percent={getCompletionPercentage(Object.values(criteria))} className="w-100" />
-        <CriteriaRule value={criteria.kind} label="Has kind" />
-        <CriteriaRule value={criteria.linesIds} label="Has lines" />
+      <Space className="w-100" direction="vertical" size="small">
+        <Progress className="w-100" percent={getCompletionPercentage(Object.values(criteria))} />
+        <CriteriaRule label="Has kind" value={criteria.kind} />
+        <CriteriaRule label="Has lines" value={criteria.linesIds} />
       </Space>
 
       <Divider className="my-4" />
 
-      <Form.Item label="" name="text" help="You can only delete a section without any lines">
+      <Form.Item help="You can only delete a section without any lines" label="" name="text">
         <Popconfirm
-          title="Are you sure you want to delete this section?"
           onConfirm={() => onDeleteSection(sectionId)}
+          title="Are you sure you want to delete this section?"
         >
           <Button
-            type="primary"
+            block
             danger
+            disabled={section.linesIds.length > 0}
             ghost
             icon={<DeleteOutlined />}
-            block
-            disabled={section.linesIds.length > 0}
+            type="primary"
           >
             Delete This Section
           </Button>
@@ -112,7 +112,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
-          <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
+          <Button block disabled={!form.isFieldsTouched()} htmlType="submit" type="primary">
             Apply Changes
           </Button>
         </Flex>

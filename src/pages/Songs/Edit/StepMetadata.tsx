@@ -60,21 +60,21 @@ export function StepMetadata() {
   const [ref, { width }] = useMeasure<HTMLElement>();
 
   return (
-    <Flex vertical ref={ref}>
+    <Flex ref={ref} vertical>
       <Form
+        autoComplete="off"
         form={form}
         initialValues={{
           ...song,
           startAt: millisecondsToTimePicker(song.startAt),
           endAt: millisecondsToTimePicker(song.endAt),
         }}
-        onValuesChange={onFormLayoutChange}
         layout="vertical"
-        autoComplete="off"
         onFinish={onFinish}
+        onValuesChange={onFormLayoutChange}
       >
         <div className="grid grid-cols-4 gap-2">
-          <Form.Item label="Youtube Video Id" name="videoId" help="This action is very destructive">
+          <Form.Item help="This action is very destructive" label="Youtube Video Id" name="videoId">
             <Input size="large" />
           </Form.Item>
 
@@ -111,12 +111,12 @@ export function StepMetadata() {
 
         <Flex gap={12}>
           <Form.Item>
-            <Button type="default" htmlType="reset">
+            <Button htmlType="reset" type="default">
               Reset Form
             </Button>
           </Form.Item>
           <Form.Item>
-            <Button type="primary" htmlType="submit">
+            <Button htmlType="submit" type="primary">
               Update
             </Button>
           </Form.Item>

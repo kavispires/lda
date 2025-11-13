@@ -16,9 +16,6 @@ function PlaybackVideoComponent({ videoId, width = 320 }: PlaybackVideoProps) {
   return (
     <YouTube
       key={videoId}
-      videoId={videoId}
-      // TODO: App crashes upon setting width
-      // opts={{ width: w, height: h, videoId }}
       opts={{
         width: w,
         height: h,
@@ -27,6 +24,9 @@ function PlaybackVideoComponent({ videoId, width = 320 }: PlaybackVideoProps) {
           controls: 1,
         },
       }}
+      // TODO: App crashes upon setting width
+      // opts={{ width: w, height: h, videoId }}
+      videoId={videoId}
     />
   );
 }

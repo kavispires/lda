@@ -13,7 +13,7 @@ export function DistributionPage() {
 function DistributionPageContent() {
   const { song, distribution } = useSongDistributionContext();
   return (
-    <DistributionVisualizerProvider song={song} distribution={distribution}>
+    <DistributionVisualizerProvider distribution={distribution} song={song}>
       <Visualizer />
     </DistributionVisualizerProvider>
   );

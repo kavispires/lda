@@ -48,11 +48,11 @@ export function NewDistributionPage() {
       <Typography.Title level={2}>Create Distribution for: {songQuery.data?.title}</Typography.Title>
 
       <ArtistsSelectionStep
-        selectedArtists={selectedArtists}
-        setSelectedArtists={setSelectedArtists}
-        selectedGroup={selectedGroup}
-        setSelectedGroup={setSelectedGroup}
         onNextStep={onCreate}
+        selectedArtists={selectedArtists}
+        selectedGroup={selectedGroup}
+        setSelectedArtists={setSelectedArtists}
+        setSelectedGroup={setSelectedGroup}
       />
     </Content>
   );

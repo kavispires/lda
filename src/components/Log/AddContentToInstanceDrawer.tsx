@@ -47,7 +47,7 @@ function AddingNewParts({ instanceId }: AddContentToInstanceDrawerProps) {
 
       <Flex wrap>
         {parts.map((part) => (
-          <Typography.Text key={part.id} strong keyboard>
+          <Typography.Text key={part.id} keyboard strong>
             {part.text}
           </Typography.Text>
         ))}
@@ -56,7 +56,7 @@ function AddingNewParts({ instanceId }: AddContentToInstanceDrawerProps) {
       <Typography.Paragraph className="mt-6">
         Type your new line here. To auto-split into parts use <code>|</code>.
       </Typography.Paragraph>
-      <Input className="mb-2" value={typedValue} onChange={(e) => setTypedValue(e.target.value)} />
+      <Input className="mb-2" onChange={(e) => setTypedValue(e.target.value)} value={typedValue} />
       <Button onClick={() => setPreview(typedValue.split('|').map((text) => text.trim()))}>Preview</Button>
 
       {!!typedValue && preview.length > 0 && (
@@ -67,21 +67,21 @@ function AddingNewParts({ instanceId }: AddContentToInstanceDrawerProps) {
           </Typography.Paragraph>
           <Flex wrap>
             {parts.map((part) => (
-              <Typography.Text key={part.id} strong keyboard>
+              <Typography.Text key={part.id} keyboard strong>
                 {part.text}
               </Typography.Text>
             ))}
             {preview.map((text, index) => (
-              <Typography.Text key={index} strong keyboard style={{ color: 'dodgerBlue' }}>
+              <Typography.Text key={index} keyboard strong style={{ color: 'dodgerBlue' }}>
                 {text}
               </Typography.Text>
             ))}
           </Flex>
           <Divider />
           <Button
-            type="primary"
-            onClick={() => onAddNewTextAsPartsToLine(instanceId, preview)}
             className="mt-4"
+            onClick={() => onAddNewTextAsPartsToLine(instanceId, preview)}
+            type="primary"
           >
             Add New Parts
           </Button>
@@ -119,9 +119,9 @@ function AddingNewLines({ instanceId }: AddContentToInstanceDrawerProps) {
       </Typography.Paragraph>
       <Input.TextArea
         className="mb-2"
-        value={typedValue}
         onChange={(e) => setTypedValue(e.target.value)}
         rows={6}
+        value={typedValue}
       />
       <Button onClick={() => setPreview(parsePreview(typedValue))}>Preview</Button>
       {!!typedValue && preview.length > 0 && (
@@ -130,11 +130,11 @@ function AddingNewLines({ instanceId }: AddContentToInstanceDrawerProps) {
           <Typography.Paragraph className="mt-4">
             <strong>Preview:</strong>
           </Typography.Paragraph>
-          <Flex wrap vertical>
+          <Flex vertical wrap>
             {preview.map((line, lineIndex) => (
-              <Flex wrap key={lineIndex}>
+              <Flex key={lineIndex} wrap>
                 {line.map((text, index) => (
-                  <Typography.Text key={index} strong keyboard style={{ color: 'dodgerBlue' }}>
+                  <Typography.Text key={index} keyboard strong style={{ color: 'dodgerBlue' }}>
                     {text}
                   </Typography.Text>
                 ))}
@@ -143,9 +143,9 @@ function AddingNewLines({ instanceId }: AddContentToInstanceDrawerProps) {
           </Flex>
           <Divider />
           <Button
-            type="primary"
-            onClick={() => onAddNewTextAsLinesToSection(instanceId, preview)}
             className="mt-4"
+            onClick={() => onAddNewTextAsLinesToSection(instanceId, preview)}
+            type="primary"
           >
             Add New Lines
           </Button>

@@ -104,21 +104,21 @@ export function LogSection({
   return (
     <li className="log-section">
       <span className="log-section__section">
-        {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
+        {!!onSelect && <Checkbox checked={selected} onChange={() => onSelect(id)} />}
 
         {!!onPlay && (
           <Tooltip title={part ? `Play from ${part.startTime} ms` : 'No parts to play'}>
             <Button
-              size="small"
-              shape="circle"
               icon={<PlayCircleFilled />}
               onClick={() => onPlay(part.startTime)}
+              shape="circle"
+              size="small"
             />
           </Tooltip>
         )}
 
         {onClick ? (
-          <Button onClick={() => onClick(id)} shape="round" icon={icon} danger={section?.kind === NULL}>
+          <Button danger={section?.kind === NULL} icon={icon} onClick={() => onClick(id)} shape="round">
             {name}
           </Button>
         ) : (
@@ -130,10 +130,10 @@ export function LogSection({
         {!!onSelectParts && (
           <Tooltip title="Select all parts">
             <Button
-              size="small"
-              shape="circle"
               icon={<UnorderedListOutlined />}
               onClick={() => onSelectParts(partIds)}
+              shape="circle"
+              size="small"
             />
           </Tooltip>
         )}
@@ -141,17 +141,17 @@ export function LogSection({
         {!!onSelectParts && enableSelectRemainingParts && hasRemainingParts && (
           <Tooltip title="Select missing parts">
             <Button
-              size="small"
-              shape="circle"
               icon={<MenuUnfoldOutlined />}
               onClick={onSelectRemainingParts}
+              shape="circle"
+              size="small"
             />
           </Tooltip>
         )}
 
         {!!onAddLine && (
           <Tooltip title="Add content to section">
-            <Button size="small" shape="circle" icon={<PlusOutlined />} onClick={() => onAddLine(id)} />
+            <Button icon={<PlusOutlined />} onClick={() => onAddLine(id)} shape="circle" size="small" />
           </Tooltip>
         )}
       </span>

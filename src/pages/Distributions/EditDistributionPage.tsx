@@ -27,30 +27,30 @@ function EditDistributionContent() {
 
   return (
     <Content ref={ref}>
-      <Flex justify="space-between" align="center">
+      <Flex align="center" justify="space-between">
         <Typography.Title level={2}>
           Edit Distribution: <em>{group.name}</em> sings <em>{song.title}</em>
         </Typography.Title>
         <div>?</div>
       </Flex>
 
-      <Space size="small" direction="vertical" className="w-100">
-        <Progress percent={mappingProgress} className="w-100" />
+      <Space className="w-100" direction="vertical" size="small">
+        <Progress className="w-100" percent={mappingProgress} />
       </Space>
 
       <div className="distributor">
         <div>
-          <VideoControls videoControls={videoControls} className="distributor__controls" />
+          <VideoControls className="distributor__controls" videoControls={videoControls} />
           <div className="distributor__metadata">
             <ControlledVideo
-              width={Math.min(width / 2 - 12, 320)}
-              videoId={song.videoId}
-              playerRef={videoControls.playerRef}
-              setPlaying={() => {}}
-              setEnd={() => {}}
               className="distributor__video"
               hideControls
               onStateChange={videoControls.onStateChange}
+              playerRef={videoControls.playerRef}
+              setEnd={() => {}}
+              setPlaying={() => {}}
+              videoId={song.videoId}
+              width={Math.min(width / 2 - 12, 320)}
             />
             <div className="visualizer__title">
               <h3>{song.title}</h3>
@@ -66,10 +66,10 @@ function EditDistributionContent() {
         <DistributionLog />
       </div>
       <Space className="surface my-2">
-        <Button type="primary" size="large" onClick={onSave} loading={isSaving} icon={<SaveOutlined />}>
+        <Button icon={<SaveOutlined />} loading={isSaving} onClick={onSave} size="large" type="primary">
           Save
         </Button>
-        <Button size="large" onClick={() => navigate(`/distributions/${distribution.id}`)}>
+        <Button onClick={() => navigate(`/distributions/${distribution.id}`)} size="large">
           View
         </Button>
       </Space>

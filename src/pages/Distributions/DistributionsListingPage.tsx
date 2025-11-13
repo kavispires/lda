@@ -53,15 +53,15 @@ export function DistributionsListingPage() {
       key: 'actions',
       render: (record: ListingEntry) => (
         <Space size="middle">
-          <Button type="default" onClick={() => navigate(`/distributions/${record.id}/edit`)}>
+          <Button onClick={() => navigate(`/distributions/${record.id}/edit`)} type="default">
             Edit
           </Button>
 
           <Popconfirm
-            title="Are you sure you want to delete this distribution?"
             onConfirm={() => deleteDistributionMutation.mutate(record.id)}
+            title="Are you sure you want to delete this distribution?"
           >
-            <Button icon={<DeleteFilled />} loading={deleteDistributionMutation.isPending} danger />
+            <Button danger icon={<DeleteFilled />} loading={deleteDistributionMutation.isPending} />
           </Popconfirm>
         </Space>
       ),
@@ -93,13 +93,13 @@ export function DistributionsListingPage() {
   return (
     <Content>
       <Typography.Title level={2}>Distributions</Typography.Title>
-      <ListingSelect options={options} paramKey="group" allKey={ALL_GROUPS} className="mb-2" />
+      <ListingSelect allKey={ALL_GROUPS} className="mb-2" options={options} paramKey="group" />
       <Table
-        dataSource={activeList}
         columns={columns}
-        rowKey="id"
-        pagination={paginationProps}
+        dataSource={activeList}
         loading={distributionsQuery.isLoading}
+        pagination={paginationProps}
+        rowKey="id"
       />
     </Content>
   );

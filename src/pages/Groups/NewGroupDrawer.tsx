@@ -9,7 +9,7 @@ export function NewGroupDrawer() {
   return (
     <>
       <Button onClick={() => toggleOpen(true)}>Add Group</Button>
-      <Drawer open={open} onClose={() => toggleOpen(false)}>
+      <Drawer onClose={() => toggleOpen(false)} open={open}>
         <NewGroupForm onClose={() => toggleOpen(false)} />
       </Drawer>
     </>

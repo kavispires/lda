@@ -84,10 +84,10 @@ export function StepLyrics({ newSong, updateNewSong, setStep }: StepLyricsProps)
 
       <div className="grid grid-cols-2">
         <Input.TextArea
-          placeholder="Insert lyrics here"
-          onChange={onTextAreaChange}
-          value={textarea}
           autoSize={{ minRows: 10, maxRows: 30 }}
+          onChange={onTextAreaChange}
+          placeholder="Insert lyrics here"
+          value={textarea}
         />
         <NewSongQuickLog song={song} />
       </div>
@@ -103,11 +103,11 @@ export function StepLyrics({ newSong, updateNewSong, setStep }: StepLyricsProps)
           </Typography.Paragraph>
           <Space className="my-4 container-center">
             <Button
-              type="primary"
-              size="large"
-              onClick={onSave}
-              loading={songMutation.isPending}
               disabled={textareaUsedValue !== textarea}
+              loading={songMutation.isPending}
+              onClick={onSave}
+              size="large"
+              type="primary"
             >
               Create Song
             </Button>

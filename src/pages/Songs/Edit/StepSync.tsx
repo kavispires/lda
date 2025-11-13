@@ -70,52 +70,52 @@ export function StepSync({ videoWidth }: StepSyncProps) {
       <Progress percent={timeStampProgress} strokeColor={isRecording ? 'red' : undefined} />
 
       <div className="grid grid-cols-2 gap-2">
-        <SyncLog activeTimestamp={activeTimestamp} seekAndPlay={seekAndPlay} handleConnect={handleConnect} />
+        <SyncLog activeTimestamp={activeTimestamp} handleConnect={handleConnect} seekAndPlay={seekAndPlay} />
 
         <div>
-          <Flex justify="center" className="surface">
+          <Flex className="surface" justify="center">
             <ControlledVideo
+              playerRef={playerRef as React.LegacyRef<YouTube>}
+              setEnd={setEnd}
+              setPlaying={setPlaying}
+              setRecording={setRecording}
               videoId={song.videoId}
               width={Math.min(videoWidth, 480)}
-              playerRef={playerRef as React.LegacyRef<YouTube>}
-              setRecording={setRecording}
-              setPlaying={setPlaying}
-              setEnd={setEnd}
             />
           </Flex>
 
           <div className="mt-4 surface">
             <Button
-              icon={<PlayCircleOutlined />}
-              danger={true}
-              type={isRecording ? 'primary' : 'default'}
-              onClick={toggleRecording}
               block
               className={clsx('mb-4', isRecording && 'recording')}
+              danger={true}
+              icon={<PlayCircleOutlined />}
+              onClick={toggleRecording}
+              type={isRecording ? 'primary' : 'default'}
             >
               {isRecording ? 'Recording' : 'Record'}
             </Button>
 
             <KeyCapture
-              playerRef={playerRef}
               isPlaying={isPlaying}
               isRecording={isRecording}
+              playerRef={playerRef}
               setUnassignedTimestamps={setUnassignedTimestamps}
             />
 
             <TimestampsManagement
-              unassignedTimestamps={unassignedTimestamps}
-              setUnassignedTimestamps={setUnassignedTimestamps}
               activeTimestamp={activeTimestamp}
               setActiveTimestamp={setActiveTimestamp}
+              setUnassignedTimestamps={setUnassignedTimestamps}
+              unassignedTimestamps={unassignedTimestamps}
             />
 
             <SyncMethods
-              unassignedTimestamps={unassignedTimestamps}
-              setUnassignedTimestamps={setUnassignedTimestamps}
               activeTimestamp={activeTimestamp}
-              setActiveTimestamp={setActiveTimestamp}
               isRecording={isRecording}
+              setActiveTimestamp={setActiveTimestamp}
+              setUnassignedTimestamps={setUnassignedTimestamps}
+              unassignedTimestamps={unassignedTimestamps}
             />
           </div>
         </div>

@@ -28,21 +28,21 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
         <EditorsLog key={song.updatedAt} videoControls={videoControls} />
         <Space direction="vertical">
           <ControlledVideo
-            videoId={song.videoId}
             className="surface"
-            width={Math.min(videoWidth, 480)}
             playerRef={videoControls.playerRef as React.LegacyRef<YouTube>}
-            setPlaying={videoControls.setPlaying}
             setEnd={videoControls.setEnd}
+            setPlaying={videoControls.setPlaying}
+            videoId={song.videoId}
+            width={Math.min(videoWidth, 480)}
           />
 
           <Space
             className="surface"
+            classNames={{ item: 'p-1' }}
             direction="vertical"
             style={{ minWidth: 300, width: '100%' }}
-            classNames={{ item: 'p-1' }}
           >
-            <Typography.Title level={5} className="mt-1">
+            <Typography.Title className="mt-1" level={5}>
               Actions
             </Typography.Title>
             <SectionOrganizerCollapse />

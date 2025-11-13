@@ -75,10 +75,10 @@ export function LogPart({
 
   return (
     <li className="log-part" style={{ background: bgColor }}>
-      {!!onSelect && <Checkbox onChange={() => onSelect(id)} checked={selected} />}
+      {!!onSelect && <Checkbox checked={selected} onChange={() => onSelect(id)} />}
 
       {onClick ? (
-        <Button size="small" type="text" onClick={() => onClick(id)} icon={icon}>
+        <Button icon={icon} onClick={() => onClick(id)} size="small" type="text">
           {part.text}
         </Button>
       ) : (
@@ -89,10 +89,10 @@ export function LogPart({
 
       {!!onConnect && (
         <Button
-          size="small"
-          shape="circle"
           icon={duration > 0 ? <ApiFilled /> : <ApiOutlined />}
           onClick={() => onConnect(id)}
+          shape="circle"
+          size="small"
         />
       )}
 

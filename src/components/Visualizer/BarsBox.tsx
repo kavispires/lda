@@ -36,19 +36,19 @@ export function BarsBox({ assignees, snapshots }: BarsBoxProps) {
         return (
           <div key={assignee.id} ref={index === 0 ? entryRef : null}>
             <ArtistBar
-              artist={assignee}
               active={active}
+              artist={assignee}
               done={done}
+              fullProgress={fullPercentage}
               idle={rank < 0}
               progress={percentage}
-              fullProgress={fullPercentage}
-              value={`${(fullDuration / (1000 / RATE)).toFixed(1)}s`}
               style={{
                 width,
                 top: 0,
                 // TODO: Fix proportion
                 transform: `translateY(${getTranslatePosition(barHeight, rank, allAssignees.length) * 1.25}px)`,
               }}
+              value={`${(fullDuration / (1000 / RATE)).toFixed(1)}s`}
             />
           </div>
         );

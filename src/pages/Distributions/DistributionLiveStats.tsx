@@ -23,14 +23,14 @@ export function DistributionLiveStats() {
 
   return (
     <div>
-      <Flex wrap="wrap" gap={3} vertical>
+      <Flex gap={3} vertical wrap="wrap">
         <div
           className={clsx(
             'distribution-live-stats__button',
             activeAssignee === ALL_ID && 'distribution-live-stats__button--active',
           )}
-          role="button"
           onClick={() => onActivateAssignee(ALL_ID)}
+          role="button"
         >
           <ArtistBar
             artist={{
@@ -40,11 +40,11 @@ export function DistributionLiveStats() {
               color: '#f1f1f1',
               track: 'VOCAL',
             }}
-            progress={progress[ALL_ID].percentage}
-            fullProgress={progress[ALL_ID].percentage}
-            value={`${progress[ALL_ID].duration}s`}
             className="distribution-live-stats__assignee"
             fixed
+            fullProgress={progress[ALL_ID].percentage}
+            progress={progress[ALL_ID].percentage}
+            value={`${progress[ALL_ID].duration}s`}
           />
         </div>
         <div
@@ -52,8 +52,8 @@ export function DistributionLiveStats() {
             'distribution-live-stats__button',
             activeAssignee === NONE_ID && 'distribution-live-stats__button--active',
           )}
-          role="button"
           onClick={() => onActivateAssignee(NONE_ID)}
+          role="button"
         >
           <ArtistBar
             artist={{
@@ -63,35 +63,35 @@ export function DistributionLiveStats() {
               color: '#f1f1f1',
               track: 'VOCAL',
             }}
-            progress={progress[NONE_ID].percentage}
-            fullProgress={progress[NONE_ID].percentage}
-            value={`${progress[NONE_ID].duration}s`}
             className="distribution-live-stats__assignee"
             fixed
+            fullProgress={progress[NONE_ID].percentage}
+            progress={progress[NONE_ID].percentage}
+            value={`${progress[NONE_ID].duration}s`}
           />
         </div>
       </Flex>
 
       <Divider className="my-2" />
 
-      <Flex wrap="wrap" gap={3} vertical>
+      <Flex gap={3} vertical wrap="wrap">
         {assignees.map((assignee) => (
           <div
-            key={assignee.id}
             className={clsx(
               'distribution-live-stats__button',
               activeAssignee === assignee.id && 'distribution-live-stats__button--active',
             )}
-            role="button"
+            key={assignee.id}
             onClick={() => onActivateAssignee(assignee.id)}
+            role="button"
           >
             <ArtistBar
               artist={assignee}
-              progress={progress[assignee.id].percentage}
-              fullProgress={progress[assignee.id].percentage}
-              value={`${progress[assignee.id].duration}s`}
               className="distribution-live-stats__assignee"
               fixed
+              fullProgress={progress[assignee.id].percentage}
+              progress={progress[assignee.id].percentage}
+              value={`${progress[assignee.id].duration}s`}
             />
           </div>
         ))}

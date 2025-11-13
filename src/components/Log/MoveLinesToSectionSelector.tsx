@@ -40,25 +40,25 @@ export function MoveLinesToSectionSelector({ linesIds, onSuccess }: MoveLinesToS
     <Space.Compact block>
       <Select
         defaultValue={linesCommonSectionId ?? undefined}
-        options={options}
+        disabled={anyNullSection}
         onChange={(selectedOption) => {
           if (selectedOption) {
             setTargetSectionId(selectedOption);
           }
         }}
-        disabled={anyNullSection}
+        options={options}
         style={{ minWidth: 200, width: '100%' }}
       />
       <Popconfirm
-        title="Are you sure you want to move these lines?"
         onConfirm={() => {
           if (targetSectionId) {
             onMoveLinesToSection(linesIds, targetSectionId);
             onSuccess?.();
           }
         }}
+        title="Are you sure you want to move these lines?"
       >
-        <Button type="primary" disabled={!targetSectionId || targetSectionId === linesCommonSectionId}>
+        <Button disabled={!targetSectionId || targetSectionId === linesCommonSectionId} type="primary">
           Move
         </Button>
       </Popconfirm>

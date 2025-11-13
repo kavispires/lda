@@ -16,11 +16,11 @@ export function ListingSelect({ options, paramKey, allKey, className }: ListingS
 
   return (
     <Select
-      options={options}
-      onChange={(value) => addParam(paramKey, value)}
-      value={queryParams.get(paramKey) ?? allKey}
-      style={{ minWidth: 200 }}
       className={className ?? 'mb-2'}
+      onChange={(value) => addParam(paramKey, value)}
+      options={options}
+      style={{ minWidth: 200 }}
+      value={queryParams.get(paramKey) ?? allKey}
     />
   );
 }

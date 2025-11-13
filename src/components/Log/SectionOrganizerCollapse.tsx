@@ -25,15 +25,15 @@ export function SectionOrganizerCollapse() {
   ];
   return (
     <Collapse
-      items={items}
-      size="small"
       activeKey={activePanel}
       expandIcon={({ isActive }) => <UnorderedListOutlined rotate={isActive ? 180 : 0} />}
+      items={items}
       onChange={(keys) => {
         onDeselectAll();
 
         setActivePanel(keys);
       }}
+      size="small"
     />
   );
 }
@@ -124,7 +124,7 @@ function SectionOrganizerFlow({ setActivePanel }: SectionOrganizerFlowProps) {
 
   return (
     <>
-      <Typography.Title level={5} className="my-0">
+      <Typography.Title className="my-0" level={5}>
         Re-number sections
       </Typography.Title>
       <Typography.Paragraph>
@@ -133,12 +133,12 @@ function SectionOrganizerFlow({ setActivePanel }: SectionOrganizerFlowProps) {
       </Typography.Paragraph>
       <Button
         block
+        disabled={isAnySectionKindNull}
         icon={<i className="fi fi-ss-arrow-progress" />}
         onClick={() => {
           onNumberSections();
           setActivePanel([]);
         }}
-        disabled={isAnySectionKindNull}
         type="primary"
       >
         Trigger
@@ -146,39 +146,39 @@ function SectionOrganizerFlow({ setActivePanel }: SectionOrganizerFlowProps) {
 
       <Divider />
 
-      <Typography.Title level={5} className="my-0">
+      <Typography.Title className="my-0" level={5}>
         Re-sort section
       </Typography.Title>
 
       <Form
+        autoComplete="off"
         form={form}
-        layout="vertical"
-        name="sort-section-form"
         initialValues={{
           sectionId: selection[0] || undefined,
         }}
-        autoComplete="off"
-        preserve={false}
+        layout="vertical"
+        name="sort-section-form"
         onFinish={onSubmitSort}
+        preserve={false}
       >
         <Typography.Paragraph>
           You must click any line (or part or section) to be the start of the nudge, or select Entire song.
         </Typography.Paragraph>
         <Flex gap={8}>
           <Form.Item
+            help={!selectedSectionId ? 'Section Id is required' : undefined}
             label="Section Id"
             name="sectionId"
             style={{ width: '50%' }}
-            help={!selectedSectionId ? 'Section Id is required' : undefined}
           >
             <Input readOnly />
           </Form.Item>
           <Form.Item
+            help={unableToSort ? 'All parts must be timed' : undefined}
             label=" "
             style={{ width: '50%' }}
-            help={unableToSort ? 'All parts must be timed' : undefined}
           >
-            <Button type="primary" htmlType="submit" disabled={unableToSort} block>
+            <Button block disabled={unableToSort} htmlType="submit" type="primary">
               Sort
             </Button>
           </Form.Item>
@@ -186,8 +186,8 @@ function SectionOrganizerFlow({ setActivePanel }: SectionOrganizerFlowProps) {
 
         <div>
           <Divider className="my-1" />
-          <Flex justify="space-between" gap={12}>
-            <Button type="default" onClick={() => setActivePanel([])}>
+          <Flex gap={12} justify="space-between">
+            <Button onClick={() => setActivePanel([])} type="default">
               Close
             </Button>
           </Flex>

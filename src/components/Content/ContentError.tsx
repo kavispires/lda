@@ -4,10 +4,10 @@ import type { PropsWithChildren } from 'react';
 export function ContentError({ children }: PropsWithChildren) {
   return (
     <Result
+      extra={<Alert message={children} type="error" />}
       status="500"
-      title="Error"
       subTitle="Sorry, something went wrong."
-      extra={<Alert type="error" message={children} />}
+      title="Error"
     />
   );
 }

@@ -47,32 +47,32 @@ export function Visualizer() {
     // biome-ignore lint/a11y/noStaticElementInteractions: TODO
     <div
       className={clsx('visualizer', fullScreenMode && 'visualizer--fullscreen')}
+      key={videoControls.refreshKey}
       onMouseEnter={() => setControlsVisible(true)}
       onMouseLeave={() => setControlsVisible(false)}
-      key={videoControls.refreshKey}
     >
       <VisualizerControls
-        isVisible={areControlsVisible}
-        videoControls={videoControls}
-        songId={song.id}
         freshness={freshness}
+        isVisible={areControlsVisible}
+        songId={song.id}
+        videoControls={videoControls}
       />
       <div className="visualizer__stats">
-        <SeekBar videoControls={videoControls} className="visualizer__seek-bar" />
+        <SeekBar className="visualizer__seek-bar" videoControls={videoControls} />
         <div className="visualizer__metadata">
           <div className="visualizer__title">
             <h3>{song.title}</h3>
             <p>{song.originalArtist}</p>
           </div>
           <ControlledVideo
-            width={measurements.stats.width}
-            videoId={song.videoId}
-            playerRef={videoControls.playerRef}
-            setPlaying={() => {}}
-            setEnd={() => {}}
             className="visualizer__video"
             hideControls
             onStateChange={videoControls.onStateChange}
+            playerRef={videoControls.playerRef}
+            setEnd={() => {}}
+            setPlaying={() => {}}
+            videoId={song.videoId}
+            width={measurements.stats.width}
           />
         </div>
         <div className="distribution__bars">
@@ -84,19 +84,19 @@ export function Visualizer() {
         <LyricsScroller
           assignees={assigneesDict}
           lyricsSnapshots={lyricsSnapshots}
-          timestamp={timestamp}
-          songTitle={song.title}
           maxHeight={measurements.distribution.height - 32}
+          songTitle={song.title}
+          timestamp={timestamp}
         />
 
         <AdlibsScroller
-          assignees={assigneesDict}
           adlibsSnapshots={adlibsSnapshots}
-          timestamp={timestamp}
+          assignees={assigneesDict}
           maxHeight={measurements.distribution.height}
+          timestamp={timestamp}
         />
 
-        <UpNext upNextSnapshots={upNextSnapshots} timestamp={timestamp} />
+        <UpNext timestamp={timestamp} upNextSnapshots={upNextSnapshots} />
       </div>
     </div>
   );

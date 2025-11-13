@@ -33,23 +33,23 @@ function App() {
           <AuthProvider>
             <Layout>
               <Routes>
-                <Route path="/" element={<HomePage />} />
+                <Route element={<HomePage />} path="/" />
 
-                <Route path="/distributions/new" element={<NewDistributionPage />} />
-                <Route path="/distributions/:distributionId" element={<DistributionPage />} />
-                <Route path="/distributions/:distributionId/edit" element={<EditDistributionPage />} />
+                <Route element={<NewDistributionPage />} path="/distributions/new" />
+                <Route element={<DistributionPage />} path="/distributions/:distributionId" />
+                <Route element={<EditDistributionPage />} path="/distributions/:distributionId/edit" />
                 <Route
-                  path="/distributions/:distributionId/formation/:formationId"
                   element={<EditFormationPage />}
+                  path="/distributions/:distributionId/formation/:formationId"
                 />
-                <Route path="/distributions" element={<DistributionsListingPage />} />
+                <Route element={<DistributionsListingPage />} path="/distributions" />
 
-                <Route path="/groups" element={<GroupsListingPage />} />
+                <Route element={<GroupsListingPage />} path="/groups" />
 
-                <Route path="/songs/new" element={<NewSongPage />} />
-                <Route path="/songs/:songId" element={<div>Song</div>} />
-                <Route path="/songs/:songId/edit" element={<EditSongPage />} />
-                <Route path="/songs" element={<SongsListingPage />} />
+                <Route element={<NewSongPage />} path="/songs/new" />
+                <Route element={<div>Song</div>} path="/songs/:songId" />
+                <Route element={<EditSongPage />} path="/songs/:songId/edit" />
+                <Route element={<SongsListingPage />} path="/songs" />
               </Routes>
             </Layout>
           </AuthProvider>

@@ -12,11 +12,8 @@ export function EditSongStepper() {
 
   return (
     <Steps
-      current={step}
-      size="small"
-      onChange={onChange}
-      type="navigation"
       className="mb-8"
+      current={step}
       items={[
         {
           title: 'Sections',
@@ -31,6 +28,9 @@ export function EditSongStepper() {
           title: 'Metadata',
         },
       ]}
+      onChange={onChange}
+      size="small"
+      type="navigation"
     />
   );
 }

@@ -58,14 +58,14 @@ export function EditSectionsForm({ sectionsIds, onClose, setDirty }: EditSection
 
   return (
     <Form
+      autoComplete="off"
       form={form}
+      initialValues={groupedSection}
       layout="vertical"
       name="edit-section-form"
-      initialValues={groupedSection}
-      onValuesChange={onValuesChange}
-      autoComplete="off"
-      preserve={false}
       onFinish={onApplyChanges}
+      onValuesChange={onValuesChange}
+      preserve={false}
     >
       <Form.Item label="Kind" name="kind">
         <Select options={SECTION_SKILL_OPTIONS} />
@@ -74,7 +74,7 @@ export function EditSectionsForm({ sectionsIds, onClose, setDirty }: EditSection
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
-          <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
+          <Button block disabled={!form.isFieldsTouched()} htmlType="submit" type="primary">
             Apply Changes
           </Button>
         </Flex>
@@ -86,11 +86,11 @@ export function EditSectionsForm({ sectionsIds, onClose, setDirty }: EditSection
 
       <Form.Item>
         <Popconfirm
-          title="Are you sure you want to merge these sections?"
           onConfirm={() => {
             onMergeSections(sectionsIds);
             onClose();
           }}
+          title="Are you sure you want to merge these sections?"
         >
           <Button block icon={<i className="fi fi-rr-arrows-to-line" />}>
             Merge sections into one section

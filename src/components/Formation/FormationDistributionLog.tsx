@@ -22,43 +22,43 @@ export function FormationDistributionLog({ className }: FormationDistributionLog
         <li className="log-section">
           <span className="log-section__section">
             <Button
-              size="small"
-              shape="circle"
               icon={<PlayCircleFilled />}
               onClick={() => videoControls.seekAndPlay(song.startAt)}
+              shape="circle"
+              size="small"
             />
             <span>
               Start Pose <Typography.Text code>{song.startAt}ms</Typography.Text>
             </span>
             <Button
-              size="small"
               icon={<i className="fi fi-rr-screen" />}
               onClick={() => setActiveTimestamp(String(song.startAt))}
+              size="small"
             />
           </span>
         </li>
         {song.sectionIds.map((sectionId) => (
           <ViewSection
-            key={sectionId}
             instanceId={sectionId}
+            key={sectionId}
             onPlay={(startTime) => videoControls.seekAndPlay(startTime)}
           />
         ))}
         <li className="log-section">
           <span className="log-section__section">
             <Button
-              size="small"
-              shape="circle"
               icon={<PlayCircleFilled />}
               onClick={() => videoControls.seekAndPlay(song.endAt)}
+              shape="circle"
+              size="small"
             />
             <span>
               End Pose <Typography.Text code>{song.endAt}ms</Typography.Text>
             </span>
             <Button
-              size="small"
               icon={<i className="fi fi-rr-screen" />}
               onClick={() => setActiveTimestamp(String(song.endAt))}
+              size="small"
             />
           </span>
         </li>
@@ -87,10 +87,10 @@ function ViewSection({ instanceId, onPlay }: ViewEntryProps & { onPlay: (startTi
     <li className="log-section">
       <span className="log-section__section">
         <Button
-          size="small"
-          shape="circle"
           icon={<PlayCircleFilled />}
           onClick={() => onPlay(part.startTime)}
+          shape="circle"
+          size="small"
         />
         <span>
           {name} <Typography.Text code>{part.startTime}ms</Typography.Text>
@@ -99,7 +99,7 @@ function ViewSection({ instanceId, onPlay }: ViewEntryProps & { onPlay: (startTi
       {
         <ul className="log-section__lines">
           {distributor.getSection(instanceId, song).linesIds.map((lineId) => (
-            <ViewLine key={lineId} instanceId={lineId} />
+            <ViewLine instanceId={lineId} key={lineId} />
           ))}
         </ul>
       }
@@ -125,17 +125,17 @@ function ViewLine({ instanceId }: ViewEntryProps) {
           {!!line.dismissible && '* '}
         </span>
         {distributor.getLine(instanceId, song).partsIds.map((partId) => (
-          <ViewPart key={partId} instanceId={partId} />
+          <ViewPart instanceId={partId} key={partId} />
         ))}
         {timeline[startTime] ? (
           <Button
-            size="small"
             icon={<i className="fi fi-rr-screen" />}
             onClick={() => setActiveTimestamp(String(startTime))}
+            size="small"
           />
         ) : (
-          <Popconfirm title="Are you sure you want to create a new snapshot?" onConfirm={createSnapshot}>
-            <Button size="small" icon={<i className="fi fi-rr-map-marker-plus" />} />
+          <Popconfirm onConfirm={createSnapshot} title="Are you sure you want to create a new snapshot?">
+            <Button icon={<i className="fi fi-rr-map-marker-plus" />} size="small" />
           </Popconfirm>
         )}
       </ul>
@@ -163,7 +163,7 @@ function ViewPart({ instanceId }: ViewEntryProps) {
     <li className="log-part">
       <span>{part.text}</span>
 
-      <PartAssignees mapping={mapping} partId={instanceId} assignees={assignees} />
+      <PartAssignees assignees={assignees} mapping={mapping} partId={instanceId} />
     </li>
   );
 }
@@ -190,13 +190,13 @@ function PartAssignees({ mapping, partId, assignees }: PartAssigneesProps) {
 
         return (
           <ArtistAvatar
-            key={assigneeId}
             id={assigneeId}
+            key={assigneeId}
             name={assignees?.[assigneeId]?.name ?? assigneeId}
+            size="small"
             style={{
               border: `2px solid ${assignee?.color ?? '#f1f1f1'}`,
             }}
-            size="small"
           />
         );
       })}

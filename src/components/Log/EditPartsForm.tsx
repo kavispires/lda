@@ -65,23 +65,23 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
 
   return (
     <Form
+      autoComplete="off"
       form={form}
+      initialValues={groupedPart}
       layout="vertical"
       name="edit-part-form"
-      initialValues={groupedPart}
-      onValuesChange={onValuesChange}
-      autoComplete="off"
-      preserve={false}
       onFinish={onApplyChanges}
+      onValuesChange={onValuesChange}
+      preserve={false}
     >
       <Form.Item label="Batch change Recommended Assignee" name="recommendedAssignee">
         <Radio.Group optionType="button">
           {Object.values(ASSIGNEES).map((assignee) => (
             <Radio.Button
-              key={assignee.value}
-              value={assignee.value}
               disabled={assignee.value === DEFAULT_ASSIGNEE}
+              key={assignee.value}
               style={{ backgroundColor: assignee.color }}
+              value={assignee.value}
             >
               {assignee.label}
             </Radio.Button>
@@ -92,7 +92,7 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Close</Button>
-          <Button type="primary" htmlType="submit" disabled={!isDirty} block>
+          <Button block disabled={!isDirty} htmlType="submit" type="primary">
             Apply Changes
           </Button>
         </Flex>
@@ -104,13 +104,13 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
 
       <Form.Item help="All parts must be on the same line to merge.">
         <Popconfirm
-          title="Are you sure you want to merge these parts?"
           onConfirm={() => {
             onMergeParts(partsIds);
             onClose();
           }}
+          title="Are you sure you want to merge these parts?"
         >
-          <Button block icon={<i className="fi fi-rr-arrows-to-line" />} disabled={!isSameLine}>
+          <Button block disabled={!isSameLine} icon={<i className="fi fi-rr-arrows-to-line" />}>
             Merge parts into one part
           </Button>
         </Popconfirm>
@@ -118,10 +118,10 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
 
       <Form.Item help="At least one part must be on a different line">
         <Popconfirm
-          title="Are you sure you want to move these parts to the same line?"
           onConfirm={() => onMovePartsTogether(partsIds)}
+          title="Are you sure you want to move these parts to the same line?"
         >
-          <Button block icon={<i className="fi fi-rr-arrows-to-dotted-line" />} disabled={isSameLine}>
+          <Button block disabled={isSameLine} icon={<i className="fi fi-rr-arrows-to-dotted-line" />}>
             Move parts to the same line
           </Button>
         </Popconfirm>

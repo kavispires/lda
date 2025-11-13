@@ -14,7 +14,7 @@ export function NewArtistDrawer({ group }: NewArtistDrawerProps) {
   return (
     <>
       <Button onClick={() => toggleOpen(true)}>Add Artist</Button>
-      <Drawer open={open} onClose={() => toggleOpen(false)}>
+      <Drawer onClose={() => toggleOpen(false)} open={open}>
         <NewArtistForm group={group} onClose={() => toggleOpen(false)} />
       </Drawer>
     </>

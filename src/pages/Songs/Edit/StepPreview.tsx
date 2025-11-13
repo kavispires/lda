@@ -26,8 +26,8 @@ export function StepPreview() {
         <div className="surface my-6">
           <Result
             status="error"
-            title="Not all parts are synced"
             subTitle="Please make sure all parts have start and end times in the previous step."
+            title="Not all parts are synced"
           />
         </div>
       ) : (
@@ -42,7 +42,7 @@ function VisualizerSimulator() {
   const distributionRecord = useDistributionEmulator(song);
 
   return (
-    <DistributionVisualizerProvider song={song} distribution={distributionRecord}>
+    <DistributionVisualizerProvider distribution={distributionRecord} song={song}>
       <Visualizer />
     </DistributionVisualizerProvider>
   );

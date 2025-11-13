@@ -83,14 +83,14 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
   };
   return (
     <Form
+      autoComplete="off"
       form={form}
+      initialValues={groupedLine}
       layout="vertical"
       name="edit-line-form"
-      initialValues={groupedLine}
-      onValuesChange={onValuesChange}
-      autoComplete="off"
-      preserve={false}
       onFinish={onApplyChanges}
+      onValuesChange={onValuesChange}
+      preserve={false}
     >
       <div className="grid grid-cols-3 gap-2">
         <Form.Item label="Skill" name="skill.type">
@@ -106,19 +106,19 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
 
       <div className="grid grid-cols-2 gap-2">
         <Form.Item
+          help="Check if line is an adlib not in the flow of the song."
           label="Adlib"
           name="adlib"
           valuePropName="checked"
-          help="Check if line is an adlib not in the flow of the song."
         >
           <Switch />
         </Form.Item>
 
         <Form.Item
+          help="Check if line does not need to be displayed (vocalizing or effects)."
           label="Dismissible"
           name="dismissible"
           valuePropName="checked"
-          help="Check if line does not need to be displayed (vocalizing or effects)."
         >
           <Switch />
         </Form.Item>
@@ -130,7 +130,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
-          <Button type="primary" htmlType="submit" disabled={!form.isFieldsTouched()} block>
+          <Button block disabled={!form.isFieldsTouched()} htmlType="submit" type="primary">
             Apply Changes
           </Button>
         </Flex>
@@ -142,11 +142,11 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
 
       <Form.Item>
         <Popconfirm
-          title="Are you sure you want to merge these lines?"
           onConfirm={() => {
             onMergeLines(linesIds);
             onClose();
           }}
+          title="Are you sure you want to merge these lines?"
         >
           <Button block icon={<i className="fi fi-rr-arrows-to-line" />}>
             Merge lines

@@ -76,10 +76,9 @@ export function StageEdit({ width, timestampKey, assignees, assigneesIds }: Stag
 
           return (
             <motion.div
-              key={index}
-              style={{
-                position: 'absolute',
-                cursor: 'grab',
+              animate={{
+                x: initialX,
+                y: initialY,
               }}
               drag
               dragMomentum={false}
@@ -87,21 +86,22 @@ export function StageEdit({ width, timestampKey, assignees, assigneesIds }: Stag
                 x: previousX,
                 y: previousY,
               }}
-              animate={{
-                x: initialX,
-                y: initialY,
-              }}
+              key={index}
               onDragEnd={(_, info) => handleDragEnd(assigneeId, initialX, initialY, info)}
+              style={{
+                position: 'absolute',
+                cursor: 'grab',
+              }}
             >
               <ArtistAvatar
-                key={assigneeId}
+                draggable="false"
                 id={assigneeId}
+                key={assigneeId}
                 name={assignees?.[assigneeId]?.name ?? assigneeId}
+                size={size}
                 style={{
                   border: `2px solid ${assignee?.color ?? '#f1f1f1'}`,
                 }}
-                size={size}
-                draggable="false"
               />
             </motion.div>
           );
@@ -132,16 +132,16 @@ export function TimelineEntry({ timestampKey, width }: { timestampKey: string; w
 
   return (
     <Space direction="horizontal" key={timestampKey} size="small">
-      <Flex vertical className="timeline-entry mb-4 surface">
+      <Flex className="timeline-entry mb-4 surface" vertical>
         <Flex>
           "{closestLyrics}" <Typography.Text code>{timestamp}s</Typography.Text>
         </Flex>
         <StageEdit
-          key={timestampKey}
-          width={width / Number(queryParams.get('stageSize') ?? 3)}
-          timestampKey={timestampKey}
           assignees={distribution.assignees}
           assigneesIds={formation.assigneesIds}
+          key={timestampKey}
+          timestampKey={timestampKey}
+          width={width / Number(queryParams.get('stageSize') ?? 3)}
         />
         <Flex justify="center">
           <Button.Group>
@@ -153,9 +153,9 @@ export function TimelineEntry({ timestampKey, width }: { timestampKey: string; w
             </Tooltip>
             <Tooltip title="Paste">
               <Button
+                disabled={!clipboard}
                 icon={<SnippetsOutlined />}
                 onClick={() => pasteEntry(timestamp)}
-                disabled={!clipboard}
               />
             </Tooltip>
             <Tooltip title="Delete">
@@ -171,19 +171,19 @@ export function TimelineEntry({ timestampKey, width }: { timestampKey: string; w
         </Flex>
       </Flex>
 
-      <Flex justify="center" gap={8}>
+      <Flex gap={8} justify="center">
         <ForwardOutlined />
 
         <Button.Group>
           <Tooltip title="Add new timestamp">
-            <Button icon={<PlusOutlined />} onClick={() => addTimestamp(timestamp)} disabled />
+            <Button disabled icon={<PlusOutlined />} onClick={() => addTimestamp(timestamp)} />
           </Tooltip>
           <Tooltip title="Paste">
             <Button
-              icon={<SnippetsOutlined />}
-              onClick={() => pasteEntry(timestamp + 1)}
-              // disabled={!clipboard}
               disabled
+              icon={<SnippetsOutlined />}
+              // disabled={!clipboard}
+              onClick={() => pasteEntry(timestamp + 1)}
             />
           </Tooltip>
         </Button.Group>

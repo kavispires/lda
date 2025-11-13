@@ -34,7 +34,7 @@ export function VisualizerControls({ videoControls, isVisible, songId, freshness
       <Button onClick={onRestart}>
         <UndoOutlined />
       </Button>
-      <Button onClick={isPlaying ? pauseVideo : playVideo} ghost>
+      <Button ghost onClick={isPlaying ? pauseVideo : playVideo}>
         {videoControls.isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
       </Button>
       <Button ghost onClick={seekToStart}>
@@ -67,7 +67,7 @@ export function VisualizerControls({ videoControls, isVisible, songId, freshness
           trigger="click"
         >
           <Button type="text">
-            <Badge status="error" size="default" />
+            <Badge size="default" status="error" />
           </Button>
         </Popover>
       )}

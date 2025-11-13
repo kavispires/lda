@@ -38,7 +38,7 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
   };
 
   const handleDragEnd = (
-    e: MouseEvent | TouchEvent | PointerEvent,
+    _e: MouseEvent | TouchEvent | PointerEvent,
     dancerId: string,
     gridX: number,
     gridY: number,
@@ -62,8 +62,8 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
         {Array.from({ length: 27 }).map((_, x) =>
           Array.from({ length: 19 }).map((_, y) => (
             <div
-              key={`${x}-${y}`}
               className="grid-cell"
+              key={`${x}-${y}`}
               style={{
                 gridColumn: x + 1,
                 gridRow: y + 1,
@@ -74,15 +74,15 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
                 .filter((dancer) => dancer.position.x === x && dancer.position.y === y)
                 .map((dancer) => (
                   <motion.div
-                    key={dancer.id}
-                    className="dancer"
-                    drag
-                    dragMomentum={false}
-                    onDragEnd={(e, info) => handleDragEnd(e, dancer.id, x, y)}
                     animate={{
                       x: dancer.position.x * 30, // Assuming each grid cell is 30px wide
                       y: dancer.position.y * 30, // Assuming each grid cell is 30px tall
                     }}
+                    className="dancer"
+                    drag
+                    dragMomentum={false}
+                    key={dancer.id}
+                    onDragEnd={(e, _info) => handleDragEnd(e, dancer.id, x, y)}
                     transition={{
                       duration: 0.5,
                     }}
@@ -99,10 +99,10 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
       <div className="timeline">
         {timeline.map((snapshot, index) => (
           <button
-            type="button"
+            className={index === currentSnapshotIndex ? 'active' : ''}
             key={snapshot.time}
             onClick={() => setCurrentSnapshotIndex(index)}
-            className={index === currentSnapshotIndex ? 'active' : ''}
+            type="button"
           >
             {snapshot.time}s
           </button>
@@ -111,10 +111,10 @@ const DancePerformance: React.FC<Props> = ({ initialTimeline }) => {
 
       {/* Controls */}
       <div className="controls">
-        <button type="button" onClick={handlePrevious} disabled={currentSnapshotIndex === 0}>
+        <button disabled={currentSnapshotIndex === 0} onClick={handlePrevious} type="button">
           Previous
         </button>
-        <button type="button" onClick={handleNext} disabled={currentSnapshotIndex === timeline.length - 1}>
+        <button disabled={currentSnapshotIndex === timeline.length - 1} onClick={handleNext} type="button">
           Next
         </button>
       </div>
