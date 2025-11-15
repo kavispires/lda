@@ -3,15 +3,15 @@ import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Select, Space
 import { useLogSection } from 'hooks/useLogInstances';
 import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useSongEditContext } from 'services/SongEditProvider';
 import type { SongSection, UID } from 'types';
-import { getCompletionPercentage } from 'utils';
+import { distributor, getCompletionPercentage } from 'utils';
 import { NULL, SECTION_KINDS } from 'utils/constants';
 
 import { CriteriaRule } from './CriteriaRule';
 
-const SECTION_SKILL_OPTIONS = Object.values(SECTION_KINDS).map((skill) => ({ label: skill, value: skill }));
+const SECTION_KIND_OPTIONS = Object.values(SECTION_KINDS).map((skill) => ({ label: skill, value: skill }));
 
 type EditSectionFormProps = {
   sectionId: UID;
@@ -48,6 +48,21 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
     onClose();
   };
 
+  const onApplySuggestedKind = (kind: string) => {
+    onUpdateSongContent(sectionId, { ...tempSection, kind });
+    setDirty(false);
+    onClose();
+  };
+
+  const previousSectionKind = useMemo(() => {
+    const activeSectionIndex = song.sectionIds.indexOf(sectionId);
+    const previousSectionId = song.sectionIds[activeSectionIndex - 1];
+    if (!previousSectionId) {
+      return 'NULL';
+    }
+    return distributor.getSection(previousSectionId, song).kind;
+  }, [sectionId, song]);
+
   return (
     <Form
       autoComplete="off"
@@ -59,8 +74,17 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
       onValuesChange={onValuesChange}
       preserve={false}
     >
-      <Form.Item label="Kind" name="kind">
-        <Select options={SECTION_SKILL_OPTIONS} />
+      <Form.Item
+        help={
+          <KindSuggestions
+            onApplySuggestedKind={onApplySuggestedKind}
+            previousSectionKind={previousSectionKind}
+          />
+        }
+        label="Kind"
+        name="kind"
+      >
+        <Select options={SECTION_KIND_OPTIONS} />
       </Form.Item>
 
       <div className="grid grid-cols-2 gap-2">
@@ -112,11 +136,57 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>
-          <Button block disabled={!form.isFieldsTouched()} htmlType="submit" type="primary">
+          <Button block disabled={!isDirty} htmlType="submit" type="primary">
             Apply Changes
           </Button>
         </Flex>
       </Form.Item>
     </Form>
+  );
+}
+
+const NEXT_SECTION_SUGGESTIONS_PER_KIND: Record<string, string[]> = {
+  NULL: [SECTION_KINDS.INTRO, SECTION_KINDS.VERSE, SECTION_KINDS.CHORUS],
+  [SECTION_KINDS.INTRO]: [SECTION_KINDS.VERSE, SECTION_KINDS.CHORUS, SECTION_KINDS.HOOK],
+  [SECTION_KINDS.VERSE]: [SECTION_KINDS.CHORUS, SECTION_KINDS.PRE_CHORUS, SECTION_KINDS.VERSE],
+  [SECTION_KINDS.PRE_CHORUS]: [SECTION_KINDS.CHORUS, SECTION_KINDS.HOOK],
+  [SECTION_KINDS.CHORUS]: [
+    SECTION_KINDS.VERSE,
+    SECTION_KINDS.BRIDGE,
+    SECTION_KINDS.CHORUS,
+    SECTION_KINDS.HOOK,
+    SECTION_KINDS.POST_CHORUS,
+  ],
+  [SECTION_KINDS.BRIDGE]: [SECTION_KINDS.CHORUS, SECTION_KINDS.OUTRO],
+  [SECTION_KINDS.HOOK]: [SECTION_KINDS.CHORUS, SECTION_KINDS.OUTRO],
+  [SECTION_KINDS.OUTRO]: [SECTION_KINDS.CHORUS, SECTION_KINDS.OUTRO],
+  [SECTION_KINDS.POST_CHORUS]: [SECTION_KINDS.VERSE, SECTION_KINDS.BRIDGE],
+};
+
+type KindSuggestionsProps = {
+  onApplySuggestedKind: (kind: string) => void;
+  previousSectionKind: string;
+};
+
+function KindSuggestions({ onApplySuggestedKind, previousSectionKind }: KindSuggestionsProps) {
+  const previousKind = previousSectionKind;
+  const suggestions = NEXT_SECTION_SUGGESTIONS_PER_KIND[previousKind] || [
+    SECTION_KINDS.VERSE,
+    SECTION_KINDS.CHORUS,
+  ];
+
+  const handleSuggestionClick = (kind: string) => {
+    onApplySuggestedKind(kind);
+  };
+
+  return (
+    <Flex className="mt-1" gap={6} wrap="wrap">
+      Suggestions:{' '}
+      {suggestions.map((kind) => (
+        <Button key={kind} onClick={() => handleSuggestionClick(kind)} size="small" type="dashed">
+          {kind}
+        </Button>
+      ))}
+    </Flex>
   );
 }
