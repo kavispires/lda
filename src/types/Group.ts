@@ -39,6 +39,14 @@ export type Artist = {
   name: string;
   color: string; // probably change to hsl?
   track: 'VOCAL' | 'RAP' | 'DANCE';
+  stats?: {
+    vocals: number;
+    rap: number;
+    dance: number;
+    stagePresence: number;
+    visual: number;
+    uniqueness: number;
+  };
 };
 
 export type FirebaseArtist = ListingEntry<Artist>;

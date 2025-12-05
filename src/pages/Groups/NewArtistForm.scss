@@ -1,11 +1,12 @@
-@use 'styles/sass' as *;
+@use "styles/sass" as *;
 
 .artist-form-colors {
   border-radius: var(--border-radius);
-  padding: get-unit(1);
-  background-color: get-color('gray', 4);
+  padding: get-unit(2);
+  background-color: get-color("gray", 4);
   margin-top: get-unit(1);
   margin-bottom: get-unit(1);
+  font-size: 0.75rem;
 }
 
 .artist-form-color {
@@ -16,21 +17,21 @@
   border-radius: var(--border-radius);
 
   &--black {
-    color: get-color('black');
+    color: get-color("black");
   }
   &--gray {
-    color: get-color('gray');
+    color: get-color("gray");
   }
   &--white {
-    color: get-color('white');
+    color: get-color("white");
   }
   &--bg-black {
-    background-color: get-color('black');
+    background-color: get-color("black");
   }
   &--bg-gray {
-    background-color: get-color('gray');
+    background-color: get-color("gray");
   }
   &--bg-white {
-    background-color: get-color('white');
+    background-color: get-color("white");
   }
 }

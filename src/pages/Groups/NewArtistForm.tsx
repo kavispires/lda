@@ -1,14 +1,14 @@
 import type { AggregationColor } from 'antd/es/color-picker/color';
 import './NewArtistForm.scss';
 
-import { Button, ColorPicker, Flex, Form, Input, Select } from 'antd';
+import { Button, ColorPicker, Flex, Form, Input, Select, Slider } from 'antd';
 
 import { useCreateArtistMutation } from 'hooks/useCreateArtistMutation';
 import { useState } from 'react';
 import type { Artist, Group } from 'types';
 import { createArtist } from 'utils/groups';
 
-type NewArtistFormFields = Pick<Artist, 'name' | 'track'> & {
+type NewArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats'> & {
   color: AggregationColor;
 };
 
@@ -30,7 +30,7 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
   const [colorValue, setColorValue] = useState<string>('#FFFFFF');
 
   const onFinish = (values: NewArtistFormFields) => {
-    const newArtist = createArtist(values.name, values.color.toHexString(), values.track);
+    const newArtist = createArtist(values.name, values.color.toHexString(), values.track, values.stats);
     addArtist(
       {
         group,
@@ -93,6 +93,36 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
         <Select options={options} />
       </Form.Item>
 
+      <Flex gap={16}>
+        <Flex style={{ flex: 1 }} vertical>
+          <Form.Item initialValue={1} label="Vocals" name={['stats', 'vocals']}>
+            <Slider marks={STATS_MARKS} max={5} min={1} />
+          </Form.Item>
+
+          <Form.Item initialValue={1} label="Rap" name={['stats', 'rap']}>
+            <Slider marks={STATS_MARKS} max={5} min={1} />
+          </Form.Item>
+
+          <Form.Item initialValue={1} label="Dance" name={['stats', 'dance']}>
+            <Slider marks={STATS_MARKS} max={5} min={1} />
+          </Form.Item>
+        </Flex>
+
+        <Flex style={{ flex: 1 }} vertical>
+          <Form.Item initialValue={1} label="Visual" name={['stats', 'visual']}>
+            <Slider marks={STATS_MARKS} max={5} min={1} />
+          </Form.Item>
+
+          <Form.Item initialValue={1} label="Stage Presence" name={['stats', 'stagePresence']}>
+            <Slider marks={STATS_MARKS} max={5} min={1} />
+          </Form.Item>
+
+          <Form.Item initialValue={1} label="Uniqueness" name={['stats', 'uniqueness']}>
+            <Slider marks={STATS_MARKS} max={5} min={1} />
+          </Form.Item>
+        </Flex>
+      </Flex>
+
       <Form.Item>
         <Button htmlType="submit" loading={isPending} type="primary">
           Add
@@ -101,3 +131,5 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
     </Form>
   );
 }
+
+const STATS_MARKS = { 1: '1', 2: '2', 3: '3', 4: '4', 5: '5' };
