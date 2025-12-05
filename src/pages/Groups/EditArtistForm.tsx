@@ -1,16 +1,18 @@
 import type { AggregationColor } from 'antd/es/color-picker/color';
 import './NewArtistForm.scss';
-import { Button, ColorPicker, Flex, Form, Input, Select, Slider } from 'antd';
-import { useCreateArtistMutation } from 'hooks/useCreateArtistMutation';
-import { useState } from 'react';
-import type { Artist, Group } from 'types';
-import { createArtist } from 'utils/groups';
 
-type NewArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats'> & {
+import { Button, ColorPicker, Flex, Form, Input, Select, Slider } from 'antd';
+
+import { useUpdateArtistMutation } from 'hooks/useUpdateArtistMutation';
+import { useEffect, useState } from 'react';
+import type { Artist, Group } from 'types';
+
+type EditArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats'> & {
   color: AggregationColor;
 };
 
-type NewArtistFormProps = {
+type EditArtistFormProps = {
+  artist: Artist;
   group: Group;
   onClose: () => void;
 };
@@ -21,33 +23,72 @@ const options = [
   { value: 'DANCE', label: 'Dance' },
 ];
 
-export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
-  const { isPending, mutate: addArtist } = useCreateArtistMutation();
+export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) {
+  const { isPending, mutate: updateArtist } = useUpdateArtistMutation();
 
-  const [form] = Form.useForm<NewArtistFormFields>();
-  const [colorValue, setColorValue] = useState<string>('#FFFFFF');
+  const [form] = Form.useForm<EditArtistFormFields>();
+  const [colorValue, setColorValue] = useState<string>(artist.color);
+  const [hasChanges, setHasChanges] = useState<boolean>(false);
 
-  const onFinish = (values: NewArtistFormFields) => {
-    const newArtist = createArtist(values.name, values.color.toHexString(), values.track, values.stats);
-    addArtist(
+  useEffect(() => {
+    form.setFieldsValue({
+      name: artist.name,
+      track: artist.track,
+      color: artist.color as unknown as AggregationColor,
+      stats: artist.stats || {
+        vocals: 1,
+        rap: 1,
+        dance: 1,
+        visual: 1,
+        stagePresence: 1,
+        uniqueness: 1,
+      },
+    });
+  }, [artist, form]);
+
+  const checkForChanges = (values: EditArtistFormFields) => {
+    const colorHex = typeof values.color === 'string' ? values.color : values.color.toHexString();
+    const changed =
+      values.name !== artist.name ||
+      colorHex !== artist.color ||
+      values.track !== artist.track ||
+      values.stats?.vocals !== (artist.stats?.vocals || 1) ||
+      values.stats?.rap !== (artist.stats?.rap || 1) ||
+      values.stats?.dance !== (artist.stats?.dance || 1) ||
+      values.stats?.visual !== (artist.stats?.visual || 1) ||
+      values.stats?.stagePresence !== (artist.stats?.stagePresence || 1) ||
+      values.stats?.uniqueness !== (artist.stats?.uniqueness || 1);
+    setHasChanges(changed);
+  };
+
+  const onFinish = (values: EditArtistFormFields) => {
+    const updatedArtist: Artist = {
+      ...artist,
+      name: values.name,
+      color: String(values.color).startsWith('#') ? String(values.color) : values.color?.toHexString(),
+      track: values.track,
+      stats: values.stats,
+    };
+
+    updateArtist(
       {
-        group,
-        artist: newArtist,
+        artist: updatedArtist,
+        groupName: group.name,
       },
       {
         onSuccess: () => {
-          form.resetFields();
-          setColorValue('#FFFFFF');
+          setHasChanges(false);
           onClose();
         },
       },
     );
   };
 
-  const onValuesChange = (changedValues: NewArtistFormFields) => {
+  const onValuesChange = (changedValues: EditArtistFormFields, allValues: EditArtistFormFields) => {
     if (changedValues.color) {
       setColorValue(changedValues.color.toHexString());
     }
+    checkForChanges(allValues);
   };
 
   return (
@@ -64,12 +105,7 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
       </Form.Item>
 
       <Form.Item label="Color" name="color" required>
-        <ColorPicker
-          defaultValue="#FFFFFF"
-          disabledAlpha
-          format="hex"
-          showText={(color) => <span>{color.toHexString()}</span>}
-        />
+        <ColorPicker disabledAlpha format="hex" showText={(color) => <span>{color.toHexString()}</span>} />
       </Form.Item>
 
       <Flex className="artist-form-colors" gap={6}>
@@ -122,8 +158,8 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
       </Flex>
 
       <Form.Item>
-        <Button htmlType="submit" loading={isPending} type="primary">
-          Add
+        <Button disabled={!hasChanges} htmlType="submit" loading={isPending} type="primary">
+          Update
         </Button>
       </Form.Item>
     </Form>

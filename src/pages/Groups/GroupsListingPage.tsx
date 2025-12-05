@@ -1,6 +1,16 @@
 import './GroupsListingPage.scss';
 
-import { ColorPicker, Flex, Space, Table, Tag, Typography } from 'antd';
+import {
+  ColorPicker,
+  Flex,
+  Progress,
+  type ProgressProps,
+  Space,
+  Table,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
 import { ArtistAvatar } from 'components/Artist';
 import { Content, ContentError, ContentLoading } from 'components/Content';
 import { useListingDataQuery } from 'hooks/useListingQuery';
@@ -8,6 +18,7 @@ import { useTablePagination } from 'hooks/useTablePagination';
 import { orderBy } from 'lodash';
 import { useMemo } from 'react';
 import type { Artist, Dictionary, Group } from 'types';
+import { EditArtistDrawer } from './EditArtistDrawer';
 import { NewArtistDrawer } from './NewArtistDrawer';
 import { NewGroupDrawer } from './NewGroupDrawer';
 
@@ -84,6 +95,12 @@ type GroupArtistsProps = {
   artists: Dictionary<Artist>;
 };
 
+const progressFixedProps: ProgressProps = {
+  percentPosition: { align: 'start', type: 'outer' },
+  size: 'small',
+  status: 'active',
+};
+
 function GroupArtists({ group, artists }: GroupArtistsProps) {
   const artistsList = useMemo(() => {
     return orderBy(Object.entries(group.artistsIds), ([, position]) => position).map(([id]) => artists[id]);
@@ -93,7 +110,9 @@ function GroupArtists({ group, artists }: GroupArtistsProps) {
       {artistsList.map((artist) => {
         return (
           <Flex className="surface" key={artist.id} vertical>
-            <Typography.Text copyable>{artist.id}</Typography.Text>
+            <Typography.Text copyable type="secondary">
+              {artist.id}
+            </Typography.Text>
             <Typography.Text strong>{artist.name}</Typography.Text>
             <ArtistAvatar id={artist.id} name={artist.name} shape="square" size={96} />
             <div>
@@ -107,6 +126,71 @@ function GroupArtists({ group, artists }: GroupArtistsProps) {
               showText={(color) => <span>{color.toHexString()}</span>}
               value={artist.color}
             />
+
+            <Flex gap={3} style={{ marginTop: 8, width: '100%' }} vertical>
+              <Progress
+                format={() => (
+                  <Tooltip title={`Vocals: ${artist.stats?.vocals ?? 0}`}>
+                    <strong>V</strong>
+                  </Tooltip>
+                )}
+                percent={((artist.stats?.vocals ?? 0) / 5) * 100}
+                strokeColor={artist.color}
+                {...progressFixedProps}
+              />
+              <Progress
+                format={() => (
+                  <Tooltip title={`Rap: ${artist.stats?.rap ?? 0}`}>
+                    <strong>R</strong>
+                  </Tooltip>
+                )}
+                percent={((artist.stats?.rap ?? 0) / 5) * 100}
+                strokeColor={artist.color}
+                {...progressFixedProps}
+              />
+              <Progress
+                format={() => (
+                  <Tooltip title={`Dance: ${artist.stats?.dance ?? 0}`}>
+                    <strong>D</strong>
+                  </Tooltip>
+                )}
+                percent={((artist.stats?.dance ?? 0) / 5) * 100}
+                strokeColor={artist.color}
+                {...progressFixedProps}
+              />
+              <Progress
+                format={() => (
+                  <Tooltip title={`Visual Looks: ${artist.stats?.visual ?? 0}`}>
+                    <strong>L</strong>
+                  </Tooltip>
+                )}
+                percent={((artist.stats?.visual ?? 0) / 5) * 100}
+                strokeColor={artist.color}
+                {...progressFixedProps}
+              />
+              <Progress
+                format={() => (
+                  <Tooltip title={`Uniqueness: ${artist.stats?.uniqueness ?? 0}`}>
+                    <strong>U</strong>
+                  </Tooltip>
+                )}
+                percent={((artist.stats?.uniqueness ?? 0) / 5) * 100}
+                strokeColor={artist.color}
+                {...progressFixedProps}
+              />
+              <Progress
+                format={() => (
+                  <Tooltip title={`Stage Presence: ${artist.stats?.stagePresence ?? 0}`}>
+                    <strong>P</strong>
+                  </Tooltip>
+                )}
+                percent={((artist.stats?.stagePresence ?? 0) / 5) * 100}
+                strokeColor={artist.color}
+                {...progressFixedProps}
+              />
+            </Flex>
+
+            <EditArtistDrawer artist={artist} group={group} />
           </Flex>
         );
       })}
