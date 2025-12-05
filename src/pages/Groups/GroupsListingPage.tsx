@@ -15,7 +15,7 @@ import { ArtistAvatar } from 'components/Artist';
 import { Content, ContentError, ContentLoading } from 'components/Content';
 import { useListingDataQuery } from 'hooks/useListingQuery';
 import { useTablePagination } from 'hooks/useTablePagination';
-import { orderBy } from 'lodash';
+import { orderBy, sum } from 'lodash';
 import { useMemo } from 'react';
 import type { Artist, Dictionary, Group } from 'types';
 import { EditArtistDrawer } from './EditArtistDrawer';
@@ -28,7 +28,10 @@ export function GroupsListingPage() {
   // const groupsMutation = useGroupsMutation();
   const artists = artistsQuery.data?.data ?? {};
 
-  const groups = Object.values(groupsQuery.data?.data ?? {});
+  const groups = useMemo(
+    () => orderBy(Object.values(groupsQuery.data?.data ?? {}), ['name']),
+    [groupsQuery.data],
+  );
 
   const paginationProps = useTablePagination({
     total: groups.length ?? 0,
@@ -101,6 +104,27 @@ const progressFixedProps: ProgressProps = {
   status: 'active',
 };
 
+function calculateArtistScore(stats?: Artist['stats']): number {
+  if (!stats) return 0;
+
+  const weights = [5, 3, 4, 2, 2, 3]; // weights for vocals, rap, dance, visual, uniqueness, stagePresence
+  const statsValues = [
+    stats.vocals ?? 0,
+    stats.rap ?? 0,
+    stats.dance ?? 0,
+    stats.visual ?? 0,
+    stats.uniqueness ?? 0,
+    stats.stagePresence ?? 0,
+  ];
+
+  const weightedSum = statsValues.reduce((sum, value, index) => {
+    return sum + value * weights[index];
+  }, 0);
+  const totalWeight = sum(weights);
+
+  return Number((weightedSum / totalWeight).toFixed(2));
+}
+
 function GroupArtists({ group, artists }: GroupArtistsProps) {
   const artistsList = useMemo(() => {
     return orderBy(Object.entries(group.artistsIds), ([, position]) => position).map(([id]) => artists[id]);
@@ -126,6 +150,12 @@ function GroupArtists({ group, artists }: GroupArtistsProps) {
               showText={(color) => <span>{color.toHexString()}</span>}
               value={artist.color}
             />
+
+            {artist.stats && (
+              <Typography.Text strong style={{ marginTop: 8 }}>
+                Score: {calculateArtistScore(artist.stats)} / 5
+              </Typography.Text>
+            )}
 
             <Flex gap={3} style={{ marginTop: 8, width: '100%' }} vertical>
               <Progress
