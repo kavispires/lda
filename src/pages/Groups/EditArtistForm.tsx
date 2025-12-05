@@ -7,7 +7,7 @@ import { useUpdateArtistMutation } from 'hooks/useUpdateArtistMutation';
 import { useEffect, useState } from 'react';
 import type { Artist, Group } from 'types';
 
-type EditArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats'> & {
+type EditArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats' | 'persona'> & {
   color: AggregationColor;
 };
 
@@ -35,6 +35,7 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
       name: artist.name,
       track: artist.track,
       color: artist.color as unknown as AggregationColor,
+      persona: artist.persona,
       stats: artist.stats || {
         vocals: 1,
         rap: 1,
@@ -52,6 +53,7 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
       values.name !== artist.name ||
       colorHex !== artist.color ||
       values.track !== artist.track ||
+      (values.persona?.trim() || undefined) !== artist.persona ||
       values.stats?.vocals !== (artist.stats?.vocals || 1) ||
       values.stats?.rap !== (artist.stats?.rap || 1) ||
       values.stats?.dance !== (artist.stats?.dance || 1) ||
@@ -65,10 +67,15 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
     const updatedArtist: Artist = {
       ...artist,
       name: values.name,
-      color: String(values.color).startsWith('#') ? String(values.color) : values.color?.toHexString(),
+      color: String(values.color).startsWith('#') ? String(values.color) : values.color.toHexString(),
       track: values.track,
       stats: values.stats,
     };
+
+    const persona = values.persona?.trim();
+    if (persona) {
+      updatedArtist.persona = persona;
+    }
 
     updateArtist(
       {
@@ -125,6 +132,10 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
 
       <Form.Item label="Track" name="track" required>
         <Select options={options} />
+      </Form.Item>
+
+      <Form.Item label="Persona" name="persona">
+        <Input.TextArea placeholder="Optional stage persona description" rows={2} />
       </Form.Item>
 
       <Flex gap={16}>

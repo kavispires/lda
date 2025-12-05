@@ -31,6 +31,7 @@ export const createArtist = (
   color: string,
   track: Artist['track'],
   stats?: Artist['stats'],
+  persona?: string,
 ): Artist => {
   return {
     id: '_',
@@ -39,5 +40,6 @@ export const createArtist = (
     color,
     track,
     ...(stats && { stats }),
+    ...(persona && { persona }),
   };
 };

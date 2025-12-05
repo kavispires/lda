@@ -6,7 +6,7 @@ import { useState } from 'react';
 import type { Artist, Group } from 'types';
 import { createArtist } from 'utils/groups';
 
-type NewArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats'> & {
+type NewArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats' | 'persona'> & {
   color: AggregationColor;
 };
 
@@ -29,6 +29,12 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
 
   const onFinish = (values: NewArtistFormFields) => {
     const newArtist = createArtist(values.name, values.color.toHexString(), values.track, values.stats);
+
+    const persona = values.persona?.trim();
+    if (persona) {
+      newArtist.persona = persona;
+    }
+
     addArtist(
       {
         group,
@@ -89,6 +95,10 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
 
       <Form.Item label="Track" name="track" required>
         <Select options={options} />
+      </Form.Item>
+
+      <Form.Item label="Persona" name="persona">
+        <Input.TextArea placeholder="Optional stage persona description" rows={2} />
       </Form.Item>
 
       <Flex gap={16}>

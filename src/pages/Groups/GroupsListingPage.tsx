@@ -132,99 +132,113 @@ function GroupArtists({ group, artists }: GroupArtistsProps) {
   return (
     <Flex gap={12} wrap>
       {artistsList.map((artist) => {
-        return (
-          <Flex className="surface" key={artist.id} vertical>
-            <Typography.Text copyable type="secondary">
-              {artist.id}
-            </Typography.Text>
-            <Typography.Text strong>{artist.name}</Typography.Text>
-            <ArtistAvatar id={artist.id} name={artist.name} shape="square" size={96} />
-            <div>
-              <Tag>{artist.track}</Tag>
-            </div>
-
-            <Typography.Text copyable>{artist.color}</Typography.Text>
-            <ColorPicker
-              disabled
-              format="hex"
-              showText={(color) => <span>{color.toHexString()}</span>}
-              value={artist.color}
-            />
-
-            {artist.stats && (
-              <Typography.Text strong style={{ marginTop: 8 }}>
-                Score: {calculateArtistScore(artist.stats)} / 5
-              </Typography.Text>
-            )}
-
-            <Flex gap={3} style={{ marginTop: 8, width: '100%' }} vertical>
-              <Progress
-                format={() => (
-                  <Tooltip title={`Vocals: ${artist.stats?.vocals ?? 0}`}>
-                    <strong>V</strong>
-                  </Tooltip>
-                )}
-                percent={((artist.stats?.vocals ?? 0) / 5) * 100}
-                strokeColor={artist.color}
-                {...progressFixedProps}
-              />
-              <Progress
-                format={() => (
-                  <Tooltip title={`Rap: ${artist.stats?.rap ?? 0}`}>
-                    <strong>R</strong>
-                  </Tooltip>
-                )}
-                percent={((artist.stats?.rap ?? 0) / 5) * 100}
-                strokeColor={artist.color}
-                {...progressFixedProps}
-              />
-              <Progress
-                format={() => (
-                  <Tooltip title={`Dance: ${artist.stats?.dance ?? 0}`}>
-                    <strong>D</strong>
-                  </Tooltip>
-                )}
-                percent={((artist.stats?.dance ?? 0) / 5) * 100}
-                strokeColor={artist.color}
-                {...progressFixedProps}
-              />
-              <Progress
-                format={() => (
-                  <Tooltip title={`Visual Looks: ${artist.stats?.visual ?? 0}`}>
-                    <strong>L</strong>
-                  </Tooltip>
-                )}
-                percent={((artist.stats?.visual ?? 0) / 5) * 100}
-                strokeColor={artist.color}
-                {...progressFixedProps}
-              />
-              <Progress
-                format={() => (
-                  <Tooltip title={`Uniqueness: ${artist.stats?.uniqueness ?? 0}`}>
-                    <strong>U</strong>
-                  </Tooltip>
-                )}
-                percent={((artist.stats?.uniqueness ?? 0) / 5) * 100}
-                strokeColor={artist.color}
-                {...progressFixedProps}
-              />
-              <Progress
-                format={() => (
-                  <Tooltip title={`Stage Presence: ${artist.stats?.stagePresence ?? 0}`}>
-                    <strong>P</strong>
-                  </Tooltip>
-                )}
-                percent={((artist.stats?.stagePresence ?? 0) / 5) * 100}
-                strokeColor={artist.color}
-                {...progressFixedProps}
-              />
-            </Flex>
-
-            <EditArtistDrawer artist={artist} group={group} />
-          </Flex>
-        );
+        return <GroupArtist artist={artist} group={group} key={artist.id} />;
       })}
       <NewArtistDrawer group={group} />
+    </Flex>
+  );
+}
+
+type GroupArtistProps = {
+  group: Group;
+  artist: Artist;
+};
+
+function GroupArtist({ group, artist }: GroupArtistProps) {
+  return (
+    <Flex className="surface" vertical>
+      <Typography.Text copyable type="secondary">
+        {artist.id}
+      </Typography.Text>
+      <Typography.Text strong>{artist.name}</Typography.Text>
+      {artist.persona && (
+        <Typography.Text italic style={{ fontSize: '12px' }} type="secondary">
+          {artist.persona}
+        </Typography.Text>
+      )}
+      <ArtistAvatar id={artist.id} name={artist.name} shape="square" size={96} />
+      <div>
+        <Tag>{artist.track}</Tag>
+      </div>
+
+      <Typography.Text copyable>{artist.color}</Typography.Text>
+      <ColorPicker
+        disabled
+        format="hex"
+        showText={(color) => <span>{color.toHexString()}</span>}
+        value={artist.color}
+      />
+
+      {artist.stats && (
+        <Typography.Text strong style={{ marginTop: 8 }}>
+          Score: {calculateArtistScore(artist.stats)} / 5
+        </Typography.Text>
+      )}
+
+      <Flex gap={3} style={{ marginTop: 8, width: '100%' }} vertical>
+        <Progress
+          format={() => (
+            <Tooltip title={`Vocals: ${artist.stats?.vocals ?? 0}`}>
+              <strong>V</strong>
+            </Tooltip>
+          )}
+          percent={((artist.stats?.vocals ?? 0) / 5) * 100}
+          strokeColor={artist.color}
+          {...progressFixedProps}
+        />
+        <Progress
+          format={() => (
+            <Tooltip title={`Rap: ${artist.stats?.rap ?? 0}`}>
+              <strong>R</strong>
+            </Tooltip>
+          )}
+          percent={((artist.stats?.rap ?? 0) / 5) * 100}
+          strokeColor={artist.color}
+          {...progressFixedProps}
+        />
+        <Progress
+          format={() => (
+            <Tooltip title={`Dance: ${artist.stats?.dance ?? 0}`}>
+              <strong>D</strong>
+            </Tooltip>
+          )}
+          percent={((artist.stats?.dance ?? 0) / 5) * 100}
+          strokeColor={artist.color}
+          {...progressFixedProps}
+        />
+        <Progress
+          format={() => (
+            <Tooltip title={`Visual Looks: ${artist.stats?.visual ?? 0}`}>
+              <strong>L</strong>
+            </Tooltip>
+          )}
+          percent={((artist.stats?.visual ?? 0) / 5) * 100}
+          strokeColor={artist.color}
+          {...progressFixedProps}
+        />
+        <Progress
+          format={() => (
+            <Tooltip title={`Uniqueness: ${artist.stats?.uniqueness ?? 0}`}>
+              <strong>U</strong>
+            </Tooltip>
+          )}
+          percent={((artist.stats?.uniqueness ?? 0) / 5) * 100}
+          strokeColor={artist.color}
+          {...progressFixedProps}
+        />
+        <Progress
+          format={() => (
+            <Tooltip title={`Stage Presence: ${artist.stats?.stagePresence ?? 0}`}>
+              <strong>P</strong>
+            </Tooltip>
+          )}
+          percent={((artist.stats?.stagePresence ?? 0) / 5) * 100}
+          strokeColor={artist.color}
+          {...progressFixedProps}
+        />
+      </Flex>
+
+      <EditArtistDrawer artist={artist} group={group} />
     </Flex>
   );
 }
