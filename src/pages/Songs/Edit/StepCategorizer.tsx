@@ -26,7 +26,7 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
 
       <div className="grid grid-cols-2 gap-2">
         <EditorsLog key={song.updatedAt} videoControls={videoControls} />
-        <Space direction="vertical">
+        <Space orientation="vertical">
           <ControlledVideo
             className="surface"
             playerRef={videoControls.playerRef as React.LegacyRef<YouTube>}
@@ -39,7 +39,7 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
           <Space
             className="surface"
             classNames={{ item: 'p-1' }}
-            direction="vertical"
+            orientation="vertical"
             style={{ minWidth: 300, width: '100%' }}
           >
             <Typography.Title className="mt-1" level={5}>

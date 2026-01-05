@@ -86,7 +86,7 @@ export function useAddListingEntryMutation(listingType: string) {
     },
     onError: (error) => {
       notification.error({
-        message: 'Failed to update listing',
+        title: 'Failed to update listing',
         description: error.message,
       });
     },
@@ -109,7 +109,7 @@ export function usePartialUpdateListingEntryMutation() {
     },
     onError: (error) => {
       notification.error({
-        message: 'Failed to update listing',
+        title: 'Failed to update listing',
         description: error.message,
       });
     },

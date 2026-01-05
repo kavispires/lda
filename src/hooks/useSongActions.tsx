@@ -126,7 +126,7 @@ export function useSongActions() {
     } catch (e: unknown) {
       if (e instanceof Error) {
         notification.error({
-          message: 'Could not delete part',
+          title: 'Could not delete part',
           description: e.message,
         });
         // biome-ignore lint/suspicious/noConsole: on purpose
@@ -146,7 +146,7 @@ export function useSongActions() {
     } catch (e: unknown) {
       if (e instanceof Error) {
         notification.error({
-          message: 'Could not convert part to new line',
+          title: 'Could not convert part to new line',
           description: e.message,
         });
         // biome-ignore lint/suspicious/noConsole: on purpose
@@ -166,7 +166,7 @@ export function useSongActions() {
     } catch (e: unknown) {
       if (e instanceof Error) {
         notification.error({
-          message: 'Could not delete line',
+          title: 'Could not delete line',
           description: e.message,
         });
         // biome-ignore lint/suspicious/noConsole: on purpose
@@ -195,7 +195,7 @@ export function useSongActions() {
     } catch (e: unknown) {
       if (e instanceof Error) {
         notification.error({
-          message: 'Could not delete section',
+          title: 'Could not delete section',
           description: e.message,
         });
       }

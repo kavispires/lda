@@ -36,13 +36,13 @@ export function useCreateArtistMutation() {
     },
     onSuccess() {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: 'Artist created successfully',
       });
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },

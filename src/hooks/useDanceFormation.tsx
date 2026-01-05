@@ -73,14 +73,14 @@ export function useFormationMutation() {
     },
     onSuccess(data) {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: 'Formation updated successfully',
       });
       navigate(`/distributions/${data.distributionId}/formation/${data.id}`);
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },

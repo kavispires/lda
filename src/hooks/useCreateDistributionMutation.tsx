@@ -30,13 +30,13 @@ export function useCreateDistributionMutation() {
     },
     onSuccess() {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: 'Distribution created successfully',
       });
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },

@@ -25,7 +25,7 @@ export function StepVideoId({ newSong, updateNewSong, setStep }: StepVideoIdProp
         updateNewSong({ videoId: extractedId });
       } else {
         notification.error({
-          message: 'Failed to parse the video ID. Please try again.',
+          title: 'Failed to parse the video ID. Please try again.',
           placement: 'bottomRight',
           duration: 15,
         });

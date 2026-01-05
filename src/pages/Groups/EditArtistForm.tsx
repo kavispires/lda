@@ -47,8 +47,8 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
     });
   }, [artist, form]);
 
-  const checkForChanges = (values: EditArtistFormFields) => {
-    const colorHex = typeof values.color === 'string' ? values.color : values.color.toHexString();
+  const checkForChanges = (values: Partial<EditArtistFormFields>) => {
+    const colorHex = typeof values.color === 'string' ? values.color : values?.color?.toHexString();
     const changed =
       values.name !== artist.name ||
       colorHex !== artist.color ||
@@ -91,7 +91,7 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
     );
   };
 
-  const onValuesChange = (changedValues: EditArtistFormFields, allValues: EditArtistFormFields) => {
+  const onValuesChange = (changedValues: Partial<EditArtistFormFields>, allValues: EditArtistFormFields) => {
     if (changedValues.color) {
       setColorValue(changedValues.color.toHexString());
     }

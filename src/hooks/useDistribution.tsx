@@ -56,13 +56,13 @@ export function useDistributionMutation() {
     },
     onSuccess() {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: 'Distribution updated successfully',
       });
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },
@@ -85,7 +85,7 @@ export function useDeleteDistributionMutation() {
     },
     onSuccess() {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: 'Distribution deleted successfully',
       });
       queryClient.refetchQueries({
@@ -94,7 +94,7 @@ export function useDeleteDistributionMutation() {
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },

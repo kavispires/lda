@@ -57,7 +57,7 @@ export function EditSectionsForm({ sectionsIds, onClose, setDirty }: EditSection
   };
 
   return (
-    <Form
+    <Form<Partial<SongSection>>
       autoComplete="off"
       form={form}
       initialValues={groupedSection}

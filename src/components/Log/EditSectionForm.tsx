@@ -106,7 +106,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
 
       <Divider className="my-4" />
 
-      <Space className="w-100" direction="vertical" size="small">
+      <Space className="w-100" orientation="vertical" size="small">
         <Progress className="w-100" percent={getCompletionPercentage(Object.values(criteria))} />
         <CriteriaRule label="Has kind" value={criteria.kind} />
         <CriteriaRule label="Has lines" value={criteria.linesIds} />

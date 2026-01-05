@@ -47,7 +47,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
   const { onBatchUpdateSong, onMergeLines } = useSongActions();
   const [groupedLine, setTempLine] = useState<CommonLineProps>(getInitialValue(linesIds, song));
 
-  const [form] = Form.useForm<Partial<SongLine>>();
+  const [form] = Form.useForm<SongLine>();
   const isDirty = form.isFieldsTouched();
 
   const onValuesChange = (changedValues: Partial<SongLine>) => {

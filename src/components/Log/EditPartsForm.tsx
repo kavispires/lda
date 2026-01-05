@@ -28,10 +28,10 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
     recommendedAssignee: getInitialValue(partsIds, song),
   });
 
-  const [form] = Form.useForm<Partial<SongPart>>();
+  const [form] = Form.useForm<Pick<SongPart, 'recommendedAssignee'>>();
   const isDirty = form.isFieldsTouched();
 
-  const onValuesChange = (changedValues: Partial<SongPart>) => {
+  const onValuesChange = (changedValues: Partial<Pick<SongPart, 'recommendedAssignee'>>) => {
     setTempPart({ ...groupedPart, ...changedValues });
   };
 

@@ -97,13 +97,13 @@ export function useSongMutation() {
     },
     onSuccess() {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: 'Song updated successfully',
       });
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },
@@ -126,7 +126,7 @@ export function useDeleteSongMutation() {
     },
     onSuccess() {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: 'Song deleted successfully',
       });
       queryClient.refetchQueries({
@@ -135,7 +135,7 @@ export function useDeleteSongMutation() {
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },

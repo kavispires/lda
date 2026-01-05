@@ -28,13 +28,13 @@ export function useCreateSongMutation() {
     },
     onSuccess() {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: 'Song created successfully',
       });
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },

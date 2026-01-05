@@ -144,7 +144,7 @@ export function TimelineEntry({ timestampKey, width }: { timestampKey: string; w
           width={width / Number(queryParams.get('stageSize') ?? 3)}
         />
         <Flex justify="center">
-          <Button.Group>
+          <Space.Compact>
             <Tooltip title="Previous Timestamp">
               <Button icon={<StepBackwardOutlined />} onClick={onPreviousTimestamp} />
             </Tooltip>
@@ -167,14 +167,14 @@ export function TimelineEntry({ timestampKey, width }: { timestampKey: string; w
             <Tooltip title="Next Timestamp">
               <Button icon={<StepForwardOutlined />} onClick={onNextTimestamp} />
             </Tooltip>
-          </Button.Group>
+          </Space.Compact>
         </Flex>
       </Flex>
 
       <Flex gap={8} justify="center">
         <ForwardOutlined />
 
-        <Button.Group>
+        <Space.Compact>
           <Tooltip title="Add new timestamp">
             <Button disabled icon={<PlusOutlined />} onClick={() => addTimestamp(timestamp)} />
           </Tooltip>
@@ -186,7 +186,7 @@ export function TimelineEntry({ timestampKey, width }: { timestampKey: string; w
               onClick={() => pasteEntry(timestamp + 1)}
             />
           </Tooltip>
-        </Button.Group>
+        </Space.Compact>
         <ForwardOutlined />
       </Flex>
     </Space>

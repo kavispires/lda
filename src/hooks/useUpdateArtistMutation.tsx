@@ -37,13 +37,13 @@ export function useUpdateArtistMutation() {
     },
     onSuccess(_, variables) {
       notification.success({
-        message: 'Success',
+        title: 'Success',
         description: `Artist "${variables.artist.name}" updated successfully`,
       });
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },

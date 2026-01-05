@@ -113,7 +113,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
 
       <Divider className="my-4" />
 
-      <Space className="w-100" direction="vertical" size="small">
+      <Space className="w-100" orientation="vertical" size="small">
         <Progress className="w-100" percent={getCompletionPercentage(Object.values(criteria))} />
         <CriteriaRule label="Has sectionId" value={criteria.sectionId} />
         <CriteriaRule label="Has parts" value={criteria.partsIds} />

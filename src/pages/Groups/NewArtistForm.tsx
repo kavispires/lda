@@ -50,7 +50,7 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
     );
   };
 
-  const onValuesChange = (changedValues: NewArtistFormFields) => {
+  const onValuesChange = (changedValues: Partial<NewArtistFormFields>) => {
     if (changedValues.color) {
       setColorValue(changedValues.color.toHexString());
     }

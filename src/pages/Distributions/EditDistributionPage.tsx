@@ -34,7 +34,7 @@ function EditDistributionContent() {
         <div>?</div>
       </Flex>
 
-      <Space className="w-100" direction="vertical" size="small">
+      <Space className="w-100" orientation="vertical" size="small">
         <Progress className="w-100" percent={mappingProgress} />
       </Space>
 

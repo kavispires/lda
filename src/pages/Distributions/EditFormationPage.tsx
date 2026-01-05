@@ -37,7 +37,7 @@ function EditFormationContent() {
         Edit Formation: <em>{group.name}</em> performs <em>{song.title}</em>
       </Typography.Title>
 
-      {/* <Space size="small" direction="vertical" className="w-100">
+      {/* <Space size="small" orientation="vertical" className="w-100">
         <Progress percent={mappingProgress} className="w-100" />
       </Space> */}
 
