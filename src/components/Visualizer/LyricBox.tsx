@@ -54,24 +54,23 @@ export function LyricBox({ snapshot, assignees, timestamp }: LyricBoxProps) {
             })}
         </div>
         <div className="lyric-box__text">
-          {snapshot.text.map((line, index) => (
-            <div
-              key={`${line}-${index}`}
-              style={{
-                background: `linear-gradient(180deg, ${snapshot.colors[index]})`,
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontStyle: isAllOrNone ? 'italic' : 'normal',
-                fontWeight: timestamp < snapshot.startTimes[index] ? 'normal' : 'bold',
-              }}
-            >
-              <span
-                style={{
-                  textDecoration: 'line-through dotter',
-                }}
-              >
-                {line}
-              </span>
+          {snapshot.lines.map((line, lineIndex) => (
+            <div className="lyric-box__line" key={`line-${lineIndex}`}>
+              {line.text.map((part, partIndex) => (
+                <span
+                  key={`${part}-${partIndex}`}
+                  style={{
+                    background: `linear-gradient(180deg, ${line.colors[partIndex].join(', ')})`,
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    fontStyle: isAllOrNone ? 'italic' : 'normal',
+                    fontWeight: timestamp < line.startTimes[partIndex] ? 'normal' : 'bold',
+                    marginRight: '0.5em',
+                  }}
+                >
+                  {part}
+                </span>
+              ))}
             </div>
           ))}
         </div>
@@ -105,16 +104,20 @@ export function AdlibBox({ snapshot, assignees }: Omit<LyricBoxProps, 'timestamp
             })}
         </div>
         <div className="adlib-box__text">
-          {snapshot.text.map((line, index) => (
-            <div
-              key={`${line}-${index}`}
-              style={{
-                background: `linear-gradient(to right, ${snapshot.colors[index]})`,
-                backgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-              }}
-            >
-              {line}
+          {snapshot.lines.map((line, lineIndex) => (
+            <div className="adlib-box__line" key={`line-${lineIndex}`}>
+              {line.text.map((part, partIndex) => (
+                <span
+                  key={`${part}-${partIndex}`}
+                  style={{
+                    background: `linear-gradient(to right, ${line.colors[partIndex].join(', ')})`,
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                  }}
+                >
+                  {part}
+                </span>
+              ))}
             </div>
           ))}
         </div>
