@@ -1,6 +1,7 @@
 import { BarChartOutlined, DeleteFilled, FormOutlined } from '@ant-design/icons';
 import { Button, Divider, Flex, Popconfirm, Space, Table, type TableProps, Typography } from 'antd';
 import { FirestoreConsoleLink } from 'components/Common/FirestoreConsoleLink';
+import { Timestamp } from 'components/Common/Timestamp';
 import { Content, ContentError, ContentLoading } from 'components/Content';
 import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
 import { useDeleteDistributionMutation } from 'hooks/useDistribution';
@@ -93,6 +94,13 @@ export function DistributionsListingPage() {
       title: 'Type',
       dataIndex: 'type',
       key: 'type',
+    },
+    {
+      title: 'Last Updated',
+      dataIndex: 'updatedAt',
+      key: 'updatedAt',
+      sorter: (a: ListingEntry, b: ListingEntry) => (a.updatedAt || 0) - (b.updatedAt || 0),
+      render: (updatedAt: number) => <Timestamp timestamp={updatedAt} />,
     },
     {
       title: 'More',
