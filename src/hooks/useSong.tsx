@@ -93,12 +93,34 @@ export function useSongMutation() {
 
       queryClient.setQueryData(['song', data.id], serializedSong);
 
+      // Update listing with timestamp and any changes in the name
+      try {
+        await updateDocQueryFunction('listings', 'songs', {
+          [data.id]: {
+            id: data.id,
+            name: `${data.originalArtist} - ${data.title}`,
+            type: 'song',
+            updatedAt: Date.now(),
+          },
+        });
+      } catch (error) {
+        // biome-ignore lint/suspicious/noConsole: on purpose
+        console.error('Failed to update listing:', error);
+        notification.error({
+          title: 'Error',
+          description: 'Failed to update listing with the latest changes. Song was saved.',
+        });
+      }
+
       return serializedSong;
     },
     onSuccess() {
       notification.success({
         title: 'Success',
         description: 'Song updated successfully',
+      });
+      queryClient.refetchQueries({
+        queryKey: ['listings', 'songs'],
       });
     },
     onError(error) {
