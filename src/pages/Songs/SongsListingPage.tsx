@@ -1,5 +1,6 @@
-import { DeleteFilled } from '@ant-design/icons';
-import { Button, Popconfirm, Space, Table, Typography } from 'antd';
+import { BarChartOutlined, DeleteFilled, FormOutlined } from '@ant-design/icons';
+import { Button, Divider, Flex, Popconfirm, Space, Table, type TableProps, Typography } from 'antd';
+import { FirestoreConsoleLink } from 'components/Common/FirestoreConsoleLink';
 import { Content, ContentError, ContentLoading } from 'components/Content';
 import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
 import { useListingQuery } from 'hooks/useListingQuery';
@@ -27,26 +28,26 @@ export function SongsListingPage() {
     return <ContentError>{songsQuery.error.message}</ContentError>;
   }
 
-  const columns = [
+  const columns: TableProps<ListingEntry>['columns'] = [
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
-    },
-    {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type',
+      sorter: (a: ListingEntry, b: ListingEntry) => a.name.localeCompare(b.name),
     },
     {
       title: 'Actions',
       key: 'actions',
       render: (record: ListingEntry) => (
-        <Space size="middle">
-          <Button onClick={() => navigate(`/songs/${record.id}/edit`)} type="default">
+        <Space separator={<Divider orientation="vertical" />} size="small">
+          <Button icon={<FormOutlined />} onClick={() => navigate(`/songs/${record.id}/edit`)} type="link">
             Edit
           </Button>
-          <Button onClick={() => navigate(`/distributions/new?songId=${record.id}`)} type="primary">
+          <Button
+            icon={<BarChartOutlined />}
+            onClick={() => navigate(`/distributions/new?songId=${record.id}`)}
+            type="link"
+          >
             Distribute
           </Button>
         </Space>
@@ -56,6 +57,12 @@ export function SongsListingPage() {
       title: 'id',
       dataIndex: 'id',
       key: 'id',
+      render: (id: UID) => <FirestoreConsoleLink label={id} path={`songs/${id}`} />,
+    },
+    {
+      title: 'Type',
+      dataIndex: 'type',
+      key: 'type',
     },
     {
       title: 'More',
@@ -66,7 +73,7 @@ export function SongsListingPage() {
             onConfirm={() => deleteSongMutation.mutate(songId)}
             title="Are you sure you want to delete this song?"
           >
-            <Button danger icon={<DeleteFilled />} loading={deleteSongMutation.isPending} />
+            <Button danger icon={<DeleteFilled />} loading={deleteSongMutation.isPending} size="small" />
           </Popconfirm>
         </Space>
       ),
@@ -76,7 +83,13 @@ export function SongsListingPage() {
   return (
     <Content>
       <Typography.Title level={2}>Songs</Typography.Title>
-      <ListingSelect allKey={ALL_SONGS} className="mb-2" options={options} paramKey="group" />
+      <Flex align="center" justify="space-between">
+        <ListingSelect allKey={ALL_SONGS} className="mb-2" options={options} paramKey="group" />
+        <Flex align="center" gap={6}>
+          <FirestoreConsoleLink label="Listing" path="listings/songs" />
+          <FirestoreConsoleLink label="Songs" path="songs" />
+        </Flex>
+      </Flex>
       <Table
         columns={columns}
         dataSource={activeList}

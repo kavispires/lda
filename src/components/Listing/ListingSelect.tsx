@@ -36,7 +36,7 @@ export const useListingSelect = (
 
   const options = useMemo(() => {
     const optionsArr = list.reduce(
-      (acc: any[], listingEntry) => {
+      (acc: string[], listingEntry) => {
         const [groupName] = listingEntry.name.split(' - ');
         if (!acc.includes(groupName)) {
           acc.push(groupName);
