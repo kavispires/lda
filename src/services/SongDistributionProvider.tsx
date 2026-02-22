@@ -42,8 +42,10 @@ export const SongDistributionProvider = ({ children }: PropsWithChildren) => {
 
   const [mapping, setMapping] = useState<Dictionary<FUID[]>>({});
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: only the song.id is important to retrigger the effect
   useEffect(() => {
-    console.log('RESETTING MAPPING');
+    // biome-ignore lint/suspicious/noConsole: on purpose for debugging
+    console.log('Initializing mapping for distribution', distributionId);
     if (isEmpty(mapping) && song?.content && distribution?.mapping) {
       const allParts = distributor.getAllParts(song);
       const newMapping: Dictionary<FUID[]> = {};

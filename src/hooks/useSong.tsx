@@ -96,12 +96,8 @@ export function useSongMutation() {
       // Update listing with timestamp and any changes in the name
       try {
         await updateDocQueryFunction('listings', 'songs', {
-          [data.id]: {
-            id: data.id,
-            name: `${data.originalArtist} - ${data.title}`,
-            type: 'song',
-            updatedAt: Date.now(),
-          },
+          [`${data.id}.updatedAt`]: Date.now(),
+          [`${data.id}.name`]: `${data.originalArtist} - ${data.title}`,
         });
       } catch (error) {
         // biome-ignore lint/suspicious/noConsole: on purpose

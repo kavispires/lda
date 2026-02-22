@@ -1,5 +1,5 @@
 import { BarChartOutlined, DeleteFilled, FormOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Popconfirm, Space, Table, type TableProps, Typography } from 'antd';
+import { Button, Divider, Flex, Popconfirm, Space, Table, type TableProps, Tooltip, Typography } from 'antd';
 import { FirestoreConsoleLink } from 'components/Common/FirestoreConsoleLink';
 import { Timestamp } from 'components/Common/Timestamp';
 import { Content, ContentError, ContentLoading } from 'components/Content';
@@ -7,8 +7,10 @@ import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelec
 import { useDeleteDistributionMutation } from 'hooks/useDistribution';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useTablePagination } from 'hooks/useTablePagination';
+import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { DistributionListingData, ListingEntry, UID } from 'types';
+import { SEPARATOR } from 'utils/constants';
 
 const ALL_GROUPS = 'All Groups';
 
@@ -36,7 +38,6 @@ export function DistributionsListingPage() {
       key: 'name',
       sorter: (a: ListingEntry, b: ListingEntry) => a.name.localeCompare(b.name),
     },
-
     {
       title: 'Actions',
       key: 'actions',
@@ -58,6 +59,12 @@ export function DistributionsListingPage() {
           </Button>
         </Space>
       ),
+    },
+    {
+      title: 'Snippet',
+      dataIndex: ['data', 'snippet'],
+      key: 'snippet',
+      render: (snippet: string) => <DistributionSnippet snippet={snippet} />,
     },
     {
       title: 'Formation',
@@ -141,5 +148,44 @@ export function DistributionsListingPage() {
         rowKey="id"
       />
     </Content>
+  );
+}
+
+type DistributionSnippetProps = {
+  snippet: string;
+};
+
+function DistributionSnippet({ snippet = '' }: DistributionSnippetProps) {
+  const parsedSnippet = useMemo(() => snippet.split(SEPARATOR).map((part) => part.split('|')), [snippet]);
+
+  if (!snippet) {
+    return <Typography.Text type="secondary">No data</Typography.Text>;
+  }
+
+  // Parsed snippet is an array of [color, percentage, name], create a 200px wide bar that has segments with the corresponding colors and widths based on the percentage, and show the tooltip name on hover
+
+  return (
+    <div style={{ display: 'flex', width: '284px', height: '24px', borderRadius: '4px', overflow: 'hidden' }}>
+      {parsedSnippet.map(([color, percentage, name], index) => (
+        <Tooltip key={index} title={`${name}: ${percentage}%`}>
+          <div
+            style={{
+              backgroundColor: color,
+              width: `${percentage}%`,
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '10px',
+              color: '#fff',
+              overflow: 'hidden',
+              flexShrink: 0,
+            }}
+          >
+            {percentage}
+          </div>
+        </Tooltip>
+      ))}
+    </div>
   );
 }

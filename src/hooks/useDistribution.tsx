@@ -1,8 +1,10 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
+import { orderBy } from 'lodash';
 import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
 import type { Distribution, FirestoreDistribution, UID } from 'types';
+import { SEPARATOR } from 'utils/constants';
 
 /**
  * Deserializes a FirestoreDistribution object into a Distribution object.
@@ -52,6 +54,23 @@ export function useDistributionMutation() {
 
       queryClient.setQueryData(['distribution', data.id], serializedDistribution);
 
+      // Update listing with timestamp and any changes in the name
+      try {
+        await updateDocQueryFunction('listings', 'distributions', {
+          [`${data.id}.updatedAt`]: Date.now(),
+          [`${data.id}.data`]: {
+            snippet: buildDistributionListingSnippet(data),
+          },
+        });
+      } catch (error) {
+        // biome-ignore lint/suspicious/noConsole: on purpose
+        console.error('Failed to update listing:', error);
+        notification.error({
+          title: 'Error',
+          description: 'Failed to update listing with the latest changes. The distribution was saved.',
+        });
+      }
+
       return serializedDistribution;
     },
     onSuccess() {
@@ -99,4 +118,20 @@ export function useDeleteDistributionMutation() {
       });
     },
   });
+}
+
+function buildDistributionListingSnippet(distribution: Distribution) {
+  const assignees = distribution.assignees ?? {};
+  const summary = distribution.summary ?? {};
+  const total = Object.values(summary).reduce((sum, val) => sum + val, 0);
+  // Gather the values of .summary and calculate the vocal percentage for each member
+  const percentages = Object.entries(summary).reduce((acc: Record<string, number>, [memberId, duration]) => {
+    const percentage = Number(total > 0 ? ((duration / total) * 100).toFixed(1) : '0.0');
+    acc[memberId] = percentage;
+    return acc;
+  }, {});
+
+  return orderBy(Object.keys(percentages), (memberId) => assignees[memberId]?.name, 'asc')
+    .map((memberId) => [assignees[memberId].color, percentages[memberId], assignees[memberId].name].join('|'))
+    .join(SEPARATOR);
 }
