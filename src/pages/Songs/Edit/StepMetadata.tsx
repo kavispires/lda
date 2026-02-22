@@ -79,11 +79,11 @@ export function StepMetadata() {
           </Form.Item>
 
           <Form.Item label="Song Title" name="title">
-            <Input disabled size="large" />
+            <Input size="large" />
           </Form.Item>
 
           <Form.Item label="Original Artist" name="originalArtist">
-            <Input disabled size="large" />
+            <Input size="large" />
           </Form.Item>
 
           <Form.Item key={videoId}>
