@@ -6,6 +6,7 @@ import { Content, ContentError, ContentLoading } from 'components/Content';
 import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
 import { useDeleteDistributionMutation } from 'hooks/useDistribution';
 import { useListingQuery } from 'hooks/useListingQuery';
+import { useQueryParams } from 'hooks/useQueryParams';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -21,7 +22,13 @@ export function DistributionsListingPage() {
 
   const { options, activeValue, activeList } = useListingSelect(distributionsQuery.data, 'group', ALL_GROUPS);
 
-  const paginationProps = useTablePagination({ total: activeList.length, resetter: activeValue });
+  const { queryParams } = useQueryParams();
+
+  const paginationProps = useTablePagination({
+    total: activeList.length,
+    resetter: activeValue,
+    defaultCurrent: Number(queryParams.get('page') ?? 1),
+  });
 
   if (distributionsQuery.isLoading) {
     return <ContentLoading />;

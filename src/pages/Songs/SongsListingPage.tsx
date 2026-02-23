@@ -5,6 +5,7 @@ import { Timestamp } from 'components/Common/Timestamp';
 import { Content, ContentError, ContentLoading } from 'components/Content';
 import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
 import { useListingQuery } from 'hooks/useListingQuery';
+import { useQueryParams } from 'hooks/useQueryParams';
 import { useDeleteSongMutation } from 'hooks/useSong';
 import { useTablePagination } from 'hooks/useTablePagination';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +20,12 @@ export function SongsListingPage() {
 
   const { options, activeValue, activeList } = useListingSelect(songsQuery.data, 'group', ALL_SONGS);
 
-  const paginationProps = useTablePagination({ total: activeList.length, resetter: activeValue });
+  const { queryParams } = useQueryParams();
+  const paginationProps = useTablePagination({
+    total: activeList.length,
+    resetter: activeValue,
+    defaultCurrent: Number(queryParams.get('page') ?? 1),
+  });
 
   if (songsQuery.isLoading) {
     return <ContentLoading />;
