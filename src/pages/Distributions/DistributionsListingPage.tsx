@@ -3,7 +3,7 @@ import { Button, Divider, Flex, Popconfirm, Space, Table, type TableProps, Toolt
 import { FirestoreConsoleLink } from 'components/Common/FirestoreConsoleLink';
 import { Timestamp } from 'components/Common/Timestamp';
 import { Content, ContentError, ContentLoading } from 'components/Content';
-import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
+import { ListingSearch, ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
 import { useDeleteDistributionMutation } from 'hooks/useDistribution';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useQueryParams } from 'hooks/useQueryParams';
@@ -20,12 +20,16 @@ export function DistributionsListingPage() {
   const deleteDistributionMutation = useDeleteDistributionMutation();
   const navigate = useNavigate();
 
-  const { options, activeValue, activeList } = useListingSelect(distributionsQuery.data, 'group', ALL_GROUPS);
+  const { options, activeValue, filteredList, searchQuery, setSearchQuery } = useListingSelect(
+    distributionsQuery.data,
+    'group',
+    ALL_GROUPS,
+  );
 
   const { queryParams } = useQueryParams();
 
   const paginationProps = useTablePagination({
-    total: activeList.length,
+    total: filteredList.length,
     resetter: activeValue,
     defaultCurrent: Number(queryParams.get('page') ?? 1),
   });
@@ -141,7 +145,14 @@ export function DistributionsListingPage() {
     <Content>
       <Typography.Title level={2}>Distributions</Typography.Title>
       <Flex align="center" justify="space-between">
-        <ListingSelect allKey={ALL_GROUPS} className="mb-2" options={options} paramKey="group" />
+        <Flex align="center" gap={8}>
+          <ListingSelect allKey={ALL_GROUPS} className="mb-2" options={options} paramKey="group" />
+          <ListingSearch
+            placeholder="Search distributions..."
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+        </Flex>
         <Flex align="center" gap={6}>
           <FirestoreConsoleLink label="Listing" path="listings/distributions" />
           <FirestoreConsoleLink label="Distributions" path="distributions" />
@@ -149,7 +160,7 @@ export function DistributionsListingPage() {
       </Flex>
       <Table
         columns={columns}
-        dataSource={activeList}
+        dataSource={filteredList}
         loading={distributionsQuery.isLoading}
         pagination={paginationProps}
         rowKey="id"

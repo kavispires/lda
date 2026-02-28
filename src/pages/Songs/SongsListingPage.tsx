@@ -3,7 +3,7 @@ import { Button, Divider, Flex, Popconfirm, Space, Table, type TableProps, Typog
 import { FirestoreConsoleLink } from 'components/Common/FirestoreConsoleLink';
 import { Timestamp } from 'components/Common/Timestamp';
 import { Content, ContentError, ContentLoading } from 'components/Content';
-import { ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
+import { ListingSearch, ListingSelect, useListingSelect } from 'components/Listing/ListingSelect';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useQueryParams } from 'hooks/useQueryParams';
 import { useDeleteSongMutation } from 'hooks/useSong';
@@ -18,11 +18,15 @@ export function SongsListingPage() {
   const deleteSongMutation = useDeleteSongMutation();
   const navigate = useNavigate();
 
-  const { options, activeValue, activeList } = useListingSelect(songsQuery.data, 'group', ALL_SONGS);
+  const { options, activeValue, filteredList, searchQuery, setSearchQuery } = useListingSelect(
+    songsQuery.data,
+    'group',
+    ALL_SONGS,
+  );
 
   const { queryParams } = useQueryParams();
   const paginationProps = useTablePagination({
-    total: activeList.length,
+    total: filteredList.length,
     resetter: activeValue,
     defaultCurrent: Number(queryParams.get('page') ?? 1),
   });
@@ -98,7 +102,14 @@ export function SongsListingPage() {
     <Content>
       <Typography.Title level={2}>Songs</Typography.Title>
       <Flex align="center" justify="space-between">
-        <ListingSelect allKey={ALL_SONGS} className="mb-2" options={options} paramKey="group" />
+        <Flex align="center" gap={8}>
+          <ListingSelect allKey={ALL_SONGS} className="mb-2" options={options} paramKey="group" />
+          <ListingSearch
+            placeholder="Search songs..."
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+          />
+        </Flex>
         <Flex align="center" gap={6}>
           <FirestoreConsoleLink label="Listing" path="listings/songs" />
           <FirestoreConsoleLink label="Songs" path="songs" />
@@ -106,7 +117,7 @@ export function SongsListingPage() {
       </Flex>
       <Table
         columns={columns}
-        dataSource={activeList}
+        dataSource={filteredList}
         loading={songsQuery.isLoading}
         pagination={paginationProps}
         rowKey="id"
