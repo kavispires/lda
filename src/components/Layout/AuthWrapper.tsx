@@ -21,7 +21,7 @@ export function AuthWrapper({ children }: PropsWithChildren) {
 
   if (isLoading) {
     return (
-      <Spin size="large" tip="Verifying auth...">
+      <Spin description="Verifying auth..." size="large">
         <div className="h-screen w-screen" />
       </Spin>
     );

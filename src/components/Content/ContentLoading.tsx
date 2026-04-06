@@ -7,7 +7,7 @@ type LoadingContentProps = {
 
 export function ContentLoading({ children }: LoadingContentProps) {
   return (
-    <Spin size="large" tip={children ?? 'Loading...'}>
+    <Spin description={children ?? 'Loading...'} size="large">
       <div className="my-4" style={{ width: '100%', height: '300px' }}></div>
     </Spin>
   );

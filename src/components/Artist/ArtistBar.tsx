@@ -18,18 +18,10 @@ type ArtistBarProps = {
 } & React.ComponentPropsWithRef<'div'>;
 
 export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
-  ({
-    artist,
-    progress,
-    value,
-    active,
-    idle,
-    fixed,
-    className,
-    done,
-    fullProgress,
-    ...props
-  }: ArtistBarProps) => {
+  (
+    { artist, progress, value, active, idle, fixed, className, done, fullProgress, ...props }: ArtistBarProps,
+    ref,
+  ) => {
     return (
       <div
         className={clsx(
@@ -40,6 +32,7 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
           className,
         )}
         id={artist.id}
+        ref={ref}
         {...props}
       >
         <div className="bar__avatar">
