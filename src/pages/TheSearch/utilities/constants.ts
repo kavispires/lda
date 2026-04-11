@@ -1,0 +1,31 @@
+export const GRADES = {
+  A: 'A',
+  B: 'B',
+  C: 'C',
+  D: 'D',
+  F: 'F',
+} as const;
+
+export const TRACKS = {
+  VOCAL: 'VOCAL',
+  RAP: 'RAP',
+  DANCE: 'DANCE',
+} as const;
+
+export const STATUSES = {
+  ACTIVE: 'ACTIVE',
+  ELIMINATED: 'ELIMINATED',
+  WINNER: 'WINNER',
+} as const;
+
+export const ALIGNMENTS = {
+  LAWFUL_GOOD: 'LAWFUL_GOOD',
+  NEUTRAL_GOOD: 'NEUTRAL_GOOD',
+  CHAOTIC_GOOD: 'CHAOTIC_GOOD',
+  LAWFUL_NEUTRAL: 'LAWFUL_NEUTRAL',
+  TRUE_NEUTRAL: 'TRUE_NEUTRAL',
+  CHAOTIC_NEUTRAL: 'CHAOTIC_NEUTRAL',
+  LAWFUL_EVIL: 'LAWFUL_EVIL',
+  NEUTRAL_EVIL: 'NEUTRAL_EVIL',
+  CHAOTIC_EVIL: 'CHAOTIC_EVIL',
+} as const;
