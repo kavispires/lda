@@ -249,7 +249,7 @@ export function StepBasicInfo({
             {colorSuggestions.length > 0 && (
               <div>
                 <Typography.Text style={{ fontSize: '0.85rem', color: '#666' }}>
-                  Suggested colors for {contestant.track?.toLowerCase()} track:
+                  Suggested colors:
                 </Typography.Text>
                 <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
                   {colorSuggestions.map((color) => (

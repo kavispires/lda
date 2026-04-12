@@ -99,87 +99,107 @@ export function StepPersonality({
       >
         <Flex gap={16}>
           <Flex style={{ flex: 1 }} vertical>
-            <Form.Item
-              help="Reckless/Lazy (-10) ↔ Workaholic/Organized (10)"
-              label="Discipline"
-              name="discipline"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Reckless/Lazy (-10) ↔ Workaholic/Organized (10)"
+                label="Discipline"
+                name="discipline"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
 
-            <Form.Item
-              help="Prosaic/Safe (-10) ↔ Creative/Experimental (10)"
-              label="Curiosity"
-              name="curiosity"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Prosaic/Safe (-10) ↔ Creative/Experimental (10)"
+                label="Curiosity"
+                name="curiosity"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
 
-            <Form.Item
-              help="Reserved/Shy (-10) ↔ Assertive/Sociable (10)"
-              label="Extroversion"
-              name="extroversion"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Reserved/Shy (-10) ↔ Assertive/Sociable (10)"
+                label="Extroversion"
+                name="extroversion"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
 
-            <Form.Item
-              help="Thick-skinned/Calm (-10) ↔ Empathetic/Anxious (10)"
-              label="Sensitivity"
-              name="sensitivity"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Thick-skinned/Calm (-10) ↔ Empathetic/Anxious (10)"
+                label="Sensitivity"
+                name="sensitivity"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
 
-            <Form.Item
-              help="Antagonistic/Stubborn (-10) ↔ Cooperative/Peacekeeper (10)"
-              label="Gentleness"
-              name="gentleness"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Antagonistic/Stubborn (-10) ↔ Cooperative/Peacekeeper (10)"
+                label="Gentleness"
+                name="gentleness"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
           </Flex>
 
           <Flex style={{ flex: 1 }} vertical>
-            <Form.Item
-              help="Calculative/Pretentious (-10) ↔ Authentic/Modest (10)"
-              label="Sincerity"
-              name="sincerity"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Calculative/Pretentious (-10) ↔ Authentic/Modest (10)"
+                label="Sincerity"
+                name="sincerity"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
 
-            <Form.Item
-              help="Passive/Participatory (-10) ↔ Ruthless/Competitive (10)"
-              label="Ambition"
-              name="ambition"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Passive/Participatory (-10) ↔ Ruthless/Competitive (10)"
+                label="Ambition"
+                name="ambition"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
 
-            <Form.Item
-              help="Fragile/Reactive (-10) ↔ Stoic/Unshakable (10)"
-              label="Resilience"
-              name="resilience"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Fragile/Reactive (-10) ↔ Stoic/Unshakable (10)"
+                label="Resilience"
+                name="resilience"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
 
-            <Form.Item
-              help="Childish/Impulsive (-10) ↔ Professional/Composed (10)"
-              label="Maturity"
-              name="maturity"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Childish/Impulsive (-10) ↔ Professional/Composed (10)"
+                label="Maturity"
+                name="maturity"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
 
-            <Form.Item
-              help="Opportunistic/Detached (-10) ↔ Devoted/Committed (10)"
-              label="Investment"
-              name="investment"
-            >
-              <Slider marks={MARKS} max={10} min={-10} />
-            </Form.Item>
+            <Card size="small" style={{ marginBottom: '1rem' }}>
+              <Form.Item
+                help="Opportunistic/Detached (-10) ↔ Devoted/Committed (10)"
+                label="Investment"
+                name="investment"
+              >
+                <Slider marks={MARKS} max={10} min={-10} />
+              </Form.Item>
+            </Card>
           </Flex>
 
           <div style={{ width: 300 }}>

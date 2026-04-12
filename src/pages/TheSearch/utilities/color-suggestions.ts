@@ -2,153 +2,144 @@ import type { Contestant } from '../types/contestant';
 import type { TRACKS } from './constants';
 
 /**
- * Predefined color palettes for each track
+ * 100 vibrant colors using HSL color space
+ * Hue: 0-360 in increments of 3.6 (evenly distributed)
+ * Saturation: Varied between 65-85% for vibrancy
+ * Lightness: Varied between 45-60% for good contrast
  */
-const COLOR_PALETTES = {
-  VOCAL: [
-    '#FF6B6B', // Red
-    '#FF4757', // Crimson
-    '#E74C3C', // Alizarin
-    '#FF5733', // Flame
-    '#EE5A6F', // Watermelon
-    '#FF8E53', // Orange
-    '#FF6348', // Coral
-    '#FFA600', // Amber
-    '#FFAB73', // Peach
-    '#FFB142', // Casablanca
-    '#FF6F00', // Safety Orange
-    '#FFA07A', // Light Salmon
-    '#FFD93D', // Yellow
-    '#F9CA24', // Golden Yellow
-    '#FFD32A', // Bright Yellow
-    '#FFC312', // Bright Sun
-    '#FFEAA7', // Egg Yellow
-    '#C4E538', // Lime Yellow
-    '#FF7979', // Light Red
-    '#FF6347', // Tomato
-    '#FF8C00', // Dark Orange
-    '#FFB347', // Mango
-  ],
-  RAP: [
-    '#4A69BD', // Blue
-    '#3742FA', // Bright Blue
-    '#0984E3', // Ocean Blue
-    '#0652DD', // Science Blue
-    '#54A0FF', // Jordy Blue
-    '#4834DF', // French Lilac
-    '#5F27CD', // Purple
-    '#706FD3', // Light Purple
-    '#341F97', // Deep Purple
-    '#5352ED', // Indigo
-    '#6C5CE7', // Lavender
-    '#A29BFE', // Periwinkle
-    '#8E44AD', // Wisteria
-    '#9B59B6', // Amethyst
-    '#6C3483', // Seance
-    '#5B2C6F', // Martinique
-    '#1E3799', // Jacksons Purple
-    '#6F1E51', // Pomegranate
-    '#40407A', // Daisy Bush
-    '#2C3E50', // Navy Blue
-    '#273C75', // Chambray
-    '#192A56', // Lucky Point
-  ],
-  DANCE: [
-    '#26DE81', // Green
-    '#2ED573', // Light Green
-    '#1DD1A1', // Mint
-    '#20BF6B', // Emerald
-    '#10AC84', // Jade
-    '#1ABC9C', // Mountain Meadow
-    '#16A085', // Green Haze
-    '#27AE60', // Nephritis
-    '#2ECC71', // Shamrock
-    '#00B894', // Sea Green
-    '#55EFC4', // Aquamarine
-    '#76FF03', // Electric Lime
-    '#64DD17', // Bright Green
-    '#0FB9B1', // Teal
-    '#00D2D3', // Cyan
-    '#00CEC9', // Turquoise
-    '#3DC1D3', // Robin Egg Blue-Green
-    '#00B8D4', // Dark Turquoise
-    '#00897B', // Dark Cyan
-    '#0097A7', // Dark Aqua
-    '#48DBFB', // Light Teal
-    '#009688', // Teal Green
-  ],
-};
+const COLOR_PALETTE = [
+  'hsl(0, 65%, 45%)',
+  'hsl(4, 70%, 50%)',
+  'hsl(7, 75%, 55%)',
+  'hsl(11, 80%, 60%)',
+  'hsl(14, 85%, 45%)',
+  'hsl(18, 65%, 50%)',
+  'hsl(22, 70%, 55%)',
+  'hsl(25, 75%, 60%)',
+  'hsl(29, 80%, 45%)',
+  'hsl(32, 85%, 50%)',
+  'hsl(36, 65%, 55%)',
+  'hsl(40, 70%, 60%)',
+  'hsl(43, 75%, 45%)',
+  'hsl(47, 80%, 50%)',
+  'hsl(50, 85%, 55%)',
+  'hsl(54, 65%, 60%)',
+  'hsl(58, 70%, 45%)',
+  'hsl(61, 75%, 50%)',
+  'hsl(65, 80%, 55%)',
+  'hsl(68, 85%, 60%)',
+  'hsl(72, 65%, 45%)',
+  'hsl(76, 70%, 50%)',
+  'hsl(79, 75%, 55%)',
+  'hsl(83, 80%, 60%)',
+  'hsl(86, 85%, 45%)',
+  'hsl(90, 65%, 50%)',
+  'hsl(94, 70%, 55%)',
+  'hsl(97, 75%, 60%)',
+  'hsl(101, 80%, 45%)',
+  'hsl(104, 85%, 50%)',
+  'hsl(108, 65%, 55%)',
+  'hsl(112, 70%, 60%)',
+  'hsl(115, 75%, 45%)',
+  'hsl(119, 80%, 50%)',
+  'hsl(122, 85%, 55%)',
+  'hsl(126, 65%, 60%)',
+  'hsl(130, 70%, 45%)',
+  'hsl(133, 75%, 50%)',
+  'hsl(137, 80%, 55%)',
+  'hsl(140, 85%, 60%)',
+  'hsl(144, 65%, 45%)',
+  'hsl(148, 70%, 50%)',
+  'hsl(151, 75%, 55%)',
+  'hsl(155, 80%, 60%)',
+  'hsl(158, 85%, 45%)',
+  'hsl(162, 65%, 50%)',
+  'hsl(166, 70%, 55%)',
+  'hsl(169, 75%, 60%)',
+  'hsl(173, 80%, 45%)',
+  'hsl(176, 85%, 50%)',
+  'hsl(180, 65%, 55%)',
+  'hsl(184, 70%, 60%)',
+  'hsl(187, 75%, 45%)',
+  'hsl(191, 80%, 50%)',
+  'hsl(194, 85%, 55%)',
+  'hsl(198, 65%, 60%)',
+  'hsl(202, 70%, 45%)',
+  'hsl(205, 75%, 50%)',
+  'hsl(209, 80%, 55%)',
+  'hsl(212, 85%, 60%)',
+  'hsl(216, 65%, 45%)',
+  'hsl(220, 70%, 50%)',
+  'hsl(223, 75%, 55%)',
+  'hsl(227, 80%, 60%)',
+  'hsl(230, 85%, 45%)',
+  'hsl(234, 65%, 50%)',
+  'hsl(238, 70%, 55%)',
+  'hsl(241, 75%, 60%)',
+  'hsl(245, 80%, 45%)',
+  'hsl(248, 85%, 50%)',
+  'hsl(252, 65%, 55%)',
+  'hsl(256, 70%, 60%)',
+  'hsl(259, 75%, 45%)',
+  'hsl(263, 80%, 50%)',
+  'hsl(266, 85%, 55%)',
+  'hsl(270, 65%, 60%)',
+  'hsl(274, 70%, 45%)',
+  'hsl(277, 75%, 50%)',
+  'hsl(281, 80%, 55%)',
+  'hsl(284, 85%, 60%)',
+  'hsl(288, 65%, 45%)',
+  'hsl(292, 70%, 50%)',
+  'hsl(295, 75%, 55%)',
+  'hsl(299, 80%, 60%)',
+  'hsl(302, 85%, 45%)',
+  'hsl(306, 65%, 50%)',
+  'hsl(310, 70%, 55%)',
+  'hsl(313, 75%, 60%)',
+  'hsl(317, 80%, 45%)',
+  'hsl(320, 85%, 50%)',
+  'hsl(324, 65%, 55%)',
+  'hsl(328, 70%, 60%)',
+  'hsl(331, 75%, 45%)',
+  'hsl(335, 80%, 50%)',
+  'hsl(338, 85%, 55%)',
+  'hsl(342, 65%, 60%)',
+  'hsl(346, 70%, 45%)',
+  'hsl(349, 75%, 50%)',
+  'hsl(353, 80%, 55%)',
+  'hsl(356, 85%, 60%)',
+];
 
 /**
- * Calculates color distance using simple RGB difference
- * @param color1 - First color in hex format
- * @param color2 - Second color in hex format
- * @returns Distance value (0-765, lower means more similar)
- */
-function colorDistance(color1: string, color2: string): number {
-  const hex1 = color1.replace('#', '');
-  const hex2 = color2.replace('#', '');
-
-  const r1 = Number.parseInt(hex1.substring(0, 2), 16);
-  const g1 = Number.parseInt(hex1.substring(2, 4), 16);
-  const b1 = Number.parseInt(hex1.substring(4, 6), 16);
-
-  const r2 = Number.parseInt(hex2.substring(0, 2), 16);
-  const g2 = Number.parseInt(hex2.substring(2, 4), 16);
-  const b2 = Number.parseInt(hex2.substring(4, 6), 16);
-
-  return Math.abs(r1 - r2) + Math.abs(g1 - g2) + Math.abs(b1 - b2);
-}
-
-/**
- * Checks if a color is too similar to any existing color
- * @param color - Color to check
- * @param existingColors - List of existing colors
- * @param threshold - Minimum distance threshold (default 150)
- * @returns True if color is dissimilar enough
- */
-function isColorDissimilar(color: string, existingColors: string[], threshold = 150): boolean {
-  return existingColors.every((existingColor) => colorDistance(color, existingColor) > threshold);
-}
-
-/**
- * Gets 3 color suggestions based on track and existing contestants
- * Ensures colors are dissimilar to existing colors and each other
- * @param track - The contestant's track
+ * Gets 5 random color suggestions from the palette
+ * Filters out colors already used by existing contestants
+ * @param _track - The contestant's track (kept for backward compatibility, not used)
  * @param existingContestants - Array of existing contestants
- * @returns Array of 3 suggested colors in hex format
+ * @returns Array of up to 5 suggested colors in HSL format
  */
 export function getColorSuggestions(
-  track: (typeof TRACKS)[keyof typeof TRACKS],
+  _track: (typeof TRACKS)[keyof typeof TRACKS],
   existingContestants: Contestant[],
 ): string[] {
-  const palette = COLOR_PALETTES[track as keyof typeof COLOR_PALETTES] || COLOR_PALETTES.VOCAL;
-  const existingColors = existingContestants.map((c) => c.color.toUpperCase());
+  const existingColors = existingContestants.map((c) => c.color.toLowerCase());
 
-  // Filter available colors that are dissimilar to existing ones
-  const availableColors = palette.filter((color) => {
-    // Check if color is already used
-    if (existingColors.includes(color.toUpperCase())) {
-      return false;
-    }
-    // Check if color is dissimilar to all existing colors
-    return isColorDissimilar(color, existingColors);
-  });
+  // Filter out colors already in use
+  const availableColors = COLOR_PALETTE.filter((color) => !existingColors.includes(color.toLowerCase()));
 
-  // If we have enough available colors, pick 3
-  if (availableColors.length >= 3) {
-    // Spread them out across the available colors
-    const step = Math.floor(availableColors.length / 3);
-    return [availableColors[0], availableColors[step], availableColors[step * 2]];
+  // If we have available colors, pick 5 random ones
+  if (availableColors.length >= 5) {
+    const shuffled = [...availableColors].sort(() => Math.random() - 0.5);
+    return shuffled.slice(0, 5);
   }
 
-  // If less than 3 available, return what we have
+  // If less than 5 available, return what we have
   if (availableColors.length > 0) {
-    return availableColors.slice(0, 3);
+    return availableColors;
   }
 
-  // Fallback: if all colors are taken, return the first 3 from palette
-  return palette.slice(0, 3);
+  // Fallback: if all colors are taken, return 5 random colors from full palette
+  const shuffled = [...COLOR_PALETTE].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, 5);
 }
 
 /**
