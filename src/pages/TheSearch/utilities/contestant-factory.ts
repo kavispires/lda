@@ -65,6 +65,7 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
       danceStyle: '',
       rapStyle: '',
       visualVibe: '',
+      leadershipStyle: '',
     },
     alignment: partial.alignment || ALIGNMENTS.TRUE_NEUTRAL,
     coreSkills: partial.coreSkills || {

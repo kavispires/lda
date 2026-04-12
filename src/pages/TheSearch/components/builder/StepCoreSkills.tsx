@@ -1,9 +1,10 @@
-import { Alert, Button, Card, Flex, Form, Rate, Typography } from 'antd';
+import { Alert, Card, Flex, Form, Rate, Typography } from 'antd';
 import { useState } from 'react';
 import type { Contestant, CoreSkills } from '../../types/contestant';
 import { TRACKS } from '../../utilities/constants';
 import { validateTrackSkills } from '../../utilities/contestant-factory';
 import { ContestantHeader } from './ContestantHeader';
+import { StepControls } from './StepControls';
 
 type StepCoreSkillsProps = {
   contestant: Partial<Contestant>;
@@ -14,6 +15,9 @@ type StepCoreSkillsProps = {
   isDirty?: boolean;
   isSaving?: boolean;
   onSave?: () => void;
+  allContestantIds?: string[];
+  currentStep?: number;
+  addParams?: (params: Record<string, unknown>) => void;
 };
 
 function getSkillDistribution(contestants: Contestant[], skill: keyof CoreSkills): Record<number, number> {
@@ -36,6 +40,16 @@ function getSkillDistribution(contestants: Contestant[], skill: keyof CoreSkills
   };
 }
 
+/**
+ * Generate DNA/hash from core skills
+ * Format: v3r1d4s3v2u3l4 (vocals, rap, dance, stagePresence, visual, uniqueness, leadership)
+ */
+function generateCoreSkillsHash(coreSkills?: CoreSkills): string {
+  if (!coreSkills) return '';
+
+  return `v${coreSkills.vocals || 3}r${coreSkills.rap || 3}d${coreSkills.dance || 3}s${coreSkills.stagePresence || 3}v${coreSkills.visual || 3}u${coreSkills.uniqueness || 3}l${coreSkills.leadership || 3}`;
+}
+
 export function StepCoreSkills({
   contestant,
   updateContestant,
@@ -45,12 +59,39 @@ export function StepCoreSkills({
   isDirty = false,
   isSaving = false,
   onSave,
+  allContestantIds = [],
+  currentStep = 2,
+  addParams,
 }: StepCoreSkillsProps) {
   const [form] = Form.useForm();
   const [validationError, setValidationError] = useState<string | null>(null);
 
   const onValuesChange = (_changedValues: Partial<CoreSkills>, allValues: CoreSkills) => {
     updateContestant({ coreSkills: allValues });
+
+    // Check for zero or undefined values
+    const skillNames: Array<keyof CoreSkills> = [
+      'vocals',
+      'rap',
+      'dance',
+      'stagePresence',
+      'visual',
+      'uniqueness',
+      'leadership',
+    ];
+
+    const invalidSkills = skillNames.filter((skill) => !allValues[skill] || allValues[skill] === 0);
+
+    if (invalidSkills.length > 0) {
+      const skillLabels = invalidSkills.map((skill) => {
+        if (skill === 'stagePresence') return 'Stage Presence';
+        return skill.charAt(0).toUpperCase() + skill.slice(1);
+      });
+      setValidationError(
+        `All skills must have a value of at least 1. Missing or zero values: ${skillLabels.join(', ')}`,
+      );
+      return;
+    }
 
     // Validate track skills
     if (contestant.track) {
@@ -65,6 +106,16 @@ export function StepCoreSkills({
   const onFinish = (values: CoreSkills) => {
     updateContestant({ coreSkills: values });
     setStep((prev) => prev + 1);
+  };
+
+  const handleSubmitForm = async (): Promise<boolean> => {
+    try {
+      const values = await form.validateFields();
+      updateContestant({ coreSkills: values });
+      return true;
+    } catch (_error) {
+      return false;
+    }
   };
 
   const getTrackLabel = (skill: 'vocals' | 'rap' | 'dance') => {
@@ -86,6 +137,14 @@ export function StepCoreSkills({
     (contestant.coreSkills?.uniqueness || 3) +
     (contestant.coreSkills?.leadership || 3);
 
+  // Generate DNA hash and check for duplicates
+  const currentHash = generateCoreSkillsHash(contestant.coreSkills);
+  const duplicateContestants = existingContestants.filter((c) => {
+    // Don't compare with the same contestant when editing
+    if (contestant.id && c.id === contestant.id) return false;
+    return generateCoreSkillsHash(c.coreSkills) === currentHash;
+  });
+
   return (
     <>
       <Typography.Title level={3}>Core Skills</Typography.Title>
@@ -103,6 +162,26 @@ export function StepCoreSkills({
 
       {validationError && (
         <Alert description={validationError} message="Validation Error" showIcon type="error" />
+      )}
+
+      {duplicateContestants.length > 0 && (
+        <Alert
+          description={
+            <>
+              <div style={{ marginBottom: '0.5rem' }}>
+                DNA Hash: <strong>{currentHash}</strong>
+              </div>
+              <div>
+                The following contestant(s) have identical core skills:{' '}
+                <strong>{duplicateContestants.map((c) => c.name).join(', ')}</strong>
+              </div>
+            </>
+          }
+          message="Duplicate Core Skills Detected"
+          showIcon
+          style={{ marginBottom: '1rem' }}
+          type="warning"
+        />
       )}
 
       <div style={{ marginBottom: '1rem' }}>
@@ -201,19 +280,18 @@ export function StepCoreSkills({
         </Flex>
 
         <Form.Item>
-          <Button.Group>
-            <Button onClick={() => setStep((prev) => prev - 1)} size="large">
-              Previous
-            </Button>
-            <Button disabled={!!validationError} htmlType="submit" size="large" type="primary">
-              Next Step
-            </Button>
-            {isEditMode && isDirty && onSave && (
-              <Button loading={isSaving} onClick={onSave} size="large" type="default">
-                Save Changes
-              </Button>
-            )}
-          </Button.Group>
+          <StepControls
+            addParams={addParams}
+            allContestantIds={allContestantIds}
+            currentContestantId={contestant.id}
+            currentStep={currentStep}
+            isDirty={isDirty}
+            isEditMode={isEditMode}
+            isSaving={isSaving}
+            onSave={onSave}
+            onSubmitForm={handleSubmitForm}
+            setStep={setStep}
+          />
         </Form.Item>
       </Form>
     </>

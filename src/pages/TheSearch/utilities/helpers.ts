@@ -1,12 +1,12 @@
 import type { Dictionary } from 'types/common';
 import type { AttributeCard } from '../types/common';
 import type { Contestant } from '../types/contestant';
-import { DANCE_STYLES, RAP_STYLES, VISUAL_VIBES, VOCAL_COLORS } from './specialties';
+import { DANCE_STYLES, LEADERSHIP_STYLES, RAP_STYLES, VISUAL_VIBES, VOCAL_COLORS } from './specialties';
 
 /**
  * Type for specialty groups
  */
-export type SpecialtyType = 'vocalColor' | 'danceStyle' | 'rapStyle' | 'visualVibe';
+export type SpecialtyType = 'vocalColor' | 'danceStyle' | 'rapStyle' | 'visualVibe' | 'leadershipStyle';
 
 /**
  * Gets the specialty dictionary for a given type
@@ -21,6 +21,8 @@ function getSpecialtyDictionary(type: SpecialtyType): Dictionary<AttributeCard> 
       return RAP_STYLES;
     case 'visualVibe':
       return VISUAL_VIBES;
+    case 'leadershipStyle':
+      return LEADERSHIP_STYLES;
   }
 }
 
@@ -34,7 +36,7 @@ function getSpecialtyDictionary(type: SpecialtyType): Dictionary<AttributeCard> 
 export function generateRandomSpecialty(
   type: SpecialtyType,
   existingContestants: Contestant[] = [],
-  preferDiversity = true,
+  preferDiversity = false,
 ): string {
   const specialties = getSpecialtyDictionary(type);
   const entries = Object.values(specialties);

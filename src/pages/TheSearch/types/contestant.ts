@@ -180,6 +180,10 @@ export interface Specialties {
    * The type of beauty
    */
   visualVibe: string;
+  /**
+   * The style of leadership
+   */
+  leadershipStyle: string;
 }
 
 /**

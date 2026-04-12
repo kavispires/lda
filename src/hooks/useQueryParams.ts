@@ -32,13 +32,14 @@ export function useQueryParams(defaultParams: Record<string, string | number> = 
 
   const is = (key: string, value = 'true') => searchParams.get(key) === String(value);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: no function dependencies
   useEffect(() => {
     Object.entries(defaultParams).forEach(([key, value]) => {
       if (!searchParams.has(key)) {
         addParam(key, value);
       }
     });
-  }, []); // eslint-disable-line
+  }, []);
 
   return {
     addParam,

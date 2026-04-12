@@ -19,8 +19,8 @@ export function ContestantBuilderStepper({
         { title: 'Appearance' },
         { title: 'Core Skills' },
         { title: 'Utility Skills' },
-        { title: 'Personality' },
         { title: 'Specialties' },
+        { title: 'Personality' },
         { title: 'Review' },
       ]}
       onChange={isEditMode ? onStepChange : undefined}

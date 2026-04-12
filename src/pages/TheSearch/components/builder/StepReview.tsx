@@ -125,6 +125,9 @@ export function StepReview({ contestant, setStep, onSave, isSaving }: StepReview
           <Descriptions.Item label="Visual Vibe">
             {contestant.specialties?.visualVibe || 'Not selected'}
           </Descriptions.Item>
+          <Descriptions.Item label="Leadership Style">
+            {contestant.specialties?.leadershipStyle || 'Not selected'}
+          </Descriptions.Item>
         </Descriptions>
       </Card>
 

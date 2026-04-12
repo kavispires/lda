@@ -1,6 +1,7 @@
-import { AutoComplete, Button, Card, Flex, Form, InputNumber, Typography } from 'antd';
+import { AutoComplete, Card, Flex, Form, InputNumber, Typography } from 'antd';
 import type { Contestant } from '../../types/contestant';
 import { ContestantHeader } from './ContestantHeader';
+import { StepControls } from './StepControls';
 
 type StepAppearanceProps = {
   contestant: Partial<Contestant>;
@@ -11,6 +12,9 @@ type StepAppearanceProps = {
   isDirty?: boolean;
   isSaving?: boolean;
   onSave?: () => void;
+  allContestantIds?: string[];
+  currentStep?: number;
+  addParams?: (params: Record<string, unknown>) => void;
 };
 
 /**
@@ -86,6 +90,9 @@ export function StepAppearance({
   isDirty = false,
   isSaving = false,
   onSave,
+  allContestantIds = [],
+  currentStep = 1,
+  addParams,
 }: StepAppearanceProps) {
   const [form] = Form.useForm();
 
@@ -106,6 +113,16 @@ export function StepAppearance({
   const onFinish = (values: Record<string, unknown>) => {
     updateContestant({ appearance: { ...contestant.appearance, ...values } as Contestant['appearance'] });
     setStep((prev) => prev + 1);
+  };
+
+  const handleSubmitForm = async (): Promise<boolean> => {
+    try {
+      const values = await form.validateFields();
+      updateContestant({ appearance: { ...contestant.appearance, ...values } as Contestant['appearance'] });
+      return true;
+    } catch (_error) {
+      return false;
+    }
   };
 
   return (
@@ -174,19 +191,18 @@ export function StepAppearance({
             </Form.Item>
 
             <Form.Item>
-              <Button.Group>
-                <Button onClick={() => setStep((prev) => prev - 1)} size="large">
-                  Previous
-                </Button>
-                <Button htmlType="submit" size="large" type="primary">
-                  Next Step
-                </Button>
-                {isEditMode && isDirty && onSave && (
-                  <Button loading={isSaving} onClick={onSave} size="large" type="default">
-                    Save Changes
-                  </Button>
-                )}
-              </Button.Group>
+              <StepControls
+                addParams={addParams}
+                allContestantIds={allContestantIds}
+                currentContestantId={contestant.id}
+                currentStep={currentStep}
+                isDirty={isDirty}
+                isEditMode={isEditMode}
+                isSaving={isSaving}
+                onSave={onSave}
+                onSubmitForm={handleSubmitForm}
+                setStep={setStep}
+              />
             </Form.Item>
           </Form>
         </div>

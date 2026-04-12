@@ -1,6 +1,8 @@
-import { Button, Card, Flex, Form, Rate, Typography } from 'antd';
+import { Alert, Button, Card, Flex, Form, Rate, Typography } from 'antd';
+import { useState } from 'react';
 import type { Contestant, UtilitySkills } from '../../types/contestant';
 import { ContestantHeader } from './ContestantHeader';
+import { StepControls } from './StepControls';
 
 type StepUtilitySkillsProps = {
   contestant: Partial<Contestant>;
@@ -11,6 +13,9 @@ type StepUtilitySkillsProps = {
   isDirty?: boolean;
   isSaving?: boolean;
   onSave?: () => void;
+  allContestantIds?: string[];
+  currentStep?: number;
+  addParams?: (params: Record<string, unknown>) => void;
 };
 
 function getSkillDistribution(contestants: Contestant[], skill: keyof UtilitySkills): Record<number, number> {
@@ -33,6 +38,16 @@ function getSkillDistribution(contestants: Contestant[], skill: keyof UtilitySki
   };
 }
 
+/**
+ * Generate DNA/hash from utility skills
+ * Format: p3m3s3l3a3c3c3 (potential, memory, stamina, learning, acrobatics, consistency, charisma)
+ */
+function generateUtilitySkillsHash(utilitySkills?: UtilitySkills): string {
+  if (!utilitySkills) return '';
+
+  return `p${utilitySkills.potential || 3}m${utilitySkills.memory || 3}s${utilitySkills.stamina || 3}l${utilitySkills.learning || 3}a${utilitySkills.acrobatics || 3}c${utilitySkills.consistency || 3}c${utilitySkills.charisma || 3}`;
+}
+
 export function StepUtilitySkills({
   contestant,
   updateContestant,
@@ -42,16 +57,52 @@ export function StepUtilitySkills({
   isDirty = false,
   isSaving = false,
   onSave,
+  allContestantIds = [],
+  currentStep = 3,
+  addParams,
 }: StepUtilitySkillsProps) {
   const [form] = Form.useForm();
+  const [validationError, setValidationError] = useState<string | null>(null);
 
   const onValuesChange = (_: Partial<UtilitySkills>, allValues: UtilitySkills) => {
     updateContestant({ utilitySkills: allValues });
+
+    // Check for zero or undefined values
+    const skillNames: Array<keyof UtilitySkills> = [
+      'potential',
+      'memory',
+      'stamina',
+      'learning',
+      'acrobatics',
+      'consistency',
+      'charisma',
+    ];
+
+    const invalidSkills = skillNames.filter((skill) => !allValues[skill] || allValues[skill] === 0);
+
+    if (invalidSkills.length > 0) {
+      const skillLabels = invalidSkills.map((skill) => skill.charAt(0).toUpperCase() + skill.slice(1));
+      setValidationError(
+        `All skills must have a value of at least 1. Missing or zero values: ${skillLabels.join(', ')}`,
+      );
+    } else {
+      setValidationError(null);
+    }
   };
 
   const onFinish = (values: UtilitySkills) => {
     updateContestant({ utilitySkills: values });
     setStep((prev) => prev + 1);
+  };
+
+  const handleSubmitForm = async (): Promise<boolean> => {
+    try {
+      const values = await form.validateFields();
+      updateContestant({ utilitySkills: values });
+      return true;
+    } catch (_error) {
+      return false;
+    }
   };
 
   const handleRandomDistribution = () => {
@@ -128,6 +179,14 @@ export function StepUtilitySkills({
     (contestant.utilitySkills?.consistency || 3) +
     (contestant.utilitySkills?.charisma || 3);
 
+  // Generate DNA hash and check for duplicates
+  const currentHash = generateUtilitySkillsHash(contestant.utilitySkills);
+  const duplicateContestants = existingContestants.filter((c) => {
+    // Don't compare with the same contestant when editing
+    if (contestant.id && c.id === contestant.id) return false;
+    return generateUtilitySkillsHash(c.utilitySkills) === currentHash;
+  });
+
   return (
     <>
       <Typography.Title level={3}>Utility Skills</Typography.Title>
@@ -141,6 +200,30 @@ export function StepUtilitySkills({
         name={contestant.name}
         track={contestant.track}
       />
+
+      {validationError && (
+        <Alert description={validationError} message="Validation Error" showIcon type="error" />
+      )}
+
+      {duplicateContestants.length > 0 && (
+        <Alert
+          description={
+            <>
+              <div style={{ marginBottom: '0.5rem' }}>
+                DNA Hash: <strong>{currentHash}</strong>
+              </div>
+              <div>
+                The following contestant(s) have identical utility skills:{' '}
+                <strong>{duplicateContestants.map((c) => c.name).join(', ')}</strong>
+              </div>
+            </>
+          }
+          message="Duplicate Utility Skills Detected"
+          showIcon
+          style={{ marginBottom: '1rem' }}
+          type="warning"
+        />
+      )}
 
       <Flex align="center" gap={16} style={{ marginBottom: '1rem' }}>
         <Button onClick={handleRandomDistribution} type="default">
@@ -258,19 +341,18 @@ export function StepUtilitySkills({
         </Flex>
 
         <Form.Item>
-          <Button.Group>
-            <Button onClick={() => setStep((prev) => prev - 1)} size="large">
-              Previous
-            </Button>
-            <Button htmlType="submit" size="large" type="primary">
-              Next Step
-            </Button>
-            {isEditMode && isDirty && onSave && (
-              <Button loading={isSaving} onClick={onSave} size="large" type="default">
-                Save Changes
-              </Button>
-            )}
-          </Button.Group>
+          <StepControls
+            addParams={addParams}
+            allContestantIds={allContestantIds}
+            currentContestantId={contestant.id}
+            currentStep={currentStep}
+            isDirty={isDirty}
+            isEditMode={isEditMode}
+            isSaving={isSaving}
+            onSave={onSave}
+            onSubmitForm={handleSubmitForm}
+            setStep={setStep}
+          />
         </Form.Item>
       </Form>
     </>

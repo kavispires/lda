@@ -1,6 +1,7 @@
-import { Button, Card, Flex, Form, Slider, Typography } from 'antd';
+import { Card, Flex, Form, Slider, Typography } from 'antd';
 import type { Contestant, PersonalityTraits } from '../../types/contestant';
 import { ContestantHeader } from './ContestantHeader';
+import { StepControls } from './StepControls';
 
 type StepPersonalityProps = {
   contestant: Partial<Contestant>;
@@ -11,6 +12,9 @@ type StepPersonalityProps = {
   isDirty?: boolean;
   isSaving?: boolean;
   onSave?: () => void;
+  allContestantIds?: string[];
+  currentStep?: number;
+  addParams?: (params: Record<string, unknown>) => void;
 };
 
 const MARKS = {
@@ -36,6 +40,9 @@ export function StepPersonality({
   isDirty = false,
   isSaving = false,
   onSave,
+  allContestantIds = [],
+  currentStep = 5,
+  addParams,
 }: StepPersonalityProps) {
   const [form] = Form.useForm();
 
@@ -46,6 +53,16 @@ export function StepPersonality({
   const onFinish = (values: PersonalityTraits) => {
     updateContestant({ personality: values });
     setStep((prev) => prev + 1);
+  };
+
+  const handleSubmitForm = async (): Promise<boolean> => {
+    try {
+      const values = await form.validateFields();
+      updateContestant({ personality: values });
+      return true;
+    } catch (_error) {
+      return false;
+    }
   };
 
   return (
@@ -198,19 +215,18 @@ export function StepPersonality({
         </Flex>
 
         <Form.Item>
-          <Button.Group>
-            <Button onClick={() => setStep((prev) => prev - 1)} size="large">
-              Previous
-            </Button>
-            <Button htmlType="submit" size="large" type="primary">
-              Next Step
-            </Button>
-            {isEditMode && isDirty && onSave && (
-              <Button loading={isSaving} onClick={onSave} size="large" type="default">
-                Save Changes
-              </Button>
-            )}
-          </Button.Group>
+          <StepControls
+            addParams={addParams}
+            allContestantIds={allContestantIds}
+            currentContestantId={contestant.id}
+            currentStep={currentStep}
+            isDirty={isDirty}
+            isEditMode={isEditMode}
+            isSaving={isSaving}
+            onSave={onSave}
+            onSubmitForm={handleSubmitForm}
+            setStep={setStep}
+          />
         </Form.Item>
       </Form>
     </>

@@ -84,7 +84,7 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
   URBAN: {
     id: 'URBAN',
     name: 'Urban',
-    occurrence: 40,
+    occurrence: 55,
     type: 'danceStyle',
     group: 'dance',
     description:
@@ -99,7 +99,7 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
     group: 'dance',
     description:
       "A natural groover who makes difficult movement look effortless, possessing an innate 'cool' factor.",
-    occurrence: 15,
+    occurrence: 20,
     popularity: 80,
     influences: { 'coreSkills.stagePresence': 0.4, 'personality.discipline': -2 },
   },
@@ -108,7 +108,7 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
     name: 'Popping',
     type: 'danceStyle',
     group: 'dance',
-    occurrence: 15,
+    occurrence: 10,
     popularity: 70,
     influences: { 'utilitySkills.learning': 1, 'personality.discipline': 3 },
     description:
@@ -121,7 +121,7 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
     group: 'dance',
     description:
       "Street-dance specialist focused on power moves and floor work; high-risk but high-reward for the 'wow' factor.",
-    occurrence: 10,
+    occurrence: 5,
     popularity: 85,
     influences: {
       'utilitySkills.acrobatics': 1,
@@ -136,7 +136,7 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
     group: 'dance',
     description:
       "The peak 2010s 'Beast Idol' style featuring flips and stunts that drive a live crowd into a frenzy.",
-    occurrence: 10,
+    occurrence: 5,
     popularity: 95,
     influences: { 'utilitySkills.stamina': 1, 'utilitySkills.acrobatics': 2, 'personality.resilience': 4 },
   },
@@ -243,7 +243,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     name: 'Warm',
     type: 'visualVibe',
     group: 'visual',
-    occurrence: 30,
+    occurrence: 20,
     popularity: 75,
     influences: { 'personality.gentleness': 4, 'state.contestantsLikeness': 10 },
     description:
@@ -254,7 +254,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     name: 'Cute',
     type: 'visualVibe',
     group: 'visual',
-    occurrence: 25,
+    occurrence: 20,
     popularity: 90,
     influences: { 'personality.maturity': -5, 'personality.extroversion': 5, 'state.publicLikeness': 15 },
     description:
@@ -276,7 +276,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     name: 'Chic',
     type: 'visualVibe',
     group: 'visual',
-    occurrence: 15,
+    occurrence: 20,
     popularity: 70,
     influences: { 'personality.extroversion': -4, 'personality.sincerity': -2, 'coreSkills.visual': 0.5 },
     description:
@@ -287,7 +287,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     name: 'Mysterious',
     type: 'visualVibe',
     group: 'visual',
-    occurrence: 10,
+    occurrence: 20,
     popularity: 65,
     influences: { 'personality.extroversion': -8, 'coreSkills.uniqueness': 0.8, 'state.screenTime': -10 },
     description:
@@ -298,7 +298,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
 export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
   COMMANDER: {
     id: 'COMMANDER',
-    name: 'The Commander',
+    name: 'Commander',
     type: 'leadershipStyle',
     group: 'leadership',
     description:
@@ -314,12 +314,12 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
   },
   CARETAKER: {
     id: 'CARETAKER',
-    name: 'The Caretaker',
+    name: 'Caretaker',
     type: 'leadershipStyle',
     group: 'leadership',
     description:
       'Leads through empathy and emotional support, focusing on the team’s mental well-being and harmony.',
-    occurrence: 25,
+    occurrence: 15,
     popularity: 85,
     influences: {
       'personality.gentleness': 6,
@@ -330,7 +330,7 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
   },
   VISIONARY: {
     id: 'VISIONARY',
-    name: 'The Visionary',
+    name: 'Visionary',
     type: 'leadershipStyle',
     group: 'leadership',
     description:
@@ -346,7 +346,7 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
   },
   DIPLOMAT: {
     id: 'DIPLOMAT',
-    name: 'The Diplomat',
+    name: 'Diplomat',
     type: 'leadershipStyle',
     group: 'leadership',
     description:
@@ -357,12 +357,12 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
       'personality.sincerity': 5,
       'personality.maturity': 4,
       'state.contestantsLikeness': 10,
-      'coreSkills.leadership': 0.4,
+      'coreSkills.leadership': 1,
     },
   },
   TACTICIAN: {
     id: 'TACTICIAN',
-    name: 'The Tactician',
+    name: 'Tactician',
     type: 'leadershipStyle',
     group: 'leadership',
     description:
@@ -378,18 +378,18 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
   },
   QUIET_ACE: {
     id: 'QUIET_ACE',
-    name: 'The Quiet Ace',
+    name: 'Quiet Ace',
     type: 'leadershipStyle',
     group: 'leadership',
     description:
       'A reluctant leader who doesn’t say much but sets a high standard through tireless hard work.',
-    occurrence: 10,
+    occurrence: 20,
     popularity: 75,
     influences: {
       'personality.extroversion': -4,
-      'personality.discipline': 8,
-      'state.publicLikeness': 5,
-      'utilitySkills.consistency': 1,
+      'personality.discipline': 1,
+      'state.publicLikeness': -5,
+      'utilitySkills.consistency': -1,
     },
   },
 };

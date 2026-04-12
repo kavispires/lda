@@ -23,8 +23,11 @@ export function ContestantHeader({ id, name, track, color = '#FFFFFF' }: Contest
         gap: '1rem',
         padding: '1rem',
         borderRadius: '12px',
-        background: `linear-gradient(135deg, ${color} 0%, transparent 25%)`,
+        background: `linear-gradient(135deg, ${color} 0%, ${color} 15%, transparent 40%)`,
         // border: '1px solid #d9d9d9',
+        top: 6,
+        position: 'sticky',
+        zIndex: 5,
       }}
     >
       <ContestantAvatar id={id} name={name} size={96} />

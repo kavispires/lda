@@ -1,5 +1,5 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Popconfirm, Space, Table, Tag, Typography } from 'antd';
+import { DeleteOutlined, EditOutlined, PlusOutlined, WarningOutlined } from '@ant-design/icons';
+import { Button, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import { Content, ContentLoading } from 'components/Content';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,31 @@ export function TheSearchPage() {
 
   const contestants = contestantsData ? Object.values(contestantsData) : [];
   const sortedContestants = [...contestants].sort((a, b) => a.id.localeCompare(b.id));
+
+  const checkIncomplete = (contestant: Contestant): string[] => {
+    const missing: string[] = [];
+
+    // Check basic fields
+    if (!contestant.name) missing.push('Name');
+    if (!contestant.track) missing.push('Track');
+    if (!contestant.color) missing.push('Color');
+    // if (!contestant.persona) missing.push('Persona');
+
+    // Check appearance
+    if (!contestant.appearance?.age) missing.push('Age');
+    if (!contestant.appearance?.hairStyle) missing.push('Hair Style');
+    if (!contestant.appearance?.hairColor) missing.push('Hair Color');
+    if (!contestant.appearance?.furColor) missing.push('Fur Color');
+
+    // Check specialties
+    if (!contestant.specialties?.vocalColor) missing.push('Vocal Color');
+    if (!contestant.specialties?.danceStyle) missing.push('Dance Style');
+    if (!contestant.specialties?.rapStyle) missing.push('Rap Style');
+    if (!contestant.specialties?.visualVibe) missing.push('Visual Vibe');
+    if (!contestant.specialties?.leadershipStyle) missing.push('Leadership Style');
+
+    return missing;
+  };
 
   const columns: ColumnType<Contestant>[] = [
     {
@@ -43,9 +68,24 @@ export function TheSearchPage() {
       title: 'Track',
       dataIndex: 'track',
       key: 'track',
-      render: (track: string) => {
-        const colors = { VOCAL: 'blue', RAP: 'purple', DANCE: 'green' };
-        return <Tag color={colors[track as keyof typeof colors] || 'default'}>{track}</Tag>;
+      render: (track: string, record: Contestant) => {
+        const colors = { VOCAL: 'red', RAP: 'blue', DANCE: 'green' };
+        return (
+          <Space align="center" size="small">
+            <Tooltip title={record.color}>
+              <div
+                style={{
+                  width: '20px',
+                  height: '20px',
+                  backgroundColor: record.color || '#FFFFFF',
+                  border: '1px solid #d9d9d9',
+                  borderRadius: '4px',
+                }}
+              />
+            </Tooltip>
+            <Tag color={colors[track as keyof typeof colors] || 'default'}>{track}</Tag>
+          </Space>
+        );
       },
       filters: [
         { text: 'Vocal', value: 'VOCAL' },
@@ -91,6 +131,22 @@ export function TheSearchPage() {
           hour: '2-digit',
           minute: '2-digit',
         });
+      },
+    },
+    {
+      title: <WarningOutlined />,
+      key: 'incomplete',
+      width: 60,
+      align: 'center',
+      render: (_value: unknown, record: Contestant) => {
+        const missing = checkIncomplete(record);
+        if (missing.length === 0) return null;
+
+        return (
+          <Tooltip title={`Missing: ${missing.join(', ')}`}>
+            <WarningOutlined style={{ color: '#faad14', fontSize: '16px' }} />
+          </Tooltip>
+        );
       },
     },
     {

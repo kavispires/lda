@@ -8,12 +8,19 @@ import { getColorSuggestions } from '../../utilities/color-suggestions';
 import { ALIGNMENTS, GRADES, TRACKS } from '../../utilities/constants';
 import { generateContestantId } from '../../utilities/contestant-factory';
 import { ContestantAvatar } from '../ContestantAvatar';
+import { StepControls } from './StepControls';
 
 /**
- * Gets a random name from the names list
+ * Gets a random name from the names list that hasn't been used yet
  */
-function getRandomName(): string {
-  return NAMES[Math.floor(Math.random() * NAMES.length)];
+function getRandomName(existingContestants: Contestant[]): string {
+  const usedNames = new Set(existingContestants.map((c) => c.name));
+  const availableNames = NAMES.filter((name) => !usedNames.has(name));
+
+  // If all names are used, fall back to full list
+  const namePool = availableNames.length > 0 ? availableNames : NAMES;
+
+  return namePool[Math.floor(Math.random() * namePool.length)];
 }
 
 type StepBasicInfoProps = {
@@ -26,6 +33,9 @@ type StepBasicInfoProps = {
   isDirty?: boolean;
   isSaving?: boolean;
   onSave?: () => void;
+  allContestantIds?: string[];
+  currentStep?: number;
+  addParams?: (params: Record<string, unknown>) => void;
 };
 
 export function StepBasicInfo({
@@ -38,6 +48,9 @@ export function StepBasicInfo({
   isDirty = false,
   isSaving = false,
   onSave,
+  allContestantIds = [],
+  currentStep = 0,
+  addParams,
 }: StepBasicInfoProps) {
   const [form] = Form.useForm();
   const [colorValue, setColorValue] = useState<string>(contestant.color || '#FFFFFF');
@@ -86,9 +99,23 @@ export function StepBasicInfo({
   };
 
   const handleRandomName = () => {
-    const randomName = getRandomName();
+    const randomName = getRandomName(existingContestants);
     form.setFieldsValue({ name: randomName });
     updateContestant({ name: randomName });
+  };
+
+  const handleSubmitForm = async (): Promise<boolean> => {
+    try {
+      const values = await form.validateFields();
+      const color =
+        typeof values.color === 'string'
+          ? values.color
+          : (values.color as unknown as AggregationColor).toHexString();
+      updateContestant({ ...values, color });
+      return true;
+    } catch (_error) {
+      return false;
+    }
   };
 
   return (
@@ -306,20 +333,23 @@ export function StepBasicInfo({
         </div>
 
         <Form.Item label="Persona (Optional)" name="persona">
-          <Input.TextArea placeholder="e.g., 'The Underdog', 'The Ice Queen'" rows={2} />
+          <Input placeholder="e.g., 'UNDERDOG', 'INFLUENCER'" />
         </Form.Item>
 
         <Form.Item>
-          <Button.Group>
-            <Button htmlType="submit" size="large" type="primary">
-              Next Step
-            </Button>
-            {isEditMode && isDirty && onSave && (
-              <Button loading={isSaving} onClick={onSave} size="large" type="default">
-                Save Changes
-              </Button>
-            )}
-          </Button.Group>
+          <StepControls
+            addParams={addParams}
+            allContestantIds={allContestantIds}
+            currentContestantId={contestant.id}
+            currentStep={currentStep}
+            hidePreviousButton
+            isDirty={isDirty}
+            isEditMode={isEditMode}
+            isSaving={isSaving}
+            onSave={onSave}
+            onSubmitForm={handleSubmitForm}
+            setStep={setStep}
+          />
         </Form.Item>
       </Form>
     </>
