@@ -1,7 +1,8 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined, SaveOutlined, WarningOutlined } from '@ant-design/icons';
-import { Button, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
+import { Button, Input, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnType } from 'antd/es/table';
 import { Content } from 'components/Content';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { useContestantsContext } from '../services/ContestantsProvider';
@@ -9,6 +10,7 @@ import type { Contestant } from '../types/contestant';
 
 export function TheSearchPage() {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
   const {
     contestants: contestantsData,
     deleteLocalContestant,
@@ -21,6 +23,44 @@ export function TheSearchPage() {
 
   const contestants = contestantsData ? Object.values(contestantsData) : [];
   const sortedContestants = [...contestants].sort((a, b) => a.id.localeCompare(b.id));
+
+  // Filter contestants based on search query
+  const filteredContestants = sortedContestants.filter((contestant) => {
+    if (!searchQuery) return true;
+
+    const query = searchQuery.toLowerCase();
+
+    // Search in id, name, persona
+    if (
+      contestant.id.toLowerCase().includes(query) ||
+      contestant.name.toLowerCase().includes(query) ||
+      contestant.persona?.toLowerCase().includes(query)
+    ) {
+      return true;
+    }
+
+    // Search in personality values
+    if (contestant.personality) {
+      const personalityValues = [
+        contestant.personality.discipline?.toString(),
+        contestant.personality.curiosity?.toString(),
+        contestant.personality.extroversion?.toString(),
+        contestant.personality.sensitivity?.toString(),
+        contestant.personality.gentleness?.toString(),
+        contestant.personality.sincerity?.toString(),
+        contestant.personality.ambition?.toString(),
+        contestant.personality.resilience?.toString(),
+        contestant.personality.maturity?.toString(),
+        contestant.personality.investment?.toString(),
+      ];
+
+      if (personalityValues.some((value) => value?.toLowerCase().includes(query))) {
+        return true;
+      }
+    }
+
+    return false;
+  });
 
   const calculateScore = (contestant: Contestant): number => {
     // Sum all core skills
@@ -93,7 +133,7 @@ export function TheSearchPage() {
       title: 'ID',
       dataIndex: 'id',
       key: 'id',
-      sorter: (a, b) => a.id.localeCompare(b.id),
+      sorter: (a, b) => Number(a.id.split('-')[1]) - Number(b.id.split('-')[1]),
     },
     {
       title: 'Name',
@@ -106,7 +146,6 @@ export function TheSearchPage() {
       dataIndex: 'track',
       key: 'track',
       render: (track: string, record: Contestant) => {
-        const colors = { VOCAL: 'red', RAP: 'blue', DANCE: 'green' };
         return (
           <Space align="center" size="small">
             <Tooltip title={record.color}>
@@ -120,7 +159,7 @@ export function TheSearchPage() {
                 }}
               />
             </Tooltip>
-            <Tag color={colors[track as keyof typeof colors] || 'default'}>{track}</Tag>
+            <Tag>{track}</Tag>
           </Space>
         );
       },
@@ -277,13 +316,23 @@ export function TheSearchPage() {
         Manage contestants for The Search survival show simulation. Total contestants: {contestants.length}
       </Typography.Paragraph>
 
+      <Input.Search
+        allowClear
+        onChange={(e) => setSearchQuery(e.target.value)}
+        placeholder="Search by ID, name, persona, or personality values..."
+        size="large"
+        style={{ marginBottom: '1rem' }}
+        value={searchQuery}
+      />
+
       <Table
         columns={columns}
-        dataSource={sortedContestants}
+        dataSource={filteredContestants}
         pagination={{
           pageSize: 20,
           showSizeChanger: true,
-          showTotal: (total) => `Total ${total} contestants`,
+          showTotal: (total, range) =>
+            `${range[0]}-${range[1]} of ${total} contestants${searchQuery ? ' (filtered)' : ''}`,
         }}
         rowKey="id"
       />
