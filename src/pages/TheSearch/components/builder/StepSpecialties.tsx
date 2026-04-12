@@ -1,3 +1,4 @@
+import { RedoOutlined } from '@ant-design/icons';
 import { Button, Card, Flex, Form, Select, Typography } from 'antd';
 import { useState } from 'react';
 import type { Contestant, Specialties } from '../../types/contestant';
@@ -7,8 +8,8 @@ import {
   getSpecialtyOptions,
   type SpecialtyType,
 } from '../../utilities/helpers';
+import { ContestantBuilderStepperControls } from './ContestantBuilderStepper';
 import { ContestantHeader } from './ContestantHeader';
-import { StepControls } from './StepControls';
 
 type StepSpecialtiesProps = {
   contestant: Partial<Contestant>;
@@ -136,7 +137,7 @@ export function StepSpecialties({
                 placeholder={`Select ${label.toLowerCase()}`}
               />
             </Form.Item>
-            <Button onClick={() => handleRandomSelection(type, field)} type="default">
+            <Button icon={<RedoOutlined />} onClick={() => handleRandomSelection(type, field)} type="default">
               Random
             </Button>
           </Flex>
@@ -176,7 +177,12 @@ export function StepSpecialties({
       <Flex gap={16}>
         {/* Left Column: Form */}
         <div style={{ flex: 1 }}>
-          <Button onClick={handleRandomizeAll} style={{ marginBottom: '1rem', width: '100%' }} type="default">
+          <Button
+            icon={<RedoOutlined />}
+            onClick={handleRandomizeAll}
+            style={{ marginBottom: '1rem', width: '100%' }}
+            type="default"
+          >
             Randomize All Specialties
           </Button>
 
@@ -203,7 +209,7 @@ export function StepSpecialties({
             {renderSpecialtyField('leadershipStyle', 'Leadership Style', 'leadershipStyle')}
 
             <Form.Item>
-              <StepControls
+              <ContestantBuilderStepperControls
                 addParams={addParams}
                 allContestantIds={allContestantIds}
                 currentContestantId={contestant.id}

@@ -1,7 +1,7 @@
 import { AutoComplete, Card, Flex, Form, InputNumber, Typography } from 'antd';
 import type { Contestant } from '../../types/contestant';
+import { ContestantBuilderStepperControls } from './ContestantBuilderStepper';
 import { ContestantHeader } from './ContestantHeader';
-import { StepControls } from './StepControls';
 
 type StepAppearanceProps = {
   contestant: Partial<Contestant>;
@@ -191,7 +191,7 @@ export function StepAppearance({
             </Form.Item>
 
             <Form.Item>
-              <StepControls
+              <ContestantBuilderStepperControls
                 addParams={addParams}
                 allContestantIds={allContestantIds}
                 currentContestantId={contestant.id}

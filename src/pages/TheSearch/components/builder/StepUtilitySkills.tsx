@@ -1,8 +1,9 @@
+import { RedoOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Flex, Form, Rate, Typography } from 'antd';
 import { useState } from 'react';
 import type { Contestant, UtilitySkills } from '../../types/contestant';
+import { ContestantBuilderStepperControls } from './ContestantBuilderStepper';
 import { ContestantHeader } from './ContestantHeader';
-import { StepControls } from './StepControls';
 
 type StepUtilitySkillsProps = {
   contestant: Partial<Contestant>;
@@ -226,7 +227,7 @@ export function StepUtilitySkills({
       )}
 
       <Flex align="center" gap={16} style={{ marginBottom: '1rem' }}>
-        <Button onClick={handleRandomDistribution} type="default">
+        <Button icon={<RedoOutlined />} onClick={handleRandomDistribution} type="default">
           Random Distribution (Based on Core Skills Total)
         </Button>
         <div style={{ display: 'flex', gap: '2rem' }}>
@@ -341,7 +342,7 @@ export function StepUtilitySkills({
         </Flex>
 
         <Form.Item>
-          <StepControls
+          <ContestantBuilderStepperControls
             addParams={addParams}
             allContestantIds={allContestantIds}
             currentContestantId={contestant.id}

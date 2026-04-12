@@ -1,10 +1,11 @@
-import { Alert, Card, Flex, Form, Rate, Typography } from 'antd';
+import { RedoOutlined } from '@ant-design/icons';
+import { Alert, Button, Card, Flex, Form, Rate, Typography } from 'antd';
 import { useState } from 'react';
 import type { Contestant, CoreSkills } from '../../types/contestant';
 import { TRACKS } from '../../utilities/constants';
 import { validateTrackSkills } from '../../utilities/contestant-factory';
+import { ContestantBuilderStepperControls } from './ContestantBuilderStepper';
 import { ContestantHeader } from './ContestantHeader';
-import { StepControls } from './StepControls';
 
 type StepCoreSkillsProps = {
   contestant: Partial<Contestant>;
@@ -118,6 +119,78 @@ export function StepCoreSkills({
     }
   };
 
+  const handleRandomize = () => {
+    // Total stars to distribute across vocals, rap, and dance (5-11)
+    const totalStars = Math.floor(Math.random() * 7) + 5; // 5-11
+
+    // Determine which skill should be highest based on track
+    let trackSkill: 'vocals' | 'rap' | 'dance' = 'vocals';
+    if (contestant.track === TRACKS.VOCAL) trackSkill = 'vocals';
+    else if (contestant.track === TRACKS.RAP) trackSkill = 'rap';
+    else if (contestant.track === TRACKS.DANCE) trackSkill = 'dance';
+
+    // Determine track skill value (should be highest, minimum 2 to ensure it can be > others)
+    // The track skill should get at least totalStars - 8 to ensure others can't exceed it
+    const minTrackValue = Math.max(2, Math.ceil(totalStars / 2));
+    const maxTrackValue = Math.min(5, totalStars - 2); // Leave at least 2 for the other two skills
+    const trackValue = Math.floor(Math.random() * (maxTrackValue - minTrackValue + 1)) + minTrackValue;
+
+    // Remaining stars for the other two skills
+    const remaining = totalStars - trackValue;
+
+    // Distribute remaining stars between the other two skills
+    // Neither can exceed trackValue - 1
+    const maxOtherValue = Math.min(trackValue - 1, 5);
+
+    let otherSkill1 = Math.min(Math.floor(Math.random() * remaining) + 1, maxOtherValue);
+    let otherSkill2 = remaining - otherSkill1;
+
+    // Make sure otherSkill2 doesn't exceed the maximum
+    if (otherSkill2 > maxOtherValue) {
+      otherSkill1 = remaining - maxOtherValue;
+      otherSkill2 = maxOtherValue;
+    }
+
+    // Ensure both are at least 1
+    if (otherSkill1 < 1) otherSkill1 = 1;
+    if (otherSkill2 < 1) otherSkill2 = 1;
+
+    // Assign values based on track
+    let vocals: number;
+    let rap: number;
+    let dance: number;
+    if (trackSkill === 'vocals') {
+      vocals = trackValue;
+      rap = otherSkill1;
+      dance = otherSkill2;
+    } else if (trackSkill === 'rap') {
+      vocals = otherSkill1;
+      rap = trackValue;
+      dance = otherSkill2;
+    } else {
+      vocals = otherSkill1;
+      rap = otherSkill2;
+      dance = trackValue;
+    }
+
+    // Generate random values for stage presence and leadership (1-5)
+    const stagePresence = Math.floor(Math.random() * 5) + 1;
+    const leadership = Math.floor(Math.random() * 5) + 1;
+
+    const randomizedSkills: CoreSkills = {
+      vocals,
+      rap,
+      dance,
+      stagePresence,
+      visual: 3,
+      uniqueness: 3,
+      leadership,
+    };
+
+    form.setFieldsValue(randomizedSkills);
+    updateContestant({ coreSkills: randomizedSkills });
+  };
+
   const getTrackLabel = (skill: 'vocals' | 'rap' | 'dance') => {
     const labels = {
       vocals: contestant.track === TRACKS.VOCAL ? 'Vocals ★' : 'Vocals',
@@ -189,6 +262,15 @@ export function StepCoreSkills({
           Core Skills Total: <span style={{ color: '#1890ff', fontSize: '1.1rem' }}>{coreSkillsTotal}</span>
         </Typography.Text>
       </div>
+
+      <Button
+        icon={<RedoOutlined />}
+        onClick={handleRandomize}
+        style={{ marginBottom: '1rem' }}
+        type="default"
+      >
+        Randomize Core Skills
+      </Button>
 
       <Form
         autoComplete="off"
@@ -280,7 +362,7 @@ export function StepCoreSkills({
         </Flex>
 
         <Form.Item>
-          <StepControls
+          <ContestantBuilderStepperControls
             addParams={addParams}
             allContestantIds={allContestantIds}
             currentContestantId={contestant.id}

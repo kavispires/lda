@@ -19,6 +19,31 @@ export function TheSearchPage() {
   const contestants = contestantsData ? Object.values(contestantsData) : [];
   const sortedContestants = [...contestants].sort((a, b) => a.id.localeCompare(b.id));
 
+  const calculateScore = (contestant: Contestant): number => {
+    // Sum all core skills
+    const coreSkillsTotal =
+      (contestant.coreSkills?.vocals || 0) +
+      (contestant.coreSkills?.rap || 0) +
+      (contestant.coreSkills?.dance || 0) +
+      (contestant.coreSkills?.stagePresence || 0) +
+      (contestant.coreSkills?.visual || 0) +
+      (contestant.coreSkills?.uniqueness || 0) +
+      (contestant.coreSkills?.leadership || 0);
+
+    // Sum all utility skills
+    const utilitySkillsTotal =
+      (contestant.utilitySkills?.potential || 0) +
+      (contestant.utilitySkills?.memory || 0) +
+      (contestant.utilitySkills?.stamina || 0) +
+      (contestant.utilitySkills?.learning || 0) +
+      (contestant.utilitySkills?.acrobatics || 0) +
+      (contestant.utilitySkills?.consistency || 0) +
+      (contestant.utilitySkills?.charisma || 0);
+
+    // Calculate average
+    return (coreSkillsTotal * 5 + utilitySkillsTotal * 2) / (7 * 5 + 7 * 2);
+  };
+
   const checkIncomplete = (contestant: Contestant): string[] => {
     const missing: string[] = [];
 
@@ -114,6 +139,16 @@ export function TheSearchPage() {
       key: 'furColor',
       render: (furColor?: string) => furColor || '-',
       sorter: (a, b) => (a.appearance?.furColor || '').localeCompare(b.appearance?.furColor || ''),
+    },
+    {
+      title: 'Score',
+      key: 'score',
+      width: 80,
+      sorter: (a, b) => calculateScore(a) - calculateScore(b),
+      render: (_value: unknown, record: Contestant) => {
+        const score = calculateScore(record);
+        return score.toFixed(2);
+      },
     },
     {
       title: 'Updated',

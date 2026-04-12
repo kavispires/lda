@@ -1,7 +1,7 @@
 import { Card, Flex, Form, Slider, Typography } from 'antd';
 import type { Contestant, PersonalityTraits } from '../../types/contestant';
+import { ContestantBuilderStepperControls } from './ContestantBuilderStepper';
 import { ContestantHeader } from './ContestantHeader';
-import { StepControls } from './StepControls';
 
 type StepPersonalityProps = {
   contestant: Partial<Contestant>;
@@ -94,6 +94,7 @@ export function StepPersonality({
             ambition: 0,
             resilience: 0,
             maturity: 0,
+            investment: 0,
           }
         }
         layout="vertical"
@@ -103,7 +104,7 @@ export function StepPersonality({
         <Flex gap={16}>
           <Flex style={{ flex: 1 }} vertical>
             <Form.Item
-              help="Workaholic/Organized (10) ↔ Reckless/Lazy (-10)"
+              help="Reckless/Lazy (-10) ↔ Workaholic/Organized (10)"
               label="Discipline"
               name="discipline"
             >
@@ -111,7 +112,7 @@ export function StepPersonality({
             </Form.Item>
 
             <Form.Item
-              help="Creative/Experimental (10) ↔ Prosaic/Safe (-10)"
+              help="Prosaic/Safe (-10) ↔ Creative/Experimental (10)"
               label="Curiosity"
               name="curiosity"
             >
@@ -119,7 +120,7 @@ export function StepPersonality({
             </Form.Item>
 
             <Form.Item
-              help="Assertive/Sociable (10) ↔ Reserved/Shy (-10)"
+              help="Reserved/Shy (-10) ↔ Assertive/Sociable (10)"
               label="Extroversion"
               name="extroversion"
             >
@@ -127,7 +128,7 @@ export function StepPersonality({
             </Form.Item>
 
             <Form.Item
-              help="Empathetic/Anxious (10) ↔ Thick-skinned/Calm (-10)"
+              help="Thick-skinned/Calm (-10) ↔ Empathetic/Anxious (10)"
               label="Sensitivity"
               name="sensitivity"
             >
@@ -135,7 +136,7 @@ export function StepPersonality({
             </Form.Item>
 
             <Form.Item
-              help="Cooperative/Peacekeeper (10) ↔ Antagonistic/Stubborn (-10)"
+              help="Antagonistic/Stubborn (-10) ↔ Cooperative/Peacekeeper (10)"
               label="Gentleness"
               name="gentleness"
             >
@@ -145,7 +146,7 @@ export function StepPersonality({
 
           <Flex style={{ flex: 1 }} vertical>
             <Form.Item
-              help="Authentic/Modest (10) ↔ Calculative/Pretentious (-10)"
+              help="Calculative/Pretentious (-10) ↔ Authentic/Modest (10)"
               label="Sincerity"
               name="sincerity"
             >
@@ -153,7 +154,7 @@ export function StepPersonality({
             </Form.Item>
 
             <Form.Item
-              help="Ruthless/Competitive (10) ↔ Passive/Participatory (-10)"
+              help="Passive/Participatory (-10) ↔ Ruthless/Competitive (10)"
               label="Ambition"
               name="ambition"
             >
@@ -161,7 +162,7 @@ export function StepPersonality({
             </Form.Item>
 
             <Form.Item
-              help="Stoic/Unshakable (10) ↔ Fragile/Reactive (-10)"
+              help="Fragile/Reactive (-10) ↔ Stoic/Unshakable (10)"
               label="Resilience"
               name="resilience"
             >
@@ -169,9 +170,17 @@ export function StepPersonality({
             </Form.Item>
 
             <Form.Item
-              help="Professional/Composed (10) ↔ Childish/Impulsive (-10)"
+              help="Childish/Impulsive (-10) ↔ Professional/Composed (10)"
               label="Maturity"
               name="maturity"
+            >
+              <Slider marks={MARKS} max={10} min={-10} />
+            </Form.Item>
+
+            <Form.Item
+              help="Opportunistic/Detached (-10) ↔ Devoted/Committed (10)"
+              label="Investment"
+              name="investment"
             >
               <Slider marks={MARKS} max={10} min={-10} />
             </Form.Item>
@@ -190,6 +199,7 @@ export function StepPersonality({
                   'ambition',
                   'resilience',
                   'maturity',
+                  'investment',
                 ] as Array<keyof PersonalityTraits>
               ).map((trait) => {
                 const avg = getTraitAverage(existingContestants, trait);
@@ -215,7 +225,7 @@ export function StepPersonality({
         </Flex>
 
         <Form.Item>
-          <StepControls
+          <ContestantBuilderStepperControls
             addParams={addParams}
             allContestantIds={allContestantIds}
             currentContestantId={contestant.id}

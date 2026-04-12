@@ -1,4 +1,4 @@
-import { CheckCircleFilled } from '@ant-design/icons';
+import { CheckCircleFilled, RedoOutlined } from '@ant-design/icons';
 import { Button, ColorPicker, Flex, Form, Input, Progress, Select, Space, Typography } from 'antd';
 import type { AggregationColor } from 'antd/es/color-picker/color';
 import { useEffect, useState } from 'react';
@@ -8,7 +8,7 @@ import { getColorSuggestions } from '../../utilities/color-suggestions';
 import { ALIGNMENTS, GRADES, TRACKS } from '../../utilities/constants';
 import { generateContestantId } from '../../utilities/contestant-factory';
 import { ContestantAvatar } from '../ContestantAvatar';
-import { StepControls } from './StepControls';
+import { ContestantBuilderStepperControls } from './ContestantBuilderStepper';
 
 /**
  * Gets a random name from the names list that hasn't been used yet
@@ -200,7 +200,7 @@ export function StepBasicInfo({
           >
             <Space.Compact style={{ width: '100%' }}>
               <Input placeholder="Contestant name" style={{ flex: 1 }} />
-              <Button onClick={handleRandomName} type="default">
+              <Button icon={<RedoOutlined />} onClick={handleRandomName} type="default">
                 Random
               </Button>
             </Space.Compact>
@@ -337,7 +337,7 @@ export function StepBasicInfo({
         </Form.Item>
 
         <Form.Item>
-          <StepControls
+          <ContestantBuilderStepperControls
             addParams={addParams}
             allContestantIds={allContestantIds}
             currentContestantId={contestant.id}
