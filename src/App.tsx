@@ -10,6 +10,8 @@ import { GroupsListingPage } from 'pages/Groups/GroupsListingPage';
 import { EditSongPage } from 'pages/Songs/EditSongPage';
 import { NewSongPage } from 'pages/Songs/NewSongPage';
 import { SongsListingPage } from 'pages/Songs/SongsListingPage';
+import { ContestantBuilderPage } from 'pages/TheSearch/pages/ContestantBuilderPage';
+import { TheSearchPage } from 'pages/TheSearch/pages/TheSearchPage';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from 'services/AuthProvider';
 import { HomePage } from './pages/Home';
@@ -50,6 +52,10 @@ function App() {
                 <Route element={<div>Song</div>} path="/songs/:songId" />
                 <Route element={<EditSongPage />} path="/songs/:songId/edit" />
                 <Route element={<SongsListingPage />} path="/songs" />
+
+                <Route element={<ContestantBuilderPage />} path="/the-search/new" />
+                <Route element={<ContestantBuilderPage />} path="/the-search/edit" />
+                <Route element={<TheSearchPage />} path="/the-search" />
               </Routes>
             </Layout>
           </AuthProvider>

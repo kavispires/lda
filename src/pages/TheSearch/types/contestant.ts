@@ -261,6 +261,10 @@ export interface Contestant {
    */
   persona: string;
   /**
+   * Timestamp in milliseconds when the contestant was last updated
+   */
+  updatedAt: number;
+  /**
    * The appearance of the contestant determined by its avatar.
    * These are all fixed values.
    */
