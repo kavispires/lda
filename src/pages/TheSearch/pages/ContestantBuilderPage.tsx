@@ -77,14 +77,19 @@ export function ContestantBuilderPage() {
   };
 
   const handleAddContestant = () => {
-    const fullContestant = createContestant(contestant);
+    const fullContestant = createContestant({ ...contestant, updatedAt: Date.now() });
     updateLocalContestant(fullContestant);
     removeDraft();
     navigate('/the-search');
   };
 
   const handleApplyChanges = () => {
-    const fullContestant = createContestant(contestant);
+    const fullContestant = createContestant({ ...contestant, updatedAt: Date.now() });
+    updateLocalContestant(fullContestant);
+  };
+
+  const handleApplyChangesAndReturn = () => {
+    const fullContestant = createContestant({ ...contestant, updatedAt: Date.now() });
     updateLocalContestant(fullContestant);
     navigate('/the-search');
   };
@@ -200,7 +205,7 @@ export function ContestantBuilderPage() {
           existingContestants={existingContestants}
           isEditMode={isEditMode}
           key={contestant.id}
-          onSave={isEditMode ? handleApplyChanges : handleAddContestant}
+          onSave={isEditMode ? handleApplyChangesAndReturn : handleAddContestant}
           setStep={setStep}
         />
       )}

@@ -69,6 +69,10 @@ export function ContestantBuilderStepperControls({
         const isValid = await onSubmitForm();
         if (!isValid) return; // Don't navigate if form is invalid
       }
+      // Apply changes before navigating
+      if (onApplyChanges) {
+        onApplyChanges();
+      }
       const previousId = allContestantIds[currentIndex - 1];
       addParams({ id: previousId, step: currentStep });
     }
@@ -80,6 +84,10 @@ export function ContestantBuilderStepperControls({
       if (onSubmitForm) {
         const isValid = await onSubmitForm();
         if (!isValid) return; // Don't navigate if form is invalid
+      }
+      // Apply changes before navigating
+      if (onApplyChanges) {
+        onApplyChanges();
       }
       const nextId = allContestantIds[currentIndex + 1];
       addParams({ id: nextId, step: currentStep });

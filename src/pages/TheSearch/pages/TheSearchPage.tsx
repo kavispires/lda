@@ -24,14 +24,17 @@ export function TheSearchPage() {
 
   const calculateScore = (contestant: Contestant): number => {
     // Sum all core skills
-    const coreSkillsTotal =
+    const trackSKills =
       (contestant.coreSkills?.vocals || 0) +
       (contestant.coreSkills?.rap || 0) +
-      (contestant.coreSkills?.dance || 0) +
-      (contestant.coreSkills?.stagePresence || 0) +
+      (contestant.coreSkills?.dance || 0);
+    const stagePresenceSkill = contestant.coreSkills?.stagePresence || 0;
+    const appearanceSkills =
       (contestant.coreSkills?.visual || 0) +
       (contestant.coreSkills?.uniqueness || 0) +
-      (contestant.coreSkills?.leadership || 0);
+      (contestant.utilitySkills?.charisma || 0);
+
+    const leadershipSkill = contestant.coreSkills?.leadership || 0;
 
     // Sum all utility skills
     const utilitySkillsTotal =
@@ -40,11 +43,17 @@ export function TheSearchPage() {
       (contestant.utilitySkills?.stamina || 0) +
       (contestant.utilitySkills?.learning || 0) +
       (contestant.utilitySkills?.acrobatics || 0) +
-      (contestant.utilitySkills?.consistency || 0) +
-      (contestant.utilitySkills?.charisma || 0);
+      (contestant.utilitySkills?.consistency || 0);
 
     // Calculate average
-    return (coreSkillsTotal * 5 + utilitySkillsTotal * 2) / (7 * 5 + 7 * 2);
+    return (
+      (trackSKills * 4 +
+        stagePresenceSkill * 5 +
+        appearanceSkills * 2 +
+        leadershipSkill * 1 +
+        utilitySkillsTotal * 1) /
+      (12 + 5 + 7 + 1 + 6)
+    ); // Total weight is 31
   };
 
   const checkIncomplete = (contestant: Contestant): string[] => {
@@ -253,6 +262,7 @@ export function TheSearchPage() {
             </>
           )}
           <Button
+            disabled
             icon={<PlusOutlined />}
             onClick={() => navigate('/the-search/new')}
             size="large"

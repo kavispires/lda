@@ -77,10 +77,7 @@ export function ContestantsProvider({ children, initialData }: ContestantsProvid
           if (!deletedIds.has(id)) {
             const contestant = contestants[id];
             if (contestant) {
-              const withTimestamp = { ...contestant, updatedAt: Date.now() };
-              updates[id] = serializeContestant(withTimestamp);
-              // Update local state with timestamp
-              setContestants((prev) => ({ ...prev, [id]: withTimestamp }));
+              updates[id] = serializeContestant(contestant);
             }
           }
         }
