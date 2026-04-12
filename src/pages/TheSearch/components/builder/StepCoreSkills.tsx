@@ -13,12 +13,10 @@ type StepCoreSkillsProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   existingContestants: Contestant[];
   isEditMode?: boolean;
-  isDirty?: boolean;
-  isSaving?: boolean;
-  onSave?: () => void;
   allContestantIds?: string[];
   currentStep?: number;
   addParams?: (params: Record<string, unknown>) => void;
+  onApplyChanges?: () => void;
 };
 
 function getSkillDistribution(contestants: Contestant[], skill: keyof CoreSkills): Record<number, number> {
@@ -57,12 +55,10 @@ export function StepCoreSkills({
   setStep,
   existingContestants,
   isEditMode = false,
-  isDirty = false,
-  isSaving = false,
-  onSave,
   allContestantIds = [],
   currentStep = 2,
   addParams,
+  onApplyChanges,
 }: StepCoreSkillsProps) {
   const [form] = Form.useForm();
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -367,10 +363,8 @@ export function StepCoreSkills({
             allContestantIds={allContestantIds}
             currentContestantId={contestant.id}
             currentStep={currentStep}
-            isDirty={isDirty}
             isEditMode={isEditMode}
-            isSaving={isSaving}
-            onSave={onSave}
+            onApplyChanges={onApplyChanges}
             onSubmitForm={handleSubmitForm}
             setStep={setStep}
           />

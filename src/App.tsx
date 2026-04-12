@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App as AntApp } from 'antd';
+import { ContentLoading } from 'components/Content';
 import { Layout } from 'components/Layout/Layout';
 import { DistributionPage } from 'pages/Distributions/DistributionPage';
 import { DistributionsListingPage } from 'pages/Distributions/DistributionsListingPage';
@@ -10,8 +11,10 @@ import { GroupsListingPage } from 'pages/Groups/GroupsListingPage';
 import { EditSongPage } from 'pages/Songs/EditSongPage';
 import { NewSongPage } from 'pages/Songs/NewSongPage';
 import { SongsListingPage } from 'pages/Songs/SongsListingPage';
+import { useContestantsQuery } from 'pages/TheSearch/hooks/useContestants';
 import { ContestantBuilderPage } from 'pages/TheSearch/pages/ContestantBuilderPage';
 import { TheSearchPage } from 'pages/TheSearch/pages/TheSearchPage';
+import { ContestantsProvider } from 'pages/TheSearch/services/ContestantsProvider';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from 'services/AuthProvider';
 import { HomePage } from './pages/Home';
@@ -26,6 +29,27 @@ const queryClient = new QueryClient({
     },
   },
 });
+
+/**
+ * Wrapper component for The Search routes that provides the global contestants state
+ */
+function TheSearchRoutes() {
+  const { data: contestantsData, isLoading } = useContestantsQuery();
+
+  if (isLoading || !contestantsData) {
+    return <ContentLoading />;
+  }
+
+  return (
+    <ContestantsProvider initialData={contestantsData}>
+      <Routes>
+        <Route element={<TheSearchPage />} path="/" />
+        <Route element={<ContestantBuilderPage />} path="/new" />
+        <Route element={<ContestantBuilderPage />} path="/edit" />
+      </Routes>
+    </ContestantsProvider>
+  );
+}
 
 function App() {
   return (
@@ -53,9 +77,7 @@ function App() {
                 <Route element={<EditSongPage />} path="/songs/:songId/edit" />
                 <Route element={<SongsListingPage />} path="/songs" />
 
-                <Route element={<ContestantBuilderPage />} path="/the-search/new" />
-                <Route element={<ContestantBuilderPage />} path="/the-search/edit" />
-                <Route element={<TheSearchPage />} path="/the-search" />
+                <Route element={<TheSearchRoutes />} path="/the-search/*" />
               </Routes>
             </Layout>
           </AuthProvider>

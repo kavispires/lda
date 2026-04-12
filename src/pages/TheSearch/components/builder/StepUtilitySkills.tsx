@@ -2,6 +2,7 @@ import { RedoOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Flex, Form, Rate, Typography } from 'antd';
 import { useState } from 'react';
 import type { Contestant, UtilitySkills } from '../../types/contestant';
+import { TRACKS } from '../../utilities/constants';
 import { ContestantBuilderStepperControls } from './ContestantBuilderStepper';
 import { ContestantHeader } from './ContestantHeader';
 
@@ -11,12 +12,10 @@ type StepUtilitySkillsProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   existingContestants: Contestant[];
   isEditMode?: boolean;
-  isDirty?: boolean;
-  isSaving?: boolean;
-  onSave?: () => void;
   allContestantIds?: string[];
   currentStep?: number;
   addParams?: (params: Record<string, unknown>) => void;
+  onApplyChanges?: () => void;
 };
 
 function getSkillDistribution(contestants: Contestant[], skill: keyof UtilitySkills): Record<number, number> {
@@ -55,12 +54,10 @@ export function StepUtilitySkills({
   setStep,
   existingContestants,
   isEditMode = false,
-  isDirty = false,
-  isSaving = false,
-  onSave,
   allContestantIds = [],
   currentStep = 3,
   addParams,
+  onApplyChanges,
 }: StepUtilitySkillsProps) {
   const [form] = Form.useForm();
   const [validationError, setValidationError] = useState<string | null>(null);
@@ -107,53 +104,66 @@ export function StepUtilitySkills({
   };
 
   const handleRandomDistribution = () => {
-    // Calculate total from core skills
     const coreSkills = contestant.coreSkills;
-    if (!coreSkills) return;
+    const track = contestant.track;
+    if (!coreSkills || !track) return;
 
-    const coreTotal =
-      (coreSkills.vocals || 3) +
-      (coreSkills.rap || 3) +
-      (coreSkills.dance || 3) +
-      (coreSkills.stagePresence || 3) +
-      (coreSkills.visual || 3) +
-      (coreSkills.uniqueness || 3) +
-      (coreSkills.leadership || 3);
-
-    // Distribute the same total across utility skills randomly
-    const skillNames: Array<keyof UtilitySkills> = [
-      'potential',
-      'memory',
-      'stamina',
-      'learning',
-      'acrobatics',
-      'consistency',
-      'charisma',
-    ];
-
-    // Start with minimum value for each (1)
-    const values: UtilitySkills = {
-      potential: 1,
-      memory: 1,
-      stamina: 1,
-      learning: 1,
-      acrobatics: 1,
-      consistency: 1,
-      charisma: 1,
+    /**
+     * Generate random skill value with weighted distribution:
+     * - 5% chance for 5
+     * - 10% chance for 1
+     * - 85% distributed among 2, 3, 4
+     */
+    const getRandomSkillValue = (): number => {
+      const roll = Math.random() * 100;
+      if (roll < 5) return 5; // 5% chance
+      if (roll < 15) return 1; // 10% chance
+      // 85% distributed among 2, 3, 4
+      const midRoll = Math.random();
+      if (midRoll < 0.33) return 2;
+      if (midRoll < 0.76) return 3;
+      return 4;
     };
 
-    // Distribute remaining stars
-    let remaining = coreTotal - skillNames.length; // Total minus 1 per skill
+    /**
+     * Get skill value around a target (target -1, target, or target +1)
+     */
+    const getSkillAroundTarget = (targetSkill: number): number => {
+      const offset = Math.floor(Math.random() * 3) - 1; // -1, 0, or 1
+      const value = targetSkill + offset;
+      return Math.max(1, Math.min(5, value)); // Clamp between 1 and 5
+    };
 
-    while (remaining > 0) {
-      // Pick a random skill
-      const randomSkill = skillNames[Math.floor(Math.random() * skillNames.length)];
+    const values: UtilitySkills = {
+      potential: getRandomSkillValue(),
+      memory: 0, // Will be set based on track
+      stamina: 0, // Will be set based on track
+      learning: getRandomSkillValue(),
+      acrobatics: 0, // Will be set based on track
+      consistency: getRandomSkillValue(),
+      charisma: 6 - (coreSkills.visual || 3), // Opposite of visual (5->1, 4->2, 3->3, 2->4, 1->5)
+    };
 
-      // Only add if we haven't reached max (5)
-      if (values[randomSkill] < 5) {
-        values[randomSkill]++;
-        remaining--;
-      }
+    // Set Memory based on track
+    if (track === TRACKS.RAP) {
+      values.memory = getSkillAroundTarget(coreSkills.rap || 3);
+    } else {
+      values.memory = getRandomSkillValue();
+    }
+
+    // Set Stamina based on track
+    if (track === TRACKS.DANCE) {
+      values.stamina = getSkillAroundTarget(coreSkills.dance || 3);
+    } else {
+      values.stamina = getRandomSkillValue();
+    }
+
+    // Set Acrobatics: random for all, but only dancers can have > 2
+    if (track === TRACKS.DANCE) {
+      values.acrobatics = getRandomSkillValue();
+    } else {
+      const acroValue = getRandomSkillValue();
+      values.acrobatics = Math.min(acroValue, 2); // Cap at 2 for non-dancers
     }
 
     // Update form and state
@@ -228,7 +238,7 @@ export function StepUtilitySkills({
 
       <Flex align="center" gap={16} style={{ marginBottom: '1rem' }}>
         <Button icon={<RedoOutlined />} onClick={handleRandomDistribution} type="default">
-          Random Distribution (Based on Core Skills Total)
+          Randomize Utility Skills
         </Button>
         <div style={{ display: 'flex', gap: '2rem' }}>
           <Typography.Text strong>
@@ -347,10 +357,8 @@ export function StepUtilitySkills({
             allContestantIds={allContestantIds}
             currentContestantId={contestant.id}
             currentStep={currentStep}
-            isDirty={isDirty}
             isEditMode={isEditMode}
-            isSaving={isSaving}
-            onSave={onSave}
+            onApplyChanges={onApplyChanges}
             onSubmitForm={handleSubmitForm}
             setStep={setStep}
           />

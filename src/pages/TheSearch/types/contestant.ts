@@ -161,6 +161,11 @@ export interface PersonalityTraits {
    * 10: Professional/Composed | -10: Childish/Impulsive. Affects drama triggers.
    */
   maturity: number;
+  /**
+   * Investment spectrum
+   * 10: Devoted/Committed | -10: Opportunistic/Detached. Affects likelihood of quitting or burnout events.
+   */
+  investment: number;
 }
 
 export interface Specialties {

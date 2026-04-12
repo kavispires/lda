@@ -12,7 +12,7 @@ import { StepPersonality } from '../components/builder/StepPersonality';
 import { StepReview } from '../components/builder/StepReview';
 import { StepSpecialties } from '../components/builder/StepSpecialties';
 import { StepUtilitySkills } from '../components/builder/StepUtilitySkills';
-import { useContestantsQuery, useSaveContestantMutation } from '../hooks/useContestants';
+import { useContestantsContext } from '../services/ContestantsProvider';
 import type { Contestant } from '../types/contestant';
 import { createContestant, generateContestantId } from '../utilities/contestant-factory';
 
@@ -24,8 +24,7 @@ export function ContestantBuilderPage() {
   const contestantId = queryParams.get('id');
   const stepFromUrl = queryParams.get('step');
 
-  const { data: contestantsData } = useContestantsQuery();
-  const { mutate: saveContestant, isPending: isSaving } = useSaveContestantMutation();
+  const { contestants: contestantsData, updateLocalContestant } = useContestantsContext();
 
   const [step, setStep] = useState<number>(() => {
     const parsed = stepFromUrl ? Number.parseInt(stepFromUrl, 10) : 0;
@@ -36,14 +35,10 @@ export function ContestantBuilderPage() {
     {},
   );
 
-  // Store original contestant data for dirty checking
-  const [originalContestant, setOriginalContestant] = useState<Partial<Contestant>>({});
-
   const [contestant, setContestant] = useState<Partial<Contestant>>(() => {
     // If editing existing contestant
     if (contestantId && contestantsData) {
       const existing = contestantsData[contestantId] || {};
-      setOriginalContestant(existing);
       return existing;
     }
     // If creating new contestant, restore from draft or create new
@@ -54,9 +49,6 @@ export function ContestantBuilderPage() {
     const newId = generateContestantId(existingIds);
     return createContestant({ id: newId });
   });
-
-  // Check if contestant data is dirty (has changes)
-  const isDirty = !!contestantId && JSON.stringify(contestant) !== JSON.stringify(originalContestant);
 
   // Save draft to localStorage whenever contestant changes
   useEffect(() => {
@@ -70,7 +62,6 @@ export function ContestantBuilderPage() {
     if (contestantId && contestantsData) {
       const existing = contestantsData[contestantId] || {};
       setContestant(existing);
-      setOriginalContestant(existing);
     }
   }, [contestantId, contestantsData]);
 
@@ -85,29 +76,17 @@ export function ContestantBuilderPage() {
     setContestant((prev) => ({ ...prev, ...data }));
   };
 
-  const handleSave = () => {
+  const handleAddContestant = () => {
     const fullContestant = createContestant(contestant);
-    saveContestant(fullContestant, {
-      onSuccess: () => {
-        removeDraft();
-        // Update original contestant after save
-        setOriginalContestant(fullContestant);
-        // Only navigate away if not in edit mode
-        if (!contestantId) {
-          navigate('/the-search');
-        }
-      },
-    });
+    updateLocalContestant(fullContestant);
+    removeDraft();
+    navigate('/the-search');
   };
 
-  const handleSaveAndFinish = () => {
+  const handleApplyChanges = () => {
     const fullContestant = createContestant(contestant);
-    saveContestant(fullContestant, {
-      onSuccess: () => {
-        removeDraft();
-        navigate('/the-search');
-      },
-    });
+    updateLocalContestant(fullContestant);
+    navigate('/the-search');
   };
 
   const existingIds = contestantsData ? Object.keys(contestantsData).filter((id) => id !== contestantId) : [];
@@ -132,11 +111,9 @@ export function ContestantBuilderPage() {
           currentStep={step}
           existingContestants={existingContestants}
           existingIds={existingIds}
-          isDirty={isDirty}
           isEditMode={isEditMode}
-          isSaving={isSaving}
           key={contestant.id}
-          onSave={handleSave}
+          onApplyChanges={isEditMode ? handleApplyChanges : undefined}
           setStep={setStep}
           updateContestant={updateContestant}
         />
@@ -149,11 +126,9 @@ export function ContestantBuilderPage() {
           contestant={contestant}
           currentStep={step}
           existingContestants={existingContestants}
-          isDirty={isDirty}
           isEditMode={isEditMode}
-          isSaving={isSaving}
           key={contestant.id}
-          onSave={handleSave}
+          onApplyChanges={isEditMode ? handleApplyChanges : undefined}
           setStep={setStep}
           updateContestant={updateContestant}
         />
@@ -166,11 +141,9 @@ export function ContestantBuilderPage() {
           contestant={contestant}
           currentStep={step}
           existingContestants={existingContestants}
-          isDirty={isDirty}
           isEditMode={isEditMode}
-          isSaving={isSaving}
           key={contestant.id}
-          onSave={handleSave}
+          onApplyChanges={isEditMode ? handleApplyChanges : undefined}
           setStep={setStep}
           updateContestant={updateContestant}
         />
@@ -183,11 +156,9 @@ export function ContestantBuilderPage() {
           contestant={contestant}
           currentStep={step}
           existingContestants={existingContestants}
-          isDirty={isDirty}
           isEditMode={isEditMode}
-          isSaving={isSaving}
           key={contestant.id}
-          onSave={handleSave}
+          onApplyChanges={isEditMode ? handleApplyChanges : undefined}
           setStep={setStep}
           updateContestant={updateContestant}
         />
@@ -200,11 +171,9 @@ export function ContestantBuilderPage() {
           contestant={contestant}
           currentStep={step}
           existingContestants={existingContestants}
-          isDirty={isDirty}
           isEditMode={isEditMode}
-          isSaving={isSaving}
           key={contestant.id}
-          onSave={handleSave}
+          onApplyChanges={isEditMode ? handleApplyChanges : undefined}
           setStep={setStep}
           updateContestant={updateContestant}
         />
@@ -217,11 +186,9 @@ export function ContestantBuilderPage() {
           contestant={contestant}
           currentStep={step}
           existingContestants={existingContestants}
-          isDirty={isDirty}
           isEditMode={isEditMode}
-          isSaving={isSaving}
           key={contestant.id}
-          onSave={handleSave}
+          onApplyChanges={isEditMode ? handleApplyChanges : undefined}
           setStep={setStep}
           updateContestant={updateContestant}
         />
@@ -231,9 +198,9 @@ export function ContestantBuilderPage() {
         <StepReview
           contestant={contestant}
           existingContestants={existingContestants}
-          isSaving={isSaving}
+          isEditMode={isEditMode}
           key={contestant.id}
-          onSave={handleSaveAndFinish}
+          onSave={isEditMode ? handleApplyChanges : handleAddContestant}
           setStep={setStep}
         />
       )}

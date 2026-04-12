@@ -1,20 +1,23 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined, WarningOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PlusOutlined, SaveOutlined, WarningOutlined } from '@ant-design/icons';
 import { Button, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnType } from 'antd/es/table';
-import { Content, ContentLoading } from 'components/Content';
+import { Content } from 'components/Content';
 import { useNavigate } from 'react-router-dom';
 import { ContestantAvatar } from '../components/ContestantAvatar';
-import { useContestantsQuery, useDeleteContestantMutation } from '../hooks/useContestants';
+import { useContestantsContext } from '../services/ContestantsProvider';
 import type { Contestant } from '../types/contestant';
 
 export function TheSearchPage() {
   const navigate = useNavigate();
-  const { data: contestantsData, isLoading } = useContestantsQuery();
-  const { mutate: deleteContestant } = useDeleteContestantMutation();
-
-  if (isLoading) {
-    return <ContentLoading />;
-  }
+  const {
+    contestants: contestantsData,
+    deleteLocalContestant,
+    hasDirtyChanges,
+    dirtyCount,
+    saveAll,
+    isSaving,
+    discardChanges,
+  } = useContestantsContext();
 
   const contestants = contestantsData ? Object.values(contestantsData) : [];
   const sortedContestants = [...contestants].sort((a, b) => a.id.localeCompare(b.id));
@@ -201,7 +204,7 @@ export function TheSearchPage() {
           <Popconfirm
             cancelText="No"
             okText="Yes"
-            onConfirm={() => deleteContestant(record.id)}
+            onConfirm={() => deleteLocalContestant(record.id)}
             title="Delete this contestant?"
           >
             <Button danger icon={<DeleteOutlined />} size="small" type="link">
@@ -224,14 +227,40 @@ export function TheSearchPage() {
         }}
       >
         <Typography.Title level={2}>The Search - Contestants</Typography.Title>
-        <Button
-          icon={<PlusOutlined />}
-          onClick={() => navigate('/the-search/new')}
-          size="large"
-          type="primary"
-        >
-          Create New Contestant
-        </Button>
+        <Space>
+          {hasDirtyChanges && (
+            <>
+              <Popconfirm
+                cancelText="No"
+                okText="Yes, Discard"
+                onConfirm={discardChanges}
+                title="Discard all unsaved changes?"
+              >
+                <Button size="large">
+                  Discard {dirtyCount} Change{dirtyCount > 1 ? 's' : ''}
+                </Button>
+              </Popconfirm>
+              <Button
+                danger
+                icon={<SaveOutlined />}
+                loading={isSaving}
+                onClick={() => saveAll()}
+                size="large"
+                type="primary"
+              >
+                Save {dirtyCount} Change{dirtyCount > 1 ? 's' : ''}
+              </Button>
+            </>
+          )}
+          <Button
+            icon={<PlusOutlined />}
+            onClick={() => navigate('/the-search/new')}
+            size="large"
+            type={hasDirtyChanges ? 'default' : 'primary'}
+          >
+            Create New Contestant
+          </Button>
+        </Space>
       </div>
 
       <Typography.Paragraph>

@@ -29,36 +29,32 @@ export function ContestantBuilderStepper({
   );
 }
 
-import { SaveOutlined, StepBackwardOutlined, StepForwardOutlined, TableOutlined } from '@ant-design/icons';
+import { CheckOutlined, StepBackwardOutlined, StepForwardOutlined, TableOutlined } from '@ant-design/icons';
 import { Button, Flex, Space } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
 type ContestantBuilderStepperControlsProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   isEditMode?: boolean;
-  isDirty?: boolean;
-  isSaving?: boolean;
-  onSave?: () => void;
   hidePreviousButton?: boolean;
   currentContestantId?: string;
   allContestantIds?: string[];
   currentStep?: number;
   addParams?: (params: Record<string, unknown>) => void;
   onSubmitForm?: () => Promise<boolean>;
+  onApplyChanges?: () => void;
 };
 
 export function ContestantBuilderStepperControls({
   hidePreviousButton,
   setStep,
   isEditMode,
-  isDirty,
-  isSaving,
-  onSave,
   currentContestantId,
   allContestantIds = [],
   currentStep = 0,
   addParams,
   onSubmitForm,
+  onApplyChanges,
 }: ContestantBuilderStepperControlsProps) {
   const navigate = useNavigate();
 
@@ -124,18 +120,11 @@ export function ContestantBuilderStepperControls({
               title="Next Contestant"
             />
           </Space.Compact>
-          <Space.Compact>
-            <Button
-              disabled={!isDirty || !onSave}
-              icon={<SaveOutlined />}
-              loading={isSaving}
-              onClick={onSave}
-              size="large"
-              type="default"
-            >
-              Save Changes
+          {onApplyChanges && (
+            <Button icon={<CheckOutlined />} onClick={onApplyChanges} size="large" type="default">
+              Apply Changes
             </Button>
-          </Space.Compact>
+          )}
         </Flex>
       )}
     </Flex>

@@ -9,12 +9,10 @@ type StepPersonalityProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   existingContestants: Contestant[];
   isEditMode?: boolean;
-  isDirty?: boolean;
-  isSaving?: boolean;
-  onSave?: () => void;
   allContestantIds?: string[];
   currentStep?: number;
   addParams?: (params: Record<string, unknown>) => void;
+  onApplyChanges?: () => void;
 };
 
 const MARKS = {
@@ -37,12 +35,10 @@ export function StepPersonality({
   setStep,
   existingContestants,
   isEditMode = false,
-  isDirty = false,
-  isSaving = false,
-  onSave,
   allContestantIds = [],
   currentStep = 5,
   addParams,
+  onApplyChanges,
 }: StepPersonalityProps) {
   const [form] = Form.useForm();
 
@@ -230,10 +226,8 @@ export function StepPersonality({
             allContestantIds={allContestantIds}
             currentContestantId={contestant.id}
             currentStep={currentStep}
-            isDirty={isDirty}
             isEditMode={isEditMode}
-            isSaving={isSaving}
-            onSave={onSave}
+            onApplyChanges={onApplyChanges}
             onSubmitForm={handleSubmitForm}
             setStep={setStep}
           />

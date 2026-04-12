@@ -9,12 +9,10 @@ type StepAppearanceProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   existingContestants: Contestant[];
   isEditMode?: boolean;
-  isDirty?: boolean;
-  isSaving?: boolean;
-  onSave?: () => void;
   allContestantIds?: string[];
   currentStep?: number;
   addParams?: (params: Record<string, unknown>) => void;
+  onApplyChanges?: () => void;
 };
 
 /**
@@ -87,12 +85,10 @@ export function StepAppearance({
   setStep,
   existingContestants,
   isEditMode = false,
-  isDirty = false,
-  isSaving = false,
-  onSave,
   allContestantIds = [],
   currentStep = 1,
   addParams,
+  onApplyChanges,
 }: StepAppearanceProps) {
   const [form] = Form.useForm();
 
@@ -196,10 +192,8 @@ export function StepAppearance({
                 allContestantIds={allContestantIds}
                 currentContestantId={contestant.id}
                 currentStep={currentStep}
-                isDirty={isDirty}
                 isEditMode={isEditMode}
-                isSaving={isSaving}
-                onSave={onSave}
+                onApplyChanges={onApplyChanges}
                 onSubmitForm={handleSubmitForm}
                 setStep={setStep}
               />

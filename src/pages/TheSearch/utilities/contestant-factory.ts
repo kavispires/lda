@@ -96,6 +96,7 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
       ambition: 0,
       resilience: 0,
       maturity: 0,
+      investment: 0,
     },
     attributes: partial.attributes || [],
     aggregations: partial.aggregations || {

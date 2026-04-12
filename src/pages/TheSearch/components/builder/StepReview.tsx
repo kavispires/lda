@@ -6,11 +6,11 @@ type StepReviewProps = {
   contestant: Partial<Contestant>;
   setStep: React.Dispatch<React.SetStateAction<number>>;
   onSave: () => void;
-  isSaving: boolean;
+  isEditMode?: boolean;
   existingContestants: Contestant[];
 };
 
-export function StepReview({ contestant, setStep, onSave, isSaving }: StepReviewProps) {
+export function StepReview({ contestant, setStep, onSave, isEditMode = false }: StepReviewProps) {
   return (
     <>
       <Typography.Title level={3}>Review & Save</Typography.Title>
@@ -133,14 +133,14 @@ export function StepReview({ contestant, setStep, onSave, isSaving }: StepReview
 
       <Divider />
 
-      <Button.Group>
+      <Space.Compact>
         <Button onClick={() => setStep((prev) => prev - 1)} size="large">
           Previous
         </Button>
-        <Button loading={isSaving} onClick={onSave} size="large" type="primary">
-          Save Contestant
+        <Button onClick={onSave} size="large" type="primary">
+          {isEditMode ? 'Apply Changes' : 'Add Contestant'}
         </Button>
-      </Button.Group>
+      </Space.Compact>
     </>
   );
 }

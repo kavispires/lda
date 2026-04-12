@@ -17,12 +17,10 @@ type StepSpecialtiesProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
   existingContestants: Contestant[];
   isEditMode?: boolean;
-  isDirty?: boolean;
-  isSaving?: boolean;
-  onSave?: () => void;
   allContestantIds?: string[];
   currentStep?: number;
   addParams?: (params: Record<string, unknown>) => void;
+  onApplyChanges?: () => void;
 };
 
 /**
@@ -61,12 +59,10 @@ export function StepSpecialties({
   setStep,
   existingContestants,
   isEditMode = false,
-  isDirty = false,
-  isSaving = false,
-  onSave,
   allContestantIds = [],
   currentStep = 4,
   addParams,
+  onApplyChanges,
 }: StepSpecialtiesProps) {
   const [form] = Form.useForm();
   const [selectedSpecialties, setSelectedSpecialties] = useState<Partial<Specialties>>(
@@ -180,7 +176,7 @@ export function StepSpecialties({
           <Button
             icon={<RedoOutlined />}
             onClick={handleRandomizeAll}
-            style={{ marginBottom: '1rem', width: '100%' }}
+            style={{ marginBottom: '1rem' }}
             type="default"
           >
             Randomize All Specialties
@@ -214,10 +210,8 @@ export function StepSpecialties({
                 allContestantIds={allContestantIds}
                 currentContestantId={contestant.id}
                 currentStep={currentStep}
-                isDirty={isDirty}
                 isEditMode={isEditMode}
-                isSaving={isSaving}
-                onSave={onSave}
+                onApplyChanges={onApplyChanges}
                 onSubmitForm={handleSubmitForm}
                 setStep={setStep}
               />

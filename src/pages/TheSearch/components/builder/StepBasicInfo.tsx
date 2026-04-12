@@ -30,12 +30,10 @@ type StepBasicInfoProps = {
   existingIds: string[];
   existingContestants: Contestant[];
   isEditMode?: boolean;
-  isDirty?: boolean;
-  isSaving?: boolean;
-  onSave?: () => void;
   allContestantIds?: string[];
   currentStep?: number;
   addParams?: (params: Record<string, unknown>) => void;
+  onApplyChanges?: () => void;
 };
 
 export function StepBasicInfo({
@@ -45,12 +43,10 @@ export function StepBasicInfo({
   existingIds,
   existingContestants,
   isEditMode = false,
-  isDirty = false,
-  isSaving = false,
-  onSave,
   allContestantIds = [],
   currentStep = 0,
   addParams,
+  onApplyChanges,
 }: StepBasicInfoProps) {
   const [form] = Form.useForm();
   const [colorValue, setColorValue] = useState<string>(contestant.color || '#FFFFFF');
@@ -343,10 +339,8 @@ export function StepBasicInfo({
             currentContestantId={contestant.id}
             currentStep={currentStep}
             hidePreviousButton
-            isDirty={isDirty}
             isEditMode={isEditMode}
-            isSaving={isSaving}
-            onSave={onSave}
+            onApplyChanges={onApplyChanges}
             onSubmitForm={handleSubmitForm}
             setStep={setStep}
           />
