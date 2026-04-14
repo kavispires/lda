@@ -1,8 +1,10 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined, SaveOutlined, WarningOutlined } from '@ant-design/icons';
 import { App, Button, Input, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
-import type { ColumnType } from 'antd/es/table';
+import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
+import type { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { Content } from 'components/Content';
-import { useState } from 'react';
+import { useQueryParams } from 'hooks/useQueryParams';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { contestantsParser } from '../hooks/useContestants';
@@ -12,6 +14,7 @@ import type { Contestant } from '../types/contestant';
 export function TheSearchPage() {
   const navigate = useNavigate();
   const { notification } = App.useApp();
+  const { queryParams, addParams } = useQueryParams();
   const [searchQuery, setSearchQuery] = useState('');
   const [isParserRunning, setIsParserRunning] = useState(false);
   const {
@@ -24,11 +27,52 @@ export function TheSearchPage() {
     discardChanges,
   } = useContestantsContext();
 
-  const contestants = contestantsData ? Object.values(contestantsData) : [];
-  const sortedContestants = [...contestants].sort((a, b) => a.id.localeCompare(b.id));
+  // Initialize table state from query params
+  const [currentPage, setCurrentPage] = useState(() => {
+    const page = queryParams.get('page');
+    return page ? Number(page) : 1;
+  });
+  const [pageSize, setPageSize] = useState(() => {
+    const size = queryParams.get('pageSize');
+    return size ? Number(size) : 20;
+  });
+  const [sortField, setSortField] = useState<string | undefined>(() => {
+    return queryParams.get('sortField') || 'updatedAt';
+  });
+  const [sortOrder, setSortOrder] = useState<'ascend' | 'descend' | undefined>(() => {
+    const order = queryParams.get('sortOrder');
+    return order === 'ascend' || order === 'descend' ? order : 'descend';
+  });
+  const [filteredTracks, setFilteredTracks] = useState<string[]>(() => {
+    const tracks = queryParams.get('tracks');
+    return tracks ? tracks.split(',') : [];
+  });
 
-  // Filter contestants based on search query
-  const filteredContestants = sortedContestants.filter((contestant) => {
+  // Sync state with query params when URL changes (e.g., browser back/forward)
+  useEffect(() => {
+    const page = queryParams.get('page');
+    const size = queryParams.get('pageSize');
+    const field = queryParams.get('sortField');
+    const order = queryParams.get('sortOrder');
+    const tracks = queryParams.get('tracks');
+
+    setCurrentPage(page ? Number(page) : 1);
+    setPageSize(size ? Number(size) : 20);
+    setSortField(field || 'updatedAt');
+    setSortOrder(order === 'ascend' || order === 'descend' ? order : 'descend');
+    setFilteredTracks(tracks ? tracks.split(',') : []);
+  }, [queryParams]);
+
+  const contestants = contestantsData ? Object.values(contestantsData) : [];
+
+  // Filter contestants based on search query and track filters
+  const filteredContestants = contestants.filter((contestant) => {
+    // Apply track filter
+    if (filteredTracks.length > 0 && !filteredTracks.includes(contestant.track)) {
+      return false;
+    }
+
+    // Apply search query
     if (!searchQuery) return true;
 
     const query = searchQuery.toLowerCase();
@@ -124,6 +168,41 @@ export function TheSearchPage() {
     return missing;
   };
 
+  // Handle table changes (pagination, filters, sorting)
+  const handleTableChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, FilterValue | null>,
+    sorter: SorterResult<Contestant> | SorterResult<Contestant>[],
+  ) => {
+    const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
+    const trackFilter = filters.track as string[] | null;
+
+    // Update local state
+    setCurrentPage(pagination.current || 1);
+    setPageSize(pagination.pageSize || 20);
+    setSortField(singleSorter.field as string | undefined);
+    setSortOrder(singleSorter.order === null ? undefined : singleSorter.order);
+    setFilteredTracks(trackFilter || []);
+
+    // Update query params
+    const params: Record<string, unknown> = {};
+    const defaults: Record<string, unknown> = {
+      page: 1,
+      pageSize: 20,
+      sortField: 'updatedAt',
+      sortOrder: 'descend',
+      tracks: '',
+    };
+
+    params.page = pagination.current || 1;
+    params.pageSize = pagination.pageSize || 20;
+    params.sortField = singleSorter.field || 'updatedAt';
+    params.sortOrder = singleSorter.order || 'descend';
+    params.tracks = trackFilter && trackFilter.length > 0 ? trackFilter.join(',') : '';
+
+    addParams(params, defaults);
+  };
+
   const columns: ColumnType<Contestant>[] = [
     {
       title: 'Avatar',
@@ -137,12 +216,14 @@ export function TheSearchPage() {
       dataIndex: 'id',
       key: 'id',
       sorter: (a, b) => Number(a.id.split('-')[1]) - Number(b.id.split('-')[1]),
+      sortOrder: sortField === 'id' ? sortOrder : undefined,
     },
     {
       title: 'Name',
       dataIndex: 'name',
       key: 'name',
       sorter: (a, b) => a.name.localeCompare(b.name),
+      sortOrder: sortField === 'name' ? sortOrder : undefined,
     },
     {
       title: 'Track',
@@ -171,6 +252,7 @@ export function TheSearchPage() {
         { text: 'Rap', value: 'RAP' },
         { text: 'Dance', value: 'DANCE' },
       ],
+      filteredValue: filteredTracks.length > 0 ? filteredTracks : null,
       onFilter: (value, record) => record.track === value,
     },
     {
@@ -179,6 +261,7 @@ export function TheSearchPage() {
       key: 'hairStyle',
       render: (hairStyle?: string) => hairStyle || '-',
       sorter: (a, b) => (a.appearance?.hairStyle || '').localeCompare(b.appearance?.hairStyle || ''),
+      sortOrder: sortField === 'hairStyle' ? sortOrder : undefined,
     },
     {
       title: 'Hair Color',
@@ -186,6 +269,7 @@ export function TheSearchPage() {
       key: 'hairColor',
       render: (hairColor?: string) => hairColor || '-',
       sorter: (a, b) => (a.appearance?.hairColor || '').localeCompare(b.appearance?.hairColor || ''),
+      sortOrder: sortField === 'hairColor' ? sortOrder : undefined,
     },
     {
       title: 'Fur Color',
@@ -193,12 +277,14 @@ export function TheSearchPage() {
       key: 'furColor',
       render: (furColor?: string) => furColor || '-',
       sorter: (a, b) => (a.appearance?.furColor || '').localeCompare(b.appearance?.furColor || ''),
+      sortOrder: sortField === 'furColor' ? sortOrder : undefined,
     },
     {
       title: 'Score',
       key: 'score',
       width: 80,
       sorter: (a, b) => calculateScore(a) - calculateScore(b),
+      sortOrder: sortField === 'score' ? sortOrder : undefined,
       render: (_value: unknown, record: Contestant) => {
         const score = calculateScore(record);
         return score.toFixed(2);
@@ -209,7 +295,7 @@ export function TheSearchPage() {
       dataIndex: 'updatedAt',
       key: 'updatedAt',
       sorter: (a, b) => (a.updatedAt || 0) - (b.updatedAt || 0),
-      defaultSortOrder: 'descend',
+      sortOrder: sortField === 'updatedAt' ? sortOrder : undefined,
       render: (timestamp: number) => {
         if (!timestamp) return '-';
         const date = new Date(timestamp);
@@ -359,8 +445,10 @@ export function TheSearchPage() {
       <Table
         columns={columns}
         dataSource={filteredContestants}
+        onChange={handleTableChange}
         pagination={{
-          pageSize: 20,
+          current: currentPage,
+          pageSize: pageSize,
           showSizeChanger: true,
           showTotal: (total, range) =>
             `${range[0]}-${range[1]} of ${total} contestants${searchQuery ? ' (filtered)' : ''}`,
