@@ -128,15 +128,15 @@ export function StepCoreSkills({
     // Determine track skill value (should be highest, minimum 2 to ensure it can be > others)
     // The track skill should get at least totalStars - 8 to ensure others can't exceed it
     const minTrackValue = Math.max(2, Math.ceil(totalStars / 2));
-    const maxTrackValue = Math.min(5, totalStars - 2); // Leave at least 2 for the other two skills
+    const maxTrackValue = Math.min(4, totalStars - 2); // Cap at 4, leave at least 2 for the other two skills
     const trackValue = Math.floor(Math.random() * (maxTrackValue - minTrackValue + 1)) + minTrackValue;
 
     // Remaining stars for the other two skills
     const remaining = totalStars - trackValue;
 
     // Distribute remaining stars between the other two skills
-    // Neither can exceed trackValue - 1
-    const maxOtherValue = Math.min(trackValue - 1, 5);
+    // Neither can exceed trackValue - 1 or 4
+    const maxOtherValue = Math.min(trackValue - 1, 4);
 
     let otherSkill1 = Math.min(Math.floor(Math.random() * remaining) + 1, maxOtherValue);
     let otherSkill2 = remaining - otherSkill1;
@@ -169,9 +169,9 @@ export function StepCoreSkills({
       dance = trackValue;
     }
 
-    // Generate random values for stage presence and leadership (1-5)
-    const stagePresence = Math.floor(Math.random() * 5) + 1;
-    const leadership = Math.floor(Math.random() * 5) + 1;
+    // Generate random values for stage presence and leadership (1-4, no 5s)
+    const stagePresence = Math.floor(Math.random() * 4) + 1;
+    const leadership = Math.floor(Math.random() * 4) + 1;
 
     const randomizedSkills: CoreSkills = {
       vocals,

@@ -92,8 +92,8 @@ export function TheSearchPage() {
         appearanceSkills * 2 +
         leadershipSkill * 1 +
         utilitySkillsTotal * 1) /
-      (12 + 5 + 7 + 1 + 6)
-    ); // Total weight is 31
+      (12 + 5 + 6 + 1 + 6)
+    ); // Total weight is 30
   };
 
   const checkIncomplete = (contestant: Contestant): string[] => {
