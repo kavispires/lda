@@ -92,3 +92,35 @@ export function useDeleteContestantMutation() {
     },
   });
 }
+
+/**
+ * Utility function for batch parsing/updating contestant data
+ * Can be modified for one-time data migrations or fixes
+ * Returns the number of contestants updated
+ */
+export async function contestantsParser(contestants: Record<string, Contestant>): Promise<number> {
+  const updates: Record<string, string> = {};
+
+  for (const [_id, _contestant] of Object.entries(contestants)) {
+    // Add parsing logic here as needed
+    // Example: Check for specific data patterns and fix them
+    // if (needsUpdate) {
+    //   const updated = {
+    //     ..._contestant,
+    //     updatedAt: Date.now(),
+    //   };
+    //   updates[_id] = serializeContestant(updated);
+    // }
+  }
+
+  const count = Object.keys(updates).length;
+
+  if (count === 0) {
+    return 0;
+  }
+
+  // Batch update all contestants at once
+  await updateDocQueryFunction('the-search', 'contestants', updates);
+
+  return count;
+}

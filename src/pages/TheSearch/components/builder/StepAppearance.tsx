@@ -31,6 +31,7 @@ function getUniqueValues(contestants: Contestant[], field: keyof Contestant['app
 function getFieldDistribution(
   contestants: Contestant[],
   field: keyof Contestant['appearance'],
+  limit?: number,
 ): Array<{ value: string; count: number; percentage: number }> {
   const valueMap = new Map<string, number>();
 
@@ -42,14 +43,15 @@ function getFieldDistribution(
   }
 
   const total = contestants.length || 1;
-  return Array.from(valueMap.entries())
+  const sorted = Array.from(valueMap.entries())
     .map(([value, count]) => ({
       value,
       count,
       percentage: Math.round((count / total) * 100),
     }))
-    .sort((a, b) => b.count - a.count)
-    .slice(0, 5);
+    .sort((a, b) => b.count - a.count);
+
+  return limit ? sorted.slice(0, limit) : sorted;
 }
 
 /**
@@ -231,7 +233,7 @@ export function StepAppearance({
             {/* Height Distribution */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Common Heights
+                Heights
               </Typography.Text>
               <div style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
                 {getFieldDistribution(existingContestants, 'height').length > 0 ? (
@@ -255,7 +257,7 @@ export function StepAppearance({
             {/* Build Distribution */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Common Builds
+                Builds
               </Typography.Text>
               <div style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
                 {getFieldDistribution(existingContestants, 'build').length > 0 ? (
@@ -282,8 +284,8 @@ export function StepAppearance({
                 Common Hair Styles
               </Typography.Text>
               <div style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
-                {getFieldDistribution(existingContestants, 'hairStyle').length > 0 ? (
-                  getFieldDistribution(existingContestants, 'hairStyle').map((item) => (
+                {getFieldDistribution(existingContestants, 'hairStyle', 5).length > 0 ? (
+                  getFieldDistribution(existingContestants, 'hairStyle', 5).map((item) => (
                     <div
                       key={item.value}
                       style={{
@@ -303,7 +305,7 @@ export function StepAppearance({
             {/* Hair Color Distribution */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Common Hair Colors
+                Hair Colors
               </Typography.Text>
               <div style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
                 {getFieldDistribution(existingContestants, 'hairColor').length > 0 ? (
@@ -327,7 +329,7 @@ export function StepAppearance({
             {/* Fur Color Distribution */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Common Fur Colors
+                Fur Colors
               </Typography.Text>
               <div style={{ fontSize: '0.75rem', marginTop: '0.25rem' }}>
                 {getFieldDistribution(existingContestants, 'furColor').length > 0 ? (
