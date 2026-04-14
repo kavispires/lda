@@ -36,7 +36,7 @@ function getSpecialtyDictionary(type: SpecialtyType): Dictionary<AttributeCard> 
 export function generateRandomSpecialty(
   type: SpecialtyType,
   existingContestants: Contestant[] = [],
-  preferDiversity = false,
+  preferDiversity = true,
 ): string {
   const specialties = getSpecialtyDictionary(type);
   const entries = Object.values(specialties);
@@ -62,8 +62,12 @@ export function generateRandomSpecialty(
 
   for (const specialty of entries) {
     const usageCount = usageCounts[specialty.id] || 0;
-    // Reduce weight by 50% for each time it's been used (but never below 1)
-    const adjustedWeight = Math.max(1, specialty.occurrence * 0.5 ** usageCount);
+    // Reduce weight by 1% for each contestant that has used it (out of 100 total contestants)
+    // Never go below 10% of original weight
+    const adjustedWeight = Math.max(
+      specialty.occurrence * 0.1,
+      specialty.occurrence * (1 - usageCount * 0.01),
+    );
     weights.push(adjustedWeight);
     totalWeight += adjustedWeight;
   }
