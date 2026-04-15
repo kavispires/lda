@@ -197,20 +197,27 @@ export interface Specialties {
 export interface Aggregations {
   /**
    * General popularity with simulated voters.
+   * Float ratio from -1 to 1 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
    */
-  publicLikeness: number;
+  audienceRatio: number;
   /**
    * Weighted average of how much other contestants like them.
    */
   contestantsLikeness: number;
   /**
    * "The Edit": How much the PDs want this contestant in the final group.
+   * Float ratio from -1 to 1 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
    */
-  productionLikeness: number;
+  productionRatio: number;
   /**
    * The core fanbase's willingness to save them from elimination.
+   * Float ratio from -1 to 1 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
    */
-  fandomLoyalty: number;
+  fanbaseRatio: number;
+  /**
+   * Total score points gained in the simulation.
+   */
+  score: number;
   /**
    * Baseline proficiency gained from historical training/work.
    */
@@ -359,6 +366,10 @@ export interface ChangeLogEntry {
    * The rank of the contestant at the end of the episode.
    */
   rank: number;
+  /**
+   * The score of the contestant for that episode.
+   */
+  score: number;
   /**
    * The status of the contestant at the end of the episode.
    */

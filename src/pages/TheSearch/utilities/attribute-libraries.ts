@@ -21,7 +21,7 @@ export const VOCAL_COLORS: Dictionary<AttributeCard> = {
       "A light, 'honey-like' vocal tone that instantly captures the public's heart with its kindness.",
     occurrence: 20,
     popularity: 85,
-    influences: { 'personality.gentleness': 3, 'personality.sensitivity': 2, 'state.publicLikeness': 5 },
+    influences: { 'personality.gentleness': 3, 'personality.sensitivity': 2, 'state.audienceRatio': 0.05 },
   },
   HIGH_PITCH: {
     id: 'HIGH_PITCH',
@@ -177,7 +177,7 @@ export const RAP_STYLES: Dictionary<AttributeCard> = {
     influences: {
       'personality.gentleness': -4,
       'personality.extroversion': 4,
-      'state.productionLikeness': 10,
+      'state.productionRatio': 0.1,
     },
   },
   TECHNICAL: {
@@ -233,7 +233,7 @@ export const RAP_STYLES: Dictionary<AttributeCard> = {
       "Aggressive, underground-inspired delivery that builds a small but fiercely loyal 'hardcore' fanbase.",
     occurrence: 5,
     popularity: 55,
-    influences: { 'personality.gentleness': -5, 'personality.resilience': 5, 'state.fandomLoyalty': 10 },
+    influences: { 'personality.gentleness': -5, 'personality.resilience': 5, 'state.fanbaseRatio': 0.1 },
   },
 };
 
@@ -256,7 +256,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     group: 'visual',
     occurrence: 20,
     popularity: 90,
-    influences: { 'personality.maturity': -5, 'personality.extroversion': 5, 'state.publicLikeness': 15 },
+    influences: { 'personality.maturity': -5, 'personality.extroversion': 5, 'state.audienceRatio': 0.15 },
     description:
       "The 'Aegyo' machine; a youthful and bright look that secures the 'Maknae-on-top' voting demographic.",
   },
@@ -309,7 +309,7 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
       'personality.discipline': 6,
       'personality.gentleness': -4,
       'coreSkills.leadership': 0.8,
-      'state.productionLikeness': 10, // Production loves the tension
+      'state.productionRatio': 0.1, // Production loves the tension
     },
   },
   CARETAKER: {
@@ -340,7 +340,7 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
     influences: {
       'utilitySkills.charisma': 1,
       'coreSkills.stagePresence': 0.5,
-      'state.publicLikeness': 10,
+      'state.audienceRatio': 0.1,
       'state.screenTime': 10,
     },
   },
@@ -388,7 +388,7 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
     influences: {
       'personality.extroversion': -4,
       'personality.discipline': 1,
-      'state.publicLikeness': -5,
+      'state.audienceRatio': -0.05,
       'utilitySkills.consistency': -1,
     },
   },

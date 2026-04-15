@@ -1,10 +1,9 @@
-import { CheckCircleFilled, RedoOutlined } from '@ant-design/icons';
+import { RedoOutlined } from '@ant-design/icons';
 import { Button, ColorPicker, Flex, Form, Input, Progress, Select, Space, Typography } from 'antd';
 import type { AggregationColor } from 'antd/es/color-picker/color';
 import { useEffect, useState } from 'react';
 import NAMES from '../../data/names.json';
 import type { Contestant } from '../../types/contestant';
-import { getColorSuggestions } from '../../utilities/color-suggestions';
 import { ALIGNMENTS, GRADES, TRACKS } from '../../utilities/constants';
 import { generateContestantId } from '../../utilities/contestant-factory';
 import { getZodiacSignOptions } from '../../utilities/helpers';
@@ -51,7 +50,6 @@ export function StepBasicInfo({
 }: StepBasicInfoProps) {
   const [form] = Form.useForm();
   const [colorValue, setColorValue] = useState<string>(contestant.color || '#FFFFFF');
-  const [colorSuggestions, setColorSuggestions] = useState<string[]>([]);
 
   // Auto-generate ID if not present
   useEffect(() => {
@@ -61,14 +59,6 @@ export function StepBasicInfo({
       form.setFieldsValue({ id: newId });
     }
   }, [contestant.id, existingIds, updateContestant, form]);
-
-  // Update color suggestions when track changes
-  useEffect(() => {
-    if (contestant.track) {
-      const suggestions = getColorSuggestions(contestant.track, existingContestants);
-      setColorSuggestions(suggestions);
-    }
-  }, [contestant.track, existingContestants]);
 
   const onValuesChange = (changedValues: Partial<Contestant>) => {
     if (changedValues.color) {
@@ -87,12 +77,6 @@ export function StepBasicInfo({
         : (values.color as unknown as AggregationColor).toHexString();
     updateContestant({ ...values, color });
     setStep((prev) => prev + 1);
-  };
-
-  const handleColorSuggestionClick = (color: string) => {
-    setColorValue(color);
-    form.setFieldValue('color', color);
-    updateContestant({ color });
   };
 
   const handleRandomName = () => {
@@ -247,60 +231,38 @@ export function StepBasicInfo({
         </div>
 
         <div className="grid gap-4 grid-cols-3">
-          <Form.Item label="Brand Color" name="color" required>
-            {colorSuggestions.length > 0 && (
-              <div>
-                <Typography.Text style={{ fontSize: '0.85rem', color: '#666' }}>
-                  Suggested colors:
-                </Typography.Text>
-                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '0.5rem' }}>
-                  {colorSuggestions.map((color) => (
-                    <button
-                      key={color}
-                      onClick={() => handleColorSuggestionClick(color)}
-                      style={{
-                        width: '4rem',
-                        height: '4rem',
-                        backgroundColor: color,
-                        border:
-                          colorValue.toUpperCase() === color.toUpperCase()
-                            ? '3px solid #1890ff'
-                            : '2px solid #d9d9d9',
-                        borderRadius: '8px',
-                        cursor: 'pointer',
-                        position: 'relative',
-                        transition: 'all 0.2s',
-                        boxShadow:
-                          colorValue.toUpperCase() === color.toUpperCase()
-                            ? '0 2px 8px rgba(24, 144, 255, 0.3)'
-                            : 'none',
-                      }}
-                      type="button"
-                    >
-                      {colorValue.toUpperCase() === color.toUpperCase() && (
-                        <CheckCircleFilled
-                          style={{
-                            position: 'absolute',
-                            top: '-8px',
-                            right: '-8px',
-                            fontSize: '20px',
-                            color: '#1890ff',
-                            backgroundColor: 'white',
-                            borderRadius: '50%',
-                          }}
-                        />
-                      )}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
+          <Form.Item label="Persona (Optional)" name="persona">
+            <Input placeholder="e.g., 'The Underdog', 'The Ice Queen'" />
           </Form.Item>
-          <div>
-            <Typography.Text style={{ fontSize: '0.85rem', color: '#666' }}>
-              Or pick a custom color:
-            </Typography.Text>
-            <div style={{ marginTop: '0.5rem' }}>
+
+          <Form.Item label="Zodiac Sign" name="zodiacSign" required>
+            <Select options={getZodiacSignOptions()} />
+          </Form.Item>
+
+          <Form.Item label="Brand Color" name="color" required>
+            <Flex gap="middle" vertical>
+              <div
+                style={{
+                  width: '100%',
+                  height: '80px',
+                  backgroundColor: colorValue,
+                  border: '2px solid #d9d9d9',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography.Text
+                  strong
+                  style={{
+                    color: colorValue.toLowerCase() === '#ffffff' ? '#000' : '#fff',
+                    textShadow: '1px 1px 2px rgba(0,0,0,0.5)',
+                  }}
+                >
+                  {colorValue.toUpperCase()}
+                </Typography.Text>
+              </div>
               <ColorPicker
                 disabledAlpha
                 format="hex"
@@ -311,32 +273,12 @@ export function StepBasicInfo({
                   updateContestant({ color: hexColor });
                 }}
                 showText={(color) => <span>{color.toHexString()}</span>}
+                style={{ width: '100%' }}
                 value={colorValue}
               />
-            </div>
-          </div>
-          <Flex vertical>
-            <Typography.Text strong>Selected color:</Typography.Text>
-            <span
-              style={{
-                width: '3rem',
-                height: '3rem',
-                backgroundColor: colorValue,
-                border: '2px solid #d9d9d9',
-                borderRadius: '4px',
-              }}
-            />
-            <Typography.Text type="secondary">{colorValue}</Typography.Text>
-          </Flex>
+            </Flex>
+          </Form.Item>
         </div>
-
-        <Form.Item label="Persona (Optional)" name="persona">
-          <Input placeholder="e.g., 'UNDERDOG', 'INFLUENCER'" />
-        </Form.Item>
-
-        <Form.Item label="Zodiac Sign" name="zodiacSign" required>
-          <Select options={getZodiacSignOptions()} />
-        </Form.Item>
 
         <Form.Item>
           <ContestantBuilderStepperControls
