@@ -2,6 +2,8 @@ import { DeleteOutlined, EditOutlined, PlusOutlined, SaveOutlined, WarningOutlin
 import { Button, Input, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import type { FilterValue, SorterResult } from 'antd/es/table/interface';
+import { DownloadButton } from 'components/Common/DownloadButton';
+import { FirestoreConsoleLink } from 'components/Common/FirestoreConsoleLink';
 import { Content } from 'components/Content';
 import { useQueryParams } from 'hooks/useQueryParams';
 import { useEffect, useState } from 'react';
@@ -176,10 +178,13 @@ export function TheSearchPage() {
     const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
     const trackFilter = filters.track as string[] | null;
 
+    // Use columnKey for sorting since it's always a string (field can be an array for nested dataIndex)
+    const sortFieldValue = (singleSorter.columnKey as string | undefined) || undefined;
+
     // Update local state
     setCurrentPage(pagination.current || 1);
     setPageSize(pagination.pageSize || 20);
-    setSortField(singleSorter.field as string | undefined);
+    setSortField(sortFieldValue);
     setSortOrder(singleSorter.order === null ? undefined : singleSorter.order);
     setFilteredTracks(trackFilter || []);
 
@@ -195,7 +200,7 @@ export function TheSearchPage() {
 
     params.page = pagination.current || 1;
     params.pageSize = pagination.pageSize || 20;
-    params.sortField = singleSorter.field || 'updatedAt';
+    params.sortField = sortFieldValue || 'updatedAt';
     params.sortOrder = singleSorter.order || 'descend';
     params.tracks = trackFilter && trackFilter.length > 0 ? trackFilter.join(',') : '';
 
@@ -392,7 +397,6 @@ export function TheSearchPage() {
             disabled
             icon={<PlusOutlined />}
             onClick={() => navigate('/the-search/new')}
-            size="large"
             type={hasDirtyChanges ? 'default' : 'primary'}
           >
             New Contestant
@@ -403,15 +407,19 @@ export function TheSearchPage() {
             disabled
             loading={parserMutation.isPending}
             onClick={() => parserMutation.mutate(contestantsData)}
-            size="large"
           >
             🛠️ Run Parser
           </Button>
+          <DownloadButton data={contestantsData || {}} fileName="contestants.json">
+            Download Data
+          </DownloadButton>
         </Space>
       </div>
 
       <Typography.Paragraph>
         Manage contestants for The Search survival show simulation. Total contestants: {contestants.length}
+        {' | '}
+        <FirestoreConsoleLink label="Open in Firestore Console" path="/contestants" />
       </Typography.Paragraph>
 
       <Input.Search
