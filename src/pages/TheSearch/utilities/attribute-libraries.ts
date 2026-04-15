@@ -393,3 +393,138 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
     },
   },
 };
+
+export const ZODIAC_SIGNS: Dictionary<AttributeCard> = {
+  ARIES: {
+    id: 'ARIES',
+    name: 'Aries',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The fiery Aries is a natural-born leader, known for their courage and determination. They thrive in competitive environments and are not afraid to take risks.',
+    occurrence: 8,
+    popularity: 70,
+    influences: { 'personality.ambition': 3, 'personality.extroversion': 2 },
+  },
+  TAURUS: {
+    id: 'TAURUS',
+    name: 'Taurus',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The dependable Taurus values stability and comfort. They are patient and practical, often serving as the rock of the group.',
+    occurrence: 8,
+    popularity: 65,
+    influences: { 'personality.discipline': 3, 'personality.gentleness': 2 },
+  },
+  GEMINI: {
+    id: 'GEMINI',
+    name: 'Gemini',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The adaptable Gemini is a social butterfly, known for their quick wit and versatility. They excel in communication and can easily connect with others.',
+    occurrence: 8,
+    popularity: 75,
+    influences: { 'personality.curiosity': 3, 'personality.extroversion': 3 },
+  },
+  CANCER: {
+    id: 'CANCER',
+    name: 'Cancer',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The nurturing Cancer is deeply intuitive and emotional. They are fiercely loyal to their loved ones and often take on a caregiving role within the group.',
+    occurrence: 8,
+    popularity: 80,
+    influences: { 'personality.sensitivity': 4, 'personality.gentleness': 3 },
+  },
+  LEO: {
+    id: 'LEO',
+    name: 'Leo',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The charismatic Leo loves the spotlight and is a natural performer. They are confident and ambitious, often inspiring others with their passion.',
+    occurrence: 8,
+    popularity: 85,
+    influences: { 'personality.extroversion': 4, 'personality.ambition': 4 },
+  },
+  VIRGO: {
+    id: 'VIRGO',
+    name: 'Virgo',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The meticulous Virgo is a perfectionist who pays great attention to detail. They are analytical and practical, often helping to keep the group organized.',
+    occurrence: 8,
+    popularity: 60,
+    influences: { 'personality.discipline': 4, 'personality.sincerity': 3 },
+  },
+  LIBRA: {
+    id: 'LIBRA',
+    name: 'Libra',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The charming Libra values harmony and balance. They are diplomatic and sociable, often acting as the peacemaker within the group.',
+    occurrence: 8,
+    popularity: 70,
+    influences: { 'personality.sincerity': 4, 'personality.extroversion': 2 },
+  },
+  SCORPIO: {
+    id: 'SCORPIO',
+    name: 'Scorpio',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The intense Scorpio is passionate and resourceful. They are known for their determination and can be quite mysterious.',
+    occurrence: 8,
+    popularity: 75,
+    influences: { 'personality.ambition': 4, 'personality.sensitivity': 2 },
+  },
+  SAGITTARIUS: {
+    id: 'SAGITTARIUS',
+    name: 'Sagittarius',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The adventurous Sagittarius is optimistic and loves freedom. They are enthusiastic and often bring a sense of fun to the group.',
+    occurrence: 8,
+    popularity: 80,
+    influences: { 'personality.extroversion': 3, 'personality.curiosity': 4 },
+  },
+  CAPRICORN: {
+    id: 'CAPRICORN',
+    name: 'Capricorn',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The disciplined Capricorn is ambitious and responsible. They are hardworking and often take on a leadership role within the group.',
+    occurrence: 8,
+    popularity: 65,
+    influences: { 'personality.discipline': 5, 'personality.ambition': 3 },
+  },
+  AQUARIUS: {
+    id: 'AQUARIUS',
+    name: 'Aquarius',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The innovative Aquarius is independent and intellectual. They are often seen as unconventional and are not afraid to challenge the status quo.',
+    occurrence: 8,
+    popularity: 70,
+    influences: { 'personality.curiosity': 5, 'personality.extroversion': -2 },
+  },
+  PISCES: {
+    id: 'PISCES',
+    name: 'Pisces',
+    type: 'zodiacSign',
+    group: 'zodiac',
+    description:
+      'The empathetic Pisces is artistic and intuitive. They are deeply emotional and often have a strong connection to music and creativity.',
+    occurrence: 8,
+    popularity: 75,
+    influences: { 'personality.sensitivity': 5, 'personality.gentleness': 4 },
+  },
+};

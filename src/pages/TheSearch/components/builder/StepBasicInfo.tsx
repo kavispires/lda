@@ -7,6 +7,7 @@ import type { Contestant } from '../../types/contestant';
 import { getColorSuggestions } from '../../utilities/color-suggestions';
 import { ALIGNMENTS, GRADES, TRACKS } from '../../utilities/constants';
 import { generateContestantId } from '../../utilities/contestant-factory';
+import { getZodiacSignOptions } from '../../utilities/helpers';
 import { ContestantAvatar } from '../ContestantAvatar';
 import { ContestantBuilderStepperControls } from './ContestantBuilderStepper';
 
@@ -133,6 +134,7 @@ export function StepBasicInfo({
           color: contestant.color || '#FFFFFF',
           persona: contestant.persona || '',
           alignment: contestant.alignment || ALIGNMENTS.TRUE_NEUTRAL,
+          zodiacSign: contestant.zodiacSign || 'ARIES',
         }}
         layout="vertical"
         onFinish={onFinish}
@@ -330,6 +332,10 @@ export function StepBasicInfo({
 
         <Form.Item label="Persona (Optional)" name="persona">
           <Input placeholder="e.g., 'UNDERDOG', 'INFLUENCER'" />
+        </Form.Item>
+
+        <Form.Item label="Zodiac Sign" name="zodiacSign" required>
+          <Select options={getZodiacSignOptions()} />
         </Form.Item>
 
         <Form.Item>

@@ -47,6 +47,7 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
     track: partial.track || TRACKS.VOCAL,
     color: partial.color || '#FFFFFF',
     persona: partial.persona || '',
+    zodiacSign: partial.zodiacSign || 'ARIES',
     updatedAt: partial.updatedAt || Date.now(),
     appearance: partial.appearance || {
       age: 18,

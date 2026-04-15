@@ -270,6 +270,11 @@ export interface Contestant {
    */
   persona: string;
   /**
+   * Zodiac sign (astrological sign based on birthdate).
+   * Values: ARIES, TAURUS, GEMINI, CANCER, LEO, VIRGO, LIBRA, SCORPIO, SAGITTARIUS, CAPRICORN, AQUARIUS, PISCES
+   */
+  zodiacSign: string;
+  /**
    * Timestamp in milliseconds when the contestant was last updated
    */
   updatedAt: number;

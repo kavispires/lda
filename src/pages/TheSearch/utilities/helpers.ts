@@ -1,7 +1,14 @@
 import type { Dictionary } from 'types/common';
 import type { AttributeCard } from '../types/common';
 import type { Contestant } from '../types/contestant';
-import { DANCE_STYLES, LEADERSHIP_STYLES, RAP_STYLES, VISUAL_VIBES, VOCAL_COLORS } from './specialties';
+import {
+  DANCE_STYLES,
+  LEADERSHIP_STYLES,
+  RAP_STYLES,
+  VISUAL_VIBES,
+  VOCAL_COLORS,
+  ZODIAC_SIGNS,
+} from './attribute-libraries';
 
 /**
  * Type for specialty groups
@@ -102,4 +109,14 @@ export function getSpecialtyOptions(type: SpecialtyType): Array<{ value: string;
 export function getSpecialtyById(type: SpecialtyType, id: string): AttributeCard | undefined {
   const specialties = getSpecialtyDictionary(type);
   return specialties[id];
+}
+
+/**
+ * Gets all zodiac sign options in a format suitable for Select component
+ */
+export function getZodiacSignOptions(): Array<{ value: string; label: string }> {
+  return Object.values(ZODIAC_SIGNS).map((sign) => ({
+    value: sign.id,
+    label: sign.name,
+  }));
 }
