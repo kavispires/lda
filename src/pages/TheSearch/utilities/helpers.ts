@@ -52,9 +52,13 @@ export function generateRandomSpecialty(
     return '';
   }
 
+  if (!preferDiversity) {
+    return entries[Math.floor(Math.random() * entries.length)].id;
+  }
+
   // Count how many times each specialty has been used
   const usageCounts: Record<string, number> = {};
-  if (preferDiversity && existingContestants.length > 0) {
+  if (existingContestants.length > 0) {
     for (const contestant of existingContestants) {
       const specialtyValue = contestant.specialties[type];
       if (specialtyValue) {
@@ -64,32 +68,21 @@ export function generateRandomSpecialty(
   }
 
   // Calculate weights, reducing weight for already-used specialties
-  const weights: number[] = [];
-  let totalWeight = 0;
-
+  const weights: Record<string, number> = {};
   for (const specialty of entries) {
-    const usageCount = usageCounts[specialty.id] || 0;
-    // Reduce weight by 1% for each contestant that has used it (out of 100 total contestants)
-    // Never go below 10% of original weight
-    const adjustedWeight = Math.max(
-      specialty.occurrence * 0.1,
-      specialty.occurrence * (1 - usageCount * 0.01),
-    );
-    weights.push(adjustedWeight);
-    totalWeight += adjustedWeight;
+    const value = Math.max(specialty.occurrence - (usageCounts[specialty.id] || 0), 0);
+    weights[specialty.id] = value;
   }
 
-  // Select random specialty based on weights
-  let random = Math.random() * totalWeight;
-  for (let i = 0; i < entries.length; i++) {
-    random -= weights[i];
-    if (random <= 0) {
-      return entries[i].id;
-    }
+  const options = Object.entries(weights).flatMap(([id, weight]) => Array(weight).fill(id));
+
+  if (options.length === 0) {
+    // If all weights are zero, fallback to equal probability
+    return entries[Math.floor(Math.random() * entries.length)].id;
   }
 
-  // Fallback to last entry (should rarely happen)
-  return entries[entries.length - 1].id;
+  const randomIndex = Math.floor(Math.random() * options.length);
+  return options[randomIndex];
 }
 
 /**
