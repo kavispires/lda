@@ -1,5 +1,5 @@
 import { RedoOutlined } from '@ant-design/icons';
-import { Button, Card, Flex, Form, Select, Typography } from 'antd';
+import { Alert, Button, Card, Flex, Form, Select, Typography } from 'antd';
 import { useState } from 'react';
 import type { Contestant, Specialties } from '../../types/contestant';
 import {
@@ -51,6 +51,22 @@ function getSpecialtyUsageStats(
     }))
     .sort((a, b) => b.count - a.count)
     .slice(0, 10);
+}
+
+/**
+ * Generate DNA/hash from specialties
+ * Format: vc-SWEET_ds-SMOOTH_rs-SWAG_vv-CUTE_ls-COMMANDER
+ */
+function generateSpecialtiesHash(specialties?: Specialties): string {
+  if (!specialties) return '';
+
+  const vc = specialties.vocalColor || 'NONE';
+  const ds = specialties.danceStyle || 'NONE';
+  const rs = specialties.rapStyle || 'NONE';
+  const vv = specialties.visualVibe || 'NONE';
+  const ls = specialties.leadershipStyle || 'NONE';
+
+  return `vc-${vc}_ds-${ds}_rs-${rs}_vv-${vv}_ls-${ls}`;
 }
 
 export function StepSpecialties({
@@ -155,6 +171,14 @@ export function StepSpecialties({
     );
   };
 
+  // Generate DNA hash and check for duplicates
+  const currentHash = generateSpecialtiesHash(contestant.specialties);
+  const duplicateContestants = existingContestants.filter((c) => {
+    // Don't compare with the same contestant when editing
+    if (contestant.id && c.id === contestant.id) return false;
+    return generateSpecialtiesHash(c.specialties) === currentHash;
+  });
+
   return (
     <>
       <Typography.Title level={3}>Specialties</Typography.Title>
@@ -169,6 +193,26 @@ export function StepSpecialties({
         name={contestant.name}
         track={contestant.track}
       />
+
+      {duplicateContestants.length > 0 && (
+        <Alert
+          description={
+            <>
+              <div style={{ marginBottom: '0.5rem' }}>
+                DNA Hash: <strong>{currentHash}</strong>
+              </div>
+              <div>
+                The following contestant(s) have identical specialties:{' '}
+                <strong>{duplicateContestants.map((c) => c.name).join(', ')}</strong>
+              </div>
+            </>
+          }
+          message="Duplicate Specialties Detected"
+          showIcon
+          style={{ marginBottom: '1rem' }}
+          type="warning"
+        />
+      )}
 
       <Flex gap={16}>
         {/* Left Column: Form */}

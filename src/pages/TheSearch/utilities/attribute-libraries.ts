@@ -84,7 +84,7 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
   URBAN: {
     id: 'URBAN',
     name: 'Urban',
-    occurrence: 55,
+    occurrence: 50,
     type: 'danceStyle',
     group: 'dance',
     description:
