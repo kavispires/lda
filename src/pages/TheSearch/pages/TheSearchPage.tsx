@@ -1,5 +1,5 @@
 import { DeleteOutlined, EditOutlined, PlusOutlined, SaveOutlined, WarningOutlined } from '@ant-design/icons';
-import { App, Button, Input, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
+import { Button, Input, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import type { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { Content } from 'components/Content';
@@ -7,16 +7,15 @@ import { useQueryParams } from 'hooks/useQueryParams';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContestantAvatar } from '../components/ContestantAvatar';
-import { contestantsParser } from '../hooks/useContestants';
+import { useContestantsParserMutation } from '../hooks/useContestants';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import type { Contestant } from '../types/contestant';
 
 export function TheSearchPage() {
   const navigate = useNavigate();
-  const { notification } = App.useApp();
   const { queryParams, addParams } = useQueryParams();
   const [searchQuery, setSearchQuery] = useState('');
-  const [isParserRunning, setIsParserRunning] = useState(false);
+  const parserMutation = useContestantsParserMutation();
   const {
     contestants: contestantsData,
     deleteLocalContestant,
@@ -396,32 +395,14 @@ export function TheSearchPage() {
             size="large"
             type={hasDirtyChanges ? 'default' : 'primary'}
           >
-            Create New Contestant
+            New Contestant
           </Button>
           {/* Utility parser for one-time data migrations */}
           <Button
             danger
             disabled
-            loading={isParserRunning}
-            onClick={async () => {
-              setIsParserRunning(true);
-              try {
-                const count = await contestantsParser(contestantsData);
-                notification.success({
-                  message: 'Parser Complete',
-                  description: `Updated ${count} contestants`,
-                });
-                // Reload page to see changes
-                window.location.reload();
-              } catch (error) {
-                notification.error({
-                  message: 'Error',
-                  description: error instanceof Error ? error.message : 'Unknown error',
-                });
-              } finally {
-                setIsParserRunning(false);
-              }
-            }}
+            loading={parserMutation.isPending}
+            onClick={() => parserMutation.mutate(contestantsData)}
             size="large"
           >
             🛠️ Run Parser

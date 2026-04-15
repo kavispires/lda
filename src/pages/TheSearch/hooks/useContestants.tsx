@@ -94,33 +94,60 @@ export function useDeleteContestantMutation() {
 }
 
 /**
- * Utility function for batch parsing/updating contestant data
+ * Mutation to batch parse/update contestant data
  * Can be modified for one-time data migrations or fixes
  * Returns the number of contestants updated
  */
-export async function contestantsParser(contestants: Record<string, Contestant>): Promise<number> {
-  const updates: Record<string, string> = {};
+export function useContestantsParserMutation() {
+  const { notification } = App.useApp();
+  const queryClient = useQueryClient();
 
-  for (const [_id, _contestant] of Object.entries(contestants)) {
-    // Add parsing logic here as needed
-    // Example: Check for specific data patterns and fix them
-    // if (needsUpdate) {
-    //   const updated = {
-    //     ..._contestant,
-    //     updatedAt: Date.now(),
-    //   };
-    //   updates[_id] = serializeContestant(updated);
-    // }
-  }
+  return useMutation<number, Error, Record<string, Contestant>>({
+    mutationFn: async (contestants) => {
+      const updates: Record<string, string> = {};
 
-  const count = Object.keys(updates).length;
+      for (const [_id, _contestant] of Object.entries(contestants)) {
+        // Add parsing logic here as needed
+        // Example: Check for specific data patterns and fix them
+        // if (needsUpdate) {
+        //   const updated = {
+        //     ..._contestant,
+        //     updatedAt: Date.now(),
+        //   };
+        //   updates[_id] = serializeContestant(updated);
+        // }
+      }
 
-  if (count === 0) {
-    return 0;
-  }
+      const count = Object.keys(updates).length;
 
-  // Batch update all contestants at once
-  await updateDocQueryFunction('the-search', 'contestants', updates);
+      if (count === 0) {
+        return 0;
+      }
 
-  return count;
+      // Batch update all contestants at once
+      await updateDocQueryFunction('the-search', 'contestants', updates);
+
+      return count;
+    },
+    onSuccess(count) {
+      notification.success({
+        message: 'Parser Complete',
+        description: `Updated ${count} contestants`,
+      });
+
+      // Invalidate and reload data
+      queryClient.invalidateQueries({
+        queryKey: ['the-search', 'contestants'],
+      });
+
+      // Reload page to see changes
+      window.location.reload();
+    },
+    onError(error) {
+      notification.error({
+        message: 'Error',
+        description: error.message,
+      });
+    },
+  });
 }
