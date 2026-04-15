@@ -1,6 +1,7 @@
 import { RedoOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Flex, Form, Select, Typography } from 'antd';
-import { useState } from 'react';
+import { useQueryParams } from 'hooks/useQueryParams';
+import { useEffect, useState } from 'react';
 import type { Contestant, Specialties } from '../../types/contestant';
 import {
   generateRandomSpecialty,
@@ -54,6 +55,13 @@ function getSpecialtyUsageStats(
 }
 
 /**
+ * Counts contestants with non-empty value for a specialty field
+ */
+function countContestantsWithSpecialty(contestants: Contestant[], field: keyof Specialties): number {
+  return contestants.filter((c) => c.specialties?.[field]).length;
+}
+
+/**
  * Generate DNA/hash from specialties
  * Format: vc-SWEET_ds-SMOOTH_rs-SWAG_vv-CUTE_ls-COMMANDER
  */
@@ -69,6 +77,17 @@ function generateSpecialtiesHash(specialties?: Specialties): string {
   return `vc-${vc}_ds-${ds}_rs-${rs}_vv-${vv}_ls-${ls}`;
 }
 
+/**
+ * All specialty keys in order
+ */
+const ALL_SPECIALTY_KEYS: Array<keyof Specialties> = [
+  'vocalColor',
+  'danceStyle',
+  'rapStyle',
+  'visualVibe',
+  'leadershipStyle',
+];
+
 export function StepSpecialties({
   contestant,
   updateContestant,
@@ -80,10 +99,41 @@ export function StepSpecialties({
   addParams,
   onApplyChanges,
 }: StepSpecialtiesProps) {
+  const { queryParams, addParams: addParamsFromHook } = useQueryParams();
+  const addParamsFunc = addParams || addParamsFromHook;
+
   const [form] = Form.useForm();
   const [selectedSpecialties, setSelectedSpecialties] = useState<Partial<Specialties>>(
     contestant.specialties || {},
   );
+
+  const [visibleSpecialties, setVisibleSpecialties] = useState<Array<keyof Specialties>>(() => {
+    const param = queryParams.get('visibleSpecialties');
+    if (param) {
+      const parsed = param.split(',') as Array<keyof Specialties>;
+      return parsed.filter((key) => ALL_SPECIALTY_KEYS.includes(key));
+    }
+    return [];
+  });
+
+  const handleVisibleSpecialtiesChange = (values: Array<keyof Specialties>) => {
+    setVisibleSpecialties(values);
+    if (addParamsFunc) {
+      addParamsFunc({ visibleSpecialties: values.join(',') });
+    }
+  };
+
+  // Sync state with query params when they change
+  useEffect(() => {
+    const param = queryParams.get('visibleSpecialties');
+    if (param) {
+      const parsed = param.split(',') as Array<keyof Specialties>;
+      const filtered = parsed.filter((key) => ALL_SPECIALTY_KEYS.includes(key));
+      setVisibleSpecialties(filtered);
+    } else {
+      setVisibleSpecialties([]);
+    }
+  }, [queryParams]);
 
   const handleRandomSelection = (type: SpecialtyType, field: keyof Specialties) => {
     const randomId = generateRandomSpecialty(type, existingContestants, true);
@@ -207,9 +257,9 @@ export function StepSpecialties({
               </div>
             </>
           }
-          message="Duplicate Specialties Detected"
           showIcon
           style={{ marginBottom: '1rem' }}
+          title="Duplicate Specialties Detected"
           type="warning"
         />
       )}
@@ -217,14 +267,26 @@ export function StepSpecialties({
       <Flex gap={16}>
         {/* Left Column: Form */}
         <div style={{ flex: 1 }}>
-          <Button
-            icon={<RedoOutlined />}
-            onClick={handleRandomizeAll}
-            style={{ marginBottom: '1rem' }}
-            type="default"
-          >
-            Randomize All Specialties
-          </Button>
+          <Flex align="center" gap={16} style={{ marginBottom: '1rem' }}>
+            <Button icon={<RedoOutlined />} onClick={handleRandomizeAll} type="default">
+              Randomize All Specialties
+            </Button>
+            <Select
+              mode="multiple"
+              onChange={handleVisibleSpecialtiesChange}
+              options={[
+                { value: 'vocalColor', label: 'Vocal Color' },
+                { value: 'danceStyle', label: 'Dance Style' },
+                { value: 'rapStyle', label: 'Rap Style' },
+                { value: 'visualVibe', label: 'Visual Vibe' },
+                { value: 'leadershipStyle', label: 'Leadership Style' },
+              ]}
+              placeholder="Select specialties to display"
+              size="small"
+              style={{ width: 300 }}
+              value={visibleSpecialties}
+            />
+          </Flex>
 
           <Form
             autoComplete="off"
@@ -242,11 +304,16 @@ export function StepSpecialties({
             onFinish={onFinish}
             onValuesChange={onValuesChange}
           >
-            {renderSpecialtyField('vocalColor', 'Vocal Color', 'vocalColor')}
-            {renderSpecialtyField('danceStyle', 'Dance Style', 'danceStyle')}
-            {renderSpecialtyField('rapStyle', 'Rap Style', 'rapStyle')}
-            {renderSpecialtyField('visualVibe', 'Visual Vibe', 'visualVibe')}
-            {renderSpecialtyField('leadershipStyle', 'Leadership Style', 'leadershipStyle')}
+            {(visibleSpecialties.length === 0 || visibleSpecialties.includes('vocalColor')) &&
+              renderSpecialtyField('vocalColor', 'Vocal Color', 'vocalColor')}
+            {(visibleSpecialties.length === 0 || visibleSpecialties.includes('danceStyle')) &&
+              renderSpecialtyField('danceStyle', 'Dance Style', 'danceStyle')}
+            {(visibleSpecialties.length === 0 || visibleSpecialties.includes('rapStyle')) &&
+              renderSpecialtyField('rapStyle', 'Rap Style', 'rapStyle')}
+            {(visibleSpecialties.length === 0 || visibleSpecialties.includes('visualVibe')) &&
+              renderSpecialtyField('visualVibe', 'Visual Vibe', 'visualVibe')}
+            {(visibleSpecialties.length === 0 || visibleSpecialties.includes('leadershipStyle')) &&
+              renderSpecialtyField('leadershipStyle', 'Leadership Style', 'leadershipStyle')}
 
             <Form.Item>
               <ContestantBuilderStepperControls
@@ -269,7 +336,7 @@ export function StepSpecialties({
             {/* Vocal Color Stats */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Vocal Color
+                Vocal Color ({countContestantsWithSpecialty(existingContestants, 'vocalColor')})
               </Typography.Text>
               <div style={{ fontSize: '0.7rem', marginTop: '0.25rem' }}>
                 {getSpecialtyUsageStats(existingContestants, 'vocalColor').length > 0 ? (
@@ -306,7 +373,7 @@ export function StepSpecialties({
             {/* Dance Style Stats */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Dance Style
+                Dance Style ({countContestantsWithSpecialty(existingContestants, 'danceStyle')})
               </Typography.Text>
               <div style={{ fontSize: '0.7rem', marginTop: '0.25rem' }}>
                 {getSpecialtyUsageStats(existingContestants, 'danceStyle').length > 0 ? (
@@ -343,7 +410,7 @@ export function StepSpecialties({
             {/* Rap Style Stats */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Rap Style
+                Rap Style ({countContestantsWithSpecialty(existingContestants, 'rapStyle')})
               </Typography.Text>
               <div style={{ fontSize: '0.7rem', marginTop: '0.25rem' }}>
                 {getSpecialtyUsageStats(existingContestants, 'rapStyle').length > 0 ? (
@@ -380,7 +447,7 @@ export function StepSpecialties({
             {/* Visual Vibe Stats */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Visual Vibe
+                Visual Vibe ({countContestantsWithSpecialty(existingContestants, 'visualVibe')})
               </Typography.Text>
               <div style={{ fontSize: '0.7rem', marginTop: '0.25rem' }}>
                 {getSpecialtyUsageStats(existingContestants, 'visualVibe').length > 0 ? (
@@ -417,7 +484,7 @@ export function StepSpecialties({
             {/* Leadership Style Stats */}
             <div style={{ marginBottom: '1rem' }}>
               <Typography.Text strong style={{ fontSize: '0.875rem' }}>
-                Leadership Style
+                Leadership Style ({countContestantsWithSpecialty(existingContestants, 'leadershipStyle')})
               </Typography.Text>
               <div style={{ fontSize: '0.7rem', marginTop: '0.25rem' }}>
                 {getSpecialtyUsageStats(existingContestants, 'leadershipStyle').length > 0 ? (
