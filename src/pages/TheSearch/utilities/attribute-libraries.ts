@@ -19,7 +19,7 @@ export const VOCAL_COLORS: Dictionary<AttributeCard> = {
     group: 'vocal',
     description:
       "A light, 'honey-like' vocal tone that instantly captures the public's heart with its kindness.",
-    occurrence: 20,
+    occurrence: 15,
     popularity: 85,
     influences: { 'personality.gentleness': 3, 'personality.sensitivity': 2, 'state.audienceRatio': 0.05 },
   },
@@ -74,7 +74,7 @@ export const VOCAL_COLORS: Dictionary<AttributeCard> = {
     group: 'vocal',
     description:
       'A rare, resonant low range used for dramatic impact and providing a heavy foundation for the group.',
-    occurrence: 5,
+    occurrence: 10,
     popularity: 70,
     influences: { 'personality.extroversion': -3, 'coreSkills.uniqueness': 0.5 },
   },

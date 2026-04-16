@@ -6,12 +6,77 @@ import { DownloadButton } from 'components/Common/DownloadButton';
 import { FirestoreConsoleLink } from 'components/Common/FirestoreConsoleLink';
 import { Content } from 'components/Content';
 import { useQueryParams } from 'hooks/useQueryParams';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { useContestantsParserMutation } from '../hooks/useContestants';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import type { Contestant } from '../types/contestant';
+
+type ContestantWithScore = Contestant & {
+  score: number;
+  incompleteCount: number;
+  incompleteMissing: string[];
+};
+
+const calculateScore = (contestant: Contestant): number => {
+  // Sum all core skills
+  const trackSKills =
+    (contestant.coreSkills?.vocals || 0) +
+    (contestant.coreSkills?.rap || 0) +
+    (contestant.coreSkills?.dance || 0);
+  const stagePresenceSkill = contestant.coreSkills?.stagePresence || 0;
+  const appearanceSkills =
+    (contestant.coreSkills?.visual || 0) +
+    (contestant.coreSkills?.uniqueness || 0) +
+    (contestant.utilitySkills?.charisma || 0);
+
+  const leadershipSkill = contestant.coreSkills?.leadership || 0;
+
+  // Sum all utility skills
+  const utilitySkillsTotal =
+    (contestant.utilitySkills?.potential || 0) +
+    (contestant.utilitySkills?.memory || 0) +
+    (contestant.utilitySkills?.stamina || 0) +
+    (contestant.utilitySkills?.learning || 0) +
+    (contestant.utilitySkills?.acrobatics || 0) +
+    (contestant.utilitySkills?.consistency || 0);
+
+  // Calculate average
+  return (
+    (trackSKills * 4 +
+      stagePresenceSkill * 5 +
+      appearanceSkills * 2 +
+      leadershipSkill * 1 +
+      utilitySkillsTotal * 1) /
+    (12 + 5 + 6 + 1 + 6)
+  ); // Total weight is 30
+};
+
+const checkIncomplete = (contestant: Contestant): string[] => {
+  const missing: string[] = [];
+
+  // Check basic fields
+  if (!contestant.name) missing.push('Name');
+  if (!contestant.track) missing.push('Track');
+  if (!contestant.color) missing.push('Color');
+  // if (!contestant.persona) missing.push('Persona');
+
+  // Check appearance
+  if (!contestant.appearance?.age) missing.push('Age');
+  if (!contestant.appearance?.hairStyle) missing.push('Hair Style');
+  if (!contestant.appearance?.hairColor) missing.push('Hair Color');
+  if (!contestant.appearance?.furColor) missing.push('Fur Color');
+
+  // Check specialties
+  if (!contestant.specialties?.vocalColor) missing.push('Vocal Color');
+  if (!contestant.specialties?.danceStyle) missing.push('Dance Style');
+  if (!contestant.specialties?.rapStyle) missing.push('Rap Style');
+  if (!contestant.specialties?.visualVibe) missing.push('Visual Vibe');
+  if (!contestant.specialties?.leadershipStyle) missing.push('Leadership Style');
+
+  return missing;
+};
 
 export function TheSearchPage() {
   const navigate = useNavigate();
@@ -110,70 +175,24 @@ export function TheSearchPage() {
     return false;
   });
 
-  const calculateScore = (contestant: Contestant): number => {
-    // Sum all core skills
-    const trackSKills =
-      (contestant.coreSkills?.vocals || 0) +
-      (contestant.coreSkills?.rap || 0) +
-      (contestant.coreSkills?.dance || 0);
-    const stagePresenceSkill = contestant.coreSkills?.stagePresence || 0;
-    const appearanceSkills =
-      (contestant.coreSkills?.visual || 0) +
-      (contestant.coreSkills?.uniqueness || 0) +
-      (contestant.utilitySkills?.charisma || 0);
-
-    const leadershipSkill = contestant.coreSkills?.leadership || 0;
-
-    // Sum all utility skills
-    const utilitySkillsTotal =
-      (contestant.utilitySkills?.potential || 0) +
-      (contestant.utilitySkills?.memory || 0) +
-      (contestant.utilitySkills?.stamina || 0) +
-      (contestant.utilitySkills?.learning || 0) +
-      (contestant.utilitySkills?.acrobatics || 0) +
-      (contestant.utilitySkills?.consistency || 0);
-
-    // Calculate average
-    return (
-      (trackSKills * 4 +
-        stagePresenceSkill * 5 +
-        appearanceSkills * 2 +
-        leadershipSkill * 1 +
-        utilitySkillsTotal * 1) /
-      (12 + 5 + 6 + 1 + 6)
-    ); // Total weight is 30
-  };
-
-  const checkIncomplete = (contestant: Contestant): string[] => {
-    const missing: string[] = [];
-
-    // Check basic fields
-    if (!contestant.name) missing.push('Name');
-    if (!contestant.track) missing.push('Track');
-    if (!contestant.color) missing.push('Color');
-    // if (!contestant.persona) missing.push('Persona');
-
-    // Check appearance
-    if (!contestant.appearance?.age) missing.push('Age');
-    if (!contestant.appearance?.hairStyle) missing.push('Hair Style');
-    if (!contestant.appearance?.hairColor) missing.push('Hair Color');
-    if (!contestant.appearance?.furColor) missing.push('Fur Color');
-
-    // Check specialties
-    if (!contestant.specialties?.vocalColor) missing.push('Vocal Color');
-    if (!contestant.specialties?.danceStyle) missing.push('Dance Style');
-    if (!contestant.specialties?.rapStyle) missing.push('Rap Style');
-    if (!contestant.specialties?.visualVibe) missing.push('Visual Vibe');
-    if (!contestant.specialties?.leadershipStyle) missing.push('Leadership Style');
-
-    return missing;
-  };
+  // Pre-calculate scores and incomplete data for all filtered contestants
+  const contestantsWithScores = useMemo(() => {
+    return filteredContestants.map((contestant) => {
+      const missing = checkIncomplete(contestant);
+      return {
+        ...contestant,
+        score: calculateScore(contestant),
+        incompleteCount: missing.length,
+        incompleteMissing: missing,
+      };
+    });
+  }, [filteredContestants]);
 
   // Handle table changes (pagination, filters, sorting)
   const handleTableChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, FilterValue | null>,
-    sorter: SorterResult<Contestant> | SorterResult<Contestant>[],
+    sorter: SorterResult<ContestantWithScore> | SorterResult<ContestantWithScore>[],
   ) => {
     const singleSorter = Array.isArray(sorter) ? sorter[0] : sorter;
     const trackFilter = filters.track as string[] | null;
@@ -207,7 +226,7 @@ export function TheSearchPage() {
     addParams(params, defaults);
   };
 
-  const columns: ColumnType<Contestant>[] = [
+  const columns: ColumnType<ContestantWithScore>[] = [
     {
       title: 'Avatar',
       dataIndex: 'id',
@@ -287,11 +306,10 @@ export function TheSearchPage() {
       title: 'Score',
       key: 'score',
       width: 80,
-      sorter: (a, b) => calculateScore(a) - calculateScore(b),
+      sorter: (a, b) => a.score - b.score,
       sortOrder: sortField === 'score' ? sortOrder : undefined,
-      render: (_value: unknown, record: Contestant) => {
-        const score = calculateScore(record);
-        return score.toFixed(2);
+      render: (_value: unknown, record: ContestantWithScore) => {
+        return record.score.toFixed(2);
       },
     },
     {
@@ -317,12 +335,13 @@ export function TheSearchPage() {
       key: 'incomplete',
       width: 60,
       align: 'center',
-      render: (_value: unknown, record: Contestant) => {
-        const missing = checkIncomplete(record);
-        if (missing.length === 0) return null;
+      sorter: (a, b) => a.incompleteCount - b.incompleteCount,
+      sortOrder: sortField === 'incomplete' ? sortOrder : undefined,
+      render: (_value: unknown, record: ContestantWithScore) => {
+        if (record.incompleteCount === 0) return null;
 
         return (
-          <Tooltip title={`Missing: ${missing.join(', ')}`}>
+          <Tooltip title={`Missing: ${record.incompleteMissing.join(', ')}`}>
             <WarningOutlined style={{ color: '#faad14', fontSize: '16px' }} />
           </Tooltip>
         );
@@ -433,7 +452,7 @@ export function TheSearchPage() {
 
       <Table
         columns={columns}
-        dataSource={filteredContestants}
+        dataSource={contestantsWithScores}
         onChange={handleTableChange}
         pagination={{
           current: currentPage,

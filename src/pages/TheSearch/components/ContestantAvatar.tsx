@@ -38,9 +38,9 @@ export function ContestantAvatar({ id, name, enablePreview = true, ...props }: C
       {enablePreview && (
         <Image
           preview={{
-            visible: previewVisible,
+            open: previewVisible,
             src: contestantAvatarUrl,
-            onVisibleChange: (visible) => setPreviewVisible(visible),
+            onOpenChange: (open) => setPreviewVisible(open),
           }}
           src={contestantAvatarUrl}
           style={{ display: 'none' }}

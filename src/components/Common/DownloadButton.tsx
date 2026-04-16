@@ -1,10 +1,11 @@
-import { CheckSquareOutlined } from '@ant-design/icons';
+import { CheckSquareOutlined, DownOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
-import { Alert, Badge, Button, Cascader, Dropdown, type DropdownProps, Modal, Spin } from 'antd';
+import { Alert, Badge, Button, Cascader, Dropdown, type DropdownProps, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash';
 import { useMemo, useState } from 'react';
 import { wait } from 'utils';
 
+// biome-ignore lint/suspicious/noExplicitAny: on purpose
 type PlainObject = Record<string, any>;
 
 type DownloadButtonProps = {
@@ -70,9 +71,12 @@ export function DownloadButton({
       } else {
         downloadData = data;
       }
+
+      // biome-ignore lint/suspicious/noConsole: on purpose
       console.log('Preparing to download data:', downloadData);
       downloadObjectAsFile(downloadData, fileName);
     } catch (error) {
+      // biome-ignore lint/suspicious/noConsole: on purpose
       console.error('Failed to download file:', error);
     } finally {
       setInternalLoading(false);
@@ -92,25 +96,28 @@ export function DownloadButton({
       // Implement selective download logic here
       setSelectiveMode(true);
     } else {
-      console.log('Regular Download clicked');
+      // biome-ignore lint/suspicious/noConsole: on purpose
+      console.warn('Regular Download clicked');
       // handleDownload();
     }
   };
 
   return (
     <>
-      <Dropdown.Button
-        disabled={loading}
-        icon={icon}
-        loading={loading}
-        menu={{ items, onClick: onMenuClick }}
-        onClick={handleDownload}
-        style={block ? { width: '100%' } : undefined}
-        {...props}
-      >
-        {children ?? 'Download JSON'}
-        {hasNewData && <Badge status="warning" />}
-      </Dropdown.Button>
+      <Space.Compact style={block ? { width: '100%' } : undefined}>
+        <Button
+          disabled={loading}
+          loading={loading}
+          onClick={handleDownload}
+          style={block ? { flex: 1 } : undefined}
+        >
+          {children ?? 'Download JSON'}
+          {hasNewData && <Badge status="warning" />}
+        </Button>
+        <Dropdown menu={{ items, onClick: onMenuClick }} {...props}>
+          <Button disabled={loading} icon={icon ?? <DownOutlined />} />
+        </Dropdown>
+      </Space.Compact>
       <SelectiveModal
         data={data}
         fileName={fileName}
@@ -224,8 +231,8 @@ function SelectiveModal({ open, onClose, data, fileName }: SelectiveModalProps) 
                   Retry
                 </Button>
               }
-              message="No data available for selective download."
               showIcon
+              title="No data available for selective download."
               type="info"
             />
           )}
