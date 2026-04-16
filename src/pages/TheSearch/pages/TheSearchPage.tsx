@@ -37,6 +37,116 @@ type ContestantWithScore = Contestant & {
   score: number;
   incompleteCount: number;
   incompleteMissing: string[];
+  dna: string;
+  dnaCount: number;
+};
+
+const generateDNA = (contestant: Contestant, visibleColumns: Set<string>): string => {
+  // Columns to exclude from DNA
+  const excludedColumns = new Set([
+    'id',
+    'avatar',
+    'name',
+    'persona',
+    'score',
+    'updatedAt',
+    'incomplete',
+    'actions',
+    'dna',
+  ]);
+
+  const dnaSegments: string[] = [];
+
+  // Order matters for consistency
+  const columnOrder = [
+    'track',
+    'zodiacSign',
+    'alignment',
+    'age',
+    'height',
+    'build',
+    'hairStyle',
+    'hairColor',
+    'furColor',
+    'vocals',
+    'rap',
+    'dance',
+    'stagePresence',
+    'visual',
+    'uniqueness',
+    'leadership',
+    'potential',
+    'memory',
+    'stamina',
+    'learning',
+    'acrobatics',
+    'consistency',
+    'charisma',
+    'discipline',
+    'curiosity',
+    'extroversion',
+    'sensitivity',
+    'gentleness',
+    'sincerity',
+    'ambition',
+    'resilience',
+    'maturity',
+    'investment',
+    'vocalColor',
+    'danceStyle',
+    'rapStyle',
+    'visualVibe',
+    'leadershipStyle',
+  ];
+
+  for (const colKey of columnOrder) {
+    if (!visibleColumns.has(colKey) || excludedColumns.has(colKey)) continue;
+
+    let value: unknown;
+
+    // Extract value based on column key
+    if (colKey === 'track' || colKey === 'zodiacSign' || colKey === 'alignment') {
+      value = contestant[colKey as keyof Contestant];
+    } else if (['age', 'height', 'build', 'hairStyle', 'hairColor', 'furColor'].includes(colKey)) {
+      value = contestant.appearance?.[colKey as keyof typeof contestant.appearance];
+    } else if (
+      ['vocals', 'rap', 'dance', 'stagePresence', 'visual', 'uniqueness', 'leadership'].includes(colKey)
+    ) {
+      value = contestant.coreSkills?.[colKey as keyof typeof contestant.coreSkills];
+    } else if (
+      ['potential', 'memory', 'stamina', 'learning', 'acrobatics', 'consistency', 'charisma'].includes(colKey)
+    ) {
+      value = contestant.utilitySkills?.[colKey as keyof typeof contestant.utilitySkills];
+    } else if (
+      [
+        'discipline',
+        'curiosity',
+        'extroversion',
+        'sensitivity',
+        'gentleness',
+        'sincerity',
+        'ambition',
+        'resilience',
+        'maturity',
+        'investment',
+      ].includes(colKey)
+    ) {
+      value = contestant.personality?.[colKey as keyof typeof contestant.personality];
+    } else if (['vocalColor', 'danceStyle', 'rapStyle', 'visualVibe', 'leadershipStyle'].includes(colKey)) {
+      value = contestant.specialties?.[colKey as keyof typeof contestant.specialties];
+    }
+
+    if (value !== undefined && value !== null && value !== '') {
+      // Format the value
+      const formattedValue =
+        typeof value === 'string'
+          ? value.replace(/\s+/g, '') // Remove spaces from strings
+          : value.toString();
+      dnaSegments.push(formattedValue);
+    }
+  }
+
+  return dnaSegments.join('-');
 };
 
 const calculateScore = (contestant: Contestant): number => {
@@ -102,7 +212,7 @@ const checkIncomplete = (contestant: Contestant): string[] => {
 const columnCategories = {
   core: {
     label: 'Core',
-    columns: ['avatar', 'id', 'name', 'track'],
+    columns: ['avatar', 'id', 'name', 'track', 'persona', 'zodiacSign', 'alignment'],
   },
   appearance: {
     label: 'Appearance',
@@ -137,7 +247,7 @@ const columnCategories = {
   },
   status: {
     label: 'Status',
-    columns: ['score', 'updatedAt', 'incomplete', 'actions'],
+    columns: ['score', 'dna', 'updatedAt', 'incomplete', 'actions'],
   },
 };
 
@@ -147,6 +257,9 @@ const columnLabels: Record<string, string> = {
   id: 'ID',
   name: 'Name',
   track: 'Track',
+  persona: 'Persona',
+  zodiacSign: 'Zodiac Sign',
+  alignment: 'Alignment',
   age: 'Age',
   height: 'Height',
   build: 'Build',
@@ -183,6 +296,7 @@ const columnLabels: Record<string, string> = {
   visualVibe: 'Visual Vibe',
   leadershipStyle: 'Leadership Style',
   score: 'Score',
+  dna: 'DNA',
   updatedAt: 'Updated',
   incomplete: 'Incomplete',
   actions: 'Actions',
@@ -240,6 +354,10 @@ export function TheSearchPage() {
     return new Set(['avatar', 'id', 'name', 'track', 'score', 'updatedAt', 'incomplete', 'actions']);
   });
 
+  // Pending column selection (for Apply button)
+  const [pendingColumns, setPendingColumns] = useState<Set<string>>(visibleColumns);
+  const [isColumnSelectorOpen, setIsColumnSelectorOpen] = useState(false);
+
   // Save visible columns to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem('the-search-visible-columns', JSON.stringify(Array.from(visibleColumns)));
@@ -258,8 +376,12 @@ export function TheSearchPage() {
     }
   }, [sortOrder]);
 
-  const toggleColumn = (columnKey: string) => {
-    setVisibleColumns((prev) => {
+  const togglePendingColumn = (columnKey: string) => {
+    // Prevent unchecking id and actions
+    if ((columnKey === 'id' || columnKey === 'actions') && pendingColumns.has(columnKey)) {
+      return;
+    }
+    setPendingColumns((prev) => {
       const next = new Set(prev);
       if (next.has(columnKey)) {
         next.delete(columnKey);
@@ -268,6 +390,16 @@ export function TheSearchPage() {
       }
       return next;
     });
+  };
+
+  const applyColumnSelection = () => {
+    setVisibleColumns(new Set(pendingColumns));
+    setIsColumnSelectorOpen(false);
+  };
+
+  const cancelColumnSelection = () => {
+    setPendingColumns(new Set(visibleColumns));
+    setIsColumnSelectorOpen(false);
   };
 
   // Sync pagination and filters with query params when URL changes (e.g., browser back/forward)
@@ -327,18 +459,34 @@ export function TheSearchPage() {
     return false;
   });
 
-  // Pre-calculate scores and incomplete data for all filtered contestants
+  // Pre-calculate scores, incomplete data, and DNA for all filtered contestants
   const contestantsWithScores = useMemo(() => {
-    return filteredContestants.map((contestant) => {
+    // First pass: generate DNA for all contestants
+    const contestantsWithDNA = filteredContestants.map((contestant) => {
       const missing = checkIncomplete(contestant);
+      const dna = generateDNA(contestant, visibleColumns);
       return {
         ...contestant,
         score: calculateScore(contestant),
         incompleteCount: missing.length,
         incompleteMissing: missing,
+        dna,
+        dnaCount: 0, // Will be calculated in second pass
       };
     });
-  }, [filteredContestants]);
+
+    // Second pass: count DNA occurrences
+    const dnaCounts = new Map<string, number>();
+    for (const contestant of contestantsWithDNA) {
+      dnaCounts.set(contestant.dna, (dnaCounts.get(contestant.dna) || 0) + 1);
+    }
+
+    // Third pass: assign counts
+    return contestantsWithDNA.map((contestant) => ({
+      ...contestant,
+      dnaCount: dnaCounts.get(contestant.dna) || 1,
+    }));
+  }, [filteredContestants, visibleColumns]);
 
   // Handle table changes (pagination, filters, sorting)
   const handleTableChange = (
@@ -425,6 +573,30 @@ export function TheSearchPage() {
       ],
       filteredValue: filteredTracks.length > 0 ? filteredTracks : null,
       onFilter: (value, record) => record.track === value,
+    },
+    {
+      title: 'Persona',
+      dataIndex: 'persona',
+      key: 'persona',
+      render: (persona?: string) => persona || '-',
+      sorter: (a, b) => (a.persona || '').localeCompare(b.persona || ''),
+      sortOrder: sortField === 'persona' ? sortOrder : undefined,
+    },
+    {
+      title: 'Zodiac Sign',
+      dataIndex: 'zodiacSign',
+      key: 'zodiacSign',
+      render: (sign?: string) => sign || '-',
+      sorter: (a, b) => (a.zodiacSign || '').localeCompare(b.zodiacSign || ''),
+      sortOrder: sortField === 'zodiacSign' ? sortOrder : undefined,
+    },
+    {
+      title: 'Alignment',
+      dataIndex: 'alignment',
+      key: 'alignment',
+      render: (alignment?: string) => alignment || '-',
+      sorter: (a, b) => (a.alignment || '').localeCompare(b.alignment || ''),
+      sortOrder: sortField === 'alignment' ? sortOrder : undefined,
     },
     // Appearance columns
     {
@@ -722,6 +894,24 @@ export function TheSearchPage() {
       render: (_value: unknown, record: ContestantWithScore) => record.score.toFixed(2),
     },
     {
+      title: 'DNA',
+      key: 'dna',
+      sorter: (a, b) => a.dnaCount - b.dnaCount,
+      sortOrder: sortField === 'dna' ? sortOrder : undefined,
+      render: (_value: unknown, record: ContestantWithScore) => (
+        <Space size={4}>
+          <Typography.Text code style={{ fontSize: '11px' }}>
+            {record.dna || '-'}
+          </Typography.Text>
+          {record.dnaCount > 1 && (
+            <Tag color="blue" style={{ fontSize: '10px', padding: '0 4px' }}>
+              ×{record.dnaCount}
+            </Tag>
+          )}
+        </Space>
+      ),
+    },
+    {
       title: 'Updated',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
@@ -803,9 +993,10 @@ export function TheSearchPage() {
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
             {category.columns.map((colKey) => (
               <Checkbox
-                checked={visibleColumns.has(colKey)}
+                checked={pendingColumns.has(colKey)}
+                disabled={colKey === 'id' || colKey === 'actions'}
                 key={colKey}
-                onChange={() => toggleColumn(colKey)}
+                onChange={() => togglePendingColumn(colKey)}
                 style={{ margin: 0 }}
               >
                 {columnLabels[colKey] || colKey}
@@ -814,6 +1005,16 @@ export function TheSearchPage() {
           </div>
         </div>
       ))}
+      <Flex
+        gap="small"
+        justify="flex-end"
+        style={{ marginTop: '16px', paddingTop: '12px', borderTop: '1px solid #f0f0f0' }}
+      >
+        <Button onClick={cancelColumnSelection}>Cancel</Button>
+        <Button onClick={applyColumnSelection} type="primary">
+          Apply
+        </Button>
+      </Flex>
     </Card>
   );
 
@@ -891,7 +1092,12 @@ export function TheSearchPage() {
           value={searchQuery}
         />
 
-        <Dropdown popupRender={() => columnSelectorMenu} trigger={['click']}>
+        <Dropdown
+          onOpenChange={setIsColumnSelectorOpen}
+          open={isColumnSelectorOpen}
+          popupRender={() => columnSelectorMenu}
+          trigger={['click']}
+        >
           <Button icon={<EyeOutlined />} size="large">
             Columns
           </Button>
