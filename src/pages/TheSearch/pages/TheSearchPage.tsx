@@ -1,5 +1,25 @@
-import { DeleteOutlined, EditOutlined, PlusOutlined, SaveOutlined, WarningOutlined } from '@ant-design/icons';
-import { Button, Input, Popconfirm, Space, Table, Tag, Tooltip, Typography } from 'antd';
+import {
+  DeleteOutlined,
+  EditOutlined,
+  EyeOutlined,
+  PlusOutlined,
+  SaveOutlined,
+  WarningOutlined,
+} from '@ant-design/icons';
+import {
+  Button,
+  Card,
+  Checkbox,
+  Dropdown,
+  Flex,
+  Input,
+  Popconfirm,
+  Space,
+  Table,
+  Tag,
+  Tooltip,
+  Typography,
+} from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import type { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { DownloadButton } from 'components/Common/DownloadButton';
@@ -78,6 +98,96 @@ const checkIncomplete = (contestant: Contestant): string[] => {
   return missing;
 };
 
+// Column categories for the selector
+const columnCategories = {
+  core: {
+    label: 'Core',
+    columns: ['avatar', 'id', 'name', 'track'],
+  },
+  appearance: {
+    label: 'Appearance',
+    columns: ['age', 'height', 'build', 'hairStyle', 'hairColor', 'furColor'],
+  },
+  coreSkills: {
+    label: 'Core Skills',
+    columns: ['vocals', 'rap', 'dance', 'stagePresence', 'visual', 'uniqueness', 'leadership'],
+  },
+  utilitySkills: {
+    label: 'Utility Skills',
+    columns: ['potential', 'memory', 'stamina', 'learning', 'acrobatics', 'consistency', 'charisma'],
+  },
+  personality: {
+    label: 'Personality',
+    columns: [
+      'discipline',
+      'curiosity',
+      'extroversion',
+      'sensitivity',
+      'gentleness',
+      'sincerity',
+      'ambition',
+      'resilience',
+      'maturity',
+      'investment',
+    ],
+  },
+  specialties: {
+    label: 'Specialties',
+    columns: ['vocalColor', 'danceStyle', 'rapStyle', 'visualVibe', 'leadershipStyle'],
+  },
+  status: {
+    label: 'Status',
+    columns: ['score', 'updatedAt', 'incomplete', 'actions'],
+  },
+};
+
+// Column key to label mapping
+const columnLabels: Record<string, string> = {
+  avatar: 'Avatar',
+  id: 'ID',
+  name: 'Name',
+  track: 'Track',
+  age: 'Age',
+  height: 'Height',
+  build: 'Build',
+  hairStyle: 'Hair Style',
+  hairColor: 'Hair Color',
+  furColor: 'Fur Color',
+  vocals: 'Vocals',
+  rap: 'Rap',
+  dance: 'Dance',
+  stagePresence: 'Stage Presence',
+  visual: 'Visual',
+  uniqueness: 'Uniqueness',
+  leadership: 'Leadership',
+  potential: 'Potential',
+  memory: 'Memory',
+  stamina: 'Stamina',
+  learning: 'Learning',
+  acrobatics: 'Acrobatics',
+  consistency: 'Consistency',
+  charisma: 'Charisma',
+  discipline: 'Discipline',
+  curiosity: 'Curiosity',
+  extroversion: 'Extroversion',
+  sensitivity: 'Sensitivity',
+  gentleness: 'Gentleness',
+  sincerity: 'Sincerity',
+  ambition: 'Ambition',
+  resilience: 'Resilience',
+  maturity: 'Maturity',
+  investment: 'Investment',
+  vocalColor: 'Vocal Color',
+  danceStyle: 'Dance Style',
+  rapStyle: 'Rap Style',
+  visualVibe: 'Visual Vibe',
+  leadershipStyle: 'Leadership Style',
+  score: 'Score',
+  updatedAt: 'Updated',
+  incomplete: 'Incomplete',
+  actions: 'Actions',
+};
+
 export function TheSearchPage() {
   const navigate = useNavigate();
   const { queryParams, addParams } = useQueryParams();
@@ -93,7 +203,7 @@ export function TheSearchPage() {
     discardChanges,
   } = useContestantsContext();
 
-  // Initialize table state from query params
+  // Initialize table state from query params and localStorage
   const [currentPage, setCurrentPage] = useState(() => {
     const page = queryParams.get('page');
     return page ? Number(page) : 1;
@@ -102,30 +212,72 @@ export function TheSearchPage() {
     const size = queryParams.get('pageSize');
     return size ? Number(size) : 20;
   });
-  const [sortField, setSortField] = useState<string | undefined>(() => {
-    return queryParams.get('sortField') || 'updatedAt';
-  });
-  const [sortOrder, setSortOrder] = useState<'ascend' | 'descend' | undefined>(() => {
-    const order = queryParams.get('sortOrder');
-    return order === 'ascend' || order === 'descend' ? order : 'descend';
-  });
   const [filteredTracks, setFilteredTracks] = useState<string[]>(() => {
     const tracks = queryParams.get('tracks');
     return tracks ? tracks.split(',') : [];
   });
 
-  // Sync state with query params when URL changes (e.g., browser back/forward)
+  // Sorting state - load from localStorage
+  const [sortField, setSortField] = useState<string | undefined>(() => {
+    const saved = localStorage.getItem('the-search-sort-field');
+    return saved || 'updatedAt';
+  });
+  const [sortOrder, setSortOrder] = useState<'ascend' | 'descend' | undefined>(() => {
+    const saved = localStorage.getItem('the-search-sort-order');
+    return (saved === 'ascend' || saved === 'descend' ? saved : 'descend') as
+      | 'ascend'
+      | 'descend'
+      | undefined;
+  });
+
+  // Column visibility state - load from localStorage
+  const [visibleColumns, setVisibleColumns] = useState<Set<string>>(() => {
+    const saved = localStorage.getItem('the-search-visible-columns');
+    if (saved) {
+      return new Set(JSON.parse(saved));
+    }
+    // Default visible columns
+    return new Set(['avatar', 'id', 'name', 'track', 'score', 'updatedAt', 'incomplete', 'actions']);
+  });
+
+  // Save visible columns to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem('the-search-visible-columns', JSON.stringify(Array.from(visibleColumns)));
+  }, [visibleColumns]);
+
+  // Save sorting to localStorage whenever it changes
+  useEffect(() => {
+    if (sortField) {
+      localStorage.setItem('the-search-sort-field', sortField);
+    }
+  }, [sortField]);
+
+  useEffect(() => {
+    if (sortOrder) {
+      localStorage.setItem('the-search-sort-order', sortOrder);
+    }
+  }, [sortOrder]);
+
+  const toggleColumn = (columnKey: string) => {
+    setVisibleColumns((prev) => {
+      const next = new Set(prev);
+      if (next.has(columnKey)) {
+        next.delete(columnKey);
+      } else {
+        next.add(columnKey);
+      }
+      return next;
+    });
+  };
+
+  // Sync pagination and filters with query params when URL changes (e.g., browser back/forward)
   useEffect(() => {
     const page = queryParams.get('page');
     const size = queryParams.get('pageSize');
-    const field = queryParams.get('sortField');
-    const order = queryParams.get('sortOrder');
     const tracks = queryParams.get('tracks');
 
     setCurrentPage(page ? Number(page) : 1);
     setPageSize(size ? Number(size) : 20);
-    setSortField(field || 'updatedAt');
-    setSortOrder(order === 'ascend' || order === 'descend' ? order : 'descend');
     setFilteredTracks(tracks ? tracks.split(',') : []);
   }, [queryParams]);
 
@@ -207,26 +359,24 @@ export function TheSearchPage() {
     setSortOrder(singleSorter.order === null ? undefined : singleSorter.order);
     setFilteredTracks(trackFilter || []);
 
-    // Update query params
+    // Update query params (pagination and filters only, sorting is in localStorage)
     const params: Record<string, unknown> = {};
     const defaults: Record<string, unknown> = {
       page: 1,
       pageSize: 20,
-      sortField: 'updatedAt',
-      sortOrder: 'descend',
       tracks: '',
     };
 
     params.page = pagination.current || 1;
     params.pageSize = pagination.pageSize || 20;
-    params.sortField = sortFieldValue || 'updatedAt';
-    params.sortOrder = singleSorter.order || 'descend';
     params.tracks = trackFilter && trackFilter.length > 0 ? trackFilter.join(',') : '';
 
     addParams(params, defaults);
   };
 
-  const columns: ColumnType<ContestantWithScore>[] = [
+  // Define all possible columns
+  const allColumns: ColumnType<ContestantWithScore>[] = [
+    // Core columns
     {
       title: 'Avatar',
       dataIndex: 'id',
@@ -252,24 +402,22 @@ export function TheSearchPage() {
       title: 'Track',
       dataIndex: 'track',
       key: 'track',
-      render: (track: string, record: Contestant) => {
-        return (
-          <Space align="center" size="small">
-            <Tooltip title={record.color}>
-              <div
-                style={{
-                  width: '20px',
-                  height: '20px',
-                  backgroundColor: record.color || '#FFFFFF',
-                  border: '1px solid #d9d9d9',
-                  borderRadius: '4px',
-                }}
-              />
-            </Tooltip>
-            <Tag>{track}</Tag>
-          </Space>
-        );
-      },
+      render: (track: string, record: Contestant) => (
+        <Space align="center" size="small">
+          <Tooltip title={record.color}>
+            <div
+              style={{
+                width: '20px',
+                height: '20px',
+                backgroundColor: record.color || '#FFFFFF',
+                border: '1px solid #d9d9d9',
+                borderRadius: '4px',
+              }}
+            />
+          </Tooltip>
+          <Tag>{track}</Tag>
+        </Space>
+      ),
       filters: [
         { text: 'Vocal', value: 'VOCAL' },
         { text: 'Rap', value: 'RAP' },
@@ -277,6 +425,31 @@ export function TheSearchPage() {
       ],
       filteredValue: filteredTracks.length > 0 ? filteredTracks : null,
       onFilter: (value, record) => record.track === value,
+    },
+    // Appearance columns
+    {
+      title: 'Age',
+      dataIndex: ['appearance', 'age'],
+      key: 'age',
+      width: 60,
+      sorter: (a, b) => (a.appearance?.age || 0) - (b.appearance?.age || 0),
+      sortOrder: sortField === 'age' ? sortOrder : undefined,
+    },
+    {
+      title: 'Height',
+      dataIndex: ['appearance', 'height'],
+      key: 'height',
+      render: (height?: string) => height || '-',
+      sorter: (a, b) => (a.appearance?.height || '').localeCompare(b.appearance?.height || ''),
+      sortOrder: sortField === 'height' ? sortOrder : undefined,
+    },
+    {
+      title: 'Build',
+      dataIndex: ['appearance', 'build'],
+      key: 'build',
+      render: (build?: string) => build || '-',
+      sorter: (a, b) => (a.appearance?.build || '').localeCompare(b.appearance?.build || ''),
+      sortOrder: sortField === 'build' ? sortOrder : undefined,
     },
     {
       title: 'Hair Style',
@@ -302,15 +475,251 @@ export function TheSearchPage() {
       sorter: (a, b) => (a.appearance?.furColor || '').localeCompare(b.appearance?.furColor || ''),
       sortOrder: sortField === 'furColor' ? sortOrder : undefined,
     },
+    // Core Skills
+    {
+      title: 'Vocals',
+      dataIndex: ['coreSkills', 'vocals'],
+      key: 'vocals',
+      width: 70,
+      sorter: (a, b) => (a.coreSkills?.vocals || 0) - (b.coreSkills?.vocals || 0),
+      sortOrder: sortField === 'vocals' ? sortOrder : undefined,
+    },
+    {
+      title: 'Rap',
+      dataIndex: ['coreSkills', 'rap'],
+      key: 'rap',
+      width: 60,
+      sorter: (a, b) => (a.coreSkills?.rap || 0) - (b.coreSkills?.rap || 0),
+      sortOrder: sortField === 'rap' ? sortOrder : undefined,
+    },
+    {
+      title: 'Dance',
+      dataIndex: ['coreSkills', 'dance'],
+      key: 'dance',
+      width: 70,
+      sorter: (a, b) => (a.coreSkills?.dance || 0) - (b.coreSkills?.dance || 0),
+      sortOrder: sortField === 'dance' ? sortOrder : undefined,
+    },
+    {
+      title: 'Stage Presence',
+      dataIndex: ['coreSkills', 'stagePresence'],
+      key: 'stagePresence',
+      width: 80,
+      sorter: (a, b) => (a.coreSkills?.stagePresence || 0) - (b.coreSkills?.stagePresence || 0),
+      sortOrder: sortField === 'stagePresence' ? sortOrder : undefined,
+    },
+    {
+      title: 'Visual',
+      dataIndex: ['coreSkills', 'visual'],
+      key: 'visual',
+      width: 70,
+      sorter: (a, b) => (a.coreSkills?.visual || 0) - (b.coreSkills?.visual || 0),
+      sortOrder: sortField === 'visual' ? sortOrder : undefined,
+    },
+    {
+      title: 'Uniqueness',
+      dataIndex: ['coreSkills', 'uniqueness'],
+      key: 'uniqueness',
+      width: 80,
+      sorter: (a, b) => (a.coreSkills?.uniqueness || 0) - (b.coreSkills?.uniqueness || 0),
+      sortOrder: sortField === 'uniqueness' ? sortOrder : undefined,
+    },
+    {
+      title: 'Leadership',
+      dataIndex: ['coreSkills', 'leadership'],
+      key: 'leadership',
+      width: 80,
+      sorter: (a, b) => (a.coreSkills?.leadership || 0) - (b.coreSkills?.leadership || 0),
+      sortOrder: sortField === 'leadership' ? sortOrder : undefined,
+    },
+    // Utility Skills
+    {
+      title: 'Potential',
+      dataIndex: ['utilitySkills', 'potential'],
+      key: 'potential',
+      width: 80,
+      sorter: (a, b) => (a.utilitySkills?.potential || 0) - (b.utilitySkills?.potential || 0),
+      sortOrder: sortField === 'potential' ? sortOrder : undefined,
+    },
+    {
+      title: 'Memory',
+      dataIndex: ['utilitySkills', 'memory'],
+      key: 'memory',
+      width: 80,
+      sorter: (a, b) => (a.utilitySkills?.memory || 0) - (b.utilitySkills?.memory || 0),
+      sortOrder: sortField === 'memory' ? sortOrder : undefined,
+    },
+    {
+      title: 'Stamina',
+      dataIndex: ['utilitySkills', 'stamina'],
+      key: 'stamina',
+      width: 80,
+      sorter: (a, b) => (a.utilitySkills?.stamina || 0) - (b.utilitySkills?.stamina || 0),
+      sortOrder: sortField === 'stamina' ? sortOrder : undefined,
+    },
+    {
+      title: 'Learning',
+      dataIndex: ['utilitySkills', 'learning'],
+      key: 'learning',
+      width: 80,
+      sorter: (a, b) => (a.utilitySkills?.learning || 0) - (b.utilitySkills?.learning || 0),
+      sortOrder: sortField === 'learning' ? sortOrder : undefined,
+    },
+    {
+      title: 'Acrobatics',
+      dataIndex: ['utilitySkills', 'acrobatics'],
+      key: 'acrobatics',
+      width: 80,
+      sorter: (a, b) => (a.utilitySkills?.acrobatics || 0) - (b.utilitySkills?.acrobatics || 0),
+      sortOrder: sortField === 'acrobatics' ? sortOrder : undefined,
+    },
+    {
+      title: 'Consistency',
+      dataIndex: ['utilitySkills', 'consistency'],
+      key: 'consistency',
+      width: 80,
+      sorter: (a, b) => (a.utilitySkills?.consistency || 0) - (b.utilitySkills?.consistency || 0),
+      sortOrder: sortField === 'consistency' ? sortOrder : undefined,
+    },
+    {
+      title: 'Charisma',
+      dataIndex: ['utilitySkills', 'charisma'],
+      key: 'charisma',
+      width: 80,
+      sorter: (a, b) => (a.utilitySkills?.charisma || 0) - (b.utilitySkills?.charisma || 0),
+      sortOrder: sortField === 'charisma' ? sortOrder : undefined,
+    },
+    // Personality Traits
+    {
+      title: 'Discipline',
+      dataIndex: ['personality', 'discipline'],
+      key: 'discipline',
+      width: 80,
+      sorter: (a, b) => (a.personality?.discipline || 0) - (b.personality?.discipline || 0),
+      sortOrder: sortField === 'discipline' ? sortOrder : undefined,
+    },
+    {
+      title: 'Curiosity',
+      dataIndex: ['personality', 'curiosity'],
+      key: 'curiosity',
+      width: 80,
+      sorter: (a, b) => (a.personality?.curiosity || 0) - (b.personality?.curiosity || 0),
+      sortOrder: sortField === 'curiosity' ? sortOrder : undefined,
+    },
+    {
+      title: 'Extroversion',
+      dataIndex: ['personality', 'extroversion'],
+      key: 'extroversion',
+      width: 80,
+      sorter: (a, b) => (a.personality?.extroversion || 0) - (b.personality?.extroversion || 0),
+      sortOrder: sortField === 'extroversion' ? sortOrder : undefined,
+    },
+    {
+      title: 'Sensitivity',
+      dataIndex: ['personality', 'sensitivity'],
+      key: 'sensitivity',
+      width: 80,
+      sorter: (a, b) => (a.personality?.sensitivity || 0) - (b.personality?.sensitivity || 0),
+      sortOrder: sortField === 'sensitivity' ? sortOrder : undefined,
+    },
+    {
+      title: 'Gentleness',
+      dataIndex: ['personality', 'gentleness'],
+      key: 'gentleness',
+      width: 80,
+      sorter: (a, b) => (a.personality?.gentleness || 0) - (b.personality?.gentleness || 0),
+      sortOrder: sortField === 'gentleness' ? sortOrder : undefined,
+    },
+    {
+      title: 'Sincerity',
+      dataIndex: ['personality', 'sincerity'],
+      key: 'sincerity',
+      width: 80,
+      sorter: (a, b) => (a.personality?.sincerity || 0) - (b.personality?.sincerity || 0),
+      sortOrder: sortField === 'sincerity' ? sortOrder : undefined,
+    },
+    {
+      title: 'Ambition',
+      dataIndex: ['personality', 'ambition'],
+      key: 'ambition',
+      width: 80,
+      sorter: (a, b) => (a.personality?.ambition || 0) - (b.personality?.ambition || 0),
+      sortOrder: sortField === 'ambition' ? sortOrder : undefined,
+    },
+    {
+      title: 'Resilience',
+      dataIndex: ['personality', 'resilience'],
+      key: 'resilience',
+      width: 80,
+      sorter: (a, b) => (a.personality?.resilience || 0) - (b.personality?.resilience || 0),
+      sortOrder: sortField === 'resilience' ? sortOrder : undefined,
+    },
+    {
+      title: 'Maturity',
+      dataIndex: ['personality', 'maturity'],
+      key: 'maturity',
+      width: 80,
+      sorter: (a, b) => (a.personality?.maturity || 0) - (b.personality?.maturity || 0),
+      sortOrder: sortField === 'maturity' ? sortOrder : undefined,
+    },
+    {
+      title: 'Investment',
+      dataIndex: ['personality', 'investment'],
+      key: 'investment',
+      width: 80,
+      sorter: (a, b) => (a.personality?.investment || 0) - (b.personality?.investment || 0),
+      sortOrder: sortField === 'investment' ? sortOrder : undefined,
+    },
+    // Specialties
+    {
+      title: 'Vocal Color',
+      dataIndex: ['specialties', 'vocalColor'],
+      key: 'vocalColor',
+      render: (value?: string) => value || '-',
+      sorter: (a, b) => (a.specialties?.vocalColor || '').localeCompare(b.specialties?.vocalColor || ''),
+      sortOrder: sortField === 'vocalColor' ? sortOrder : undefined,
+    },
+    {
+      title: 'Dance Style',
+      dataIndex: ['specialties', 'danceStyle'],
+      key: 'danceStyle',
+      render: (value?: string) => value || '-',
+      sorter: (a, b) => (a.specialties?.danceStyle || '').localeCompare(b.specialties?.danceStyle || ''),
+      sortOrder: sortField === 'danceStyle' ? sortOrder : undefined,
+    },
+    {
+      title: 'Rap Style',
+      dataIndex: ['specialties', 'rapStyle'],
+      key: 'rapStyle',
+      render: (value?: string) => value || '-',
+      sorter: (a, b) => (a.specialties?.rapStyle || '').localeCompare(b.specialties?.rapStyle || ''),
+      sortOrder: sortField === 'rapStyle' ? sortOrder : undefined,
+    },
+    {
+      title: 'Visual Vibe',
+      dataIndex: ['specialties', 'visualVibe'],
+      key: 'visualVibe',
+      render: (value?: string) => value || '-',
+      sorter: (a, b) => (a.specialties?.visualVibe || '').localeCompare(b.specialties?.visualVibe || ''),
+      sortOrder: sortField === 'visualVibe' ? sortOrder : undefined,
+    },
+    {
+      title: 'Leadership Style',
+      dataIndex: ['specialties', 'leadershipStyle'],
+      key: 'leadershipStyle',
+      render: (value?: string) => value || '-',
+      sorter: (a, b) =>
+        (a.specialties?.leadershipStyle || '').localeCompare(b.specialties?.leadershipStyle || ''),
+      sortOrder: sortField === 'leadershipStyle' ? sortOrder : undefined,
+    },
+    // Calculated/Status columns
     {
       title: 'Score',
       key: 'score',
       width: 80,
       sorter: (a, b) => a.score - b.score,
       sortOrder: sortField === 'score' ? sortOrder : undefined,
-      render: (_value: unknown, record: ContestantWithScore) => {
-        return record.score.toFixed(2);
-      },
+      render: (_value: unknown, record: ContestantWithScore) => record.score.toFixed(2),
     },
     {
       title: 'Updated',
@@ -339,7 +748,6 @@ export function TheSearchPage() {
       sortOrder: sortField === 'incomplete' ? sortOrder : undefined,
       render: (_value: unknown, record: ContestantWithScore) => {
         if (record.incompleteCount === 0) return null;
-
         return (
           <Tooltip title={`Missing: ${record.incompleteMissing.join(', ')}`}>
             <WarningOutlined style={{ color: '#faad14', fontSize: '16px' }} />
@@ -375,6 +783,39 @@ export function TheSearchPage() {
       ),
     },
   ];
+
+  // Filter columns based on visibility
+  const columns = allColumns.filter((col) => visibleColumns.has(col.key as string));
+
+  const columnSelectorMenu = (
+    <Card
+      style={{
+        padding: '8px',
+        maxWidth: '600px',
+        maxHeight: '60vh',
+        overflow: 'auto',
+        boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
+      }}
+    >
+      {Object.entries(columnCategories).map(([key, category]) => (
+        <div key={key} style={{ marginBottom: '12px' }}>
+          <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{category.label}</div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px' }}>
+            {category.columns.map((colKey) => (
+              <Checkbox
+                checked={visibleColumns.has(colKey)}
+                key={colKey}
+                onChange={() => toggleColumn(colKey)}
+                style={{ margin: 0 }}
+              >
+                {columnLabels[colKey] || colKey}
+              </Checkbox>
+            ))}
+          </div>
+        </div>
+      ))}
+    </Card>
+  );
 
   return (
     <Content>
@@ -441,14 +882,21 @@ export function TheSearchPage() {
         <FirestoreConsoleLink label="Open in Firestore Console" path="/contestants" />
       </Typography.Paragraph>
 
-      <Input.Search
-        allowClear
-        onChange={(e) => setSearchQuery(e.target.value)}
-        placeholder="Search by ID, name, persona, or personality values..."
-        size="large"
-        style={{ marginBottom: '1rem' }}
-        value={searchQuery}
-      />
+      <Flex align="center" gap={8} style={{ marginBottom: '1rem' }}>
+        <Input.Search
+          allowClear
+          onChange={(e) => setSearchQuery(e.target.value)}
+          placeholder="Search by ID, name, persona, or personality values..."
+          size="large"
+          value={searchQuery}
+        />
+
+        <Dropdown popupRender={() => columnSelectorMenu} trigger={['click']}>
+          <Button icon={<EyeOutlined />} size="large">
+            Columns
+          </Button>
+        </Dropdown>
+      </Flex>
 
       <Table
         columns={columns}

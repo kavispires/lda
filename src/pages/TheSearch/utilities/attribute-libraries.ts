@@ -84,7 +84,7 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
   URBAN: {
     id: 'URBAN',
     name: 'Urban',
-    occurrence: 50,
+    occurrence: 45,
     type: 'danceStyle',
     group: 'dance',
     description:
@@ -136,7 +136,7 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
     group: 'dance',
     description:
       "The peak 2010s 'Beast Idol' style featuring flips and stunts that drive a live crowd into a frenzy.",
-    occurrence: 5,
+    occurrence: 10,
     popularity: 95,
     influences: { 'utilitySkills.stamina': 1, 'utilitySkills.acrobatics': 2, 'personality.resilience': 4 },
   },
@@ -243,7 +243,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     name: 'Warm',
     type: 'visualVibe',
     group: 'visual',
-    occurrence: 20,
+    occurrence: 30,
     popularity: 75,
     influences: { 'personality.gentleness': 4, 'state.contestantsLikeness': 10 },
     description:
@@ -254,7 +254,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     name: 'Cute',
     type: 'visualVibe',
     group: 'visual',
-    occurrence: 20,
+    occurrence: 25,
     popularity: 90,
     influences: { 'personality.maturity': -5, 'personality.extroversion': 5, 'state.audienceRatio': 0.15 },
     description:
@@ -276,7 +276,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     name: 'Chic',
     type: 'visualVibe',
     group: 'visual',
-    occurrence: 20,
+    occurrence: 10,
     popularity: 70,
     influences: { 'personality.extroversion': -4, 'personality.sincerity': -2, 'coreSkills.visual': 0.5 },
     description:
@@ -287,7 +287,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     name: 'Mysterious',
     type: 'visualVibe',
     group: 'visual',
-    occurrence: 20,
+    occurrence: 15,
     popularity: 65,
     influences: { 'personality.extroversion': -8, 'coreSkills.uniqueness': 0.8, 'state.screenTime': -10 },
     description:

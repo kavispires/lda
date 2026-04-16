@@ -131,7 +131,7 @@ export function useContestantsParserMutation() {
     },
     onSuccess(count) {
       notification.success({
-        message: 'Parser Complete',
+        title: 'Parser Complete',
         description: `Updated ${count} contestants`,
       });
 
@@ -145,7 +145,7 @@ export function useContestantsParserMutation() {
     },
     onError(error) {
       notification.error({
-        message: 'Error',
+        title: 'Error',
         description: error.message,
       });
     },
