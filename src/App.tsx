@@ -16,6 +16,7 @@ import { ContestantBuilderPage } from 'pages/TheSearch/pages/ContestantBuilderPa
 import { ContestantsListingPage } from 'pages/TheSearch/pages/ContestantsListingPage';
 import { LibrariesIndexPage } from 'pages/TheSearch/pages/LibrariesIndexPage';
 import { LibraryViewerPage } from 'pages/TheSearch/pages/LibraryViewerPage';
+import { SimulationPage } from 'pages/TheSearch/pages/SimulationPage';
 import { TheSearchPage } from 'pages/TheSearch/pages/TheSearchPage';
 import { ContestantsProvider } from 'pages/TheSearch/services/ContestantsProvider';
 import { HashRouter, Route, Routes } from 'react-router-dom';
@@ -50,6 +51,7 @@ function TheSearchRoutes() {
         <Route element={<ContestantsListingPage />} path="/contestants" />
         <Route element={<LibrariesIndexPage />} path="/libraries" />
         <Route element={<LibraryViewerPage />} path="/libraries/:type" />
+        <Route element={<SimulationPage />} path="/simulation" />
         <Route element={<ContestantBuilderPage />} path="/new" />
         <Route element={<ContestantBuilderPage />} path="/edit" />
       </Routes>

@@ -23,11 +23,10 @@ const navigationCards = [
   {
     id: 'simulation',
     title: 'Simulation',
-    description: 'Run survival show simulations and view episode outcomes (Coming Soon)',
+    description: 'Initialize and run survival show simulations with 30 contestants',
     icon: <RocketOutlined style={{ fontSize: '64px', color: '#722ed1' }} />,
-    path: '#',
+    path: '/the-search/simulation',
     color: '#f9f0ff',
-    disabled: true,
   },
   {
     id: 'rankings',
