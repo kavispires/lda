@@ -1,159 +1,178 @@
-[
-  {
-    "id": "QUIRKY",
+{
+  "ABRASIVE": {
+    "id": "ABRASIVE",
     "type": "identity",
-    "group": "Temperament",
-    "name": "Quirky",
-    "description": "Unpredictable, eccentric, and lives in their own world. Reality TV gold for being 'random'.",
+    "group": "Sociality",
+    "name": "Abrasive",
+    "description": "Rub people the wrong way without even trying. Blunt and socially 'spiky'.",
     "occurrence": 1,
     "influences": {
-      "personality.curiosity": 8,
-      "personality.maturity": -5,
-      "utilitySkills.charisma": 2,
-      "aggregations.productionRatio": 0.12,
+      "personality.gentleness": -9,
+      "personality.sincerity": 6,
+      "aggregations.productionRatio": 0.15,
+      "aggregations.audienceRatio": -0.1
+    }
+  },
+  "ABSTAINER": {
+    "id": "ABSTAINER",
+    "type": "identity",
+    "group": "Beliefs & Values",
+    "name": "Abstainer",
+    "description": "Strictly avoids the party scene and vices. Seen as the 'clean' member of the group.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 8,
+      "personality.extroversion": -3,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "ACADEMIC": {
+    "id": "ACADEMIC",
+    "type": "identity",
+    "group": "Background",
+    "name": "Academic",
+    "description": "The straight-A student who left a scholarship behind for a shot at the spotlight.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 7,
+      "personality.maturity": 5,
+      "utilitySkills.memory": 1,
       "aggregations.audienceRatio": 0.05
-    },
-    "consequence": {
-      "aggregations.screenTime": 0.1
     }
   },
-  {
-    "id": "STOIC",
+  "ADAPTABLE": {
+    "id": "ADAPTABLE",
     "type": "identity",
     "group": "Temperament",
-    "name": "Stoic",
-    "description": "The 'mysterious one' of the group. Composed, cool, and difficult to read.",
+    "name": "Adaptable",
+    "description": "Goes with the flow. Can fit into any group dynamic or concept without complaint.",
     "occurrence": 1,
     "influences": {
-      "personality.extroversion": -6,
-      "personality.resilience": 7,
-      "personality.sensitivity": -4,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "VOLATILE",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Volatile",
-    "description": "Wears their heart on their sleeve. Prone to explosive growth and high-stakes drama.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 9,
-      "personality.resilience": -6,
-      "personality.maturity": -4,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "HEARTTHROB",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Heartthrob",
-    "description": "Possesses an innate, effortless charm that makes girls scream and producers take notice.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 5,
-      "personality.gentleness": 6,
-      "utilitySkills.charisma": 1,
-      "aggregations.audienceRatio": 0.1,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "BLUNT",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Blunt",
-    "description": "Total honesty, often at the expense of the team's feelings. The one who 'tells it like it is'.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 10,
-      "personality.gentleness": -7,
-      "personality.maturity": -2,
-      "aggregations.productionRatio": 0.1,
-      "aggregations.audienceRatio": -0.05
-    }
-  },
-  {
-    "id": "WITTY",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Witty",
-    "description": "Sharp-tongued and quick with a joke. The go-to guy for interview soundbites.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 2,
-      "personality.extroversion": 7,
-      "personality.curiosity": 4,
-      "aggregations.audienceRatio": 0.08,
+      "personality.resilience": 6,
+      "personality.gentleness": 4,
       "aggregations.productionRatio": 0.05
     }
   },
-  {
-    "id": "PERFECTIONIST",
+  "ADVENTUROUS": {
+    "id": "ADVENTUROUS",
     "type": "identity",
-    "group": "Work Ethic",
-    "name": "Perfectionist",
-    "description": "Will practice in the garage until dawn to fix a single note. High growth, high stress.",
+    "group": "Temperament",
+    "name": "Adventurous",
+    "description": "Always the first to try a new stunt or challenge. High energy and fearless.",
     "occurrence": 1,
     "influences": {
-      "personality.discipline": 9,
-      "utilitySkills.learning": 1,
-      "personality.sensitivity": 4,
-      "personality.resilience": -3,
-      "aggregations.fanbaseRatio": 0.12
+      "personality.curiosity": 9,
+      "utilitySkills.acrobatics": 1,
+      "aggregations.audienceRatio": 0.06
     }
   },
-  {
-    "id": "TENACIOUS",
+  "ADVOCATE": {
+    "id": "ADVOCATE",
     "type": "identity",
-    "group": "Work Ethic",
-    "name": "Tenacious",
-    "description": "The underdog who won't quit. Driven by a 'refuse to lose' American dream mentality.",
+    "group": "Sociality",
+    "name": "Advocate",
+    "description": "Sticks up for the underdogs in the competition. Highly empathetic and vocal.",
     "occurrence": 1,
     "influences": {
-      "personality.resilience": 10,
-      "personality.investment": 8,
-      "utilitySkills.stamina": 1,
-      "aggregations.audienceRatio": 0.15
+      "personality.sensitivity": 7,
+      "personality.gentleness": 8,
+      "aggregations.audienceRatio": 0.1
     }
   },
-  {
-    "id": "PRODIGY",
+  "AGITATOR": {
+    "id": "AGITATOR",
     "type": "identity",
-    "group": "Background",
-    "name": "Prodigy",
-    "description": "A natural talent who picks up skills instantly, though often acts like they don't have to try.",
-    "occurrence": 1,
-    "set": {
-      "utilitySkills.potential": 5,
-      "utilitySkills.learning": 5
-    },
-    "influences": {
-      "personality.discipline": -5,
-      "personality.maturity": -4,
-      "aggregations.audienceRatio": 0.05,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "VETERAN",
-    "type": "identity",
-    "group": "Background",
-    "name": "Veteran",
-    "description": "Has been trying to make it in the industry for years. Professional and slightly jaded.",
+    "group": "Sociality",
+    "name": "Agitator",
+    "description": "Loves to stir the pot and watch the drama unfold. A producer's best friend.",
     "occurrence": 1,
     "influences": {
-      "aggregations.experience": 20,
-      "personality.maturity": 8,
-      "personality.discipline": 6,
-      "utilitySkills.consistency": 1,
-      "aggregations.fanbaseRatio": 0.1
+      "personality.gentleness": -8,
+      "personality.maturity": -5,
+      "aggregations.productionRatio": 0.15
     }
   },
-  {
+  "ALPHA": {
+    "id": "ALPHA",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Alpha",
+    "description": "Natural dominant leader. Takes up space and demands attention in every room.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 9,
+      "personality.extroversion": 7,
+      "utilitySkills.leadership": 1,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "AMBITIOUS": {
+    "id": "AMBITIOUS",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Ambitious",
+    "description": "Will do whatever it takes to reach the center spot. Focused entirely on the win.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 10,
+      "personality.investment": 9,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "ANTAGONISTIC": {
+    "id": "ANTAGONISTIC",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Antagonistic",
+    "description": "Naturally argumentative. Seems to pick fights just to keep things interesting.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -9,
+      "personality.resilience": 4,
+      "aggregations.productionRatio": 0.12,
+      "aggregations.audienceRatio": -0.08
+    }
+  },
+  "ANXIOUS": {
+    "id": "ANXIOUS",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Anxious",
+    "description": "Constantly worried about rankings and mistakes. Makes for a sympathetic edit.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 8,
+      "personality.resilience": -7,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "ARBITER": {
+    "id": "ARBITER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Arbiter",
+    "description": "The peacekeeper who settles dorm disputes. Keeps the group functional.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 9,
+      "personality.gentleness": 7,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "ASSERTIVE": {
+    "id": "ASSERTIVE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Assertive",
+    "description": "Clear and direct about their needs and opinions without being aggressive.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 6,
+      "personality.maturity": 5,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "ATHLETIC": {
     "id": "ATHLETIC",
     "type": "identity",
     "group": "Vibe",
@@ -171,243 +190,7 @@
       "specialties.visualVibe": "Rugged/Athletic"
     }
   },
-  {
-    "id": "PREPPY",
-    "type": "identity",
-    "group": "Vibe",
-    "name": "Preppy",
-    "description": "The 'Clean-Cut' visual. Polished, well-dressed, and fits the classic boy-band aesthetic.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 2,
-      "personality.extroversion": -3,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.2
-    },
-    "set": {
-      "specialties.visualVibe": "Clean-Cut"
-    }
-  },
-  {
-    "id": "HUMBLE",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Humble",
-    "description": "Grateful for every opportunity. Fans love their sincerity, but they can be too passive for TV.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 9,
-      "personality.ambition": -6,
-      "personality.extroversion": -4,
-      "aggregations.audienceRatio": 0.08,
-      "aggregations.productionRatio": -0.05
-    }
-  },
-  {
-    "id": "CYNICAL",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Cynical",
-    "description": "Sees through the reality show gimmicks. Often detached, sarcastic, or uncooperative with the cameras.",
-    "occurrence": 1,
-    "influences": {
-      "personality.investment": -7,
-      "personality.sincerity": -5,
-      "personality.maturity": 4,
-      "aggregations.productionRatio": -0.1,
-      "aggregations.fanbaseRatio": -0.05
-    }
-  },
-  {
-    "id": "ACADEMIC",
-    "type": "identity",
-    "group": "Background",
-    "name": "Academic",
-    "description": "The straight-A student who left a scholarship behind for a shot at the spotlight.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 7,
-      "personality.maturity": 5,
-      "utilitySkills.memory": 1,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "PRANKSTER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Prankster",
-    "description": "The group's little brother energy. Loves a good prank and keeps the tour bus lively.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -6,
-      "personality.curiosity": 5,
-      "utilitySkills.charisma": 1,
-      "aggregations.productionRatio": 0.08,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "MAVERICK",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Maverick",
-    "description": "Refuses to stick to the script. An unpredictable performer who defies the 'manufactured' idol mold.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -6,
-      "personality.gentleness": -4,
-      "coreSkills.uniqueness": 2,
-      "aggregations.fanbaseRatio": 0.1,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "ABSTAINER",
-    "type": "identity",
-    "group": "Beliefs & Values",
-    "name": "Abstainer",
-    "description": "Strictly avoids the party scene and vices. Seen as the 'clean' member of the group.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 8,
-      "personality.extroversion": -3,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "ADAPTABLE",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Adaptable",
-    "description": "Goes with the flow. Can fit into any group dynamic or concept without complaint.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 6,
-      "personality.gentleness": 4,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "ADVENTUROUS",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Adventurous",
-    "description": "Always the first to try a new stunt or challenge. High energy and fearless.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 9,
-      "utilitySkills.acrobatics": 1,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "ADVOCATE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Advocate",
-    "description": "Sticks up for the underdogs in the competition. Highly empathetic and vocal.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 7,
-      "personality.gentleness": 8,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "AGITATOR",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Agitator",
-    "description": "Loves to stir the pot and watch the drama unfold. A producer's best friend.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -8,
-      "personality.maturity": -5,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "ALPHA",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Alpha",
-    "description": "Natural dominant leader. Takes up space and demands attention in every room.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 9,
-      "personality.extroversion": 7,
-      "utilitySkills.leadership": 1,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "AMBITIOUS",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Ambitious",
-    "description": "Will do whatever it takes to reach the center spot. Focused entirely on the win.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 10,
-      "personality.investment": 9,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "ANTAGONISTIC",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Antagonistic",
-    "description": "Naturally argumentative. Seems to pick fights just to keep things interesting.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -9,
-      "personality.resilience": 4,
-      "aggregations.productionRatio": 0.12,
-      "aggregations.audienceRatio": -0.08
-    }
-  },
-  {
-    "id": "ANXIOUS",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Anxious",
-    "description": "Constantly worried about rankings and mistakes. Makes for a sympathetic edit.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 8,
-      "personality.resilience": -7,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "ARBITER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Arbiter",
-    "description": "The peacekeeper who settles dorm disputes. Keeps the group functional.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 9,
-      "personality.gentleness": 7,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "ASSERTIVE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Assertive",
-    "description": "Clear and direct about their needs and opinions without being aggressive.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 6,
-      "personality.maturity": 5,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
+  "AVOIDANT": {
     "id": "AVOIDANT",
     "type": "identity",
     "group": "Sociality",
@@ -420,7 +203,48 @@
       "aggregations.productionRatio": -0.05
     }
   },
-  {
+  "BLABBER": {
+    "id": "BLABBER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Blabber",
+    "description": "Can't keep a secret. Tells the cameras everything that happened in the dorm.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 9,
+      "personality.sincerity": -3,
+      "aggregations.productionRatio": 0.2
+    }
+  },
+  "BLUNT": {
+    "id": "BLUNT",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Blunt",
+    "description": "Total honesty, often at the expense of the team's feelings. The one who 'tells it like it is'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 10,
+      "personality.gentleness": -7,
+      "personality.maturity": -2,
+      "aggregations.productionRatio": 0.1,
+      "aggregations.audienceRatio": -0.05
+    }
+  },
+  "BOHEMIAN": {
+    "id": "BOHEMIAN",
+    "type": "identity",
+    "group": "Beliefs & Values",
+    "name": "Bohemian",
+    "description": "A 'hippie' vibe. They value artistic freedom over scores and rankings.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -6,
+      "coreSkills.uniqueness": 2,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "BORING": {
     "id": "BORING",
     "type": "identity",
     "group": "Mental State",
@@ -433,7 +257,7 @@
       "aggregations.productionRatio": -0.15
     }
   },
-  {
+  "BUBBLY": {
     "id": "BUBBLY",
     "type": "identity",
     "group": "Temperament",
@@ -446,7 +270,7 @@
       "aggregations.audienceRatio": 0.12
     }
   },
-  {
+  "BULLY": {
     "id": "BULLY",
     "type": "identity",
     "group": "Sociality",
@@ -460,1709 +284,7 @@
       "aggregations.audienceRatio": -0.15
     }
   },
-  {
-    "id": "CALM",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Calm",
-    "description": "Nothing rattles them. A stabilizing force during high-stress eliminations.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 9,
-      "personality.sensitivity": -6,
-      "aggregations.fanbaseRatio": 0.06
-    }
-  },
-  {
-    "id": "CHAMPION",
-    "type": "identity",
-    "group": "Role",
-    "name": "Champion",
-    "description": "Has a 'winner's aura'. They excel under pressure and carry the team.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 8,
-      "utilitySkills.potential": 1,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "CLUMSY",
-    "type": "identity",
-    "group": "Aura",
-    "name": "Clumsy",
-    "description": "Trips over thin air but does it endearingly. The 'accidental' variety star.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.consistency": -2,
-      "utilitySkills.charisma": 2,
-      "aggregations.audienceRatio": 0.15
-    }
-  },
-  {
-    "id": "COCKY",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Cocky",
-    "description": "Overconfident to a fault. Loves to brag about their skills before they even perform.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 8,
-      "personality.sincerity": -6,
-      "aggregations.productionRatio": 0.1,
-      "aggregations.fanbaseRatio": -0.05
-    }
-  },
-  {
-    "id": "COMPLAINER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Complainer",
-    "description": "Always find something wrong—the food, the dorms, the choreography.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -8,
-      "personality.maturity": -6,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "CONSERVATIVE",
-    "type": "identity",
-    "group": "Beliefs & Values",
-    "name": "Conservative",
-    "description": "Prefers traditional methods and modest styling. Resists radical changes.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": -7,
-      "personality.discipline": 5,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "CONVENTIONAL",
-    "type": "identity",
-    "group": "Beliefs & Values",
-    "name": "Conventional",
-    "description": "Fits the standard boy-band mold perfectly. Safe, reliable, and predictable.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": -5,
-      "coreSkills.visual": 1,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "COOPERATIVE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Cooperative",
-    "description": "The ultimate team player. Follows instructions to the letter.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 9,
-      "personality.discipline": 6,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "COUNSELOR",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Counselor",
-    "description": "Spends their free time listening to other trainees' problems.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 9,
-      "personality.maturity": 7,
-      "aggregations.fanbaseRatio": 0.07
-    }
-  },
-  {
-    "id": "CREATIVE",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Creative",
-    "description": "Always suggesting new arrangements and concepts. An artist at heart.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 10,
-      "coreSkills.uniqueness": 1,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "CURIOUS",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Curious",
-    "description": "Wants to know how everything works, from the cameras to the soundboard.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 8,
-      "utilitySkills.learning": 1,
-      "aggregations.productionRatio": 0.03
-    }
-  },
-  {
-    "id": "CYNICAL",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Cynical",
-    "description": "Expects the worst from the industry and the producers.",
-    "occurrence": 1,
-    "influences": {
-      "personality.investment": -8,
-      "personality.sincerity": -5,
-      "aggregations.productionRatio": -0.1
-    }
-  },
-  {
-    "id": "DECEITFUL",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Deceitful",
-    "description": "Will lie to peers to gain a competitive advantage. Highly untrustworthy.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -10,
-      "personality.ambition": 8,
-      "aggregations.productionRatio": 0.18
-    }
-  },
-  {
-    "id": "DECEIVER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Deceiver",
-    "description": "Expert at hiding their true feelings. You never know what they're really thinking.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -8,
-      "personality.maturity": 4,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "DEFENDER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Defender",
-    "description": "Will confront anyone who treats their friends poorly.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 5,
-      "personality.resilience": 7,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "DELUSIONAL",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Delusional",
-    "description": "Genuinely believes they are the best despite getting 'F' grades. Great for TV.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -9,
-      "utilitySkills.consistency": -3,
-      "aggregations.productionRatio": 0.2
-    }
-  },
-  {
-    "id": "DILIGENT",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Diligent",
-    "description": "The first one in the studio and the last one out. Pure effort.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 9,
-      "utilitySkills.learning": 1,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "DIPLOMAT",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Diplomat",
-    "description": "Highly skilled at navigating company politics and group dynamics.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 8,
-      "personality.gentleness": 6,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "DISORGANIZED",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Disorganized",
-    "description": "Loses their lyric sheets and misses rehearsal times. A mess in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -9,
-      "utilitySkills.memory": -1,
-      "aggregations.productionRatio": 0.07
-    }
-  },
-  {
-    "id": "DISSENTER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Dissenter",
-    "description": "The one who always says 'no' to the group's majority decision.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -6,
-      "personality.ambition": 5,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "DOWN_TO_EARTH",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Down-to-earth",
-    "description": "Relatable and humble. Feels like someone you’d know in real life.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 9,
-      "personality.extroversion": -2,
-      "aggregations.audienceRatio": 0.15
-    }
-  },
-  {
-    "id": "DOWNER",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Downer",
-    "description": "Focuses only on the negatives. Drains the energy of the room.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -8,
-      "personality.sensitivity": 6,
-      "aggregations.audienceRatio": -0.1
-    }
-  },
-  {
-    "id": "DUMB",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Dumb",
-    "description": "Slow on the uptake, but usually harmless. Often the butt of the joke.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -2,
-      "utilitySkills.memory": -2,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "ECCENTRIC",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Eccentric",
-    "description": "Has strange hobbies and a unique way of speaking. Totally original.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 10,
-      "coreSkills.uniqueness": 2,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "ELOQUENT",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Eloquent",
-    "description": "Extremely well-spoken. Always gives the best speeches during awards.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 2,
-      "personality.maturity": 7,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "ENIGMATIC",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Enigmatic",
-    "description": "Quiet and mysterious. The fans spend all their time trying to figure them out.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -8,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.15
-    }
-  },
-  {
-    "id": "ENVIOUS",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Envious",
-    "description": "Secretly resents the more popular members of the competition.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -4,
-      "personality.sensitivity": 7,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "EXTRAVAGANT",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Extravagant",
-    "description": "Flashy, loud, and expensive. Loves to be the center of attention.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 9,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.05,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "EXTROVERTED",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Extroverted",
-    "description": "Energized by people. Always the life of the party.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 10,
-      "utilitySkills.charisma": 1,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "FAIR",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Fair",
-    "description": "Values justice and equal distribution of lines and screen time.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 7,
-      "personality.sincerity": 8,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "FEARLESS",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Fearless",
-    "description": "Takes massive risks on stage. No fear of failure or embarrassment.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 10,
-      "utilitySkills.acrobatics": 2,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "FEMININE",
-    "type": "identity",
-    "group": "Vibe",
-    "name": "Feminine",
-    "description": "A softer, more delicate aesthetic. Breaks traditional boy-band masculinity.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.12
-    }
-  },
-  {
-    "id": "FLIRTATIOUS",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Flirtatious",
-    "description": "Constantly winking at cameras and teasing the fans. A natural charmer.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 2,
-      "personality.extroversion": 8,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "FOCUSED",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Focused",
-    "description": "Has blinders on. Ignores the drama to focus entirely on the performance.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 10,
-      "personality.investment": 7,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "FOOLISH",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Foolish",
-    "description": "Makes impulsive, ill-advised decisions that often blow up in their face.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -10,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "FORGIVING",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Forgiving",
-    "description": "Easily lets go of grudges after a betrayal or argument.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 9,
-      "personality.sensitivity": 5,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "FREE_SPIRIT",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Free Spirit",
-    "description": "Hates rules and hierarchy. Lives life on their own terms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -8,
-      "personality.curiosity": 9,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "FUN_LOVING",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Fun-loving",
-    "description": "Wants to enjoy every moment. Makes rehearsals feel like a party.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 7,
-      "utilitySkills.charisma": 1,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "GENTLE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Gentle",
-    "description": "Soft-spoken and kind. Wouldn't hurt a fly.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 10,
-      "personality.sincerity": 7,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "GOOFY",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Goofy",
-    "description": "Makes silly faces and jokes. The group's primary source of comic relief.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -7,
-      "utilitySkills.charisma": 2,
-      "aggregations.audienceRatio": 0.12
-    }
-  },
-  {
-    "id": "GREEDY",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Greedy",
-    "description": "Always pushing for more lines, more screen time, and more center spots.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 10,
-      "personality.gentleness": -6,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "GUARDIAN",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Guardian",
-    "description": "Takes care of the younger members' health and well-being.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 9,
-      "personality.gentleness": 8,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "HARD_WORKING",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Hard-working",
-    "description": "Rarely sleeps. Dedicated to perfecting every detail.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 10,
-      "utilitySkills.stamina": 1,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "HARDENED",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Hardened",
-    "description": "Has seen the ugly side of the industry. Not here for games or friendships.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 9,
-      "personality.sensitivity": -8,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "HATER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Hater",
-    "description": "Always has something negative to say about others' successes.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -9,
-      "personality.sincerity": 4,
-      "aggregations.productionRatio": 0.15,
-      "aggregations.audienceRatio": -0.12
-    }
-  },
-  {
-    "id": "HERETIC",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Heretic",
-    "description": "Frequently challenges the company's traditional training methods.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 8,
-      "personality.investment": -4,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "HERMIT",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Hermit",
-    "description": "Stays in their bunk or the studio. Avoids social interactions entirely.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -10,
-      "personality.resilience": 5,
-      "aggregations.productionRatio": -0.05
-    }
-  },
-  {
-    "id": "HONEST",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Honest",
-    "description": "Incapable of lying, even if it hurts the group's public image.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 10,
-      "personality.gentleness": -2,
-      "aggregations.audienceRatio": 0.15
-    }
-  },
-  {
-    "id": "HONORABLE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Honorable",
-    "description": "Sticks to a strict moral code, even when it’s not competitive to do so.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 9,
-      "personality.maturity": 8,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "HUMBLE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Humble",
-    "description": "Downplays their own talent. Grateful for even the smallest wins.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 9,
-      "personality.ambition": -7,
-      "aggregations.audienceRatio": 0.12
-    }
-  },
-  {
-    "id": "HYPOCRITICAL",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Hypocritical",
-    "description": "Demands discipline from others but is lazy themselves. High drama trigger.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -9,
-      "personality.discipline": -5,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "IMPULSIVE",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Impulsive",
-    "description": "Acts first, thinks later. Keeps the show's producers on their toes.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -8,
-      "personality.curiosity": 6,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "INDIVIDUALIST",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Individualist",
-    "description": "Cares more about their personal brand than the group's success.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -5,
-      "personality.ambition": 8,
-      "aggregations.fanbaseRatio": 0.05,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "INNOCENT",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Innocent",
-    "description": "Naive about the world and the industry. Needs constant protection.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -6,
-      "personality.sincerity": 9,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "INSECURE",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Insecure",
-    "description": "Constantly fishing for compliments and reassurance from judges.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -9,
-      "personality.sensitivity": 8,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "INTELLIGENT",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Intelligent",
-    "description": "Quick to understand concepts and strategies. Very logical.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 2,
-      "personality.maturity": 6,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "INTENSE",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Intense",
-    "description": "Everything is life or death. Their gaze alone can be overwhelming.",
-    "occurrence": 1,
-    "influences": {
-      "personality.investment": 10,
-      "personality.sensitivity": 6,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "INTROVERTED",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Introverted",
-    "description": "Quiet and reserved. Recharges by being alone.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -9,
-      "personality.sensitivity": 5,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "IRRESPONSIBLE",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Irresponsible",
-    "description": "Forgetful and reckless with equipment and schedules.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -10,
-      "personality.maturity": -7,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "JEALOUS",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Jealous",
-    "description": "Can't stand to see others get the spotlight. Highly reactive.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 9,
-      "personality.sincerity": -5,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "JOKESTER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Jokester",
-    "description": "Always pulling pranks on the other trainees.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -6,
-      "utilitySkills.charisma": 2,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "JUST",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Just",
-    "description": "Highly principled. Will call out unfair treatment, even by staff.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 9,
-      "personality.maturity": 6,
-      "aggregations.audienceRatio": 0.05,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "KIND",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Kind",
-    "description": "Naturally warm and welcoming to everyone.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 10,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "LAZY",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Lazy",
-    "description": "The one sleeping in the dance studio corner while others work.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -9,
-      "personality.investment": -8,
-      "aggregations.productionRatio": 0.1,
-      "aggregations.audienceRatio": -0.05
-    }
-  },
-  {
-    "id": "LONER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Loner",
-    "description": "Does not participate in group activities unless forced.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -8,
-      "personality.gentleness": -3,
-      "aggregations.productionRatio": -0.05
-    }
-  },
-  {
-    "id": "LUNATIC",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Lunatic",
-    "description": "Unfiltered and chaotic. Their interviews are legendary for being insane.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -10,
-      "personality.curiosity": 8,
-      "aggregations.productionRatio": 0.25
-    }
-  },
-  {
-    "id": "MACHO",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Macho",
-    "description": "Hyper-masculine and aggressive. Over-compensates to look tough.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -7,
-      "utilitySkills.stamina": 1,
-      "aggregations.fanbaseRatio": 0.05,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "MANIAC",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Maniac",
-    "description": "Possessed by an overwhelming, almost frightening energy on stage.",
-    "occurrence": 1,
-    "influences": {
-      "personality.investment": 10,
-      "coreSkills.stagePresence": 1,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "MANIPULATIVE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Manipulative",
-    "description": "Master at playing people against each other for their own benefit.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -10,
-      "personality.ambition": 9,
-      "aggregations.productionRatio": 0.2
-    }
-  },
-  {
-    "id": "MEDIATOR",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Mediator",
-    "description": "Naturally gifted at finding common ground in an argument.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 8,
-      "personality.maturity": 7,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "MISCREANT",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Miscreant",
-    "description": "A troublemaker who refuses to follow any company policy.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -10,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "MISFIT",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Misfit",
-    "description": "Doesn't quite fit the 'idol' image, making them an underdog favorite.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 2,
-      "aggregations.audienceRatio": 0.1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "MODEST",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Modest",
-    "description": "Shies away from praise. Genuine and unassuming.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 10,
-      "personality.ambition": -6,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "NARCISSIST",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Narcissist",
-    "description": "Obsessed with their own reflection and fame. Truly loves themselves.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -9,
-      "coreSkills.visual": 1,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "NARROW_MINDED",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Narrow-minded",
-    "description": "Stubborn and unwilling to listen to new ideas or alternative views.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": -10,
-      "personality.gentleness": -4,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "NEUROTIC",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Neurotic",
-    "description": "Anxious, obsessive, and easily stressed by small changes.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -10,
-      "personality.sensitivity": 9,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "NURTURING",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Nurturing",
-    "description": "Always making sure everyone else is fed and rested.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 9,
-      "personality.maturity": 6,
-      "aggregations.fanbaseRatio": 0.06
-    }
-  },
-  {
-    "id": "OBNOXIOUS",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Obnoxious",
-    "description": "Loud, grating, and has zero social awareness.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 9,
-      "personality.maturity": -8,
-      "aggregations.productionRatio": 0.15,
-      "aggregations.audienceRatio": -0.1
-    }
-  },
-  {
-    "id": "OBSESSIVE",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Obsessive",
-    "description": "Will repeat a single dance move for five hours straight.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 10,
-      "personality.sensitivity": 5,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "OPENLY_BI",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Openly bi",
-    "description": "Authentic and open about their bisexuality, creating a loyal niche fanbase.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 7,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.15,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "OPENLY_GAY",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Openly gay",
-    "description": "Courageously open about their sexuality in a high-stakes environment.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 8,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.18,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "OPENLY_TRANS",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Openly trans",
-    "description": "A trailblazing identity that brings intense national conversation and support.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 8,
-      "coreSkills.uniqueness": 2,
-      "aggregations.fanbaseRatio": 0.2,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "OPTIMIST",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Optimist",
-    "description": "Always believes the next mission will be their big break.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 8,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "ORGANIZED",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Organized",
-    "description": "Keeps the group schedule and the dorm perfectly tidy.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 9,
-      "personality.maturity": 5,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "PASSIVE",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Passive",
-    "description": "Hardly ever speaks up. Lets others make all the decisions.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": -9,
-      "personality.extroversion": -6,
-      "aggregations.productionRatio": -0.15
-    }
-  },
-  {
-    "id": "PATIENT",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Patient",
-    "description": "Willing to wait for their moment. Never complains about small roles.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 8,
-      "personality.gentleness": 6,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "PERFECTIONIST",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Perfectionist",
-    "description": "Distraught by even the smallest mistake in a performance.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 10,
-      "personality.sensitivity": 6,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "PESSIMIST",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Pessimist",
-    "description": "Sure they’re going to be eliminated every single week.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -7,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "PREJUDICED",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Prejudiced",
-    "description": "Holds unfair biases against others. A deeply controversial contestant.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -9,
-      "personality.maturity": -6,
-      "aggregations.productionRatio": 0.2,
-      "aggregations.audienceRatio": -0.25
-    }
-  },
-  {
-    "id": "PRETENTIOUS",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Pretentious",
-    "description": "Acts like they are above 'pop' music and 'idol' culture.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -7,
-      "personality.curiosity": 5,
-      "aggregations.productionRatio": 0.1,
-      "aggregations.audienceRatio": -0.05
-    }
-  },
-  {
-    "id": "PROMISCUOUS",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Promiscuous",
-    "description": "The 'Player'. Known for chasing staff or other contestants off-camera.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -6,
-      "utilitySkills.charisma": 2,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "PROSAIC",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Prosaic",
-    "description": "Straightforward and uninspiring. Lacks 'artistic' flair.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": -9,
-      "coreSkills.uniqueness": -1,
-      "aggregations.productionRatio": -0.1
-    }
-  },
-  {
-    "id": "PROTECTOR",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Protector",
-    "description": "The group's 'Big Brother'. Shields others from harsh criticism.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 8,
-      "personality.gentleness": 9,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "PROUD",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Proud",
-    "description": "Refuses to admit when they are wrong or need help.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 7,
-      "personality.gentleness": -5,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "PURIST",
-    "type": "identity",
-    "group": "Beliefs & Values",
-    "name": "Purist",
-    "description": "Believes in 'real' talent over 'manufactured' visuals.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 8,
-      "coreSkills.visual": -1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "RADICAL",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Radical",
-    "description": "Wants to completely change the group's direction or style.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 10,
-      "personality.ambition": 6,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "REBEL",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Rebel",
-    "description": "Constantly breaks the curfew and ignores the rules.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -10,
-      "aggregations.fanbaseRatio": 0.1,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "RECKLESS",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Reckless",
-    "description": "Doesn't care about the consequences of their actions on the team.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -10,
-      "personality.discipline": -7,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "RECLUSE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Recluse",
-    "description": "Only leaves their room to perform. A ghost in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -10,
-      "aggregations.productionRatio": -0.1
-    }
-  },
-  {
-    "id": "RELAXED",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Relaxed",
-    "description": "Never feels the pressure, even in the finale.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 9,
-      "personality.ambition": -3,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "RENEGADE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Renegade",
-    "description": "Goes against the company and the show's script entirely.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -9,
-      "coreSkills.uniqueness": 2,
-      "aggregations.fanbaseRatio": 0.15,
-      "aggregations.productionRatio": 0.2
-    }
-  },
-  {
-    "id": "RESERVED",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Reserved",
-    "description": "Highly professional but keeps their personal life private.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -7,
-      "personality.maturity": 6,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "ROUGH",
-    "type": "identity",
-    "group": "Vibe",
-    "name": "Rough",
-    "description": "Unpolished and aggressive. Needs a lot of refinement.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -5,
-      "utilitySkills.learning": 1,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "SAD",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Sad",
-    "description": "Always seems to be on the verge of tears. The 'tragic' contestant.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -9,
-      "personality.sensitivity": 9,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "SECURE",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Secure",
-    "description": "Confident in their spot. Doesn't feel threatened by new talent.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 10,
-      "personality.ambition": 5,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "SELF_CENTERED",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Self-centered",
-    "description": "Only cares about how things affect them personally.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -8,
-      "personality.sincerity": -6,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "SELFISH",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Selfish",
-    "description": "Will hog resources or food without thinking of the group.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -9,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "SENSITIVE",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Sensitive",
-    "description": "Easily hurt by criticism from the judges or mentors.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 10,
-      "personality.resilience": -7,
-      "aggregations.productionRatio": 0.06
-    }
-  },
-  {
-    "id": "SENSUAL",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Sensual",
-    "description": "Known for their 'sexy' aura and seductive stage presence.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 2,
-      "coreSkills.stagePresence": 1,
-      "aggregations.fanbaseRatio": 0.15
-    }
-  },
-  {
-    "id": "SENTIMENTAL",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Sentimental",
-    "description": "Keeps every fan letter and gift. Cries at every elimination.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 9,
-      "personality.sincerity": 8,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "SHY",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Shy",
-    "description": "Terrified of the cameras. Needs a lot of coaxing to speak.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -10,
-      "aggregations.audienceRatio": 0.05,
-      "aggregations.productionRatio": -0.1
-    }
-  },
-  {
-    "id": "SKEPTIC",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Skeptic",
-    "description": "Doesn't trust the results or the judges' feedback.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -3,
-      "personality.investment": -6,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "SOCIAL",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Social",
-    "description": "Everyone’s best friend. Knows every trainee by name.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 9,
-      "personality.gentleness": 6,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "SOCIOPATH",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Sociopath",
-    "description": "Incapable of empathy. Sees everyone as a tool for their success.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": -10,
-      "personality.sincerity": -10,
-      "personality.ambition": 10,
-      "aggregations.productionRatio": 0.3,
-      "aggregations.audienceRatio": -0.2
-    }
-  },
-  {
-    "id": "SPIRITUAL",
-    "type": "identity",
-    "group": "Beliefs & Values",
-    "name": "Spiritual",
-    "description": "Uses meditation or faith to handle the stress of the competition.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 8,
-      "personality.curiosity": 6,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "STUBBORN",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Stubborn",
-    "description": "Refuses to change their style, even when told by experts.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "personality.gentleness": -7,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "SUBSERVIENT",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Subservient",
-    "description": "Will do whatever the 'Alpha' members say without question.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": -9,
-      "personality.gentleness": 8,
-      "aggregations.productionRatio": -0.05
-    }
-  },
-  {
-    "id": "TASK_ORIENTED",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Task-oriented",
-    "description": "Only cares about the check-list. No time for small talk or drama.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 10,
-      "personality.maturity": 6,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "THICK_SKINNED",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Thick-skinned",
-    "description": "Ignores the hate comments and harsh judge critiques entirely.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 10,
-      "personality.sensitivity": -9,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "TOO_NICE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Too nice",
-    "description": "Will give up their center spot just because someone else asked for it.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 10,
-      "personality.ambition": -10,
-      "aggregations.audienceRatio": 0.15,
-      "aggregations.productionRatio": -0.1
-    }
-  },
-  {
-    "id": "TRUTH_SEEKER",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Truth Seeker",
-    "description": "Constantly trying to figure out who is 'real' and who is fake.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 9,
-      "personality.curiosity": 8,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "UNCONVENTIONAL",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Unconventional",
-    "description": "Does everything in a way the producers have never seen before.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 3,
-      "aggregations.fanbaseRatio": 0.1,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "VAGABOND",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Vagabond",
-    "description": "Has no 'home' group. Drifts between different social circles.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 4,
-      "personality.discipline": -5,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "VEGAN",
-    "type": "identity",
-    "group": "Beliefs & Values",
-    "name": "Vegan",
-    "description": "Strongly committed to their lifestyle, even during grueling tours.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 5,
-      "personality.sincerity": 6,
-      "aggregations.audienceRatio": 0.02
-    }
-  },
-  {
-    "id": "VILLAIN",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Villain",
-    "description": "Embraces the role of the antagonist. Loves to be hated.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -10,
-      "personality.ambition": 9,
-      "aggregations.productionRatio": 0.3,
-      "aggregations.audienceRatio": -0.2
-    }
-  },
-  {
-    "id": "WARDEN",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Warden",
-    "description": "Strictly enforces the dorm rules and company schedules on others.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 10,
-      "personality.gentleness": -4,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "WITHDRAWN",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Withdrawn",
-    "description": "Shuts down emotionally when under stress or criticism.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -9,
-      "personality.extroversion": -8,
-      "aggregations.productionRatio": -0.05
-    }
-  },
-  {
-    "id": "WORKAHOLIC",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Workaholic",
-    "description": "Physical health is secondary to the performance. Always practicing.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 10,
-      "personality.investment": 10,
-      "utilitySkills.learning": 1,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "WORRYWART",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Worrywart",
-    "description": "Stresses about things that haven't even happened yet.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 9,
-      "personality.resilience": -8,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "BLABBER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Blabber",
-    "description": "Can't keep a secret. Tells the cameras everything that happened in the dorm.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 9,
-      "personality.sincerity": -3,
-      "aggregations.productionRatio": 0.2
-    }
-  },
-  {
+  "CALCULATED": {
     "id": "CALCULATED",
     "type": "identity",
     "group": "Ego & Ethics",
@@ -2176,370 +298,20 @@
       "aggregations.productionRatio": 0.1
     }
   },
-  {
-    "id": "SELF_DEPRECATING",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Self-deprecating",
-    "description": "Wins the audience over by being the first to joke about their own flaws.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 9,
-      "personality.resilience": 5,
-      "utilitySkills.charisma": 1,
-      "aggregations.audienceRatio": 0.15
-    }
-  },
-  {
-    "id": "SHOW_OFF",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Show-off",
-    "description": "Can't stand a moment where they aren't the center of attention. High energy, low modesty.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 9,
-      "personality.sincerity": -5,
-      "coreSkills.stagePresence": 1,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "TRY_HARD",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Try-hard",
-    "description": "Their desperation for success is visible. Some find it inspiring; others find it 'cringe'.",
-    "occurrence": 1,
-    "influences": {
-      "personality.investment": 10,
-      "personality.discipline": 9,
-      "aggregations.fanbaseRatio": 0.1,
-      "aggregations.audienceRatio": -0.05
-    }
-  },
-  {
-    "id": "UNFLAPPABLE",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Unflappable",
-    "description": "Possesses a 'Zen-like' calm. Judges can't seem to break them with harsh critiques.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 10,
-      "personality.sensitivity": -8,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "MERCENARY",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Mercenary",
-    "description": "They aren't here for 'the dream' or 'the music'—they are here for the paycheck and the fame.",
-    "occurrence": 1,
-    "influences": {
-      "personality.investment": -5,
-      "personality.ambition": 9,
-      "personality.sincerity": -7,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "ABRASIVE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Abrasive",
-    "description": "Rub people the wrong way without even trying. Blunt and socially 'spiky'.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -9,
-      "personality.sincerity": 6,
-      "aggregations.productionRatio": 0.15,
-      "aggregations.audienceRatio": -0.1
-    }
-  },
-  {
-    "id": "ENTHUSIASTIC",
+  "CALM": {
+    "id": "CALM",
     "type": "identity",
     "group": "Temperament",
-    "name": "Enthusiastic",
-    "description": "Always at a level 10 energy. They genuinely love every terrible rehearsal and early morning.",
+    "name": "Calm",
+    "description": "Nothing rattles them. A stabilizing force during high-stress eliminations.",
     "occurrence": 1,
     "influences": {
-      "personality.investment": 9,
-      "personality.extroversion": 8,
-      "aggregations.audienceRatio": 0.08
+      "personality.resilience": 9,
+      "personality.sensitivity": -6,
+      "aggregations.fanbaseRatio": 0.06
     }
   },
-  {
-    "id": "NONCHALANT",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Nonchalant",
-    "description": "Acts like they happened to walk onto the set by accident. Too cool for the competition.",
-    "occurrence": 1,
-    "influences": {
-      "personality.investment": -6,
-      "personality.resilience": 7,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "SYCOPHANT",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Sycophant",
-    "description": "A 'yes-man' to the judges and the most popular contestants. Strategic flattery.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 8,
-      "personality.sincerity": -9,
-      "aggregations.productionRatio": 0.07
-    }
-  },
-  {
-    "id": "THEATRICAL",
-    "type": "identity",
-    "group": "Aura",
-    "name": "Theatrical",
-    "description": "Every gesture is grand and dramatic. They perform even when the cameras aren't rolling.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 2,
-      "coreSkills.stagePresence": 1,
-      "personality.extroversion": 7,
-      "aggregations.productionRatio": 0.09
-    }
-  },
-  {
-    "id": "FRUGAL",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Frugal",
-    "description": "Hates waste. Will scold other members for leaving lights on or wasting dorm food.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 7,
-      "personality.maturity": 6,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "MESSY",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Messy",
-    "description": "Leaves a trail of clothes and trash everywhere. A primary cause of dorm arguments.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -10,
-      "personality.maturity": -5,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "WHIMSICAL",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Whimsical",
-    "description": "Prone to sudden changes of heart and playful, odd behavior. Hard to predict.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 9,
-      "personality.maturity": -6,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "DEEP",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Deep",
-    "description": "Always looking for the 'meaning' behind the lyrics. Intense and philosophical.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 7,
-      "personality.curiosity": 8,
-      "aggregations.fanbaseRatio": 0.07
-    }
-  },
-  {
-    "id": "SHALLOW",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Shallow",
-    "description": "Cares only about the outfit, the makeup, and how many followers they are gaining.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": -8,
-      "personality.sincerity": -6,
-      "coreSkills.visual": 1,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "MELODRAMATIC",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Melodramatic",
-    "description": "Turns every minor inconvenience into a Shakespearian tragedy. High screen time.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 10,
-      "personality.resilience": -8,
-      "aggregations.productionRatio": 0.2
-    }
-  },
-  {
-    "id": "UNYIELDING",
-    "type": "identity",
-    "group": "Temperament",
-    "name": "Unyielding",
-    "description": "A 'mountain' of a personality. They do not compromise, even if it helps the group.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 10,
-      "personality.gentleness": -8,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "SUBTLE",
-    "type": "identity",
-    "group": "Aura",
-    "name": "Subtle",
-    "description": "They don't shout to be heard. They have a quiet, understated magnetism.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -7,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.12
-    }
-  },
-  {
-    "id": "FLAMBOYANT",
-    "type": "identity",
-    "group": "Vibe",
-    "name": "Flamboyant",
-    "description": "Loud, colorful, and impossible to ignore. They bring a 'parade' energy to the stage.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 10,
-      "coreSkills.visual": 1,
-      "utilitySkills.charisma": 1,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "MEEK",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Meek",
-    "description": "Easily overshadowed. They tend to apologize for taking up space.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": -10,
-      "personality.extroversion": -8,
-      "aggregations.audienceRatio": 0.04,
-      "aggregations.productionRatio": -0.15
-    }
-  },
-  {
-    "id": "RESIGNED",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Resigned",
-    "description": "Has lost their fire. They are just going through the motions until they get cut.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": -8,
-      "personality.resilience": -7,
-      "personality.investment": -9,
-      "aggregations.productionRatio": -0.1
-    }
-  },
-  {
-    "id": "RESOURCEFUL",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Resourceful",
-    "description": "Can make a high-end performance outfit out of dorm curtains. Clever and handy.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.curiosity": 7,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "FASTIDIOUS",
-    "type": "identity",
-    "group": "Work Ethic",
-    "name": "Fastidious",
-    "description": "Incredibly attentive to detail, often to the point of annoying their teammates.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 9,
-      "personality.gentleness": -4,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "BOHEMIAN",
-    "type": "identity",
-    "group": "Beliefs & Values",
-    "name": "Bohemian",
-    "description": "A 'hippie' vibe. They value artistic freedom over scores and rankings.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -6,
-      "coreSkills.uniqueness": 2,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "PROVOCATIVE",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Provocative",
-    "description": "Knows exactly what to say to get a reaction. Constantly testing boundaries.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -7,
-      "personality.curiosity": 6,
-      "aggregations.productionRatio": 0.18
-    }
-  },
-  {
-    "id": "DEFIANT",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Defiant",
-    "description": "The first to say 'No' to a mentor. They refuse to be 'manufactured'.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 7,
-      "personality.gentleness": -8,
-      "aggregations.fanbaseRatio": 0.15,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "OPINIONATED",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Opinionated",
-    "description": "Has a strong view on everything and is never afraid to share it loudly.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -6,
-      "personality.sincerity": 8,
-      "aggregations.productionRatio": 0.09
-    }
-  },
-  {
+  "CAREFREE": {
     "id": "CAREFREE",
     "type": "identity",
     "group": "Temperament",
@@ -2552,111 +324,7 @@
       "aggregations.audienceRatio": 0.08
     }
   },
-  {
-    "id": "CHARMER",
-    "type": "identity",
-    "group": "Sociality",
-    "name": "Charmer",
-    "description": "Could sell ice to an Eskimo. Extremely persuasive and likable.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 2,
-      "personality.extroversion": 8,
-      "aggregations.audienceRatio": 0.12
-    }
-  },
-  {
-    "id": "GRITTY",
-    "type": "identity",
-    "group": "Vibe",
-    "name": "Gritty",
-    "description": "An 'unpolished' and raw talent. They bring a real-world toughness to the group.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 8,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.07
-    }
-  },
-  {
-    "id": "SHELTERED",
-    "type": "identity",
-    "group": "Background",
-    "name": "Sheltered",
-    "description": "Has lived a very protected life. The real world (and reality TV) is a huge shock.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -8,
-      "personality.sincerity": 9,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "WORLDLY",
-    "type": "identity",
-    "group": "Background",
-    "name": "Worldly",
-    "description": "Has traveled and experienced much. Nothing in the competition surprises them.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 9,
-      "personality.curiosity": 7,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "FATALIST",
-    "type": "identity",
-    "group": "Mental State",
-    "name": "Fatalist",
-    "description": "Believes their destiny is already written. 'If I get cut, it was meant to be.'",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -5,
-      "personality.ambition": -6,
-      "aggregations.productionRatio": 0.04
-    }
-  },
-  {
-    "id": "TACTICIAN",
-    "type": "identity",
-    "group": "Ego & Ethics",
-    "name": "Tactician",
-    "description": "Views the other contestants as chess pieces. Always calculating the 'win'.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 10,
-      "personality.sincerity": -10,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "EXPRESSIVE",
-    "type": "identity",
-    "group": "Aura",
-    "name": "Expressive",
-    "description": "Their face is an open book. Every emotion is broadcast at 100% volume.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 7,
-      "personality.sensitivity": 8,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "SOULFUL",
-    "type": "identity",
-    "group": "Vibe",
-    "name": "Soulful",
-    "description": "A deep, emotional resonance in their presence and performance.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 1,
-      "personality.sensitivity": 6,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
+  "CHAMELEON": {
     "id": "CHAMELEON",
     "type": "identity",
     "group": "Sociality",
@@ -2674,5 +342,2338 @@
     "consequence": {
       "aggregations.screenTime": 0.05
     }
+  },
+  "CHAMPION": {
+    "id": "CHAMPION",
+    "type": "identity",
+    "group": "Role",
+    "name": "Champion",
+    "description": "Has a 'winner's aura'. They excel under pressure and carry the team.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 8,
+      "utilitySkills.potential": 1,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "CHARMER": {
+    "id": "CHARMER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Charmer",
+    "description": "Could sell ice to an Eskimo. Extremely persuasive and likable.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "personality.extroversion": 8,
+      "aggregations.audienceRatio": 0.12
+    }
+  },
+  "CLUMSY": {
+    "id": "CLUMSY",
+    "type": "identity",
+    "group": "Aura",
+    "name": "Clumsy",
+    "description": "Trips over thin air but does it endearingly. The 'accidental' variety star.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": -2,
+      "utilitySkills.charisma": 2,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "COCKY": {
+    "id": "COCKY",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Cocky",
+    "description": "Overconfident to a fault. Loves to brag about their skills before they even perform.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 8,
+      "personality.sincerity": -6,
+      "aggregations.productionRatio": 0.1,
+      "aggregations.fanbaseRatio": -0.05
+    }
+  },
+  "COMPLAINER": {
+    "id": "COMPLAINER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Complainer",
+    "description": "Always find something wrong—the food, the dorms, the choreography.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -8,
+      "personality.maturity": -6,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "CONSERVATIVE": {
+    "id": "CONSERVATIVE",
+    "type": "identity",
+    "group": "Beliefs & Values",
+    "name": "Conservative",
+    "description": "Prefers traditional methods and modest styling. Resists radical changes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": -7,
+      "personality.discipline": 5,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "CONVENTIONAL": {
+    "id": "CONVENTIONAL",
+    "type": "identity",
+    "group": "Beliefs & Values",
+    "name": "Conventional",
+    "description": "Fits the standard boy-band mold perfectly. Safe, reliable, and predictable.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": -5,
+      "coreSkills.visual": 1,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "COOPERATIVE": {
+    "id": "COOPERATIVE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Cooperative",
+    "description": "The ultimate team player. Follows instructions to the letter.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 9,
+      "personality.discipline": 6,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "COUNSELOR": {
+    "id": "COUNSELOR",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Counselor",
+    "description": "Spends their free time listening to other trainees' problems.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 9,
+      "personality.maturity": 7,
+      "aggregations.fanbaseRatio": 0.07
+    }
+  },
+  "CREATIVE": {
+    "id": "CREATIVE",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Creative",
+    "description": "Always suggesting new arrangements and concepts. An artist at heart.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 10,
+      "coreSkills.uniqueness": 1,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "CURIOUS": {
+    "id": "CURIOUS",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Curious",
+    "description": "Wants to know how everything works, from the cameras to the soundboard.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 8,
+      "utilitySkills.learning": 1,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "CYNICAL": {
+    "id": "CYNICAL",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Cynical",
+    "description": "Expects the worst from the industry and the producers.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": -8,
+      "personality.sincerity": -5,
+      "aggregations.productionRatio": -0.1
+    }
+  },
+  "DECEITFUL": {
+    "id": "DECEITFUL",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Deceitful",
+    "description": "Will lie to peers to gain a competitive advantage. Highly untrustworthy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -10,
+      "personality.ambition": 8,
+      "aggregations.productionRatio": 0.18
+    }
+  },
+  "DECEIVER": {
+    "id": "DECEIVER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Deceiver",
+    "description": "Expert at hiding their true feelings. You never know what they're really thinking.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -8,
+      "personality.maturity": 4,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "DEEP": {
+    "id": "DEEP",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Deep",
+    "description": "Always looking for the 'meaning' behind the lyrics. Intense and philosophical.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 7,
+      "personality.curiosity": 8,
+      "aggregations.fanbaseRatio": 0.07
+    }
+  },
+  "DEFENDER": {
+    "id": "DEFENDER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Defender",
+    "description": "Will confront anyone who treats their friends poorly.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 5,
+      "personality.resilience": 7,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "DEFIANT": {
+    "id": "DEFIANT",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Defiant",
+    "description": "The first to say 'No' to a mentor. They refuse to be 'manufactured'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 7,
+      "personality.gentleness": -8,
+      "aggregations.fanbaseRatio": 0.15,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "DELUSIONAL": {
+    "id": "DELUSIONAL",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Delusional",
+    "description": "Genuinely believes they are the best despite getting 'F' grades. Great for TV.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -9,
+      "utilitySkills.consistency": -3,
+      "aggregations.productionRatio": 0.2
+    }
+  },
+  "DILIGENT": {
+    "id": "DILIGENT",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Diligent",
+    "description": "The first one in the studio and the last one out. Pure effort.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 9,
+      "utilitySkills.learning": 1,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "DIPLOMAT": {
+    "id": "DIPLOMAT",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Diplomat",
+    "description": "Highly skilled at navigating company politics and group dynamics.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 8,
+      "personality.gentleness": 6,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "DISORGANIZED": {
+    "id": "DISORGANIZED",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Disorganized",
+    "description": "Loses their lyric sheets and misses rehearsal times. A mess in the dorms.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -9,
+      "utilitySkills.memory": -1,
+      "aggregations.productionRatio": 0.07
+    }
+  },
+  "DISSENTER": {
+    "id": "DISSENTER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Dissenter",
+    "description": "The one who always says 'no' to the group's majority decision.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -6,
+      "personality.ambition": 5,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "DOWN_TO_EARTH": {
+    "id": "DOWN_TO_EARTH",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Down-to-earth",
+    "description": "Relatable and humble. Feels like someone you’d know in real life.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 9,
+      "personality.extroversion": -2,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "DOWNER": {
+    "id": "DOWNER",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Downer",
+    "description": "Focuses only on the negatives. Drains the energy of the room.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -8,
+      "personality.sensitivity": 6,
+      "aggregations.audienceRatio": -0.1
+    }
+  },
+  "DUMB": {
+    "id": "DUMB",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Dumb",
+    "description": "Slow on the uptake, but usually harmless. Often the butt of the joke.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": -2,
+      "utilitySkills.memory": -2,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "ECCENTRIC": {
+    "id": "ECCENTRIC",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Eccentric",
+    "description": "Has strange hobbies and a unique way of speaking. Totally original.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 10,
+      "coreSkills.uniqueness": 2,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "ELOQUENT": {
+    "id": "ELOQUENT",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Eloquent",
+    "description": "Extremely well-spoken. Always gives the best speeches during awards.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "personality.maturity": 7,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "ENIGMATIC": {
+    "id": "ENIGMATIC",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Enigmatic",
+    "description": "Quiet and mysterious. The fans spend all their time trying to figure them out.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -8,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.15
+    }
+  },
+  "ENTHUSIASTIC": {
+    "id": "ENTHUSIASTIC",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Enthusiastic",
+    "description": "Always at a level 10 energy. They genuinely love every terrible rehearsal and early morning.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 9,
+      "personality.extroversion": 8,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "ENVIOUS": {
+    "id": "ENVIOUS",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Envious",
+    "description": "Secretly resents the more popular members of the competition.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -4,
+      "personality.sensitivity": 7,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "EXPRESSIVE": {
+    "id": "EXPRESSIVE",
+    "type": "identity",
+    "group": "Aura",
+    "name": "Expressive",
+    "description": "Their face is an open book. Every emotion is broadcast at 100% volume.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 7,
+      "personality.sensitivity": 8,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "EXTRAVAGANT": {
+    "id": "EXTRAVAGANT",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Extravagant",
+    "description": "Flashy, loud, and expensive. Loves to be the center of attention.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 9,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.05,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "EXTROVERTED": {
+    "id": "EXTROVERTED",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Extroverted",
+    "description": "Energized by people. Always the life of the party.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 10,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "FAIR": {
+    "id": "FAIR",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Fair",
+    "description": "Values justice and equal distribution of lines and screen time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 7,
+      "personality.sincerity": 8,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "FASTIDIOUS": {
+    "id": "FASTIDIOUS",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Fastidious",
+    "description": "Incredibly attentive to detail, often to the point of annoying their teammates.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 9,
+      "personality.gentleness": -4,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "FATALIST": {
+    "id": "FATALIST",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Fatalist",
+    "description": "Believes their destiny is already written. 'If I get cut, it was meant to be.'",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -5,
+      "personality.ambition": -6,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "FEARLESS": {
+    "id": "FEARLESS",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Fearless",
+    "description": "Takes massive risks on stage. No fear of failure or embarrassment.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 10,
+      "utilitySkills.acrobatics": 2,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "FEMININE": {
+    "id": "FEMININE",
+    "type": "identity",
+    "group": "Vibe",
+    "name": "Feminine",
+    "description": "A softer, more delicate aesthetic. Breaks traditional boy-band masculinity.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.12
+    }
+  },
+  "FLAMBOYANT": {
+    "id": "FLAMBOYANT",
+    "type": "identity",
+    "group": "Vibe",
+    "name": "Flamboyant",
+    "description": "Loud, colorful, and impossible to ignore. They bring a 'parade' energy to the stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 10,
+      "coreSkills.visual": 1,
+      "utilitySkills.charisma": 1,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "FLIRTATIOUS": {
+    "id": "FLIRTATIOUS",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Flirtatious",
+    "description": "Constantly winking at cameras and teasing the fans. A natural charmer.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "personality.extroversion": 8,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "FOCUSED": {
+    "id": "FOCUSED",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Focused",
+    "description": "Has blinders on. Ignores the drama to focus entirely on the performance.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 10,
+      "personality.investment": 7,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "FOOLISH": {
+    "id": "FOOLISH",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Foolish",
+    "description": "Makes impulsive, ill-advised decisions that often blow up in their face.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -10,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "FORGIVING": {
+    "id": "FORGIVING",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Forgiving",
+    "description": "Easily lets go of grudges after a betrayal or argument.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 9,
+      "personality.sensitivity": 5,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "FREE_SPIRIT": {
+    "id": "FREE_SPIRIT",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Free Spirit",
+    "description": "Hates rules and hierarchy. Lives life on their own terms.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -8,
+      "personality.curiosity": 9,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "FRUGAL": {
+    "id": "FRUGAL",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Frugal",
+    "description": "Hates waste. Will scold other members for leaving lights on or wasting dorm food.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 7,
+      "personality.maturity": 6,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "FUN_LOVING": {
+    "id": "FUN_LOVING",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Fun-loving",
+    "description": "Wants to enjoy every moment. Makes rehearsals feel like a party.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 7,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "GENTLE": {
+    "id": "GENTLE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Gentle",
+    "description": "Soft-spoken and kind. Wouldn't hurt a fly.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 10,
+      "personality.sincerity": 7,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "GOOFY": {
+    "id": "GOOFY",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Goofy",
+    "description": "Makes silly faces and jokes. The group's primary source of comic relief.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -7,
+      "utilitySkills.charisma": 2,
+      "aggregations.audienceRatio": 0.12
+    }
+  },
+  "GREEDY": {
+    "id": "GREEDY",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Greedy",
+    "description": "Always pushing for more lines, more screen time, and more center spots.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 10,
+      "personality.gentleness": -6,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "GRITTY": {
+    "id": "GRITTY",
+    "type": "identity",
+    "group": "Vibe",
+    "name": "Gritty",
+    "description": "An 'unpolished' and raw talent. They bring a real-world toughness to the group.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 8,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.07
+    }
+  },
+  "GUARDIAN": {
+    "id": "GUARDIAN",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Guardian",
+    "description": "Takes care of the younger members' health and well-being.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 9,
+      "personality.gentleness": 8,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "HARD_WORKING": {
+    "id": "HARD_WORKING",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Hard-working",
+    "description": "Rarely sleeps. Dedicated to perfecting every detail.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 10,
+      "utilitySkills.stamina": 1,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "HARDENED": {
+    "id": "HARDENED",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Hardened",
+    "description": "Has seen the ugly side of the industry. Not here for games or friendships.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 9,
+      "personality.sensitivity": -8,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "HATER": {
+    "id": "HATER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Hater",
+    "description": "Always has something negative to say about others' successes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -9,
+      "personality.sincerity": 4,
+      "aggregations.productionRatio": 0.15,
+      "aggregations.audienceRatio": -0.12
+    }
+  },
+  "HEARTTHROB": {
+    "id": "HEARTTHROB",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Heartthrob",
+    "description": "Possesses an innate, effortless charm that makes girls scream and producers take notice.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 5,
+      "personality.gentleness": 6,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.1,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "HERETIC": {
+    "id": "HERETIC",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Heretic",
+    "description": "Frequently challenges the company's traditional training methods.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 8,
+      "personality.investment": -4,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "HERMIT": {
+    "id": "HERMIT",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Hermit",
+    "description": "Stays in their bunk or the studio. Avoids social interactions entirely.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -10,
+      "personality.resilience": 5,
+      "aggregations.productionRatio": -0.05
+    }
+  },
+  "HONEST": {
+    "id": "HONEST",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Honest",
+    "description": "Incapable of lying, even if it hurts the group's public image.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 10,
+      "personality.gentleness": -2,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "HONORABLE": {
+    "id": "HONORABLE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Honorable",
+    "description": "Sticks to a strict moral code, even when it’s not competitive to do so.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 9,
+      "personality.maturity": 8,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "HUMBLE": {
+    "id": "HUMBLE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Humble",
+    "description": "Downplays their own talent. Grateful for even the smallest wins.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 9,
+      "personality.ambition": -7,
+      "aggregations.audienceRatio": 0.12
+    }
+  },
+  "HYPOCRITICAL": {
+    "id": "HYPOCRITICAL",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Hypocritical",
+    "description": "Demands discipline from others but is lazy themselves. High drama trigger.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -9,
+      "personality.discipline": -5,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "IMPULSIVE": {
+    "id": "IMPULSIVE",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Impulsive",
+    "description": "Acts first, thinks later. Keeps the show's producers on their toes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -8,
+      "personality.curiosity": 6,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "INDIVIDUALIST": {
+    "id": "INDIVIDUALIST",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Individualist",
+    "description": "Cares more about their personal brand than the group's success.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -5,
+      "personality.ambition": 8,
+      "aggregations.fanbaseRatio": 0.05,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "INNOCENT": {
+    "id": "INNOCENT",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Innocent",
+    "description": "Naive about the world and the industry. Needs constant protection.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -6,
+      "personality.sincerity": 9,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "INSECURE": {
+    "id": "INSECURE",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Insecure",
+    "description": "Constantly fishing for compliments and reassurance from judges.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -9,
+      "personality.sensitivity": 8,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "INTELLIGENT": {
+    "id": "INTELLIGENT",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Intelligent",
+    "description": "Quick to understand concepts and strategies. Very logical.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 2,
+      "personality.maturity": 6,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "INTENSE": {
+    "id": "INTENSE",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Intense",
+    "description": "Everything is life or death. Their gaze alone can be overwhelming.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 10,
+      "personality.sensitivity": 6,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "INTROVERTED": {
+    "id": "INTROVERTED",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Introverted",
+    "description": "Quiet and reserved. Recharges by being alone.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -9,
+      "personality.sensitivity": 5,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "IRRESPONSIBLE": {
+    "id": "IRRESPONSIBLE",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Irresponsible",
+    "description": "Forgetful and reckless with equipment and schedules.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -10,
+      "personality.maturity": -7,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "JEALOUS": {
+    "id": "JEALOUS",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Jealous",
+    "description": "Can't stand to see others get the spotlight. Highly reactive.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 9,
+      "personality.sincerity": -5,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "JOKESTER": {
+    "id": "JOKESTER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Jokester",
+    "description": "Always pulling pranks on the other trainees.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -6,
+      "utilitySkills.charisma": 2,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "JUST": {
+    "id": "JUST",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Just",
+    "description": "Highly principled. Will call out unfair treatment, even by staff.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 9,
+      "personality.maturity": 6,
+      "aggregations.audienceRatio": 0.05,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "KIND": {
+    "id": "KIND",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Kind",
+    "description": "Naturally warm and welcoming to everyone.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 10,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "LAZY": {
+    "id": "LAZY",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Lazy",
+    "description": "The one sleeping in the dance studio corner while others work.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -9,
+      "personality.investment": -8,
+      "aggregations.productionRatio": 0.1,
+      "aggregations.audienceRatio": -0.05
+    }
+  },
+  "LEGACY": {
+    "id": "LEGACY",
+    "type": "identity",
+    "group": "Background",
+    "name": "Legacy",
+    "description": "The child of a former star or industry titan. They carry a heavy name and an even heavier expectation to succeed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 8,
+      "personality.resilience": -4,
+      "aggregations.productionRatio": 0.2,
+      "aggregations.audienceRatio": -0.1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "LONER": {
+    "id": "LONER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Loner",
+    "description": "Does not participate in group activities unless forced.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -8,
+      "personality.gentleness": -3,
+      "aggregations.productionRatio": -0.05
+    }
+  },
+  "LUNATIC": {
+    "id": "LUNATIC",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Lunatic",
+    "description": "Unfiltered and chaotic. Their interviews are legendary for being insane.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -10,
+      "personality.curiosity": 8,
+      "aggregations.productionRatio": 0.25
+    }
+  },
+  "MACHO": {
+    "id": "MACHO",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Macho",
+    "description": "Hyper-masculine and aggressive. Over-compensates to look tough.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -7,
+      "utilitySkills.stamina": 1,
+      "aggregations.fanbaseRatio": 0.05,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "MANIAC": {
+    "id": "MANIAC",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Maniac",
+    "description": "Possessed by an overwhelming, almost frightening energy on stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 10,
+      "coreSkills.stagePresence": 1,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "MANIPULATIVE": {
+    "id": "MANIPULATIVE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Manipulative",
+    "description": "Master at playing people against each other for their own benefit.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -10,
+      "personality.ambition": 9,
+      "aggregations.productionRatio": 0.2
+    }
+  },
+  "MAVERICK": {
+    "id": "MAVERICK",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Maverick",
+    "description": "Refuses to stick to the script. An unpredictable performer who defies the 'manufactured' idol mold.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -6,
+      "personality.gentleness": -4,
+      "coreSkills.uniqueness": 2,
+      "aggregations.fanbaseRatio": 0.1,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "MEDIATOR": {
+    "id": "MEDIATOR",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Mediator",
+    "description": "Naturally gifted at finding common ground in an argument.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 8,
+      "personality.maturity": 7,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "MEEK": {
+    "id": "MEEK",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Meek",
+    "description": "Easily overshadowed. They tend to apologize for taking up space.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": -10,
+      "personality.extroversion": -8,
+      "aggregations.audienceRatio": 0.04,
+      "aggregations.productionRatio": -0.15
+    }
+  },
+  "MELODRAMATIC": {
+    "id": "MELODRAMATIC",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Melodramatic",
+    "description": "Turns every minor inconvenience into a Shakespearian tragedy. High screen time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 10,
+      "personality.resilience": -8,
+      "aggregations.productionRatio": 0.2
+    }
+  },
+  "MERCENARY": {
+    "id": "MERCENARY",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Mercenary",
+    "description": "They aren't here for 'the dream' or 'the music'—they are here for the paycheck and the fame.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": -5,
+      "personality.ambition": 9,
+      "personality.sincerity": -7,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "MESSY": {
+    "id": "MESSY",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Messy",
+    "description": "Leaves a trail of clothes and trash everywhere. A primary cause of dorm arguments.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -10,
+      "personality.maturity": -5,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "MISCREANT": {
+    "id": "MISCREANT",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Miscreant",
+    "description": "A troublemaker who refuses to follow any company policy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -10,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "MISFIT": {
+    "id": "MISFIT",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Misfit",
+    "description": "Doesn't quite fit the 'idol' image, making them an underdog favorite.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 2,
+      "aggregations.audienceRatio": 0.1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "MODEST": {
+    "id": "MODEST",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Modest",
+    "description": "Shies away from praise. Genuine and unassuming.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 10,
+      "personality.ambition": -6,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "NARCISSIST": {
+    "id": "NARCISSIST",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Narcissist",
+    "description": "Obsessed with their own reflection and fame. Truly loves themselves.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -9,
+      "coreSkills.visual": 1,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "NARROW_MINDED": {
+    "id": "NARROW_MINDED",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Narrow-minded",
+    "description": "Stubborn and unwilling to listen to new ideas or alternative views.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": -10,
+      "personality.gentleness": -4,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "NEUROTIC": {
+    "id": "NEUROTIC",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Neurotic",
+    "description": "Anxious, obsessive, and easily stressed by small changes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -10,
+      "personality.sensitivity": 9,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "NONCHALANT": {
+    "id": "NONCHALANT",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Nonchalant",
+    "description": "Acts like they happened to walk onto the set by accident. Too cool for the competition.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": -6,
+      "personality.resilience": 7,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "NURTURING": {
+    "id": "NURTURING",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Nurturing",
+    "description": "Always making sure everyone else is fed and rested.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 9,
+      "personality.maturity": 6,
+      "aggregations.fanbaseRatio": 0.06
+    }
+  },
+  "OBNOXIOUS": {
+    "id": "OBNOXIOUS",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Obnoxious",
+    "description": "Loud, grating, and has zero social awareness.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 9,
+      "personality.maturity": -8,
+      "aggregations.productionRatio": 0.15,
+      "aggregations.audienceRatio": -0.1
+    }
+  },
+  "OBSESSIVE": {
+    "id": "OBSESSIVE",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Obsessive",
+    "description": "Will repeat a single dance move for five hours straight.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 10,
+      "personality.sensitivity": 5,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "OPENLY_BI": {
+    "id": "OPENLY_BI",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Openly bi",
+    "description": "Authentic and open about their bisexuality, creating a loyal niche fanbase.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 7,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.15,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "OPENLY_GAY": {
+    "id": "OPENLY_GAY",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Openly gay",
+    "description": "Courageously open about their sexuality in a high-stakes environment.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 8,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.18,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "OPENLY_TRANS": {
+    "id": "OPENLY_TRANS",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Openly trans",
+    "description": "A trailblazing identity that brings intense national conversation and support.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 8,
+      "coreSkills.uniqueness": 2,
+      "aggregations.fanbaseRatio": 0.2,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "OPINIONATED": {
+    "id": "OPINIONATED",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Opinionated",
+    "description": "Has a strong view on everything and is never afraid to share it loudly.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -6,
+      "personality.sincerity": 8,
+      "aggregations.productionRatio": 0.09
+    }
+  },
+  "OPTIMIST": {
+    "id": "OPTIMIST",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Optimist",
+    "description": "Always believes the next mission will be their big break.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 8,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "ORGANIZED": {
+    "id": "ORGANIZED",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Organized",
+    "description": "Keeps the group schedule and the dorm perfectly tidy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 9,
+      "personality.maturity": 5,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "PASSIVE": {
+    "id": "PASSIVE",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Passive",
+    "description": "Hardly ever speaks up. Lets others make all the decisions.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": -9,
+      "personality.extroversion": -6,
+      "aggregations.productionRatio": -0.15
+    }
+  },
+  "PATIENT": {
+    "id": "PATIENT",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Patient",
+    "description": "Willing to wait for their moment. Never complains about small roles.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 8,
+      "personality.gentleness": 6,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "PERFECTIONIST": {
+    "id": "PERFECTIONIST",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Perfectionist",
+    "description": "Distraught by even the smallest mistake in a performance.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 10,
+      "personality.sensitivity": 6,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "PESSIMIST": {
+    "id": "PESSIMIST",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Pessimist",
+    "description": "Sure they’re going to be eliminated every single week.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -7,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "PRANKSTER": {
+    "id": "PRANKSTER",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Prankster",
+    "description": "The group's little brother energy. Loves a good prank and keeps the tour bus lively.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -6,
+      "personality.curiosity": 5,
+      "utilitySkills.charisma": 1,
+      "aggregations.productionRatio": 0.08,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "PREJUDICED": {
+    "id": "PREJUDICED",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Prejudiced",
+    "description": "Holds unfair biases against others. A deeply controversial contestant.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -9,
+      "personality.maturity": -6,
+      "aggregations.productionRatio": 0.2,
+      "aggregations.audienceRatio": -0.25
+    }
+  },
+  "PREPPY": {
+    "id": "PREPPY",
+    "type": "identity",
+    "group": "Vibe",
+    "name": "Preppy",
+    "description": "The 'Clean-Cut' visual. Polished, well-dressed, and fits the classic boy-band aesthetic.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 2,
+      "personality.extroversion": -3,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.2
+    },
+    "set": {
+      "specialties.visualVibe": "Clean-Cut"
+    }
+  },
+  "PRETENTIOUS": {
+    "id": "PRETENTIOUS",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Pretentious",
+    "description": "Acts like they are above 'pop' music and 'idol' culture.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -7,
+      "personality.curiosity": 5,
+      "aggregations.productionRatio": 0.1,
+      "aggregations.audienceRatio": -0.05
+    }
+  },
+  "PRODIGY": {
+    "id": "PRODIGY",
+    "type": "identity",
+    "group": "Background",
+    "name": "Prodigy",
+    "description": "A natural talent who picks up skills instantly, though often acts like they don't have to try.",
+    "occurrence": 1,
+    "set": {
+      "utilitySkills.potential": 5,
+      "utilitySkills.learning": 5
+    },
+    "influences": {
+      "personality.discipline": -5,
+      "personality.maturity": -4,
+      "aggregations.audienceRatio": 0.05,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "PROMISCUOUS": {
+    "id": "PROMISCUOUS",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Promiscuous",
+    "description": "The 'Player'. Known for chasing staff or other contestants off-camera.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -6,
+      "utilitySkills.charisma": 2,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "PROSAIC": {
+    "id": "PROSAIC",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Prosaic",
+    "description": "Straightforward and uninspiring. Lacks 'artistic' flair.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": -9,
+      "coreSkills.uniqueness": -1,
+      "aggregations.productionRatio": -0.1
+    }
+  },
+  "PROTECTOR": {
+    "id": "PROTECTOR",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Protector",
+    "description": "The group's 'Big Brother'. Shields others from harsh criticism.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 8,
+      "personality.gentleness": 9,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "PROUD": {
+    "id": "PROUD",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Proud",
+    "description": "Refuses to admit when they are wrong or need help.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 7,
+      "personality.gentleness": -5,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "PROVOCATIVE": {
+    "id": "PROVOCATIVE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Provocative",
+    "description": "Knows exactly what to say to get a reaction. Constantly testing boundaries.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -7,
+      "personality.curiosity": 6,
+      "aggregations.productionRatio": 0.18
+    }
+  },
+  "PURIST": {
+    "id": "PURIST",
+    "type": "identity",
+    "group": "Beliefs & Values",
+    "name": "Purist",
+    "description": "Believes in 'real' talent over 'manufactured' visuals.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 8,
+      "coreSkills.visual": -1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "QUIRKY": {
+    "id": "QUIRKY",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Quirky",
+    "description": "Unpredictable, eccentric, and lives in their own world. Reality TV gold for being 'random'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 8,
+      "personality.maturity": -5,
+      "utilitySkills.charisma": 2,
+      "aggregations.productionRatio": 0.12,
+      "aggregations.audienceRatio": 0.05
+    },
+    "consequence": {
+      "aggregations.screenTime": 0.1
+    }
+  },
+  "RADICAL": {
+    "id": "RADICAL",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Radical",
+    "description": "Wants to completely change the group's direction or style.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 10,
+      "personality.ambition": 6,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "REBEL": {
+    "id": "REBEL",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Rebel",
+    "description": "Constantly breaks the curfew and ignores the rules.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -10,
+      "aggregations.fanbaseRatio": 0.1,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "RECKLESS": {
+    "id": "RECKLESS",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Reckless",
+    "description": "Doesn't care about the consequences of their actions on the team.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -10,
+      "personality.discipline": -7,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "RECLUSE": {
+    "id": "RECLUSE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Recluse",
+    "description": "Only leaves their room to perform. A ghost in the dorms.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -10,
+      "aggregations.productionRatio": -0.1
+    }
+  },
+  "RELAXED": {
+    "id": "RELAXED",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Relaxed",
+    "description": "Never feels the pressure, even in the finale.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 9,
+      "personality.ambition": -3,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "RENEGADE": {
+    "id": "RENEGADE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Renegade",
+    "description": "Goes against the company and the show's script entirely.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -9,
+      "coreSkills.uniqueness": 2,
+      "aggregations.fanbaseRatio": 0.15,
+      "aggregations.productionRatio": 0.2
+    }
+  },
+  "RESERVED": {
+    "id": "RESERVED",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Reserved",
+    "description": "Highly professional but keeps their personal life private.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -7,
+      "personality.maturity": 6,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "RESIGNED": {
+    "id": "RESIGNED",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Resigned",
+    "description": "Has lost their fire. They are just going through the motions until they get cut.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": -8,
+      "personality.resilience": -7,
+      "personality.investment": -9,
+      "aggregations.productionRatio": -0.1
+    }
+  },
+  "RESOURCEFUL": {
+    "id": "RESOURCEFUL",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Resourceful",
+    "description": "Can make a high-end performance outfit out of dorm curtains. Clever and handy.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 1,
+      "personality.curiosity": 7,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "ROBOTIC": {
+    "id": "ROBOTIC",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Robotic",
+    "description": "Completely devoid of visible emotion. They execute every command with terrifying precision but lack human warmth.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 10,
+      "personality.sensitivity": -10,
+      "utilitySkills.charisma": -2,
+      "utilitySkills.consistency": 2,
+      "aggregations.productionRatio": 0.08,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "ROUGH": {
+    "id": "ROUGH",
+    "type": "identity",
+    "group": "Vibe",
+    "name": "Rough",
+    "description": "Unpolished and aggressive. Needs a lot of refinement.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -5,
+      "utilitySkills.learning": 1,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "SAD": {
+    "id": "SAD",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Sad",
+    "description": "Always seems to be on the verge of tears. The 'tragic' contestant.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -9,
+      "personality.sensitivity": 9,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "SAVANT": {
+    "id": "SAVANT",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Savant",
+    "description": "Possesses a genius-level mastery of one specific skill but struggles with basic social cues and group cohesion.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -6,
+      "personality.extroversion": -5,
+      "utilitySkills.learning": 2,
+      "aggregations.productionRatio": 0.12,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "SECURE": {
+    "id": "SECURE",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Secure",
+    "description": "Confident in their spot. Doesn't feel threatened by new talent.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 10,
+      "personality.ambition": 5,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "SELF_CENTERED": {
+    "id": "SELF_CENTERED",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Self-centered",
+    "description": "Only cares about how things affect them personally.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -8,
+      "personality.sincerity": -6,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "SELF_DEPRECATING": {
+    "id": "SELF_DEPRECATING",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Self-deprecating",
+    "description": "Wins the audience over by being the first to joke about their own flaws.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 9,
+      "personality.resilience": 5,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "SELFISH": {
+    "id": "SELFISH",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Selfish",
+    "description": "Will hog resources or food without thinking of the group.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -9,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "SENSITIVE": {
+    "id": "SENSITIVE",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Sensitive",
+    "description": "Easily hurt by criticism from the judges or mentors.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 10,
+      "personality.resilience": -7,
+      "aggregations.productionRatio": 0.06
+    }
+  },
+  "SENSUAL": {
+    "id": "SENSUAL",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Sensual",
+    "description": "Known for their 'sexy' aura and seductive stage presence.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "coreSkills.stagePresence": 1,
+      "aggregations.fanbaseRatio": 0.15
+    }
+  },
+  "SENTIMENTAL": {
+    "id": "SENTIMENTAL",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Sentimental",
+    "description": "Keeps every fan letter and gift. Cries at every elimination.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 9,
+      "personality.sincerity": 8,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "SHALLOW": {
+    "id": "SHALLOW",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Shallow",
+    "description": "Cares only about the outfit, the makeup, and how many followers they are gaining.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": -8,
+      "personality.sincerity": -6,
+      "coreSkills.visual": 1,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "SHELTERED": {
+    "id": "SHELTERED",
+    "type": "identity",
+    "group": "Background",
+    "name": "Sheltered",
+    "description": "Has lived a very protected life. The real world (and reality TV) is a huge shock.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -8,
+      "personality.sincerity": 9,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "SHOW_OFF": {
+    "id": "SHOW_OFF",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Show-off",
+    "description": "Can't stand a moment where they aren't the center of attention. High energy, low modesty.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 9,
+      "personality.sincerity": -5,
+      "coreSkills.stagePresence": 1,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "SHY": {
+    "id": "SHY",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Shy",
+    "description": "Terrified of the cameras. Needs a lot of coaxing to speak.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -10,
+      "aggregations.audienceRatio": 0.05,
+      "aggregations.productionRatio": -0.1
+    }
+  },
+  "SKEPTIC": {
+    "id": "SKEPTIC",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Skeptic",
+    "description": "Doesn't trust the results or the judges' feedback.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -3,
+      "personality.investment": -6,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "SOCIAL": {
+    "id": "SOCIAL",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Social",
+    "description": "Everyone’s best friend. Knows every trainee by name.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 9,
+      "personality.gentleness": 6,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "SOCIOPATH": {
+    "id": "SOCIOPATH",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Sociopath",
+    "description": "Incapable of empathy. Sees everyone as a tool for their success.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": -10,
+      "personality.sincerity": -10,
+      "personality.ambition": 10,
+      "aggregations.productionRatio": 0.3,
+      "aggregations.audienceRatio": -0.2
+    }
+  },
+  "SOULFUL": {
+    "id": "SOULFUL",
+    "type": "identity",
+    "group": "Vibe",
+    "name": "Soulful",
+    "description": "A deep, emotional resonance in their presence and performance.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1,
+      "personality.sensitivity": 6,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "SPIRITUAL": {
+    "id": "SPIRITUAL",
+    "type": "identity",
+    "group": "Beliefs & Values",
+    "name": "Spiritual",
+    "description": "Uses meditation or faith to handle the stress of the competition.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 8,
+      "personality.curiosity": 6,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "STOIC": {
+    "id": "STOIC",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Stoic",
+    "description": "The 'mysterious one' of the group. Composed, cool, and difficult to read.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -6,
+      "personality.resilience": 7,
+      "personality.sensitivity": -4,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "STUBBORN": {
+    "id": "STUBBORN",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Stubborn",
+    "description": "Refuses to change their style, even when told by experts.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "personality.gentleness": -7,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "SUBSERVIENT": {
+    "id": "SUBSERVIENT",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Subservient",
+    "description": "Will do whatever the 'Alpha' members say without question.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": -9,
+      "personality.gentleness": 8,
+      "aggregations.productionRatio": -0.05
+    }
+  },
+  "SUBTLE": {
+    "id": "SUBTLE",
+    "type": "identity",
+    "group": "Aura",
+    "name": "Subtle",
+    "description": "They don't shout to be heard. They have a quiet, understated magnetism.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -7,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.12
+    }
+  },
+  "SYCOPHANT": {
+    "id": "SYCOPHANT",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Sycophant",
+    "description": "A 'yes-man' to the judges and the most popular contestants. Strategic flattery.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 8,
+      "personality.sincerity": -9,
+      "aggregations.productionRatio": 0.07
+    }
+  },
+  "TACTICIAN": {
+    "id": "TACTICIAN",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Tactician",
+    "description": "Views the other contestants as chess pieces. Always calculating the 'win'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 10,
+      "personality.sincerity": -10,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "TASK_ORIENTED": {
+    "id": "TASK_ORIENTED",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Task-oriented",
+    "description": "Only cares about the check-list. No time for small talk or drama.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 10,
+      "personality.maturity": 6,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "TENACIOUS": {
+    "id": "TENACIOUS",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Tenacious",
+    "description": "The underdog who won't quit. Driven by a 'refuse to lose' American dream mentality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 10,
+      "personality.investment": 8,
+      "utilitySkills.stamina": 1,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "THEATRICAL": {
+    "id": "THEATRICAL",
+    "type": "identity",
+    "group": "Aura",
+    "name": "Theatrical",
+    "description": "Every gesture is grand and dramatic. They perform even when the cameras aren't rolling.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 2,
+      "coreSkills.stagePresence": 1,
+      "personality.extroversion": 7,
+      "aggregations.productionRatio": 0.09
+    }
+  },
+  "THICK_SKINNED": {
+    "id": "THICK_SKINNED",
+    "type": "identity",
+    "group": "Ego & Ethics",
+    "name": "Thick-skinned",
+    "description": "Ignores the hate comments and harsh judge critiques entirely.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 10,
+      "personality.sensitivity": -9,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "TOO_NICE": {
+    "id": "TOO_NICE",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Too nice",
+    "description": "Will give up their center spot just because someone else asked for it.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 10,
+      "personality.ambition": -10,
+      "aggregations.audienceRatio": 0.15,
+      "aggregations.productionRatio": -0.1
+    }
+  },
+  "TRUTH_SEEKER": {
+    "id": "TRUTH_SEEKER",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Truth Seeker",
+    "description": "Constantly trying to figure out who is 'real' and who is fake.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 9,
+      "personality.curiosity": 8,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "TRY_HARD": {
+    "id": "TRY_HARD",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Try-hard",
+    "description": "Their desperation for success is visible. Some find it inspiring; others find it 'cringe'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 10,
+      "personality.discipline": 9,
+      "aggregations.fanbaseRatio": 0.1,
+      "aggregations.audienceRatio": -0.05
+    }
+  },
+  "UNCONVENTIONAL": {
+    "id": "UNCONVENTIONAL",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Unconventional",
+    "description": "Does everything in a way the producers have never seen before.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 3,
+      "aggregations.fanbaseRatio": 0.1,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "UNFLAPPABLE": {
+    "id": "UNFLAPPABLE",
+    "type": "identity",
+    "group": "Mental State",
+    "name": "Unflappable",
+    "description": "Possesses a 'Zen-like' calm. Judges can't seem to break them with harsh critiques.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 10,
+      "personality.sensitivity": -8,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "UNYIELDING": {
+    "id": "UNYIELDING",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Unyielding",
+    "description": "A 'mountain' of a personality. They do not compromise, even if it helps the group.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 10,
+      "personality.gentleness": -8,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "VAGABOND": {
+    "id": "VAGABOND",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Vagabond",
+    "description": "Has no 'home' group. Drifts between different social circles.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 4,
+      "personality.discipline": -5,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "VEGAN": {
+    "id": "VEGAN",
+    "type": "identity",
+    "group": "Beliefs & Values",
+    "name": "Vegan",
+    "description": "Strongly committed to their lifestyle, even during grueling tours.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 5,
+      "personality.sincerity": 6,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "VETERAN": {
+    "id": "VETERAN",
+    "type": "identity",
+    "group": "Background",
+    "name": "Veteran",
+    "description": "Has been trying to make it in the industry for years. Professional and slightly jaded.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.experience": 20,
+      "personality.maturity": 8,
+      "personality.discipline": 6,
+      "utilitySkills.consistency": 1,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "VILLAIN": {
+    "id": "VILLAIN",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Villain",
+    "description": "Embraces the role of the antagonist. Loves to be hated.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -10,
+      "personality.ambition": 9,
+      "aggregations.productionRatio": 0.3,
+      "aggregations.audienceRatio": -0.2
+    }
+  },
+  "VOLATILE": {
+    "id": "VOLATILE",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Volatile",
+    "description": "Wears their heart on their sleeve. Prone to explosive growth and high-stakes drama.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 9,
+      "personality.resilience": -6,
+      "personality.maturity": -4,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "WARDEN": {
+    "id": "WARDEN",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Warden",
+    "description": "Strictly enforces the dorm rules and company schedules on others.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 10,
+      "personality.gentleness": -4,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "WHIMSICAL": {
+    "id": "WHIMSICAL",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Whimsical",
+    "description": "Prone to sudden changes of heart and playful, odd behavior. Hard to predict.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 9,
+      "personality.maturity": -6,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "WITHDRAWN": {
+    "id": "WITHDRAWN",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Withdrawn",
+    "description": "Shuts down emotionally when under stress or criticism.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -9,
+      "personality.extroversion": -8,
+      "aggregations.productionRatio": -0.05
+    }
+  },
+  "WITTY": {
+    "id": "WITTY",
+    "type": "identity",
+    "group": "Sociality",
+    "name": "Witty",
+    "description": "Sharp-tongued and quick with a joke. The go-to guy for interview soundbites.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "personality.extroversion": 7,
+      "personality.curiosity": 4,
+      "aggregations.audienceRatio": 0.08,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "WORKAHOLIC": {
+    "id": "WORKAHOLIC",
+    "type": "identity",
+    "group": "Work Ethic",
+    "name": "Workaholic",
+    "description": "Physical health is secondary to the performance. Always practicing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 10,
+      "personality.investment": 10,
+      "utilitySkills.learning": 1,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "WORLDLY": {
+    "id": "WORLDLY",
+    "type": "identity",
+    "group": "Background",
+    "name": "Worldly",
+    "description": "Has traveled and experienced much. Nothing in the competition surprises them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 9,
+      "personality.curiosity": 7,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "WORRYWART": {
+    "id": "WORRYWART",
+    "type": "identity",
+    "group": "Temperament",
+    "name": "Worrywart",
+    "description": "Stresses about things that haven't even happened yet.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 9,
+      "personality.resilience": -8,
+      "aggregations.productionRatio": 0.05
+    }
   }
-]
+}

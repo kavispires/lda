@@ -13,7 +13,7 @@ const libraryCards = [
     description:
       'Personality archetypes and character traits that define how contestants behave and interact',
     icon: <UserOutlined style={{ fontSize: '48px', color: '#1890ff' }} />,
-    count: identityCardsData.length,
+    count: Object.keys(identityCardsData).length,
     path: '/the-search/libraries/identity',
   },
   {
@@ -29,7 +29,7 @@ const libraryCards = [
     title: 'Interest Cards',
     description: 'Hobbies, passions, and background interests that add depth to contestant personalities',
     icon: <HeartOutlined style={{ fontSize: '48px', color: '#eb2f96' }} />,
-    count: interestCardsData.length,
+    count: Object.keys(interestCardsData).length,
     path: '/the-search/libraries/interest',
   },
 ];

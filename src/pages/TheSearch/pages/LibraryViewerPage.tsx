@@ -1,4 +1,11 @@
-import { ArrowLeftOutlined, FilterOutlined, SortAscendingOutlined, TableOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  CopyOutlined,
+  DownloadOutlined,
+  FilterOutlined,
+  SortAscendingOutlined,
+  TableOutlined,
+} from '@ant-design/icons';
 import {
   Badge,
   Button,
@@ -9,6 +16,7 @@ import {
   Flex,
   Input,
   Modal,
+  message,
   Row,
   Select,
   Space,
@@ -36,7 +44,7 @@ const libraryConfigs: Record<LibraryType, LibraryConfig> = {
   identity: {
     title: 'Identity Cards',
     description: 'Personality archetypes and character traits that define contestant behavior',
-    data: identityCardsData as unknown as AttributeCard[],
+    data: Object.values(identityCardsData) as unknown as AttributeCard[],
   },
   persona: {
     title: 'Persona Cards',
@@ -46,7 +54,7 @@ const libraryConfigs: Record<LibraryType, LibraryConfig> = {
   interest: {
     title: 'Interest Cards',
     description: 'Hobbies, passions, and background interests that add depth to contestant personalities',
-    data: interestCardsData as unknown as AttributeCard[],
+    data: Object.values(interestCardsData) as unknown as AttributeCard[],
   },
 };
 
@@ -117,6 +125,48 @@ export function LibraryViewerPage() {
 
     return result;
   }, [config, searchQuery, selectedGroup, sortBy]);
+
+  const handleCopy = () => {
+    const dataObject = filteredAndSortedCards.reduce(
+      (acc, card) => {
+        acc[card.id] = card;
+        return acc;
+      },
+      {} as Record<string, AttributeCard>,
+    );
+
+    const jsonString = JSON.stringify(dataObject, null, 2);
+    navigator.clipboard
+      .writeText(jsonString)
+      .then(() => {
+        message.success(`Copied ${filteredAndSortedCards.length} cards to clipboard`);
+      })
+      .catch(() => {
+        message.error('Failed to copy to clipboard');
+      });
+  };
+
+  const handleDownload = () => {
+    const dataObject = filteredAndSortedCards.reduce(
+      (acc, card) => {
+        acc[card.id] = card;
+        return acc;
+      },
+      {} as Record<string, AttributeCard>,
+    );
+
+    const jsonString = JSON.stringify(dataObject, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${type}-cards-${new Date().toISOString().split('T')[0]}.json`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    message.success(`Downloaded ${filteredAndSortedCards.length} cards`);
+  };
 
   if (!type || !config) {
     return (
@@ -235,6 +285,12 @@ export function LibraryViewerPage() {
           </Typography.Title>
           <Typography.Text type="secondary">{config.description}</Typography.Text>
         </div>
+        <Button icon={<CopyOutlined />} onClick={handleCopy}>
+          Copy
+        </Button>
+        <Button icon={<DownloadOutlined />} onClick={handleDownload}>
+          Download
+        </Button>
       </Flex>
 
       {/* Filters and Search */}

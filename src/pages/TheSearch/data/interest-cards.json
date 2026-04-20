@@ -1,987 +1,5 @@
-[
-  {
-    "id": "ACTION_FIGURE_COLLECTOR",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "Action Figure Collector",
-    "description": "Spends their spare cash on mint-condition collectibles. Highly relatable to a specific niche.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "personality.discipline": 3,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "ANIME",
-    "type": "interest",
-    "group": "Media",
-    "name": "Anime",
-    "description": "A self-proclaimed fan of Japanese animation. Great for connecting with a dedicated subculture.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 4,
-      "personality.extroversion": -2,
-      "aggregations.fanbaseRatio": 0.12
-    }
-  },
-  {
-    "id": "BAKING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Baking",
-    "description": "Loves making cookies and bread for the other contestants. Makes them the 'heart' of the dorm.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 5,
-      "personality.discipline": 2,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "BASKETBALL",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Basketball",
-    "description": "Spent their youth on the court. Brings teamwork and physical endurance.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.ambition": 3,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "BOARD_GAMES",
-    "type": "interest",
-    "group": "Social",
-    "name": "Board Games",
-    "description": "Loves a game night. Shows off their competitive yet strategic mind.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.memory": 1,
-      "personality.maturity": 2,
-      "aggregations.productionRatio": 0.03
-    }
-  },
-  {
-    "id": "BOWLING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Bowling",
-    "description": "A classic social hobby. Shows they are a 'regular guy' who enjoys a night out.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.consistency": 1,
-      "personality.extroversion": 2,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "CALLIGRAPHY",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Calligraphy",
-    "description": "Possesses incredibly steady hands and a disciplined, artistic eye.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 5,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "CAN_COLLECTOR",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "Can collector",
-    "description": "An odd hobby of keeping unique soda or energy drink cans. Producers love this 'quirk'.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 3,
-      "coreSkills.uniqueness": 1,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "CARD_COLLECTOR",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "Card collector",
-    "description": "Loves trading cards. Shows a high level of patience and focus on value.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 2,
-      "utilitySkills.potential": 1,
-      "aggregations.fanbaseRatio": 0.06
-    }
-  },
-  {
-    "id": "CHATTING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Chatting",
-    "description": "Can talk to anyone about anything. They are the primary source of 'room noise' for the show.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 6,
-      "utilitySkills.charisma": 1,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "CHEWING_GUM",
-    "type": "interest",
-    "group": "Quirk",
-    "name": "Chewing gum",
-    "description": "Rarely seen without a piece of gum. Gives them a 'cool, casual' visual on camera.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.maturity": -2,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "CHILL",
-    "type": "interest",
-    "group": "Temperament",
-    "name": "Chill",
-    "description": "They just want to relax and keep the vibes positive. No drama, just vibes.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 5,
-      "personality.ambition": -3,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "COIN_COLLECTOR",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "Coin collector",
-    "description": "A very traditional and quiet hobby. Suggests an old-school, stable personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 4,
-      "personality.discipline": 3,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "COMICS",
-    "type": "interest",
-    "group": "Media",
-    "name": "Comics",
-    "description": "A fan of superhero lore and graphic novels. Highly relatable to the core demographic.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 3,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "COOKING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Cooking",
-    "description": "The 'Mom' of the dorms. Keeps everyone fed and happy during long filming days.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 4,
-      "utilitySkills.leadership": 1,
-      "aggregations.audienceRatio": 0.12
-    }
-  },
-  {
-    "id": "CRACKING_JOINTS",
-    "type": "interest",
-    "group": "Quirk",
-    "name": "Cracking joints",
-    "description": "A nervous or physical habit. Producers often include the sound effect for comedic timing.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -2,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "CROSSWORD_PUZZLES",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Crossword puzzles",
-    "description": "Keeps their mind sharp between rehearsals. High focus and vocabulary.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.memory": 1,
-      "personality.discipline": 2,
-      "aggregations.audienceRatio": 0.02
-    }
-  },
-  {
-    "id": "CYCLING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Cycling",
-    "description": "Enjoys long rides to clear their head. Suggests high endurance and mental clarity.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.resilience": 3,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "DOODLING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Doodling",
-    "description": "Always drawing on the margins of their lyric sheets. Highly creative and distracted.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 3,
-      "personality.discipline": -2,
-      "aggregations.productionRatio": 0.04
-    }
-  },
-  {
-    "id": "DRAWING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Drawing",
-    "description": "A serious artistic pursuit. They often draw portraits of their fellow contestants.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 1,
-      "personality.sensitivity": 2,
-      "aggregations.fanbaseRatio": 0.07
-    }
-  },
-  {
-    "id": "DRINKING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Drinking",
-    "description": "Loves the party scene. A major risk factor for scandals, but gold for the editors.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -6,
-      "personality.maturity": -4,
-      "aggregations.productionRatio": 0.2,
-      "aggregations.audienceRatio": -0.1
-    }
-  },
-  {
-    "id": "FASHION_DESIGN",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Fashion design",
-    "description": "Loves customizing their own clothes. Always looks like a star.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 2,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.09
-    }
-  },
-  {
-    "id": "FISHING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Fishing",
-    "description": "A hobby that requires extreme patience. Very unusual for a pop star.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 6,
-      "personality.extroversion": -3,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "FOODIE",
-    "type": "interest",
-    "group": "Social",
-    "name": "Foodie",
-    "description": "Lives to eat. They are the best at doing 'food reactions' during variety segments.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 1,
-      "personality.curiosity": 3,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "GAMBLING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Gambling",
-    "description": "Loves high stakes and taking risks. Can lead to intense competitive drama.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 5,
-      "personality.discipline": -4,
-      "aggregations.productionRatio": 0.15,
-      "aggregations.audienceRatio": -0.05
-    }
-  },
-  {
-    "id": "GARDENING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Gardening",
-    "description": "Loves tending to plants. Suggests a nurturing and patient soul.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 6,
-      "personality.maturity": 4,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "GOING_TO_THE_BEACH",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Going to the beach",
-    "description": "A classic summer hobby. Great for 'vacation' themed photoshoots.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.extroversion": 3,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "GRAPHIC_DESIGNER",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Graphic Designer",
-    "description": "Professionally minded and tech-savvy. They understand branding better than most.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 3,
-      "utilitySkills.learning": 1,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "GYM",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Gym",
-    "description": "Dedicated to the iron. High physical standards and stamina.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 2,
-      "coreSkills.visual": 1,
-      "personality.discipline": 4,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "HAD_A_BAND",
-    "type": "interest",
-    "group": "Background",
-    "name": "Had a band",
-    "description": "Previously played in a local band. Understands live performance dynamics.",
-    "occurrence": 1,
-    "influences": {
-      "aggregations.experience": 10,
-      "utilitySkills.potential": 1,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "JOGGING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Jogging",
-    "description": "A daily routine to stay fit and clear the mind.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 2,
-      "personality.discipline": 3,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "JOURNALING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Journaling",
-    "description": "Writes down their thoughts every night. Suggests high sincerity and self-reflection.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 6,
-      "personality.sensitivity": 4,
-      "aggregations.fanbaseRatio": 0.09
-    }
-  },
-  {
-    "id": "KARATE",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Karate",
-    "description": "Trained in martial arts. Adds a disciplined and 'stunt-ready' edge to their dancing.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.acrobatics": 2,
-      "personality.discipline": 6,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "KNITTING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Knitting",
-    "description": "A very slow, methodical hobby. Shows a calm and focused demeanor.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 4,
-      "personality.gentleness": 3,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "LEGO_SETS",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "LEGO sets",
-    "description": "Loves building complex models. Suggests high patience and spatial awareness.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.memory": 1,
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "MAGIC",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Magic",
-    "description": "Loves performing sleight-of-hand. Great for 'wowing' the camera and fans.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 2,
-      "coreSkills.uniqueness": 1,
-      "aggregations.productionRatio": 0.07
-    }
-  },
-  {
-    "id": "MOVIES",
-    "type": "interest",
-    "group": "Media",
-    "name": "Movies",
-    "description": "A total film buff. Constantly quoting famous lines.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 4,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "MUSIC_PRODUCER",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Music producer",
-    "description": "Spends their time on a laptop making beats. Shows high technical skill and ambition.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.ambition": 4,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "NAP",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Nap",
-    "description": "Can sleep anywhere, anytime. Often edited as the 'lazy but cute' member.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 4,
-      "personality.investment": -3,
-      "aggregations.productionRatio": 0.06
-    }
-  },
-  {
-    "id": "ORIGAMI",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Origami",
-    "description": "The art of paper folding. Shows high discipline and delicate motor skills.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "personality.gentleness": 2,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "PAINTING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Painting",
-    "description": "An expressive, colorful hobby. Shows a deep, artistic personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 3,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "PARTY_PLANNING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Party planning",
-    "description": "Always organizing the group's social calendar. Natural leader vibes.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.leadership": 1,
-      "personality.extroversion": 5,
-      "aggregations.productionRatio": 0.04
-    }
-  },
-  {
-    "id": "PHOTOGRAPHY",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Photography",
-    "description": "Always has a camera in hand. They take the best 'behind-the-scenes' photos.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.curiosity": 3,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "PLAYING_CARDS",
-    "type": "interest",
-    "group": "Social",
-    "name": "Playing cards",
-    "description": "Good at poker and card games. Strategic and observant.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 2,
-      "utilitySkills.memory": 1,
-      "aggregations.productionRatio": 0.03
-    }
-  },
-  {
-    "id": "PLAYING_DARTS",
-    "type": "interest",
-    "group": "Social",
-    "name": "Playing darts",
-    "description": "Requires a steady hand and high focus. Suggests a consistent performer.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.consistency": 2,
-      "aggregations.audienceRatio": 0.02
-    }
-  },
-  {
-    "id": "PLAYS_BASS",
-    "type": "interest",
-    "group": "Music",
-    "name": "Plays bass",
-    "description": "The foundation of the band. Often quiet but indispensable.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.potential": 1,
-      "personality.extroversion": -2,
-      "aggregations.fanbaseRatio": 0.06
-    }
-  },
-  {
-    "id": "PLAYS_DRUMS",
-    "type": "interest",
-    "group": "Music",
-    "name": "Plays drums",
-    "description": "High energy and perfect rhythm. Brings a 'rock' edge to the group.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "coreSkills.uniqueness": 1,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "PLAYS_GUITAR",
-    "type": "interest",
-    "group": "Music",
-    "name": "Plays guitar",
-    "description": "The classic boy-band interest. Perfect for acoustic 'serenade' segments.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 1,
-      "coreSkills.visual": 1,
-      "aggregations.audienceRatio": 0.15
-    }
-  },
-  {
-    "id": "PLAYS_PIANO",
-    "type": "interest",
-    "group": "Music",
-    "name": "Plays piano",
-    "description": "Classically trained. Suggests high discipline and a sophisticated image.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "utilitySkills.learning": 1,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "PLAYS_VIOLIN",
-    "type": "interest",
-    "group": "Music",
-    "name": "Plays violin",
-    "description": "Shows extreme dedication and a unique talent in the pop world.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "coreSkills.uniqueness": 2,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "POETRY_WRITING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Poetry writing",
-    "description": "A deep, sensitive soul who expresses themselves through verse.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 6,
-      "personality.sincerity": 4,
-      "aggregations.fanbaseRatio": 0.07
-    }
-  },
-  {
-    "id": "PUZZLE",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Puzzle",
-    "description": "Loves solving complex problems. Very patient and detail-oriented.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.memory": 1,
-      "personality.resilience": 3,
-      "aggregations.audienceRatio": 0.02
-    }
-  },
-  {
-    "id": "READING",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Reading",
-    "description": "Always has their nose in a book. Suggests high intelligence and maturity.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 4,
-      "personality.curiosity": 5,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "ROCK_CLIMBING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Rock Climbing",
-    "description": "Adventurous and physically strong. Shows high mental and physical grip.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.resilience": 5,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "RUNNING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Running",
-    "description": "Classic endurance training. They never seem to run out of breath on stage.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 2,
-      "personality.discipline": 4,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "SCULPTURE",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Sculpture",
-    "description": "Loves working with their hands. A very unique and physically demanding art form.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 2,
-      "personality.discipline": 3,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "SHOE_COLLECTOR",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "Shoe collector",
-    "description": "Obsessed with sneakers and footwear. Very high visual and trend awareness.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 2,
-      "aggregations.fanbaseRatio": 0.15
-    }
-  },
-  {
-    "id": "SLEEPING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Sleeping",
-    "description": "Their favorite hobby is staying in bed. Relatable but can look unmotivated.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 4,
-      "personality.investment": -4,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "SPORTS",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Sports",
-    "description": "A general love for all things athletic. The 'all-arounder' athlete.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.extroversion": 3,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "STRETCHING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Stretching",
-    "description": "Obsessed with flexibility. Makes them an incredible dancer with zero injury risk.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.dance": 1,
-      "utilitySkills.consistency": 2,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "SUNBATHING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Sunbathing",
-    "description": "Loves the sun and the outdoors. Suggests a laid-back, visual-focused personality.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.extroversion": 2,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "SURFING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Surfing",
-    "description": "The 'cool beach boy' archetype. Very popular for summer-themed groups.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "utilitySkills.stamina": 1,
-      "aggregations.audienceRatio": 0.12
-    }
-  },
-  {
-    "id": "SWIMMING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Swimming",
-    "description": "Excellent lung capacity and full-body strength.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 2,
-      "coreSkills.vocals": 1,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "TSHIRT_MAKING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "T-shirt making",
-    "description": "Loves DIY fashion. They often make custom shirts for the whole team.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 1,
-      "personality.gentleness": 3,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "TABLE_TENNIS",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Table tennis",
-    "description": "Requires lightning-fast reflexes. Great for high-energy variety segments.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.consistency": 1,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "TALKING_ON_THE_PHONE",
-    "type": "interest",
-    "group": "Social",
-    "name": "Talking on the phone",
-    "description": "Always calling home or friends. A very social and homesick personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 5,
-      "personality.sensitivity": 3,
-      "aggregations.productionRatio": 0.06
-    }
-  },
-  {
-    "id": "TRAVELING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Traveling",
-    "description": "Loves seeing new places. Highly curious and open-minded.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 6,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "TUTORING",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Tutoring",
-    "description": "Used to help others with their studies. Natural mentor/leader potential.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.leadership": 1,
-      "personality.maturity": 5,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "TV_SHOWS",
-    "type": "interest",
-    "group": "Media",
-    "name": "TV Shows",
-    "description": "A fan of binge-watching dramas and sitcoms. Very relatable to the audience.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -2,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "VINYL_COLLECTOR",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "Vinyl collector",
-    "description": "A music purist. They value the classics and high-quality sound.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 1,
-      "personality.curiosity": 4,
-      "aggregations.fanbaseRatio": 0.12
-    }
-  },
-  {
-    "id": "VOLUNTEERING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Volunteering",
-    "description": "Spends their time helping others. High sincerity and public appeal.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 8,
-      "personality.gentleness": 5,
-      "aggregations.audienceRatio": 0.15
-    }
-  },
-  {
-    "id": "WALKING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Walking",
-    "description": "Enjoys simple, long walks. A very grounded and calm individual.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 4,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "WATCHES_COLLECTOR",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "Watches collector",
-    "description": "Appreciates luxury and precision. Suggests an ambitious, professional image.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 4,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "WINE_TASTING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Wine tasting",
-    "description": "A sophisticated hobby. Suggests a more mature, refined personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 6,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "YOGA",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Yoga",
-    "description": "Focuses on flexibility and mental peace. High resilience and body control.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 6,
-      "coreSkills.dance": 1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "VIDEO_GAMES",
-    "type": "interest",
-    "group": "Media",
-    "name": "Video Games",
-    "description": "A hardcore gamer. High reflexes and very relatable to the fans.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.memory": 1,
-      "personality.curiosity": 3,
-      "aggregations.fanbaseRatio": 0.15
-    }
-  },
-  {
+{
+  "ACROBATICS_HOBBY": {
     "id": "ACROBATICS_HOBBY",
     "type": "interest",
     "group": "Physical",
@@ -995,7 +13,7 @@
       "aggregations.productionRatio": 0.15
     }
   },
-  {
+  "ACTING": {
     "id": "ACTING",
     "type": "interest",
     "group": "Artistic",
@@ -1009,1255 +27,20 @@
       "aggregations.audienceRatio": 0.05
     }
   },
-  {
-    "id": "ANTIQUES",
+  "ACTION_FIGURE_COLLECTOR": {
+    "id": "ACTION_FIGURE_COLLECTOR",
     "type": "interest",
     "group": "Collecting",
-    "name": "Antiques",
-    "description": "Loves hunting for old trinkets and furniture. Suggests a mature, old-soul personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 5,
-      "personality.curiosity": 3,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "ASTRONOMY",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Astronomy",
-    "description": "Spends nights with a telescope. A romantic, thoughtful interest that fans find dreamy.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 3,
-      "personality.curiosity": 6,
-      "aggregations.fanbaseRatio": 0.09
-    }
-  },
-  {
-    "id": "BARISTA_SKILLS",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Barista Skills",
-    "description": "Knows how to make a perfect latte. Great for casual variety show 'coffee shop' segments.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 3,
-      "utilitySkills.charisma": 1,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "BEATBOXING",
-    "type": "interest",
-    "group": "Music",
-    "name": "Beatboxing",
-    "description": "Constantly making rhythmic noises. A classic 2000s-era 'talent show' staple.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 1,
-      "coreSkills.rap": 1,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "BEEKEEPING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Beekeeping",
-    "description": "An extremely unusual hobby. Producers find this 'quirky' trait fascinating for interviews.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 5,
-      "coreSkills.uniqueness": 2,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "BLOGGING",
-    "type": "interest",
-    "group": "Media",
-    "name": "Blogging",
-    "description": "Keeps a digital diary. Highly interactive with their personal brand and online following.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 4,
-      "aggregations.fanbaseRatio": 0.15,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "CAMPING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Camping",
-    "description": "Loves the great outdoors and roughing it. Suggests a rugged, self-reliant nature.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 5,
-      "utilitySkills.stamina": 1,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "CAR_RESTORATION",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Car Restoration",
-    "description": "Loves getting their hands greasy working on old engines. A very 'masculine' hobby.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "coreSkills.visual": 1,
-      "aggregations.audienceRatio": 0.09
-    }
-  },
-  {
-    "id": "CHESS",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Chess",
-    "description": "A strategic thinker who enjoys quiet competition. Seen as the 'brain' of the group.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 6,
-      "utilitySkills.learning": 1,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "COMPUTER_BUILDING",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Computer Building",
-    "description": "A 'tech-geek' who knows their way around a motherboard. Niche but loyal fanbase.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 5,
-      "personality.discipline": 3,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "CREATIVE_WRITING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Creative Writing",
-    "description": "Loves crafting stories. Often writes scripts or song lyrics in their spare time.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 4,
-      "coreSkills.rap": 1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "DISC_GOLF",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Disc Golf",
-    "description": "A laid-back, outdoor sport. Shows a casual and approachable personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 3,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "DIY_PROJECTS",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "DIY Projects",
-    "description": "Loves making something out of nothing. Very resourceful and creative in the dorm.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 5,
-      "utilitySkills.learning": 1,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "DODGEBALL",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Dodgeball",
-    "description": "Loves intense, fast-paced team sports. High energy and competitive spirit.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 4,
-      "utilitySkills.consistency": 1,
-      "aggregations.productionRatio": 0.06
-    }
-  },
-  {
-    "id": "DOG_TRAINING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Dog Training",
-    "description": "Loves animals and understands discipline. Fans melt when they see them with pets.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 5,
-      "personality.discipline": 4,
-      "aggregations.audienceRatio": 0.15
-    }
-  },
-  {
-    "id": "ELECTRONIC_MUSIC",
-    "type": "interest",
-    "group": "Music",
-    "name": "Electronic Music",
-    "description": "Into synthesizers and DJing. Brings a modern, club-ready vibe to the group.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 4,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.07
-    }
-  },
-  {
-    "id": "FENCING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Fencing",
-    "description": "An elegant and disciplined sport. Suggests a 'noble' or 'sophisticated' image.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 7,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "FLASH_MOBS",
-    "type": "interest",
-    "group": "Social",
-    "name": "Flash Mobs",
-    "description": "Loves organized public performances. Very 2010. Shows a love for performance.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 6,
-      "coreSkills.dance": 1,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "GHOST_HUNTING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Ghost Hunting",
-    "description": "Enjoys exploring 'haunted' locations. Producers love filming their reactions to scares.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 6,
-      "personality.resilience": -3,
-      "aggregations.productionRatio": 0.2
-    }
-  },
-  {
-    "id": "GLASSBLOWING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Glassblowing",
-    "description": "A dangerous and beautiful art. Shows high focus and artistic bravery.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "coreSkills.uniqueness": 2,
-      "aggregations.fanbaseRatio": 0.06
-    }
-  },
-  {
-    "id": "STREET_ART",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Street Art",
-    "description": "Loves graffiti and urban murals. Gives them a 'rebellious' and cool image.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -3,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.12,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "GUITAR_HERO",
-    "type": "interest",
-    "group": "Media",
-    "name": "Guitar Hero",
-    "description": "Master of the plastic guitar. A classic era-specific hobby that shows rhythm.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.memory": 1,
-      "personality.extroversion": 3,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "HACKY_SACK",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Hacky Sack",
-    "description": "Frequently seen kicking a footbag during breaks. Very casual and friendly hobby.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.consistency": 1,
-      "personality.gentleness": 3,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "HORSEBACK_RIDING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Horseback Riding",
-    "description": "Suggests a wealthy or 'country-boy' background. Very visual for photoshoots.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 4,
-      "coreSkills.visual": 1,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "ICE_SKATING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Ice Skating",
-    "description": "Possesses incredible balance and grace. Translates well to dance fluidity.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.dance": 1,
-      "utilitySkills.consistency": 2,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "INTERIOR_DESIGN",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Interior Design",
-    "description": "Always re-arranging the dorm furniture. Great for reality show 'home tour' segments.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 4,
-      "personality.discipline": 3,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "JEWELRY_MAKING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Jewelry Making",
-    "description": "Crafts their own accessories. Shows a delicate, detailed artistic side.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.06
-    }
-  },
-  {
-    "id": "JUGGLING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Juggling",
-    "description": "A classic 'hidden talent'. Great for lighthearted variety show moments.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 1,
-      "utilitySkills.consistency": 1,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "KARAOKE",
-    "type": "interest",
-    "group": "Social",
-    "name": "Karaoke",
-    "description": "Loves to sing for fun, not just work. Shows high vocal confidence.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.vocals": 1,
-      "personality.extroversion": 5,
-      "aggregations.audienceRatio": 0.09
-    }
-  },
-  {
-    "id": "KITE_SURFING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Kite Surfing",
-    "description": "Extreme and high-energy. Gives them an 'adrenaline junkie' image.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 6,
-      "utilitySkills.stamina": 1,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "MAGIC_TRICKS",
-    "type": "interest",
-    "group": "Social",
-    "name": "Magic Tricks",
-    "description": "Loves entertaining peers with card tricks. Keeps the mood light.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 2,
-      "personality.curiosity": 3,
-      "aggregations.productionRatio": 0.07
-    }
-  },
-  {
-    "id": "MEDITATION",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Meditation",
-    "description": "Spends time in silence to stay centered. High mental resilience.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 8,
-      "personality.sensitivity": -3,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "METALWORKING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Metalworking",
-    "description": "A very intense and physical art form. Suggests strength and dedication.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 5,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "MODEL_TRAINS",
-    "type": "interest",
-    "group": "Collecting",
-    "name": "Model Trains",
-    "description": "A very niche, old-fashioned hobby. Shows an extreme attention to detail.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "personality.maturity": 4,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "PARKOUR",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Parkour",
-    "description": "The peak of 2010 cool. Loves urban climbing and jumping. High visual appeal.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.acrobatics": 2,
-      "personality.ambition": 4,
-      "aggregations.audienceRatio": 0.12,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "PHILANTHROPY",
-    "type": "interest",
-    "group": "Social",
-    "name": "Philanthropy",
-    "description": "Always looking for ways to give back. Makes for a 'hero' edit.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 8,
-      "personality.gentleness": 5,
-      "aggregations.audienceRatio": 0.2
-    }
-  },
-  {
-    "id": "PODCASTING",
-    "type": "interest",
-    "group": "Media",
-    "name": "Podcasting",
-    "description": "Early adopter of the format. Loves long-form discussion and interviewing.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 5,
-      "utilitySkills.charisma": 1,
-      "aggregations.fanbaseRatio": 0.07
-    }
-  },
-  {
-    "id": "POTTERY",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Pottery",
-    "description": "A messy but grounding art. Shows a patient and tactile personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 4,
-      "personality.resilience": 3,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "ROBOTICS",
-    "type": "interest",
-    "group": "Mental",
-    "name": "Robotics",
-    "description": "Into coding and building bots. The 'smart one' of the group.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 2,
-      "personality.curiosity": 6,
-      "aggregations.fanbaseRatio": 0.09
-    }
-  },
-  {
-    "id": "ROLLERBLADING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Rollerblading",
-    "description": "A fun, retro-feeling way to stay active. Great for music video visuals.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.dance": 1,
-      "personality.extroversion": 3,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "SAILING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Sailing",
-    "description": "Suggests a high-class or adventurous maritime background.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 5,
-      "coreSkills.visual": 1,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "SCRAPBOOKING",
-    "type": "interest",
-    "group": "Domestic",
-    "name": "Scrapbooking",
-    "description": "Loves preserving memories. Shows a sentimental and organized nature.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 5,
-      "personality.discipline": 4,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "SKATEBOARDING",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Skateboarding",
-    "description": "The ultimate 'cool guy' hobby. High popularity among younger fans.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 6,
-      "coreSkills.visual": 1,
-      "aggregations.audienceRatio": 0.15,
-      "aggregations.fanbaseRatio": 0.1
-    }
-  },
-  {
-    "id": "STANDUP_COMEDY",
-    "type": "interest",
-    "group": "Social",
-    "name": "Stand-up Comedy",
-    "description": "Not afraid of a tough crowd. High charisma and quick wit.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.charisma": 3,
-      "personality.resilience": 5,
-      "aggregations.productionRatio": 0.12
-    }
-  },
-  {
-    "id": "THRIFT_SHOPPING",
-    "type": "interest",
-    "group": "Social",
-    "name": "Thrift Shopping",
-    "description": "Loves the hunt for vintage fashion. Shows an eye for trends and uniqueness.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.uniqueness": 2,
-      "personality.curiosity": 4,
-      "aggregations.fanbaseRatio": 0.12
-    }
-  },
-  {
-    "id": "URBAN_EXPLORATION",
-    "type": "interest",
-    "group": "Physical",
-    "name": "Urban Exploration",
-    "description": "Loves finding abandoned places. Edgy, curious, and a bit reckless.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 8,
-      "personality.discipline": -3,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "VLOGGING",
-    "type": "interest",
-    "group": "Media",
-    "name": "Vlogging",
-    "description": "Always has a handheld camera out. Very natural in front of lenses.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.stagePresence": 1,
-      "utilitySkills.charisma": 1,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "WOODWORKING",
-    "type": "interest",
-    "group": "Artistic",
-    "name": "Woodworking",
-    "description": "Builds things from scratch. Shows a patient, 'handyman' personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "personality.resilience": 4,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "SKINCARE_ROUTINE",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Skincare Routine",
-    "description": "Never goes to bed without a 10-step process. Keeps them looking fresh on camera even after 2 hours of sleep.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 5,
-      "aggregations.fanbaseRatio": 0.08
-    }
-  },
-  {
-    "id": "DOING_LAUNDRY",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Doing Laundry",
-    "description": "Actually knows how to separate whites and colors. The hero of the shared dorm space.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "personality.gentleness": 3,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "INSTANT_RAMEN_CONNOISSEUR",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Instant Ramen Connoisseur",
-    "description": "Knows exactly how to dress up cheap noodles. Extremely relatable to the average viewer.",
+    "name": "Action Figure Collector",
+    "description": "Spends their spare cash on mint-condition collectibles. Highly relatable to a specific niche.",
     "occurrence": 1,
     "influences": {
       "personality.curiosity": 2,
-      "utilitySkills.charisma": 1,
-      "aggregations.audienceRatio": 0.12
-    }
-  },
-  {
-    "id": "PEOPLE_WATCHING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "People Watching",
-    "description": "Enjoys sitting in cafes or parks just observing. Suggests a thoughtful, introverted nature.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -3,
-      "personality.curiosity": 5,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "GROCERY_SHOPPING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Grocery Shopping",
-    "description": "Loves hunting for deals and stocking the fridge. Shows a grounded, domestic side.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 4,
-      "personality.gentleness": 2,
-      "aggregations.audienceRatio": 0.06
-    }
-  },
-  {
-    "id": "LATE_NIGHT_SNACKING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Late Night Snacking",
-    "description": "Always found in the kitchen at 2 AM. Producers love catching them 'cheating' on their diets.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": -4,
-      "aggregations.productionRatio": 0.1
-    }
-  },
-  {
-    "id": "TEXTING_ADDICT",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Texting",
-    "description": "Always has their thumbs on a screen. Shows they are highly social and connected.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 6,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "DEEP_CLEANING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Deep Cleaning",
-    "description": "Cannot relax if there is dust on the shelves. A polarizing dorm roommate.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 7,
-      "personality.gentleness": -2,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "SUDOKU",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Sudoku",
-    "description": "Keeps a book of number puzzles in their bag. Shows a logical, patient mind.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.memory": 1,
-      "personality.discipline": 3,
-      "aggregations.audienceRatio": 0.02
-    }
-  },
-  {
-    "id": "COFFEE_LOVER",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Coffee Lover",
-    "description": "Useless until they've had their first cup. Provides fuel for morning-rehearsal drama.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.resilience": -2,
-      "aggregations.productionRatio": 0.06
-    }
-  },
-  {
-    "id": "IRONING_CLOTHES",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Ironing",
-    "description": "Takes pride in a crisp shirt. Suggests a meticulous and professional image.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 5,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.03
-    }
-  },
-  {
-    "id": "DAYDREAMING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Daydreaming",
-    "description": "Frequently caught staring into space. Seen as the 'creative dreamer' of the group.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 6,
-      "personality.maturity": -3,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "SELFIE_EXPERT",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Taking Selfies",
-    "description": "Knows their best angles perfectly. A master of social media engagement.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "utilitySkills.charisma": 1,
-      "aggregations.fanbaseRatio": 0.15
-    }
-  },
-  {
-    "id": "WINDOW_SHOPPING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Window Shopping",
-    "description": "Loves looking at things they can't afford yet. Keeps them hungry for success.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 4,
-      "personality.curiosity": 3,
-      "aggregations.productionRatio": 0.04
-    }
-  },
-  {
-    "id": "TEA_DRINKER",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Drinking Tea",
-    "description": "A calming ritual. Suggests a sophisticated and composed personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 4,
-      "personality.maturity": 3,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "STATIONERY_COLLECTOR",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Stationery Collector",
-    "description": "Obsessed with pens, notebooks, and stickers. Suggests an organized, 'student' vibe.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 3,
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "POWER_NAPPING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Power Napping",
-    "description": "Can fall asleep for 10 minutes and wake up fully energized. A survival show superpower.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.resilience": 3,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "COUPON_CLIPPING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Saving Money",
-    "description": "Always looking for a discount. Fans love their frugal, 'started from the bottom' energy.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": 5,
-      "personality.maturity": 2,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "HAIR_STYLING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Hair Styling",
-    "description": "Spends hours on their hair and often helps the other guys with theirs.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 2,
-      "personality.gentleness": 2,
-      "aggregations.fanbaseRatio": 0.07
-    }
-  },
-  {
-    "id": "ORGANIZING_FILES",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Digital Organizing",
-    "description": "Loves keeping their phone and laptop folders perfectly sorted. High attention to detail.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "utilitySkills.memory": 1,
-      "aggregations.audienceRatio": 0.02
-    }
-  },
-  {
-    "id": "LISTENING_TO_RADIO",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Late Night Radio",
-    "description": "Enjoys the intimacy of radio shows. Often found listening with headphones in bed.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 4,
-      "personality.extroversion": -2,
-      "aggregations.fanbaseRatio": 0.06
-    }
-  },
-  {
-    "id": "POLISHING_SHOES",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Polishing Shoes",
-    "description": "A classic habit. They want their footwear to be as bright as their future.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "coreSkills.visual": 1,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "MORNING_STRETCHING",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Morning Stretching",
-    "description": "Has a set routine every morning. Helps them stay limber for dance rehearsals.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.dance": 1,
-      "personality.resilience": 2,
-      "aggregations.fanbaseRatio": 0.03
-    }
-  },
-  {
-    "id": "SOLITARY_WALKS",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Walking Alone",
-    "description": "Needs 30 minutes of walking alone to function. Suggests a grounded, stable personality.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": 5,
-      "personality.extroversion": -4,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "DORM_PRANKS",
-    "type": "interest",
-    "group": "Daily Life",
-    "name": "Dorm Pranks",
-    "description": "Always setting up small traps for the other guys. The 'villain' of dorm life, but a hit on TV.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -5,
-      "utilitySkills.charisma": 1,
-      "aggregations.productionRatio": 0.15
-    }
-  },
-  {
-    "id": "ORGANIZING_THE_CLOSET",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Organizing the Closet",
-    "description": "Spends free time color-coding hangers and perfectly spacing shirts. Shows an intense need for order.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 5,
-      "personality.maturity": 2,
-      "aggregations.audienceRatio": 0.08
-    }
-  },
-  {
-    "id": "SHARPENING_PENCILS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Sharpening Pencils",
-    "description": "Finds the sound and the perfect point therapeutic. Often seen doing this during long meetings.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "personality.resilience": 2,
-      "aggregations.productionRatio": 0.06
-    }
-  },
-  {
-    "id": "OPENING_PACKAGES_CLEANLY",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Opening Package Wrappers",
-    "description": "Refuses to tear plastic; everything must be opened along the seam. Shows high precision and patience.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 3,
-      "utilitySkills.consistency": 1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "PEELING_STICKERS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Peeling Stickers",
-    "description": "Obsessed with removing labels from bottles and fruit without leaving any residue.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 2,
-      "coreSkills.uniqueness": 1,
-      "aggregations.productionRatio": 0.07
-    }
-  },
-  {
-    "id": "CABLE_MANAGEMENT",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Cable Management",
-    "description": "Cannot stand tangled wires. Will spend an hour fixing the power strips under the dorm TV.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "personality.maturity": 3,
-      "aggregations.audienceRatio": 0.04
-    }
-  },
-  {
-    "id": "SORTING_LOOSE_CHANGE",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Sorting Loose Change",
-    "description": "Stacks coins by denomination at the end of every day. Suggests a grounded, methodical mind.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 4,
-      "personality.sincerity": 2,
-      "aggregations.fanbaseRatio": 0.03
-    }
-  },
-  {
-    "id": "MATCHING_SOCKS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Matching Socks",
-    "description": "Spends Sunday mornings pairing every sock in the dorm. A quiet, domestic peacekeeper.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 3,
-      "personality.discipline": 4,
-      "aggregations.audienceRatio": 0.09
-    }
-  },
-  {
-    "id": "WIPING_SCREENS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Wiping Screens",
-    "description": "Always carries a microfiber cloth. Cannot tolerate fingerprints on their phone or the laptop.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 3,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "ARRANGING_TOILETRIES",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Arranging Toiletries",
-    "description": "Everything in the bathroom must face the same direction. Shows high visual awareness.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 5,
-      "coreSkills.visual": 1,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "SMELLING_NEW_BOOKS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Smelling New Books",
-    "description": "Loves the scent of paper and ink. A strange but endearing habit fans find cute.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 4,
-      "personality.sensitivity": 2,
-      "aggregations.fanbaseRatio": 0.12
-    }
-  },
-  {
-    "id": "CHECKING_EXPIRATION_DATES",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Checking Expiration Dates",
-    "description": "Always looks at the bottom of the milk carton. Paranoid but responsible.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 3,
-      "personality.sensitivity": 2,
-      "aggregations.audienceRatio": 0.03
-    }
-  },
-  {
-    "id": "FOLDING_RECEIPTS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Folding Receipts",
-    "description": "Never throws a receipt away without folding it into a perfect square first.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "personality.maturity": 2,
-      "aggregations.productionRatio": 0.04
-    }
-  },
-  {
-    "id": "REMOVING_LINT",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Removing Lint",
-    "description": "Constantly picking stray threads off their own (and others') clothes. High visual focus.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 3,
-      "coreSkills.visual": 2,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "FIDDLING_WITH_PEN_CAPS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Fiddling with Pen Caps",
-    "description": "A nervous habit of clicking or spinning pen lids. Shows a high-energy, anxious mind.",
-    "occurrence": 1,
-    "influences": {
-      "personality.resilience": -2,
-      "personality.curiosity": 3,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
-    "id": "STACKING_OBJECTS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Stacking Objects",
-    "description": "If there are three books or coasters on a table, they must be stacked perfectly centered.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "utilitySkills.consistency": 1,
-      "aggregations.fanbaseRatio": 0.05
-    }
-  },
-  {
-    "id": "WASHING_DISHES_IMMEDIATELY",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Washing Dishes Immediately",
-    "description": "Cannot sit down to eat until the pots used to cook are already clean. Very disciplined.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 7,
-      "personality.maturity": 3,
-      "aggregations.audienceRatio": 0.1
-    }
-  },
-  {
-    "id": "BROWSING_MAPS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Browsing Maps",
-    "description": "Will look at Google Maps or atlases for hours, memorizing street names and routes.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 7,
-      "utilitySkills.memory": 1,
-      "aggregations.fanbaseRatio": 0.06
-    }
-  },
-  {
-    "id": "UPDATING_PLAYLISTS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Updating Playlists",
-    "description": "Obsessed with sorting their iPod or phone music by 'Mood' or 'BPM'.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 4,
       "personality.discipline": 3,
       "aggregations.fanbaseRatio": 0.08
     }
   },
-  {
-    "id": "LINING_UP_SHOES",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Lining Up Shoes",
-    "description": "All sneakers in the dorm entryway must be parallel. Shows an orderly, rigid mind.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 5,
-      "personality.gentleness": -2,
-      "aggregations.productionRatio": 0.05
-    }
-  },
-  {
-    "id": "CLEANING_THE_KEYBOARD",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Cleaning Keyboards",
-    "description": "Uses compressed air and cotton swabs to remove every speck of dust between keys.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "utilitySkills.learning": 1,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
-    "id": "WATCHING_THE_RAIN",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Watching the Rain",
-    "description": "Will sit by a window for an hour just following single droplets down the glass.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sensitivity": 5,
-      "personality.resilience": 3,
-      "aggregations.audienceRatio": 0.07
-    }
-  },
-  {
-    "id": "DELETING_OLD_EMAILS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Deleting Emails",
-    "description": "Cannot stand 'Unread' notifications. Spends time daily achieving 'Inbox Zero'.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 5,
-      "personality.maturity": 2,
-      "aggregations.audienceRatio": 0.02
-    }
-  },
-  {
-    "id": "TRIMMING_STRAY_THREADS",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Trimming Threads",
-    "description": "Carries a small pair of scissors just to fix loose threads on hoodies or socks.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 4,
-      "coreSkills.visual": 1,
-      "aggregations.fanbaseRatio": 0.04
-    }
-  },
-  {
+  "ALPHABETIZING_MEDIA": {
     "id": "ALPHABETIZING_MEDIA",
     "type": "interest",
     "group": "Mundane Habits",
@@ -2270,7 +53,294 @@
       "aggregations.audienceRatio": 0.03
     }
   },
-  {
+  "ANIME": {
+    "id": "ANIME",
+    "type": "interest",
+    "group": "Media",
+    "name": "Anime",
+    "description": "A self-proclaimed fan of Japanese animation. Great for connecting with a dedicated subculture.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 4,
+      "personality.extroversion": -2,
+      "aggregations.fanbaseRatio": 0.12
+    }
+  },
+  "ANTIQUES": {
+    "id": "ANTIQUES",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "Antiques",
+    "description": "Loves hunting for old trinkets and furniture. Suggests a mature, old-soul personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 5,
+      "personality.curiosity": 3,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "ARRANGING_CURRENCY": {
+    "id": "ARRANGING_CURRENCY",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Arranging Currency",
+    "description": "Every bill in their wallet must be facing the same direction and sorted by denomination. Suggests a rigid, meticulous mind.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "personality.maturity": 2,
+      "aggregations.audienceRatio": 0.04,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "ARRANGING_TOILETRIES": {
+    "id": "ARRANGING_TOILETRIES",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Arranging Toiletries",
+    "description": "Everything in the bathroom must face the same direction. Shows high visual awareness.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 5,
+      "coreSkills.visual": 1,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "ASTRONOMY": {
+    "id": "ASTRONOMY",
+    "type": "interest",
+    "group": "Mental",
+    "name": "Astronomy",
+    "description": "Spends nights with a telescope. A romantic, thoughtful interest that fans find dreamy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 3,
+      "personality.curiosity": 6,
+      "aggregations.fanbaseRatio": 0.09
+    }
+  },
+  "BAKING": {
+    "id": "BAKING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Baking",
+    "description": "Loves making cookies and bread for the other contestants. Makes them the 'heart' of the dorm.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 5,
+      "personality.discipline": 2,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "BARISTA_SKILLS": {
+    "id": "BARISTA_SKILLS",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Barista Skills",
+    "description": "Knows how to make a perfect latte. Great for casual variety show 'coffee shop' segments.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 3,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "BASKETBALL": {
+    "id": "BASKETBALL",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Basketball",
+    "description": "Spent their youth on the court. Brings teamwork and physical endurance.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "personality.ambition": 3,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "BEATBOXING": {
+    "id": "BEATBOXING",
+    "type": "interest",
+    "group": "Music",
+    "name": "Beatboxing",
+    "description": "Constantly making rhythmic noises. A classic 2000s-era 'talent show' staple.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1,
+      "coreSkills.rap": 1,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "BEEKEEPING": {
+    "id": "BEEKEEPING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Beekeeping",
+    "description": "An extremely unusual hobby. Producers find this 'quirky' trait fascinating for interviews.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 5,
+      "coreSkills.uniqueness": 2,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "BLOGGING": {
+    "id": "BLOGGING",
+    "type": "interest",
+    "group": "Media",
+    "name": "Blogging",
+    "description": "Keeps a digital diary. Highly interactive with their personal brand and online following.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 4,
+      "aggregations.fanbaseRatio": 0.15,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "BOARD_GAMES": {
+    "id": "BOARD_GAMES",
+    "type": "interest",
+    "group": "Social",
+    "name": "Board Games",
+    "description": "Loves a game night. Shows off their competitive yet strategic mind.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "personality.maturity": 2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "BOWLING": {
+    "id": "BOWLING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Bowling",
+    "description": "A classic social hobby. Shows they are a 'regular guy' who enjoys a night out.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": 1,
+      "personality.extroversion": 2,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "BROWSING_MAPS": {
+    "id": "BROWSING_MAPS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Browsing Maps",
+    "description": "Will look at Google Maps or atlases for hours, memorizing street names and routes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 7,
+      "utilitySkills.memory": 1,
+      "aggregations.fanbaseRatio": 0.06
+    }
+  },
+  "CABLE_MANAGEMENT": {
+    "id": "CABLE_MANAGEMENT",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Cable Management",
+    "description": "Cannot stand tangled wires. Will spend an hour fixing the power strips under the dorm TV.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "personality.maturity": 3,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "CALLIGRAPHY": {
+    "id": "CALLIGRAPHY",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Calligraphy",
+    "description": "Possesses incredibly steady hands and a disciplined, artistic eye.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 5,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "CAMPING": {
+    "id": "CAMPING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Camping",
+    "description": "Loves the great outdoors and roughing it. Suggests a rugged, self-reliant nature.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 5,
+      "utilitySkills.stamina": 1,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "CAN_COLLECTOR": {
+    "id": "CAN_COLLECTOR",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "Can collector",
+    "description": "An odd hobby of keeping unique soda or energy drink cans. Producers love this 'quirk'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 3,
+      "coreSkills.uniqueness": 1,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "CAR_RESTORATION": {
+    "id": "CAR_RESTORATION",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Car Restoration",
+    "description": "Loves getting their hands greasy working on old engines. A very 'masculine' hobby.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "coreSkills.visual": 1,
+      "aggregations.audienceRatio": 0.09
+    }
+  },
+  "CARD_COLLECTOR": {
+    "id": "CARD_COLLECTOR",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "Card collector",
+    "description": "Loves trading cards. Shows a high level of patience and focus on value.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "utilitySkills.potential": 1,
+      "aggregations.fanbaseRatio": 0.06
+    }
+  },
+  "CHATTING": {
+    "id": "CHATTING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Chatting",
+    "description": "Can talk to anyone about anything. They are the primary source of 'room noise' for the show.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 6,
+      "utilitySkills.charisma": 1,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "CHECKING_EXPIRATION_DATES": {
+    "id": "CHECKING_EXPIRATION_DATES",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Checking Expiration Dates",
+    "description": "Always looks at the bottom of the milk carton. Paranoid but responsible.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 3,
+      "personality.sensitivity": 2,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "CHECKING_THE_LOCKS": {
     "id": "CHECKING_THE_LOCKS",
     "type": "interest",
     "group": "Mundane Habits",
@@ -2283,36 +353,73 @@
       "aggregations.productionRatio": 0.1
     }
   },
-  {
-    "id": "SMOKING",
+  "CHESS": {
+    "id": "CHESS",
     "type": "interest",
-    "group": "Vices",
-    "name": "Smoking",
-    "description": "Caught behind the studio with a cigarette. A classic rebel trait that ruins their 'clean' image but appeals to edgy fans.",
+    "group": "Mental",
+    "name": "Chess",
+    "description": "A strategic thinker who enjoys quiet competition. Seen as the 'brain' of the group.",
     "occurrence": 1,
     "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.discipline": -3,
-      "aggregations.productionRatio": 0.15,
-      "aggregations.audienceRatio": -0.12,
-      "aggregations.fanbaseRatio": 0.05
+      "personality.maturity": 6,
+      "utilitySkills.learning": 1,
+      "aggregations.audienceRatio": 0.03
     }
   },
-  {
-    "id": "HATE_READING",
+  "CHEWING_GUM": {
+    "id": "CHEWING_GUM",
     "type": "interest",
-    "group": "Psychological",
-    "name": "Hate-Reading",
-    "description": "Obsessively scrolling through gossip forums to read negative comments. Destroys mental stability but keeps them 'aware'.",
+    "group": "Quirk",
+    "name": "Chewing gum",
+    "description": "Rarely seen without a piece of gum. Gives them a 'cool, casual' visual on camera.",
     "occurrence": 1,
     "influences": {
-      "personality.resilience": -6,
-      "personality.sensitivity": 5,
-      "aggregations.productionRatio": 0.08,
-      "aggregations.fanbaseRatio": -0.05
+      "coreSkills.visual": 1,
+      "personality.maturity": -2,
+      "aggregations.audienceRatio": 0.03
     }
   },
-  {
+  "CHILL": {
+    "id": "CHILL",
+    "type": "interest",
+    "group": "Temperament",
+    "name": "Chill",
+    "description": "They just want to relax and keep the vibes positive. No drama, just vibes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 5,
+      "personality.ambition": -3,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "CLEANING_THE_KEYBOARD": {
+    "id": "CLEANING_THE_KEYBOARD",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Cleaning Keyboards",
+    "description": "Uses compressed air and cotton swabs to remove every speck of dust between keys.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "utilitySkills.learning": 1,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "CLEANING_LINT_TRAPS": {
+    "id": "CLEANING_LINT_TRAPS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Cleaning Lint Traps",
+    "description": "Finds a strange satisfaction in cleaning the dryer filter after every single load. Shows a thorough, responsible nature.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 5,
+      "personality.maturity": 3,
+      "aggregations.fanbaseRatio": 0.06,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "CLUBBING": {
     "id": "CLUBBING",
     "type": "interest",
     "group": "Vices",
@@ -2327,21 +434,45 @@
       "aggregations.audienceRatio": -0.08
     }
   },
-  {
-    "id": "SOCIAL_CLIMBING",
+  "COFFEE_LOVER": {
+    "id": "COFFEE_LOVER",
     "type": "interest",
-    "group": "Social Manipulation",
-    "name": "Social Climbing",
-    "description": "Only spends time with people who have more followers or influence. Purely transactional friendships.",
+    "group": "Daily Life",
+    "name": "Coffee Lover",
+    "description": "Useless until they've had their first cup. Provides fuel for morning-rehearsal drama.",
     "occurrence": 1,
     "influences": {
-      "personality.sincerity": -8,
-      "personality.ambition": 7,
-      "aggregations.productionRatio": 0.1,
-      "aggregations.audienceRatio": -0.05
+      "utilitySkills.stamina": 1,
+      "personality.resilience": -2,
+      "aggregations.productionRatio": 0.06
     }
   },
-  {
+  "COIN_COLLECTOR": {
+    "id": "COIN_COLLECTOR",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "Coin collector",
+    "description": "A very traditional and quiet hobby. Suggests an old-school, stable personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 4,
+      "personality.discipline": 3,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "COMICS": {
+    "id": "COMICS",
+    "type": "interest",
+    "group": "Media",
+    "name": "Comics",
+    "description": "A fan of superhero lore and graphic novels. Highly relatable to the core demographic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 3,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "COMPETITIVE_DIETING": {
     "id": "COMPETITIVE_DIETING",
     "type": "interest",
     "group": "Psychological",
@@ -2356,21 +487,266 @@
       "aggregations.audienceRatio": -0.05
     }
   },
-  {
-    "id": "STEALING_LIME_LIGHT",
+  "COMPUTER_BUILDING": {
+    "id": "COMPUTER_BUILDING",
     "type": "interest",
-    "group": "Social Manipulation",
-    "name": "Stealing the Limelight",
-    "description": "Will physically block others from the camera or jump into their solo shots. Ruthless for screen time.",
+    "group": "Mental",
+    "name": "Computer Building",
+    "description": "A 'tech-geek' who knows their way around a motherboard. Niche but loyal fanbase.",
     "occurrence": 1,
     "influences": {
-      "personality.gentleness": -6,
-      "personality.ambition": 8,
-      "aggregations.productionRatio": 0.25,
-      "aggregations.fanbaseRatio": -0.1
+      "personality.curiosity": 5,
+      "personality.discipline": 3,
+      "aggregations.fanbaseRatio": 0.08
     }
   },
-  {
+  "COOKING": {
+    "id": "COOKING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Cooking",
+    "description": "The 'Mom' of the dorms. Keeps everyone fed and happy during long filming days.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 4,
+      "utilitySkills.leadership": 1,
+      "aggregations.audienceRatio": 0.12
+    }
+  },
+  "CRACKING_JOINTS": {
+    "id": "CRACKING_JOINTS",
+    "type": "interest",
+    "group": "Quirk",
+    "name": "Cracking joints",
+    "description": "A nervous or physical habit. Producers often include the sound effect for comedic timing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -2,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "CREATIVE_WRITING": {
+    "id": "CREATIVE_WRITING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Creative Writing",
+    "description": "Loves crafting stories. Often writes scripts or song lyrics in their spare time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 4,
+      "coreSkills.rap": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "CROSSWORD_PUZZLES": {
+    "id": "CROSSWORD_PUZZLES",
+    "type": "interest",
+    "group": "Mental",
+    "name": "Crossword puzzles",
+    "description": "Keeps their mind sharp between rehearsals. High focus and vocabulary.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "personality.discipline": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "CYCLING": {
+    "id": "CYCLING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Cycling",
+    "description": "Enjoys long rides to clear their head. Suggests high endurance and mental clarity.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "personality.resilience": 3,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "DAYDREAMING": {
+    "id": "DAYDREAMING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Daydreaming",
+    "description": "Frequently caught staring into space. Seen as the 'creative dreamer' of the group.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 6,
+      "personality.maturity": -3,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "DEEP_CLEANING": {
+    "id": "DEEP_CLEANING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Deep Cleaning",
+    "description": "Cannot relax if there is dust on the shelves. A polarizing dorm roommate.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 7,
+      "personality.gentleness": -2,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "DELETING_OLD_EMAILS": {
+    "id": "DELETING_OLD_EMAILS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Deleting Emails",
+    "description": "Cannot stand 'Unread' notifications. Spends time daily achieving 'Inbox Zero'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 5,
+      "personality.maturity": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "ORGANIZING_FILES": {
+    "id": "ORGANIZING_FILES",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Digital Organizing",
+    "description": "Loves keeping their phone and laptop folders perfectly sorted. High attention to detail.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "utilitySkills.memory": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "DISC_GOLF": {
+    "id": "DISC_GOLF",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Disc Golf",
+    "description": "A laid-back, outdoor sport. Shows a casual and approachable personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 3,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "DIY_PROJECTS": {
+    "id": "DIY_PROJECTS",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "DIY Projects",
+    "description": "Loves making something out of nothing. Very resourceful and creative in the dorm.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 5,
+      "utilitySkills.learning": 1,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "DODGEBALL": {
+    "id": "DODGEBALL",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Dodgeball",
+    "description": "Loves intense, fast-paced team sports. High energy and competitive spirit.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 4,
+      "utilitySkills.consistency": 1,
+      "aggregations.productionRatio": 0.06
+    }
+  },
+  "DOG_TRAINING": {
+    "id": "DOG_TRAINING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Dog Training",
+    "description": "Loves animals and understands discipline. Fans melt when they see them with pets.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 5,
+      "personality.discipline": 4,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "DOING_LAUNDRY": {
+    "id": "DOING_LAUNDRY",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Doing Laundry",
+    "description": "Actually knows how to separate whites and colors. The hero of the shared dorm space.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "personality.gentleness": 3,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "DOODLING": {
+    "id": "DOODLING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Doodling",
+    "description": "Always drawing on the margins of their lyric sheets. Highly creative and distracted.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 3,
+      "personality.discipline": -2,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "DORM_PRANKS": {
+    "id": "DORM_PRANKS",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Dorm Pranks",
+    "description": "Always setting up small traps for the other guys. The 'villain' of dorm life, but a hit on TV.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -5,
+      "utilitySkills.charisma": 1,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "DRAWING": {
+    "id": "DRAWING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Drawing",
+    "description": "A serious artistic pursuit. They often draw portraits of their fellow contestants.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1,
+      "personality.sensitivity": 2,
+      "aggregations.fanbaseRatio": 0.07
+    }
+  },
+  "DRINKING": {
+    "id": "DRINKING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Drinking",
+    "description": "Loves the party scene. A major risk factor for scandals, but gold for the editors.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -6,
+      "personality.maturity": -4,
+      "aggregations.productionRatio": 0.2,
+      "aggregations.audienceRatio": -0.1
+    }
+  },
+  "TEA_DRINKER": {
+    "id": "TEA_DRINKER",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Drinking Tea",
+    "description": "A calming ritual. Suggests a sophisticated and composed personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 4,
+      "personality.maturity": 3,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "EAVESDROPPING": {
     "id": "EAVESDROPPING",
     "type": "interest",
     "group": "Social Manipulation",
@@ -2383,60 +759,296 @@
       "aggregations.productionRatio": 0.1
     }
   },
-  {
-    "id": "PITY_FISHING",
+  "ELECTRONIC_MUSIC": {
+    "id": "ELECTRONIC_MUSIC",
     "type": "interest",
-    "group": "Social Manipulation",
-    "name": "Pity Fishing",
-    "description": "Exaggerating injuries or personal tragedies specifically when the cameras are rolling to get the 'Hero' edit.",
+    "group": "Music",
+    "name": "Electronic Music",
+    "description": "Into synthesizers and DJing. Brings a modern, club-ready vibe to the group.",
     "occurrence": 1,
     "influences": {
-      "personality.sincerity": -9,
-      "utilitySkills.charisma": 2,
-      "aggregations.productionRatio": 0.15,
-      "aggregations.audienceRatio": 0.1
+      "personality.curiosity": 4,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.07
     }
   },
-  {
-    "id": "MIRROR_FIXATION",
+  "FASHION_DESIGN": {
+    "id": "FASHION_DESIGN",
     "type": "interest",
-    "group": "Psychological",
-    "name": "Mirror Fixation",
-    "description": "Cannot walk past a reflective surface without stopping. Suggests a mix of vanity and deep insecurity.",
+    "group": "Artistic",
+    "name": "Fashion design",
+    "description": "Loves customizing their own clothes. Always looks like a star.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 2,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.09
+    }
+  },
+  "FENCING": {
+    "id": "FENCING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Fencing",
+    "description": "An elegant and disciplined sport. Suggests a 'noble' or 'sophisticated' image.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 7,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "FIDDLING_WITH_PEN_CAPS": {
+    "id": "FIDDLING_WITH_PEN_CAPS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Fiddling with Pen Caps",
+    "description": "A nervous habit of clicking or spinning pen lids. Shows a high-energy, anxious mind.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -2,
+      "personality.curiosity": 3,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "FISHING": {
+    "id": "FISHING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Fishing",
+    "description": "A hobby that requires extreme patience. Very unusual for a pop star.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 6,
+      "personality.extroversion": -3,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "FLASH_MOBS": {
+    "id": "FLASH_MOBS",
+    "type": "interest",
+    "group": "Social",
+    "name": "Flash Mobs",
+    "description": "Loves organized public performances. Very 2010. Shows a love for performance.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 6,
+      "coreSkills.dance": 1,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "SEDUCING_FOR_INFO": {
+    "id": "SEDUCING_FOR_INFO",
+    "type": "interest",
+    "group": "Social Manipulation",
+    "name": "Flirting for Intel",
+    "description": "Using their looks to charm junior staff into revealing secret mission details or rankings.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "personality.sincerity": -7,
+      "aggregations.productionRatio": 0.2
+    }
+  },
+  "FOLDING_RECEIPTS": {
+    "id": "FOLDING_RECEIPTS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Folding Receipts",
+    "description": "Never throws a receipt away without folding it into a perfect square first.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "personality.maturity": 2,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "FOODIE": {
+    "id": "FOODIE",
+    "type": "interest",
+    "group": "Social",
+    "name": "Foodie",
+    "description": "Lives to eat. They are the best at doing 'food reactions' during variety segments.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "personality.curiosity": 3,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "GAMBLING": {
+    "id": "GAMBLING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Gambling",
+    "description": "Loves high stakes and taking risks. Can lead to intense competitive drama.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 5,
+      "personality.discipline": -4,
+      "aggregations.productionRatio": 0.15,
+      "aggregations.audienceRatio": -0.05
+    }
+  },
+  "GARDENING": {
+    "id": "GARDENING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Gardening",
+    "description": "Loves tending to plants. Suggests a nurturing and patient soul.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 6,
+      "personality.maturity": 4,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "GHOST_HUNTING": {
+    "id": "GHOST_HUNTING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Ghost Hunting",
+    "description": "Enjoys exploring 'haunted' locations. Producers love filming their reactions to scares.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 6,
+      "personality.resilience": -3,
+      "aggregations.productionRatio": 0.2
+    }
+  },
+  "GLASSBLOWING": {
+    "id": "GLASSBLOWING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Glassblowing",
+    "description": "A dangerous and beautiful art. Shows high focus and artistic bravery.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "coreSkills.uniqueness": 2,
+      "aggregations.fanbaseRatio": 0.06
+    }
+  },
+  "GOING_TO_THE_BEACH": {
+    "id": "GOING_TO_THE_BEACH",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Going to the beach",
+    "description": "A classic summer hobby. Great for 'vacation' themed photoshoots.",
     "occurrence": 1,
     "influences": {
       "coreSkills.visual": 1,
-      "personality.resilience": -3,
-      "aggregations.productionRatio": 0.05
+      "personality.extroversion": 3,
+      "aggregations.fanbaseRatio": 0.05
     }
   },
-  {
-    "id": "REVENGE_PLANNING",
+  "GRAPHIC_DESIGNER": {
+    "id": "GRAPHIC_DESIGNER",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Graphic Designer",
+    "description": "Professionally minded and tech-savvy. They understand branding better than most.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 3,
+      "utilitySkills.learning": 1,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "GROCERY_SHOPPING": {
+    "id": "GROCERY_SHOPPING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Grocery Shopping",
+    "description": "Loves hunting for deals and stocking the fridge. Shows a grounded, domestic side.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 4,
+      "personality.gentleness": 2,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "GUITAR_HERO": {
+    "id": "GUITAR_HERO",
+    "type": "interest",
+    "group": "Media",
+    "name": "Guitar Hero",
+    "description": "Master of the plastic guitar. A classic era-specific hobby that shows rhythm.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "personality.extroversion": 3,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "GYM": {
+    "id": "GYM",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Gym",
+    "description": "Dedicated to the iron. High physical standards and stamina.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 2,
+      "coreSkills.visual": 1,
+      "personality.discipline": 4,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "HACKY_SACK": {
+    "id": "HACKY_SACK",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Hacky Sack",
+    "description": "Frequently seen kicking a footbag during breaks. Very casual and friendly hobby.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": 1,
+      "personality.gentleness": 3,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "HAD_A_BAND": {
+    "id": "HAD_A_BAND",
+    "type": "interest",
+    "group": "Background",
+    "name": "Had a band",
+    "description": "Previously played in a local band. Understands live performance dynamics.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.experience": 10,
+      "utilitySkills.potential": 1,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "HAIR_STYLING": {
+    "id": "HAIR_STYLING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Hair Styling",
+    "description": "Spends hours on their hair and often helps the other guys with theirs.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 2,
+      "personality.gentleness": 2,
+      "aggregations.fanbaseRatio": 0.07
+    }
+  },
+  "HATE_READING": {
+    "id": "HATE_READING",
     "type": "interest",
     "group": "Psychological",
-    "name": "Revenge Planning",
-    "description": "Keeps a mental (or literal) list of every slight. They don't get mad, they get even.",
+    "name": "Hate-Reading",
+    "description": "Obsessively scrolling through gossip forums to read negative comments. Destroys mental stability but keeps them 'aware'.",
     "occurrence": 1,
     "influences": {
-      "personality.gentleness": -7,
-      "personality.maturity": -4,
-      "aggregations.productionRatio": 0.12
+      "personality.resilience": -6,
+      "personality.sensitivity": 5,
+      "aggregations.productionRatio": 0.08,
+      "aggregations.fanbaseRatio": -0.05
     }
   },
-  {
-    "id": "KLEPTOMANIA_LIGHT",
-    "type": "interest",
-    "group": "Vices",
-    "name": "Pocketing Souvenirs",
-    "description": "A habit of taking small items that don't belong to them (pens, makeup, other guys' lighters). Causes huge dorm friction.",
-    "occurrence": 1,
-    "influences": {
-      "personality.sincerity": -6,
-      "personality.discipline": -5,
-      "aggregations.productionRatio": 0.18
-    }
-  },
-  {
+  "HIGH_STAKES_POKER": {
     "id": "HIGH_STAKES_POKER",
     "type": "interest",
     "group": "Vices",
@@ -2450,7 +1062,370 @@
       "aggregations.audienceRatio": -0.1
     }
   },
-  {
+  "HORSEBACK_RIDING": {
+    "id": "HORSEBACK_RIDING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Horseback Riding",
+    "description": "Suggests a wealthy or 'country-boy' background. Very visual for photoshoots.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 4,
+      "coreSkills.visual": 1,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "ICE_SKATING": {
+    "id": "ICE_SKATING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Ice Skating",
+    "description": "Possesses incredible balance and grace. Translates well to dance fluidity.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "utilitySkills.consistency": 2,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "INSTANT_RAMEN_CONNOISSEUR": {
+    "id": "INSTANT_RAMEN_CONNOISSEUR",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Instant Ramen Connoisseur",
+    "description": "Knows exactly how to dress up cheap noodles. Extremely relatable to the average viewer.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.12
+    }
+  },
+  "INTERIOR_DESIGN": {
+    "id": "INTERIOR_DESIGN",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Interior Design",
+    "description": "Always re-arranging the dorm furniture. Great for reality show 'home tour' segments.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 4,
+      "personality.discipline": 3,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "IRONING_CLOTHES": {
+    "id": "IRONING_CLOTHES",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Ironing",
+    "description": "Takes pride in a crisp shirt. Suggests a meticulous and professional image.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 5,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "JEWELRY_MAKING": {
+    "id": "JEWELRY_MAKING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Jewelry Making",
+    "description": "Crafts their own accessories. Shows a delicate, detailed artistic side.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.06
+    }
+  },
+  "JOGGING": {
+    "id": "JOGGING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Jogging",
+    "description": "A daily routine to stay fit and clear the mind.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 2,
+      "personality.discipline": 3,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "JOURNALING": {
+    "id": "JOURNALING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Journaling",
+    "description": "Writes down their thoughts every night. Suggests high sincerity and self-reflection.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 6,
+      "personality.sensitivity": 4,
+      "aggregations.fanbaseRatio": 0.09
+    }
+  },
+  "JUGGLING": {
+    "id": "JUGGLING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Juggling",
+    "description": "A classic 'hidden talent'. Great for lighthearted variety show moments.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "utilitySkills.consistency": 1,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "KARAOKE": {
+    "id": "KARAOKE",
+    "type": "interest",
+    "group": "Social",
+    "name": "Karaoke",
+    "description": "Loves to sing for fun, not just work. Shows high vocal confidence.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "personality.extroversion": 5,
+      "aggregations.audienceRatio": 0.09
+    }
+  },
+  "KARATE": {
+    "id": "KARATE",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Karate",
+    "description": "Trained in martial arts. Adds a disciplined and 'stunt-ready' edge to their dancing.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.acrobatics": 2,
+      "personality.discipline": 6,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "KITE_SURFING": {
+    "id": "KITE_SURFING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Kite Surfing",
+    "description": "Extreme and high-energy. Gives them an 'adrenaline junkie' image.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 6,
+      "utilitySkills.stamina": 1,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "KNITTING": {
+    "id": "KNITTING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Knitting",
+    "description": "A very slow, methodical hobby. Shows a calm and focused demeanor.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 4,
+      "personality.gentleness": 3,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "LISTENING_TO_RADIO": {
+    "id": "LISTENING_TO_RADIO",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Late Night Radio",
+    "description": "Enjoys the intimacy of radio shows. Often found listening with headphones in bed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 4,
+      "personality.extroversion": -2,
+      "aggregations.fanbaseRatio": 0.06
+    }
+  },
+  "LATE_NIGHT_SNACKING": {
+    "id": "LATE_NIGHT_SNACKING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Late Night Snacking",
+    "description": "Always found in the kitchen at 2 AM. Producers love catching them 'cheating' on their diets.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -4,
+      "aggregations.productionRatio": 0.1
+    }
+  },
+  "LEGO_SETS": {
+    "id": "LEGO_SETS",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "LEGO sets",
+    "description": "Loves building complex models. Suggests high patience and spatial awareness.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "personality.curiosity": 2,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "LINING_UP_SHOES": {
+    "id": "LINING_UP_SHOES",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Lining Up Shoes",
+    "description": "All sneakers in the dorm entryway must be parallel. Shows an orderly, rigid mind.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 5,
+      "personality.gentleness": -2,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "MAGIC": {
+    "id": "MAGIC",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Magic",
+    "description": "Loves performing sleight-of-hand. Great for 'wowing' the camera and fans.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "coreSkills.uniqueness": 1,
+      "aggregations.productionRatio": 0.07
+    }
+  },
+  "MAGIC_TRICKS": {
+    "id": "MAGIC_TRICKS",
+    "type": "interest",
+    "group": "Social",
+    "name": "Magic Tricks",
+    "description": "Loves entertaining peers with card tricks. Keeps the mood light.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "personality.curiosity": 3,
+      "aggregations.productionRatio": 0.07
+    }
+  },
+  "MATCHING_SOCKS": {
+    "id": "MATCHING_SOCKS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Matching Socks",
+    "description": "Spends Sunday mornings pairing every sock in the dorm. A quiet, domestic peacekeeper.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 3,
+      "personality.discipline": 4,
+      "aggregations.audienceRatio": 0.09
+    }
+  },
+  "MEDITATION": {
+    "id": "MEDITATION",
+    "type": "interest",
+    "group": "Mental",
+    "name": "Meditation",
+    "description": "Spends time in silence to stay centered. High mental resilience.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 8,
+      "personality.sensitivity": -3,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "METALWORKING": {
+    "id": "METALWORKING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Metalworking",
+    "description": "A very intense and physical art form. Suggests strength and dedication.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 5,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "MIRROR_FIXATION": {
+    "id": "MIRROR_FIXATION",
+    "type": "interest",
+    "group": "Psychological",
+    "name": "Mirror Fixation",
+    "description": "Cannot walk past a reflective surface without stopping. Suggests a mix of vanity and deep insecurity.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "personality.resilience": -3,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "MODEL_TRAINS": {
+    "id": "MODEL_TRAINS",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "Model Trains",
+    "description": "A very niche, old-fashioned hobby. Shows an extreme attention to detail.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "personality.maturity": 4,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "MORNING_STRETCHING": {
+    "id": "MORNING_STRETCHING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Morning Stretching",
+    "description": "Has a set routine every morning. Helps them stay limber for dance rehearsals.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "personality.resilience": 2,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "MOVIES": {
+    "id": "MOVIES",
+    "type": "interest",
+    "group": "Media",
+    "name": "Movies",
+    "description": "A total film buff. Constantly quoting famous lines.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 4,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "MUSIC_PRODUCER": {
+    "id": "MUSIC_PRODUCER",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Music producer",
+    "description": "Spends their time on a laptop making beats. Shows high technical skill and ambition.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 1,
+      "personality.ambition": 4,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "NAP": {
+    "id": "NAP",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Nap",
+    "description": "Can sleep anywhere, anytime. Often edited as the 'lazy but cute' member.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 4,
+      "personality.investment": -3,
+      "aggregations.productionRatio": 0.06
+    }
+  },
+  "OBSESSIVE_GROOMING": {
     "id": "OBSESSIVE_GROOMING",
     "type": "interest",
     "group": "Psychological",
@@ -2463,129 +1438,33 @@
       "aggregations.fanbaseRatio": 0.05
     }
   },
-  {
-    "id": "SEDUCING_FOR_INFO",
+  "OPENING_PACKAGES_CLEANLY": {
+    "id": "OPENING_PACKAGES_CLEANLY",
     "type": "interest",
-    "group": "Social Manipulation",
-    "name": "Flirting for Intel",
-    "description": "Using their looks to charm junior staff into revealing secret mission details or rankings.",
+    "group": "Mundane Habits",
+    "name": "Opening Package Wrappers",
+    "description": "Refuses to tear plastic; everything must be opened along the seam. Shows high precision and patience.",
     "occurrence": 1,
     "influences": {
-      "utilitySkills.charisma": 2,
-      "personality.sincerity": -7,
-      "aggregations.productionRatio": 0.2
+      "personality.discipline": 3,
+      "utilitySkills.consistency": 1,
+      "aggregations.fanbaseRatio": 0.05
     }
   },
-  {
-    "id": "UNDERGROUND_RACING",
+  "ORGANIZING_THE_CLOSET": {
+    "id": "ORGANIZING_THE_CLOSET",
     "type": "interest",
-    "group": "Vices",
-    "name": "Underground Racing",
-    "description": "Loves the thrill of illegal street racing. A dangerous secret that could end their career in a second.",
+    "group": "Mundane Habits",
+    "name": "Organizing the Closet",
+    "description": "Spends free time color-coding hangers and perfectly spacing shirts. Shows an intense need for order.",
     "occurrence": 1,
     "influences": {
-      "personality.resilience": 5,
-      "personality.discipline": -8,
-      "aggregations.productionRatio": 0.3,
-      "aggregations.audienceRatio": -0.2
-    }
-  },
-  {
-    "id": "RUMOR_SPREADING",
-    "type": "interest",
-    "group": "Social Manipulation",
-    "name": "Rumor Spreading",
-    "description": "Expert at whispering just the right lie to pit two other contestants against each other.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -10,
-      "personality.sincerity": -8,
-      "aggregations.productionRatio": 0.25
-    }
-  },
-  {
-    "id": "SELF_ISOLATION",
-    "type": "interest",
-    "group": "Psychological",
-    "name": "Self-Isolation",
-    "description": "Locks themselves in a closet or bathroom to escape the cameras. Makes producers desperate for a shot.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -9,
-      "personality.resilience": -5,
-      "aggregations.productionRatio": 0.1,
-      "aggregations.audienceRatio": 0.05
-    }
-  },
-  {
-    "id": "TATTOO_OBSESSION",
-    "type": "interest",
-    "group": "Vices",
-    "name": "Tattoo Obsession",
-    "description": "Constantly planning the next piece of ink. Can be controversial with conservative sponsors.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "coreSkills.uniqueness": 1,
-      "aggregations.fanbaseRatio": 0.12,
-      "aggregations.audienceRatio": -0.05
-    }
-  },
-  {
-    "id": "WORK_REVENGE",
-    "type": "interest",
-    "group": "Social Manipulation",
-    "name": "Sabotage",
-    "description": "Not beneath hiding a rival's lucky charm or messing with their alarm clock. Petty and dark.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -7,
-      "personality.gentleness": -8,
-      "aggregations.productionRatio": 0.2
-    }
-  },
-  {
-    "id": "SLEEP_DEPRIVATION_PRIDE",
-    "type": "interest",
-    "group": "Psychological",
-    "name": "Sleep Martyrdom",
-    "description": "Boasts about how little they sleep to look like the 'hardest worker'. A toxic work-ethic trait.",
-    "occurrence": 1,
-    "influences": {
-      "personality.ambition": 5,
-      "personality.resilience": -6,
-      "utilitySkills.stamina": -1,
+      "personality.discipline": 5,
+      "personality.maturity": 2,
       "aggregations.audienceRatio": 0.08
     }
   },
-  {
-    "id": "ARRANGING_CURRENCY",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Arranging Currency",
-    "description": "Every bill in their wallet must be facing the same direction and sorted by denomination. Suggests a rigid, meticulous mind.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 6,
-      "personality.maturity": 2,
-      "aggregations.audienceRatio": 0.04,
-      "aggregations.fanbaseRatio": 0.02
-    }
-  },
-  {
-    "id": "PEELING_ELECTRONIC_FILM",
-    "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Peeling Protective Film",
-    "description": "Obsessed with peeling the clear plastic off new electronics or equipment. They will wait weeks just to find the 'perfect' moment.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 4,
-      "personality.discipline": 2,
-      "aggregations.productionRatio": 0.08
-    }
-  },
-  {
+  "FRIDGE_FACE_OUT": {
     "id": "FRIDGE_FACE_OUT",
     "type": "interest",
     "group": "Mundane Habits",
@@ -2599,18 +1478,1139 @@
       "aggregations.audienceRatio": 0.05
     }
   },
-  {
-    "id": "CLEANING_LINT_TRAPS",
+  "ORIGAMI": {
+    "id": "ORIGAMI",
     "type": "interest",
-    "group": "Mundane Habits",
-    "name": "Cleaning Lint Traps",
-    "description": "Finds a strange satisfaction in cleaning the dryer filter after every single load. Shows a thorough, responsible nature.",
+    "group": "Artistic",
+    "name": "Origami",
+    "description": "The art of paper folding. Shows high discipline and delicate motor skills.",
     "occurrence": 1,
     "influences": {
-      "personality.discipline": 5,
-      "personality.maturity": 3,
-      "aggregations.fanbaseRatio": 0.06,
+      "personality.discipline": 4,
+      "personality.gentleness": 2,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "PAINTING": {
+    "id": "PAINTING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Painting",
+    "description": "An expressive, colorful hobby. Shows a deep, artistic personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 3,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "PARKOUR": {
+    "id": "PARKOUR",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Parkour",
+    "description": "The peak of 2010 cool. Loves urban climbing and jumping. High visual appeal.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.acrobatics": 2,
+      "personality.ambition": 4,
+      "aggregations.audienceRatio": 0.12,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "PARTY_PLANNING": {
+    "id": "PARTY_PLANNING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Party planning",
+    "description": "Always organizing the group's social calendar. Natural leader vibes.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.leadership": 1,
+      "personality.extroversion": 5,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "PEELING_ELECTRONIC_FILM": {
+    "id": "PEELING_ELECTRONIC_FILM",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Peeling Protective Film",
+    "description": "Obsessed with peeling the clear plastic off new electronics or equipment. They will wait weeks just to find the 'perfect' moment.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 4,
+      "personality.discipline": 2,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "PEELING_STICKERS": {
+    "id": "PEELING_STICKERS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Peeling Stickers",
+    "description": "Obsessed with removing labels from bottles and fruit without leaving any residue.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "coreSkills.uniqueness": 1,
+      "aggregations.productionRatio": 0.07
+    }
+  },
+  "PEOPLE_WATCHING": {
+    "id": "PEOPLE_WATCHING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "People Watching",
+    "description": "Enjoys sitting in cafes or parks just observing. Suggests a thoughtful, introverted nature.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -3,
+      "personality.curiosity": 5,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "PHILANTHROPY": {
+    "id": "PHILANTHROPY",
+    "type": "interest",
+    "group": "Social",
+    "name": "Philanthropy",
+    "description": "Always looking for ways to give back. Makes for a 'hero' edit.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 8,
+      "personality.gentleness": 5,
+      "aggregations.audienceRatio": 0.2
+    }
+  },
+  "PHOTOGRAPHY": {
+    "id": "PHOTOGRAPHY",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Photography",
+    "description": "Always has a camera in hand. They take the best 'behind-the-scenes' photos.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "personality.curiosity": 3,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "PITY_FISHING": {
+    "id": "PITY_FISHING",
+    "type": "interest",
+    "group": "Social Manipulation",
+    "name": "Pity Fishing",
+    "description": "Exaggerating injuries or personal tragedies specifically when the cameras are rolling to get the 'Hero' edit.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -9,
+      "utilitySkills.charisma": 2,
+      "aggregations.productionRatio": 0.15,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "PLAYING_CARDS": {
+    "id": "PLAYING_CARDS",
+    "type": "interest",
+    "group": "Social",
+    "name": "Playing cards",
+    "description": "Good at poker and card games. Strategic and observant.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2,
+      "utilitySkills.memory": 1,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "PLAYING_DARTS": {
+    "id": "PLAYING_DARTS",
+    "type": "interest",
+    "group": "Social",
+    "name": "Playing darts",
+    "description": "Requires a steady hand and high focus. Suggests a consistent performer.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "PLAYS_BASS": {
+    "id": "PLAYS_BASS",
+    "type": "interest",
+    "group": "Music",
+    "name": "Plays bass",
+    "description": "The foundation of the band. Often quiet but indispensable.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.potential": 1,
+      "personality.extroversion": -2,
+      "aggregations.fanbaseRatio": 0.06
+    }
+  },
+  "PLAYS_DRUMS": {
+    "id": "PLAYS_DRUMS",
+    "type": "interest",
+    "group": "Music",
+    "name": "Plays drums",
+    "description": "High energy and perfect rhythm. Brings a 'rock' edge to the group.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "coreSkills.uniqueness": 1,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "PLAYS_GUITAR": {
+    "id": "PLAYS_GUITAR",
+    "type": "interest",
+    "group": "Music",
+    "name": "Plays guitar",
+    "description": "The classic boy-band interest. Perfect for acoustic 'serenade' segments.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "coreSkills.visual": 1,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "PLAYS_PIANO": {
+    "id": "PLAYS_PIANO",
+    "type": "interest",
+    "group": "Music",
+    "name": "Plays piano",
+    "description": "Classically trained. Suggests high discipline and a sophisticated image.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "utilitySkills.learning": 1,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "PLAYS_VIOLIN": {
+    "id": "PLAYS_VIOLIN",
+    "type": "interest",
+    "group": "Music",
+    "name": "Plays violin",
+    "description": "Shows extreme dedication and a unique talent in the pop world.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "coreSkills.uniqueness": 2,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "KLEPTOMANIA_LIGHT": {
+    "id": "KLEPTOMANIA_LIGHT",
+    "type": "interest",
+    "group": "Vices",
+    "name": "Pocketing Souvenirs",
+    "description": "A habit of taking small items that don't belong to them (pens, makeup, other guys' lighters). Causes huge dorm friction.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -6,
+      "personality.discipline": -5,
+      "aggregations.productionRatio": 0.18
+    }
+  },
+  "PODCASTING": {
+    "id": "PODCASTING",
+    "type": "interest",
+    "group": "Media",
+    "name": "Podcasting",
+    "description": "Early adopter of the format. Loves long-form discussion and interviewing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 5,
+      "utilitySkills.charisma": 1,
+      "aggregations.fanbaseRatio": 0.07
+    }
+  },
+  "POETRY_WRITING": {
+    "id": "POETRY_WRITING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Poetry writing",
+    "description": "A deep, sensitive soul who expresses themselves through verse.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 6,
+      "personality.sincerity": 4,
+      "aggregations.fanbaseRatio": 0.07
+    }
+  },
+  "POLISHING_SHOES": {
+    "id": "POLISHING_SHOES",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Polishing Shoes",
+    "description": "A classic habit. They want their footwear to be as bright as their future.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "coreSkills.visual": 1,
       "aggregations.audienceRatio": 0.04
     }
+  },
+  "POTTERY": {
+    "id": "POTTERY",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Pottery",
+    "description": "A messy but grounding art. Shows a patient and tactile personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 4,
+      "personality.resilience": 3,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "POWER_NAPPING": {
+    "id": "POWER_NAPPING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Power Napping",
+    "description": "Can fall asleep for 10 minutes and wake up fully energized. A survival show superpower.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "personality.resilience": 3,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "PUZZLE": {
+    "id": "PUZZLE",
+    "type": "interest",
+    "group": "Mental",
+    "name": "Puzzle",
+    "description": "Loves solving complex problems. Very patient and detail-oriented.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "personality.resilience": 3,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "READING": {
+    "id": "READING",
+    "type": "interest",
+    "group": "Mental",
+    "name": "Reading",
+    "description": "Always has their nose in a book. Suggests high intelligence and maturity.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 4,
+      "personality.curiosity": 5,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "REMOVING_LINT": {
+    "id": "REMOVING_LINT",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Removing Lint",
+    "description": "Constantly picking stray threads off their own (and others') clothes. High visual focus.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 3,
+      "coreSkills.visual": 2,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "REVENGE_PLANNING": {
+    "id": "REVENGE_PLANNING",
+    "type": "interest",
+    "group": "Psychological",
+    "name": "Revenge Planning",
+    "description": "Keeps a mental (or literal) list of every slight. They don't get mad, they get even.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -7,
+      "personality.maturity": -4,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "ROBOTICS": {
+    "id": "ROBOTICS",
+    "type": "interest",
+    "group": "Mental",
+    "name": "Robotics",
+    "description": "Into coding and building bots. The 'smart one' of the group.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 2,
+      "personality.curiosity": 6,
+      "aggregations.fanbaseRatio": 0.09
+    }
+  },
+  "ROCK_CLIMBING": {
+    "id": "ROCK_CLIMBING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Rock Climbing",
+    "description": "Adventurous and physically strong. Shows high mental and physical grip.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "personality.resilience": 5,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "ROLLERBLADING": {
+    "id": "ROLLERBLADING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Rollerblading",
+    "description": "A fun, retro-feeling way to stay active. Great for music video visuals.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "personality.extroversion": 3,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "RUMOR_SPREADING": {
+    "id": "RUMOR_SPREADING",
+    "type": "interest",
+    "group": "Social Manipulation",
+    "name": "Rumor Spreading",
+    "description": "Expert at whispering just the right lie to pit two other contestants against each other.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -10,
+      "personality.sincerity": -8,
+      "aggregations.productionRatio": 0.25
+    }
+  },
+  "RUNNING": {
+    "id": "RUNNING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Running",
+    "description": "Classic endurance training. They never seem to run out of breath on stage.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 2,
+      "personality.discipline": 4,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "WORK_REVENGE": {
+    "id": "WORK_REVENGE",
+    "type": "interest",
+    "group": "Social Manipulation",
+    "name": "Sabotage",
+    "description": "Not beneath hiding a rival's lucky charm or messing with their alarm clock. Petty and dark.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -7,
+      "personality.gentleness": -8,
+      "aggregations.productionRatio": 0.2
+    }
+  },
+  "SAILING": {
+    "id": "SAILING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Sailing",
+    "description": "Suggests a high-class or adventurous maritime background.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 5,
+      "coreSkills.visual": 1,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "COUPON_CLIPPING": {
+    "id": "COUPON_CLIPPING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Saving Money",
+    "description": "Always looking for a discount. Fans love their frugal, 'started from the bottom' energy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 5,
+      "personality.maturity": 2,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "SCRAPBOOKING": {
+    "id": "SCRAPBOOKING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Scrapbooking",
+    "description": "Loves preserving memories. Shows a sentimental and organized nature.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 5,
+      "personality.discipline": 4,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "SCULPTURE": {
+    "id": "SCULPTURE",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Sculpture",
+    "description": "Loves working with their hands. A very unique and physically demanding art form.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 2,
+      "personality.discipline": 3,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "SELF_ISOLATION": {
+    "id": "SELF_ISOLATION",
+    "type": "interest",
+    "group": "Psychological",
+    "name": "Self-Isolation",
+    "description": "Locks themselves in a closet or bathroom to escape the cameras. Makes producers desperate for a shot.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -9,
+      "personality.resilience": -5,
+      "aggregations.productionRatio": 0.1,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "SHARPENING_PENCILS": {
+    "id": "SHARPENING_PENCILS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Sharpening Pencils",
+    "description": "Finds the sound and the perfect point therapeutic. Often seen doing this during long meetings.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "personality.resilience": 2,
+      "aggregations.productionRatio": 0.06
+    }
+  },
+  "SHOE_COLLECTOR": {
+    "id": "SHOE_COLLECTOR",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "Shoe collector",
+    "description": "Obsessed with sneakers and footwear. Very high visual and trend awareness.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 2,
+      "aggregations.fanbaseRatio": 0.15
+    }
+  },
+  "SKATEBOARDING": {
+    "id": "SKATEBOARDING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Skateboarding",
+    "description": "The ultimate 'cool guy' hobby. High popularity among younger fans.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 6,
+      "coreSkills.visual": 1,
+      "aggregations.audienceRatio": 0.15,
+      "aggregations.fanbaseRatio": 0.1
+    }
+  },
+  "SKINCARE_ROUTINE": {
+    "id": "SKINCARE_ROUTINE",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Skincare Routine",
+    "description": "Never goes to bed without a 10-step process. Keeps them looking fresh on camera even after 2 hours of sleep.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "personality.discipline": 5,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "SLEEP_DEPRIVATION_PRIDE": {
+    "id": "SLEEP_DEPRIVATION_PRIDE",
+    "type": "interest",
+    "group": "Psychological",
+    "name": "Sleep Martyrdom",
+    "description": "Boasts about how little they sleep to look like the 'hardest worker'. A toxic work-ethic trait.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 5,
+      "personality.resilience": -6,
+      "utilitySkills.stamina": -1,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "SLEEPING": {
+    "id": "SLEEPING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Sleeping",
+    "description": "Their favorite hobby is staying in bed. Relatable but can look unmotivated.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 4,
+      "personality.investment": -4,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "SMELLING_NEW_BOOKS": {
+    "id": "SMELLING_NEW_BOOKS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Smelling New Books",
+    "description": "Loves the scent of paper and ink. A strange but endearing habit fans find cute.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 4,
+      "personality.sensitivity": 2,
+      "aggregations.fanbaseRatio": 0.12
+    }
+  },
+  "SMOKING": {
+    "id": "SMOKING",
+    "type": "interest",
+    "group": "Vices",
+    "name": "Smoking",
+    "description": "Caught behind the studio with a cigarette. A classic rebel trait that ruins their 'clean' image but appeals to edgy fans.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": -1,
+      "personality.discipline": -3,
+      "aggregations.productionRatio": 0.15,
+      "aggregations.audienceRatio": -0.12,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "SOCIAL_CLIMBING": {
+    "id": "SOCIAL_CLIMBING",
+    "type": "interest",
+    "group": "Social Manipulation",
+    "name": "Social Climbing",
+    "description": "Only spends time with people who have more followers or influence. Purely transactional friendships.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -8,
+      "personality.ambition": 7,
+      "aggregations.productionRatio": 0.1,
+      "aggregations.audienceRatio": -0.05
+    }
+  },
+  "SORTING_LOOSE_CHANGE": {
+    "id": "SORTING_LOOSE_CHANGE",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Sorting Loose Change",
+    "description": "Stacks coins by denomination at the end of every day. Suggests a grounded, methodical mind.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 4,
+      "personality.sincerity": 2,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "SPORTS": {
+    "id": "SPORTS",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Sports",
+    "description": "A general love for all things athletic. The 'all-arounder' athlete.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "personality.extroversion": 3,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "STACKING_OBJECTS": {
+    "id": "STACKING_OBJECTS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Stacking Objects",
+    "description": "If there are three books or coasters on a table, they must be stacked perfectly centered.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "utilitySkills.consistency": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "STANDUP_COMEDY": {
+    "id": "STANDUP_COMEDY",
+    "type": "interest",
+    "group": "Social",
+    "name": "Stand-up Comedy",
+    "description": "Not afraid of a tough crowd. High charisma and quick wit.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 3,
+      "personality.resilience": 5,
+      "aggregations.productionRatio": 0.12
+    }
+  },
+  "STATIONERY_COLLECTOR": {
+    "id": "STATIONERY_COLLECTOR",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Stationery Collector",
+    "description": "Obsessed with pens, notebooks, and stickers. Suggests an organized, 'student' vibe.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 3,
+      "personality.curiosity": 2,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "STEALING_LIME_LIGHT": {
+    "id": "STEALING_LIME_LIGHT",
+    "type": "interest",
+    "group": "Social Manipulation",
+    "name": "Stealing the Limelight",
+    "description": "Will physically block others from the camera or jump into their solo shots. Ruthless for screen time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -6,
+      "personality.ambition": 8,
+      "aggregations.productionRatio": 0.25,
+      "aggregations.fanbaseRatio": -0.1
+    }
+  },
+  "STREET_ART": {
+    "id": "STREET_ART",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Street Art",
+    "description": "Loves graffiti and urban murals. Gives them a 'rebellious' and cool image.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -3,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.12,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "STRETCHING": {
+    "id": "STRETCHING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Stretching",
+    "description": "Obsessed with flexibility. Makes them an incredible dancer with zero injury risk.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "utilitySkills.consistency": 2,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "SUDOKU": {
+    "id": "SUDOKU",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Sudoku",
+    "description": "Keeps a book of number puzzles in their bag. Shows a logical, patient mind.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "personality.discipline": 3,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "SUNBATHING": {
+    "id": "SUNBATHING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Sunbathing",
+    "description": "Loves the sun and the outdoors. Suggests a laid-back, visual-focused personality.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "personality.extroversion": 2,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "SURFING": {
+    "id": "SURFING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Surfing",
+    "description": "The 'cool beach boy' archetype. Very popular for summer-themed groups.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "utilitySkills.stamina": 1,
+      "aggregations.audienceRatio": 0.12
+    }
+  },
+  "SWIMMING": {
+    "id": "SWIMMING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Swimming",
+    "description": "Excellent lung capacity and full-body strength.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 2,
+      "coreSkills.vocals": 1,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "TSHIRT_MAKING": {
+    "id": "TSHIRT_MAKING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "T-shirt making",
+    "description": "Loves DIY fashion. They often make custom shirts for the whole team.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1,
+      "personality.gentleness": 3,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "TABLE_TENNIS": {
+    "id": "TABLE_TENNIS",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Table tennis",
+    "description": "Requires lightning-fast reflexes. Great for high-energy variety segments.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": 1,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "SELFIE_EXPERT": {
+    "id": "SELFIE_EXPERT",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Taking Selfies",
+    "description": "Knows their best angles perfectly. A master of social media engagement.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "utilitySkills.charisma": 1,
+      "aggregations.fanbaseRatio": 0.15
+    }
+  },
+  "TALKING_ON_THE_PHONE": {
+    "id": "TALKING_ON_THE_PHONE",
+    "type": "interest",
+    "group": "Social",
+    "name": "Talking on the phone",
+    "description": "Always calling home or friends. A very social and homesick personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 5,
+      "personality.sensitivity": 3,
+      "aggregations.productionRatio": 0.06
+    }
+  },
+  "TATTOO_OBSESSION": {
+    "id": "TATTOO_OBSESSION",
+    "type": "interest",
+    "group": "Vices",
+    "name": "Tattoo Obsession",
+    "description": "Constantly planning the next piece of ink. Can be controversial with conservative sponsors.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "coreSkills.uniqueness": 1,
+      "aggregations.fanbaseRatio": 0.12,
+      "aggregations.audienceRatio": -0.05
+    }
+  },
+  "TEXTING_ADDICT": {
+    "id": "TEXTING_ADDICT",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Texting",
+    "description": "Always has their thumbs on a screen. Shows they are highly social and connected.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 6,
+      "aggregations.productionRatio": 0.05
+    }
+  },
+  "THRIFT_SHOPPING": {
+    "id": "THRIFT_SHOPPING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Thrift Shopping",
+    "description": "Loves the hunt for vintage fashion. Shows an eye for trends and uniqueness.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 2,
+      "personality.curiosity": 4,
+      "aggregations.fanbaseRatio": 0.12
+    }
+  },
+  "TRAVELING": {
+    "id": "TRAVELING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Traveling",
+    "description": "Loves seeing new places. Highly curious and open-minded.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 6,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "TRIMMING_STRAY_THREADS": {
+    "id": "TRIMMING_STRAY_THREADS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Trimming Threads",
+    "description": "Carries a small pair of scissors just to fix loose threads on hoodies or socks.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 4,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "TUTORING": {
+    "id": "TUTORING",
+    "type": "interest",
+    "group": "Mental",
+    "name": "Tutoring",
+    "description": "Used to help others with their studies. Natural mentor/leader potential.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.leadership": 1,
+      "personality.maturity": 5,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "TV_SHOWS": {
+    "id": "TV_SHOWS",
+    "type": "interest",
+    "group": "Media",
+    "name": "TV Shows",
+    "description": "A fan of binge-watching dramas and sitcoms. Very relatable to the audience.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -2,
+      "aggregations.audienceRatio": 0.08
+    }
+  },
+  "UNDERGROUND_RACING": {
+    "id": "UNDERGROUND_RACING",
+    "type": "interest",
+    "group": "Vices",
+    "name": "Underground Racing",
+    "description": "Loves the thrill of illegal street racing. A dangerous secret that could end their career in a second.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 5,
+      "personality.discipline": -8,
+      "aggregations.productionRatio": 0.3,
+      "aggregations.audienceRatio": -0.2
+    }
+  },
+  "UPDATING_PLAYLISTS": {
+    "id": "UPDATING_PLAYLISTS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Updating Playlists",
+    "description": "Obsessed with sorting their iPod or phone music by 'Mood' or 'BPM'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 4,
+      "personality.discipline": 3,
+      "aggregations.fanbaseRatio": 0.08
+    }
+  },
+  "URBAN_EXPLORATION": {
+    "id": "URBAN_EXPLORATION",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Urban Exploration",
+    "description": "Loves finding abandoned places. Edgy, curious, and a bit reckless.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 8,
+      "personality.discipline": -3,
+      "aggregations.productionRatio": 0.08
+    }
+  },
+  "VIDEO_GAMES": {
+    "id": "VIDEO_GAMES",
+    "type": "interest",
+    "group": "Media",
+    "name": "Video Games",
+    "description": "A hardcore gamer. High reflexes and very relatable to the fans.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "personality.curiosity": 3,
+      "aggregations.fanbaseRatio": 0.15
+    }
+  },
+  "VINYL_COLLECTOR": {
+    "id": "VINYL_COLLECTOR",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "Vinyl collector",
+    "description": "A music purist. They value the classics and high-quality sound.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1,
+      "personality.curiosity": 4,
+      "aggregations.fanbaseRatio": 0.12
+    }
+  },
+  "VLOGGING": {
+    "id": "VLOGGING",
+    "type": "interest",
+    "group": "Media",
+    "name": "Vlogging",
+    "description": "Always has a handheld camera out. Very natural in front of lenses.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": 1,
+      "utilitySkills.charisma": 1,
+      "aggregations.productionRatio": 0.15
+    }
+  },
+  "VOLUNTEERING": {
+    "id": "VOLUNTEERING",
+    "type": "interest",
+    "group": "Domestic",
+    "name": "Volunteering",
+    "description": "Spends their time helping others. High sincerity and public appeal.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 8,
+      "personality.gentleness": 5,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "WALKING": {
+    "id": "WALKING",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Walking",
+    "description": "Enjoys simple, long walks. A very grounded and calm individual.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 4,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "SOLITARY_WALKS": {
+    "id": "SOLITARY_WALKS",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Walking Alone",
+    "description": "Needs 30 minutes of walking alone to function. Suggests a grounded, stable personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 5,
+      "personality.extroversion": -4,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "WASHING_DISHES_IMMEDIATELY": {
+    "id": "WASHING_DISHES_IMMEDIATELY",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Washing Dishes Immediately",
+    "description": "Cannot sit down to eat until the pots used to cook are already clean. Very disciplined.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 7,
+      "personality.maturity": 3,
+      "aggregations.audienceRatio": 0.1
+    }
+  },
+  "WATCHES_COLLECTOR": {
+    "id": "WATCHES_COLLECTOR",
+    "type": "interest",
+    "group": "Collecting",
+    "name": "Watches collector",
+    "description": "Appreciates luxury and precision. Suggests an ambitious, professional image.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 4,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "WATCHING_THE_RAIN": {
+    "id": "WATCHING_THE_RAIN",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Watching the Rain",
+    "description": "Will sit by a window for an hour just following single droplets down the glass.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 5,
+      "personality.resilience": 3,
+      "aggregations.audienceRatio": 0.07
+    }
+  },
+  "WINDOW_SHOPPING": {
+    "id": "WINDOW_SHOPPING",
+    "type": "interest",
+    "group": "Daily Life",
+    "name": "Window Shopping",
+    "description": "Loves looking at things they can't afford yet. Keeps them hungry for success.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 4,
+      "personality.curiosity": 3,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "WINE_TASTING": {
+    "id": "WINE_TASTING",
+    "type": "interest",
+    "group": "Social",
+    "name": "Wine tasting",
+    "description": "A sophisticated hobby. Suggests a more mature, refined personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 6,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "WIPING_SCREENS": {
+    "id": "WIPING_SCREENS",
+    "type": "interest",
+    "group": "Mundane Habits",
+    "name": "Wiping Screens",
+    "description": "Always carries a microfiber cloth. Cannot tolerate fingerprints on their phone or the laptop.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 3,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "WOODWORKING": {
+    "id": "WOODWORKING",
+    "type": "interest",
+    "group": "Artistic",
+    "name": "Woodworking",
+    "description": "Builds things from scratch. Shows a patient, 'handyman' personality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 6,
+      "personality.resilience": 4,
+      "aggregations.audienceRatio": 0.06
+    }
+  },
+  "YOGA": {
+    "id": "YOGA",
+    "type": "interest",
+    "group": "Physical",
+    "name": "Yoga",
+    "description": "Focuses on flexibility and mental peace. High resilience and body control.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 6,
+      "coreSkills.dance": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
   }
-]
+}
