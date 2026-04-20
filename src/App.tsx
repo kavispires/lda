@@ -13,6 +13,9 @@ import { NewSongPage } from 'pages/Songs/NewSongPage';
 import { SongsListingPage } from 'pages/Songs/SongsListingPage';
 import { useContestantsQuery } from 'pages/TheSearch/hooks/useContestants';
 import { ContestantBuilderPage } from 'pages/TheSearch/pages/ContestantBuilderPage';
+import { ContestantsListingPage } from 'pages/TheSearch/pages/ContestantsListingPage';
+import { LibrariesIndexPage } from 'pages/TheSearch/pages/LibrariesIndexPage';
+import { LibraryViewerPage } from 'pages/TheSearch/pages/LibraryViewerPage';
 import { TheSearchPage } from 'pages/TheSearch/pages/TheSearchPage';
 import { ContestantsProvider } from 'pages/TheSearch/services/ContestantsProvider';
 import { HashRouter, Route, Routes } from 'react-router-dom';
@@ -44,6 +47,9 @@ function TheSearchRoutes() {
     <ContestantsProvider initialData={contestantsData}>
       <Routes>
         <Route element={<TheSearchPage />} path="/" />
+        <Route element={<ContestantsListingPage />} path="/contestants" />
+        <Route element={<LibrariesIndexPage />} path="/libraries" />
+        <Route element={<LibraryViewerPage />} path="/libraries/:type" />
         <Route element={<ContestantBuilderPage />} path="/new" />
         <Route element={<ContestantBuilderPage />} path="/edit" />
       </Routes>
