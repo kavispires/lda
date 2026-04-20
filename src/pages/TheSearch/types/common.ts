@@ -1,7 +1,7 @@
 /**
  * Key format uses dot notation to represent nested paths (e.g., 'aggregations.mvp', 'relationships.svc_1').
  * Values represent the new value after the change was applied.
- * @example { 'aggregations.mvp': 1, 'relationships.svc_1': 53, 'aggregations.screenTime': 42 }
+ * @example { 'aggregations.mvp': 1, 'relationships.svc_1': 53 }
  */
 export type ChangeRecord<T = number | string> = Record<string, T>;
 

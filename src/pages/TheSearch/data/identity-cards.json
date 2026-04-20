@@ -336,12 +336,10 @@
       "personality.gentleness": 6,
       "personality.extroversion": 4,
       "utilitySkills.charisma": 1,
-      "aggregations.productionRatio": 0.15,
+      "aggregations.productionRatio": 0.2,
       "aggregations.fanbaseRatio": -0.08
     },
-    "consequence": {
-      "aggregations.screenTime": 0.05
-    }
+    "consequence": {}
   },
   "CHAMPION": {
     "id": "CHAMPION",
@@ -1905,12 +1903,10 @@
       "personality.curiosity": 8,
       "personality.maturity": -5,
       "utilitySkills.charisma": 2,
-      "aggregations.productionRatio": 0.12,
+      "aggregations.productionRatio": 0.22,
       "aggregations.audienceRatio": 0.05
     },
-    "consequence": {
-      "aggregations.screenTime": 0.1
-    }
+    "consequence": {}
   },
   "RADICAL": {
     "id": "RADICAL",

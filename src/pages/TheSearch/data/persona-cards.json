@@ -86,7 +86,7 @@
       "personality.investment": 7,
       "utilitySkills.learning": 1,
       "aggregations.fanbaseRatio": 0.12,
-      "aggregations.screenTime": -0.05
+      "aggregations.productionRatio": -0.05
     }
   },
   "LATIN_LOVER": {
@@ -189,7 +189,7 @@
     "description": "The trailblazer. Authentic and unapologetic, carrying both intense fan support and public scrutiny.",
     "occurrence": 1,
     "influences": {
-      "personality.discipline": 4,
+      "personality.discipline": -4,
       "personality.curiosity": 6,
       "personality.extroversion": 7,
       "personality.sensitivity": 8,
@@ -201,7 +201,8 @@
       "personality.investment": 8,
       "coreSkills.uniqueness": 2,
       "aggregations.fanbaseRatio": 0.2,
-      "aggregations.productionRatio": 0.1
+      "aggregations.productionRatio": -0.3,
+      "aggregations.audienceRatio": 0.1
     }
   },
   "SECRETLY_GAY": {
@@ -313,8 +314,7 @@
       "personality.maturity": -10,
       "personality.investment": 2,
       "utilitySkills.consistency": -2,
-      "aggregations.productionRatio": 0.25,
-      "aggregations.screenTime": 0.15
+      "aggregations.productionRatio": 0.4
     }
   },
   "VERY_TALL": {
@@ -1464,8 +1464,7 @@
       "personality.maturity": 5,
       "personality.investment": 0,
       "utilitySkills.charisma": -2,
-      "aggregations.productionRatio": -0.25,
-      "aggregations.screenTime": -0.2
+      "aggregations.productionRatio": -0.45
     }
   },
   "THE_CORPORATE_TRAINEE": {
@@ -1601,8 +1600,7 @@
       "personality.resilience": 2,
       "personality.maturity": 7,
       "personality.investment": 6,
-      "aggregations.screenTime": -0.25,
-      "aggregations.productionRatio": -0.05
+      "aggregations.productionRatio": -0.3
     }
   },
   "THE_ONE_NOTE": {
@@ -1668,8 +1666,7 @@
       "personality.resilience": 4,
       "personality.maturity": 3,
       "personality.investment": 2,
-      "aggregations.productionRatio": -0.4,
-      "aggregations.screenTime": -0.15
+      "aggregations.productionRatio": -0.555
     }
   },
   "THE_SABOTEUR": {
@@ -1872,8 +1869,7 @@
       "personality.resilience": -7,
       "personality.maturity": -8,
       "personality.investment": 10,
-      "aggregations.productionRatio": 0.2,
-      "aggregations.screenTime": 0.1
+      "aggregations.productionRatio": 0.3
     }
   },
   "THE_VENOMOUS_MARTYR": {
@@ -2385,8 +2381,7 @@
       "personality.investment": 7,
       "utilitySkills.consistency": 3,
       "coreSkills.uniqueness": -5,
-      "aggregations.productionRatio": -0.3,
-      "aggregations.screenTime": -0.2
+      "aggregations.productionRatio": -0.5
     }
   },
   "THE_PRACTICAL_PARTICIPANT": {
@@ -2429,8 +2424,7 @@
       "personality.resilience": 5,
       "personality.maturity": 6,
       "personality.investment": 5,
-      "aggregations.screenTime": -0.4,
-      "aggregations.productionRatio": -0.15
+      "aggregations.productionRatio": -0.55
     }
   },
   "THE_STUDIO_RAT": {
@@ -2543,8 +2537,7 @@
       "personality.resilience": 3,
       "personality.maturity": 6,
       "personality.investment": -5,
-      "aggregations.productionRatio": -0.05,
-      "aggregations.screenTime": -0.3
+      "aggregations.productionRatio": -0.35
     }
   },
   "THE_STEADY_STUDENT": {
@@ -2588,8 +2581,7 @@
       "personality.resilience": 5,
       "personality.maturity": 7,
       "personality.investment": 4,
-      "aggregations.screenTime": -0.5,
-      "aggregations.productionRatio": -0.2
+      "aggregations.productionRatio": -0.7
     }
   },
   "THE_EFFORTLESS_ACE": {
@@ -2876,8 +2868,7 @@
       "personality.investment": 10,
       "utilitySkills.learning": 1,
       "utilitySkills.memory": -1,
-      "aggregations.productionRatio": 0.15,
-      "aggregations.screenTime": 0.05
+      "aggregations.productionRatio": 0.2
     }
   },
   "THE_HIDDEN_ASTHMATIC": {
@@ -3265,8 +3256,7 @@
       "personality.resilience": -7,
       "personality.maturity": -9,
       "personality.investment": 5,
-      "aggregations.productionRatio": 0.25,
-      "aggregations.screenTime": 0.15
+      "aggregations.productionRatio": 0.4
     }
   },
   "THE_SURVIVALIST_MINIMALIST": {
@@ -3486,8 +3476,7 @@
       "personality.resilience": 7,
       "personality.maturity": 5,
       "personality.investment": 7,
-      "aggregations.productionRatio": 0.4,
-      "aggregations.screenTime": 0.1
+      "aggregations.productionRatio": 0.5
     }
   },
   "THE_POCKET_PERFORMER": {
@@ -3732,8 +3721,7 @@
       "personality.maturity": 3,
       "personality.investment": 7,
       "utilitySkills.charisma": 2,
-      "aggregations.productionRatio": 0.15,
-      "aggregations.screenTime": 0.2
+      "aggregations.productionRatio": 0.35
     }
   },
   "THE_SLEEP_DEPRIVED_GENIUS": {
@@ -4157,8 +4145,7 @@
       "personality.maturity": 9,
       "personality.investment": 10,
       "utilitySkills.leadership": 1,
-      "aggregations.productionRatio": -0.3,
-      "aggregations.screenTime": -0.25
+      "aggregations.productionRatio": -0.55
     }
   },
   "THE_TRAGIC_FALLEN_HERO": {
@@ -4225,8 +4212,7 @@
       "personality.maturity": -5,
       "personality.investment": 6,
       "utilitySkills.charisma": 3,
-      "aggregations.productionRatio": 0.25,
-      "aggregations.screenTime": 0.2
+      "aggregations.productionRatio": 0.45
     }
   },
   "THE_SECOND_CHANCE_IDOL": {
