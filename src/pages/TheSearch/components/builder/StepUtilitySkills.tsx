@@ -117,11 +117,11 @@ export function StepUtilitySkills({
     const getRandomSkillValue = (): number => {
       const roll = Math.random() * 100;
       if (roll < 5) return 5; // 5% chance
-      if (roll < 15) return 1; // 10% chance
-      // 85% distributed among 2, 3, 4
+      if (roll < 25) return 1; // 20% chance
+      // 75% distributed among 2, 3, 4
       const midRoll = Math.random();
-      if (midRoll < 0.33) return 2;
-      if (midRoll < 0.76) return 3;
+      if (midRoll < 0.45) return 2;
+      if (midRoll < 0.85) return 3;
       return 4;
     };
 
@@ -162,8 +162,7 @@ export function StepUtilitySkills({
     if (track === TRACKS.DANCE) {
       values.acrobatics = getRandomSkillValue();
     } else {
-      const acroValue = getRandomSkillValue();
-      values.acrobatics = Math.min(acroValue, 2); // Cap at 2 for non-dancers
+      values.acrobatics = 1; // Cap at 1 for non-dancers
     }
 
     // Update form and state

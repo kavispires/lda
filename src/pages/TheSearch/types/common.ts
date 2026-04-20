@@ -32,8 +32,13 @@ export type AttributeCard = {
   occurrence: number;
   /**
    * A measure of how much this attribute contributes to a contestant's popularity and audience appeal, influencing voting patterns and fan engagement.
+   * @deprecated Use "influences" for the contestant.aggregations.<(audienceRatio, productionRatio, fanbaseRatio)>
    */
-  popularity: number;
+  popularity?: number;
+  /**
+   * A record of the attribute's base values or initial settings. The keys represent the affected attribute (using dot notation for nested attributes), and the values represent the initial values and replace the original values. Sets are rare.
+   */
+  set?: ChangeRecord;
   /**
    * A record of how this attribute influences various aspects of a contestant's performance, relationships, and state. The keys represent the affected attribute (using dot notation for nested attributes), and the values represent the magnitude and direction of the influence.
    */

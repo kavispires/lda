@@ -247,7 +247,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     popularity: 75,
     influences: { 'personality.gentleness': 4, 'state.contestantsLikeness': 10 },
     description:
-      "The 'Neighborhood Oppa' visual—approachable, kind, and universally liked by both staff and peers.",
+      'The Neighbor next door, visual—approachable, kind, and universally liked by both staff and peers.',
   },
   CUTE: {
     id: 'CUTE',
@@ -257,8 +257,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     occurrence: 25,
     popularity: 90,
     influences: { 'personality.maturity': -5, 'personality.extroversion': 5, 'state.audienceRatio': 0.15 },
-    description:
-      "The 'Aegyo' machine; a youthful and bright look that secures the 'Maknae-on-top' voting demographic.",
+    description: "The 'Cutie' machine; a youthful and bright look.",
   },
   MASCULINE: {
     id: 'MASCULINE',
@@ -268,8 +267,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     occurrence: 20,
     popularity: 85,
     influences: { 'personality.ambition': 3, 'utilitySkills.stamina': 1 },
-    description:
-      'Sharp features and an athletic build; the cornerstone of the beast-idol aesthetic favored in the late 2000s.',
+    description: 'Sharp features and an athletic build; the cornerstone of the daddy issues crowd.',
   },
   CHIC: {
     id: 'CHIC',
@@ -279,8 +277,7 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     occurrence: 10,
     popularity: 70,
     influences: { 'personality.extroversion': -4, 'personality.sincerity': -2, 'coreSkills.visual': 0.5 },
-    description:
-      "The distant 'Ice Prince' vibe; high-fashion and striking, though often edited as being cold or pretentious.",
+    description: 'The elegant; high-fashion and striking, though often edited as being cold or pretentious.',
   },
   MYSTERIOUS: {
     id: 'MYSTERIOUS',
@@ -309,7 +306,7 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
       'personality.discipline': 6,
       'personality.gentleness': -4,
       'coreSkills.leadership': 0.8,
-      'state.productionRatio': 0.1, // Production loves the tension
+      'state.productionRatio': 0.1,
     },
   },
   CARETAKER: {

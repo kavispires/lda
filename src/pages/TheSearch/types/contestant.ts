@@ -196,22 +196,22 @@ export interface Specialties {
  */
 export interface Aggregations {
   /**
-   * General popularity with simulated voters.
-   * Float ratio from -1 to 1 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
-   */
-  audienceRatio: number;
-  /**
    * Weighted average of how much other contestants like them.
    */
   contestantsLikeness: number;
   /**
+   * General popularity with simulated voters.
+   * Float ratio from -1.00 to 1.00 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
+   */
+  audienceRatio: number;
+  /**
    * "The Edit": How much the PDs want this contestant in the final group.
-   * Float ratio from -1 to 1 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
+   * Float ratio from -1.00 to 1.00 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
    */
   productionRatio: number;
   /**
    * The core fanbase's willingness to save them from elimination.
-   * Float ratio from -1 to 1 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
+   * Float ratio from -1.00 to 1.00 representing percentage modifiers (e.g., 0.05 = +5%, -0.10 = -10%).
    */
   fanbaseRatio: number;
   /**

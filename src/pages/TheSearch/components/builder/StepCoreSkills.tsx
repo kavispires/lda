@@ -169,9 +169,9 @@ export function StepCoreSkills({
       dance = trackValue;
     }
 
-    // Generate random values for stage presence and leadership (1-4, no 5s)
-    const stagePresence = Math.floor(Math.random() * 4) + 1;
-    const leadership = Math.floor(Math.random() * 4) + 1;
+    // Generate random values for stage presence and leadership (1-3, no 4s or 5s)
+    const stagePresence = Math.floor(Math.random() * 3) + 1;
+    const leadership = Math.floor(Math.random() * 3) + 1;
 
     const randomizedSkills: CoreSkills = {
       vocals,
