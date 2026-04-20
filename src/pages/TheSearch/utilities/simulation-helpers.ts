@@ -3,19 +3,19 @@ import type { Contestant } from '../types/contestant';
 import { GRADES, TRACKS } from './constants';
 
 /**
- * Generate random track distribution for 30 contestants
- * VOCAL: 12-16, RAP: 7-11, DANCE: 7-11 (totaling 30)
+ * Generate random track distribution for 50 contestants
+ * VOCAL: 20-26, RAP: 12-18, DANCE: 12-18 (totaling 50)
  */
 function generateRandomDistribution(): Record<string, number> {
-  // Random VOCAL count between 12-16
-  const vocalCount = 12 + Math.floor(Math.random() * 5); // 12, 13, 14, 15, or 16
+  // Random VOCAL count between 20-26
+  const vocalCount = 20 + Math.floor(Math.random() * 7); // 20, 21, 22, 23, 24, 25, or 26
 
   // Remaining slots for RAP and DANCE
-  const remaining = 30 - vocalCount;
+  const remaining = 50 - vocalCount;
 
-  // Random RAP count between 7-11, but not exceeding remaining
-  const maxRap = Math.min(11, remaining - 7); // Ensure at least 7 for DANCE
-  const minRap = Math.max(7, remaining - 11); // Ensure at most 11 for DANCE
+  // Random RAP count between 12-18, but not exceeding remaining
+  const maxRap = Math.min(18, remaining - 12); // Ensure at least 12 for DANCE
+  const minRap = Math.max(12, remaining - 18); // Ensure at most 18 for DANCE
   const rapCount = minRap + Math.floor(Math.random() * (maxRap - minRap + 1));
 
   // DANCE gets the rest
@@ -40,17 +40,17 @@ const GRADE_PRIORITY = {
 };
 
 /**
- * Selects 30 diverse contestants from the Firestore contestants collection
+ * Selects 50 diverse contestants from the Firestore contestants collection
  * Prioritizes track diversity and higher grades
  *
  * @param contestantsData - Dictionary of all contestants from Firestore
- * @returns Array of 30 selected contestant IDs
+ * @returns Array of 50 selected contestant IDs
  */
 export function selectDiverseContestants(contestantsData: Dictionary<Contestant>): string[] {
   const contestants = Object.values(contestantsData);
 
-  if (contestants.length < 30) {
-    throw new Error(`Not enough contestants in database. Found ${contestants.length}, need at least 30.`);
+  if (contestants.length < 50) {
+    throw new Error(`Not enough contestants in database. Found ${contestants.length}, need at least 50.`);
   }
 
   // Group contestants by track
@@ -100,8 +100,8 @@ export function selectDiverseContestants(contestantsData: Dictionary<Contestant>
     }
   }
 
-  // If we don't have 30 yet, fill remaining slots with best available
-  if (selected.length < 30) {
+  // If we don't have 50 yet, fill remaining slots with best available
+  if (selected.length < 50) {
     const remaining = contestants
       .filter((c) => !selected.includes(c.id))
       .sort((a, b) => {
@@ -110,14 +110,14 @@ export function selectDiverseContestants(contestantsData: Dictionary<Contestant>
         return priorityB - priorityA;
       });
 
-    const needed = 30 - selected.length;
+    const needed = 50 - selected.length;
     for (let i = 0; i < needed && i < remaining.length; i++) {
       selected.push(remaining[i].id);
     }
   }
 
   // Final shuffle to randomize order while maintaining diversity
-  return shuffleArray(selected).slice(0, 30);
+  return shuffleArray(selected).slice(0, 50);
 }
 
 /**

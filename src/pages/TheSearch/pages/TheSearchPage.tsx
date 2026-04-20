@@ -23,7 +23,7 @@ const navigationCards = [
   {
     id: 'simulation',
     title: 'Simulation',
-    description: 'Initialize and run survival show simulations with 30 contestants',
+    description: 'Initialize and run survival show simulations with 50 contestants',
     icon: <RocketOutlined style={{ fontSize: '64px', color: '#722ed1' }} />,
     path: '/the-search/simulation',
     color: '#f9f0ff',

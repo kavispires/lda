@@ -295,10 +295,6 @@ export interface Contestant {
    */
   grade: ValuesOf<typeof GRADES>;
   /**
-   * The current rank
-   */
-  rank: number;
-  /**
    * The current status (ACTIVE, ELIMINATED, or WINNER)
    */
   status: ValuesOf<typeof STATUSES>;
@@ -331,6 +327,14 @@ export interface Contestant {
 
   // MUTABLE VALUES
   /**
+   * The current rank
+   */
+  rank: number;
+  /**
+   * Overall performance rating for the current episode (1-5)
+   */
+  missionRating: number;
+  /**
    * Numbers and counts that change throughout the simulation
    */
   aggregations: Aggregations;
@@ -362,6 +366,10 @@ export interface ChangeLogEntry {
    * The episode number for which the log entry is recorded.
    */
   episode: number;
+  /**
+   * The performance rating for the episode (1-5 scale, maps to grade A-F)
+   */
+  missionRating: number;
   /**
    * The rank of the contestant at the end of the episode.
    */

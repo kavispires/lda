@@ -63,7 +63,8 @@
       "personality.maturity": 5,
       "personality.investment": 2,
       "coreSkills.uniqueness": 1,
-      "aggregations.audienceRatio": 0.05
+      "aggregations.audienceRatio": 0.5,
+      "aggregations.productionRatio": 0.75
     }
   },
   "INTERNATIONAL": {
@@ -109,7 +110,9 @@
       "personality.investment": 5,
       "utilitySkills.charisma": 2,
       "coreSkills.visual": 1,
-      "aggregations.audienceRatio": 0.15
+      "aggregations.audienceRatio": 0.15,
+      "aggregations.productionRatio": 0.75,
+      "aggregations.fanbaseRatio": 0.3
     }
   },
   "LEGACY": {
@@ -131,8 +134,8 @@
       "personality.maturity": 6,
       "personality.investment": 9,
       "aggregations.experience": 15,
-      "aggregations.productionRatio": 0.2,
-      "aggregations.audienceRatio": -0.1
+      "aggregations.productionRatio": 0.75,
+      "aggregations.fanbaseRatio": 0.25
     }
   },
   "MODEL": {
@@ -224,7 +227,8 @@
       "personality.maturity": 4,
       "personality.investment": 7,
       "coreSkills.vocals": 1,
-      "aggregations.productionRatio": 0.12
+      "aggregations.productionRatio": 0.75,
+      "aggregations.audienceRatio": 0.2
     }
   },
   "SEXIST": {
@@ -292,7 +296,8 @@
       "personality.investment": 10,
       "utilitySkills.learning": 2,
       "aggregations.audienceRatio": 0.2,
-      "aggregations.fanbaseRatio": 0.15
+      "aggregations.fanbaseRatio": 0.15,
+      "aggregations.productionRatio": 0.75
     }
   },
   "UNPREDICTABLE_MESS": {

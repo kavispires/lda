@@ -100,6 +100,7 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
       investment: 0,
     },
     attributes: partial.attributes || [],
+    missionRating: partial.missionRating || 0,
     aggregations: partial.aggregations || {
       audienceRatio: 0,
       contestantsLikeness: 50,

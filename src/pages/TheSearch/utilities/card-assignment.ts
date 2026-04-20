@@ -495,6 +495,7 @@ export function processSimulationContestants(
     contestant.changeLog = [
       {
         episode: 0,
+        missionRating: 0,
         rank: 0,
         score: 0,
         status: STATUSES.ACTIVE,

@@ -1,4 +1,6 @@
 import { Store } from '@tanstack/react-store';
+import { runEpisode1 } from '../engine/episode-runner';
+import type { PerformanceSong } from '../types/common';
 import type { Contestant } from '../types/contestant';
 
 /**
@@ -124,6 +126,38 @@ export const simulationActions = {
     simulationStore.setState((state) => ({
       ...state,
       contestants,
+    }));
+  },
+
+  /**
+   * Run Episode 1 (Audition)
+   */
+  runEpisode1(songs: PerformanceSong[]) {
+    const currentState = simulationStore.state;
+
+    if (currentState.episode !== 0) {
+      throw new Error('Episode 1 can only be run after initialization (episode 0)');
+    }
+
+    if (currentState.contestants.length === 0) {
+      throw new Error('No contestants in simulation');
+    }
+
+    // Set status to running
+    simulationStore.setState((state) => ({
+      ...state,
+      status: 'running',
+    }));
+
+    // Run episode
+    const updatedContestants = runEpisode1(currentState.contestants, songs);
+
+    // Update state with results
+    simulationStore.setState((state) => ({
+      ...state,
+      contestants: updatedContestants,
+      episode: 1,
+      status: 'ready',
     }));
   },
 };

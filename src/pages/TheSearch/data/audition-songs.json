@@ -1,0 +1,255 @@
+[
+  {
+    "id": "song_aud_vocal_med",
+    "title": "My Heart Belongs To You",
+    "description": "A catchy mid-tempo pop track focusing on bright, stable vocals and simple, clean choreography.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "VOCAL",
+        "specialtyFavors": {
+          "vocalColor": "BRIGHT"
+        },
+        "difficulty": {
+          "vocal": 3,
+          "rap": 1,
+          "dance": 2
+        },
+        "modifiersWeight": {
+          "utilitySkills.charisma": 0.1,
+          "personality.sincerity": 0.05
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "song_aud_vocal_easy",
+    "title": "You Rock My World",
+    "description": "An upbeat alternative pop song with an easy melody but requires great stage presence to pull off the attitude.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "VOCAL",
+        "specialtyFavors": {
+          "visualVibe": "EDGY"
+        },
+        "difficulty": {
+          "vocal": 2,
+          "rap": 2,
+          "dance": 1
+        },
+        "modifiersWeight": {
+          "utilitySkills.charisma": 0.15,
+          "personality.extroversion": 0.1
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "song_aud_vocal_hard",
+    "title": "ABC",
+    "description": "A notoriously difficult power ballad that requires immense breath control, range, and raw emotional delivery.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "VOCAL",
+        "specialtyFavors": {
+          "vocalColor": "POWERHOUSE"
+        },
+        "difficulty": {
+          "vocal": 4,
+          "rap": 1,
+          "dance": 1
+        },
+        "modifiersWeight": {
+          "personality.sensitivity": 0.15,
+          "utilitySkills.stamina": 0.05
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "song_aud_rap_med",
+    "title": "Basic Rules",
+    "description": "A bouncy dance-pop track with a rhythmic rap verse that heavily tests flow, articulation, and timing.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "RAP",
+        "specialtyFavors": {
+          "rapStyle": "RHYTHMIC"
+        },
+        "difficulty": {
+          "vocal": 1,
+          "rap": 3,
+          "dance": 2
+        },
+        "modifiersWeight": {
+          "utilitySkills.memory": 0.1,
+          "personality.discipline": 0.05
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "song_aud_rap_hard",
+    "title": "Timebomb",
+    "description": "An aggressive electronic beat featuring complex, breathless rap verses and demanding footwork.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "RAP",
+        "specialtyFavors": {
+          "rapStyle": "RAPID_FIRE"
+        },
+        "difficulty": {
+          "vocal": 2,
+          "rap": 4,
+          "dance": 3
+        },
+        "modifiersWeight": {
+          "utilitySkills.stamina": 0.15,
+          "personality.ambition": 0.1
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0,
+          "aggregations.productionRatio": 0.03
+        }
+      }
+    ]
+  },
+  {
+    "id": "song_aud_rap_easy",
+    "title": "No One Can Tell Me",
+    "description": "A laid-back alternative rap song focused on groove, lyrical storytelling, and swagger rather than speed.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "RAP",
+        "specialtyFavors": {
+          "rapStyle": "MELODIC"
+        },
+        "difficulty": {
+          "vocal": 1,
+          "rap": 2,
+          "dance": 1
+        },
+        "modifiersWeight": {
+          "utilitySkills.charisma": 0.15,
+          "personality.sincerity": 0.05
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "song_aud_dance_hard",
+    "title": "Nuts 4 You",
+    "description": "A high-energy dance-pop track with intense, acrobatic choreography that leaves absolutely no room to breathe.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "DANCE",
+        "specialtyFavors": {
+          "danceStyle": "POWER"
+        },
+        "difficulty": {
+          "vocal": 1,
+          "rap": 2,
+          "dance": 4
+        },
+        "modifiersWeight": {
+          "utilitySkills.acrobatics": 0.2,
+          "utilitySkills.stamina": 0.1
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "song_aud_dance_easy",
+    "title": "Lalala",
+    "description": "A fun, repetitive electronic dance track focusing heavily on catchy point choreography and cute facial expressions.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "DANCE",
+        "specialtyFavors": {
+          "visualVibe": "CUTE"
+        },
+        "difficulty": {
+          "vocal": 2,
+          "rap": 1,
+          "dance": 2
+        },
+        "modifiersWeight": {
+          "utilitySkills.charisma": 0.1,
+          "personality.curiosity": 0.05
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "song_aud_dance_med",
+    "title": "Photograph",
+    "description": "A smooth, modern pop song requiring fluid, lyrical dance movements and incredibly strong core control.",
+    "points": 100,
+    "distribution": [
+      {
+        "type": "NORMAL",
+        "screenTime": 1.0,
+        "track": "DANCE",
+        "specialtyFavors": {
+          "danceStyle": "LYRICAL"
+        },
+        "difficulty": {
+          "vocal": 2,
+          "rap": 1,
+          "dance": 3
+        },
+        "modifiersWeight": {
+          "utilitySkills.memory": 0.05,
+          "personality.gentleness": 0.1
+        },
+        "influences": {
+          "aggregations.audienceRatio": 0
+        }
+      }
+    ]
+  }
+]
