@@ -205,9 +205,6 @@ export function StepSpecialties({
           </Flex>
           {specialty && (
             <div style={{ fontSize: '0.85rem', color: '#666' }}>
-              <div>
-                <strong>{specialty.name}</strong> (Popularity: {specialty.popularity})
-              </div>
               <div style={{ marginTop: '0.25rem' }}>{specialty.description}</div>
               {Object.keys(specialty.influences).length > 0 && (
                 <div style={{ marginTop: '0.25rem', fontStyle: 'italic' }}>

@@ -1,6 +1,6 @@
 import type { Dictionary } from 'types/common';
 import type { AttributeCard } from '../types/common';
-import type { Contestant } from '../types/contestant';
+import type { Contestant, PersonalityTraits } from '../types/contestant';
 import {
   DANCE_STYLES,
   LEADERSHIP_STYLES,
@@ -9,6 +9,7 @@ import {
   VOCAL_COLORS,
   ZODIAC_SIGNS,
 } from './attribute-libraries';
+import { ALIGNMENTS } from './constants';
 
 /**
  * Type for specialty groups
@@ -112,4 +113,33 @@ export function getZodiacSignOptions(): Array<{ value: string; label: string }> 
     value: sign.id,
     label: sign.name,
   }));
+}
+
+export function getAlignment(traits: PersonalityTraits): keyof typeof ALIGNMENTS {
+  // Calculate Ethical Score (Lawful vs Chaotic)
+  // High discipline and maturity pull toward Lawful.
+  // High curiosity pulls slightly toward Chaotic.
+  const ethicalScore = traits.discipline * 0.5 + traits.maturity * 0.5 - traits.curiosity * 0.2;
+
+  // Calculate Moral Score (Good vs Evil)
+  // High gentleness, sincerity, and sensitivity pull toward Good.
+  // High ambition (ruthlessness) pulls toward Evil.
+  const moralScore =
+    traits.gentleness * 0.4 + traits.sincerity * 0.4 + traits.sensitivity * 0.2 - traits.ambition * 0.3;
+
+  let ethics: 'LAWFUL' | 'NEUTRAL' | 'CHAOTIC';
+  if (ethicalScore > 3) ethics = 'LAWFUL';
+  else if (ethicalScore < -3) ethics = 'CHAOTIC';
+  else ethics = 'NEUTRAL';
+
+  let morality: 'GOOD' | 'NEUTRAL' | 'EVIL';
+  if (moralScore > 3) morality = 'GOOD';
+  else if (moralScore < -3) morality = 'EVIL';
+  else morality = 'NEUTRAL';
+
+  // Special case for True Neutral
+  if (ethics === 'NEUTRAL' && morality === 'NEUTRAL') return ALIGNMENTS.TRUE_NEUTRAL;
+
+  const alignmentKey = `${ethics}_${morality}` as keyof typeof ALIGNMENTS;
+  return ALIGNMENTS[alignmentKey];
 }

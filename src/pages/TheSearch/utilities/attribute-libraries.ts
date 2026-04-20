@@ -1,7 +1,7 @@
 import type { Dictionary } from 'types/common';
 import type { AttributeCard } from '../types/common';
 
-export const VOCAL_COLORS: Dictionary<AttributeCard> = {
+export const VOCAL_COLORS: Record<string, AttributeCard> = {
   STANDARD: {
     id: 'STANDARD',
     name: 'Standard',
@@ -9,99 +9,115 @@ export const VOCAL_COLORS: Dictionary<AttributeCard> = {
     group: 'vocal',
     description: 'A balanced and versatile voice that serves as the reliable backbone for any group harmony.',
     occurrence: 35,
-    popularity: 50,
-    influences: {},
+    influences: { 'aggregations.audienceRatio': 0.05 },
   },
   SWEET: {
     id: 'SWEET',
     name: 'Sweet',
     type: 'vocalColor',
     group: 'vocal',
-    description:
-      "A light, 'honey-like' vocal tone that instantly captures the public's heart with its kindness.",
+    description: "A light, 'honey-like' vocal tone that instantly captures the public's heart.",
     occurrence: 15,
-    popularity: 85,
-    influences: { 'personality.gentleness': 3, 'personality.sensitivity': 2, 'state.audienceRatio': 0.05 },
+    influences: {
+      'personality.gentleness': 3,
+      'personality.sensitivity': 2,
+      'aggregations.fanbaseRatio': 0.085,
+    },
   },
   HIGH_PITCH: {
     id: 'HIGH_PITCH',
     name: 'High Pitch',
     type: 'vocalColor',
     group: 'vocal',
-    description:
-      "The 'Power Vocal' archetype capable of hitting piercing high notes that define the climax of a song.",
+    description: "The 'Power Vocal' archetype capable of hitting piercing high notes.",
     occurrence: 10,
-    popularity: 90,
-    influences: { 'coreSkills.vocals': 0.5, 'personality.ambition': 2, 'utilitySkills.stamina': -1 },
+    influences: {
+      'coreSkills.vocals': 0.5,
+      'personality.ambition': 2,
+      'utilitySkills.stamina': -1,
+      'aggregations.audienceRatio': 0.09,
+    },
   },
   HUSKY: {
     id: 'HUSKY',
     name: 'Husky',
     type: 'vocalColor',
     group: 'vocal',
-    description:
-      "A textured, soulful rasp that adds a layer of maturity and 'expensive' character to a track.",
+    description: 'A textured, soulful rasp that adds a layer of maturity.',
     occurrence: 10,
-    popularity: 80,
-    influences: { 'personality.maturity': 3, 'coreSkills.uniqueness': 0.3 },
+    influences: {
+      'personality.maturity': 3,
+      'coreSkills.uniqueness': 0.3,
+      'aggregations.fanbaseRatio': 0.08,
+    },
   },
   VELVET: {
     id: 'VELVET',
     name: 'Velvet',
     type: 'vocalColor',
     group: 'vocal',
-    description:
-      'A smooth, R&B-leaning voice that feels intimate and sophisticated, often paired with a reserved persona.',
+    description: 'A smooth, R&B-leaning voice that feels intimate and sophisticated.',
     occurrence: 10,
-    popularity: 75,
-    influences: { 'personality.extroversion': -2, 'personality.sincerity': 2 },
+    influences: {
+      'personality.extroversion': -2,
+      'personality.sincerity': 2,
+      'aggregations.fanbaseRatio': 0.075,
+    },
   },
   GRITTY: {
     id: 'GRITTY',
     name: 'Gritty',
     type: 'vocalColor',
     group: 'vocal',
-    description:
-      'A raw, rock-influenced edge that conveys high emotion and toughness, perfect for intense concepts.',
+    description: 'A raw, rock-influenced edge that conveys high emotion.',
     occurrence: 10,
-    popularity: 60,
-    influences: { 'personality.gentleness': -3, 'personality.resilience': 3, 'coreSkills.vocals': 0.2 },
+    influences: {
+      'personality.gentleness': -3,
+      'personality.resilience': 3,
+      'coreSkills.vocals': 0.2,
+      'aggregations.fanbaseRatio': 0.06,
+    },
   },
   DEEP_BASS: {
     id: 'DEEP_BASS',
     name: 'Deep Bass',
     type: 'vocalColor',
     group: 'vocal',
-    description:
-      'A rare, resonant low range used for dramatic impact and providing a heavy foundation for the group.',
+    description: 'A rare, resonant low range used for dramatic impact.',
     occurrence: 10,
-    popularity: 70,
-    influences: { 'personality.extroversion': -3, 'coreSkills.uniqueness': 0.5 },
+    influences: {
+      'personality.extroversion': -3,
+      'coreSkills.uniqueness': 0.5,
+      'aggregations.fanbaseRatio': 0.07,
+    },
   },
 };
 
-export const DANCE_STYLES: Dictionary<AttributeCard> = {
+export const DANCE_STYLES: Record<string, AttributeCard> = {
   URBAN: {
     id: 'URBAN',
     name: 'Urban',
     occurrence: 45,
     type: 'danceStyle',
     group: 'dance',
-    description:
-      'The industry standard for synchronized choreography, focusing on clean execution and rhythm.',
-    popularity: 60,
-    influences: { 'utilitySkills.consistency': 1 },
+    description: 'The industry standard for synchronized choreography.',
+    influences: {
+      'utilitySkills.consistency': 1,
+      'aggregations.audienceRatio': 0.06,
+    },
   },
   SMOOTH: {
     id: 'SMOOTH',
     name: 'Smooth',
     type: 'danceStyle',
     group: 'dance',
-    description:
-      "A natural groover who makes difficult movement look effortless, possessing an innate 'cool' factor.",
+    description: 'A natural groover who makes difficult movement look effortless.',
     occurrence: 20,
-    popularity: 80,
-    influences: { 'coreSkills.stagePresence': 0.4, 'personality.discipline': -2 },
+    influences: {
+      'coreSkills.stagePresence': 0.4,
+      'personality.discipline': -2,
+      'aggregations.audienceRatio': 0.08,
+    },
   },
   POPPING: {
     id: 'POPPING',
@@ -109,24 +125,25 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
     type: 'danceStyle',
     group: 'dance',
     occurrence: 10,
-    popularity: 70,
-    influences: { 'utilitySkills.learning': 1, 'personality.discipline': 3 },
-    description:
-      'Technical mastery of isolations and sharp hits; usually found in the most disciplined practice-room addicts.',
+    description: 'Technical mastery of isolations and sharp hits.',
+    influences: {
+      'utilitySkills.learning': 1,
+      'personality.discipline': 3,
+      'aggregations.fanbaseRatio': 0.07,
+    },
   },
   B_BOY: {
     id: 'B_BOY',
     name: 'B Boy',
     type: 'danceStyle',
     group: 'dance',
-    description:
-      "Street-dance specialist focused on power moves and floor work; high-risk but high-reward for the 'wow' factor.",
+    description: 'Street-dance specialist; high-risk but high-reward.',
     occurrence: 5,
-    popularity: 85,
     influences: {
       'utilitySkills.acrobatics': 1,
       'personality.ambition': 3,
       'conditions.physicalCondition': -5,
+      'aggregations.productionRatio': 0.085,
     },
   },
   ACROBATIC: {
@@ -134,50 +151,51 @@ export const DANCE_STYLES: Dictionary<AttributeCard> = {
     name: 'Acrobatic',
     type: 'danceStyle',
     group: 'dance',
-    description:
-      "The peak 2010s 'Beast Idol' style featuring flips and stunts that drive a live crowd into a frenzy.",
+    description: 'Featuring flips and stunts that drive a live crowd into a frenzy.',
     occurrence: 10,
-    popularity: 95,
-    influences: { 'utilitySkills.stamina': 1, 'utilitySkills.acrobatics': 2, 'personality.resilience': 4 },
+    influences: {
+      'utilitySkills.stamina': 1,
+      'utilitySkills.acrobatics': 2,
+      'personality.resilience': 4,
+      'aggregations.productionRatio': 0.095,
+    },
   },
   LYRICAL: {
     id: 'LYRICAL',
     name: 'Lyrical',
     type: 'danceStyle',
     group: 'dance',
-    description:
-      'Focuses on storytelling through fluid, contemporary-influenced movement; deeply expressive and sensitive.',
+    description: 'Focuses on storytelling through fluid movement.',
     occurrence: 10,
-    popularity: 65,
-    influences: { 'personality.sensitivity': 5, 'personality.maturity': 2 },
+    influences: {
+      'personality.sensitivity': 5,
+      'personality.maturity': 2,
+      'aggregations.fanbaseRatio': 0.065,
+    },
   },
 };
 
-export const RAP_STYLES: Dictionary<AttributeCard> = {
+export const RAP_STYLES: Record<string, AttributeCard> = {
   BASIC: {
     id: 'BASIC',
     name: 'Basic',
     type: 'rapStyle',
     group: 'rap',
-    description:
-      'Standard rhythmic delivery often assigned to members who are primarily vocalists or dancers.',
+    description: 'Standard rhythmic delivery.',
     occurrence: 40,
-    popularity: 40,
-    influences: {},
+    influences: { 'aggregations.audienceRatio': 0.04 },
   },
   SWAG: {
     id: 'SWAG',
     name: 'Swag',
     type: 'rapStyle',
     group: 'rap',
-    description:
-      "Emphasis on aura, tone, and 'effortless cool'; the type of rapper production loves to put at the center.",
+    description: "Emphasis on aura, tone, and 'effortless cool'.",
     occurrence: 15,
-    popularity: 85,
     influences: {
       'personality.gentleness': -4,
       'personality.extroversion': 4,
-      'state.productionRatio': 0.1,
+      'aggregations.productionRatio': 0.085,
     },
   },
   TECHNICAL: {
@@ -185,69 +203,81 @@ export const RAP_STYLES: Dictionary<AttributeCard> = {
     name: 'Technical',
     type: 'rapStyle',
     group: 'rap',
-    description:
-      "The 'Fast-Tongue' specialist of the early 2010s, proving skill through speed and intricate diction.",
+    description: "The 'Fast-Tongue' specialist proving skill through speed.",
     occurrence: 10,
-    popularity: 90,
-    influences: { 'personality.discipline': 4, 'utilitySkills.memory': 1 },
+    influences: {
+      'personality.discipline': 4,
+      'utilitySkills.memory': 1,
+      'aggregations.audienceRatio': 0.09,
+    },
   },
   FLOW: {
     id: 'FLOW',
     name: 'Flow',
     type: 'rapStyle',
     group: 'rap',
-    description:
-      'Focuses on rhythmic complexity and internal rhymes, always looking for unconventional ways to ride the beat.',
+    description: 'Focuses on rhythmic complexity and internal rhymes.',
     occurrence: 10,
-    popularity: 75,
-    influences: { 'personality.curiosity': 3, 'coreSkills.rap': 0.3 },
+    influences: {
+      'personality.curiosity': 3,
+      'coreSkills.rap': 0.3,
+      'aggregations.fanbaseRatio': 0.075,
+    },
   },
   MELODIC: {
     id: 'MELODIC',
     name: 'Melodic',
     type: 'rapStyle',
     group: 'rap',
-    description:
-      "The 'soft' rapper who blends singing and rhyming, a staple for era-appropriate radio ballads.",
+    description: 'Blends singing and rhyming.',
     occurrence: 10,
-    popularity: 80,
-    influences: { 'personality.gentleness': 3, 'personality.sensitivity': 3, 'coreSkills.vocals': 0.2 },
+    influences: {
+      'personality.gentleness': 3,
+      'personality.sensitivity': 3,
+      'coreSkills.vocals': 0.2,
+      'aggregations.audienceRatio': 0.08,
+    },
   },
   CLASSIC: {
     id: 'CLASSIC',
     name: 'Classic',
     type: 'rapStyle',
     group: 'rap',
-    description:
-      "A student of 'old-school' boom-bap, valuing clarity, lyricism, and hip-hop tradition over trends.",
+    description: "A student of 'old-school' boom-bap.",
     occurrence: 10,
-    popularity: 60,
-    influences: { 'personality.maturity': 4, 'personality.sincerity': 3 },
+    influences: {
+      'personality.maturity': 4,
+      'personality.sincerity': 3,
+      'aggregations.fanbaseRatio': 0.06,
+    },
   },
   GRITTY: {
     id: 'GRITTY',
     name: 'Gritty',
     type: 'rapStyle',
     group: 'rap',
-    description:
-      "Aggressive, underground-inspired delivery that builds a small but fiercely loyal 'hardcore' fanbase.",
+    description: 'Aggressive, underground-inspired delivery.',
     occurrence: 5,
-    popularity: 55,
-    influences: { 'personality.gentleness': -5, 'personality.resilience': 5, 'state.fanbaseRatio': 0.1 },
+    influences: {
+      'personality.gentleness': -5,
+      'personality.resilience': 5,
+      'aggregations.fanbaseRatio': 0.055,
+    },
   },
 };
 
-export const VISUAL_VIBES: Dictionary<AttributeCard> = {
+export const VISUAL_VIBES: Record<string, AttributeCard> = {
   WARM: {
     id: 'WARM',
     name: 'Warm',
     type: 'visualVibe',
     group: 'visual',
     occurrence: 30,
-    popularity: 75,
-    influences: { 'personality.gentleness': 4, 'state.contestantsLikeness': 10 },
-    description:
-      'The Neighbor next door, visual—approachable, kind, and universally liked by both staff and peers.',
+    description: 'The neighbor next door—approachable and kind.',
+    influences: {
+      'personality.gentleness': 4,
+      'aggregations.contestantsLikeness': 0.075,
+    },
   },
   CUTE: {
     id: 'CUTE',
@@ -255,9 +285,12 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     type: 'visualVibe',
     group: 'visual',
     occurrence: 25,
-    popularity: 90,
-    influences: { 'personality.maturity': -5, 'personality.extroversion': 5, 'state.audienceRatio': 0.15 },
     description: "The 'Cutie' machine; a youthful and bright look.",
+    influences: {
+      'personality.maturity': -5,
+      'personality.extroversion': 5,
+      'aggregations.fanbaseRatio': 0.09,
+    },
   },
   MASCULINE: {
     id: 'MASCULINE',
@@ -265,9 +298,12 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     type: 'visualVibe',
     group: 'visual',
     occurrence: 20,
-    popularity: 85,
-    influences: { 'personality.ambition': 3, 'utilitySkills.stamina': 1 },
-    description: 'Sharp features and an athletic build; the cornerstone of the daddy issues crowd.',
+    description: 'Sharp features and an athletic build.',
+    influences: {
+      'personality.ambition': 3,
+      'utilitySkills.stamina': 1,
+      'aggregations.audienceRatio': 0.085,
+    },
   },
   CHIC: {
     id: 'CHIC',
@@ -275,9 +311,13 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     type: 'visualVibe',
     group: 'visual',
     occurrence: 10,
-    popularity: 70,
-    influences: { 'personality.extroversion': -4, 'personality.sincerity': -2, 'coreSkills.visual': 0.5 },
-    description: 'The elegant; high-fashion and striking, though often edited as being cold or pretentious.',
+    description: 'High-fashion and striking; often edited as cold.',
+    influences: {
+      'personality.extroversion': -4,
+      'personality.sincerity': -2,
+      'coreSkills.visual': 0.5,
+      'aggregations.productionRatio': 0.07,
+    },
   },
   MYSTERIOUS: {
     id: 'MYSTERIOUS',
@@ -285,28 +325,28 @@ export const VISUAL_VIBES: Dictionary<AttributeCard> = {
     type: 'visualVibe',
     group: 'visual',
     occurrence: 15,
-    popularity: 65,
-    influences: { 'personality.extroversion': -8, 'coreSkills.uniqueness': 0.8, 'state.screenTime': -10 },
-    description:
-      'A quiet, intense aura that draws people in through enigma, though it risks being ignored by the cameras.',
+    description: 'A quiet, intense aura that draws people in.',
+    influences: {
+      'personality.extroversion': -8,
+      'coreSkills.uniqueness': 0.8,
+      'aggregations.fanbaseRatio': 0.065,
+    },
   },
 };
 
-export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
+export const LEADERSHIP_STYLES: Record<string, AttributeCard> = {
   COMMANDER: {
     id: 'COMMANDER',
     name: 'Commander',
     type: 'leadershipStyle',
     group: 'leadership',
-    description:
-      'A strict, results-oriented leader who demands perfection and absolute discipline from the team.',
+    description: 'A strict, results-oriented leader.',
     occurrence: 15,
-    popularity: 60,
     influences: {
       'personality.discipline': 6,
       'personality.gentleness': -4,
       'coreSkills.leadership': 0.8,
-      'state.productionRatio': 0.1,
+      'aggregations.productionRatio': 0.06,
     },
   },
   CARETAKER: {
@@ -314,15 +354,13 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
     name: 'Caretaker',
     type: 'leadershipStyle',
     group: 'leadership',
-    description:
-      'Leads through empathy and emotional support, focusing on the team’s mental well-being and harmony.',
+    description: 'Leads through empathy and emotional support.',
     occurrence: 15,
-    popularity: 85,
     influences: {
       'personality.gentleness': 6,
       'personality.sensitivity': 4,
-      'state.contestantsLikeness': 15,
       'conditions.mentalCondition': 10,
+      'aggregations.contestantsLikeness': 0.085,
     },
   },
   VISIONARY: {
@@ -330,15 +368,12 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
     name: 'Visionary',
     type: 'leadershipStyle',
     group: 'leadership',
-    description:
-      'An inspiring leader who leads by example on stage, driving the team forward through sheer charisma and star power.',
+    description: 'Leads by example on stage with sheer charisma.',
     occurrence: 15,
-    popularity: 90,
     influences: {
       'utilitySkills.charisma': 1,
       'coreSkills.stagePresence': 0.5,
-      'state.audienceRatio': 0.1,
-      'state.screenTime': 10,
+      'aggregations.audienceRatio': 0.09,
     },
   },
   DIPLOMAT: {
@@ -346,15 +381,13 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
     name: 'Diplomat',
     type: 'leadershipStyle',
     group: 'leadership',
-    description:
-      'A democratic leader who seeks consensus and ensures every member’s voice is heard during practice.',
+    description: 'A democratic leader who seeks consensus.',
     occurrence: 20,
-    popularity: 80,
     influences: {
       'personality.sincerity': 5,
       'personality.maturity': 4,
-      'state.contestantsLikeness': 10,
       'coreSkills.leadership': 1,
+      'aggregations.contestantsLikeness': 0.08,
     },
   },
   TACTICIAN: {
@@ -362,15 +395,14 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
     name: 'Tactician',
     type: 'leadershipStyle',
     group: 'leadership',
-    description:
-      'Strategic and analytical; they assign parts based strictly on stats and efficiency rather than feelings.',
+    description: 'Strategic and analytical; part assignments are strictly logic-based.',
     occurrence: 15,
-    popularity: 50,
     influences: {
       'personality.ambition': 5,
       'personality.sincerity': -3,
       'utilitySkills.learning': 1,
       'personality.maturity': 3,
+      'aggregations.productionRatio': 0.05,
     },
   },
   QUIET_ACE: {
@@ -378,15 +410,13 @@ export const LEADERSHIP_STYLES: Dictionary<AttributeCard> = {
     name: 'Quiet Ace',
     type: 'leadershipStyle',
     group: 'leadership',
-    description:
-      'A reluctant leader who doesn’t say much but sets a high standard through tireless hard work.',
+    description: 'Sets a high standard through tireless hard work.',
     occurrence: 20,
-    popularity: 75,
     influences: {
       'personality.extroversion': -4,
       'personality.discipline': 1,
-      'state.audienceRatio': -0.05,
       'utilitySkills.consistency': -1,
+      'aggregations.fanbaseRatio': 0.075,
     },
   },
 };
