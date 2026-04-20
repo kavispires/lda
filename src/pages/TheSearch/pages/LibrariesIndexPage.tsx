@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';
 import personaCardsData from '../data/persona-cards.json';
+import secretCardsData from '../data/secret-cards.json';
 
 const libraryCards = [
   {
@@ -21,7 +22,7 @@ const libraryCards = [
     title: 'Persona Cards',
     description: 'Public-facing personas and audience-targeted character concepts for contestants',
     icon: <BookOutlined style={{ fontSize: '48px', color: '#52c41a' }} />,
-    count: personaCardsData.length,
+    count: Object.keys(personaCardsData).length,
     path: '/the-search/libraries/persona',
   },
   {
@@ -31,6 +32,14 @@ const libraryCards = [
     icon: <HeartOutlined style={{ fontSize: '48px', color: '#eb2f96' }} />,
     count: Object.keys(interestCardsData).length,
     path: '/the-search/libraries/interest',
+  },
+  {
+    id: 'secrets',
+    title: 'Secret Cards',
+    description: 'Hidden attributes and special abilities that can influence gameplay in unexpected ways',
+    icon: <BookOutlined style={{ fontSize: '48px', color: '#faad14' }} />,
+    count: Object.keys(secretCardsData).length,
+    path: '/the-search/libraries/secrets',
   },
 ];
 

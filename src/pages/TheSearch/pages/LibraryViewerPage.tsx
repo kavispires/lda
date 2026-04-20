@@ -30,9 +30,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';
 import personaCardsData from '../data/persona-cards.json';
+import secretCardsData from '../data/secret-cards.json';
 import type { AttributeCard } from '../types/common';
 
-type LibraryType = 'identity' | 'persona' | 'interest';
+type LibraryType = 'identity' | 'persona' | 'interest' | 'secrets';
 
 type LibraryConfig = {
   title: string;
@@ -49,12 +50,18 @@ const libraryConfigs: Record<LibraryType, LibraryConfig> = {
   persona: {
     title: 'Persona Cards',
     description: 'Public-facing personas and audience-targeted character concepts',
-    data: personaCardsData as unknown as AttributeCard[],
+    data: Object.values(personaCardsData) as unknown as AttributeCard[],
   },
   interest: {
     title: 'Interest Cards',
     description: 'Hobbies, passions, and background interests that add depth to contestant personalities',
     data: Object.values(interestCardsData) as unknown as AttributeCard[],
+  },
+  secrets: {
+    title: 'Secret Cards',
+    description:
+      "Hidden backstories, scandals, and personal struggles that can dramatically impact a contestant's journey",
+    data: Object.values(secretCardsData) as unknown as AttributeCard[],
   },
 };
 
