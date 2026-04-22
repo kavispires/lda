@@ -1,0 +1,198 @@
+{
+  "id": "song_theme_01",
+  "title": "The Search Begins (Theme Song)",
+  "description": "The massive 30-contestant opening theme song, structured into distinct tiers based on screen time, vocal lines, and stage position.",
+  "points": 100,
+  "distribution": [
+    {
+      "type": "NORMAL",
+      "count": 3,
+      "lyrics": "(Instrumental Intro / Center Posing)",
+      "screenTime": 0.5,
+      "track": "ANY",
+      "specialtyFavors": {},
+      "difficulty": {
+        "vocal": 1,
+        "rap": 1,
+        "dance": 1
+      },
+      "modifiersWeight": {
+        "utilitySkills.charisma": 0.15
+      },
+      "influences": {}
+    },
+    {
+      "type": "NORMAL",
+      "count": 3,
+      "lyrics": "(Intense Opening Dance Break)",
+      "screenTime": 0.5,
+      "track": "DANCE",
+      "specialtyFavors": {
+        "danceStyle": "TBD"
+      },
+      "difficulty": {
+        "vocal": 1,
+        "rap": 1,
+        "dance": 3
+      },
+      "modifiersWeight": {
+        "utilitySkills.acrobatics": 0.1
+      },
+      "influences": {}
+    },
+    {
+      "type": "NORMAL",
+      "count": 5,
+      "lyrics": "And that's the...",
+      "screenTime": 2.0,
+      "track": "VOCAL",
+      "specialtyFavors": {
+        "vocalColor": "TBD"
+      },
+      "difficulty": {
+        "vocal": 2,
+        "rap": 1,
+        "dance": 3
+      },
+      "modifiersWeight": {
+        "utilitySkills.visual": 0.05
+      },
+      "influences": {}
+    },
+    {
+      "type": "MVP",
+      "count": 1,
+      "lyrics": "(Main Theme High Note & Solo Center Focus)",
+      "screenTime": 3.0,
+      "track": "VOCAL",
+      "specialtyFavors": {
+        "vocalColor": "POWERHOUSE"
+      },
+      "difficulty": {
+        "vocal": 4,
+        "rap": 1,
+        "dance": 2
+      },
+      "modifiersWeight": {
+        "personality.ambition": 0.1,
+        "utilitySkills.consistency": 0.1
+      },
+      "influences": {
+        "aggregations.mvp": 1,
+        "aggregations.center": 1
+      }
+    },
+    {
+      "type": "NORMAL",
+      "count": 2,
+      "lyrics": "We're reaching for the stars tonight",
+      "screenTime": 1.0,
+      "track": "VOCAL",
+      "specialtyFavors": {},
+      "difficulty": {
+        "vocal": 3,
+        "rap": 1,
+        "dance": 2
+      },
+      "modifiersWeight": {
+        "utilitySkills.stamina": 0.05
+      },
+      "influences": {
+        "aggregations.score": 100
+      }
+    },
+    {
+      "type": "NORMAL",
+      "count": 1,
+      "lyrics": "Yeah, stepping up, breaking the mold",
+      "screenTime": 1.0,
+      "track": "RAP",
+      "specialtyFavors": {},
+      "difficulty": {
+        "vocal": 1,
+        "rap": 3,
+        "dance": 2
+      },
+      "modifiersWeight": {
+        "utilitySkills.stamina": 0.05
+      },
+      "influences": {
+        "aggregations.score": 100
+      }
+    },
+    {
+      "type": "NORMAL",
+      "count": 2,
+      "lyrics": "No holding back, taking flight",
+      "screenTime": 1.0,
+      "track": "VOCAL",
+      "specialtyFavors": {},
+      "difficulty": {
+        "vocal": 3,
+        "rap": 1,
+        "dance": 2
+      },
+      "modifiersWeight": {
+        "utilitySkills.stamina": 0.05
+      },
+      "influences": {
+        "aggregations.score": 100
+      }
+    },
+    {
+      "type": "NORMAL",
+      "count": 1,
+      "lyrics": "Watch the new story unfold",
+      "screenTime": 1.0,
+      "track": "RAP",
+      "specialtyFavors": {},
+      "difficulty": {
+        "vocal": 1,
+        "rap": 3,
+        "dance": 2
+      },
+      "modifiersWeight": {
+        "utilitySkills.stamina": 0.05
+      },
+      "influences": {
+        "aggregations.score": 100
+      }
+    },
+    {
+      "type": "NORMAL",
+      "count": 5,
+      "lyrics": "And that's the... / I'm everything that you need / I'm everything that you seek",
+      "screenTime": 2.0,
+      "track": "VOCAL",
+      "specialtyFavors": {},
+      "difficulty": {
+        "vocal": 3,
+        "rap": 1,
+        "dance": 3
+      },
+      "modifiersWeight": {
+        "utilitySkills.memory": 0.1
+      },
+      "influences": {
+        "aggregations.score": 70
+      }
+    },
+    {
+      "type": "NORMAL",
+      "count": 7,
+      "lyrics": "(Full Group Outro Choreography)",
+      "screenTime": 0.5,
+      "track": "DANCE",
+      "specialtyFavors": {},
+      "difficulty": {
+        "vocal": 1,
+        "rap": 1,
+        "dance": 2
+      },
+      "modifiersWeight": {
+        "utilitySkills.stamina": 0.15
+      },
+      "influences": {}
+    }
+  ]
+}

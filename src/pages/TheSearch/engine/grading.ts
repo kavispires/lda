@@ -232,6 +232,35 @@ export function gradeToMissionRating(grade: string): number {
 }
 
 /**
+ * Apply potential bumps to low-performing contestants
+ * High potential (4-5) can bump F grades up to D or C
+ */
+export function applyPotentialBumps(
+  grades: Map<string, string>,
+  contestants: Contestant[],
+): Map<string, string> {
+  const finalGrades = new Map(grades);
+
+  for (const contestant of contestants) {
+    const currentGrade = finalGrades.get(contestant.id);
+    const potential = contestant.utilitySkills.potential;
+
+    // Only bump F grades based on high potential
+    if (currentGrade === GRADES.F) {
+      if (potential === 5) {
+        // Potential 5: F → C (major breakthrough potential)
+        finalGrades.set(contestant.id, GRADES.C);
+      } else if (potential === 4) {
+        // Potential 4: F → D (solid breakthrough potential)
+        finalGrades.set(contestant.id, GRADES.D);
+      }
+    }
+  }
+
+  return finalGrades;
+}
+
+/**
  * Helper: Bump grade up (F→D→C→B→A, A stays A)
  */
 function bumpGradeUp(grade: string): string {

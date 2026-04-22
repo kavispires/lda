@@ -30,6 +30,7 @@ import {
   VOCAL_COLORS,
 } from '../utilities/attribute-libraries';
 import { ContestantAvatar } from './ContestantAvatar';
+import { TrackTag } from './TrackTag';
 
 const PERSONA_CARDS = personaCardsData as Dictionary<AttributeCard>;
 const IDENTITY_CARDS = identityCardsData as Dictionary<AttributeCard>;
@@ -139,15 +140,24 @@ function BasicInfoTab({ contestant }: { contestant: Contestant }) {
         <Typography.Title level={5}>Basic Information</Typography.Title>
         <Descriptions bordered column={2} size="small">
           <Descriptions.Item label="Track">
-            <Tag
-              color={contestant.track === 'VOCAL' ? 'blue' : contestant.track === 'RAP' ? 'orange' : 'green'}
-            >
-              {contestant.track}
-            </Tag>
+            <TrackTag track={contestant.track} />
           </Descriptions.Item>
           <Descriptions.Item label="Grade">{contestant.grade}</Descriptions.Item>
           <Descriptions.Item label="Status">{contestant.status}</Descriptions.Item>
           <Descriptions.Item label="Rank">{contestant.rank || 'N/A'}</Descriptions.Item>
+          <Descriptions.Item label="Mission Rating">
+            <Rate allowHalf count={5} disabled value={contestant.missionRating} />
+            <span style={{ marginLeft: '8px' }}>{contestant.missionRating}</span>
+          </Descriptions.Item>
+          <Descriptions.Item label="Condition">
+            <Tag
+              color={
+                contestant.condition === 'HEALTHY' || contestant.condition === 'STABLE' ? 'green' : 'orange'
+              }
+            >
+              {contestant.condition}
+            </Tag>
+          </Descriptions.Item>
           <Descriptions.Item label="Alignment">{contestant.alignment}</Descriptions.Item>
           <Descriptions.Item label="Zodiac Sign">{contestant.zodiacSign}</Descriptions.Item>
         </Descriptions>
@@ -157,11 +167,26 @@ function BasicInfoTab({ contestant }: { contestant: Contestant }) {
       <div>
         <Typography.Title level={5}>Statistics</Typography.Title>
         <Descriptions bordered column={2} size="small">
+          <Descriptions.Item label="Happiness">
+            <Tag
+              color={
+                contestant.aggregations.happiness >= 70
+                  ? 'green'
+                  : contestant.aggregations.happiness >= 40
+                    ? 'blue'
+                    : 'red'
+              }
+            >
+              {contestant.aggregations.happiness}/100
+            </Tag>
+          </Descriptions.Item>
+          <Descriptions.Item label="Contestants Likeness">
+            {contestant.aggregations.contestantsLikeness.toFixed(1)}
+          </Descriptions.Item>
           <Descriptions.Item label="Score">{contestant.aggregations.score}</Descriptions.Item>
           <Descriptions.Item label="Experience">{contestant.aggregations.experience}</Descriptions.Item>
-          <Descriptions.Item label="Screen Time">{contestant.aggregations.screenTime}</Descriptions.Item>
-          <Descriptions.Item label="Contestants Likeness">
-            {contestant.aggregations.contestantsLikeness}
+          <Descriptions.Item label="Screen Time">
+            {contestant.aggregations.screenTime.toFixed(1)}
           </Descriptions.Item>
           <Descriptions.Item label="Audience Ratio">
             {(contestant.aggregations.audienceRatio * 100).toFixed(1)}%

@@ -14,6 +14,7 @@ import {
   ZODIAC_SIGNS,
 } from './attribute-libraries';
 import { STATUSES } from './constants';
+import { normalizeContestant } from './contestant-factory';
 import { getAlignment } from './helpers';
 
 /**
@@ -35,10 +36,13 @@ const MAX_RETRY_ATTEMPTS = 10;
 const MIN_SECRET_CARDS = 4;
 
 /**
- * Deep clone a contestant object to avoid modifying Firestore data
+ * Deep clone a contestant object to avoid modifying Firestore data.
+ * Also normalizes the contestant to ensure all required fields exist,
+ * which is important for contestants created before certain fields were added.
  */
 function deepCloneContestant(contestant: Contestant): Contestant {
-  return JSON.parse(JSON.stringify(contestant));
+  const cloned = JSON.parse(JSON.stringify(contestant));
+  return normalizeContestant(cloned);
 }
 
 /**

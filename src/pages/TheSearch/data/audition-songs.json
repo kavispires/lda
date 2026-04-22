@@ -7,6 +7,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "Guess I'm going all the way...",
         "screenTime": 1.0,
         "track": "VOCAL",
         "specialtyFavors": {
@@ -35,6 +37,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "Squirrel Girl, you rock my world...",
         "screenTime": 1.0,
         "track": "VOCAL",
         "specialtyFavors": {
@@ -63,6 +67,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "I'm singing from the heart...",
         "screenTime": 1.0,
         "track": "VOCAL",
         "specialtyFavors": {
@@ -91,6 +97,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "That is how I then knew I was hot!",
         "screenTime": 1.0,
         "track": "RAP",
         "specialtyFavors": {
@@ -119,6 +127,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "Tick and toc from my broken clock",
         "screenTime": 1.0,
         "track": "RAP",
         "specialtyFavors": {
@@ -148,6 +158,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "Pretty great, at the city gates",
         "screenTime": 1.0,
         "track": "RAP",
         "specialtyFavors": {
@@ -176,6 +188,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "You drive me crazy, don't like when you're called honey...",
         "screenTime": 1.0,
         "track": "DANCE",
         "specialtyFavors": {
@@ -204,6 +218,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "La la la la la, la la la la, la la la la, lalala",
         "screenTime": 1.0,
         "track": "DANCE",
         "specialtyFavors": {
@@ -232,6 +248,8 @@
     "distribution": [
       {
         "type": "NORMAL",
+        "count": 1,
+        "lyrics": "Leave me alone! The love is gone, I want to forget!",
         "screenTime": 1.0,
         "track": "DANCE",
         "specialtyFavors": {

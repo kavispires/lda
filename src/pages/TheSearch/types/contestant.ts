@@ -196,6 +196,11 @@ export interface Specialties {
  */
 export interface Aggregations {
   /**
+   * Current happiness level, influenced by narrative events and performance outcomes. High happiness can boost performance, while low happiness can lead to burnout or quitting events.
+   * Range: 0-100, starts at 50 (neutral)
+   */
+  happiness: number;
+  /**
    * Weighted average of how much other contestants like them.
    */
   contestantsLikeness: number;
@@ -238,17 +243,6 @@ export interface Aggregations {
    * Times voted "Best Performer" of an episode.
    */
   mvp: number;
-}
-
-export interface ContestantConditions {
-  /**
-   * Current stress/confidence. High values buff performance.
-   */
-  mentalCondition: string; // STABLE, STRESSED, ANXIOUS, CONFIDENT, ELATED, DEPRESSED
-  /**
-   * Current fatigue/health. Low values increase injury/mistake risk.
-   */
-  physicalCondition: string; // HEALTHY, TIRED, INJURED, RECOVERING, EXHAUSTED
 }
 
 export interface Contestant {
@@ -335,13 +329,14 @@ export interface Contestant {
    */
   missionRating: number;
   /**
+   * Current mental/physical state. Can be: STABLE, HEALTHY, STRESSED, ANXIOUS, CONFIDENT, ELATED, DEPRESSED, TIRED, INJURED, RECOVERING, EXHAUSTED
+   * Defaults to STABLE
+   */
+  condition: string;
+  /**
    * Numbers and counts that change throughout the simulation
    */
   aggregations: Aggregations;
-  /**
-   * Current mental and physical state, which can fluctuate based on narrative events, training intensity, and interpersonal drama. These conditions will affect performance scores and the likelihood of triggering certain events.
-   */
-  conditions: ContestantConditions;
   /**
    * List of event cards ids that have been triggered for this contestant (e.g., "Betrayal", "Breakthrough", "Injury").
    * These will modify the values in the contestant object
@@ -356,6 +351,10 @@ export interface Contestant {
    * Historical record of the contestant's rank, status, statistics, conditions, and narrative events at the end of each episode. Used for generating survival graphs and retrospective analysis.
    */
   changeLog: ChangeLogEntry[];
+  /**
+   * Indicator if the contestant should always be included in the pool of contestants.
+   */
+  bias?: boolean;
 }
 
 /**

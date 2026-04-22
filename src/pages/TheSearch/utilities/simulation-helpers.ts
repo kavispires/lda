@@ -44,23 +44,41 @@ const GRADE_PRIORITY = {
  * Prioritizes track diversity and higher grades
  *
  * @param contestantsData - Dictionary of all contestants from Firestore
+ * @param useBias - If true, force-include all contestants with bias=true
  * @returns Array of 50 selected contestant IDs
  */
-export function selectDiverseContestants(contestantsData: Dictionary<Contestant>): string[] {
+export function selectDiverseContestants(contestantsData: Dictionary<Contestant>, useBias = false): string[] {
   const contestants = Object.values(contestantsData);
 
   if (contestants.length < 50) {
     throw new Error(`Not enough contestants in database. Found ${contestants.length}, need at least 50.`);
   }
 
-  // Group contestants by track
+  const selected: string[] = [];
+
+  // If useBias is true, force-include all bias contestants
+  if (useBias) {
+    const biasContestants = contestants.filter((c) => c.bias === true);
+    selected.push(...biasContestants.map((c) => c.id));
+
+    if (selected.length > 50) {
+      throw new Error(
+        `Too many bias contestants (${selected.length}). Cannot fit all in 50 slots. Please reduce bias contestants.`,
+      );
+    }
+  }
+
+  // Filter out already selected contestants
+  const availableContestants = contestants.filter((c) => !selected.includes(c.id));
+
+  // Group available contestants by track
   const byTrack: Record<string, Contestant[]> = {
     [TRACKS.VOCAL]: [],
     [TRACKS.RAP]: [],
     [TRACKS.DANCE]: [],
   };
 
-  for (const contestant of contestants) {
+  for (const contestant of availableContestants) {
     if (byTrack[contestant.track]) {
       byTrack[contestant.track].push(contestant);
     }
@@ -79,11 +97,19 @@ export function selectDiverseContestants(contestantsData: Dictionary<Contestant>
     });
   }
 
-  // Generate random distribution
+  // Generate random distribution for remaining slots
+  const remainingSlots = 50 - selected.length;
   const distribution = generateRandomDistribution();
 
+  // Adjust distribution proportionally if we have bias contestants
+  if (useBias && selected.length > 0) {
+    const scaleFactor = remainingSlots / 50;
+    for (const track of Object.values(TRACKS)) {
+      distribution[track] = Math.round(distribution[track] * scaleFactor);
+    }
+  }
+
   // Select contestants according to generated distribution
-  const selected: string[] = [];
 
   for (const track of Object.values(TRACKS)) {
     const target = distribution[track];
@@ -100,9 +126,9 @@ export function selectDiverseContestants(contestantsData: Dictionary<Contestant>
     }
   }
 
-  // If we don't have 50 yet, fill remaining slots with best available
+  // If we still don't have enough, fill remaining slots with best available
   if (selected.length < 50) {
-    const remaining = contestants
+    const remaining = availableContestants
       .filter((c) => !selected.includes(c.id))
       .sort((a, b) => {
         const priorityA = GRADE_PRIORITY[a.grade] || 0;

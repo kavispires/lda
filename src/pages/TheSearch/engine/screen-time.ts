@@ -5,24 +5,26 @@ import { GRADES } from '../utilities/constants';
  * Tier definitions and their rewards
  */
 const TIER_REWARDS: Record<number, { screenTime: number; prodRatioDelta: number }> = {
-  1.5: { screenTime: 10.0, prodRatioDelta: 0.05 },
-  1: { screenTime: 8.0, prodRatioDelta: 0.03 },
-  2: { screenTime: 4.0, prodRatioDelta: 0.01 },
+  1.5: { screenTime: 6.0, prodRatioDelta: 0.05 },
+  1: { screenTime: 3.0, prodRatioDelta: 0.03 },
+  2: { screenTime: 3.0, prodRatioDelta: 0.01 },
   3: { screenTime: 2.0, prodRatioDelta: 0.0 },
   4: { screenTime: 1.0, prodRatioDelta: -0.01 },
   5: { screenTime: 0.5, prodRatioDelta: -0.02 },
+  6: { screenTime: 0.0, prodRatioDelta: -0.03 }, // Not broadcast
 };
 
 /**
  * Assign narrative tiers to contestants
  * Returns map of contestant ID → tier number
  *
+ * Tier 6 (Not Broadcast, 12 slots): F grades with lowest productionRatio - auditions not shown
  * Tier 1.5 (Ace Closer, 1 slot): Highest A with highest productionRatio
  * Tier 1 (Spotlight, 8 slots): 3 Openers + 3 Mid-Batch + 2 Bombs
- * Tier 2 (Quad Split, 4 slots): C/D grades with similar songs
+ * Tier 2 (Quad Split, 0-4 slots): C/D grades with similar songs (optional)
  * Tier 3 (Montage Featured, 7 slots): Top remaining by productionRatio
- * Tier 4 (Montage Quick, 15 slots): Middle remaining
- * Tier 5 (Montage Flash, 15 slots): Bottom remaining
+ * Tier 4 (Montage Quick, 10 slots): Middle remaining
+ * Tier 5 (Montage Flash, 8-12 slots): Remaining contestants
  */
 export function assignNarrativeTiers(
   contestants: Contestant[],
@@ -39,6 +41,17 @@ export function assignNarrativeTiers(
       remaining.delete(id);
     }
   };
+
+  // TIER 6: Not Broadcast (12 slots) - ASSIGN FIRST
+  // F grades with lowest productionRatio - their auditions won't be shown
+  const fGrades = contestants.filter((c) => grades.get(c.id) === GRADES.F);
+  const notBroadcast = fGrades
+    .sort((a, b) => a.aggregations.productionRatio - b.aggregations.productionRatio)
+    .slice(0, 12);
+  assignTier(
+    notBroadcast.map((c) => c.id),
+    6,
+  );
 
   // TIER 1.5: Ace Closer (1 slot)
   // Highest A grade with highest productionRatio (heavily weighted)
@@ -163,18 +176,18 @@ export function assignNarrativeTiers(
     3,
   );
 
-  // TIER 4: Montage Quick (15 slots)
+  // TIER 4: Montage Quick (10 slots)
   // Middle remaining
   const montageQuick = contestants
     .filter((c) => remaining.has(c.id))
     .sort((a, b) => b.aggregations.productionRatio - a.aggregations.productionRatio)
-    .slice(0, 15);
+    .slice(0, 10);
   assignTier(
     montageQuick.map((c) => c.id),
     4,
   );
 
-  // TIER 5: Montage Flash (remaining)
+  // TIER 5: Montage Flash (remaining, ~8-12 slots depending on tier 2)
   // All remaining contestants
   const montageFlash = contestants.filter((c) => remaining.has(c.id));
   assignTier(

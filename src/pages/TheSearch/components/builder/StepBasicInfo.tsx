@@ -1,5 +1,5 @@
 import { RedoOutlined } from '@ant-design/icons';
-import { Button, ColorPicker, Flex, Form, Input, Progress, Select, Space, Typography } from 'antd';
+import { Button, Checkbox, ColorPicker, Flex, Form, Input, Progress, Select, Space, Typography } from 'antd';
 import type { AggregationColor } from 'antd/es/color-picker/color';
 import { useEffect, useState } from 'react';
 import NAMES from '../../data/names.json';
@@ -119,6 +119,7 @@ export function StepBasicInfo({
           persona: contestant.persona || '',
           alignment: contestant.alignment || ALIGNMENTS.TRUE_NEUTRAL,
           zodiacSign: contestant.zodiacSign || 'ARIES',
+          bias: contestant.bias ?? false,
         }}
         layout="vertical"
         onFinish={onFinish}
@@ -279,6 +280,15 @@ export function StepBasicInfo({
             </Flex>
           </Form.Item>
         </div>
+
+        <Form.Item name="bias" valuePropName="checked">
+          <Checkbox>
+            <span style={{ fontWeight: 500 }}>Bias Contestant</span>
+            <Typography.Text style={{ marginLeft: '0.5rem', fontSize: '0.875rem' }} type="secondary">
+              (Force-include in simulations when "Use Bias" is enabled)
+            </Typography.Text>
+          </Checkbox>
+        </Form.Item>
 
         <Form.Item>
           <ContestantBuilderStepperControls

@@ -59,17 +59,24 @@ export interface PerformancePart {
    */
   type: 'MVP' | 'CENTER' | 'NORMAL';
   /**
-   * The percentage of the performance's duration this part yields (e.g., 0.25 for 25%).
-   * Dictates how much aggregations.screenTime is awarded.
+   * The number of identical slots available for this specific part.
+   * This determines how many contestants can be assigned here.
+   */
+  count: number;
+  /**
+   * The lyrics sung, or a description of the stage action for this part.
+   */
+  lyrics?: string;
+  /**
+   * The percentage of the performance's duration this part yields.
    */
   screenTime: number;
   /**
    * The primary track this part favors.
    */
-  track: ValuesOf<typeof TRACKS>;
+  track: ValuesOf<typeof TRACKS> | 'ANY';
   /**
    * The specific specialties this part favors.
-   * Used heavily in the Affinity Score calculation for song/part selection.
    */
   specialtyFavors: {
     vocalColor?: string;
@@ -79,7 +86,6 @@ export interface PerformancePart {
   };
   /**
    * The raw difficulty (1-5) to perform this part.
-   * Checked against the contestant's coreSkills to calculate the Base Execution score.
    */
   difficulty: {
     vocal: number;
@@ -88,14 +94,10 @@ export interface PerformancePart {
   };
   /**
    * Defines what non-core attributes give a percentage boost to the final score.
-   * Key format: Dot notation path to the contestant's attribute (e.g., 'utilitySkills.acrobatics').
-   * Value: Float representing the max percentage bonus (e.g., 0.15 = 15% bonus).
    */
   modifiersWeight: Record<string, number>;
   /**
    * The state changes awarded to the contestant upon completing this part.
-   * Mostly impacts contestant.aggregations.
-   * @example { 'aggregations.center': 1, 'aggregations.mvp': 1 }
    */
   influences: ChangeRecord;
 }

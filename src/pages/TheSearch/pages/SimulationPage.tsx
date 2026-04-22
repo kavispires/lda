@@ -4,6 +4,7 @@ import {
   Alert,
   Button,
   Card,
+  Checkbox,
   Col,
   Descriptions,
   Progress,
@@ -16,9 +17,10 @@ import {
 } from 'antd';
 import { Content } from 'components/Content';
 import { useState } from 'react';
-import type { Dictionary } from 'types/common';
+import type { Dictionary, ValuesOf } from 'types/common';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { ContestantDetailModal } from '../components/ContestantDetailModal';
+import { TrackTag } from '../components/TrackTag';
 import auditionSongsData from '../data/audition-songs.json';
 import secretCardsData from '../data/secret-cards.json';
 import { useContestantsContext } from '../services/ContestantsProvider';
@@ -26,6 +28,7 @@ import { simulationActions, simulationStore } from '../services/SimulationStore'
 import type { AttributeCard, PerformanceSong } from '../types/common';
 import type { Contestant } from '../types/contestant';
 import { processSimulationContestants } from '../utilities/card-assignment';
+import type { TRACKS } from '../utilities/constants';
 import { selectDiverseContestants } from '../utilities/simulation-helpers';
 
 const SECRET_CARDS = secretCardsData as Dictionary<AttributeCard>;
@@ -39,6 +42,7 @@ export function SimulationPage() {
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const [useBias, setUseBias] = useState(false);
 
   const handleStartSimulation = async () => {
     setIsInitializing(true);
@@ -51,7 +55,7 @@ export function SimulationPage() {
       setProgress(20);
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const selectedIds = selectDiverseContestants(contestantsData);
+      const selectedIds = selectDiverseContestants(contestantsData, useBias);
 
       // Step 2: Assign cards and apply influences
       setProgressText('Assigning attribute cards and calculating influences...');
@@ -158,6 +162,14 @@ export function SimulationPage() {
           </ul>
 
           <div style={{ marginTop: '2rem' }}>
+            <Checkbox
+              checked={useBias}
+              onChange={(e) => setUseBias(e.target.checked)}
+              style={{ marginBottom: '1rem', display: 'block' }}
+            >
+              Force-include bias contestants (contestants with bias=true will always be selected)
+            </Checkbox>
+
             <Button
               icon={<RocketOutlined />}
               loading={isInitializing}
@@ -460,9 +472,7 @@ function SimulationOverview({ contestants, episode }: SimulationOverviewProps) {
       dataIndex: 'track',
       key: 'track',
       width: 100,
-      render: (track: string) => (
-        <Tag color={track === 'VOCAL' ? 'blue' : track === 'RAP' ? 'orange' : 'green'}>{track}</Tag>
-      ),
+      render: (track: ValuesOf<typeof TRACKS>) => <TrackTag track={track} />,
       sorter: (a: Contestant, b: Contestant) => a.track.localeCompare(b.track),
     },
     {
@@ -623,17 +633,7 @@ function SimulationOverview({ contestants, episode }: SimulationOverviewProps) {
                     </Typography.Title>
                     <Typography.Text type="secondary">{contestant.id}</Typography.Text>
                     <div style={{ marginTop: '0.5rem' }}>
-                      <Tag
-                        color={
-                          contestant.track === 'VOCAL'
-                            ? 'blue'
-                            : contestant.track === 'RAP'
-                              ? 'orange'
-                              : 'green'
-                        }
-                      >
-                        {contestant.track}
-                      </Tag>
+                      <TrackTag track={contestant.track} />
                       <Tag>{contestant.grade}</Tag>
                     </div>
                   </Card>
@@ -714,6 +714,7 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
     3: 'Montage Featured',
     4: 'Montage Quick',
     5: 'Montage Flash',
+    6: 'Not Broadcast',
   };
 
   const segmentNames: Record<number, string> = {
@@ -835,17 +836,7 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
                                 <Typography.Text strong style={{ fontSize: '16px' }}>
                                   {data.contestant.name}
                                 </Typography.Text>
-                                <Tag
-                                  color={
-                                    data.contestant.track === 'VOCAL'
-                                      ? 'blue'
-                                      : data.contestant.track === 'RAP'
-                                        ? 'orange'
-                                        : 'green'
-                                  }
-                                >
-                                  {data.contestant.track}
-                                </Tag>
+                                <TrackTag track={data.contestant.track} />
                                 <Tag
                                   color={
                                     data.grade === 'A' || data.grade === 'B'
@@ -899,6 +890,56 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
             );
           })}
 
+          {/* Tier 6: Not Broadcast Section */}
+          {episodeData.filter((d) => d.tier === 6).length > 0 && (
+            <Card
+              size="small"
+              style={{ marginTop: '1rem', backgroundColor: '#fff7e6', borderColor: '#ffa940' }}
+            >
+              <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                <div>
+                  <Typography.Title level={4}>
+                    📺 Auditions Not Broadcast ({episodeData.filter((d) => d.tier === 6).length} contestants)
+                  </Typography.Title>
+                  <Typography.Paragraph type="secondary">
+                    These contestants auditioned but their performances were not shown in the broadcast
+                    episode. They will still participate in the competition.
+                  </Typography.Paragraph>
+                </div>
+
+                <Row gutter={[8, 8]}>
+                  {episodeData
+                    .filter((d) => d.tier === 6)
+                    .sort((a, b) => a.rank - b.rank)
+                    .map((data) => (
+                      <Col key={data.contestant.id} lg={6} md={8} sm={12} xs={24}>
+                        <Space
+                          onClick={() => setSelectedContestant(data.contestant)}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          <ContestantAvatar
+                            enablePreview={false}
+                            id={data.contestant.id}
+                            name={data.contestant.name}
+                            size={32}
+                          />
+                          <div>
+                            <Typography.Text strong style={{ fontSize: '14px' }}>
+                              {data.contestant.name}
+                            </Typography.Text>
+                            <br />
+                            <Typography.Text style={{ fontSize: '12px' }} type="secondary">
+                              #{data.rank} · Grade {data.grade}
+                            </Typography.Text>
+                          </div>
+                        </Space>
+                      </Col>
+                    ))}
+                </Row>
+              </Space>
+            </Card>
+          )}
+
           {episodeEnding && (
             <Card
               size="small"
@@ -913,21 +954,27 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
                       🏆 If the show ended now, these would be the chosen ones:
                     </Typography.Title>
                     <Row gutter={[8, 8]}>
-                      {episodeEnding.top5.map((contestant) => (
-                        <Col key={contestant.id} span={24}>
-                          <Space>
-                            <ContestantAvatar
-                              enablePreview={false}
-                              id={contestant.id}
-                              name={contestant.name}
-                              size={40}
-                            />
-                            <Typography.Text strong>
-                              #{contestant.rank} {contestant.name}
-                            </Typography.Text>
-                          </Space>
-                        </Col>
-                      ))}
+                      {episodeEnding.top5.map((contestant) => {
+                        const fullContestant = contestants.find((c) => c.id === contestant.id);
+                        return (
+                          <Col key={contestant.id} span={24}>
+                            <Space
+                              onClick={() => fullContestant && setSelectedContestant(fullContestant)}
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <ContestantAvatar
+                                enablePreview={false}
+                                id={contestant.id}
+                                name={contestant.name}
+                                size={40}
+                              />
+                              <Typography.Text strong>
+                                #{contestant.rank} {contestant.name}
+                              </Typography.Text>
+                            </Space>
+                          </Col>
+                        );
+                      })}
                     </Row>
                   </div>
                 )}
@@ -938,21 +985,27 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
                       💔 Eliminated Contestants ({episodeEnding.eliminated.length}):
                     </Typography.Title>
                     <Row gutter={[8, 8]}>
-                      {episodeEnding.eliminated.map((contestant) => (
-                        <Col key={contestant.id} lg={8} md={12} sm={12} xs={24}>
-                          <Space>
-                            <ContestantAvatar
-                              enablePreview={false}
-                              id={contestant.id}
-                              name={contestant.name}
-                              size={32}
-                            />
-                            <Typography.Text type="secondary">
-                              #{contestant.rank} {contestant.name}
-                            </Typography.Text>
-                          </Space>
-                        </Col>
-                      ))}
+                      {episodeEnding.eliminated.map((contestant) => {
+                        const fullContestant = contestants.find((c) => c.id === contestant.id);
+                        return (
+                          <Col key={contestant.id} lg={8} md={12} sm={12} xs={24}>
+                            <Space
+                              onClick={() => fullContestant && setSelectedContestant(fullContestant)}
+                              style={{ cursor: 'pointer' }}
+                            >
+                              <ContestantAvatar
+                                enablePreview={false}
+                                id={contestant.id}
+                                name={contestant.name}
+                                size={32}
+                              />
+                              <Typography.Text type="secondary">
+                                #{contestant.rank} {contestant.name}
+                              </Typography.Text>
+                            </Space>
+                          </Col>
+                        );
+                      })}
                     </Row>
                   </div>
                 )}

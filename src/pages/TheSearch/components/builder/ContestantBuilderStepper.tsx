@@ -117,7 +117,7 @@ export function ContestantBuilderStepperControls({
               size="large"
               title="Previous Contestant"
             />
-            <Button icon={<TableOutlined />} onClick={() => navigate('/the-search')} size="large">
+            <Button icon={<TableOutlined />} onClick={() => navigate('/the-search/contestants')} size="large">
               Listing
             </Button>
             <Button

@@ -41,7 +41,8 @@
       "personality.maturity": 3,
       "personality.investment": -10,
       "aggregations.productionRatio": 0.15,
-      "aggregations.audienceRatio": -0.05
+      "aggregations.audienceRatio": -0.05,
+      "aggregations.happiness": -10
     }
   },
   "HIPPIE": {
@@ -64,7 +65,8 @@
       "personality.investment": 2,
       "coreSkills.uniqueness": 1,
       "aggregations.audienceRatio": 0.5,
-      "aggregations.productionRatio": 0.75
+      "aggregations.productionRatio": 0.75,
+      "aggregations.happiness": 10
     }
   },
   "INTERNATIONAL": {
@@ -727,7 +729,7 @@
       "personality.maturity": 8,
       "personality.investment": 4,
       "coreSkills.vocals": 1,
-      "aggregations.productionRatio": 0.15,
+      "aggregations.productionRatio": 0.05,
       "aggregations.audienceRatio": -0.1
     }
   },
@@ -1671,7 +1673,7 @@
       "personality.resilience": 4,
       "personality.maturity": 3,
       "personality.investment": 2,
-      "aggregations.productionRatio": -0.555
+      "aggregations.productionRatio": -0.15
     }
   },
   "THE_SABOTEUR": {
@@ -1830,7 +1832,7 @@
       "personality.resilience": 9,
       "personality.maturity": 10,
       "personality.investment": 9,
-      "aggregations.productionRatio": 0.35,
+      "aggregations.productionRatio": 0.25,
       "aggregations.fanbaseRatio": -0.15
     }
   },

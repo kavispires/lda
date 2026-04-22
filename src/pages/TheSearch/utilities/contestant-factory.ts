@@ -101,7 +101,9 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
     },
     attributes: partial.attributes || [],
     missionRating: partial.missionRating || 0,
+    condition: partial.condition || 'STABLE',
     aggregations: partial.aggregations || {
+      happiness: 50,
       audienceRatio: 0,
       contestantsLikeness: 50,
       productionRatio: 0,
@@ -113,13 +115,61 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
       leader: 0,
       mvp: 0,
     },
-    conditions: partial.conditions || {
-      mentalCondition: 'STABLE',
-      physicalCondition: 'HEALTHY',
-    },
     events: partial.events || [],
     relationships: partial.relationships || {},
     changeLog: partial.changeLog || [],
+    bias: partial.bias,
+  };
+}
+
+/**
+ * Normalizes a contestant object from Firebase to ensure all required fields exist.
+ * This is crucial for contestants that were created before certain fields were added.
+ * @param contestant - The contestant object to normalize (typically from Firebase)
+ * @returns A normalized Contestant object with all required fields
+ */
+export function normalizeContestant(contestant: Partial<Contestant>): Contestant {
+  // Get default contestant structure
+  const defaults = createContestant({ id: contestant.id || 'szc-01' });
+
+  // Deep merge: existing values take precedence, but ensure all fields exist
+  return {
+    ...defaults,
+    ...contestant,
+    // Ensure nested objects are properly merged
+    appearance: {
+      ...defaults.appearance,
+      ...(contestant.appearance || {}),
+    },
+    specialties: {
+      ...defaults.specialties,
+      ...(contestant.specialties || {}),
+    },
+    coreSkills: {
+      ...defaults.coreSkills,
+      ...(contestant.coreSkills || {}),
+    },
+    utilitySkills: {
+      ...defaults.utilitySkills,
+      ...(contestant.utilitySkills || {}),
+    },
+    personality: {
+      ...defaults.personality,
+      ...(contestant.personality || {}),
+    },
+    aggregations: {
+      ...defaults.aggregations,
+      ...(contestant.aggregations || {}),
+    },
+    // Ensure arrays and objects exist
+    attributes: contestant.attributes || defaults.attributes,
+    events: contestant.events || defaults.events,
+    relationships: contestant.relationships || defaults.relationships,
+    changeLog: contestant.changeLog || defaults.changeLog,
+    // Ensure required string fields
+    condition: contestant.condition || defaults.condition,
+    missionRating: contestant.missionRating ?? defaults.missionRating,
+    rank: contestant.rank ?? defaults.rank,
   };
 }
 

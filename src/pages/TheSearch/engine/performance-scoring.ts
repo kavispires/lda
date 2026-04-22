@@ -70,13 +70,13 @@ export function applyModifiersAndConditions(
   }
 
   // Apply condition debuffs
-  const { physicalCondition } = contestant.conditions;
+  const condition = contestant.condition;
 
-  if (physicalCondition === 'INJURED') {
+  if (condition === 'INJURED') {
     modifiedScore *= 0.8;
-  } else if (physicalCondition === 'EXHAUSTED') {
+  } else if (condition === 'EXHAUSTED') {
     modifiedScore *= 0.9;
-  } else if (physicalCondition === 'SICK') {
+  } else if (condition === 'SICK') {
     modifiedScore *= 0.85;
   }
 

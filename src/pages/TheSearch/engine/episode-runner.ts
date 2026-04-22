@@ -5,6 +5,7 @@ import type { GRADES, STATUSES } from '../utilities/constants';
 import { buildChangeLogEntry, generatePerformanceSummary, trackChanges } from './change-tracking';
 import {
   applyPersonalityFactor,
+  applyPotentialBumps,
   applyProducerInterference,
   assignPreliminaryGrades,
   calculateCharismaEdit,
@@ -95,6 +96,9 @@ export function runEpisode1(contestants: Contestant[], songs: PerformanceSong[])
   // Enforce quotas (6 A's, 20 F's)
   grades = enforceQuotas(grades, workingContestants, scores);
 
+  // Apply potential bumps to help high-potential low performers
+  grades = applyPotentialBumps(grades, workingContestants);
+
   // ===== PHASE 4: RELATIONSHIP UPDATES =====
 
   const updatedRelationships = updateRelationshipsAfterPerformances(workingContestants);
@@ -106,18 +110,20 @@ export function runEpisode1(contestants: Contestant[], songs: PerformanceSong[])
   // ===== PHASE 5.5: COMMERCIAL BREAK STRUCTURE =====
 
   // Organize contestants into 4 segments divided by 3 commercial breaks
-  // Segment 1: Tiers 5 (bottom 10 of flash montage)
+  // Segment 1: Tier 5 (bottom half of flash montage)
   // COMMERCIAL BREAK 1
-  // Segment 2: Tiers 5 (top 5 of flash montage) + Tier 4 (15 quick montage)
+  // Segment 2: Tier 5 (top half of flash montage) + Tier 4 (10 quick montage)
   // COMMERCIAL BREAK 2
   // Segment 3: Tier 3 (7 featured montage) + Tier 2 (quad split, if exists)
   // COMMERCIAL BREAK 3
   // Segment 4: Tier 1 (8 spotlight) + Tier 1.5 (ace closer)
   // ENDING: Next episode announcement
+  // NOTE: Tier 6 (Not Broadcast) contestants are not assigned to any segment
 
   const tierStructure = new Map<string, { segment: number; commercialBreakAfter?: string }>();
 
-  // Sort contestants by tier for segment assignment
+  // Sort contestants by tier for segment assignment (exclude Tier 6 - not broadcast)
+  const tier6 = workingContestants.filter((c) => tiers.get(c.id) === 6);
   const tier5 = workingContestants
     .filter((c) => tiers.get(c.id) === 5)
     .sort((a, b) => a.aggregations.productionRatio - b.aggregations.productionRatio);
@@ -127,8 +133,14 @@ export function runEpisode1(contestants: Contestant[], songs: PerformanceSong[])
   const tier1 = workingContestants.filter((c) => tiers.get(c.id) === 1);
   const tier1_5 = workingContestants.filter((c) => tiers.get(c.id) === 1.5);
 
-  // Segment 1: Bottom 10 of Tier 5
-  const segment1 = tier5.slice(0, 10);
+  // Tier 6 contestants get segment 0 (not broadcast)
+  tier6.forEach((c) => {
+    tierStructure.set(c.id, { segment: 0 });
+  });
+
+  // Segment 1: Bottom half of Tier 5
+  const tier5SplitPoint = Math.ceil(tier5.length / 2);
+  const segment1 = tier5.slice(0, tier5SplitPoint);
   segment1.forEach((c) => {
     tierStructure.set(c.id, { segment: 1 });
   });
@@ -140,8 +152,8 @@ export function runEpisode1(contestants: Contestant[], songs: PerformanceSong[])
     });
   }
 
-  // Segment 2: Top 5 of Tier 5 + All of Tier 4
-  const segment2 = [...tier5.slice(10), ...tier4];
+  // Segment 2: Top half of Tier 5 + All of Tier 4
+  const segment2 = [...tier5.slice(tier5SplitPoint), ...tier4];
   segment2.forEach((c) => {
     tierStructure.set(c.id, { segment: 2 });
   });
@@ -206,8 +218,13 @@ export function runEpisode1(contestants: Contestant[], songs: PerformanceSong[])
     const rank = ranks.get(contestant.id) || 50;
     const song = songs.find((s) => s.id === selectedSongs.get(contestant.id));
 
-    if (!original || !performance || !grade || !song) {
+    if (!original || !performance || !grade) {
       // Skip contestant if critical data is missing
+      console.warn(`Skipping contestant ${contestant.id} due to missing data:`, {
+        hasOriginal: !!original,
+        hasPerformance: !!performance,
+        hasGrade: !!grade,
+      });
       continue;
     }
 
@@ -237,8 +254,10 @@ export function runEpisode1(contestants: Contestant[], songs: PerformanceSong[])
     // Track all changes
     const changes = trackChanges(original, contestant);
 
-    // Generate summary
-    const summary = generatePerformanceSummary(contestant, song, grade, performance.rngRoll);
+    // Generate summary (use fallback if song not found)
+    const summary = song
+      ? generatePerformanceSummary(contestant, song, grade, performance.rngRoll)
+      : `${contestant.name} performed and received a grade ${grade}.`;
 
     // Build and append ChangeLogEntry
     const logEntry = buildChangeLogEntry(
@@ -268,6 +287,61 @@ export function runEpisode1(contestants: Contestant[], songs: PerformanceSong[])
 
     // Update timestamp
     contestant.updatedAt = Date.now();
+  }
+
+  // ===== PHASE 7: CALCULATE CONTESTANTS LIKENESS =====
+  // Calculate how much other contestants like each contestant (average of all their relationship values)
+  for (const contestant of workingContestants) {
+    const likenessValues: number[] = [];
+
+    // Look at all other contestants and get their relationship value towards this contestant
+    for (const otherContestant of workingContestants) {
+      if (otherContestant.id !== contestant.id) {
+        const relationshipArray = otherContestant.relationships[contestant.id];
+        if (relationshipArray && relationshipArray.length > 0) {
+          // Get the latest relationship value
+          likenessValues.push(relationshipArray[relationshipArray.length - 1]);
+        }
+      }
+    }
+
+    // Calculate average likeness
+    const averageLikeness =
+      likenessValues.length > 0
+        ? likenessValues.reduce((sum, val) => sum + val, 0) / likenessValues.length
+        : 50;
+
+    contestant.aggregations.contestantsLikeness = averageLikeness;
+  }
+
+  // ===== PHASE 8: UPDATE HAPPINESS =====
+  // Update happiness based on grade received and relationship balance
+  for (const contestant of workingContestants) {
+    const grade = grades.get(contestant.id);
+    if (!grade) continue;
+
+    // Happiness change based on grade received
+    const gradeHappinessMap: Record<string, number> = {
+      A: 10, // +10 happiness for A grade
+      B: 5, // +5 happiness for B grade
+      C: 0, // No change for C grade
+      D: -5, // -5 happiness for D grade
+      F: -10, // -10 happiness for F grade
+    };
+    const happinessFromGrade = gradeHappinessMap[grade] || 0;
+
+    // Happiness change based on relationship balance
+    const relationshipValues = Object.values(contestant.relationships).map((arr) => arr[arr.length - 1]);
+    const likes = relationshipValues.filter((val) => val > 50).length;
+    const dislikes = relationshipValues.filter((val) => val < 50).length;
+    const happinessFromRelationships = likes > dislikes ? 3 : dislikes > likes ? -3 : 0;
+
+    // Apply total happiness change (clamped to 0-100)
+    const totalHappinessChange = happinessFromGrade + happinessFromRelationships;
+    contestant.aggregations.happiness = Math.max(
+      0,
+      Math.min(100, contestant.aggregations.happiness + totalHappinessChange),
+    );
   }
 
   // ===== ELIMINATIONS =====
