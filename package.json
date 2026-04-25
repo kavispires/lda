@@ -11,7 +11,7 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
-    "@vitejs/plugin-react": "^5.1.4",
+    "@vitejs/plugin-react": "^6.0.1",
     "antd": "^6.3.6",
     "clsx": "^2.1.1",
     "firebase": "^12.12.1",
@@ -26,9 +26,9 @@
     "recharts": "^2.15.4",
     "sass": "^1.99.0",
     "typescript": "^5.9.3",
-    "vite": "^7.3.1",
+    "vite": "^8.0.10",
     "vite-plugin-commonjs": "^0.10.4",
-    "vite-plugin-svgr": "^4.5.0",
+    "vite-plugin-svgr": "^5.2.0",
     "vite-tsconfig-paths": "^6.1.1",
     "web-vitals": "^4.2.4"
   },
@@ -81,6 +81,6 @@
     "lint-staged": "^15.5.1",
     "postcss": "^8.5.10",
     "tailwindcss": "^4.2.4",
-    "vite-plugin-checker": "^0.12.0"
+    "vite-plugin-checker": "^0.13.0"
   }
 }
