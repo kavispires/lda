@@ -1,4 +1,4 @@
-import { Button, Divider } from 'antd';
+import { Button, Divider, Select } from 'antd';
 import clsx from 'clsx';
 import { usePreserveScrollPosition } from 'hooks/usePreserveScrollPosition';
 import type { useVideoControls } from 'hooks/useVideoControls';
@@ -25,6 +25,12 @@ export function EditorsLog({ className, videoControls }: LogProps) {
   const ref = usePreserveScrollPosition<HTMLUListElement>();
 
   const [drawerOpen, setDrawerOpen] = useState<UID[]>([]);
+  const [selectableType, setSelectableType] = useState<'all' | 'section' | 'line' | 'part'>('all');
+
+  const handleSelectableTypeChange = (value: 'all' | 'section' | 'line' | 'part') => {
+    setSelectableType(value);
+    onDeselectAll();
+  };
 
   const onEntityClick = (id: UID) => {
     setDrawerOpen([id]);
@@ -40,7 +46,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
   return (
     <div className={clsx('log', 'surface', className)} key={song.updatedAt}>
       <header
-        className="grid grid-cols-2"
+        className="grid grid-cols-3"
         style={
           selection.length > 0
             ? {
@@ -52,6 +58,17 @@ export function EditorsLog({ className, videoControls }: LogProps) {
             : {}
         }
       >
+        <Select
+          onChange={handleSelectableTypeChange}
+          options={[
+            { label: 'All', value: 'all' },
+            { label: 'Section', value: 'section' },
+            { label: 'Line', value: 'line' },
+            { label: 'Part', value: 'part' },
+          ]}
+          style={{ width: '100%' }}
+          value={selectableType}
+        />
         <Button disabled={!selection.length} onClick={() => setDrawerOpen([...selection])} type="link">
           Edit {selection.length} {instanceName}
         </Button>
@@ -71,7 +88,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
             }}
             onClick={onEntityClick}
             onPlay={(startTime) => videoControls.seekAndPlay(startTime)}
-            onSelect={onSelect}
+            onSelect={selectableType === 'all' || selectableType === 'section' ? onSelect : undefined}
             selected={selection.includes(sectionId)}
             song={song}
           >
@@ -84,7 +101,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
                   setDrawerOpen([lineId]);
                 }}
                 onClick={onEntityClick}
-                onSelect={onSelect}
+                onSelect={selectableType === 'all' || selectableType === 'line' ? onSelect : undefined}
                 onSelectParts={onSelectMany}
                 selected={selection.includes(lineId)}
                 song={song}
@@ -94,7 +111,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
                     id={partId}
                     key={partId}
                     onClick={onEntityClick}
-                    onSelect={onSelect}
+                    onSelect={selectableType === 'all' || selectableType === 'part' ? onSelect : undefined}
                     selected={selection.includes(partId)}
                     song={song}
                   />
