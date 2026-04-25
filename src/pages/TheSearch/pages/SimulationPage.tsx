@@ -1,5 +1,5 @@
 import { AppstoreOutlined, RocketOutlined, TableOutlined, ThunderboltOutlined } from '@ant-design/icons';
-import { useStore } from '@tanstack/react-store';
+import { useSelector } from '@tanstack/react-store';
 import {
   Alert,
   Button,
@@ -36,7 +36,7 @@ const AUDITION_SONGS = auditionSongsData as PerformanceSong[];
 
 export function SimulationPage() {
   const { contestants: contestantsData } = useContestantsContext();
-  const simulationState = useStore(simulationStore, (state) => state);
+  const simulationState = useSelector(simulationStore, (state) => state);
   const [isInitializing, setIsInitializing] = useState(false);
   const [isRunningEpisode, setIsRunningEpisode] = useState(false);
   const [progress, setProgress] = useState(0);
