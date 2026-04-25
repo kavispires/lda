@@ -32,7 +32,15 @@ export type RecordTimestamps = {
  */
 export type Dictionary<T> = Record<string, T>;
 
+/**
+ * Typeahead Entry
+ */
 export type TypeaheadEntry = {
   key: string;
   value: string;
 };
+
+/**
+ * Generic to get value sof an object type
+ */
+export type ValuesOf<T> = T[keyof T];

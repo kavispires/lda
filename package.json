@@ -7,6 +7,7 @@
   "dependencies": {
     "@ant-design/icons": "^6.1.1",
     "@tanstack/react-query": "^5.96.2",
+    "@tanstack/react-store": "^0.9.3",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
@@ -22,6 +23,7 @@
     "react-router-dom": "^7.14.0",
     "react-use": "^17.6.0",
     "react-youtube": "^10.1.0",
+    "recharts": "^2.15.4",
     "sass": "^1.99.0",
     "typescript": "^5.9.3",
     "vite": "^7.3.1",
