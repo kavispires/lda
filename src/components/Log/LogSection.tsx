@@ -57,6 +57,11 @@ type LogSectionProps = {
    * Selects the remaining parts with no timestamps
    */
   enableSelectRemainingParts?: boolean;
+  /**
+   * Override the completion status for the icon display
+   * When provided, this takes precedence over the status check
+   */
+  overrideComplete?: boolean;
 };
 
 export function LogSection({
@@ -70,6 +75,7 @@ export function LogSection({
   onPlay,
   onAddLine,
   enableSelectRemainingParts,
+  overrideComplete,
 }: LogSectionProps) {
   const { name, status, partIds, section } = useLogSection(id, song);
   const { part } = useLogPart(partIds[0], song);
@@ -91,21 +97,20 @@ export function LogSection({
     }
   }, [onSelectParts, remainingParts]);
 
-  if (!section || !section.id)
+  if (!section?.id)
     return (
       <li className="log-section">
         <Alert message="Section doesn't exist" type="error" />
       </li>
     );
 
-  const icon =
-    status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <DatabaseFilled />;
+  const isComplete = overrideComplete ?? status === 'complete';
+  const icon = isComplete ? <CheckCircleOutlined className="log-icon--green" /> : <DatabaseFilled />;
 
   return (
     <li className="log-section">
       <span className="log-section__section">
         {!!onSelect && <Checkbox checked={selected} onChange={() => onSelect(id)} />}
-
         {!!onPlay && (
           <Tooltip title={part ? `Play from ${part.startTime} ms` : 'No parts to play'}>
             <Button
