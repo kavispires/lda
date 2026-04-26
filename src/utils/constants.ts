@@ -101,6 +101,7 @@ export const SECTION_KINDS = {
   RAP: 'RAP',
   SPECIAL: 'SPECIAL',
   ASIDE: 'ASIDE',
+  INTERLUDE: 'INTERLUDE',
   UNKNOWN: 'UNKNOWN',
 };
 

@@ -1,0 +1,88 @@
+@use "styles/sass" as *;
+
+.distribution-stats-bar {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: get-unit(2);
+  cursor: pointer;
+
+  &__avatar {
+    display: flex;
+    align-items: center;
+  }
+
+  &__data {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__artist {
+    display: flex;
+    align-items: center;
+    gap: get-unit(1);
+    font-size: 0.9em;
+  }
+
+  &__name {
+    font-weight: 500;
+  }
+
+  &__track {
+    opacity: 0.6;
+    font-size: 0.85em;
+  }
+
+  &__row {
+    display: grid;
+    grid-template-columns: 1fr 5ch;
+    gap: get-unit(1);
+    align-items: center;
+  }
+
+  &__bar {
+    width: 100%;
+    position: relative;
+
+    &--full {
+      height: get-unit(3);
+    }
+
+    &--thin {
+      height: get-unit(1);
+    }
+  }
+
+  &__progress {
+    height: 100%;
+    content: " ";
+    position: absolute;
+    border-radius: get-unit(3);
+    transition: width 0.3s ease;
+
+    &--adlib {
+      opacity: 0.35;
+    }
+  }
+
+  &__gutter {
+    width: 100%;
+    height: 100%;
+    content: " ";
+    position: absolute;
+    border-radius: get-unit(1);
+    background: get-color("gray", 3, 0.15);
+  }
+
+  &__value {
+    font-size: 0.85em;
+    font-weight: 500;
+    margin: 0;
+    min-width: 4ch;
+    text-align: right;
+
+    &--small {
+      font-size: 0.75em;
+      opacity: 0.7;
+    }
+  }
+}
