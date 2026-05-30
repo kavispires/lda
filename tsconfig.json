@@ -16,10 +16,16 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "outDir": "./dist/",
+    "sourceMap": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
     "baseUrl": "src",
     "paths": {
-      "@*": ["src/*"]
-    }
+      "@*": ["src/*"],
+    },
   },
-  "include": ["src"]
+  "include": ["src"],
 }

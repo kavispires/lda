@@ -7,7 +7,7 @@ import vitetsConfigPaths from 'vite-tsconfig-paths';
 import checker from 'vite-plugin-checker';
 
 export default defineConfig({
-  base: '/lda/',
+  base: '/td-admin/',
   plugins: [
     react(),
     vitetsConfigPaths(),
@@ -19,14 +19,14 @@ export default defineConfig({
     }),
     checker({
       typescript: {
-        tsconfigPath: 'tsconfig.json', // adjust if needed
+        tsconfigPath: 'tsconfig.json',
         buildMode: false,
       },
     }),
   ],
   server: {
     open: true, // automatically open the app in the browser
-    port: 3000,
+    port: 3001,
   },
   resolve: {
     alias: {
