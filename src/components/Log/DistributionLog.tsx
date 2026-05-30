@@ -1,5 +1,5 @@
 import { ApiOutlined } from '@ant-design/icons';
-import { Avatar, Button } from 'antd';
+import { Avatar, Button, Flex } from 'antd';
 import clsx from 'clsx';
 import { ArtistAvatar } from 'components/Artist';
 import { useMemo } from 'react';
@@ -48,6 +48,20 @@ export function DistributionLog({ className }: LogProps) {
     }
   };
 
+  // Handler to assign 'none' parts with recommendedAssignee 'N' to NONE
+  const handleAssignNoneParts = () => {
+    const nonePartIds = Object.entries(song.content)
+      .filter(([, content]) => {
+        // Check if it's a SongPart by checking for recommendedAssignee property
+        return (content as SongPart).recommendedAssignee === 'H';
+      })
+      .map(([id]) => id);
+
+    if (nonePartIds.length > 0) {
+      onAssignMany(nonePartIds, 'NONE');
+    }
+  };
+
   // Helper to check if all parts in a section are assigned
   const isSectionComplete = useMemo(() => {
     return (sectionId: UID) => {
@@ -59,9 +73,14 @@ export function DistributionLog({ className }: LogProps) {
 
   return (
     <div className={clsx('log', 'surface', className)} key={song.updatedAt}>
-      <Button onClick={handleAssignGroupParts} size="small" style={{ marginBottom: '1rem' }}>
-        Assign Group Parts to ALL
-      </Button>
+      <Flex gap={6}>
+        <Button onClick={handleAssignGroupParts} size="small">
+          Assign Group Parts to ALL
+        </Button>
+        <Button onClick={handleAssignNoneParts} size="small">
+          Assign None Parts to NONE
+        </Button>
+      </Flex>
       <ul className="log-sections">
         {song.sectionIds.map((sectionId) => (
           <LogSection
