@@ -1,7 +1,7 @@
 import type React from 'react';
 import { useState } from 'react';
 import './Stage.scss'; // Create CSS file for styling
-import { motion } from 'framer-motion'; // For animations
+import { motion } from 'motion/react'; // For animations
 
 type Dancer = {
   id: string;
