@@ -1,4 +1,5 @@
 import { ArtistAvatar } from 'components/Artist';
+import { memo } from 'react';
 import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
 import type { Distribution } from 'types';
 import { ALL_ID, NONE_ID } from 'utils/constants';
@@ -9,7 +10,7 @@ type LyricBoxProps = {
   timestamp: number;
 };
 
-export function LyricBox({ snapshot, assignees, timestamp }: LyricBoxProps) {
+export const LyricBox = memo(function LyricBox({ snapshot, assignees, timestamp }: LyricBoxProps) {
   const isAllOrNone =
     snapshot.assigneesIds.length === 1 && [ALL_ID, NONE_ID].includes(snapshot.assigneesIds[0]);
 
@@ -77,9 +78,9 @@ export function LyricBox({ snapshot, assignees, timestamp }: LyricBoxProps) {
       </div>
     </div>
   );
-}
+});
 
-export function AdlibBox({ snapshot, assignees }: Omit<LyricBoxProps, 'timestamp'>) {
+export const AdlibBox = memo(function AdlibBox({ snapshot, assignees }: Omit<LyricBoxProps, 'timestamp'>) {
   const isAllOrNone =
     snapshot.assigneesIds.length === 1 && [ALL_ID, NONE_ID].includes(snapshot.assigneesIds[0]);
 
@@ -124,4 +125,4 @@ export function AdlibBox({ snapshot, assignees }: Omit<LyricBoxProps, 'timestamp
       </div>
     </div>
   );
-}
+});

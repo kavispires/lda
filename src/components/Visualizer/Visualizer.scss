@@ -122,17 +122,15 @@
 }
 
 .lyric-box-container {
-  opacity: 0.05;
-  transition: opacity 1s;
   padding-bottom: get-unit(10);
 
-  &--past {
-    opacity: 0.5;
-  }
+  // Opacity is now controlled by motion.div animate prop
+  // Removed opacity transitions to prevent conflicts with motion
+}
 
-  &--active {
-    opacity: 1;
-  }
+.lyric-box-song-title {
+  display: grid;
+  align-items: center;
 }
 
 .lyric-box {
@@ -172,9 +170,8 @@
 .adlib-box-container {
   padding-bottom: get-unit(10);
 
-  &--active {
-    animation: adlib 2s forwards;
-  }
+  // Animation is now handled by motion.div
+  // Removed CSS keyframe animation
 }
 
 .adlib-box {
@@ -185,7 +182,7 @@
   &__content {
     background: get-color("gray", 9, 0.3);
     border-radius: get-unit(4);
-    padding: get-unit(6);
+    padding: get-unit(2 4);
   }
 
   &__speakers {
@@ -203,24 +200,15 @@
     color: transparent;
     text-fill-color: transparent;
   }
+
+  &__line {
+    display: flex;
+    flex-wrap: wrap;
+    gap: get-unit(1);
+  }
 }
 
-@keyframes adlib {
-  0% {
-    opacity: 0;
-    transform: translateY(10%);
-  }
-  2% {
-    opacity: 1;
-  }
-  90% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(0);
-  }
-}
+// @keyframes adlib animation removed - now handled by motion.div in AdlibsScroller.tsx
 
 .visualizer-seek-bar {
   display: grid;
