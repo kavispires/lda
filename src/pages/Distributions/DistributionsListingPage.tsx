@@ -1,5 +1,16 @@
 import { BarChartOutlined, DeleteFilled, FormOutlined } from '@ant-design/icons';
-import { Button, Divider, Flex, Popconfirm, Space, Table, type TableProps, Tooltip, Typography } from 'antd';
+import {
+  Button,
+  Divider,
+  Flex,
+  Popconfirm,
+  Space,
+  Switch,
+  Table,
+  type TableProps,
+  Tooltip,
+  Typography,
+} from 'antd';
 import { FirestoreConsoleLink } from 'components/Common/FirestoreConsoleLink';
 import { Timestamp } from 'components/Common/Timestamp';
 import { Content, ContentError, ContentLoading } from 'components/Content';
@@ -8,6 +19,7 @@ import { useDeleteDistributionMutation } from 'hooks/useDistribution';
 import { useListingQuery } from 'hooks/useListingQuery';
 import { useQueryParams } from 'hooks/useQueryParams';
 import { useTablePagination } from 'hooks/useTablePagination';
+import { orderBy } from 'lodash';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { DistributionListingData, ListingEntry, UID } from 'types';
@@ -26,7 +38,7 @@ export function DistributionsListingPage() {
     ALL_GROUPS,
   );
 
-  const { queryParams } = useQueryParams();
+  const { queryParams, addParam } = useQueryParams();
 
   const paginationProps = useTablePagination({
     total: filteredList.length,
@@ -152,6 +164,15 @@ export function DistributionsListingPage() {
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
           />
+          <Flex align="center" gap={6}>
+            <span>Snippets Order</span>
+            <Switch
+              checked={queryParams.get('snippetOrdered') === 'rank'}
+              checkedChildren="Rank"
+              onChange={(checked) => addParam('snippetOrdered', checked ? 'rank' : 'default', 'default')}
+              unCheckedChildren="Fixed"
+            />
+          </Flex>
         </Flex>
         <Flex align="center" gap={6}>
           <FirestoreConsoleLink label="Listing" path="listings/distributions" />
@@ -174,7 +195,16 @@ type DistributionSnippetProps = {
 };
 
 function DistributionSnippet({ snippet = '' }: DistributionSnippetProps) {
-  const parsedSnippet = useMemo(() => snippet.split(SEPARATOR).map((part) => part.split('|')), [snippet]);
+  const { queryParams } = useQueryParams();
+  const snippedOrder = queryParams.get('snippetOrdered') || 'default';
+
+  const parsedSnippet = useMemo(() => {
+    const split = snippet.split(SEPARATOR).map((part) => part.split('|'));
+    if (snippedOrder === 'rank') {
+      return orderBy(split, ([, percentage]) => Number(percentage), 'desc');
+    }
+    return split;
+  }, [snippet, snippedOrder]);
 
   if (!snippet) {
     return <Typography.Text type="secondary">No data</Typography.Text>;
