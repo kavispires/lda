@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { orderBy } from 'lodash';
 import { AnimatePresence, motion } from 'motion/react';
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
 import type { Dictionary, Distribution } from 'types';
 
@@ -27,6 +27,7 @@ export function LyricsScroller({
 }: LyricsScrollerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [lyricHeights, setLyricHeights] = useState<Map<string, number>>(new Map());
+  const lyricRefs = useRef<Map<string, HTMLDivElement>>(new Map());
 
   // Memoize ordered lyric keys
   const orderedLyricsKeys = useMemo(() => {
@@ -50,6 +51,36 @@ export function LyricsScroller({
     return activeIndex;
   }, [orderedLyricsKeys, timestamp]);
 
+  // Measure all lyric heights after render, with delay to let animations settle
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Intentionally omit lyricHeights to avoid infinite loop
+  useEffect(() => {
+    const measureAllLyrics = () => {
+      const newHeights = new Map<string, number>();
+      let hasChanges = false;
+
+      lyricRefs.current.forEach((element, key) => {
+        if (element) {
+          const height = element.getBoundingClientRect().height;
+          const currentHeight = lyricHeights.get(key);
+
+          newHeights.set(key, height);
+
+          if (currentHeight !== height) {
+            hasChanges = true;
+          }
+        }
+      });
+
+      if (hasChanges) {
+        setLyricHeights(newHeights);
+      }
+    };
+
+    // Measure after a short delay to let animations settle
+    const timeoutId = setTimeout(measureAllLyrics, 100);
+    return () => clearTimeout(timeoutId);
+  }, [orderedLyricsKeys, currentIndex]);
+
   // Calculate translateY to keep active lyric fully visible
   const translateY = useMemo(() => {
     // If no lyric is active yet (currentIndex = -1), show title at top
@@ -57,7 +88,7 @@ export function LyricsScroller({
       return 0;
     }
 
-    const bottomOffset = maxHeight * 0.85; // Position bottom of active lyric at 85% from top
+    const bottomOffset = maxHeight; // Position bottom of active lyric at the bottom of the container
     const titleHeight = maxHeight; // Title takes full viewport height
 
     // Calculate total offset from start to bottom of current lyric (including title)
@@ -77,11 +108,12 @@ export function LyricsScroller({
     return bottomOffset - totalOffset;
   }, [currentIndex, orderedLyricsKeys, lyricHeights, maxHeight]);
 
-  // Measure lyric heights as they render
-  const measureLyric = (key: string, element: HTMLDivElement | null) => {
-    if (element && !lyricHeights.has(key)) {
-      const height = element.getBoundingClientRect().height;
-      setLyricHeights((prev) => new Map(prev).set(key, height));
+  // Store ref to lyric element
+  const setLyricRef = (key: string, element: HTMLDivElement | null) => {
+    if (element) {
+      lyricRefs.current.set(key, element);
+    } else {
+      lyricRefs.current.delete(key);
     }
   };
 
@@ -118,7 +150,7 @@ export function LyricsScroller({
                 exit={{ opacity: 0 }}
                 initial={{ opacity: 0.05 }}
                 key={key}
-                ref={(el) => measureLyric(key, el)}
+                ref={(el) => setLyricRef(key, el)}
                 transition={{ duration: 0.3 }}
               >
                 <LyricBox assignees={assignees} snapshot={snapshot} timestamp={timestamp} />
