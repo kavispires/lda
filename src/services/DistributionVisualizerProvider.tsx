@@ -457,42 +457,118 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
     lyricsSnapshots[adjustedTimestamp] = newLyricSnapshot;
   });
 
-  // Split overly long snapshots in half for better display
-  // If a group of lines gets too long (6, 10, or 12 lines), split into two snapshots
+  // Split overly long snapshots or snapshots with large time gaps
+  // This improves readability by keeping lyric groups manageable
   Object.keys(lyricsSnapshots).forEach((timestamp) => {
     const snapshot = lyricsSnapshots[timestamp];
-    const textLength = snapshot.lines.length;
+    const linesToSplit: LyricSnapshot['lines'][] = [];
+    let currentChunk: LyricSnapshot['lines'] = [];
 
-    if ([6, 10, 12].includes(textLength)) {
-      const half = Math.floor(textLength / 2);
+    // Phase 1: Split on time gaps (3+ seconds between lines)
+    snapshot.lines.forEach((line, index) => {
+      currentChunk.push(line);
 
-      const firstHalfLines = snapshot.lines.slice(0, half);
-      const secondHalfLines = snapshot.lines.slice(half);
+      if (index < snapshot.lines.length - 1) {
+        const currentLineEndTime = line.parts[line.parts.length - 1].endTime;
+        const nextLineStartTime = snapshot.lines[index + 1].parts[0].startTime;
+        const gap = nextLineStartTime - currentLineEndTime;
 
-      const firstHalfSnapshot: LyricSnapshot = {
-        id: snapshot.id,
-        lines: firstHalfLines,
-        assigneesIds: snapshot.assigneesIds,
-        startTime: snapshot.startTime,
-        endTime:
-          firstHalfLines[firstHalfLines.length - 1].parts[
-            firstHalfLines[firstHalfLines.length - 1].parts.length - 1
-          ].endTime,
-      };
+        // If gap is over 3 seconds (30 timestamps), split here
+        if (gap > 30) {
+          linesToSplit.push([...currentChunk]);
+          currentChunk = [];
+        }
+      }
+    });
 
-      const secondHalfSnapshot: LyricSnapshot = {
-        id: snapshot.id,
-        lines: secondHalfLines,
-        assigneesIds: snapshot.assigneesIds,
-        startTime: secondHalfLines[0].parts[0].startTime,
-        endTime:
-          secondHalfLines[secondHalfLines.length - 1].parts[
-            secondHalfLines[secondHalfLines.length - 1].parts.length - 1
-          ].endTime,
-      };
+    // Add remaining chunk
+    if (currentChunk.length > 0) {
+      linesToSplit.push(currentChunk);
+    }
 
-      lyricsSnapshots[timestamp] = firstHalfSnapshot;
-      lyricsSnapshots[Math.floor(secondHalfSnapshot.startTime)] = secondHalfSnapshot;
+    // Phase 2: Split chunks that are still too long by line count
+    // Prefer chunks of 3-4 lines for optimal readability
+    const finalChunks: LyricSnapshot['lines'][] = [];
+
+    linesToSplit.forEach((chunk) => {
+      const lineCount = chunk.length;
+
+      if (lineCount <= 5) {
+        // No need to split
+        finalChunks.push(chunk);
+      } else if (lineCount <= 10) {
+        // Split in 2, preferring chunk sizes of 3-5
+        let firstChunkSize: number;
+        if (lineCount === 6) {
+          firstChunkSize = 3; // 3/3
+        } else if (lineCount <= 9) {
+          firstChunkSize = 4; // 4/3, 4/4, 4/5
+        } else {
+          firstChunkSize = 5; // 5/5
+        }
+        finalChunks.push(chunk.slice(0, firstChunkSize));
+        finalChunks.push(chunk.slice(firstChunkSize));
+      } else if (lineCount <= 15) {
+        // Split in 3, preferring chunks of 4
+        let firstChunkSize: number;
+        let secondChunkSize: number;
+        if (lineCount <= 13) {
+          // Use 4 for first two chunks: 11→4/4/3, 12→4/4/4, 13→4/4/5
+          firstChunkSize = 4;
+          secondChunkSize = 4;
+        } else {
+          // Use Math.ceil for larger counts: 14→5/5/4, 15→5/5/5
+          const size = Math.ceil(lineCount / 3);
+          firstChunkSize = size;
+          secondChunkSize = size;
+        }
+        finalChunks.push(chunk.slice(0, firstChunkSize));
+        finalChunks.push(chunk.slice(firstChunkSize, firstChunkSize + secondChunkSize));
+        finalChunks.push(chunk.slice(firstChunkSize + secondChunkSize));
+      } else {
+        // Split in 4, preferring chunks of 4
+        // Start with base size of 4, then add remainder to last chunks
+        const remainder = lineCount - 16;
+        const chunkSizes = [4, 4, 4, 4];
+
+        // Add 1 to the last N chunks where N is the remainder
+        for (let i = 3; i >= Math.max(0, 4 - remainder); i--) {
+          chunkSizes[i] += 1;
+        }
+
+        let startIndex = 0;
+        chunkSizes.forEach((size) => {
+          finalChunks.push(chunk.slice(startIndex, startIndex + size));
+          startIndex += size;
+        });
+      }
+    });
+
+    // Only create new snapshots if we actually split something
+    if (finalChunks.length > 1) {
+      delete lyricsSnapshots[timestamp];
+
+      finalChunks.forEach((chunkLines) => {
+        const chunkStartTime = chunkLines[0].parts[0].startTime;
+        const chunkEndTime =
+          chunkLines[chunkLines.length - 1].parts[chunkLines[chunkLines.length - 1].parts.length - 1].endTime;
+
+        // Find available timestamp for this chunk
+        let chunkTimestamp = Math.floor(chunkStartTime);
+        while (lyricsSnapshots[chunkTimestamp]) {
+          chunkTimestamp++;
+        }
+
+        const chunkSnapshot: LyricSnapshot = {
+          id: snapshot.id,
+          lines: chunkLines,
+          assigneesIds: snapshot.assigneesIds,
+          startTime: chunkStartTime,
+          endTime: chunkEndTime,
+        };
+
+        lyricsSnapshots[chunkTimestamp] = chunkSnapshot;
+      });
     }
   });
 
