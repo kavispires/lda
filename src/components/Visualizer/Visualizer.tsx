@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import { RATE, useDistributionVisualizerContext } from 'services/DistributionVisualizerProvider';
 import './Visualizer.scss';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
+import { useMemo } from 'react';
 import { useToggle } from 'react-use';
 import { AdlibsScroller } from './AdlibsScroller';
 import { BarsBox } from './BarsBox';
@@ -43,6 +44,22 @@ export function Visualizer() {
 
   const timestamp = Math.floor(videoControls.currentTime / RATE);
 
+  // Hold the last snapshot when song ends to keep bars visible
+  const currentBarSnapshot = useMemo(() => {
+    // If snapshot exists for current timestamp, use it
+    if (barSnapshots[timestamp]) {
+      return barSnapshots[timestamp];
+    }
+
+    // Otherwise find the last available snapshot (highest timestamp)
+    const availableTimestamps = Object.keys(barSnapshots)
+      .map(Number)
+      .sort((a, b) => b - a);
+    const lastTimestamp = availableTimestamps[0];
+
+    return barSnapshots[lastTimestamp];
+  }, [barSnapshots, timestamp]);
+
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: TODO
     <div
@@ -76,7 +93,7 @@ export function Visualizer() {
           />
         </div>
         <div className="distribution__bars">
-          <BarsBox assignees={assignees} snapshots={barSnapshots[timestamp]} />
+          <BarsBox assignees={assignees} snapshots={currentBarSnapshot} />
         </div>
       </div>
 
