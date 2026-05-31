@@ -397,10 +397,6 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       return;
     }
 
-    if (lyricsSnapshots[timestamp]) {
-      console.warn('Duplicate timestamp', timestamp);
-    }
-
     // Create a unique key combining singers and section (to group consecutive lines)
     const key = `${sortBy(assigneesIds.filter((v) => v !== 'ALL')).join('::')}+${section.id}`;
 
@@ -424,8 +420,17 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       return;
     }
 
+    // Find next available timestamp to avoid collisions
+    let adjustedTimestamp = timestamp;
+    while (lyricsSnapshots[adjustedTimestamp]) {
+      console.warn(
+        `Timestamp collision at ${adjustedTimestamp * RATE}ms for line ${line.id}. Adjusting timestamp because it starts at the same time as ${lyricsSnapshots[adjustedTimestamp].id} ${lyricsSnapshots[adjustedTimestamp].lines[0].parts.map((part) => part.text).join(' ')}.`,
+      );
+      adjustedTimestamp++;
+    }
+
     latestKey = key;
-    latestTimestamp = timestamp;
+    latestTimestamp = adjustedTimestamp;
 
     const parts = line.partsIds.map((partId) => {
       const part = distributor.getPart(partId, song);
@@ -449,7 +454,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       lines: [{ parts }],
     };
 
-    lyricsSnapshots[timestamp] = newLyricSnapshot;
+    lyricsSnapshots[adjustedTimestamp] = newLyricSnapshot;
   });
 
   // Split overly long snapshots in half for better display
