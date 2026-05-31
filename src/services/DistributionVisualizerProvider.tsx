@@ -3,7 +3,7 @@ import {
   type UseVisualizerMeasurementsResult,
   useVisualizerMeasurements,
 } from 'hooks/useVisualizerMeasurements';
-import { cloneDeep, entries, keyBy, orderBy, sortBy } from 'lodash';
+import { keyBy, orderBy, sortBy } from 'lodash';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { useLocalStorage, useToggle } from 'react-use';
 import type { Artist, Dictionary, Distribution, Song, UID } from 'types';
@@ -82,11 +82,13 @@ export const DistributionVisualizerProvider = ({
   // This generates time-based snapshots for bars, lyrics, and upcoming singers
   const { assignees, barSnapshots, adlibsSnapshots, lyricsSnapshots, upNextSnapshots, freshness } =
     useMemo(() => {
+      const { adlibsSnapshots, lyricsSnapshots } = buildLyricsSnapshots(distribution, song);
+
       return {
         assignees: orderBy(Object.values(distribution.assignees), 'name'),
         barSnapshots: buildBarSnapshots(distribution, song), // Artist activity over time
-        adlibsSnapshots: buildLyricsSnapshots(distribution, song).adlibsSnapshots, // Ad-lib lyrics
-        lyricsSnapshots: buildLyricsSnapshots(distribution, song).lyricsSnapshots, // Main lyrics
+        adlibsSnapshots, // Ad-lib lyrics
+        lyricsSnapshots, // Main lyrics
         upNextSnapshots: buildUpNextSnapshots(distribution, song), // Preview of upcoming singers
         freshness: verifyDistributionFreshness(song, distribution), // Validation status
       };
@@ -205,7 +207,7 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
 
   // Storage for all snapshots indexed by time unit
   const snapshotsPerUnit: Dictionary<Dictionary<AssigneeSnapshot>> = {
-    0: cloneDeep(previousAssigneeSnapshot),
+    0: structuredClone(previousAssigneeSnapshot),
   };
 
   // Step 4: Iterate through each time unit from song start to end
@@ -227,14 +229,14 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
             snapshotsPerUnit[unit][assigneeId] = snapshot;
           }
         });
-        previousAssigneeSnapshot = cloneDeep(snapshotsPerUnit[unit]);
+        previousAssigneeSnapshot = structuredClone(snapshotsPerUnit[unit]);
       }
 
       continue;
     }
 
     // Clone previous snapshot to build upon
-    snapshotsPerUnit[unit] = cloneDeep(previousAssigneeSnapshot);
+    snapshotsPerUnit[unit] = structuredClone(previousAssigneeSnapshot);
 
     const assigneesInUnit: UID[] = [];
 
@@ -290,7 +292,7 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
       }
     });
 
-    previousAssigneeSnapshot = cloneDeep(snapshotsPerUnit[unit]);
+    previousAssigneeSnapshot = structuredClone(snapshotsPerUnit[unit]);
   }
 
   // Step 5: Walk backwards through time to mark when each artist finishes their parts
@@ -329,10 +331,14 @@ export type LyricSnapshot = {
   id: UID; // ID of the first line in this snapshot
   assigneesIds: UID[]; // Artists singing these lines
   startTime: number; // Start time for this snapshot (in units)
+  endTime: number; // End time for this snapshot
   lines: {
-    text: string[]; // array of parts
-    colors: string[][]; // colors of each part
-    startTimes: number[];
+    parts: Array<{
+      text: string;
+      colors: string[];
+      startTime: number;
+      endTime: number;
+    }>;
   }[];
 };
 
@@ -357,44 +363,35 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       return;
     }
 
-    const { startTime, text, section } = distributor.getLineSummary(line.id, song);
+    const { startTime, endTime, section } = distributor.getLineSummary(line.id, song);
     const timestamp = Math.floor(startTime / RATE);
 
     // Collect all artists assigned to this line's parts
     const assigneesIds = removeDuplicates(line.partsIds.flatMap((partId) => distribution.mapping[partId]));
 
-    // Generate color gradient for this line based on assigned artists
-    const colors = assigneesIds
-      .map((assigneeId) =>
-        [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
-      )
-      .join(', ');
-
     // Handle ad-libs separately (they appear in parentheses)
     if (line.adlib) {
+      const parts = line.partsIds.map((partId) => {
+        const part = distributor.getPart(partId, song);
+        const partText = part.text.replace(/^\(|\)$/g, '');
+        const partColors = distribution.mapping[partId].map((assigneeId) =>
+          [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
+        );
+        return {
+          text: partText,
+          colors: partColors,
+          startTime: part.startTime / RATE,
+          endTime: part.endTime / RATE,
+        };
+      });
+
       const newAdlibSnapshot: LyricSnapshot = {
         id: line.id,
         assigneesIds: assigneesIds,
         startTime: startTime / RATE,
-        lines: [
-          {
-            text: [],
-            colors: [],
-            startTimes: [],
-          },
-        ],
+        endTime: endTime / RATE,
+        lines: [{ parts }],
       };
-
-      line.partsIds.forEach((partId) => {
-        const partStartTime = distributor.getPart(partId, song).startTime;
-        const partText = distributor.getPart(partId, song).text.replace(/^\(|\)$/g, '');
-        const partColors = distribution.mapping[partId].map((assigneeId) =>
-          [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
-        );
-        newAdlibSnapshot.lines[0].text.push(partText);
-        newAdlibSnapshot.lines[0].colors.push(partColors);
-        newAdlibSnapshot.lines[0].startTimes.push(partStartTime / RATE);
-      });
 
       adlibsSnapshots[timestamp] = newAdlibSnapshot;
       return;
@@ -409,53 +406,48 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
 
     // If this line has the same singers as the previous line, append it to that snapshot
     if (latestKey === key) {
-      const newLineSnapshot: LyricSnapshot['lines'][0] = {
-        text: [],
-        colors: [],
-        startTimes: [],
-      };
-
-      line.partsIds.forEach((partId) => {
-        const partStartTime = distributor.getPart(partId, song).startTime;
-        const partText = distributor.getPart(partId, song).text.replace(/^\(|\)$/g, '');
+      const parts = line.partsIds.map((partId) => {
+        const part = distributor.getPart(partId, song);
+        const partText = part.text.replace(/^\(|\)$/g, '');
         const partColors = distribution.mapping[partId].map((assigneeId) =>
           [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
         );
-
-        newLineSnapshot.text.push(partText);
-        newLineSnapshot.colors.push(partColors);
-        newLineSnapshot.startTimes.push(partStartTime / RATE);
+        return {
+          text: partText,
+          colors: partColors,
+          startTime: part.startTime / RATE,
+          endTime: part.endTime / RATE,
+        };
       });
 
-      lyricsSnapshots[latestTimestamp].lines.push(newLineSnapshot);
+      lyricsSnapshots[latestTimestamp].lines.push({ parts });
       return;
     }
 
     latestKey = key;
     latestTimestamp = timestamp;
+
+    const parts = line.partsIds.map((partId) => {
+      const part = distributor.getPart(partId, song);
+      const partText = part.text.replace(/^\(|\)$/g, '');
+      const partColors = distribution.mapping[partId].map((assigneeId) =>
+        [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
+      );
+      return {
+        text: partText,
+        colors: partColors,
+        startTime: part.startTime / RATE,
+        endTime: part.endTime / RATE,
+      };
+    });
+
     const newLyricSnapshot: LyricSnapshot = {
       id: line.id,
       assigneesIds: assigneesIds,
       startTime: startTime / RATE,
-      lines: [
-        {
-          text: [],
-          colors: [],
-          startTimes: [],
-        },
-      ],
+      endTime: endTime / RATE,
+      lines: [{ parts }],
     };
-
-    line.partsIds.forEach((partId) => {
-      const partStartTime = distributor.getPart(partId, song).startTime;
-      const partText = distributor.getPart(partId, song).text.replace(/^\(|\)$/g, '');
-      const partColors = distribution.mapping[partId].map((assigneeId) =>
-        [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
-      );
-      newLyricSnapshot.lines[0].text.push(partText);
-      newLyricSnapshot.lines[0].colors.push(partColors);
-      newLyricSnapshot.lines[0].startTimes.push(partStartTime / RATE);
-    });
 
     lyricsSnapshots[timestamp] = newLyricSnapshot;
   });
@@ -469,18 +461,29 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
     if ([6, 10, 12].includes(textLength)) {
       const half = Math.floor(textLength / 2);
 
-      const firstHalfSnapshot = {
+      const firstHalfLines = snapshot.lines.slice(0, half);
+      const secondHalfLines = snapshot.lines.slice(half);
+
+      const firstHalfSnapshot: LyricSnapshot = {
         id: snapshot.id,
-        lines: snapshot.lines.slice(0, half),
+        lines: firstHalfLines,
         assigneesIds: snapshot.assigneesIds,
         startTime: snapshot.startTime,
+        endTime:
+          firstHalfLines[firstHalfLines.length - 1].parts[
+            firstHalfLines[firstHalfLines.length - 1].parts.length - 1
+          ].endTime,
       };
 
-      const secondHalfSnapshot = {
+      const secondHalfSnapshot: LyricSnapshot = {
         id: snapshot.id,
-        lines: snapshot.lines.slice(half),
+        lines: secondHalfLines,
         assigneesIds: snapshot.assigneesIds,
-        startTime: snapshot.startTime + firstHalfSnapshot.lines[half - 1].startTimes.slice(-1)[0],
+        startTime: secondHalfLines[0].parts[0].startTime,
+        endTime:
+          secondHalfLines[secondHalfLines.length - 1].parts[
+            secondHalfLines[secondHalfLines.length - 1].parts.length - 1
+          ].endTime,
       };
 
       lyricsSnapshots[timestamp] = firstHalfSnapshot;

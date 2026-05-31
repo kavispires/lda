@@ -16,7 +16,7 @@ type AdlibsScrollerProps = {
 // Ensures adlibs are visible long enough to read
 const calculateAdlibDuration = (snapshot: LyricSnapshot): number => {
   const totalTextLength = snapshot.lines.reduce((total, line) => {
-    return total + line.text.join(' ').length;
+    return total + line.parts.map((part) => part.text).join(' ').length;
   }, 0);
 
   // Base formula: 2 timestamps per character + minimum 20 timestamps

@@ -1,4 +1,5 @@
 import { ArtistAvatar } from 'components/Artist';
+import { motion } from 'motion/react';
 import { memo } from 'react';
 import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
 import type { Distribution } from 'types';
@@ -57,21 +58,62 @@ export const LyricBox = memo(function LyricBox({ snapshot, assignees, timestamp 
         <div className="lyric-box__text">
           {snapshot.lines.map((line, lineIndex) => (
             <div className="lyric-box__line" key={`line-${lineIndex}`}>
-              {line.text.map((part, partIndex) => (
-                <span
-                  key={`${part}-${partIndex}`}
-                  style={{
-                    background: `linear-gradient(180deg, ${line.colors[partIndex].join(', ')})`,
-                    backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    fontStyle: isAllOrNone ? 'italic' : 'normal',
-                    fontWeight: timestamp < line.startTimes[partIndex] ? 'normal' : 'bold',
-                    marginRight: '0.5em',
-                  }}
-                >
-                  {part}
-                </span>
-              ))}
+              {line.parts.map((part, partIndex) => {
+                const { text, colors, startTime, endTime } = part;
+
+                // Check if this word is currently active
+                const isActive = timestamp >= startTime;
+
+                // Duration in seconds (timestamps are in 100ms units)
+                const animationDuration = (endTime - startTime) * 0.1;
+
+                return (
+                  <span
+                    key={`${text}-${partIndex}`}
+                    style={{
+                      display: 'inline-block',
+                      position: 'relative',
+                      marginRight: '0.5em',
+                      fontStyle: isAllOrNone ? 'italic' : 'normal',
+                    }}
+                  >
+                    {/* Background (unsung) text */}
+                    <span
+                      style={{
+                        background: `linear-gradient(180deg, ${colors.join(', ')})`,
+                        backgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        opacity: 0.3,
+                      }}
+                    >
+                      {text}
+                    </span>
+                    {/* Foreground (sung) text with clip-path */}
+                    <motion.span
+                      animate={{
+                        clipPath: isActive ? 'inset(0 0% 0 0)' : 'inset(0 100% 0 0)',
+                      }}
+                      initial={{
+                        clipPath: 'inset(0 100% 0 0)',
+                      }}
+                      style={{
+                        position: 'absolute',
+                        left: 0,
+                        top: 0,
+                        background: `linear-gradient(180deg, ${colors.join(', ')})`,
+                        backgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        fontWeight: 900,
+                      }}
+                      transition={{
+                        clipPath: { duration: isActive ? animationDuration : 0, ease: 'linear' },
+                      }}
+                    >
+                      {text}
+                    </motion.span>
+                  </span>
+                );
+              })}
             </div>
           ))}
         </div>
@@ -107,16 +149,16 @@ export const AdlibBox = memo(function AdlibBox({ snapshot, assignees }: Omit<Lyr
         <div className="adlib-box__text">
           {snapshot.lines.map((line, lineIndex) => (
             <div className="adlib-box__line" key={`line-${lineIndex}`}>
-              {line.text.map((part, partIndex) => (
+              {line.parts.map((part, partIndex) => (
                 <span
-                  key={`${part}-${partIndex}`}
+                  key={`${part.text}-${partIndex}`}
                   style={{
-                    background: `linear-gradient(to right, ${line.colors[partIndex].join(', ')})`,
+                    background: `linear-gradient(to right, ${part.colors.join(', ')})`,
                     backgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                   }}
                 >
-                  {part}
+                  {part.text}
                 </span>
               ))}
             </div>
