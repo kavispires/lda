@@ -1,5 +1,5 @@
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useState } from 'react';
 import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
 import type { Dictionary, Distribution } from 'types';
 
@@ -19,7 +19,12 @@ type AdlibsScrollerProps = {
  * Uses motion for smooth GPU-accelerated animations.
  * Adlibs remain visible until 0.5 second (5 timestamps) after their endTime.
  */
-export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeight }: AdlibsScrollerProps) {
+export const AdlibsScroller = memo(function AdlibsScroller({
+  assignees,
+  timestamp,
+  adlibsSnapshots,
+  maxHeight,
+}: AdlibsScrollerProps) {
   // Store expiry timestamp for each active adlib (keyed by appearance timestamp)
   const [activeAdlibs, setActiveAdlibs] = useState<Record<string, number>>({});
 
@@ -90,4 +95,4 @@ export function AdlibsScroller({ assignees, timestamp, adlibsSnapshots, maxHeigh
       </AnimatePresence>
     </div>
   );
-}
+});

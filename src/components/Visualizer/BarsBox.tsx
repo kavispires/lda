@@ -1,4 +1,5 @@
 import { ArtistBar } from 'components/Artist';
+import { memo } from 'react';
 import { useMeasure } from 'react-use';
 import { type AssigneeSnapshot, RATE } from 'services/DistributionVisualizerProvider';
 import type { Artist, Dictionary } from 'types';
@@ -15,14 +16,14 @@ const getTranslatePosition = (height: number, pos: number, assigneeCount: number
   return Math.min(height, 40) * pos + 6;
 };
 
-export function BarsBox({ assignees, snapshots }: BarsBoxProps) {
+export const BarsBox = memo(function BarsBox({ assignees, snapshots }: BarsBoxProps) {
   const [boxRef, { width }] = useMeasure<HTMLDivElement>();
   const [entryRef, { height }] = useMeasure<HTMLDivElement>();
 
   const barHeight = height || 48;
 
   return (
-    <div className="bars-box" ref={boxRef}>
+    <div className="bars-box" ref={boxRef} style={{ height: (barHeight + 8) * assignees.length }}>
       {assignees.map((assignee, index, allAssignees) => {
         const {
           rank = -1,
@@ -55,4 +56,4 @@ export function BarsBox({ assignees, snapshots }: BarsBoxProps) {
       })}
     </div>
   );
-}
+});

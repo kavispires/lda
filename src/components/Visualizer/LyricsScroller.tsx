@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { orderBy } from 'lodash';
 import { AnimatePresence, motion } from 'motion/react';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { memo, useEffect, useMemo, useRef, useState } from 'react';
 import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
 import type { Dictionary, Distribution } from 'types';
 
@@ -18,7 +18,7 @@ type LyricsScrollerProps = {
 // Estimated height per lyric box in pixels (used before measurement)
 const ESTIMATED_LYRIC_HEIGHT = 180;
 
-export function LyricsScroller({
+export const LyricsScroller = memo(function LyricsScroller({
   assignees,
   timestamp,
   lyricsSnapshots,
@@ -120,7 +120,7 @@ export function LyricsScroller({
   return (
     <div className="visualizer__lyrics" ref={containerRef} style={{ maxHeight, overflow: 'hidden' }}>
       {/* Animated lyrics container */}
-      <motion.div animate={{ y: translateY }} initial={false} transition={{ duration: 0.4, ease: 'easeOut' }}>
+      <motion.div animate={{ y: translateY }} initial={false} transition={{ duration: 0.3, ease: 'linear' }}>
         <AnimatePresence mode="popLayout">
           <motion.div
             animate={{ opacity: currentIndex === -1 ? 1 : 0.05 }}
@@ -161,4 +161,4 @@ export function LyricsScroller({
       </motion.div>
     </div>
   );
-}
+});

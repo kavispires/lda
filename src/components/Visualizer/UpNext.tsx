@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import type { Dictionary } from 'types';
 import { removeDuplicates } from 'utils';
 
@@ -7,7 +7,7 @@ type UpNextProps = {
   timestamp: number;
 };
 
-export function UpNext({ upNextSnapshots, timestamp }: UpNextProps) {
+export const UpNext = memo(function UpNext({ upNextSnapshots, timestamp }: UpNextProps) {
   const [activeSnapshots, setActiveUpNext] = useState<Record<string, number>>({});
   const [prevTimestamp, setPrevTimestamp] = useState<number>(timestamp);
 
@@ -59,4 +59,4 @@ export function UpNext({ upNextSnapshots, timestamp }: UpNextProps) {
       </span>
     </div>
   );
-}
+});

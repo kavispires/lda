@@ -119,10 +119,14 @@
   padding: get-unit(2);
   color: get-color("white");
   position: relative;
+  contain: layout style paint;
+  will-change: transform;
 }
 
 .lyric-box-container {
   padding-bottom: get-unit(10);
+  contain: layout style;
+  content-visibility: auto;
 
   // Opacity is now controlled by motion.div animate prop
   // Removed opacity transitions to prevent conflicts with motion
@@ -169,6 +173,8 @@
 
 .adlib-box-container {
   padding-bottom: get-unit(10);
+  contain: layout style;
+  will-change: transform, opacity;
 
   // Animation is now handled by motion.div
   // Removed CSS keyframe animation
