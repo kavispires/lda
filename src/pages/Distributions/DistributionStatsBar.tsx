@@ -18,6 +18,7 @@ type DistributionStatsBarProps = {
   adlibSongPercentage: number;
   className?: string;
   onClick?: () => void;
+  isBlindDistribution?: boolean;
 };
 
 export function DistributionStatsBar({
@@ -33,7 +34,10 @@ export function DistributionStatsBar({
   adlibSongPercentage,
   className,
   onClick,
+  isBlindDistribution = false,
 }: DistributionStatsBarProps) {
+  const displaySplitBars = regularDuration > 0 && adlibDuration > 0;
+
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: I need this
     <div
@@ -58,63 +62,74 @@ export function DistributionStatsBar({
           <span className="distribution-stats-bar__track">{artist.track}</span>
         </div>
 
-        {/* Total Bar */}
-        <div className="distribution-stats-bar__row">
-          <Tooltip
-            title={
-              <Flex gap={4} orientation="vertical">
-                <span>Total: {totalSongPercentage.toFixed(1)}%</span>
-                <span>Regular: {regularSongPercentage.toFixed(1)}%</span>
-                <span>Adlibs: {adlibSongPercentage.toFixed(1)}%</span>
-              </Flex>
-            }
-          >
-            <div className="distribution-stats-bar__bar distribution-stats-bar__bar--full">
-              <span
-                className="distribution-stats-bar__progress"
-                style={{ width: `${Math.min(regularPercentage, 100)}%`, backgroundColor: artist.color }}
-              />
-              <span
-                className="distribution-stats-bar__progress distribution-stats-bar__progress--adlib"
-                style={{ width: `${Math.min(totalPercentage, 100)}%`, backgroundColor: artist.color }}
-              />
-              <span className="distribution-stats-bar__gutter" />
+        {!isBlindDistribution && (
+          <>
+            {/* Total Bar */}
+            <div className="distribution-stats-bar__row">
+              <Tooltip
+                title={
+                  <Flex gap={4} orientation="vertical">
+                    <span>Total: {totalSongPercentage.toFixed(1)}%</span>
+                    <span>Regular: {regularSongPercentage.toFixed(1)}%</span>
+                    <span>Adlibs: {adlibSongPercentage.toFixed(1)}%</span>
+                  </Flex>
+                }
+              >
+                <div className="distribution-stats-bar__bar distribution-stats-bar__bar--full">
+                  <span
+                    className="distribution-stats-bar__progress"
+                    style={{ width: `${Math.min(regularPercentage, 100)}%`, backgroundColor: artist.color }}
+                  />
+                  <span
+                    className="distribution-stats-bar__progress distribution-stats-bar__progress--adlib"
+                    style={{ width: `${Math.min(totalPercentage, 100)}%`, backgroundColor: artist.color }}
+                  />
+                  <span className="distribution-stats-bar__gutter" />
+                </div>
+              </Tooltip>
+              <pre className="distribution-stats-bar__value">{totalDuration}s</pre>
             </div>
-          </Tooltip>
-          <pre className="distribution-stats-bar__value">{totalDuration}s</pre>
-        </div>
 
-        {/* Regular Lines Bar */}
-        <div className="distribution-stats-bar__row">
-          <Tooltip title={`Regular lines: ${regularSongPercentage.toFixed(1)}%`}>
-            <div className="distribution-stats-bar__bar distribution-stats-bar__bar--thin">
-              <span
-                className="distribution-stats-bar__progress"
-                style={{ width: `${Math.min(regularPercentage, 100)}%`, backgroundColor: artist.color }}
-              />
-              <span className="distribution-stats-bar__gutter" />
-            </div>
-          </Tooltip>
-          <pre className="distribution-stats-bar__value distribution-stats-bar__value--small">
-            {regularDuration}s
-          </pre>
-        </div>
+            {displaySplitBars && (
+              <>
+                {/* Regular Lines Bar */}
+                <div className="distribution-stats-bar__row">
+                  <Tooltip title={`Regular lines: ${regularSongPercentage.toFixed(1)}%`}>
+                    <div className="distribution-stats-bar__bar distribution-stats-bar__bar--thin">
+                      <span
+                        className="distribution-stats-bar__progress"
+                        style={{
+                          width: `${Math.min(regularPercentage, 100)}%`,
+                          backgroundColor: artist.color,
+                        }}
+                      />
+                      <span className="distribution-stats-bar__gutter" />
+                    </div>
+                  </Tooltip>
+                  <pre className="distribution-stats-bar__value distribution-stats-bar__value--small">
+                    {regularDuration}s
+                  </pre>
+                </div>
 
-        {/* Adlibs Bar */}
-        <div className="distribution-stats-bar__row">
-          <Tooltip title={`Adlibs: ${adlibSongPercentage.toFixed(1)}%`}>
-            <div className="distribution-stats-bar__bar distribution-stats-bar__bar--thin">
-              <span
-                className="distribution-stats-bar__progress distribution-stats-bar__progress--adlib"
-                style={{ width: `${Math.min(adlibPercentage, 100)}%`, backgroundColor: artist.color }}
-              />
-              <span className="distribution-stats-bar__gutter" />
-            </div>
-          </Tooltip>
-          <pre className="distribution-stats-bar__value distribution-stats-bar__value--small">
-            {adlibDuration}s
-          </pre>
-        </div>
+                {/* Adlibs Bar */}
+                <div className="distribution-stats-bar__row">
+                  <Tooltip title={`Adlibs: ${adlibSongPercentage.toFixed(1)}%`}>
+                    <div className="distribution-stats-bar__bar distribution-stats-bar__bar--thin">
+                      <span
+                        className="distribution-stats-bar__progress distribution-stats-bar__progress--adlib"
+                        style={{ width: `${Math.min(adlibPercentage, 100)}%`, backgroundColor: artist.color }}
+                      />
+                      <span className="distribution-stats-bar__gutter" />
+                    </div>
+                  </Tooltip>
+                  <pre className="distribution-stats-bar__value distribution-stats-bar__value--small">
+                    {adlibDuration}s
+                  </pre>
+                </div>
+              </>
+            )}
+          </>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
-import { Divider, Flex } from 'antd';
+import { Divider, Flex, Switch, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { orderBy } from 'lodash';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useSongDistributionContext } from 'services/SongDistributionProvider';
 import type { Dictionary, Distribution, FUID, Song } from 'types';
 import { distributor } from 'utils';
@@ -10,6 +10,7 @@ import { DistributionStatsBar } from './DistributionStatsBar';
 
 export function DistributionLiveStats() {
   const { song, mapping, activeAssignee, onActivateAssignee, distribution } = useSongDistributionContext();
+  const [isBlindDistribution, setIsBlindDistribution] = useState(true);
 
   const assignees = useMemo(
     () => orderBy(Object.values(distribution.assignees), 'name'),
@@ -23,7 +24,44 @@ export function DistributionLiveStats() {
 
   return (
     <div>
+      <Flex className="mb-2">
+        <Tooltip title="Toggle to hide the values of the distribution bars for an unbiased distribution">
+          <span>
+            <Switch checked={isBlindDistribution} onChange={setIsBlindDistribution} size="small" /> Blind
+            Distribution
+          </span>
+        </Tooltip>
+      </Flex>
+
       <Flex gap={3} vertical wrap="wrap">
+        {assignees.map((assignee) => (
+          <div
+            className={clsx(
+              'distribution-live-stats__button',
+              activeAssignee === assignee.id && 'distribution-live-stats__button--active',
+            )}
+            key={assignee.id}
+          >
+            <DistributionStatsBar
+              adlibDuration={progress[assignee.id].adlibDuration}
+              adlibPercentage={progress[assignee.id].adlibPercentage}
+              adlibSongPercentage={progress[assignee.id].adlibSongPercentage}
+              artist={assignee}
+              className="distribution-live-stats__assignee"
+              isBlindDistribution={isBlindDistribution}
+              onClick={() => onActivateAssignee(assignee.id)}
+              regularDuration={progress[assignee.id].regularDuration}
+              regularPercentage={progress[assignee.id].regularPercentage}
+              regularSongPercentage={progress[assignee.id].regularSongPercentage}
+              totalDuration={progress[assignee.id].duration}
+              totalPercentage={progress[assignee.id].percentage}
+              totalSongPercentage={progress[assignee.id].totalSongPercentage}
+            />
+          </div>
+        ))}
+      </Flex>
+      <Flex gap={3} vertical wrap="wrap">
+        <Divider className="my-2" />
         <div
           className={clsx(
             'distribution-live-stats__button',
@@ -42,6 +80,7 @@ export function DistributionLiveStats() {
               track: 'VOCAL',
             }}
             className="distribution-live-stats__assignee"
+            isBlindDistribution={isBlindDistribution}
             onClick={() => onActivateAssignee(ALL_ID)}
             regularDuration={progress[ALL_ID].regularDuration}
             regularPercentage={progress[ALL_ID].regularPercentage}
@@ -69,6 +108,7 @@ export function DistributionLiveStats() {
               track: 'VOCAL',
             }}
             className="distribution-live-stats__assignee"
+            isBlindDistribution={isBlindDistribution}
             onClick={() => onActivateAssignee(NONE_ID)}
             regularDuration={progress[NONE_ID].regularDuration}
             regularPercentage={progress[NONE_ID].regularPercentage}
@@ -78,35 +118,6 @@ export function DistributionLiveStats() {
             totalSongPercentage={progress[NONE_ID].totalSongPercentage}
           />
         </div>
-      </Flex>
-
-      <Divider className="my-2" />
-
-      <Flex gap={3} vertical wrap="wrap">
-        {assignees.map((assignee) => (
-          <div
-            className={clsx(
-              'distribution-live-stats__button',
-              activeAssignee === assignee.id && 'distribution-live-stats__button--active',
-            )}
-            key={assignee.id}
-          >
-            <DistributionStatsBar
-              adlibDuration={progress[assignee.id].adlibDuration}
-              adlibPercentage={progress[assignee.id].adlibPercentage}
-              adlibSongPercentage={progress[assignee.id].adlibSongPercentage}
-              artist={assignee}
-              className="distribution-live-stats__assignee"
-              onClick={() => onActivateAssignee(assignee.id)}
-              regularDuration={progress[assignee.id].regularDuration}
-              regularPercentage={progress[assignee.id].regularPercentage}
-              regularSongPercentage={progress[assignee.id].regularSongPercentage}
-              totalDuration={progress[assignee.id].duration}
-              totalPercentage={progress[assignee.id].percentage}
-              totalSongPercentage={progress[assignee.id].totalSongPercentage}
-            />
-          </div>
-        ))}
       </Flex>
     </div>
   );
