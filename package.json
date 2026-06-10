@@ -44,7 +44,7 @@
     "clean": "rm -rf node_modules && yarn cache clean",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "update-commit": "bash scripts/update_commit.sh"
+    "update-commit": "td amend-commit-date"
   },
   "browserslist": {
     "production": [
