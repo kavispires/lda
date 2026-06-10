@@ -6,16 +6,19 @@ import { Content } from 'components/Content';
 import { DistributionLog } from 'components/Log/DistributionLog';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { VideoControls } from 'components/Video/VideoControls';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useMeasure } from 'react-use';
 import { SongDistributionProvider, useSongDistributionContext } from 'services/SongDistributionProvider';
-import type { Song } from 'types';
+import type { Distribution, Song } from 'types';
 import { distributor } from 'utils';
 import { DistributionLiveStats } from './DistributionLiveStats';
 
 export function EditDistributionPage() {
+  const location = useLocation();
+  const draftDistribution = (location.state as { draftDistribution?: Distribution })?.draftDistribution;
+
   return (
-    <SongDistributionProvider>
+    <SongDistributionProvider draftDistribution={draftDistribution}>
       <EditDistributionContent />
     </SongDistributionProvider>
   );
@@ -75,9 +78,13 @@ function EditDistributionContent() {
       <Flex className="surface my-2" justify="space-between">
         <Space>
           <Button icon={<SaveOutlined />} loading={isSaving} onClick={onSave} size="large" type="primary">
-            Save
+            {distribution.id === '$draft' ? 'Create Distribution' : 'Save Changes'}
           </Button>
-          <Button onClick={() => navigate(`/distributions/${distribution.id}`)} size="large">
+          <Button
+            disabled={distribution.id === '$draft'}
+            onClick={() => navigate(`/distributions/${distribution.id}`)}
+            size="large"
+          >
             View
           </Button>
         </Space>

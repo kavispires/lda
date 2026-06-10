@@ -1,6 +1,7 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { Typography } from 'antd';
 import { Content, ContentError } from 'components/Content';
-import { useCreateDistributionMutation } from 'hooks/useCreateDistributionMutation';
+import { generateDraftDistribution } from 'hooks/useCreateDistributionMutation';
 import { useQueryParams } from 'hooks/useQueryParams';
 import { useSongQuery } from 'hooks/useSong';
 import { useState } from 'react';
@@ -15,12 +16,12 @@ export type NewDistribution = Pick<
 
 export function NewDistributionPage() {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const { queryParams } = useQueryParams();
   const songId = queryParams.get('songId');
   const songQuery = useSongQuery(songId ?? '');
   const [selectedGroup, setSelectedGroup] = useState<Group | null>(null);
   const [selectedArtists, setSelectedArtists] = useState<Artist[]>([]);
-  const { mutate: saveNewDistribution } = useCreateDistributionMutation();
 
   if (!songId || !songQuery.data) {
     return <ContentError>You haven't selected a song</ContentError>;
@@ -28,18 +29,16 @@ export function NewDistributionPage() {
 
   const onCreate = () => {
     if (selectedGroup) {
-      saveNewDistribution(
-        {
-          song: songQuery.data,
-          group: selectedGroup!,
-          selectedArtists,
-        },
-        {
-          onSuccess: (newDistribution) => {
-            navigate(`/distributions/${newDistribution.id}/edit `);
-          },
-        },
-      );
+      // Generate draft distribution locally
+      const draftDistribution = generateDraftDistribution(songQuery.data, selectedGroup, selectedArtists);
+
+      // Invalidate any existing draft cache to ensure fresh data
+      queryClient.invalidateQueries({ queryKey: ['distribution', '$draft'] });
+
+      // Navigate to edit page with draft data in state
+      navigate('/distributions/$draft/edit', {
+        state: { draftDistribution },
+      });
     }
   };
 

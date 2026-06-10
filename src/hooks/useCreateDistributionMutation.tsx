@@ -43,6 +43,30 @@ export function useCreateDistributionMutation() {
   });
 }
 
+export const generateDraftDistribution = (
+  song: Song,
+  group: Group,
+  selectedArtists: Artist[],
+): Distribution => {
+  const assignees = keyBy(selectedArtists, 'id');
+
+  const mapping = distributor.getAllParts(song).reduce((acc: Distribution['mapping'], part) => {
+    acc[part.id] = [];
+    return acc;
+  }, {});
+
+  return {
+    id: '$draft',
+    type: 'distribution',
+    songId: song.id,
+    groupId: group.id,
+    assignees,
+    mapping,
+    maxAssigneeDuration: 0,
+    createdAt: Date.now(),
+  };
+};
+
 const createDistribution = (song: Song, group: Group, selectedArtists: Artist[]): FirestoreDistribution => {
   const assignees = keyBy(selectedArtists, 'id');
 

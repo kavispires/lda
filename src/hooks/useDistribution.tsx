@@ -2,9 +2,16 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
 import { orderBy } from 'lodash';
-import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
+import { useNavigate } from 'react-router-dom';
+import {
+  createDoc,
+  deleteDocQueryFunction,
+  getDocQueryFunction,
+  updateDocQueryFunction,
+} from 'services/firebase';
 import type { Distribution, FirestoreDistribution, UID } from 'types';
 import { SEPARATOR } from 'utils/constants';
+import { useAddListingEntryMutation } from './useListingQuery';
 
 /**
  * Deserializes a FirestoreDistribution object into a Distribution object.
@@ -18,16 +25,23 @@ const deserializeDistribution = (fbDistribution: FirestoreDistribution): Distrib
   };
 };
 
-export function useDistributionQuery(distributionId: string) {
+export function useDistributionQuery(distributionId: string, draftData?: Distribution) {
   return useQuery<FirestoreDistribution, Error, Distribution>({
     queryKey: ['distribution', distributionId],
     queryFn: async () => {
+      if (distributionId === '$draft' && draftData) {
+        return serializeDistribution(draftData);
+      }
+
       return await getDocQueryFunction<FirestoreDistribution>('distributions', distributionId);
     },
     select: (data) => {
       return deserializeDistribution(data);
     },
     enabled: !!distributionId,
+    // Prevent caching for draft distributions
+    staleTime: distributionId === '$draft' ? 0 : undefined,
+    gcTime: distributionId === '$draft' ? 0 : undefined,
   });
 }
 
@@ -46,9 +60,30 @@ const serializeDistribution = (distribution: Distribution): FirestoreDistributio
 export function useDistributionMutation() {
   const { notification } = App.useApp();
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  const updateListingMutation = useAddListingEntryMutation('distributions');
 
   return useMutation<FirestoreDistribution, Error, Distribution>({
     mutationFn: async (data) => {
+      // Handle draft creation (first save)
+      if (data.id === '$draft') {
+        const serializedDistribution = serializeDistribution(data);
+        // Create new distribution document in Firestore
+        const dataWithId = await createDoc('distributions', serializedDistribution);
+
+        // Create new listing entry
+        await updateListingMutation.mutateAsync({
+          id: dataWithId.id,
+          name: data.name ?? 'Unnamed Distribution',
+          type: 'distribution',
+        });
+
+        // Update query cache with new distribution to avoid refetching
+        queryClient.setQueryData(['distribution', dataWithId.id], dataWithId);
+        return dataWithId;
+      }
+
+      // Handle existing distribution update
       const serializedDistribution = serializeDistribution(data);
       await updateDocQueryFunction('distributions', data.id, serializedDistribution);
 
@@ -73,11 +108,20 @@ export function useDistributionMutation() {
 
       return serializedDistribution;
     },
-    onSuccess() {
-      notification.success({
-        title: 'Success',
-        description: 'Distribution updated successfully',
-      });
+    onSuccess(data, variables) {
+      // Navigate to real distribution URL after creating from draft
+      if (variables.id === '$draft') {
+        notification.success({
+          title: 'Success',
+          description: 'Distribution created successfully',
+        });
+        navigate(`/distributions/${data.id}/edit`);
+      } else {
+        notification.success({
+          title: 'Success',
+          description: 'Distribution updated successfully',
+        });
+      }
     },
     onError(error) {
       notification.error({

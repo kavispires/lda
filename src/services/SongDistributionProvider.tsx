@@ -27,9 +27,13 @@ type SongDistributionType = {
 
 const SongDistributionContext = createContext<SongDistributionType | undefined>(undefined);
 
-export const SongDistributionProvider = ({ children }: PropsWithChildren) => {
+type SongDistributionProviderProps = PropsWithChildren & {
+  draftDistribution?: Distribution;
+};
+
+export const SongDistributionProvider = ({ children, draftDistribution }: SongDistributionProviderProps) => {
   const { distributionId } = useParams();
-  const distributionQuery = useDistributionQuery(distributionId ?? '');
+  const distributionQuery = useDistributionQuery(distributionId ?? '', draftDistribution);
   const songQuery = useSongQuery(distributionQuery.data?.songId ?? '');
   const groupsQuery = useListingDataQuery<Group>('groups');
   const distributionMutation = useDistributionMutation();
