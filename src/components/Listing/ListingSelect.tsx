@@ -84,7 +84,9 @@ export const useListingSelect = (
       return activeList;
     }
     const query = searchQuery.toLowerCase();
-    return activeList.filter((entry) => entry.name.toLowerCase().includes(query));
+    return activeList.filter(
+      (entry) => entry.name.toLowerCase().includes(query) || entry.id.toLowerCase().includes(query),
+    );
   }, [activeList, searchQuery]);
 
   return {
