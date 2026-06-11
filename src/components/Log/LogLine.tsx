@@ -70,7 +70,7 @@ export function LogLine({
 }: LogLineProps) {
   const { text, status, line } = useLogLine(id, song);
 
-  if (!line || !line.id)
+  if (!line?.id)
     return (
       <li className="log-section">
         <Alert title="Line doesn't exist" type="error" />

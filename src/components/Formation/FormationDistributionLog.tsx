@@ -76,7 +76,7 @@ function ViewSection({ instanceId, onPlay }: ViewEntryProps & { onPlay: (startTi
   const { name, partIds, section } = useLogSection(instanceId, song);
   const { part } = useLogPart(partIds[0], song);
 
-  if (!section || !section.id)
+  if (!section?.id)
     return (
       <li className="log-section">
         <Alert title="Section doesn't exist" type="error" />
@@ -151,7 +151,7 @@ function ViewPart({ instanceId }: ViewEntryProps) {
   } = useSongDistributionContext();
   const { part } = useLogPart(instanceId, song);
 
-  if (!part || !part.id) {
+  if (!part?.id) {
     return (
       <li className="log-section">
         <Alert title="Line doesn't exist" type="error" />

@@ -60,7 +60,7 @@ export function LogPart({
   const { part, status, duration } = useLogPart(id, song);
   const bgColor = color ?? ASSIGNEES[part.recommendedAssignee].color;
 
-  if (!part || !part.id)
+  if (!part?.id)
     return (
       <li className="log-section">
         <Alert title="Line doesn't exist" type="error" />

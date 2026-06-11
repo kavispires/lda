@@ -82,7 +82,7 @@ async function handleActionUp(
   // Not allowed key
   if (!KEY_ASSIGNEE[key]) return;
 
-  tempPart[key]!.endTime = convertStoMS(await playerRef.current.internalPlayer.getCurrentTime());
+  tempPart[key].endTime = convertStoMS(await playerRef.current.internalPlayer.getCurrentTime());
 
   const copy = { ...tempPart[key] } as RecordingTimestamp;
 

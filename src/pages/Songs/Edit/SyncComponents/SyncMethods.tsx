@@ -52,6 +52,7 @@ export function SyncMethods({
     setActiveTimestamp(null);
   };
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: no functions on the dependency array
   useEffect(() => {
     if (sequentialMode) {
       if (unassignedTimestamps.length === 0) {

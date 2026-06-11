@@ -19,7 +19,7 @@ type StepLyricsProps = {
   setStep: React.Dispatch<React.SetStateAction<number>>;
 };
 
-export function StepLyrics({ newSong, updateNewSong, setStep }: StepLyricsProps) {
+export function StepLyrics({ newSong }: StepLyricsProps) {
   const navigate = useNavigate();
   const songMutation = useCreateSongMutation();
 

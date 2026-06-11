@@ -28,7 +28,6 @@ export function ControlledVideoComponent({
   const w = Math.max(320, width);
   const h = (9 * w) / 16;
   if (w <= 0 || h <= 0) {
-    console.log(w, h);
     alert('Invalid width or height');
   }
 
