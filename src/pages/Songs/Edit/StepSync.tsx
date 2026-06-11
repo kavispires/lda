@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { useSongActions } from 'hooks/useSongActions';
 import { useVideoControls } from 'hooks/useVideoControls';
-import { useMemo, useState } from 'react';
+import { type Ref, useMemo, useState } from 'react';
 import type YouTube from 'react-youtube';
 import { useSongEditContext } from 'services/SongEditProvider';
 import type { Dictionary, UpdateValue } from 'types';
@@ -75,7 +75,7 @@ export function StepSync({ videoWidth }: StepSyncProps) {
         <div>
           <Flex className="surface" justify="center">
             <ControlledVideo
-              playerRef={playerRef as React.LegacyRef<YouTube>}
+              playerRef={playerRef as Ref<YouTube>}
               setEnd={setEnd}
               setPlaying={setPlaying}
               setRecording={setRecording}

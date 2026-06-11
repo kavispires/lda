@@ -239,8 +239,8 @@ function SelectiveModal({ open, onClose, data, fileName }: SelectiveModalProps) 
           {/* Not dictionary */}
           {!isDictionary && !isEmpty(predata) && (
             <Alert
-              message="Data is not in a dictionary format to support selective download."
               showIcon
+              title="Data is not in a dictionary format to support selective download."
               type="warning"
             />
           )}

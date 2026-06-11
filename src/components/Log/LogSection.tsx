@@ -100,7 +100,7 @@ export function LogSection({
   if (!section?.id)
     return (
       <li className="log-section">
-        <Alert message="Section doesn't exist" type="error" />
+        <Alert title="Section doesn't exist" type="error" />
       </li>
     );
 

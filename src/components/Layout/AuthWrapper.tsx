@@ -37,8 +37,8 @@ export function AuthWrapper({ children }: PropsWithChildren) {
             </Button>
           }
           description="You can't use this app unless you are logged in."
-          message="You are not logged in"
           showIcon
+          title="You are not logged in"
           type="info"
         />
         <Form {...layout} autoComplete="off" layout="vertical" name="sign-in" onValuesChange={onValuesChange}>

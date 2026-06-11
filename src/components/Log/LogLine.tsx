@@ -73,7 +73,7 @@ export function LogLine({
   if (!line || !line.id)
     return (
       <li className="log-section">
-        <Alert message="Line doesn't exist" type="error" />
+        <Alert title="Line doesn't exist" type="error" />
       </li>
     );
 

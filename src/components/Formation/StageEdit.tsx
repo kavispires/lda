@@ -131,7 +131,7 @@ export function TimelineEntry({ timestampKey, width }: { timestampKey: string; w
   }, []);
 
   return (
-    <Space direction="horizontal" key={timestampKey} size="small">
+    <Space key={timestampKey} orientation="horizontal" size="small">
       <Flex className="timeline-entry mb-4 surface" vertical>
         <Flex>
           "{closestLyrics}" <Typography.Text code>{timestamp}s</Typography.Text>

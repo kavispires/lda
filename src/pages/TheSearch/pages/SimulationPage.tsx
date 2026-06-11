@@ -138,12 +138,11 @@ export function SimulationPage() {
 
       {error && (
         <Alert
-          closable
+          closable={{ onClose: () => setError(null) }}
           description={error}
-          message="Initialization Error"
-          onClose={() => setError(null)}
           showIcon
           style={{ marginBottom: '1rem' }}
+          title="Initialization Error"
           type="error"
         />
       )}
@@ -269,7 +268,7 @@ function EpisodeTimeline({
 
   return (
     <Card style={{ marginTop: '2rem' }}>
-      <Space direction="vertical" size="large" style={{ width: '100%' }}>
+      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
         <div>
           <Typography.Title level={2}>
             <RocketOutlined /> Episode Timeline
@@ -547,7 +546,7 @@ function SimulationOverview({ contestants, episode }: SimulationOverviewProps) {
   return (
     <div style={{ marginTop: '2rem' }}>
       <Card>
-        <Space align="start" direction="vertical" size="large" style={{ width: '100%' }}>
+        <Space align="start" orientation="vertical" size="large" style={{ width: '100%' }}>
           <div>
             <Typography.Title level={2}>
               {episode === 0 ? 'Simulation Ready' : `Episode ${episode} Complete`}
@@ -749,7 +748,7 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
   return (
     <div style={{ marginTop: '2rem' }}>
       <Card>
-        <Space align="start" direction="vertical" size="large" style={{ width: '100%' }}>
+        <Space align="start" orientation="vertical" size="large" style={{ width: '100%' }}>
           <div>
             <Typography.Title level={2}>Episode {episode}: Auditions - The Narrative</Typography.Title>
             <Typography.Paragraph>
@@ -812,7 +811,7 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
                     </Space>
                   }
                 >
-                  <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+                  <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
                     {segmentData.map((data) => (
                       <Card
                         hoverable
@@ -831,7 +830,7 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
                             />
                           </Col>
                           <Col flex="auto">
-                            <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                            <Space orientation="vertical" size="small" style={{ width: '100%' }}>
                               <Space>
                                 <Typography.Text strong style={{ fontSize: '16px' }}>
                                   {data.contestant.name}
@@ -880,9 +879,9 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
                 {commercialBreak && (
                   <Alert
                     key={`break-${segmentNum}`}
-                    message={commercialBreak}
                     showIcon
                     style={{ marginBottom: '1rem' }}
+                    title={commercialBreak}
                     type="info"
                   />
                 )}
@@ -896,7 +895,7 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
               size="small"
               style={{ marginTop: '1rem', backgroundColor: '#fff7e6', borderColor: '#ffa940' }}
             >
-              <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+              <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
                 <div>
                   <Typography.Title level={4}>
                     📺 Auditions Not Broadcast ({episodeData.filter((d) => d.tier === 6).length} contestants)
@@ -945,8 +944,8 @@ function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
               size="small"
               style={{ marginTop: '1rem', backgroundColor: '#f6ffed', borderColor: '#52c41a' }}
             >
-              <Space direction="vertical" size="large" style={{ width: '100%' }}>
-                <Alert description={episodeEnding.message} message="Episode Ending" showIcon type="success" />
+              <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+                <Alert description={episodeEnding.message} showIcon title="Episode Ending" type="success" />
 
                 {episodeEnding.top5 && episodeEnding.top5.length > 0 && (
                   <div>

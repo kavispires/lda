@@ -1,7 +1,7 @@
 import { Button } from 'antd';
 import { useKeyDown, useKeyUp } from 'hooks/useOnKeyPress';
 import { uniqueId } from 'lodash';
-import { useEffect } from 'react';
+import { type RefObject, useEffect } from 'react';
 import type { Dictionary } from 'types';
 import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
 
@@ -93,7 +93,7 @@ async function handleActionUp(
 }
 
 type KeyboardCaptureProps = {
-  playerRef: React.MutableRefObject<any | null>;
+  playerRef: RefObject<any | null>;
   isPlaying: boolean;
   isRecording: boolean;
   setUnassignedTimestamps: React.Dispatch<React.SetStateAction<RecordingTimestamp[]>>;

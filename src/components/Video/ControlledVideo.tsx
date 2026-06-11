@@ -1,10 +1,10 @@
 import clsx from 'clsx';
-import { memo } from 'react';
+import { memo, type Ref } from 'react';
 import YouTube, { type YouTubeEvent } from 'react-youtube';
 
 export type ControlledVideoProps = {
   videoId: string;
-  playerRef: React.LegacyRef<YouTube>;
+  playerRef: Ref<YouTube>;
   onStateChange?: (event: YouTubeEvent<number>) => void;
   width?: number;
   setPlaying: (value: boolean) => void;
@@ -78,4 +78,5 @@ export function ControlledVideoComponent({
 }
 
 const ControlledVideo = memo(ControlledVideoComponent);
+
 export { ControlledVideo };

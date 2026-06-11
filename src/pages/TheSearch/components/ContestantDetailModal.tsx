@@ -134,7 +134,7 @@ export function ContestantDetailModal({ contestant, allContestants, onClose }: C
 // Tab 1: Basic Information and Statistics
 function BasicInfoTab({ contestant }: { contestant: Contestant }) {
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       {/* Basic Info */}
       <div>
         <Typography.Title level={5}>Basic Information</Typography.Title>
@@ -215,7 +215,7 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
   };
 
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       {/* Core Skills and Utility Skills Side by Side */}
       <Row gutter={16}>
         {/* Core Skills */}
@@ -379,7 +379,7 @@ function PersonalityTab({ contestant }: { contestant: Contestant }) {
   };
 
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       {/* Appearance */}
       <div>
         <Typography.Title level={5}>Appearance</Typography.Title>
@@ -540,7 +540,7 @@ function RelationshipsTab({
   ];
 
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <div>
         <Space
           align="center"
@@ -628,7 +628,7 @@ function ChangeLogTab({ contestant }: { contestant: Contestant }) {
   ];
 
   return (
-    <Space direction="vertical" size="large" style={{ width: '100%' }}>
+    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <div>
         <Typography.Title level={5}>Change Log ({contestant.changeLog.length} entries)</Typography.Title>
         <Typography.Paragraph type="secondary">

@@ -5,6 +5,7 @@ import { NudgeSongCollapse } from 'components/Log/NudgeSongCollapse';
 import { SectionOrganizerCollapse } from 'components/Log/SectionOrganizerCollapse';
 import { ControlledVideo } from 'components/Video/ControlledVideo';
 import { useVideoControls } from 'hooks/useVideoControls';
+import type { Ref } from 'react';
 import type YouTube from 'react-youtube';
 import { useSongEditContext } from 'services/SongEditProvider';
 
@@ -29,7 +30,7 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
         <Space orientation="vertical">
           <ControlledVideo
             className="surface"
-            playerRef={videoControls.playerRef as React.LegacyRef<YouTube>}
+            playerRef={videoControls.playerRef as Ref<YouTube>}
             setEnd={videoControls.setEnd}
             setPlaying={videoControls.setPlaying}
             videoId={song.videoId}

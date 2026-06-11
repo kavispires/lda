@@ -65,6 +65,13 @@ const libraryConfigs: Record<LibraryType, LibraryConfig> = {
   },
 };
 
+const sortByOptions = [
+  { label: 'Name (A-Z)', value: 'name' },
+  { label: 'ID (A-Z)', value: 'id' },
+  { label: 'Occurrence (High to Low)', value: 'occurrence' },
+  { label: 'Group (A-Z)', value: 'group' },
+];
+
 export function LibraryViewerPage() {
   const navigate = useNavigate();
   const { type } = useParams<{ type: LibraryType }>();
@@ -198,7 +205,7 @@ export function LibraryViewerPage() {
         title={selectedCard.name}
         width={800}
       >
-        <Space direction="vertical" size="large" style={{ width: '100%' }}>
+        <Space orientation="vertical" size="large" style={{ width: '100%' }}>
           <div>
             <Typography.Title level={5}>Details</Typography.Title>
             <Descriptions bordered column={1} size="small">
@@ -280,6 +287,17 @@ export function LibraryViewerPage() {
     );
   };
 
+  const filterByGroupOptions = [
+    {
+      label: 'All Groups',
+      value: 'all',
+    },
+    ...groups.map((group) => ({
+      label: group,
+      value: group,
+    })),
+  ];
+
   return (
     <Content>
       <Flex align="center" gap="middle" style={{ marginBottom: '1rem' }}>
@@ -313,31 +331,21 @@ export function LibraryViewerPage() {
 
           <Select
             onChange={setSelectedGroup}
+            options={filterByGroupOptions}
             placeholder="Filter by group"
             prefix={<FilterOutlined />}
             style={{ width: '200px' }}
             value={selectedGroup}
-          >
-            <Select.Option value="all">All Groups</Select.Option>
-            {groups.map((group) => (
-              <Select.Option key={group} value={group}>
-                {group}
-              </Select.Option>
-            ))}
-          </Select>
+          />
 
           <Select
             onChange={setSortBy}
+            options={sortByOptions}
             placeholder="Sort by"
             prefix={<SortAscendingOutlined />}
             style={{ width: '200px' }}
             value={sortBy}
-          >
-            <Select.Option value="name">Name (A-Z)</Select.Option>
-            <Select.Option value="id">ID (A-Z)</Select.Option>
-            <Select.Option value="occurrence">Occurrence (High to Low)</Select.Option>
-            <Select.Option value="group">Group (A-Z)</Select.Option>
-          </Select>
+          />
 
           <Badge count={filteredAndSortedCards.length} showZero>
             <Button icon={<TableOutlined />}>Results</Button>
@@ -375,7 +383,7 @@ export function LibraryViewerPage() {
                     </Space>
                   }
                 >
-                  <Space direction="vertical" size="small" style={{ width: '100%' }}>
+                  <Space orientation="vertical" size="small" style={{ width: '100%' }}>
                     <div>
                       <Typography.Text code style={{ fontSize: '11px' }}>
                         {card.id}

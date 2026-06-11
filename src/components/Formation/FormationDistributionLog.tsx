@@ -79,7 +79,7 @@ function ViewSection({ instanceId, onPlay }: ViewEntryProps & { onPlay: (startTi
   if (!section || !section.id)
     return (
       <li className="log-section">
-        <Alert message="Section doesn't exist" type="error" />
+        <Alert title="Section doesn't exist" type="error" />
       </li>
     );
 
@@ -154,7 +154,7 @@ function ViewPart({ instanceId }: ViewEntryProps) {
   if (!part || !part.id) {
     return (
       <li className="log-section">
-        <Alert message="Line doesn't exist" type="error" />
+        <Alert title="Line doesn't exist" type="error" />
       </li>
     );
   }

@@ -230,7 +230,7 @@ export function StepCoreSkills({
       />
 
       {validationError && (
-        <Alert description={validationError} message="Validation Error" showIcon type="error" />
+        <Alert description={validationError} showIcon title="Validation Error" type="error" />
       )}
 
       {duplicateContestants.length > 0 && (
@@ -246,9 +246,9 @@ export function StepCoreSkills({
               </div>
             </>
           }
-          message="Duplicate Core Skills Detected"
           showIcon
           style={{ marginBottom: '1rem' }}
+          title="Duplicate Core Skills Detected"
           type="warning"
         />
       )}

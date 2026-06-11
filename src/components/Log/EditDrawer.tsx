@@ -27,7 +27,7 @@ export function EditDrawer({ onClose, activeIds, specialModal }: EditDrawerProps
 
   return (
     <Drawer
-      maskClosable={!isDirty}
+      mask={{ closable: !isDirty }}
       onClose={onClose}
       open={!!activeIds.length}
       title={`Editing ${getInstanceName(activeIds)}: ${activeIds.join(', ')}`}

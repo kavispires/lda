@@ -63,7 +63,7 @@ export function LogPart({
   if (!part || !part.id)
     return (
       <li className="log-section">
-        <Alert message="Line doesn't exist" type="error" />
+        <Alert title="Line doesn't exist" type="error" />
       </li>
     );
 

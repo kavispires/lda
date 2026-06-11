@@ -212,7 +212,7 @@ export function StepUtilitySkills({
       />
 
       {validationError && (
-        <Alert description={validationError} message="Validation Error" showIcon type="error" />
+        <Alert description={validationError} showIcon title="Validation Error" type="error" />
       )}
 
       {duplicateContestants.length > 0 && (
@@ -228,9 +228,9 @@ export function StepUtilitySkills({
               </div>
             </>
           }
-          message="Duplicate Utility Skills Detected"
           showIcon
           style={{ marginBottom: '1rem' }}
+          title="Duplicate Utility Skills Detected"
           type="warning"
         />
       )}
