@@ -1,12 +1,10 @@
+// Utils - must come first before @import url()
+@use "./sass" as *;
+@use "./utility";
+@use "./global";
+@use "./log";
+
 @import url("https://cdn-uicons.flaticon.com/uicons-regular-rounded/css/uicons-regular-rounded.css");
 @import url("https://cdn-uicons.flaticon.com/2.4.2/uicons-regular-straight/css/uicons-regular-straight.css");
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Inconsolata:wght@900&display=swap");
-
-// Utils
-@import "./variables";
-@import "./functions";
-@import "./utility";
-
-@import "./global";
-@import "./log";

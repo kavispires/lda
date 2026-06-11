@@ -1,3 +1,5 @@
+@use "./sass" as *;
+
 @for $i from 0 through 12 {
   .m-#{$i} {
     margin: get-unit($i);

@@ -1,3 +1,5 @@
+@use "./sass" as *;
+
 html {
   margin: 0;
   padding: 0;
@@ -8,7 +10,7 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: 'Lato', sans-serif;
+  font-family: "Lato", sans-serif;
   background: hsl(209, 97%, 13%);
   color: rgba($color: #ffffff, $alpha: 0.85);
 }
