@@ -2,26 +2,45 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App as AntApp } from 'antd';
 import { ContentLoading } from 'components/Content';
 import { Layout } from 'components/Layout/Layout';
-import { DistributionPage } from 'pages/Distributions/DistributionPage';
-import { DistributionsListingPage } from 'pages/Distributions/DistributionsListingPage';
-import { EditDistributionPage } from 'pages/Distributions/EditDistributionPage';
-import { EditFormationPage } from 'pages/Distributions/EditFormationPage';
-import { NewDistributionPage } from 'pages/Distributions/NewDistributionPage';
-import { GroupsListingPage } from 'pages/Groups/GroupsListingPage';
-import { EditSongPage } from 'pages/Songs/EditSongPage';
-import { NewSongPage } from 'pages/Songs/NewSongPage';
-import { SongsListingPage } from 'pages/Songs/SongsListingPage';
-import { useContestantsQuery } from 'pages/TheSearch/hooks/useContestants';
-import { ContestantBuilderPage } from 'pages/TheSearch/pages/ContestantBuilderPage';
-import { ContestantsListingPage } from 'pages/TheSearch/pages/ContestantsListingPage';
-import { LibrariesIndexPage } from 'pages/TheSearch/pages/LibrariesIndexPage';
-import { LibraryViewerPage } from 'pages/TheSearch/pages/LibraryViewerPage';
-import { SimulationPage } from 'pages/TheSearch/pages/SimulationPage';
-import { TheSearchPage } from 'pages/TheSearch/pages/TheSearchPage';
-import { ContestantsProvider } from 'pages/TheSearch/services/ContestantsProvider';
+import { lazy, Suspense } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
 import { AuthProvider } from 'services/AuthProvider';
 import { HomePage } from './pages/Home';
+
+// Lazy load feature areas for code splitting
+const DistributionPage = lazy(() =>
+  import('pages/Distributions/DistributionPage').then((m) => ({ default: m.DistributionPage })),
+);
+const DistributionsListingPage = lazy(() =>
+  import('pages/Distributions/DistributionsListingPage').then((m) => ({
+    default: m.DistributionsListingPage,
+  })),
+);
+const EditDistributionPage = lazy(() =>
+  import('pages/Distributions/EditDistributionPage').then((m) => ({ default: m.EditDistributionPage })),
+);
+const EditFormationPage = lazy(() =>
+  import('pages/Distributions/EditFormationPage').then((m) => ({ default: m.EditFormationPage })),
+);
+const NewDistributionPage = lazy(() =>
+  import('pages/Distributions/NewDistributionPage').then((m) => ({ default: m.NewDistributionPage })),
+);
+
+const EditSongPage = lazy(() =>
+  import('pages/Songs/EditSongPage').then((m) => ({ default: m.EditSongPage })),
+);
+const NewSongPage = lazy(() => import('pages/Songs/NewSongPage').then((m) => ({ default: m.NewSongPage })));
+const SongsListingPage = lazy(() =>
+  import('pages/Songs/SongsListingPage').then((m) => ({ default: m.SongsListingPage })),
+);
+
+const GroupsListingPage = lazy(() =>
+  import('pages/Groups/GroupsListingPage').then((m) => ({ default: m.GroupsListingPage })),
+);
+
+const TheSearchRoutes = lazy(() =>
+  import('pages/TheSearch/TheSearchRoutes').then((m) => ({ default: m.TheSearchRoutes })),
+);
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,31 +53,6 @@ const queryClient = new QueryClient({
   },
 });
 
-/**
- * Wrapper component for The Search routes that provides the global contestants state
- */
-function TheSearchRoutes() {
-  const { data: contestantsData, isLoading } = useContestantsQuery();
-
-  if (isLoading || !contestantsData) {
-    return <ContentLoading />;
-  }
-
-  return (
-    <ContestantsProvider initialData={contestantsData}>
-      <Routes>
-        <Route element={<TheSearchPage />} path="/" />
-        <Route element={<ContestantsListingPage />} path="/contestants" />
-        <Route element={<LibrariesIndexPage />} path="/libraries" />
-        <Route element={<LibraryViewerPage />} path="/libraries/:type" />
-        <Route element={<SimulationPage />} path="/simulation" />
-        <Route element={<ContestantBuilderPage />} path="/new" />
-        <Route element={<ContestantBuilderPage />} path="/edit" />
-      </Routes>
-    </ContestantsProvider>
-  );
-}
-
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
@@ -66,27 +60,29 @@ function App() {
         <HashRouter>
           <AuthProvider>
             <Layout>
-              <Routes>
-                <Route element={<HomePage />} path="/" />
+              <Suspense fallback={<ContentLoading />}>
+                <Routes>
+                  <Route element={<HomePage />} path="/" />
 
-                <Route element={<NewDistributionPage />} path="/distributions/new" />
-                <Route element={<DistributionPage />} path="/distributions/:distributionId" />
-                <Route element={<EditDistributionPage />} path="/distributions/:distributionId/edit" />
-                <Route
-                  element={<EditFormationPage />}
-                  path="/distributions/:distributionId/formation/:formationId"
-                />
-                <Route element={<DistributionsListingPage />} path="/distributions" />
+                  <Route element={<NewDistributionPage />} path="/distributions/new" />
+                  <Route element={<DistributionPage />} path="/distributions/:distributionId" />
+                  <Route element={<EditDistributionPage />} path="/distributions/:distributionId/edit" />
+                  <Route
+                    element={<EditFormationPage />}
+                    path="/distributions/:distributionId/formation/:formationId"
+                  />
+                  <Route element={<DistributionsListingPage />} path="/distributions" />
 
-                <Route element={<GroupsListingPage />} path="/groups" />
+                  <Route element={<GroupsListingPage />} path="/groups" />
 
-                <Route element={<NewSongPage />} path="/songs/new" />
-                <Route element={<div>Song</div>} path="/songs/:songId" />
-                <Route element={<EditSongPage />} path="/songs/:songId/edit" />
-                <Route element={<SongsListingPage />} path="/songs" />
+                  <Route element={<NewSongPage />} path="/songs/new" />
+                  <Route element={<div>Song</div>} path="/songs/:songId" />
+                  <Route element={<EditSongPage />} path="/songs/:songId/edit" />
+                  <Route element={<SongsListingPage />} path="/songs" />
 
-                <Route element={<TheSearchRoutes />} path="/the-search/*" />
-              </Routes>
+                  <Route element={<TheSearchRoutes />} path="/the-search/*" />
+                </Routes>
+              </Suspense>
             </Layout>
           </AuthProvider>
         </HashRouter>
