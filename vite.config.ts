@@ -16,10 +16,10 @@ export default defineConfig({
       ],
     }),
     checker({
-      typescript: {
+      typescript: process.env.NODE_ENV !== 'production' ? {
         tsconfigPath: 'tsconfig.json',
         buildMode: false,
-      },
+      } : false,
     }),
   ],
   server: {
