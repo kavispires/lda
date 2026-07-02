@@ -1,14 +1,14 @@
-import { useVideoControls } from 'hooks/useVideoControls';
+import { useVideoControls } from '@hooks/useVideoControls';
 import {
   type UseVisualizerMeasurementsResult,
   useVisualizerMeasurements,
-} from 'hooks/useVisualizerMeasurements';
+} from '@hooks/useVisualizerMeasurements';
+import type { Artist, Dictionary, Distribution, Song, UID } from '@types';
+import { distributor, removeDuplicates } from '@utils';
+import { ALL_ID, NONE_ID } from '@utils/constants';
 import { keyBy, orderBy, sortBy } from 'lodash';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { useLocalStorage, useToggle } from 'react-use';
-import type { Artist, Dictionary, Distribution, Song, UID } from 'types';
-import { distributor, removeDuplicates } from 'utils';
-import { ALL_ID, NONE_ID } from 'utils/constants';
 
 /**
  * Tracks whether a distribution is in sync with its song's parts

@@ -1,12 +1,12 @@
 import { ApiOutlined, PlayCircleFilled } from '@ant-design/icons';
+import { ArtistAvatar } from '@components/Artist';
+import { useLogLine, useLogPart, useLogSection } from '@hooks/useLogInstances';
+import { useDanceFormationContext } from '@services/DanceFormationProvider';
+import { useSongDistributionContext } from '@services/SongDistributionProvider';
+import type { Artist, Dictionary, UID } from '@types';
+import { distributor } from '@utils';
 import { Alert, Avatar, Button, Popconfirm, Typography } from 'antd';
 import clsx from 'clsx';
-import { ArtistAvatar } from 'components/Artist';
-import { useLogLine, useLogPart, useLogSection } from 'hooks/useLogInstances';
-import { useDanceFormationContext } from 'services/DanceFormationProvider';
-import { useSongDistributionContext } from 'services/SongDistributionProvider';
-import type { Artist, Dictionary, UID } from 'types';
-import { distributor } from 'utils';
 
 type FormationDistributionLogProps = {
   className?: string;

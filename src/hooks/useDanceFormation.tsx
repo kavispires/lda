@@ -1,8 +1,8 @@
+import { createDocWithId, getDocQueryFunction, updateDocQueryFunction } from '@services/firebase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { FirestoreFormation, Formation } from '@types';
 import { App } from 'antd';
 import { useNavigate } from 'react-router-dom';
-import { createDocWithId, getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
-import type { FirestoreFormation, Formation } from 'types';
 
 /**
  * Deserializes a FirestoreFormation object into a Formation object.

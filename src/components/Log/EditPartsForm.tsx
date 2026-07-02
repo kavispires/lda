@@ -1,11 +1,11 @@
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { Dictionary, Song, SongPart, UID, UpdateValue } from '@types';
+import { distributor } from '@utils';
+import { ASSIGNEES, DEFAULT_ASSIGNEE } from '@utils/constants';
 import { Button, Divider, Flex, Form, Popconfirm, Radio, Typography } from 'antd';
-import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { Dictionary, Song, SongPart, UID, UpdateValue } from 'types';
-import { distributor } from 'utils';
-import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
 
 const getInitialValue = (partsIds: string[], song: Song) => {
   const parts = partsIds.map((partId) => distributor.getPart(partId, song));

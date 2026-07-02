@@ -1,7 +1,6 @@
+import type { Song } from '@types';
+import { distributor } from '@utils';
 import { useMemo } from 'react';
-
-import type { Song } from 'types';
-import { distributor } from 'utils';
 
 export function useLogPart(partId: string, song: Song) {
   return useMemo(() => {

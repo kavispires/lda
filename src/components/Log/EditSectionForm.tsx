@@ -1,13 +1,13 @@
 import { DeleteOutlined } from '@ant-design/icons';
+import { useLogSection } from '@hooks/useLogInstances';
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { SongSection, UID } from '@types';
+import { distributor, getCompletionPercentage } from '@utils';
+import { NULL, SECTION_KINDS } from '@utils/constants';
 import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Select, Space } from 'antd';
-import { useLogSection } from 'hooks/useLogInstances';
-import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { SongSection, UID } from 'types';
-import { distributor, getCompletionPercentage } from 'utils';
-import { NULL, SECTION_KINDS } from 'utils/constants';
 
 import { CriteriaRule } from './CriteriaRule';
 

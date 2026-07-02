@@ -1,4 +1,5 @@
 import { AppstoreOutlined, RocketOutlined, TableOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { Content } from '@components/Content';
 import { useSelector } from '@tanstack/react-store';
 import {
   Alert,
@@ -15,7 +16,6 @@ import {
   Tag,
   Typography,
 } from 'antd';
-import { Content } from 'components/Content';
 import { useState } from 'react';
 import type { Dictionary, ValuesOf } from 'types/common';
 import { ContestantAvatar } from '../components/ContestantAvatar';

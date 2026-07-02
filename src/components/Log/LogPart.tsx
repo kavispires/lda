@@ -1,9 +1,9 @@
 import { ApiFilled, ApiOutlined, CheckCircleOutlined, NotificationFilled } from '@ant-design/icons';
+import { useLogPart } from '@hooks/useLogInstances';
+import type { Song, UID } from '@types';
+import { ASSIGNEES } from '@utils/constants';
 import { Alert, Button, Checkbox } from 'antd';
-import { useLogPart } from 'hooks/useLogInstances';
 import type { ReactNode } from 'react';
-import type { Song, UID } from 'types';
-import { ASSIGNEES } from 'utils/constants';
 
 type LogPartProps = {
   /**

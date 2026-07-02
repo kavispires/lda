@@ -1,9 +1,9 @@
 import './DistributionStatsBar.scss';
 
+import { ArtistAvatar } from '@components/Artist';
+import type { Artist } from '@types';
 import { Flex, Tooltip } from 'antd';
 import clsx from 'clsx';
-import { ArtistAvatar } from 'components/Artist';
-import type { Artist } from 'types';
 
 type DistributionStatsBarProps = {
   artist: Artist;

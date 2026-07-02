@@ -1,9 +1,9 @@
 import './NewSongPage.scss';
 
+import { Content } from '@components/Content';
+import type { Song } from '@types';
 import { Typography } from 'antd';
-import { Content } from 'components/Content';
 import { useState } from 'react';
-import type { Song } from 'types';
 
 import { NewSongStepper } from './New/NewSongStepper';
 import { StepLyrics } from './New/StepLyrics';

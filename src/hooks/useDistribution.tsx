@@ -1,16 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { App } from 'antd';
-import { deleteField } from 'firebase/firestore';
-import { orderBy } from 'lodash';
-import { useNavigate } from 'react-router-dom';
 import {
   createDoc,
   deleteDocQueryFunction,
   getDocQueryFunction,
   updateDocQueryFunction,
-} from 'services/firebase';
-import type { Distribution, FirestoreDistribution, UID } from 'types';
-import { SEPARATOR } from 'utils/constants';
+} from '@services/firebase';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { Distribution, FirestoreDistribution, UID } from '@types';
+import { SEPARATOR } from '@utils/constants';
+import { App } from 'antd';
+import { deleteField } from 'firebase/firestore';
+import { orderBy } from 'lodash';
+import { useNavigate } from 'react-router-dom';
 import { useAddListingEntryMutation } from './useListingQuery';
 
 /**

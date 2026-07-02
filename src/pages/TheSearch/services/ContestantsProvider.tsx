@@ -1,3 +1,4 @@
+import { updateDocQueryFunction } from '@services/firebase';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
 import {
@@ -11,7 +12,6 @@ import {
   useState,
 } from 'react';
 import { useIdle } from 'react-use';
-import { updateDocQueryFunction } from 'services/firebase';
 import type { Contestant } from '../types/contestant';
 import { serializeContestant } from '../utilities/serialization';
 

@@ -1,6 +1,6 @@
 import { RedoOutlined } from '@ant-design/icons';
+import { useQueryParams } from '@hooks/useQueryParams';
 import { Alert, Button, Card, Flex, Form, Select, Typography } from 'antd';
-import { useQueryParams } from 'hooks/useQueryParams';
 import { useEffect, useState } from 'react';
 import type { Contestant, Specialties } from '../../types/contestant';
 import {

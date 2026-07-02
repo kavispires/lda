@@ -1,5 +1,5 @@
+import type { TypeaheadEntry } from '@types';
 import { isEqual, isObject, orderBy } from 'lodash';
-import type { TypeaheadEntry } from 'types';
 
 /**
  * Generates a unique identifier.

@@ -1,9 +1,9 @@
-import { ArtistAvatar } from 'components/Artist';
+import { ArtistAvatar } from '@components/Artist';
+import type { LyricSnapshot } from '@services/DistributionVisualizerProvider';
+import type { Distribution } from '@types';
+import { ALL_ID, NONE_ID } from '@utils/constants';
 import { motion } from 'motion/react';
 import { memo } from 'react';
-import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
-import type { Distribution } from 'types';
-import { ALL_ID, NONE_ID } from 'utils/constants';
 
 type LyricBoxProps = {
   snapshot: LyricSnapshot;

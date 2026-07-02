@@ -1,7 +1,7 @@
+import type { LyricSnapshot } from '@services/DistributionVisualizerProvider';
+import type { Dictionary, Distribution } from '@types';
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, useEffect, useState } from 'react';
-import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
-import type { Dictionary, Distribution } from 'types';
 
 import { AdlibBox } from './LyricBox';
 

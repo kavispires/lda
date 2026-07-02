@@ -4,9 +4,9 @@ import {
   StepBackwardOutlined,
   StepForwardOutlined,
 } from '@ant-design/icons';
+import type { useVideoControls } from '@hooks/useVideoControls';
 import { Button, Slider, type SliderSingleProps } from 'antd';
 import clsx from 'clsx';
-import type { useVideoControls } from 'hooks/useVideoControls';
 import './VideoControls.scss';
 
 type VideoControlsProps = {

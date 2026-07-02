@@ -11,7 +11,7 @@
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
     "module": "esnext",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
@@ -22,10 +22,11 @@
     "noImplicitAny": true,
     "noImplicitThis": true,
     "alwaysStrict": true,
-    "baseUrl": "src",
     "paths": {
-      "@*": ["src/*"],
-    },
+      "@*": ["./src/*"],
+      // Maps exactly to your src/types folder since typescript doesn't allow @types/* to map to src/types/*
+      "types/*": ["./src/types/*"]
+    }
   },
-  "include": ["src"],
+  "include": ["src"]
 }

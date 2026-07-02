@@ -1,8 +1,8 @@
+import { ArtistAvatar } from '@components/Artist';
+import { STAGE_X_SIZE, STAGE_Y_SIZE, useDanceFormationContext } from '@services/DanceFormationProvider';
+import type { Artist, FUID } from '@types';
 import StageSVG from 'assets/images/stage.svg';
-import { ArtistAvatar } from 'components/Artist';
 import { motion, type PanInfo } from 'motion/react';
-import { STAGE_X_SIZE, STAGE_Y_SIZE, useDanceFormationContext } from 'services/DanceFormationProvider';
-import type { Artist, FUID } from 'types';
 import './Stage.scss';
 import {
   CopyOutlined,
@@ -14,10 +14,10 @@ import {
   StepBackwardOutlined,
   StepForwardOutlined,
 } from '@ant-design/icons';
+import { useQueryParams } from '@hooks/useQueryParams';
+import { useSongDistributionContext } from '@services/SongDistributionProvider';
 import { Button, Flex, Space, Tooltip, Typography } from 'antd';
-import { useQueryParams } from 'hooks/useQueryParams';
 import { useMemo } from 'react';
-import { useSongDistributionContext } from 'services/SongDistributionProvider';
 
 const HEIGHT_RATIO = 0.703703703703704;
 

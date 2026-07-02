@@ -1,12 +1,12 @@
 import { UnorderedListOutlined } from '@ant-design/icons';
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { UID } from '@types';
+import { distributor } from '@utils';
+import { NULL } from '@utils/constants';
 import type { CollapseProps } from 'antd';
 import { App, Button, Collapse, Divider, Flex, Form, Input, Typography } from 'antd';
-import { useSongActions } from 'hooks/useSongActions';
 import { useEffect, useMemo, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { UID } from 'types';
-import { distributor } from 'utils';
-import { NULL } from 'utils/constants';
 
 export function SectionOrganizerCollapse() {
   const [activePanel, setActivePanel] = useState<string[]>([]);

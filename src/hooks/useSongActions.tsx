@@ -1,7 +1,7 @@
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from '@types';
+import { distributor } from '@utils';
 import { App } from 'antd';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
-import { distributor } from 'utils';
 
 export function useSongActions() {
   const { notification } = App.useApp();

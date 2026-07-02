@@ -1,4 +1,4 @@
-import type { ValuesOf } from 'types';
+import type { ValuesOf } from '@types';
 import type { TRACKS } from '../utilities/constants';
 
 /**

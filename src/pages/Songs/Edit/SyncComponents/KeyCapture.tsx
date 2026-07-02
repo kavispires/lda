@@ -1,9 +1,9 @@
+import { useKeyDown, useKeyUp } from '@hooks/useOnKeyPress';
+import type { Dictionary } from '@types';
+import { ASSIGNEES, DEFAULT_ASSIGNEE } from '@utils/constants';
 import { Button } from 'antd';
-import { useKeyDown, useKeyUp } from 'hooks/useOnKeyPress';
 import { uniqueId } from 'lodash';
 import { type RefObject, useEffect } from 'react';
-import type { Dictionary } from 'types';
-import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
 
 export type RecordingTimestamp = {
   startTime: number;

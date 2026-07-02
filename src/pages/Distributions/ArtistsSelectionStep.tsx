@@ -1,7 +1,7 @@
+import { ContentLoading } from '@components/Content';
+import { useListingDataQuery } from '@hooks/useListingQuery';
+import type { Artist, Group } from '@types';
 import { Button, Divider, Space, Typography } from 'antd';
-import { ContentLoading } from 'components/Content';
-import { useListingDataQuery } from 'hooks/useListingQuery';
-import type { Artist, Group } from 'types';
 
 type ArtistsSelectionStepProps = {
   selectedArtists: Artist[];

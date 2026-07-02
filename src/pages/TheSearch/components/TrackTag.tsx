@@ -1,5 +1,5 @@
+import type { ValuesOf } from '@types';
 import { Tag } from 'antd';
-import type { ValuesOf } from 'types';
 import type { TRACKS } from '../utilities/constants';
 
 interface TrackTagProps {

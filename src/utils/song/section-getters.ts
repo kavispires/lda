@@ -1,6 +1,6 @@
-import type { Song, SongLine, SongSection } from 'types';
-import { NULL } from 'utils/constants';
-import { getCompletionPercentage } from 'utils/helpers';
+import type { Song, SongLine, SongSection } from '@types';
+import { NULL } from '@utils/constants';
+import { getCompletionPercentage } from '@utils/helpers';
 import { generateUniqueId } from './common';
 import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-getters';
 

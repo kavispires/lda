@@ -6,6 +6,7 @@ import {
   SortAscendingOutlined,
   TableOutlined,
 } from '@ant-design/icons';
+import { Content } from '@components/Content';
 import {
   Badge,
   Button,
@@ -23,7 +24,6 @@ import {
   Tag,
   Typography,
 } from 'antd';
-import { Content } from 'components/Content';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 // Import JSON data

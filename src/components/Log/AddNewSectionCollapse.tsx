@@ -1,12 +1,12 @@
 import { PlusOutlined } from '@ant-design/icons';
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { SongSection } from '@types';
+import { distributor } from '@utils';
+import { SECTION_KINDS } from '@utils/constants';
 import type { CollapseProps } from 'antd';
 import { Button, Collapse, Divider, Flex, Form, Input, Select, Typography } from 'antd';
-import { useSongActions } from 'hooks/useSongActions';
 import { useEffect, useMemo, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { SongSection } from 'types';
-import { distributor } from 'utils';
-import { SECTION_KINDS } from 'utils/constants';
 
 export function AddNewSectionCollapse() {
   const [activePanel, setActivePanel] = useState<string[]>([]);

@@ -1,10 +1,10 @@
+import { LogLine } from '@components/Log/LogLine';
+import { LogPart } from '@components/Log/LogPart';
+import { LogSection } from '@components/Log/LogSection';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { UID } from '@types';
+import { distributor } from '@utils';
 import { Button } from 'antd';
-import { LogLine } from 'components/Log/LogLine';
-import { LogPart } from 'components/Log/LogPart';
-import { LogSection } from 'components/Log/LogSection';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { UID } from 'types';
-import { distributor } from 'utils';
 import type { RecordingTimestamp } from './KeyCapture';
 
 type SyncLogProps = {

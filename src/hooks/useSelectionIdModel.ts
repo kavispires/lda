@@ -1,6 +1,6 @@
+import type { UID } from '@types';
+import { removeDuplicates } from '@utils';
 import { useCallback, useState } from 'react';
-import type { UID } from 'types';
-import { removeDuplicates } from 'utils';
 
 export type SelectionIdModel = {
   selection: UID[];

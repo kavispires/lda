@@ -1,11 +1,11 @@
 import { DoubleRightOutlined } from '@ant-design/icons';
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { UID } from '@types';
+import { distributor } from '@utils';
 import type { CollapseProps } from 'antd';
 import { App, Button, Collapse, Divider, Flex, Form, Input, InputNumber, Switch, Typography } from 'antd';
-import { useSongActions } from 'hooks/useSongActions';
 import { useEffect, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { UID } from 'types';
-import { distributor } from 'utils';
 
 export function NudgeSongCollapse() {
   const [activePanel, setActivePanel] = useState<string[]>([]);

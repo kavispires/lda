@@ -1,7 +1,7 @@
 import { ApiOutlined, ClearOutlined, ClockCircleOutlined, DeleteOutlined } from '@ant-design/icons';
+import { ASSIGNEES } from '@utils/constants';
 import { Button, Flex, Popconfirm, Typography } from 'antd';
 import clsx from 'clsx';
-import { ASSIGNEES } from 'utils/constants';
 
 import type { RecordingTimestamp } from './KeyCapture';
 

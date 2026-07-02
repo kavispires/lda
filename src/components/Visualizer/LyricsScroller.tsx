@@ -1,9 +1,9 @@
+import type { LyricSnapshot } from '@services/DistributionVisualizerProvider';
+import type { Dictionary, Distribution } from '@types';
 import clsx from 'clsx';
 import { orderBy } from 'lodash';
 import { AnimatePresence, motion } from 'motion/react';
 import { memo, useEffect, useMemo, useRef, useState } from 'react';
-import type { LyricSnapshot } from 'services/DistributionVisualizerProvider';
-import type { Dictionary, Distribution } from 'types';
 
 import { LyricBox } from './LyricBox';
 

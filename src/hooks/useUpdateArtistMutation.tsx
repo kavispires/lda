@@ -1,7 +1,7 @@
+import { updateDocQueryFunction } from '@services/firebase';
 import { useMutation } from '@tanstack/react-query';
+import type { Artist } from '@types';
 import { App } from 'antd';
-import { updateDocQueryFunction } from 'services/firebase';
-import type { Artist } from 'types';
 
 import { usePartialUpdateListingEntryMutation } from './useListingQuery';
 

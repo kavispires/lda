@@ -1,4 +1,4 @@
-import type { ValuesOf } from 'types';
+import type { ValuesOf } from '@types';
 import type { ALIGNMENTS, GRADES, STATUSES, TRACKS } from '../utilities/constants';
 import type { ChangeRecord } from './common';
 

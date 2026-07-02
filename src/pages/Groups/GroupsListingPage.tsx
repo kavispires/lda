@@ -1,5 +1,10 @@
 import './GroupsListingPage.scss';
 
+import { ArtistAvatar } from '@components/Artist';
+import { Content, ContentError, ContentLoading } from '@components/Content';
+import { useListingDataQuery } from '@hooks/useListingQuery';
+import { useTablePagination } from '@hooks/useTablePagination';
+import type { Artist, Dictionary, Group } from '@types';
 import {
   ColorPicker,
   Flex,
@@ -11,13 +16,8 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
-import { ArtistAvatar } from 'components/Artist';
-import { Content, ContentError, ContentLoading } from 'components/Content';
-import { useListingDataQuery } from 'hooks/useListingQuery';
-import { useTablePagination } from 'hooks/useTablePagination';
 import { orderBy, sum } from 'lodash';
 import { useMemo } from 'react';
-import type { Artist, Dictionary, Group } from 'types';
 import { EditArtistDrawer } from './EditArtistDrawer';
 import { NewArtistDrawer } from './NewArtistDrawer';
 import { NewGroupDrawer } from './NewGroupDrawer';

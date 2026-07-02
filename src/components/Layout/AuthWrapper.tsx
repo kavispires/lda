@@ -1,6 +1,6 @@
+import { type SignInProps, useAuthContext } from '@services/AuthProvider';
 import { Alert, Button, Form, Input, Modal, Spin } from 'antd';
 import { type PropsWithChildren, useState } from 'react';
-import { type SignInProps, useAuthContext } from 'services/AuthProvider';
 
 const layout = {
   labelCol: { span: 8 },

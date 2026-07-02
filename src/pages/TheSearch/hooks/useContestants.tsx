@@ -1,7 +1,7 @@
+import { getDocQueryFunction, updateDocQueryFunction } from '@services/firebase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
-import { getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
 import type { Contestant } from '../types/contestant';
 import { deserializeContestantCollection, serializeContestant } from '../utilities/serialization';
 

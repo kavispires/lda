@@ -1,8 +1,8 @@
+import { wait } from '@utils';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useEffectOnce } from 'react-use';
 import type { YouTubeEvent } from 'react-youtube';
-import { wait } from 'utils';
 
 type UseVideoControlsOptions = {
   /**

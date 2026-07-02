@@ -1,12 +1,12 @@
 import { ApiOutlined } from '@ant-design/icons';
+import { ArtistAvatar } from '@components/Artist';
+import { useSongDistributionContext } from '@services/SongDistributionProvider';
+import type { Artist, Dictionary, SongPart, UID } from '@types';
+import { distributor } from '@utils';
+import { ALL_ID } from '@utils/constants';
 import { Avatar, Button, Flex } from 'antd';
 import clsx from 'clsx';
-import { ArtistAvatar } from 'components/Artist';
 import { useMemo } from 'react';
-import { useSongDistributionContext } from 'services/SongDistributionProvider';
-import type { Artist, Dictionary, SongPart, UID } from 'types';
-import { distributor } from 'utils';
-import { ALL_ID } from 'utils/constants';
 import { LogLine } from './LogLine';
 import { LogPart } from './LogPart';
 import { LogSection } from './LogSection';

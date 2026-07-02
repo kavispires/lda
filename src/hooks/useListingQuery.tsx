@@ -1,9 +1,9 @@
+import { getDocQueryFunction, updateDocQueryFunction } from '@services/firebase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { Dictionary, ListingEntry, TypeaheadEntry } from '@types';
+import { buildTypeahead } from '@utils';
 import { App } from 'antd';
 import { orderBy } from 'lodash';
-import { getDocQueryFunction, updateDocQueryFunction } from 'services/firebase';
-import type { Dictionary, ListingEntry, TypeaheadEntry } from 'types';
-import { buildTypeahead } from 'utils';
 
 interface BaseData {
   id: string;

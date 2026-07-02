@@ -1,4 +1,10 @@
 import { DeleteOutlined } from '@ant-design/icons';
+import { useLogLine } from '@hooks/useLogInstances';
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { SongLine, UID } from '@types';
+import { getCompletionPercentage } from '@utils';
+import { LINE_SKILL } from '@utils/constants';
 import {
   Button,
   Divider,
@@ -13,14 +19,8 @@ import {
   Switch,
   Typography,
 } from 'antd';
-import { useLogLine } from 'hooks/useLogInstances';
-import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { SongLine, UID } from 'types';
-import { getCompletionPercentage } from 'utils';
-import { LINE_SKILL } from 'utils/constants';
 
 import { CriteriaRule } from './CriteriaRule';
 import { MoveLinesToSectionSelector } from './MoveLinesToSectionSelector';

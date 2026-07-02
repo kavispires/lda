@@ -1,6 +1,6 @@
+import type { Artist, Dictionary, Distribution, Song } from '@types';
+import { distributor } from '@utils';
 import { useMemo } from 'react';
-import type { Artist, Dictionary, Distribution, Song } from 'types';
-import { distributor } from 'utils';
 
 const SIMULATED_ASSIGNEES: Dictionary<Artist> = {
   A: {

@@ -1,5 +1,5 @@
-import type { Song, SongLine, SongPart, SongSection } from 'types';
-import { getCompletionPercentage } from 'utils/helpers';
+import type { Song, SongLine, SongPart, SongSection } from '@types';
+import { getCompletionPercentage } from '@utils/helpers';
 import { generateUniqueId } from './common';
 import { getPart } from './part-getters';
 import { getSection } from './section-getters';

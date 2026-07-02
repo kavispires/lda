@@ -1,7 +1,7 @@
 import { EditOutlined } from '@ant-design/icons';
+import type { Artist, Group } from '@types';
 import { Button, Drawer } from 'antd';
 import { useToggle } from 'react-use';
-import type { Artist, Group } from 'types';
 
 import { EditArtistForm } from './EditArtistForm';
 

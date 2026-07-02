@@ -1,9 +1,9 @@
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { UID } from '@types';
+import { getLine, getSection } from '@utils/song';
 import { Button, Popconfirm, Select, Space } from 'antd';
-import { useSongActions } from 'hooks/useSongActions';
 import { useMemo, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { UID } from 'types';
-import { getLine, getSection } from 'utils/song';
 
 type MoveLinesToSectionSelectorProps = {
   linesIds: UID[];

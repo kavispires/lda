@@ -1,7 +1,7 @@
+import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from '@types';
+import { LETTERS, ROMAN_NUMERALS } from '@utils/constants';
+import { removeDuplicates } from '@utils/helpers';
 import { cloneDeep, orderBy, set } from 'lodash';
-import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from 'types';
-import { LETTERS, ROMAN_NUMERALS } from 'utils/constants';
-import { removeDuplicates } from 'utils/helpers';
 import { generateLine, getLine, getLineStartTime, getLineSummary, getLineValue } from './line-getters';
 import { generatePart, getPart } from './part-getters';
 import {

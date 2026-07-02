@@ -1,6 +1,6 @@
-import type { Song, SongPart, UID } from 'types';
-import { DEFAULT_ASSIGNEE } from 'utils/constants';
-import { getCompletionPercentage } from 'utils/helpers';
+import type { Song, SongPart, UID } from '@types';
+import { DEFAULT_ASSIGNEE } from '@utils/constants';
+import { getCompletionPercentage } from '@utils/helpers';
 import { generateUniqueId } from './common';
 
 /**

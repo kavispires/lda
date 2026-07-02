@@ -1,11 +1,11 @@
+import { usePreserveScrollPosition } from '@hooks/usePreserveScrollPosition';
+import type { useVideoControls } from '@hooks/useVideoControls';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { UID } from '@types';
+import { distributor, getInstanceName } from '@utils';
 import { Button, Divider, Select } from 'antd';
 import clsx from 'clsx';
-import { usePreserveScrollPosition } from 'hooks/usePreserveScrollPosition';
-import type { useVideoControls } from 'hooks/useVideoControls';
 import { useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { UID } from 'types';
-import { distributor, getInstanceName } from 'utils';
 import { EditDrawer } from './EditDrawer';
 import { LogLine } from './LogLine';
 import { LogPart } from './LogPart';

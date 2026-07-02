@@ -1,17 +1,17 @@
 import './EditFormationPage.scss';
 
 import { SaveOutlined } from '@ant-design/icons';
+import { Content } from '@components/Content';
+import { FormationDistributionLog } from '@components/Formation/FormationDistributionLog';
+import { TimelineEntry } from '@components/Formation/StageEdit';
+import { ControlledVideo } from '@components/Video/ControlledVideo';
+import { VideoControls } from '@components/Video/VideoControls';
+import { useQueryParams } from '@hooks/useQueryParams';
+import { DanceFormationProvider, useDanceFormationContext } from '@services/DanceFormationProvider';
+import { SongDistributionProvider, useSongDistributionContext } from '@services/SongDistributionProvider';
 import { Button, Flex, Slider, Space, Typography } from 'antd';
-import { Content } from 'components/Content';
-import { FormationDistributionLog } from 'components/Formation/FormationDistributionLog';
-import { TimelineEntry } from 'components/Formation/StageEdit';
-import { ControlledVideo } from 'components/Video/ControlledVideo';
-import { VideoControls } from 'components/Video/VideoControls';
-import { useQueryParams } from 'hooks/useQueryParams';
 import { useNavigate } from 'react-router-dom';
 import { useMeasure } from 'react-use';
-import { DanceFormationProvider, useDanceFormationContext } from 'services/DanceFormationProvider';
-import { SongDistributionProvider, useSongDistributionContext } from 'services/SongDistributionProvider';
 
 export function EditFormationPage() {
   return (

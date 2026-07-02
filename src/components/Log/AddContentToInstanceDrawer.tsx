@@ -1,10 +1,10 @@
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { UID } from '@types';
+import { distributor } from '@utils';
 import { Button, Divider, Flex, Input, Typography } from 'antd';
-import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
 import { useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { UID } from 'types';
-import { distributor } from 'utils';
 
 type AddContentToInstanceDrawerProps = {
   instanceId: UID;

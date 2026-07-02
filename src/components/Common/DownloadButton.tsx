@@ -1,9 +1,9 @@
 import { CheckSquareOutlined, DownOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
+import { wait } from '@utils';
 import { Alert, Badge, Button, Cascader, Dropdown, type DropdownProps, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash';
 import { useMemo, useState } from 'react';
-import { wait } from 'utils';
 
 // biome-ignore lint/suspicious/noExplicitAny: on purpose
 type PlainObject = Record<string, any>;

@@ -1,4 +1,10 @@
 import { DeleteOutlined, LogoutOutlined } from '@ant-design/icons';
+import { useLogPart } from '@hooks/useLogInstances';
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { SongPart, UID } from '@types';
+import { distributor, getCompletionPercentage } from '@utils';
+import { ASSIGNEES, DEFAULT_ASSIGNEE } from '@utils/constants';
 import {
   Button,
   Divider,
@@ -12,14 +18,8 @@ import {
   Select,
   Space,
 } from 'antd';
-import { useLogPart } from 'hooks/useLogInstances';
-import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { SongPart, UID } from 'types';
-import { distributor, getCompletionPercentage } from 'utils';
-import { ASSIGNEES, DEFAULT_ASSIGNEE } from 'utils/constants';
 
 import { CriteriaRule } from './CriteriaRule';
 

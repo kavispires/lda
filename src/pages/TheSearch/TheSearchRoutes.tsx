@@ -1,4 +1,4 @@
-import { ContentLoading } from 'components/Content';
+import { ContentLoading } from '@components/Content';
 import { Route, Routes } from 'react-router-dom';
 import { useContestantsQuery } from './hooks/useContestants';
 import { ContestantBuilderPage } from './pages/ContestantBuilderPage';

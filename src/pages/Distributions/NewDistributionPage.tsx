@@ -1,12 +1,12 @@
+import { Content, ContentError } from '@components/Content';
+import { generateDraftDistribution } from '@hooks/useCreateDistributionMutation';
+import { useQueryParams } from '@hooks/useQueryParams';
+import { useSongQuery } from '@hooks/useSong';
 import { useQueryClient } from '@tanstack/react-query';
+import type { Artist, Group, Song } from '@types';
 import { Typography } from 'antd';
-import { Content, ContentError } from 'components/Content';
-import { generateDraftDistribution } from 'hooks/useCreateDistributionMutation';
-import { useQueryParams } from 'hooks/useQueryParams';
-import { useSongQuery } from 'hooks/useSong';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { Artist, Group, Song } from 'types';
 import { ArtistsSelectionStep } from './ArtistsSelectionStep';
 
 export type NewDistribution = Pick<

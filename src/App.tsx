@@ -1,45 +1,45 @@
+import { ContentLoading } from '@components/Content';
+import { Layout } from '@components/Layout/Layout';
+import { AuthProvider } from '@services/AuthProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App as AntApp } from 'antd';
-import { ContentLoading } from 'components/Content';
-import { Layout } from 'components/Layout/Layout';
 import { lazy, Suspense } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import { AuthProvider } from 'services/AuthProvider';
 import { HomePage } from './pages/Home';
 
 // Lazy load feature areas for code splitting
 const DistributionPage = lazy(() =>
-  import('pages/Distributions/DistributionPage').then((m) => ({ default: m.DistributionPage })),
+  import('@pages/Distributions/DistributionPage').then((m) => ({ default: m.DistributionPage })),
 );
 const DistributionsListingPage = lazy(() =>
-  import('pages/Distributions/DistributionsListingPage').then((m) => ({
+  import('@pages/Distributions/DistributionsListingPage').then((m) => ({
     default: m.DistributionsListingPage,
   })),
 );
 const EditDistributionPage = lazy(() =>
-  import('pages/Distributions/EditDistributionPage').then((m) => ({ default: m.EditDistributionPage })),
+  import('@pages/Distributions/EditDistributionPage').then((m) => ({ default: m.EditDistributionPage })),
 );
 const EditFormationPage = lazy(() =>
-  import('pages/Distributions/EditFormationPage').then((m) => ({ default: m.EditFormationPage })),
+  import('@pages/Distributions/EditFormationPage').then((m) => ({ default: m.EditFormationPage })),
 );
 const NewDistributionPage = lazy(() =>
-  import('pages/Distributions/NewDistributionPage').then((m) => ({ default: m.NewDistributionPage })),
+  import('@pages/Distributions/NewDistributionPage').then((m) => ({ default: m.NewDistributionPage })),
 );
 
 const EditSongPage = lazy(() =>
-  import('pages/Songs/EditSongPage').then((m) => ({ default: m.EditSongPage })),
+  import('@pages/Songs/EditSongPage').then((m) => ({ default: m.EditSongPage })),
 );
-const NewSongPage = lazy(() => import('pages/Songs/NewSongPage').then((m) => ({ default: m.NewSongPage })));
+const NewSongPage = lazy(() => import('@pages/Songs/NewSongPage').then((m) => ({ default: m.NewSongPage })));
 const SongsListingPage = lazy(() =>
-  import('pages/Songs/SongsListingPage').then((m) => ({ default: m.SongsListingPage })),
+  import('@pages/Songs/SongsListingPage').then((m) => ({ default: m.SongsListingPage })),
 );
 
 const GroupsListingPage = lazy(() =>
-  import('pages/Groups/GroupsListingPage').then((m) => ({ default: m.GroupsListingPage })),
+  import('@pages/Groups/GroupsListingPage').then((m) => ({ default: m.GroupsListingPage })),
 );
 
 const TheSearchRoutes = lazy(() =>
-  import('pages/TheSearch/TheSearchRoutes').then((m) => ({ default: m.TheSearchRoutes })),
+  import('@pages/TheSearch/TheSearchRoutes').then((m) => ({ default: m.TheSearchRoutes })),
 );
 
 const queryClient = new QueryClient({

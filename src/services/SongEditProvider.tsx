@@ -1,11 +1,11 @@
-import { ContentError, ContentLoading } from 'components/Content';
-import { useSelectionIdModel } from 'hooks/useSelectionIdModel';
-import { useSongMutation, useSongQuery } from 'hooks/useSong';
-import { type UseStep, useStep } from 'hooks/useStep';
+import { ContentError, ContentLoading } from '@components/Content';
+import { useSelectionIdModel } from '@hooks/useSelectionIdModel';
+import { useSongMutation, useSongQuery } from '@hooks/useSong';
+import { type UseStep, useStep } from '@hooks/useStep';
+import type { Song } from '@types';
+import { distributor } from '@utils';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import type { Song } from 'types';
-import { distributor } from 'utils';
 
 type SongEditContextType = {
   stepper: UseStep;

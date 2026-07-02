@@ -1,6 +1,6 @@
+import type { Song, SongLine, SongPart, SongSection } from '@types';
+import { getCompletionPercentage } from '@utils/helpers';
 import { orderBy } from 'lodash';
-import type { Song, SongLine, SongPart, SongSection } from 'types';
-import { getCompletionPercentage } from 'utils/helpers';
 
 import { getLine, getLineCompletion, getLineStartTime } from './line-getters';
 import { getPartCompletion } from './part-getters';

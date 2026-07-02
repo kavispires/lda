@@ -1,4 +1,4 @@
-import type { ValuesOf } from 'types';
+import type { ValuesOf } from '@types';
 import type { PerformanceSong } from '../types/common';
 import type { Contestant } from '../types/contestant';
 import type { GRADES, STATUSES } from '../utilities/constants';

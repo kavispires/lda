@@ -1,6 +1,6 @@
+import type { Dictionary } from '@types';
+import { removeDuplicates } from '@utils';
 import { memo, useEffect, useMemo, useState } from 'react';
-import type { Dictionary } from 'types';
-import { removeDuplicates } from 'utils';
 
 type UpNextProps = {
   upNextSnapshots: Dictionary<string[]>;

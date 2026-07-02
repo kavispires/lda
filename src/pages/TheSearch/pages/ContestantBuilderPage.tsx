@@ -1,6 +1,6 @@
+import { Content } from '@components/Content';
+import { useQueryParams } from '@hooks/useQueryParams';
 import { Typography } from 'antd';
-import { Content } from 'components/Content';
-import { useQueryParams } from 'hooks/useQueryParams';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';

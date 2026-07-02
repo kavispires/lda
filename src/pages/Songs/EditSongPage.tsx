@@ -1,10 +1,10 @@
 import './EditSongPage.scss';
 
 import { SaveFilled } from '@ant-design/icons';
+import { Content } from '@components/Content';
+import { SongEditProvider, useSongEditContext } from '@services/SongEditProvider';
 import { Button, Space, Tag, Tooltip, Typography } from 'antd';
-import { Content } from 'components/Content';
 import { useMeasure } from 'react-use';
-import { SongEditProvider, useSongEditContext } from 'services/SongEditProvider';
 import { EditSongStepper } from './Edit/EditSongStepper';
 import { StepCategorizer } from './Edit/StepCategorizer';
 import { StepMetadata } from './Edit/StepMetadata';

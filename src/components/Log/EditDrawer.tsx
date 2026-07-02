@@ -1,7 +1,7 @@
+import type { UID } from '@types';
+import { getInstanceName } from '@utils';
 import { Drawer } from 'antd';
 import { useState } from 'react';
-import type { UID } from 'types';
-import { getInstanceName } from 'utils';
 import { AddContentToInstanceDrawer } from './AddContentToInstanceDrawer';
 import { EditLineForm } from './EditLineForm';
 import { EditLinesForm } from './EditLinesForm';

@@ -1,11 +1,11 @@
+import { PlaybackVideo } from '@components/Video/PlaybackVideo';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { Song } from '@types';
+import { DURATION_FORMAT } from '@utils/constants';
 import { Button, Flex, Form, Input, TimePicker, Typography } from 'antd';
-import { PlaybackVideo } from 'components/Video/PlaybackVideo';
 import dayjs from 'dayjs';
 import { useState } from 'react';
 import { useMeasure } from 'react-use';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { Song } from 'types';
-import { DURATION_FORMAT } from 'utils/constants';
 
 // Convert milliseconds to dayjs object for TimePicker
 const millisecondsToTimePicker = (ms: number) => {

@@ -1,6 +1,6 @@
 import { BookOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons';
+import { Content } from '@components/Content';
 import { Card, Col, Row, Typography } from 'antd';
-import { Content } from 'components/Content';
 import { useNavigate } from 'react-router-dom';
 import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';

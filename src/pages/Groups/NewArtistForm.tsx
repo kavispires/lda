@@ -1,10 +1,10 @@
 import type { AggregationColor } from 'antd/es/color-picker/color';
 import './NewArtistForm.scss';
+import { useCreateArtistMutation } from '@hooks/useCreateArtistMutation';
+import type { Artist, Group } from '@types';
+import { createArtist } from '@utils/groups';
 import { Button, ColorPicker, Flex, Form, Input, Select, Slider } from 'antd';
-import { useCreateArtistMutation } from 'hooks/useCreateArtistMutation';
 import { useState } from 'react';
-import type { Artist, Group } from 'types';
-import { createArtist } from 'utils/groups';
 
 type NewArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats' | 'persona'> & {
   color: AggregationColor;

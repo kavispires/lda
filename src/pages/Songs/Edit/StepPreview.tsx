@@ -1,10 +1,10 @@
+import { Visualizer } from '@components/Visualizer/Visualizer';
+import { useDistributionEmulator } from '@hooks/useDistributionEmulator';
+import { DistributionVisualizerProvider } from '@services/DistributionVisualizerProvider';
+import { useSongEditContext } from '@services/SongEditProvider';
+import { distributor } from '@utils';
 import { Progress, Result, Typography } from 'antd';
-import { Visualizer } from 'components/Visualizer/Visualizer';
-import { useDistributionEmulator } from 'hooks/useDistributionEmulator';
 import { useMemo } from 'react';
-import { DistributionVisualizerProvider } from 'services/DistributionVisualizerProvider';
-import { useSongEditContext } from 'services/SongEditProvider';
-import { distributor } from 'utils';
 
 export function StepPreview() {
   const { song } = useSongEditContext();

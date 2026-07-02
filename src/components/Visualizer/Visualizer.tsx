@@ -1,7 +1,7 @@
+import { RATE, useDistributionVisualizerContext } from '@services/DistributionVisualizerProvider';
 import clsx from 'clsx';
-import { RATE, useDistributionVisualizerContext } from 'services/DistributionVisualizerProvider';
 import './Visualizer.scss';
-import { ControlledVideo } from 'components/Video/ControlledVideo';
+import { ControlledVideo } from '@components/Video/ControlledVideo';
 import { useMemo } from 'react';
 import { useToggle } from 'react-use';
 import { AdlibsScroller } from './AdlibsScroller';

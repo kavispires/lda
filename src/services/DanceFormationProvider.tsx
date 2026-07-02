@@ -1,13 +1,13 @@
+import { ContentError, ContentLoading } from '@components/Content';
+import { useDanceFormationQuery, useFormationMutation } from '@hooks/useDanceFormation';
+import type { Dictionary, Distribution, Formation, FUID, Group, Song } from '@types';
+import { distributor } from '@utils';
+import { SEPARATOR } from '@utils/constants';
 import { App } from 'antd';
-import { ContentError, ContentLoading } from 'components/Content';
-import { useDanceFormationQuery, useFormationMutation } from 'hooks/useDanceFormation';
 import { assign, cloneDeep } from 'lodash';
 import { createContext, type PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useStateWithHistory } from 'react-use';
-import type { Dictionary, Distribution, Formation, FUID, Group, Song } from 'types';
-import { distributor } from 'utils';
-import { SEPARATOR } from 'utils/constants';
 import { useSongDistributionContext } from './SongDistributionProvider';
 
 export const STAGE_X_SIZE = 27;

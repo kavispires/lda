@@ -1,4 +1,4 @@
-import type { Artist, Group } from 'types';
+import type { Artist, Group } from '@types';
 import { generateUniqueId } from './song';
 
 /**

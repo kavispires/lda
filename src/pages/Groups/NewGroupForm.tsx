@@ -1,7 +1,7 @@
+import { useAddListingEntryMutation } from '@hooks/useListingQuery';
+import type { Group, ListingEntry } from '@types';
+import { createGroup } from '@utils/groups';
 import { Button, Form, Input } from 'antd';
-import { useAddListingEntryMutation } from 'hooks/useListingQuery';
-import type { Group, ListingEntry } from 'types';
-import { createGroup } from 'utils/groups';
 
 type NewGroupFormFields = {
   name: string;

@@ -1,14 +1,14 @@
-import { ContentError, ContentLoading } from 'components/Content';
-import { useDistributionMutation, useDistributionQuery } from 'hooks/useDistribution';
-import { useListingDataQuery } from 'hooks/useListingQuery';
-import { useSongQuery } from 'hooks/useSong';
-import { useVideoControls } from 'hooks/useVideoControls';
+import { ContentError, ContentLoading } from '@components/Content';
+import { useDistributionMutation, useDistributionQuery } from '@hooks/useDistribution';
+import { useListingDataQuery } from '@hooks/useListingQuery';
+import { useSongQuery } from '@hooks/useSong';
+import { useVideoControls } from '@hooks/useVideoControls';
+import type { Dictionary, Distribution, FUID, Group, Song, UID } from '@types';
+import { distributor, removeDuplicates } from '@utils';
+import { ALL_ID, NONE_ID } from '@utils/constants';
 import { isEmpty } from 'lodash';
 import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import type { Dictionary, Distribution, FUID, Group, Song, UID } from 'types';
-import { distributor, removeDuplicates } from 'utils';
-import { ALL_ID, NONE_ID } from 'utils/constants';
 
 type SongDistributionType = {
   distribution: Distribution;

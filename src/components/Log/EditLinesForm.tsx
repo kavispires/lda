@@ -1,11 +1,11 @@
+import { useSongActions } from '@hooks/useSongActions';
+import { useSongEditContext } from '@services/SongEditProvider';
+import type { Dictionary, Song, SongLine, UID, UpdateValue } from '@types';
+import { distributor } from '@utils';
+import { LINE_SKILL } from '@utils/constants';
 import { Button, Divider, Flex, Form, Input, Popconfirm, Rate, Select, Switch, Typography } from 'antd';
-import { useSongActions } from 'hooks/useSongActions';
 import type React from 'react';
 import { useEffect, useState } from 'react';
-import { useSongEditContext } from 'services/SongEditProvider';
-import type { Dictionary, Song, SongLine, UID, UpdateValue } from 'types';
-import { distributor } from 'utils';
-import { LINE_SKILL } from 'utils/constants';
 import { MoveLinesToSectionSelector } from './MoveLinesToSectionSelector';
 
 type CommonLineProps = Pick<SongLine, 'skill' | 'adlib' | 'dismissible'>;

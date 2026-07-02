@@ -5,11 +5,11 @@ import {
   PlusOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
+import { useLogLine } from '@hooks/useLogInstances';
+import type { Song, UID } from '@types';
 import { Alert, Button, Checkbox, Tooltip } from 'antd';
 import clsx from 'clsx';
-import { useLogLine } from 'hooks/useLogInstances';
 import type { ReactNode } from 'react';
-import type { Song, UID } from 'types';
 
 type LogLineProps = {
   /**

@@ -1,6 +1,6 @@
 import { BookOutlined, RocketOutlined, TeamOutlined, TrophyOutlined } from '@ant-design/icons';
+import { Content } from '@components/Content';
 import { Card, Col, Row, Typography } from 'antd';
-import { Content } from 'components/Content';
 import { useNavigate } from 'react-router-dom';
 
 const navigationCards = [

@@ -1,8 +1,8 @@
-import { ArtistBar } from 'components/Artist';
+import { ArtistBar } from '@components/Artist';
+import { type AssigneeSnapshot, RATE } from '@services/DistributionVisualizerProvider';
+import type { Artist, Dictionary } from '@types';
 import { memo } from 'react';
 import { useMeasure } from 'react-use';
-import { type AssigneeSnapshot, RATE } from 'services/DistributionVisualizerProvider';
-import type { Artist, Dictionary } from 'types';
 
 type BarsBoxProps = {
   assignees: Artist[];
