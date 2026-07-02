@@ -1,7 +1,7 @@
+import StageSVG from '@assets/images/stage.svg';
 import { ArtistAvatar } from '@components/Artist';
 import { STAGE_X_SIZE, STAGE_Y_SIZE, useDanceFormationContext } from '@services/DanceFormationProvider';
 import type { Artist, FUID } from '@types';
-import StageSVG from 'assets/images/stage.svg';
 import { motion, type PanInfo } from 'motion/react';
 import './Stage.scss';
 import {

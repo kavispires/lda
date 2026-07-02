@@ -85,11 +85,29 @@
     padding: get-unit(0 6);
     display: flex;
     align-items: center;
+    justify-content: space-between;
     opacity: 0.5;
-    gap: get-unit(2);
   }
 
-  &__up-next-names {
+  &__up-next-section {
+    display: flex;
+    align-items: center;
+    gap: get-unit(2);
+    opacity: 50%;
+  }
+
+  &__up-next-label {
+    margin-right: get-unit(1);
+  }
+
+  &__up-next-badge {
+    font-size: 0.75em;
+    display: inline-block;
+    padding: get-unit(0.5 2);
+    border-radius: get-unit(4);
+    font-style: normal;
+
+    color: get-color("black");
     animation: upNext 2s forwards;
   }
 }

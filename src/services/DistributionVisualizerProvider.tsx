@@ -11,6 +11,15 @@ import { createContext, type ReactNode, useContext, useMemo, useState } from 're
 import { useLocalStorage, useToggle } from 'react-use';
 
 /**
+ * Represents an upcoming singer notification with their name and color
+ * Used to render colored badges in the "Up Next" preview
+ */
+export type UpNextItem = {
+  name: string;
+  color: string;
+};
+
+/**
  * Tracks whether a distribution is in sync with its song's parts
  * Used to detect when song parts have been added/removed and distribution needs updating
  */
@@ -47,7 +56,8 @@ type DistributionVisualizerContextType = {
   barSnapshots: Dictionary<Dictionary<AssigneeSnapshot>>; // Artist activity and statistics per timestamp
   adlibsSnapshots: Dictionary<LyricSnapshot>; // Ad-lib lyrics per timestamp
   lyricsSnapshots: Dictionary<LyricSnapshot>; // Main lyrics per timestamp
-  upNextSnapshots: Dictionary<string[]>; // Upcoming singers per timestamp
+  upNext: Dictionary<UpNextItem[]>; // Upcoming regular line singers per timestamp
+  adlibUpNext: Dictionary<UpNextItem[]>; // Upcoming adlib singers per timestamp
   // Distribution validation
   freshness: DistributionFreshness;
 };
@@ -80,16 +90,18 @@ export const DistributionVisualizerProvider = ({
 
   // Compute all visualization data (memoized to prevent unnecessary recalculations)
   // This generates time-based snapshots for bars, lyrics, and upcoming singers
-  const { assignees, barSnapshots, adlibsSnapshots, lyricsSnapshots, upNextSnapshots, freshness } =
+  const { assignees, barSnapshots, adlibsSnapshots, lyricsSnapshots, upNext, adlibUpNext, freshness } =
     useMemo(() => {
       const { adlibsSnapshots, lyricsSnapshots } = buildLyricsSnapshots(distribution, song);
+      const { upNext, adlibUpNext } = buildUpNextSnapshots(distribution, song);
 
       return {
         assignees: orderBy(Object.values(distribution.assignees), 'name'),
         barSnapshots: buildBarSnapshots(distribution, song), // Artist activity over time
         adlibsSnapshots, // Ad-lib lyrics
         lyricsSnapshots, // Main lyrics
-        upNextSnapshots: buildUpNextSnapshots(distribution, song), // Preview of upcoming singers
+        upNext, // Preview of upcoming regular line singers
+        adlibUpNext, // Preview of upcoming adlib singers
         freshness: verifyDistributionFreshness(song, distribution), // Validation status
       };
     }, [distribution, song]);
@@ -113,7 +125,8 @@ export const DistributionVisualizerProvider = ({
         barSnapshots,
         adlibsSnapshots,
         lyricsSnapshots,
-        upNextSnapshots,
+        upNext,
+        adlibUpNext,
         freshness,
       }}
     >
@@ -581,14 +594,20 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
 /**
  * Builds snapshots showing which artists are coming up next
  * Creates preview notifications before an artist starts singing
+ * Separates regular lines and adlib lines into different snapshots
  * @param distribution - The distribution mapping parts to artists
  * @param song - The song with timing information
- * @returns Dictionary of artist names keyed by timestamp (when to show the preview)
+ * @returns Object with upNext and adlibUpNext dictionaries keyed by timestamp
  */
 const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
-  const upNextSnapshots: Dictionary<string[]> = {};
-  let latestTimestamp = 0;
-  let latestKey = '';
+  const upNext: Dictionary<UpNextItem[]> = {};
+  const adlibUpNext: Dictionary<UpNextItem[]> = {};
+
+  let latestRegularTimestamp = 0;
+  let latestRegularKey = '';
+  let latestAdlibTimestamp = 0;
+  let latestAdlibKey = '';
+
   // Show "up next" notification 1.2 seconds before artist starts singing (12 * 100ms)
   const THRESHOLD = RATE * 12;
 
@@ -603,41 +622,66 @@ const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
     // Calculate when to show the notification (THRESHOLD before the line starts)
     const timestamp = Math.floor(Math.max(startTime - THRESHOLD, 0) / RATE);
 
-    // Get all artists for this line
-    const assigneesIds = removeDuplicates(line.partsIds.flatMap((partId) => distribution.mapping[partId]));
-    // Convert IDs to display names
-    const assigneesNames = assigneesIds
-      .map((assigneeId) => {
-        if ([ALL_ID, NONE_ID].includes(assigneeId)) {
-          return '';
-        }
-        if (distribution.assignees[assigneeId]?.name) {
-          return distribution.assignees[assigneeId].name;
-        }
-        console.log('Unknown assignee', assigneeId);
-        return 'Unknown';
-      })
-      .filter(Boolean);
+    // Get all artists for this line (filter out ALL and NONE)
+    const assigneesIds = removeDuplicates(
+      line.partsIds.flatMap((partId) => distribution.mapping[partId]),
+    ).filter((assigneeId) => ![ALL_ID, NONE_ID].includes(assigneeId));
+
+    // Convert IDs to UpNextItems with name and color
+    const assigneeItems: UpNextItem[] = assigneesIds.map((assigneeId) => {
+      const assignee = distribution.assignees[assigneeId];
+      if (assignee?.name) {
+        return {
+          name: assignee.name,
+          color: assignee.color,
+        };
+      }
+      console.log('Unknown assignee', assigneeId);
+      return {
+        name: 'Unknown',
+        color: '#f1f1f1',
+      };
+    });
 
     // Group consecutive lines with same singers to avoid duplicate notifications
     const key = sortBy(assigneesIds).join('::');
 
-    if (latestKey === key) {
-      upNextSnapshots[latestTimestamp] = removeDuplicates([
-        ...upNextSnapshots[latestTimestamp],
-        ...assigneesNames,
-      ]);
-      return;
-    }
+    // Route to appropriate snapshot dictionary based on whether it's an adlib
+    if (line.adlib) {
+      if (latestAdlibKey === key) {
+        // Merge with existing snapshot, removing duplicates by name
+        const existingItems = adlibUpNext[latestAdlibTimestamp] || [];
+        const combined = [...existingItems, ...assigneeItems];
+        adlibUpNext[latestAdlibTimestamp] = combined.filter(
+          (item, index, self) => self.findIndex((t) => t.name === item.name) === index,
+        );
+        return;
+      }
 
-    latestKey = key;
-    latestTimestamp = timestamp;
-    upNextSnapshots[latestTimestamp] = assigneesNames;
+      latestAdlibKey = key;
+      latestAdlibTimestamp = timestamp;
+      adlibUpNext[latestAdlibTimestamp] = assigneeItems;
+    } else {
+      if (latestRegularKey === key) {
+        // Merge with existing snapshot, removing duplicates by name
+        const existingItems = upNext[latestRegularTimestamp] || [];
+        const combined = [...existingItems, ...assigneeItems];
+        upNext[latestRegularTimestamp] = combined.filter(
+          (item, index, self) => self.findIndex((t) => t.name === item.name) === index,
+        );
+        return;
+      }
+
+      latestRegularKey = key;
+      latestRegularTimestamp = timestamp;
+      upNext[latestRegularTimestamp] = assigneeItems;
+    }
   });
 
-  // console.log(upNextSnapshots);
-
-  return upNextSnapshots;
+  return {
+    upNext,
+    adlibUpNext,
+  };
 };
 
 /**

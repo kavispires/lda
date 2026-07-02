@@ -41,7 +41,7 @@
     "eject": "react-scripts eject",
     "prepare": "husky",
     "clean": "rm -rf node_modules && yarn cache clean",
-    "predeploy": "npm run build",
+    "predeploy": "yarn build",
     "deploy": "gh-pages -d build",
     "update-commit": "td amend-commit-date"
   },

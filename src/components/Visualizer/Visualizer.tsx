@@ -24,7 +24,8 @@ export function Visualizer() {
     barSnapshots,
     lyricsSnapshots,
     adlibsSnapshots,
-    upNextSnapshots,
+    upNext,
+    adlibUpNext,
     freshness,
   } = useDistributionVisualizerContext();
   /**
@@ -113,7 +114,7 @@ export function Visualizer() {
           timestamp={timestamp}
         />
 
-        <UpNext timestamp={timestamp} upNextSnapshots={upNextSnapshots} />
+        <UpNext adlibUpNext={adlibUpNext} timestamp={timestamp} upNext={upNext} />
       </div>
     </div>
   );
