@@ -55,6 +55,11 @@ export const generateDraftDistribution = (
     return acc;
   }, {});
 
+  let name = `${group.name} - ${song.title}`;
+  if (group.name !== song.originalArtist) {
+    name += ` (${song.originalArtist})`;
+  }
+
   return {
     id: '$draft',
     type: 'distribution',
@@ -62,6 +67,7 @@ export const generateDraftDistribution = (
     groupId: group.id,
     assignees,
     mapping,
+    name,
     maxAssigneeDuration: 0,
     createdAt: Date.now(),
   };
