@@ -1,13 +1,18 @@
 import './GroupsListingPage.scss';
 
+import { CalculatorOutlined } from '@ant-design/icons';
 import { ArtistAvatar } from '@components/Artist';
 import { Content, ContentError, ContentLoading } from '@components/Content';
+import { useCalculateGroupStatsMutation } from '@hooks/useCalculateGroupStatsMutation';
 import { useListingDataQuery } from '@hooks/useListingQuery';
 import { useTablePagination } from '@hooks/useTablePagination';
-import type { Artist, Dictionary, Group } from '@types';
+import type { Artist, Dictionary, Group, GroupStats } from '@types';
 import {
+  Button,
+  Card,
   ColorPicker,
   Flex,
+  Popconfirm,
   Progress,
   type ProgressProps,
   Space,
@@ -25,6 +30,7 @@ import { NewGroupDrawer } from './NewGroupDrawer';
 export function GroupsListingPage() {
   const groupsQuery = useListingDataQuery<Group>('groups');
   const artistsQuery = useListingDataQuery<Artist>('artists');
+  const calculateStatsMutation = useCalculateGroupStatsMutation();
   // const groupsMutation = useGroupsMutation();
   const artists = artistsQuery.data?.data ?? {};
 
@@ -67,6 +73,25 @@ export function GroupsListingPage() {
       key: 'size',
       render: (artistsIds: Group['artistsIds']) => Object.keys(artistsIds).length,
     },
+    {
+      title: 'Stats',
+      key: 'stats',
+      render: (record: Group) => (
+        <Popconfirm
+          onConfirm={() => calculateStatsMutation.mutate(record.id)}
+          title="Are you sure you want to calculate stats for this group?"
+        >
+          <Button
+            icon={<CalculatorOutlined />}
+            loading={calculateStatsMutation.isPending}
+            size="small"
+            type="link"
+          >
+            Update Stats
+          </Button>
+        </Popconfirm>
+      ),
+    },
     Table.EXPAND_COLUMN,
   ];
 
@@ -82,13 +107,79 @@ export function GroupsListingPage() {
         columns={columns}
         dataSource={groups}
         expandable={{
-          expandedRowRender: (record: Group) => <GroupArtists artists={artists} group={record} />,
+          expandedRowRender: (record: Group) => (
+            <div style={{ display: 'grid', gridTemplateColumns: '3fr 1fr', gap: '16px' }}>
+              <GroupArtists artists={artists} group={record} />
+              <GroupStatsDisplay group={record} />
+            </div>
+          ),
         }}
         loading={groupsQuery.isLoading}
         pagination={paginationProps}
         rowKey="id"
       />
     </Content>
+  );
+}
+
+type GroupStatsDisplayProps = {
+  group: Group;
+};
+
+function GroupStatsDisplay({ group }: GroupStatsDisplayProps) {
+  const stats: GroupStats | null = useMemo(() => {
+    if (!group.stats) return null;
+    try {
+      return JSON.parse(group.stats);
+    } catch (error) {
+      console.error('Failed to parse group stats:', error);
+      return null;
+    }
+  }, [group.stats]);
+
+  if (!stats) {
+    return (
+      <Flex align="center" gap={8}>
+        <Typography.Text type="secondary">No stats calculated yet</Typography.Text>
+      </Flex>
+    );
+  }
+
+  return (
+    <Card size="small" title="Distribution Rankings">
+      <Flex gap={16} vertical>
+        <Flex gap={24} wrap>
+          {stats.mostFirst && (
+            <Flex vertical>
+              <Typography.Text strong>Most First Place</Typography.Text>
+              <Typography.Text>
+                {stats.mostFirst.memberName}: {stats.mostFirst.count} times ({stats.mostFirst.percentage}%)
+              </Typography.Text>
+            </Flex>
+          )}
+          {stats.mostSecond && (
+            <Flex vertical>
+              <Typography.Text strong>Most Second Place</Typography.Text>
+              <Typography.Text>
+                {stats.mostSecond.memberName}: {stats.mostSecond.count} times ({stats.mostSecond.percentage}%)
+              </Typography.Text>
+            </Flex>
+          )}
+          {stats.mostLast && (
+            <Flex vertical>
+              <Typography.Text strong>Most Last Place</Typography.Text>
+              <Typography.Text>
+                {stats.mostLast.memberName}: {stats.mostLast.count} times ({stats.mostLast.percentage}%)
+              </Typography.Text>
+            </Flex>
+          )}
+        </Flex>
+        <Typography.Text type="secondary">
+          Based on {stats.totalDistributions} distributions • Last updated:{' '}
+          {new Date(stats.lastUpdated).toLocaleString()}
+        </Typography.Text>
+      </Flex>
+    </Card>
   );
 }
 

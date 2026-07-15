@@ -76,6 +76,10 @@ export function useDistributionMutation() {
           id: dataWithId.id,
           name: data.name ?? 'Unnamed Distribution',
           type: 'distribution',
+          data: {
+            snippet: buildDistributionListingSnippet(data),
+            groupId: data.groupId,
+          },
         });
 
         // Update query cache with new distribution to avoid refetching
@@ -95,6 +99,7 @@ export function useDistributionMutation() {
           [`${data.id}.updatedAt`]: Date.now(),
           [`${data.id}.data`]: {
             snippet: buildDistributionListingSnippet(data),
+            groupId: data.groupId,
           },
         });
       } catch (error) {

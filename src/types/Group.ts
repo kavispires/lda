@@ -19,9 +19,47 @@ export type Group = {
    */
   artistsIds: Record<FUID, number>;
   /**
-   * The distributions ids in the group;
+   * Group statistics (JSON stringified GroupStats)
    */
-  distributionIds: Record<FUID, number>;
+  stats?: string;
+};
+
+export type GroupStats = {
+  /**
+   * Member who ranks #1 most often across distributions
+   */
+  mostFirst: {
+    memberId: FUID;
+    memberName: string;
+    count: number;
+    percentage: number;
+  } | null;
+  /**
+   * Member who ranks #2 most often across distributions
+   */
+  mostSecond: {
+    memberId: FUID;
+    memberName: string;
+    count: number;
+    percentage: number;
+  } | null;
+  /**
+   * Member who ranks last most often across distributions
+   */
+  mostLast: {
+    memberId: FUID;
+    memberName: string;
+    count: number;
+    percentage: number;
+  } | null;
+  /**
+   * Total number of distributions analyzed
+   */
+  totalDistributions: number;
+  /**
+   * Timestamp of last calculation
+   */
+  lastUpdated: number;
 };
 
 export type FirebaseGroup = ListingEntry<Group>;

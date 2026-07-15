@@ -45,6 +45,17 @@ export type FirestoreDistribution = Omit<Distribution, 'mapping'> & {
 };
 
 export type DistributionListingData = {
-  status: 'draft' | 'active';
+  /**
+   * A snippet of the distribution, used for display in the listing
+   * Format per artist divided by `::`, with each segment formatted as `<color>|<percentage>|<name>`
+   */
+  snippet: string;
+  /**
+   * The group id of the distribution
+   */
+  groupId: FUID;
+  /**
+   * The formation id of the distribution, if any
+   */
   formationId?: FUID;
 };

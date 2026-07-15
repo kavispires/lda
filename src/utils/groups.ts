@@ -13,7 +13,6 @@ export const createGroup = (name: string): Group => {
     type: 'group',
     name,
     artistsIds: {},
-    distributionIds: {},
   };
 };
 
