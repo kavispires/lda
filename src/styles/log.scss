@@ -1,4 +1,4 @@
-@use 'styles/sass' as *;
+@use "styles/sass" as *;
 
 .log {
   max-height: 100svh;
@@ -20,10 +20,17 @@
   gap: get-unit(2);
   margin-bottom: get-unit(4);
   border-radius: var(--border-radius);
-  background: get-color('gray', 1, 0.1);
+  background: get-color("gray", 1, 0.1);
   padding: get-unit(2);
 
-  &__section {
+  &__section-header {
+    display: flex;
+    gap: get-unit(2);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__section-header-actions {
     display: flex;
     gap: get-unit(2);
     align-items: center;
@@ -58,7 +65,7 @@
 
   &__line-text {
     font-style: italic;
-    color: get-color('gray', 3, 0.5);
+    color: get-color("gray", 3, 0.5);
     padding: get-unit(1);
   }
 
@@ -73,7 +80,7 @@
 }
 
 .log-part {
-  background: get-color('gray', 3, 0.25);
+  background: get-color("gray", 3, 0.25);
   display: flex;
   gap: get-unit(1);
   border-radius: get-unit(1);
@@ -82,29 +89,35 @@
 
 .log-icon {
   &--green {
-    color: get-color('green');
+    color: get-color("green");
   }
   &--red {
-    color: get-color('red');
+    color: get-color("red");
+  }
+  &--yellow {
+    color: get-color("yellow");
+  }
+  &--orange {
+    color: get-color("orange");
   }
 }
 
 .recording {
-  background-color: get-color('red', 1);
+  background-color: get-color("red", 1);
   animation: color-red-pulse 500ms infinite ease-in-out;
 }
 
 @keyframes color-red-pulse {
   0% {
-    background-color: get-color('red');
+    background-color: get-color("red");
   }
 
   50% {
-    background-color: get-color('red', 3);
+    background-color: get-color("red", 3);
   }
 
   100% {
-    background-color: get-color('red');
+    background-color: get-color("red");
   }
 }
 
@@ -117,7 +130,7 @@
     background-color: gold;
   }
   50% {
-    background-color: get-color('white');
+    background-color: get-color("white");
   }
   100% {
     background-color: gold;

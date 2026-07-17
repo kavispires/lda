@@ -1,5 +1,6 @@
 import {
   CheckCircleOutlined,
+  CopyOutlined,
   DatabaseFilled,
   MenuUnfoldOutlined,
   PlayCircleFilled,
@@ -10,7 +11,7 @@ import { useLogPart, useLogSection } from '@hooks/useLogInstances';
 import type { Song, UID } from '@types';
 import { distributor } from '@utils';
 import { NULL } from '@utils/constants';
-import { Alert, Button, Checkbox, Tooltip } from 'antd';
+import { Alert, Button, Checkbox, Popconfirm, Tooltip } from 'antd';
 import { type ReactNode, useCallback, useMemo } from 'react';
 
 type LogSectionProps = {
@@ -31,6 +32,14 @@ type LogSectionProps = {
    * If present, the checkbox is displayed
    */
   onSelect?: (sectionId: string) => void;
+  /**
+   * The function to call when the section is copied
+   */
+  onCopy?: (sectionId: string) => void;
+  /**
+   * The function to call when the section is pasted
+   */
+  onPaste?: (sectionId: string) => void;
   /**
    * Flag indicating if the section is selected
    * Only used if onSelect is provided
@@ -61,7 +70,7 @@ type LogSectionProps = {
    * Override the completion status for the icon display
    * When provided, this takes precedence over the status check
    */
-  overrideComplete?: boolean;
+  overrideComplete?: boolean | 'partial' | 'complete' | 'incomplete';
 };
 
 export function LogSection({
@@ -74,6 +83,8 @@ export function LogSection({
   onSelectParts,
   onPlay,
   onAddLine,
+  onCopy,
+  onPaste,
   enableSelectRemainingParts,
   overrideComplete,
 }: LogSectionProps) {
@@ -97,6 +108,14 @@ export function LogSection({
     }
   }, [onSelectParts, remainingParts]);
 
+  const icon = useMemo(() => {
+    if (overrideComplete === 'complete') return <CheckCircleOutlined className="log-icon--green" />;
+    if (overrideComplete === 'partial') return <CheckCircleOutlined className="log-icon--orange" />;
+    if (overrideComplete === 'incomplete') return <DatabaseFilled className="log-icon--yellow" />;
+    if (status === 'complete') return <CheckCircleOutlined className="log-icon--green" />;
+    return <DatabaseFilled />;
+  }, [overrideComplete, status]);
+
   if (!section?.id)
     return (
       <li className="log-section">
@@ -104,61 +123,83 @@ export function LogSection({
       </li>
     );
 
-  const isComplete = overrideComplete ?? status === 'complete';
-  const icon = isComplete ? <CheckCircleOutlined className="log-icon--green" /> : <DatabaseFilled />;
-
   return (
     <li className="log-section">
-      <span className="log-section__section">
-        {!!onSelect && <Checkbox checked={selected} onChange={() => onSelect(id)} />}
-        {!!onPlay && (
-          <Tooltip title={part ? `Play from ${part.startTime} ms` : 'No parts to play'}>
-            <Button
-              icon={<PlayCircleFilled />}
-              onClick={() => onPlay(part.startTime)}
-              shape="circle"
-              size="small"
-            />
-          </Tooltip>
-        )}
+      <span className="log-section__section-header">
+        <span className="log-section__section-header-actions">
+          {!!onSelect && <Checkbox checked={selected} onChange={() => onSelect(id)} />}
+          {!!onPlay && (
+            <Tooltip title={part ? `Play from ${part.startTime} ms` : 'No parts to play'}>
+              <Button
+                icon={<PlayCircleFilled />}
+                onClick={() => onPlay(part.startTime)}
+                shape="circle"
+                size="small"
+              />
+            </Tooltip>
+          )}
 
-        {onClick ? (
-          <Button danger={section?.kind === NULL} icon={icon} onClick={() => onClick(id)} shape="round">
-            {name}
-          </Button>
-        ) : (
-          <span>
-            {icon} {name}
-          </span>
-        )}
+          {onClick ? (
+            <Button danger={section?.kind === NULL} icon={icon} onClick={() => onClick(id)} shape="round">
+              {name}
+            </Button>
+          ) : (
+            <Tooltip title={section.id} trigger="click">
+              <span>
+                {icon} {name}
+              </span>
+            </Tooltip>
+          )}
 
-        {!!onSelectParts && (
-          <Tooltip title="Select all parts">
-            <Button
-              icon={<UnorderedListOutlined />}
-              onClick={() => onSelectParts(partIds)}
-              shape="circle"
-              size="small"
-            />
-          </Tooltip>
-        )}
+          {!!onSelectParts && (
+            <Tooltip title="Select all parts">
+              <Button
+                icon={<UnorderedListOutlined />}
+                onClick={() => onSelectParts(partIds)}
+                shape="circle"
+                size="small"
+              />
+            </Tooltip>
+          )}
 
-        {!!onSelectParts && enableSelectRemainingParts && hasRemainingParts && (
-          <Tooltip title="Select missing parts">
-            <Button
-              icon={<MenuUnfoldOutlined />}
-              onClick={onSelectRemainingParts}
-              shape="circle"
-              size="small"
-            />
-          </Tooltip>
-        )}
+          {!!onSelectParts && enableSelectRemainingParts && hasRemainingParts && (
+            <Tooltip title="Select missing parts">
+              <Button
+                icon={<MenuUnfoldOutlined />}
+                onClick={onSelectRemainingParts}
+                shape="circle"
+                size="small"
+              />
+            </Tooltip>
+          )}
+        </span>
+        <span className="log-section__section-header-actions">
+          {!!onAddLine && (
+            <Tooltip title="Add content to section">
+              <Button icon={<PlusOutlined />} onClick={() => onAddLine(id)} shape="round" size="small" />
+            </Tooltip>
+          )}
 
-        {!!onAddLine && (
-          <Tooltip title="Add content to section">
-            <Button icon={<PlusOutlined />} onClick={() => onAddLine(id)} shape="circle" size="small" />
-          </Tooltip>
-        )}
+          {!!onCopy && (
+            <Tooltip title="Copy section">
+              <Button
+                disabled={!overrideComplete || overrideComplete === 'incomplete'}
+                icon={<CopyOutlined />}
+                onClick={() => onCopy(id)}
+                size="small"
+              />
+            </Tooltip>
+          )}
+
+          {!!onPaste && (
+            <Popconfirm
+              onConfirm={() => onPaste(id)}
+              title="Are you sure you want to paste the copied section here?"
+            >
+              <Button icon={<i className="fi fi-rr-paste"></i>} size="small" />
+            </Popconfirm>
+          )}
+        </span>
       </span>
       <ul className="log-section__lines">{children}</ul>
     </li>

@@ -20,7 +20,7 @@ export function FormationDistributionLog({ className }: FormationDistributionLog
     <div className={clsx('log', 'surface', className)} key={song.updatedAt}>
       <ul className="log-sections">
         <li className="log-section">
-          <span className="log-section__section">
+          <span className="log-section__section-header-actions">
             <Button
               icon={<PlayCircleFilled />}
               onClick={() => videoControls.seekAndPlay(song.startAt)}
@@ -45,7 +45,7 @@ export function FormationDistributionLog({ className }: FormationDistributionLog
           />
         ))}
         <li className="log-section">
-          <span className="log-section__section">
+          <span className="log-section__section-header-actions">
             <Button
               icon={<PlayCircleFilled />}
               onClick={() => videoControls.seekAndPlay(song.endAt)}
@@ -85,7 +85,7 @@ function ViewSection({ instanceId, onPlay }: ViewEntryProps & { onPlay: (startTi
 
   return (
     <li className="log-section">
-      <span className="log-section__section">
+      <span className="log-section__section-header-actions">
         <Button
           icon={<PlayCircleFilled />}
           onClick={() => onPlay(part.startTime)}
