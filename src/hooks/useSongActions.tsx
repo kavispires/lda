@@ -2,6 +2,7 @@ import { useSongEditContext } from '@services/SongEditProvider';
 import type { Dictionary, Song, SongLine, SongPart, SongSection, UID, UpdateValue } from '@types';
 import { distributor } from '@utils';
 import { App } from 'antd';
+import { cloneDeep } from 'lodash';
 
 export function useSongActions() {
   const { notification } = App.useApp();
@@ -188,7 +189,24 @@ export function useSongActions() {
     try {
       setSong((prev) => {
         if (prev) {
-          return distributor.deleteSection(prev, sectionId);
+          const copy = cloneDeep(prev);
+          const section = distributor.getSection(sectionId, copy);
+
+          // Iterate through all lines in the section and delete their parts
+          section.linesIds.forEach((lineId) => {
+            const line = distributor.getLine(lineId, copy);
+            line.partsIds.forEach((partId) => {
+              delete copy.content[partId];
+            });
+            // Disconnect line from section
+            distributor.disconnectLineFromSection(line.id, line.sectionId, copy, true);
+
+            // Delete line
+            delete copy.content[line.id];
+          });
+
+          // Finally, delete the section itself
+          return distributor.deleteSection(copy, sectionId, true);
         }
         return prev;
       });

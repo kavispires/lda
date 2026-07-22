@@ -41,7 +41,12 @@ export const generatePart = (
 export const getPart = (partId: UID, song: Song): SongPart => {
   const part = song.content[partId] as SongPart;
 
-  if (!part) throw new Error(`Part with id ${partId} not found in song ${song.id}`);
+  if (!part) {
+    // biome-ignore lint/suspicious/noConsole: for debugging purposes
+    console.warn(`Part with id ${partId} not found in song ${song.id}`);
+    // Return a safe fallback to prevent crashes
+    return { id: partId, type: 'part', text: '', startTime: 0, endTime: 0, lineId: '' } as SongPart;
+  }
 
   return part;
 };

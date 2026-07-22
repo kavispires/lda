@@ -5,7 +5,19 @@ import { useSongEditContext } from '@services/SongEditProvider';
 import type { SongSection, UID } from '@types';
 import { distributor, getCompletionPercentage } from '@utils';
 import { NULL, SECTION_KINDS } from '@utils/constants';
-import { Button, Divider, Flex, Form, Input, Popconfirm, Progress, Select, Space } from 'antd';
+import {
+  App,
+  Button,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  Popconfirm,
+  Progress,
+  Select,
+  Space,
+  Typography,
+} from 'antd';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -24,6 +36,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
   const { section } = useLogSection(sectionId, song);
   const { onUpdateSongContent, onDeleteSection } = useSongActions();
   const [tempSection, setTempSection] = useState<SongSection>(section);
+  const { message } = App.useApp();
 
   const [form] = Form.useForm<SongSection>();
   const isDirty = form.isFieldsTouched();
@@ -62,6 +75,8 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
     }
     return distributor.getSection(previousSectionId, song).kind;
   }, [sectionId, song]);
+
+  const [confirmDelete, setConfirmDelete] = useState('');
 
   return (
     <Form
@@ -114,19 +129,26 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
 
       <Divider className="my-4" />
 
-      <Form.Item help="You can only delete a section without any lines" label="" name="text">
+      <Form.Item help="Save before you delete a section since it might implode" label="" name="text">
         <Popconfirm
-          onConfirm={() => onDeleteSection(sectionId)}
+          description={
+            <Flex>
+              <Typography.Text>Type section id "{sectionId}" to confirm: </Typography.Text>
+              <Input onChange={(e) => setConfirmDelete(e.target.value)} size="small" value={confirmDelete} />
+            </Flex>
+          }
+          onConfirm={() => {
+            if (confirmDelete === sectionId) {
+              onDeleteSection(sectionId);
+              onClose();
+              setConfirmDelete('');
+            } else {
+              message.warning(`You must type the section id "${sectionId}" to confirm deletion.`);
+            }
+          }}
           title="Are you sure you want to delete this section?"
         >
-          <Button
-            block
-            danger
-            disabled={section.linesIds.length > 0}
-            ghost
-            icon={<DeleteOutlined />}
-            type="primary"
-          >
+          <Button block danger ghost icon={<DeleteOutlined />} type="primary">
             Delete This Section
           </Button>
         </Popconfirm>

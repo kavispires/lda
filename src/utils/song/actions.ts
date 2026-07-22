@@ -447,24 +447,24 @@ export const deletePart = (song: Song, partId: UID, shallow?: boolean): Song => 
   return copy;
 };
 
-// TODO: Verify
 export const deleteLine = (song: Song, lineId: UID, shallow?: boolean): Song => {
   const copy = shallow ? song : cloneDeep(song);
-
   const line = getLine(lineId, song);
 
-  if (line.partsIds.length > 0) {
-    throw new Error('You must delete all parts from a line before deleting the line.');
+  // 1. Cascading delete: Remove all parts associated with this line
+  if (line.partsIds && line.partsIds.length > 0) {
+    line.partsIds.forEach((partId) => {
+      delete copy.content[partId];
+    });
   }
 
-  // Disconnect line from section
+  // 2. Disconnect line from its section
   disconnectLineFromSection(line.id, line.sectionId, copy, true);
 
-  // Delete line
+  // 3. Delete the line itself
   delete copy.content[line.id];
 
   copy.updatedAt = Date.now();
-
   return copy;
 };
 
@@ -583,17 +583,18 @@ export const deleteSection = (song: Song, sectionId: UID, shallow?: boolean): So
   const copy = shallow ? song : cloneDeep(song);
   const section = getSection(sectionId, song);
 
-  if (section.linesIds.length > 0) {
-    throw new Error('You must delete all lines from a section before deleting the section.');
+  // Cascading delete: Remove all lines associated with this section
+  if (section.linesIds && section.linesIds.length > 0) {
+    section.linesIds.forEach((lineId) => {
+      deleteLine(copy, lineId, true); // Shallow true since we already copied
+    });
   }
 
-  // Delete lines
-  section.linesIds.forEach((lineId) => {
-    deleteLine(copy, lineId);
-  });
+  // Remove section from the master array
+  copy.sectionIds = copy.sectionIds.filter((id) => id !== sectionId);
+  delete copy.content[sectionId];
 
   copy.updatedAt = Date.now();
-
   return copy;
 };
 

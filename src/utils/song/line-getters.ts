@@ -79,7 +79,10 @@ const getLineSection = (lineId: string, song: Song): SongSection => {
  */
 export const getLineParts = (lineId: string, song: Song): SongPart[] => {
   const line = getLine(lineId, song);
-  return line.partsIds.map((partId) => getPart(partId, song));
+  if (!line?.partsIds) return [];
+
+  // Silently drop any parts that have been deleted from song.content
+  return line.partsIds.map((partId) => song.content[partId] as SongPart).filter(Boolean);
 };
 
 /**
@@ -114,7 +117,11 @@ export const getLineStartTime = (lineId: string, song: Song): number => {
  * @returns The end time of the line.
  */
 export const getLineEndTime = (lineId: string, song: Song): number => {
-  return getLineParts(lineId, song).slice(-1)?.[0]?.endTime ?? 0;
+  const parts = getLineParts(lineId, song);
+  if (parts.length === 0) return 0;
+
+  // Safely grab the end time of the last part
+  return parts[parts.length - 1]?.endTime ?? 0;
 };
 
 /**

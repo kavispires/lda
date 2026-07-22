@@ -2,7 +2,7 @@ import type { Song, SongLine, SongSection } from '@types';
 import { NULL } from '@utils/constants';
 import { getCompletionPercentage } from '@utils/helpers';
 import { generateUniqueId } from './common';
-import { getLine, getLineEndTime, getLineStartTime, getLineText } from './line-getters';
+import { getLineEndTime, getLineStartTime, getLineText } from './line-getters';
 
 /**
  * Generates a new song section object.
@@ -60,7 +60,9 @@ export const getSectionValue = <K extends keyof SongSection>(
 
 const getSectionLines = (sectionId: string, song: Song): SongLine[] => {
   const section = getSection(sectionId, song);
-  return section?.linesIds?.map((lineId) => getLine(lineId, song));
+  if (!section.linesIds) return [];
+
+  return section.linesIds.map((lineId) => song.content[lineId] as SongLine).filter(Boolean);
 };
 
 const getSectionName = (sectionId: string, song: Song): string => {
@@ -70,11 +72,13 @@ const getSectionName = (sectionId: string, song: Song): string => {
 
 export const getSectionStartTime = (sectionId: string, song: Song): number => {
   const section = getSection(sectionId, song);
+  if (!section.linesIds.length) return 0;
   return getLineStartTime(section.linesIds[0], song);
 };
 
 const getSectionEndTime = (sectionId: string, song: Song): number => {
   const section = getSection(sectionId, song);
+  if (!section.linesIds.length) return 0;
   return getLineEndTime(section.linesIds[section.linesIds.length - 1], song);
 };
 
