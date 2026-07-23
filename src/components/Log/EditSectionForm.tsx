@@ -2,7 +2,7 @@ import { DeleteOutlined } from '@ant-design/icons';
 import { useLogSection } from '@hooks/useLogInstances';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
-import type { SongSection, UID } from '@types';
+import type { Song, SongSection, UID } from '@types';
 import { distributor, getCompletionPercentage } from '@utils';
 import { NULL, SECTION_KINDS } from '@utils/constants';
 import {
@@ -67,15 +67,6 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
     onClose();
   };
 
-  const previousSectionKind = useMemo(() => {
-    const activeSectionIndex = song.sectionIds.indexOf(sectionId);
-    const previousSectionId = song.sectionIds[activeSectionIndex - 1];
-    if (!previousSectionId) {
-      return 'NULL';
-    }
-    return distributor.getSection(previousSectionId, song).kind;
-  }, [sectionId, song]);
-
   const [confirmDelete, setConfirmDelete] = useState('');
 
   return (
@@ -91,10 +82,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
     >
       <Form.Item
         help={
-          <KindSuggestions
-            onApplySuggestedKind={onApplySuggestedKind}
-            previousSectionKind={previousSectionKind}
-          />
+          <KindSuggestions onApplySuggestedKind={onApplySuggestedKind} sectionId={sectionId} song={song} />
         }
         label="Kind"
         name="kind"
@@ -167,45 +155,93 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
   );
 }
 
-const NEXT_SECTION_SUGGESTIONS_PER_KIND: Record<string, string[]> = {
-  NULL: [SECTION_KINDS.INTRO, SECTION_KINDS.VERSE, SECTION_KINDS.CHORUS],
-  [SECTION_KINDS.INTRO]: [SECTION_KINDS.VERSE, SECTION_KINDS.CHORUS, SECTION_KINDS.HOOK],
-  [SECTION_KINDS.VERSE]: [SECTION_KINDS.CHORUS, SECTION_KINDS.PRE_CHORUS, SECTION_KINDS.VERSE],
-  [SECTION_KINDS.PRE_CHORUS]: [SECTION_KINDS.CHORUS, SECTION_KINDS.HOOK],
-  [SECTION_KINDS.CHORUS]: [
-    SECTION_KINDS.VERSE,
-    SECTION_KINDS.BRIDGE,
-    SECTION_KINDS.CHORUS,
-    SECTION_KINDS.HOOK,
-    SECTION_KINDS.POST_CHORUS,
-  ],
-  [SECTION_KINDS.BRIDGE]: [SECTION_KINDS.CHORUS, SECTION_KINDS.OUTRO],
-  [SECTION_KINDS.HOOK]: [SECTION_KINDS.CHORUS, SECTION_KINDS.OUTRO],
-  [SECTION_KINDS.OUTRO]: [SECTION_KINDS.CHORUS, SECTION_KINDS.OUTRO],
+// Your updated dictionary, merged with the essential sequential mappings
+const FALLBACK_SUGGESTIONS: Record<string, string[]> = {
+  [SECTION_KINDS.INTRO]: [SECTION_KINDS.VERSE, SECTION_KINDS.HOOK],
+  [SECTION_KINDS.VERSE]: [SECTION_KINDS.PRE_CHORUS, SECTION_KINDS.CHORUS], // The crucial link
+  [SECTION_KINDS.PRE_CHORUS]: [SECTION_KINDS.CHORUS, SECTION_KINDS.DROP],
+  [SECTION_KINDS.CHORUS]: [SECTION_KINDS.VERSE, SECTION_KINDS.POST_CHORUS, SECTION_KINDS.BRIDGE],
+  [SECTION_KINDS.BRIDGE]: [SECTION_KINDS.CHORUS, SECTION_KINDS.INSTRUMENT_SOLO, SECTION_KINDS.OUTRO],
+  [SECTION_KINDS.HOOK]: [SECTION_KINDS.VERSE, SECTION_KINDS.OUTRO],
   [SECTION_KINDS.POST_CHORUS]: [SECTION_KINDS.VERSE, SECTION_KINDS.BRIDGE],
+  [SECTION_KINDS.DROP]: [SECTION_KINDS.CHORUS, SECTION_KINDS.BRIDGE],
+  [SECTION_KINDS.BREAK]: [SECTION_KINDS.CHORUS, SECTION_KINDS.BRIDGE],
+  [SECTION_KINDS.DANCE_BREAK]: [SECTION_KINDS.BRIDGE, SECTION_KINDS.CHORUS],
 };
+
+function getSmartSuggestions(song: Song, currentSectionId: UID): string[] {
+  const sectionIds = song.sectionIds;
+  const currentIndex = sectionIds.indexOf(currentSectionId);
+
+  // Safety fallback if section isn't found
+  if (currentIndex === -1) return [SECTION_KINDS.VERSE, SECTION_KINDS.PRE_CHORUS, SECTION_KINDS.CHORUS];
+
+  const prevId = sectionIds[currentIndex - 1];
+  const nextId = sectionIds[currentIndex + 1];
+
+  const prevKind = prevId ? distributor.getSection(prevId, song).kind : null;
+  const nextKind = nextId ? distributor.getSection(nextId, song).kind : null;
+
+  const allKindsSoFar = sectionIds.map((id) => distributor.getSection(id, song).kind);
+  const hasBridge = allKindsSoFar.includes(SECTION_KINDS.BRIDGE);
+
+  const suggestions = new Set<string>();
+
+  // 1. POSITIONAL CONTEXT (Highest Priority - appear first)
+  if (currentIndex === 0) {
+    suggestions.add(SECTION_KINDS.INTRO);
+    suggestions.add(SECTION_KINDS.HOOK);
+  }
+
+  // 2. SANDWICH CONTEXT (Out-of-order inserts)
+  if (prevKind === SECTION_KINDS.VERSE && nextKind === SECTION_KINDS.CHORUS) {
+    suggestions.add(SECTION_KINDS.PRE_CHORUS);
+  } else if (prevKind === SECTION_KINDS.CHORUS && nextKind === SECTION_KINDS.VERSE) {
+    suggestions.add(SECTION_KINDS.POST_CHORUS);
+    suggestions.add(SECTION_KINDS.INTERLUDE);
+  }
+
+  // 3. SEQUENTIAL FLOW (Handles the 90% linear workflow naturally)
+  if (prevKind && FALLBACK_SUGGESTIONS[prevKind]) {
+    FALLBACK_SUGGESTIONS[prevKind].forEach((k) => {
+      suggestions.add(k);
+    });
+  }
+
+  // 4. GLOBAL CONTEXT (Filling the gaps)
+  if (currentIndex >= 3 && !hasBridge && prevKind !== SECTION_KINDS.BRIDGE) {
+    suggestions.add(SECTION_KINDS.BRIDGE);
+  }
+
+  // 5. HARD RULES (The Safety Net)
+  // Added last so they appear AFTER the smarter context suggestions.
+  suggestions.add(SECTION_KINDS.CHORUS);
+
+  const isDefinitiveEnding = prevKind === SECTION_KINDS.OUTRO || nextKind === SECTION_KINDS.OUTRO;
+  if (!isDefinitiveEnding) {
+    suggestions.add(SECTION_KINDS.VERSE);
+  }
+
+  // Return top 5 to make sure we have enough room for context + hard rules
+  return Array.from(suggestions).slice(0, 5);
+}
 
 type KindSuggestionsProps = {
   onApplySuggestedKind: (kind: string) => void;
-  previousSectionKind: string;
+  sectionId: UID;
+  song: Song;
 };
 
-function KindSuggestions({ onApplySuggestedKind, previousSectionKind }: KindSuggestionsProps) {
-  const previousKind = previousSectionKind;
-  const suggestions = NEXT_SECTION_SUGGESTIONS_PER_KIND[previousKind] || [
-    SECTION_KINDS.VERSE,
-    SECTION_KINDS.CHORUS,
-  ];
-
-  const handleSuggestionClick = (kind: string) => {
-    onApplySuggestedKind(kind);
-  };
+export function KindSuggestions({ onApplySuggestedKind, sectionId, song }: KindSuggestionsProps) {
+  const suggestions = useMemo(() => {
+    return getSmartSuggestions(song, sectionId);
+  }, [song, sectionId]);
 
   return (
     <Flex className="mt-1" gap={6} wrap="wrap">
       Suggestions:{' '}
       {suggestions.map((kind) => (
-        <Button key={kind} onClick={() => handleSuggestionClick(kind)} size="small" type="dashed">
+        <Button key={kind} onClick={() => onApplySuggestedKind(kind)} size="small" type="dashed">
           {kind}
         </Button>
       ))}
