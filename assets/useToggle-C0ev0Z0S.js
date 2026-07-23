@@ -1,1 +1,0 @@
-import{ci as e,mi as t}from"./index-C_boBCWu.js";var n=t(e()),r=function(e,t){return typeof t==`boolean`?t:!e},i=function(e){return(0,n.useReducer)(r,e)};export{i as t};
