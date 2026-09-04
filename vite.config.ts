@@ -6,7 +6,7 @@ import svgr from 'vite-plugin-svgr';
 import checker from 'vite-plugin-checker';
 
 export default defineConfig({
-  base: '/lda/',
+  base: '/',
   plugins: [
     react(),
     commonjs(),
