@@ -2,7 +2,7 @@ import {
   CheckCircleOutlined,
   DoubleRightOutlined,
   MessageFilled,
-  PlusOutlined,
+  SubnodeOutlined,
   UnorderedListOutlined,
 } from '@ant-design/icons';
 import { useLogLine } from '@hooks/useLogInstances';
@@ -114,7 +114,7 @@ export function LogLine({
 
           {!!onAddPart && (
             <Tooltip title="Add parts to line">
-              <Button icon={<PlusOutlined />} onClick={() => onAddPart(id)} shape="circle" size="small" />
+              <Button icon={<SubnodeOutlined />} onClick={() => onAddPart(id)} shape="circle" size="small" />
             </Tooltip>
           )}
         </span>

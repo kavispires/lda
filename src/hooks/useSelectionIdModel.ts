@@ -40,8 +40,8 @@ export function useSelectionIdModel(initialSelection: UID[] = []): SelectionIdMo
   }, []);
 
   const onSelectMany = useCallback(
-    (ids: UID[]) => {
-      if (selection.length === 0) {
+    (ids: UID[], refresh?: boolean) => {
+      if (selection.length === 0 || refresh) {
         setSelection([...ids]);
         return;
       }

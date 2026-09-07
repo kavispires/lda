@@ -2,6 +2,9 @@ import {
   CheckCircleOutlined,
   CopyOutlined,
   DatabaseFilled,
+  EditOutlined,
+  FontColorsOutlined,
+  FontSizeOutlined,
   MenuUnfoldOutlined,
   PlayCircleFilled,
   PlusOutlined,
@@ -11,7 +14,7 @@ import { useLogPart, useLogSection } from '@hooks/useLogInstances';
 import type { Song, UID } from '@types';
 import { distributor } from '@utils';
 import { NULL } from '@utils/constants';
-import { Alert, Button, Checkbox, Popconfirm, Tooltip } from 'antd';
+import { Alert, Button, Checkbox, Popconfirm, Space, Tooltip } from 'antd';
 import { type ReactNode, useCallback, useMemo } from 'react';
 
 type LogSectionProps = {
@@ -52,7 +55,7 @@ type LogSectionProps = {
   /**
    * The function to call to select all parts belonging to the line
    */
-  onSelectParts?: (partsIds: UID[]) => void;
+  onSelectParts?: (partsIds: UID[], refresh?: boolean) => void;
   /**
    * The function to call to trigger the play of the section
    */
@@ -104,9 +107,33 @@ export function LogSection({
 
   const onSelectRemainingParts = useCallback(() => {
     if (onSelectParts) {
-      onSelectParts(remainingParts);
+      onSelectParts(remainingParts, true);
     }
   }, [onSelectParts, remainingParts]);
+
+  const onSelectRegularParts = useCallback(() => {
+    if (onSelectParts) {
+      onSelectParts(
+        partIds.filter((partId) => {
+          const part = distributor.getPart(partId, song);
+          return !part.text.startsWith('(');
+        }),
+        true,
+      );
+    }
+  }, [onSelectParts, partIds, song]);
+
+  const onSelectAdLibParts = useCallback(() => {
+    if (onSelectParts) {
+      onSelectParts(
+        partIds.filter((partId) => {
+          const part = distributor.getPart(partId, song);
+          return part.text.startsWith('(');
+        }),
+        true,
+      );
+    }
+  }, [onSelectParts, partIds, song]);
 
   const icon = useMemo(() => {
     if (overrideComplete === 'complete') return <CheckCircleOutlined className="log-icon--green" />;
@@ -140,7 +167,12 @@ export function LogSection({
           )}
 
           {onClick ? (
-            <Button danger={section?.kind === NULL} icon={icon} onClick={() => onClick(id)} shape="round">
+            <Button
+              danger={section?.kind === NULL}
+              icon={icon ?? <EditOutlined />}
+              onClick={() => onClick(id)}
+              shape="round"
+            >
               {name}
             </Button>
           ) : (
@@ -151,27 +183,51 @@ export function LogSection({
             </Tooltip>
           )}
 
-          {!!onSelectParts && (
-            <Tooltip title="Select all parts">
-              <Button
-                icon={<UnorderedListOutlined />}
-                onClick={() => onSelectParts(partIds)}
-                shape="circle"
-                size="small"
-              />
-            </Tooltip>
-          )}
+          <Space.Compact>
+            {!!onSelectParts && (
+              <Tooltip title="Select all parts">
+                <Button
+                  icon={<UnorderedListOutlined />}
+                  onClick={() => onSelectParts(partIds)}
+                  shape="square"
+                  size="small"
+                />
+              </Tooltip>
+            )}
 
-          {!!onSelectParts && enableSelectRemainingParts && hasRemainingParts && (
-            <Tooltip title="Select missing parts">
-              <Button
-                icon={<MenuUnfoldOutlined />}
-                onClick={onSelectRemainingParts}
-                shape="circle"
-                size="small"
-              />
-            </Tooltip>
-          )}
+            {!!onSelectParts && (
+              <Tooltip title="Select only regular parts">
+                <Button
+                  icon={<FontColorsOutlined />}
+                  onClick={onSelectRegularParts}
+                  shape="square"
+                  size="small"
+                />
+              </Tooltip>
+            )}
+
+            {!!onSelectParts && (
+              <Tooltip title="Select only (ad-lib) parts">
+                <Button
+                  icon={<FontSizeOutlined />}
+                  onClick={onSelectAdLibParts}
+                  shape="square"
+                  size="small"
+                />
+              </Tooltip>
+            )}
+
+            {!!onSelectParts && enableSelectRemainingParts && hasRemainingParts && (
+              <Tooltip title="Select missing parts">
+                <Button
+                  icon={<MenuUnfoldOutlined />}
+                  onClick={onSelectRemainingParts}
+                  shape="square"
+                  size="small"
+                />
+              </Tooltip>
+            )}
+          </Space.Compact>
         </span>
         <span className="log-section__section-header-actions">
           {!!onAddLine && (
