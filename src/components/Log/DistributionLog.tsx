@@ -2,7 +2,7 @@ import { ApiOutlined } from '@ant-design/icons';
 import { ArtistAvatar } from '@components/Artist';
 import { useSongDistributionContext } from '@services/SongDistributionProvider';
 import type { Artist, Dictionary, SongPart, UID } from '@types';
-import { distributor } from '@utils';
+import { distributor, getCompletionPercentage } from '@utils';
 import { ALL_ID } from '@utils/constants';
 import { App, Avatar, Button, Flex } from 'antd';
 import clsx from 'clsx';
@@ -94,6 +94,20 @@ export function DistributionLog({ className }: LogProps) {
     return false;
   };
 
+  const getSectionAssignmentPercentage = (sectionId: UID) => {
+    const section = distributor.getSection(sectionId, song);
+    const allLines = section.linesIds.map((lineId) => distributor.getLine(lineId, song));
+
+    // adlib parts are excluded, same as in checkSectionCompletion
+    const allRegularParts = allLines.flatMap((line) => (!line.adlib ? line.partsIds : []));
+
+    if (allRegularParts.length === 0) return 0;
+
+    const isPartAssigned = allRegularParts.map((partId) => Boolean(mapping[partId]?.length));
+
+    return getCompletionPercentage(isPartAssigned); // 0-100
+  };
+
   const [copiedSectionId, setCopiedSectionId] = useState<UID | null>(null);
 
   // Handle to copy section id to the internal clipboard
@@ -182,6 +196,7 @@ export function DistributionLog({ className }: LogProps) {
       <ul className="log-sections">
         {song.sectionIds.map((sectionId) => (
           <LogSection
+            completionRate={getSectionAssignmentPercentage(sectionId) / 100}
             id={sectionId}
             key={sectionId}
             onCopy={onSectionCopy}

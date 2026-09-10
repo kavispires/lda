@@ -14,7 +14,7 @@ import { useLogPart, useLogSection } from '@hooks/useLogInstances';
 import type { Song, UID } from '@types';
 import { distributor } from '@utils';
 import { NULL } from '@utils/constants';
-import { Alert, Button, Checkbox, Popconfirm, Space, Tooltip } from 'antd';
+import { Alert, Button, Checkbox, Popconfirm, Progress, Space, Tooltip } from 'antd';
 import { type ReactNode, useCallback, useMemo } from 'react';
 
 type LogSectionProps = {
@@ -74,6 +74,11 @@ type LogSectionProps = {
    * When provided, this takes precedence over the status check
    */
   overrideComplete?: boolean | 'partial' | 'complete' | 'incomplete';
+  /**
+   * The completion rate of the section, if available
+   * In float between 0 and 1, or undefined if not available
+   */
+  completionRate?: number;
 };
 
 export function LogSection({
@@ -90,6 +95,7 @@ export function LogSection({
   onPaste,
   enableSelectRemainingParts,
   overrideComplete,
+  completionRate,
 }: LogSectionProps) {
   const { name, status, partIds, section } = useLogSection(id, song);
   const { part } = useLogPart(partIds[0], song);
@@ -230,6 +236,17 @@ export function LogSection({
           </Space.Compact>
         </span>
         <span className="log-section__section-header-actions">
+          {completionRate !== undefined && (
+            <Tooltip title="Percentage of parts completed in this section">
+              <Progress
+                percent={completionRate * 100}
+                size="small"
+                strokeColor={completionRate < 1 ? '#f7cb15' : undefined}
+                style={{ width: 96 }}
+              />
+            </Tooltip>
+          )}
+
           {!!onAddLine && (
             <Tooltip title="Add content to section">
               <Button icon={<PlusOutlined />} onClick={() => onAddLine(id)} shape="round" size="small" />
