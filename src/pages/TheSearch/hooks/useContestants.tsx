@@ -1,5 +1,5 @@
 import { getDocQueryFunction, updateDocQueryFunction } from '@services/firebase';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
 import type { Contestant } from '../types/contestant';
@@ -25,7 +25,6 @@ export function useContestantsQuery() {
  */
 export function useSaveContestantMutation() {
   const { notification } = App.useApp();
-  const queryClient = useQueryClient();
 
   return useMutation<Contestant, Error, Contestant>({
     mutationFn: async (contestant) => {
@@ -43,17 +42,15 @@ export function useSaveContestantMutation() {
         title: 'Success',
         description: `Contestant "${contestant.name}" saved successfully`,
       });
-
-      // Update the cache
-      queryClient.invalidateQueries({
-        queryKey: ['the-search', 'contestants'],
-      });
     },
     onError(error) {
       notification.error({
         title: 'Error',
         description: error.message,
       });
+    },
+    meta: {
+      invalidateQueries: ['the-search', 'contestants'],
     },
   });
 }
@@ -64,7 +61,6 @@ export function useSaveContestantMutation() {
  */
 export function useDeleteContestantMutation() {
   const { notification } = App.useApp();
-  const queryClient = useQueryClient();
 
   return useMutation<boolean, Error, string>({
     mutationFn: async (contestantId) => {
@@ -79,16 +75,15 @@ export function useDeleteContestantMutation() {
         title: 'Success',
         description: 'Contestant deleted successfully',
       });
-
-      queryClient.invalidateQueries({
-        queryKey: ['the-search', 'contestants'],
-      });
     },
     onError(error) {
       notification.error({
         title: 'Error',
         description: error.message,
       });
+    },
+    meta: {
+      invalidateQueries: ['the-search', 'contestants'],
     },
   });
 }
@@ -100,7 +95,6 @@ export function useDeleteContestantMutation() {
  */
 export function useContestantsParserMutation() {
   const { notification } = App.useApp();
-  const queryClient = useQueryClient();
 
   return useMutation<number, Error, Record<string, Contestant>>({
     mutationFn: async (contestants) => {
@@ -135,11 +129,6 @@ export function useContestantsParserMutation() {
         description: `Updated ${count} contestants`,
       });
 
-      // Invalidate and reload data
-      queryClient.invalidateQueries({
-        queryKey: ['the-search', 'contestants'],
-      });
-
       // Reload page to see changes
       window.location.reload();
     },
@@ -148,6 +137,9 @@ export function useContestantsParserMutation() {
         title: 'Error',
         description: error.message,
       });
+    },
+    meta: {
+      invalidateQueries: ['the-search', 'contestants'],
     },
   });
 }

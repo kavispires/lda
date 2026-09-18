@@ -1,6 +1,6 @@
 import { getDocQueryFunction, updateDocQueryFunction } from '@services/firebase';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { FUID, GroupStats, ListingEntry } from '@types';
+import { useMutation } from '@tanstack/react-query';
+import type { DistributionListingData, FUID, GroupStats, ListingEntry } from '@types';
 import { App } from 'antd';
 import { orderBy } from 'lodash';
 
@@ -12,16 +12,18 @@ type MemberRankingCount = {
 
 export function useCalculateGroupStatsMutation() {
   const { notification } = App.useApp();
-  const queryClient = useQueryClient();
 
   return useMutation<GroupStats, Error, FUID>({
     mutationFn: async (groupId: string) => {
       // Get all distribution listings
-      const listings = await getDocQueryFunction<Record<string, ListingEntry>>('listings', 'distributions');
+      const listings = await getDocQueryFunction<Record<string, ListingEntry<DistributionListingData>>>(
+        'listings',
+        'distributions',
+      );
 
       // Filter distributions by groupId from listing data
       const groupDistributions = Object.values(listings).filter((entry) => {
-        const data = entry.data as any;
+        const data = entry.data;
         return data?.groupId === groupId;
       });
 
@@ -36,7 +38,7 @@ export function useCalculateGroupStatsMutation() {
 
       // Parse each distribution's snippet
       for (const distribution of groupDistributions) {
-        const snippet = (distribution.data as any)?.snippet;
+        const snippet = distribution.data?.snippet;
         if (!snippet) continue;
 
         // Parse snippet: "#color|percentage|name::..."
@@ -109,15 +111,10 @@ export function useCalculateGroupStatsMutation() {
 
       return stats;
     },
-    onSuccess(stats, groupId) {
+    onSuccess(stats) {
       notification.success({
         title: 'Stats Calculated',
         description: `Updated stats for ${stats.totalDistributions} distributions`,
-      });
-
-      // Invalidate groups query to refresh data
-      queryClient.invalidateQueries({
-        queryKey: ['listings', 'groups'],
       });
     },
     onError(error) {
@@ -125,6 +122,9 @@ export function useCalculateGroupStatsMutation() {
         title: 'Calculation Error',
         description: error.message,
       });
+    },
+    meta: {
+      invalidateQueries: ['listings', 'groups'],
     },
   });
 }
