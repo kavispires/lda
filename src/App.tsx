@@ -1,8 +1,7 @@
 import { ContentLoading } from '@components/Content';
 import { Layout } from '@components/Layout/Layout';
 import { AuthProvider } from '@services/AuthProvider';
-import type { QueryKey } from '@tanstack/react-query';
-import { MutationCache, QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App as AntApp } from 'antd';
 import { lazy, Suspense } from 'react';
 import { HashRouter, Route, Routes } from 'react-router-dom';
@@ -52,15 +51,6 @@ const queryClient = new QueryClient({
       gcTime: 60 * 60 * 1000, // 1 hour
     },
   },
-  mutationCache: new MutationCache({
-    onSuccess: (_data, _variables, _context, mutation) => {
-      const queryKey = mutation.meta?.invalidateQueries;
-
-      if (mutation.state.status === 'success' && queryKey) {
-        queryClient.invalidateQueries({ queryKey: queryKey as QueryKey });
-      }
-    },
-  }),
 });
 
 function App() {
