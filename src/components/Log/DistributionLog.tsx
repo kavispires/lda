@@ -98,12 +98,11 @@ export function DistributionLog({ className }: LogProps) {
     const section = distributor.getSection(sectionId, song);
     const allLines = section.linesIds.map((lineId) => distributor.getLine(lineId, song));
 
-    // adlib parts are excluded, same as in checkSectionCompletion
-    const allRegularParts = allLines.flatMap((line) => (!line.adlib ? line.partsIds : []));
+    const allParts = allLines.flatMap((line) => line.partsIds);
 
-    if (allRegularParts.length === 0) return 0;
+    if (allParts.length === 0) return 0;
 
-    const isPartAssigned = allRegularParts.map((partId) => Boolean(mapping[partId]?.length));
+    const isPartAssigned = allParts.map((partId) => Boolean(mapping[partId]?.length));
 
     return getCompletionPercentage(isPartAssigned); // 0-100
   };
