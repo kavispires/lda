@@ -37,6 +37,7 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
       >
         <div className="bar__avatar">
           <ArtistAvatar
+            contestantImageId={artist.contestantImageId}
             id={artist.id}
             name={artist.name}
             style={{

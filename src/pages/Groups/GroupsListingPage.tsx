@@ -218,7 +218,9 @@ function calculateArtistScore(stats?: Artist['stats']): number {
 
 function GroupArtists({ group, artists }: GroupArtistsProps) {
   const artistsList = useMemo(() => {
-    return orderBy(Object.entries(group.artistsIds), ([, position]) => position).map(([id]) => artists[id]);
+    return orderBy(Object.entries(group.artistsIds), ([, position]) => position)
+      .map(([id]) => artists[id])
+      .filter((artist): artist is Artist => artist !== undefined);
   }, [group.artistsIds, artists]);
   return (
     <Flex gap={12} wrap>
@@ -247,7 +249,13 @@ function GroupArtist({ group, artist }: GroupArtistProps) {
           {artist.persona}
         </Typography.Text>
       )}
-      <ArtistAvatar id={artist.id} name={artist.name} shape="square" size={96} />
+      <ArtistAvatar
+        contestantImageId={artist.contestantImageId}
+        id={artist.id}
+        name={artist.name}
+        shape="square"
+        size={96}
+      />
       <div>
         <Tag>{artist.track}</Tag>
       </div>

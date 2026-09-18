@@ -6,7 +6,7 @@ import { createArtist } from '@utils/groups';
 import { Button, ColorPicker, Flex, Form, Input, Select, Slider } from 'antd';
 import { useState } from 'react';
 
-type NewArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats' | 'persona'> & {
+type NewArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats' | 'persona' | 'contestantImageId'> & {
   color: AggregationColor;
 };
 
@@ -35,6 +35,11 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
       newArtist.persona = persona;
     }
 
+    const contestantImageId = values.contestantImageId?.trim();
+    if (contestantImageId) {
+      newArtist.contestantImageId = contestantImageId;
+    }
+
     addArtist(
       {
         group,
@@ -49,6 +54,11 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
       },
     );
   };
+
+  const name = Form.useWatch('name', form);
+  const color = Form.useWatch('color', form);
+  const track = Form.useWatch('track', form);
+  const canSubmit = Boolean(name?.trim() && color && track);
 
   const onValuesChange = (changedValues: Partial<NewArtistFormFields>) => {
     if (changedValues.color) {
@@ -65,18 +75,29 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
       onValuesChange={onValuesChange}
       preserve={false}
     >
-      <Form.Item label="Name" name="name" required>
+      <Form.Item label="Name" name="name" required rules={[{ required: true, whitespace: true }]}>
         <Input />
       </Form.Item>
 
-      <Form.Item label="Color" name="color" required>
-        <ColorPicker
-          defaultValue="#FFFFFF"
-          disabledAlpha
-          format="hex"
-          showText={(color) => <span>{color.toHexString()}</span>}
-        />
-      </Form.Item>
+      <Flex align="start" gap={16}>
+        <Form.Item
+          label="Color"
+          name="color"
+          required
+          rules={[{ required: true, message: 'Color is required' }]}
+          style={{ flex: 1 }}
+        >
+          <ColorPicker
+            defaultValue="#FFFFFF"
+            disabledAlpha
+            format="hex"
+            showText={(color) => <span>{color.toHexString()}</span>}
+          />
+        </Form.Item>
+        <Form.Item label="Contestant Image ID" name="contestantImageId" style={{ flex: 1 }}>
+          <Input placeholder="Optional" />
+        </Form.Item>
+      </Flex>
 
       <Flex className="artist-form-colors" gap={6}>
         <span className="artist-form-color artist-form-color--black" style={{ backgroundColor: colorValue }}>
@@ -93,7 +114,12 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
         </span>
       </Flex>
 
-      <Form.Item label="Track" name="track" required>
+      <Form.Item
+        label="Track"
+        name="track"
+        required
+        rules={[{ required: true, message: 'Track is required' }]}
+      >
         <Select options={options} />
       </Form.Item>
 
@@ -132,7 +158,7 @@ export function NewArtistForm({ onClose, group }: NewArtistFormProps) {
       </Flex>
 
       <Form.Item>
-        <Button htmlType="submit" loading={isPending} type="primary">
+        <Button disabled={!canSubmit} htmlType="submit" loading={isPending} type="primary">
           Add
         </Button>
       </Form.Item>

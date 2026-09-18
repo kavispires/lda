@@ -85,6 +85,11 @@ export type Artist = {
    */
   name: string;
   /**
+   * The ID of the contestant image associated with the artist (optional)
+   * It will be used as its image
+   */
+  contestantImageId?: string;
+  /**
    * The color associated with the artist
    */
   color: string; // probably change to hsl?

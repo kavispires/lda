@@ -6,7 +6,7 @@ import type { Artist, Group } from '@types';
 import { Button, ColorPicker, Flex, Form, Input, Select, Slider } from 'antd';
 import { useEffect, useState } from 'react';
 
-type EditArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats' | 'persona'> & {
+type EditArtistFormFields = Pick<Artist, 'name' | 'track' | 'stats' | 'persona' | 'contestantImageId'> & {
   color: AggregationColor;
 };
 
@@ -34,6 +34,7 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
       name: artist.name,
       track: artist.track,
       color: artist.color as unknown as AggregationColor,
+      contestantImageId: artist.contestantImageId,
       persona: artist.persona,
       stats: artist.stats || {
         vocals: 1,
@@ -53,6 +54,7 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
       colorHex !== artist.color ||
       values.track !== artist.track ||
       (values.persona?.trim() || undefined) !== artist.persona ||
+      (values.contestantImageId?.trim() || undefined) !== artist.contestantImageId ||
       values.stats?.vocals !== (artist.stats?.vocals || 1) ||
       values.stats?.rap !== (artist.stats?.rap || 1) ||
       values.stats?.dance !== (artist.stats?.dance || 1) ||
@@ -70,6 +72,13 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
       track: values.track,
       stats: values.stats,
     };
+
+    const contestantImageId = values.contestantImageId?.trim();
+    if (contestantImageId) {
+      updatedArtist.contestantImageId = contestantImageId;
+    } else {
+      delete updatedArtist.contestantImageId;
+    }
 
     const persona = values.persona?.trim();
     if (persona) {
@@ -106,13 +115,24 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
       onValuesChange={onValuesChange}
       preserve={false}
     >
-      <Form.Item label="Name" name="name" required>
+      <Form.Item label="Name" name="name" required rules={[{ required: true, whitespace: true }]}>
         <Input />
       </Form.Item>
 
-      <Form.Item label="Color" name="color" required>
-        <ColorPicker disabledAlpha format="hex" showText={(color) => <span>{color.toHexString()}</span>} />
-      </Form.Item>
+      <Flex align="start" gap={16}>
+        <Form.Item
+          label="Color"
+          name="color"
+          required
+          rules={[{ required: true, message: 'Color is required' }]}
+          style={{ flex: 1 }}
+        >
+          <ColorPicker disabledAlpha format="hex" showText={(color) => <span>{color.toHexString()}</span>} />
+        </Form.Item>
+        <Form.Item label="Contestant Image ID" name="contestantImageId" style={{ flex: 1 }}>
+          <Input placeholder="Optional" />
+        </Form.Item>
+      </Flex>
 
       <Flex className="artist-form-colors" gap={6}>
         <span className="artist-form-color artist-form-color--black" style={{ backgroundColor: colorValue }}>
@@ -129,7 +149,12 @@ export function EditArtistForm({ onClose, artist, group }: EditArtistFormProps) 
         </span>
       </Flex>
 
-      <Form.Item label="Track" name="track" required>
+      <Form.Item
+        label="Track"
+        name="track"
+        required
+        rules={[{ required: true, message: 'Track is required' }]}
+      >
         <Select options={options} />
       </Form.Item>
 

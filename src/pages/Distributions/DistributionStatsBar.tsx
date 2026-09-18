@@ -48,6 +48,7 @@ export function DistributionStatsBar({
     >
       <div className="distribution-stats-bar__avatar">
         <ArtistAvatar
+          contestantImageId={artist.contestantImageId}
           id={artist.id}
           name={artist.name}
           style={{

@@ -94,6 +94,7 @@ export function StageEdit({ width, timestampKey, assignees, assigneesIds }: Stag
               }}
             >
               <ArtistAvatar
+                contestantImageId={assignees?.[assigneeId]?.contestantImageId}
                 draggable="false"
                 id={assigneeId}
                 key={assigneeId}

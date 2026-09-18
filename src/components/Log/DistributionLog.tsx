@@ -248,6 +248,7 @@ function PartAssignees({ mapping, partId, assignees }: PartAssigneesProps) {
 
         return (
           <ArtistAvatar
+            contestantImageId={assignees?.[assigneeId]?.contestantImageId}
             id={assigneeId}
             key={assigneeId}
             name={assignees?.[assigneeId]?.name ?? assigneeId}

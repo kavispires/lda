@@ -23,6 +23,7 @@ export const LyricBox = memo(function LyricBox({ snapshot, assignees, timestamp 
 
           return (
             <ArtistAvatar
+              contestantImageId={artist?.contestantImageId}
               id={artist?.id ?? assigneeId}
               key={assigneeId}
               name={artist?.name ?? assigneeId}

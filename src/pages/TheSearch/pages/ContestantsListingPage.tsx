@@ -553,7 +553,8 @@ export function ContestantsListingPage() {
       render: (track: string, record: Contestant) => (
         <Space align="center" size="small">
           <Tooltip title={record.color}>
-            <div
+            <button
+              onClick={() => navigator.clipboard.writeText(record.color)}
               style={{
                 width: '20px',
                 height: '20px',
@@ -561,6 +562,8 @@ export function ContestantsListingPage() {
                 border: '1px solid #d9d9d9',
                 borderRadius: '4px',
               }}
+              title={`Copy ${record.color}`}
+              type="button"
             />
           </Tooltip>
           <Tag>{track}</Tag>
