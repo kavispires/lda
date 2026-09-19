@@ -2,6 +2,7 @@ import { AddNewSectionCollapse } from '@components/Log/AddNewSectionCollapse';
 import { EditorsLog } from '@components/Log/EditorsLog';
 import { NudgeSongCollapse } from '@components/Log/NudgeSongCollapse';
 import { SectionOrganizerCollapse } from '@components/Log/SectionOrganizerCollapse';
+import { UsefulSongEditActionsCollapse } from '@components/Log/UsefulSongEditActionsCollapse';
 import { ControlledVideo } from '@components/Video/ControlledVideo';
 import { useVideoControls } from '@hooks/useVideoControls';
 import { useSongEditContext } from '@services/SongEditProvider';
@@ -51,6 +52,8 @@ export function StepCategorizer({ videoWidth }: StepCategorizerProps) {
             <AddNewSectionCollapse />
 
             <NudgeSongCollapse />
+
+            <UsefulSongEditActionsCollapse />
           </Space>
         </Space>
       </div>

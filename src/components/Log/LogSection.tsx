@@ -239,7 +239,7 @@ export function LogSection({
           {completionRate !== undefined && (
             <Tooltip title="Percentage of parts completed in this section">
               <Progress
-                percent={completionRate * 100}
+                percent={Math.round(completionRate * 100)}
                 size="small"
                 strokeColor={completionRate < 1 ? '#f7cb15' : undefined}
                 style={{ width: 96 }}
