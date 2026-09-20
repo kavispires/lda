@@ -53,18 +53,49 @@ export const serializeSong = (song: Song): FirestoreSong => {
     }
   });
 
-  // Delete any empty entity (parts without lineId, lines without sectionId, sectionIds, without lineIds)
+  // Remove parts with empty text, or that are orphans (no line, or line doesn't claim them), detaching from their line
   Object.values(copy.content).forEach((entry) => {
-    if (entry.type === 'part' && !entry.lineId) {
+    if (entry.type !== 'part') return;
+
+    const parentLine = entry.lineId ? copy.content[entry.lineId] : undefined;
+    const isOrphan = parentLine?.type !== 'line' || !parentLine.partsIds.includes(entry.id);
+
+    if (!entry.text || isOrphan) {
       delete copy.content[entry.id];
+
+      if (parentLine && parentLine.type === 'line') {
+        parentLine.partsIds = parentLine.partsIds.filter((partId) => partId !== entry.id);
+      }
     }
-    if (entry.type === 'line' && !entry.sectionId) {
+  });
+
+  // Remove lines left without parts, or that are orphans (no section, or section doesn't claim them), detaching from their section
+  // (run after the parts pass above so `partsIds` is already up to date)
+  Object.values(copy.content).forEach((entry) => {
+    if (entry.type !== 'line') return;
+
+    const parentSection = entry.sectionId ? copy.content[entry.sectionId] : undefined;
+    const isOrphan = parentSection?.type !== 'section' || !parentSection.linesIds.includes(entry.id);
+
+    if (!entry.partsIds.length || isOrphan) {
       delete copy.content[entry.id];
+
+      if (parentSection && parentSection.type === 'section') {
+        parentSection.linesIds = parentSection.linesIds.filter((lineId) => lineId !== entry.id);
+      }
     }
-    if (entry.type === 'section' && !entry.linesIds.length) {
+  });
+
+  // Remove sections left without lines, or that are orphans (not listed in the song's sectionIds)
+  // (run after the lines pass above so `linesIds` is already up to date)
+  Object.values(copy.content).forEach((entry) => {
+    if (entry.type === 'section' && (!entry.linesIds.length || !copy.sectionIds.includes(entry.id))) {
       delete copy.content[entry.id];
     }
   });
+
+  // Keep the song's sectionIds in sync with the sections that actually remain
+  copy.sectionIds = copy.sectionIds.filter((sectionId) => copy.content[sectionId]?.type === 'section');
 
   copy.ready = distributor.isSongReady(copy);
 
