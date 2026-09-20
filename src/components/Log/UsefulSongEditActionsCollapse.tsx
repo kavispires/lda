@@ -13,7 +13,7 @@ export function UsefulSongEditActionsCollapse() {
   const items: CollapseProps['items'] = [
     {
       key: '1',
-      label: 'Nudge Song',
+      label: 'Useful Utility Actions',
       children: <div>{activePanel.includes('1') && <UsefulSongEditActionsCollapseContent />}</div>,
     },
   ];
