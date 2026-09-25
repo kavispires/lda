@@ -122,20 +122,35 @@ const buildSections = (textarea: string, song: Song) => {
   const songCopy = cloneDeep(song);
   const content: Song['content'] = {};
 
+  // If a line ends with a single trailing period, strip it. If it ends with two or more
+  // dots (an ellipsis), replace them with the `…` character instead. Trailing commas are
+  // stripped as well.
+  const stripTrailingPunctuation = (entry: string) => {
+    const withoutPeriod = entry.replace(/\.+\s*$/, (match) => {
+      const dots = match.trim();
+      if (dots.length >= 2) return '…';
+      return '';
+    });
+    return withoutPeriod.replace(/,\s*$/, '');
+  };
+
   // Remove double spaces and first line and last line line breaks
-  const filteredTextarea = textarea.split('\n').filter((entry, index, list) => {
-    const line = entry.trim();
-    // Empty lines
-    if (line === '') {
-      // First line
-      if (index === 0) return false;
-      // Last line is empty
-      if (index === list.length - 1) return false;
-      // Double empty lines
-      if (list[index - 1]?.trim() === '') return false;
-    }
-    return true;
-  });
+  const filteredTextarea = textarea
+    .split('\n')
+    .map(stripTrailingPunctuation)
+    .filter((entry, index, list) => {
+      const line = entry.trim();
+      // Empty lines
+      if (line === '') {
+        // First line
+        if (index === 0) return false;
+        // Last line is empty
+        if (index === list.length - 1) return false;
+        // Double empty lines
+        if (list[index - 1]?.trim() === '') return false;
+      }
+      return true;
+    });
 
   const sectionIds: UID[] = [];
   let lineIds: UID[] = [];
