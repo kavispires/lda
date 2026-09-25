@@ -17,7 +17,7 @@ export const ASSIGNEE: Dictionary<string> = {
   G: 'G',
   H: 'H',
   I: 'I',
-};
+} as const;
 
 export const ASSIGNEES: Dictionary<{ label: string; value: string; color: string }> = {
   A: {
@@ -75,7 +75,7 @@ export const ASSIGNEES: Dictionary<{ label: string; value: string; color: string
     value: 'X',
     color: '#dee0e7',
   },
-};
+} as const;
 
 export const LINE_SKILL = {
   VOCAL: 'VOCAL',
@@ -83,7 +83,7 @@ export const LINE_SKILL = {
   AD_LIB: 'AD_LIB',
   CHOIR: 'CHOIR',
   EFFECT: 'EFFECT',
-};
+} as const;
 
 export const SECTION_KINDS = {
   VERSE: 'VERSE',
@@ -103,7 +103,7 @@ export const SECTION_KINDS = {
   ASIDE: 'ASIDE',
   INTERLUDE: 'INTERLUDE',
   UNKNOWN: 'UNKNOWN',
-};
+} as const;
 
 export const DURATION_FORMAT = 'mm:ss';
 
