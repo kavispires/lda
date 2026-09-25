@@ -198,6 +198,60 @@ export const addNewTextAsPartsToLine = (song: Song, lineId: UID, text: string[],
 };
 
 /**
+ * Splits a part's text on `|` into multiple sibling parts within the same line.
+ *
+ * @param song - The song object to modify
+ * @param partId - The unique identifier of the part to split
+ * @param shallow - When true, modifies the original song object; when false or undefined, creates a deep clone before modification
+ * @returns A modified song object with the part's text split into sibling parts
+ *
+ * @remarks
+ * - The first segment stays on the original part id (its text is updated in place, id is
+ *   preserved, and its startTime/endTime are left untouched)
+ * - Remaining segments become new parts inserted right after the original part in the line
+ * - New parts inherit the original part's recommendedAssignee but start with no
+ *   startTime/endTime, since the original timing no longer applies to the split-off text
+ * - If the text has fewer than 2 non-empty segments after splitting, the song is returned unchanged
+ */
+export const splitPartByPipe = (song: Song, partId: UID, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  const part = getPart(partId, copy);
+  const segments = part.text
+    .split('|')
+    .map((segment) => segment.trim().replace(/\s+/g, ' '))
+    .filter(Boolean);
+
+  if (segments.length < 2) {
+    return copy;
+  }
+
+  const [firstText, ...restTexts] = segments;
+  const line = getLine(part.lineId, copy);
+
+  updateSongContent(copy, partId, { ...part, text: firstText }, true);
+
+  const newPartIds = restTexts.map((text) => {
+    const newPart = generatePart(
+      { endTime: 0, lineId: part.lineId, recommendedAssignee: part.recommendedAssignee, startTime: 0, text },
+      copy,
+    );
+    updateSongContent(copy, newPart.id, newPart, true);
+    return newPart.id;
+  });
+
+  const partIndex = line.partsIds.indexOf(partId);
+  const updatedPartsIds = [...line.partsIds];
+  updatedPartsIds.splice(partIndex + 1, 0, ...newPartIds);
+
+  updateSongContent(copy, line.id, { ...line, partsIds: removeDuplicates(updatedPartsIds) }, true);
+
+  copy.updatedAt = Date.now();
+
+  return copy;
+};
+
+/**
  * Adds a new line to a specified section in a song.
  *
  * @param song - The song object to which the line will be added

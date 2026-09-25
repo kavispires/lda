@@ -53,6 +53,15 @@ export function useSongActions() {
     });
   };
 
+  const onSplitPartByPipe = (partId: UID) => {
+    setSong((prev) => {
+      if (prev) {
+        return distributor.splitPartByPipe(prev, partId);
+      }
+      return prev;
+    });
+  };
+
   const onAddNewLine = (sectionId: UID) => {
     setSong((prev) => {
       if (prev) {
@@ -277,6 +286,7 @@ export function useSongActions() {
     onMovePartToLine,
     onMovePartsTogether,
     onAddNewTextAsPartsToLine,
+    onSplitPartByPipe,
     onAddNewTextAsLinesToSection,
     onNudgeSong,
     onSortSection,

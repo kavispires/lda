@@ -1,4 +1,4 @@
-import { DeleteOutlined, LogoutOutlined } from '@ant-design/icons';
+import { DeleteOutlined, LogoutOutlined, ScissorOutlined } from '@ant-design/icons';
 import { useLogPart } from '@hooks/useLogInstances';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
@@ -17,6 +17,7 @@ import {
   Radio,
   Select,
   Space,
+  Tooltip,
 } from 'antd';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
@@ -33,7 +34,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
   const { song } = useSongEditContext();
 
   const { part } = useLogPart(partId, song);
-  const { onUpdateSongContent, onDeletePart, onConvertPartToNewLine } = useSongActions();
+  const { onUpdateSongContent, onDeletePart, onConvertPartToNewLine, onSplitPartByPipe } = useSongActions();
   const [tempPart, setTempPart] = useState<SongPart>(part);
   const [showMoveFlow, setShowMoveFlow] = useState(false);
 
@@ -57,7 +58,19 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
   }, [isDirty]);
 
   const onApplyChanges = () => {
+    // If the user edited the text but applied changes directly instead of using the split
+    // button, clean up any leftover `|`, padding, and duplicated whitespace.
+    const sanitizedText = tempPart.text.replace(/\|/g, ' ').replace(/\s+/g, ' ').trim();
+    onUpdateSongContent(partId, { ...tempPart, text: sanitizedText });
+    setDirty(false);
+    onClose();
+  };
+
+  const onSplit = () => {
+    // Persist any pending edits to the text field first, since the split reads the
+    // part's saved text, not the form's local (not-yet-applied) state.
     onUpdateSongContent(partId, tempPart);
+    onSplitPartByPipe(partId);
     setDirty(false);
     onClose();
   };
@@ -89,7 +102,19 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
       </Form.Item>
 
       <Form.Item label="Lyric" name="text">
-        <Input />
+        <Input
+          suffix={
+            <Tooltip title="Split into parts by |">
+              <Button
+                disabled={!tempPart.text.includes('|')}
+                icon={<ScissorOutlined />}
+                onClick={onSplit}
+                size="small"
+                type="text"
+              />
+            </Tooltip>
+          }
+        />
       </Form.Item>
 
       <div className="grid grid-cols-3">
