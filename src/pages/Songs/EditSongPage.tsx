@@ -2,8 +2,9 @@ import './EditSongPage.scss';
 
 import { SaveFilled } from '@ant-design/icons';
 import { Content } from '@components/Content';
+import { CopyLyricsButton } from '@components/Lyrics/CopyLyricsButton';
 import { SongEditProvider, useSongEditContext } from '@services/SongEditProvider';
-import { Button, Space, Tag, Tooltip, Typography } from 'antd';
+import { Button, Flex, Space, Tag, Tooltip, Typography } from 'antd';
 import { useMeasure } from 'react-use';
 import { EditSongStepper } from './Edit/EditSongStepper';
 import { StepCategorizer } from './Edit/StepCategorizer';
@@ -32,7 +33,10 @@ function EditSongContent() {
 
   return (
     <Content ref={ref}>
-      <Typography.Title level={2}>Edit Song: {song.title}</Typography.Title>
+      <Flex align="center" justify="space-between">
+        <Typography.Title level={2}>Edit Song: {song.title}</Typography.Title>
+        <CopyLyricsButton song={song} />
+      </Flex>
 
       <EditSongStepper />
 

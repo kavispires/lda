@@ -1,14 +1,14 @@
 import './EditDistributionPage.scss';
 
-import { CopyOutlined, SaveOutlined } from '@ant-design/icons';
+import { SaveOutlined } from '@ant-design/icons';
 import { Content } from '@components/Content';
 import { DistributionLog } from '@components/Log/DistributionLog';
+import { CopyLyricsButton } from '@components/Lyrics/CopyLyricsButton';
 import { ControlledVideo } from '@components/Video/ControlledVideo';
 import { VideoControls } from '@components/Video/VideoControls';
 import { SongDistributionProvider, useSongDistributionContext } from '@services/SongDistributionProvider';
-import type { Distribution, Song } from '@types';
-import { distributor } from '@utils';
-import { App, Button, Flex, Progress, Space, Typography } from 'antd';
+import type { Distribution } from '@types';
+import { Button, Flex, Progress, Space, Typography } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMeasure } from 'react-use';
 import { DistributionLiveStats } from './DistributionLiveStats';
@@ -29,11 +29,6 @@ function EditDistributionContent() {
     useSongDistributionContext();
   const navigate = useNavigate();
   const [ref, { width }] = useMeasure<HTMLElement>();
-  const { message } = App.useApp();
-
-  const handleCopyLyrics = () => {
-    copyDistributionToClipboard(song, message);
-  };
 
   return (
     <Content ref={ref}>
@@ -41,7 +36,7 @@ function EditDistributionContent() {
         <Typography.Title level={2}>
           Edit Distribution: <em>{group.name}</em> sings <em>{song.title}</em>
         </Typography.Title>
-        <div>?</div>
+        <CopyLyricsButton distribution={distribution} song={song} />
       </Flex>
 
       <Space className="w-100" orientation="vertical" size="small">
@@ -88,60 +83,7 @@ function EditDistributionContent() {
             View
           </Button>
         </Space>
-
-        <Space.Compact>
-          <Button icon={<CopyOutlined />} onClick={handleCopyLyrics} size="large">
-            Copy Lyrics
-          </Button>
-          <Button disabled icon={<CopyOutlined />} onClick={() => {}} size="large">
-            Copy Lyrics Distributions
-          </Button>
-        </Space.Compact>
       </Flex>
     </Content>
   );
-}
-
-function copyDistributionToClipboard(song: Song, message: ReturnType<typeof App.useApp>['message']) {
-  try {
-    // Get all sections in order
-    const sections = distributor.getAllSections(song);
-
-    // Build formatted text
-    const formattedText = sections
-      .map((section) => {
-        // Format section header
-        const sectionHeader = `[${section.kind.toUpperCase()} ${section.number}]`;
-
-        // Get all lines in this section
-        const lines = section.linesIds
-          .map((lineId) => {
-            const line = song.content[lineId];
-            if (line.type !== 'line') return '';
-
-            // Get all parts in the line and join their text
-            const partsText = line.partsIds
-              .map((partId) => {
-                const part = song.content[partId];
-                if (part.type !== 'part') return '';
-                return part.text;
-              })
-              .filter(Boolean)
-              .join(' ');
-
-            return partsText;
-          })
-          .filter(Boolean);
-
-        // Combine section header with lines
-        return `${sectionHeader}\n${lines.join('\n')}`;
-      })
-      .join('\n\n');
-
-    // Copy to clipboard
-    navigator.clipboard.writeText(formattedText);
-    message.success('Lyrics copied to clipboard!');
-  } catch {
-    message.error('Failed to copy lyrics to clipboard');
-  }
 }
