@@ -14,8 +14,9 @@ import { useLogPart, useLogSection } from '@hooks/useLogInstances';
 import type { Song, UID } from '@types';
 import { distributor } from '@utils';
 import { NULL } from '@utils/constants';
-import { Alert, Button, Checkbox, Popconfirm, Progress, Space, Tooltip } from 'antd';
-import { type ReactNode, useCallback, useMemo } from 'react';
+import { Alert, Button, Checkbox, Divider, Flex, Popconfirm, Popover, Progress, Space, Tooltip } from 'antd';
+import { type ReactNode, useCallback, useMemo, useState } from 'react';
+import { getSectionKindSuggestions } from './sectionSuggestionEngine';
 
 type LogSectionProps = {
   /**
@@ -79,6 +80,11 @@ type LogSectionProps = {
    * In float between 0 and 1, or undefined if not available
    */
   completionRate?: number;
+  /**
+   * The function to call to quickly set the section's kind without opening the full editor.
+   * Only used when the section's kind hasn't been set yet.
+   */
+  onQuickSetKind?: (sectionId: UID, kind: string) => void;
 };
 
 export function LogSection({
@@ -96,9 +102,26 @@ export function LogSection({
   enableSelectRemainingParts,
   overrideComplete,
   completionRate,
+  onQuickSetKind,
 }: LogSectionProps) {
   const { name, status, partIds, section } = useLogSection(id, song);
   const { part } = useLogPart(partIds[0], song);
+  const [kindPopoverOpen, setKindPopoverOpen] = useState(false);
+
+  const needsKind = section?.kind === NULL;
+
+  const kindSuggestions = useMemo(() => {
+    if (!needsKind) return [];
+    return getSectionKindSuggestions(song, id);
+  }, [needsKind, song, id]);
+
+  const handleQuickSetKind = useCallback(
+    (kind: string) => {
+      onQuickSetKind?.(id, kind);
+      setKindPopoverOpen(false);
+    },
+    [onQuickSetKind, id],
+  );
 
   // Get parts without timestamps
   const remainingParts = useMemo(() => {
@@ -173,14 +196,49 @@ export function LogSection({
           )}
 
           {onClick ? (
-            <Button
-              danger={section?.kind === NULL}
-              icon={icon ?? <EditOutlined />}
-              onClick={() => onClick(id)}
-              shape="round"
-            >
-              {name}
-            </Button>
+            needsKind ? (
+              <Popover
+                content={
+                  <Flex gap={6} style={{ maxWidth: 260 }} vertical>
+                    <Flex gap={6} wrap="wrap">
+                      {kindSuggestions.map((kind) => (
+                        <Button
+                          key={kind}
+                          onClick={() => handleQuickSetKind(kind)}
+                          size="small"
+                          type="dashed"
+                        >
+                          {kind}
+                        </Button>
+                      ))}
+                    </Flex>
+                    <Divider className="my-1" />
+                    <Button
+                      block
+                      onClick={() => {
+                        setKindPopoverOpen(false);
+                        onClick(id);
+                      }}
+                      size="small"
+                    >
+                      Open Full Editor
+                    </Button>
+                  </Flex>
+                }
+                onOpenChange={setKindPopoverOpen}
+                open={kindPopoverOpen}
+                title="Select section kind"
+                trigger="click"
+              >
+                <Button danger icon={icon ?? <EditOutlined />} shape="round">
+                  {name}
+                </Button>
+              </Popover>
+            ) : (
+              <Button icon={icon ?? <EditOutlined />} onClick={() => onClick(id)} shape="round">
+                {name}
+              </Button>
+            )
           ) : (
             <Tooltip title={section.id} trigger="click">
               <span>

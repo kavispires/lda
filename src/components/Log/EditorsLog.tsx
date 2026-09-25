@@ -1,4 +1,5 @@
 import { usePreserveScrollPosition } from '@hooks/usePreserveScrollPosition';
+import { useSongActions } from '@hooks/useSongActions';
 import type { useVideoControls } from '@hooks/useVideoControls';
 import { useSongEditContext } from '@services/SongEditProvider';
 import type { UID } from '@types';
@@ -21,6 +22,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
     song,
     selectionIdModel: { selection, onSelect, onSelectMany, onDeselectAll },
   } = useSongEditContext();
+  const { onUpdateSongContent } = useSongActions();
   const [specialModal, setSpecialModal] = useState(false);
   const ref = usePreserveScrollPosition<HTMLUListElement>();
 
@@ -34,6 +36,13 @@ export function EditorsLog({ className, videoControls }: LogProps) {
 
   const onEntityClick = (id: UID) => {
     setDrawerOpen([id]);
+  };
+
+  const onQuickSetKind = (sectionId: UID, kind: string) => {
+    const section = distributor.getSection(sectionId, song);
+    if (section) {
+      onUpdateSongContent(sectionId, { ...section, kind });
+    }
   };
 
   const onClose = () => {
@@ -88,6 +97,7 @@ export function EditorsLog({ className, videoControls }: LogProps) {
             }}
             onClick={onEntityClick}
             onPlay={(startTime) => videoControls.seekAndPlay(startTime)}
+            onQuickSetKind={onQuickSetKind}
             onSelect={selectableType === 'all' || selectableType === 'section' ? onSelect : undefined}
             selected={selection.includes(sectionId)}
             song={song}
