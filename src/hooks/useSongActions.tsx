@@ -6,7 +6,7 @@ import { cloneDeep } from 'lodash';
 
 export function useSongActions() {
   const { notification } = App.useApp();
-  const { setSong } = useSongEditContext();
+  const { song, setSong } = useSongEditContext();
 
   const onUpdateSong = <T extends keyof Song>(path: string, value: Song[T]) => {
     setSong((prev) => {
@@ -59,6 +59,29 @@ export function useSongActions() {
         return distributor.splitPartByPipe(prev, partId);
       }
       return prev;
+    });
+  };
+
+  const onCleanupLyricsPunctuation = () => {
+    if (!song) return;
+
+    const updated = distributor.cleanupLyricsPunctuation(song);
+    const modifiedCount = distributor
+      .getAllParts(song)
+      .filter((part) => (updated.content[part.id] as SongPart | undefined)?.text !== part.text).length;
+
+    if (modifiedCount === 0) {
+      notification.success({
+        title: 'Lyrics cleaned up',
+        description: 'No parts needed cleanup.',
+      });
+      return;
+    }
+
+    setSong(updated);
+    notification.success({
+      title: 'Lyrics cleaned up',
+      description: `${modifiedCount} part${modifiedCount === 1 ? '' : 's'} modified.`,
     });
   };
 
@@ -287,6 +310,7 @@ export function useSongActions() {
     onMovePartsTogether,
     onAddNewTextAsPartsToLine,
     onSplitPartByPipe,
+    onCleanupLyricsPunctuation,
     onAddNewTextAsLinesToSection,
     onNudgeSong,
     onSortSection,

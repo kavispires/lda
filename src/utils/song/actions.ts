@@ -11,7 +11,7 @@ import {
   getSectionsTypeahead,
   getSectionValue,
 } from './section-getters';
-import { getAllParts } from './song-getters';
+import { getAllLines, getAllParts } from './song-getters';
 
 /**
  * Updates a property of a song object and returns a new copy of the song with the updated property.
@@ -245,6 +245,46 @@ export const splitPartByPipe = (song: Song, partId: UID, shallow?: boolean): Son
   updatedPartsIds.splice(partIndex + 1, 0, ...newPartIds);
 
   updateSongContent(copy, line.id, { ...line, partsIds: removeDuplicates(updatedPartsIds) }, true);
+
+  copy.updatedAt = Date.now();
+
+  return copy;
+};
+
+/**
+ * Cleans up trailing punctuation across all of a song's lyrics, mirroring the sanitization
+ * applied when parsing pasted lyrics in the "New Song" flow.
+ *
+ * @param song - The song object to modify
+ * @param shallow - When true, modifies the original song object; when false or undefined, creates a deep clone before modification
+ * @returns A modified song object with cleaned-up lyric text
+ *
+ * @remarks
+ * - Any sequence of 2+ dots anywhere in a part's text (not just at the end of a line) is
+ *   replaced with a proper ellipsis character (`…`)
+ * - A single trailing period at the end of a line (i.e. on the line's last part) is removed
+ * - A trailing comma at the end of a line (i.e. on the line's last part) is removed
+ */
+export const cleanupLyricsPunctuation = (song: Song, shallow?: boolean): Song => {
+  const copy = shallow ? song : cloneDeep(song);
+
+  getAllParts(copy).forEach((part) => {
+    const withEllipsis = part.text.replace(/\.{2,}/g, '…');
+    if (withEllipsis !== part.text) {
+      updateSongContent(copy, part.id, { ...part, text: withEllipsis }, true);
+    }
+  });
+
+  getAllLines(copy).forEach((line) => {
+    const lastPartId = line.partsIds[line.partsIds.length - 1];
+    const lastPart = lastPartId ? (copy.content[lastPartId] as SongPart) : undefined;
+    if (!lastPart) return;
+
+    const strippedText = lastPart.text.replace(/\.\s*$/, '').replace(/,\s*$/, '');
+    if (strippedText !== lastPart.text) {
+      updateSongContent(copy, lastPart.id, { ...lastPart, text: strippedText }, true);
+    }
+  });
 
   copy.updatedAt = Date.now();
 

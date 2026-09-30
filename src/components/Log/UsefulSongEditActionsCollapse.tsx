@@ -1,7 +1,8 @@
 import { InfoCircleOutlined } from '@ant-design/icons';
+import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
 import { distributor } from '@utils';
-import { Button, Collapse, type CollapseProps } from 'antd';
+import { Button, Collapse, type CollapseProps, Popconfirm, Space } from 'antd';
 import { useState } from 'react';
 
 export function UsefulSongEditActionsCollapse() {
@@ -38,6 +39,7 @@ function UsefulSongEditActionsCollapseContent() {
     song,
     selectionIdModel: { onSelectMany },
   } = useSongEditContext();
+  const { onCleanupLyricsPunctuation } = useSongActions();
 
   // Handler for selecting all ad-libs candidates
   const handleSelectAll = () => {
@@ -57,7 +59,15 @@ function UsefulSongEditActionsCollapseContent() {
 
   return (
     <div>
-      <Button onClick={handleSelectAll}>Select all ad-libs candidates</Button>
+      <Space wrap>
+        <Button onClick={handleSelectAll}>Select all ad-libs candidates</Button>
+        <Popconfirm
+          onConfirm={onCleanupLyricsPunctuation}
+          title="Cleans up trailing periods/commas and converts `...` into `…` across all lyrics. Continue?"
+        >
+          <Button>Cleanup lyrics punctuation</Button>
+        </Popconfirm>
+      </Space>
     </div>
   );
 }
