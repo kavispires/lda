@@ -7,6 +7,7 @@ import { generatePart, getPart } from './part-getters';
 import {
   generateSection,
   getSection,
+  getSectionStartTime,
   getSectionSummary,
   getSectionsTypeahead,
   getSectionValue,
@@ -1015,6 +1016,9 @@ export const sortSong = (song: Song, shallow?: boolean): Song => {
   copy.sectionIds.forEach((sectionId) => {
     sortSection(copy, sectionId, true);
   });
+
+  // Reorder the sections themselves by their (now-sorted) start time
+  copy.sectionIds = orderBy(copy.sectionIds, [(sectionId) => getSectionStartTime(sectionId, copy)], ['asc']);
 
   return copy;
 };
