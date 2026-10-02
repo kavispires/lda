@@ -43,6 +43,19 @@ export function useCreateDistributionMutation() {
   });
 }
 
+/**
+ * Generates the display name for a distribution, combining the group name and song title,
+ * and appending the song's original artist in parenthesis when it differs from the group
+ * performing it (e.g. a cover).
+ */
+export const generateDistributionName = (group: Group, song: Song): string => {
+  let name = `${group.name} - ${song.title}`;
+  if (group.name !== song.originalArtist) {
+    name += ` (${song.originalArtist})`;
+  }
+  return name;
+};
+
 export const generateDraftDistribution = (
   song: Song,
   group: Group,
@@ -55,10 +68,7 @@ export const generateDraftDistribution = (
     return acc;
   }, {});
 
-  let name = `${group.name} - ${song.title}`;
-  if (group.name !== song.originalArtist) {
-    name += ` (${song.originalArtist})`;
-  }
+  const name = generateDistributionName(group, song);
 
   return {
     id: '$draft',

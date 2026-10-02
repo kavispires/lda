@@ -5,7 +5,14 @@ import {
   updateDocQueryFunction,
 } from '@services/firebase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { Distribution, FirestoreDistribution, UID } from '@types';
+import type {
+  Dictionary,
+  Distribution,
+  DistributionListingData,
+  FirestoreDistribution,
+  ListingEntry,
+  UID,
+} from '@types';
 import { SEPARATOR } from '@utils/constants';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
@@ -95,13 +102,36 @@ export function useDistributionMutation() {
 
       // Update listing with timestamp and any changes in the name
       try {
+        const updatedAt = Date.now();
+        const name = data.name ?? 'Unnamed Distribution';
+        const listingData: DistributionListingData = {
+          snippet: buildDistributionListingSnippet(data),
+          groupId: data.groupId,
+        };
         await updateDocQueryFunction('listings', 'distributions', {
-          [`${data.id}.updatedAt`]: Date.now(),
-          [`${data.id}.data`]: {
-            snippet: buildDistributionListingSnippet(data),
-            groupId: data.groupId,
-          },
+          [`${data.id}.updatedAt`]: updatedAt,
+          [`${data.id}.name`]: name,
+          [`${data.id}.data`]: listingData,
         });
+
+        // Optimistically update the listing cache instead of refetching from the server
+        queryClient.setQueryData<Dictionary<ListingEntry<DistributionListingData>>>(
+          ['listings', 'distributions'],
+          (previous) => {
+            if (!previous?.[data.id]) {
+              return previous;
+            }
+            return {
+              ...previous,
+              [data.id]: {
+                ...previous[data.id],
+                name,
+                updatedAt,
+                data: listingData,
+              },
+            };
+          },
+        );
       } catch (error) {
         // biome-ignore lint/suspicious/noConsole: on purpose
         console.error('Failed to update listing:', error);

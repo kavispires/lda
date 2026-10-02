@@ -1,4 +1,5 @@
 import { ContentError, ContentLoading } from '@components/Content';
+import { generateDistributionName } from '@hooks/useCreateDistributionMutation';
 import { useDistributionMutation, useDistributionQuery } from '@hooks/useDistribution';
 import { useListingDataQuery } from '@hooks/useListingQuery';
 import { useSongQuery } from '@hooks/useSong';
@@ -139,8 +140,12 @@ export const SongDistributionProvider = ({ children, draftDistribution }: SongDi
 
   const onSave = () => {
     const { summary, maxAssigneeDuration } = buildSummary(song, mapping, distribution.assignees);
+    // Re-derive the name on every save in case the song's original artist (or the group's
+    // name) changed since the distribution was created/last saved.
+    const name = generateDistributionName(group, song);
     distributionMutation.mutate({
       ...distribution,
+      name,
       mapping,
       summary,
       maxAssigneeDuration,
