@@ -1,0 +1,1 @@
+import{n as e,t}from"./Visualizer-CeYnWG05.js";import{ai as n}from"./index-Bx0ilSrI.js";import{n as r,t as i}from"./SongDistributionProvider-R-gvECHz.js";var a=n();function o(){return(0,a.jsx)(i,{children:(0,a.jsx)(s,{})})}function s(){let{song:n,distribution:i}=r();return(0,a.jsx)(e,{distribution:i,song:n,children:(0,a.jsx)(t,{})})}export{o as DistributionPage};
