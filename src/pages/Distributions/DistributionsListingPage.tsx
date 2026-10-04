@@ -36,6 +36,7 @@ export function DistributionsListingPage() {
     distributionsQuery.data,
     'group',
     ALL_GROUPS,
+    'distributions',
   );
 
   const { queryParams, addParam } = useQueryParams();

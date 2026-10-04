@@ -22,6 +22,7 @@ export function SongsListingPage() {
     songsQuery.data,
     'group',
     ALL_SONGS,
+    'songs',
   );
 
   const { queryParams } = useQueryParams();

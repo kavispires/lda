@@ -49,9 +49,24 @@ export const useListingSelect = (
   listingData: ReturnType<typeof useListingQuery>['data'],
   paramKey: string,
   allKey: string,
+  storageKey?: string,
 ) => {
   const { queryParams } = useQueryParams();
-  const [searchQuery, setSearchQuery] = useState('');
+  // Remember the last search query typed for this listing in localStorage, keyed by `storageKey`
+  const [searchQuery, setSearchQueryState] = useState(
+    () => (storageKey && localStorage.getItem(`listing-search:${storageKey}`)) || '',
+  );
+
+  const setSearchQuery = (query: string) => {
+    setSearchQueryState(query);
+    if (storageKey) {
+      if (query) {
+        localStorage.setItem(`listing-search:${storageKey}`, query);
+      } else {
+        localStorage.removeItem(`listing-search:${storageKey}`);
+      }
+    }
+  };
 
   const list = useMemo(() => listingData?.list ?? [], [listingData]);
 
