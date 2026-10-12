@@ -263,6 +263,7 @@ export const splitPartByPipe = (song: Song, partId: UID, shallow?: boolean): Son
  * @remarks
  * - Any sequence of 2+ dots anywhere in a part's text (not just at the end of a line) is
  *   replaced with a proper ellipsis character (`…`)
+ * - A single period right before a closing parenthesis is removed, so `(it's me.)` becomes `(it's me)`
  * - A single trailing period at the end of a line (i.e. on the line's last part) is removed
  * - A trailing comma at the end of a line (i.e. on the line's last part) is removed
  */
@@ -270,7 +271,8 @@ export const cleanupLyricsPunctuation = (song: Song, shallow?: boolean): Song =>
   const copy = shallow ? song : cloneDeep(song);
 
   getAllParts(copy).forEach((part) => {
-    const withEllipsis = part.text.replace(/\.{2,}/g, '…');
+    // Also drop a single period right before a closing parenthesis: `(it's me.)` -> `(it's me)`
+    const withEllipsis = part.text.replace(/\.{2,}/g, '…').replace(/\.(\s*\))/g, '$1');
     if (withEllipsis !== part.text) {
       updateSongContent(copy, part.id, { ...part, text: withEllipsis }, true);
     }
