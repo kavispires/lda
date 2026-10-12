@@ -3,6 +3,7 @@ import { PlaybackVideo } from '@components/Video/PlaybackVideo';
 import { useCreateSongMutation } from '@hooks/useCreateSongMutation';
 import type { Song, UID } from '@types';
 import { distributor } from '@utils';
+import { SECTION_KINDS } from '@utils/constants';
 import { Button, Divider, Input, Space, Typography } from 'antd';
 import { cloneDeep } from 'lodash';
 import { useState } from 'react';
@@ -38,7 +39,7 @@ export function StepLyrics({ newSong }: StepLyricsProps) {
     raw: true,
   });
   const [textarea, setTextarea] = useState<string>(
-    tempLyrics || 'Sample lyrics\nSample |lyrics\n\nSampleLyrics',
+    tempLyrics || '[verse]\nSample lyrics!\nSample |lyrics (sample lyrics.)\n\nSampleLyrics',
   );
   const [textareaUsedValue, setTextareaUsedValue] = useState<string>('');
 
@@ -131,12 +132,27 @@ const buildSections = (textarea: string, song: Song) => {
       if (dots.length >= 2) return '…';
       return '';
     });
-    return withoutPeriod.replace(/,\s*$/, '');
+    const withoutComma = withoutPeriod.replace(/,\s*$/, '');
+    // Same treatment for the content right before a closing parenthesis
+    return withoutComma.replace(/(\.+)(\s*\))$/, (_, dots: string, close: string) =>
+      dots.length >= 2 ? `…${close}` : close,
+    );
+  };
+
+  // Moves parenthesized content into its own line: `Hello (it's me)` -> `Hello`, `(it's me)`
+  const splitParentheses = (entry: string) => {
+    if (!/\([^)]*\)/.test(entry)) return [entry];
+    const segments = entry
+      .split(/(\([^)]*\))/)
+      .map((segment) => segment.trim())
+      .filter(Boolean);
+    return segments.length > 0 ? segments : [entry];
   };
 
   // Remove double spaces and first line and last line line breaks
   const filteredTextarea = textarea
     .split('\n')
+    .flatMap(splitParentheses)
     .map(stripTrailingPunctuation)
     .filter((entry, index, list) => {
       const line = entry.trim();
@@ -155,18 +171,29 @@ const buildSections = (textarea: string, song: Song) => {
   const sectionIds: UID[] = [];
   let lineIds: UID[] = [];
   let newSectionId = distributor.generateUniqueId('s', 2);
+  let pendingKind: string | undefined;
+
+  const flushSection = () => {
+    const newSection = distributor.generateSection({ id: newSectionId, linesIds: lineIds });
+    if (pendingKind) newSection.kind = pendingKind;
+    sectionIds.push(newSectionId);
+    content[newSectionId] = newSection;
+    lineIds = [];
+    pendingKind = undefined;
+    newSectionId = distributor.generateUniqueId('s', 2);
+  };
 
   filteredTextarea.forEach((entry, index, list) => {
     const line = entry.trim();
     // Whenever there's an empty line, it means a new session is about to start, so save the previous data
-    if (line === '') {
-      const newSection = distributor.generateSection({ id: newSectionId });
-      newSection.linesIds = lineIds;
-      sectionIds.push(newSectionId);
-      content[newSectionId] = newSection;
-      // Reset everything
-      lineIds = [];
-      newSectionId = distributor.generateUniqueId('s', 2);
+    const bracketMatch = line.match(/^\[([^\]]*)\]$/);
+    if (bracketMatch) {
+      // A `[kind]` line is not a lyric line: it starts a new section of the closest matching kind
+      if (lineIds.length) flushSection();
+      pendingKind = findClosestSectionKind(bracketMatch[1]);
+    } else if (line === '') {
+      // Keep a pending `[kind]` for the next lines if no lines were collected yet
+      if (lineIds.length || !pendingKind) flushSection();
     } else {
       const newLine = distributor.generateLine({ sectionId: newSectionId });
       // Split lines, create a part for each fragment
@@ -190,14 +217,7 @@ const buildSections = (textarea: string, song: Song) => {
     }
 
     // Handle saving the last section
-    if (index === list.length - 1 && lineIds.length) {
-      const newSection = distributor.generateSection({
-        id: newSectionId,
-        linesIds: lineIds,
-      });
-      sectionIds.push(newSectionId);
-      content[newSectionId] = newSection;
-    }
+    if (index === list.length - 1 && lineIds.length) flushSection();
   });
 
   // TODO: Should sort by startAt ?
@@ -207,4 +227,60 @@ const buildSections = (textarea: string, song: Song) => {
   songCopy.updatedAt = Date.now();
 
   return songCopy;
+};
+
+const SECTION_KIND_ALIASES: Record<string, string> = {
+  REFRAIN: SECTION_KINDS.CHORUS,
+  PRECHORUS: SECTION_KINDS.PRE_CHORUS,
+  POSTCHORUS: SECTION_KINDS.POST_CHORUS,
+  SOLO: SECTION_KINDS.INSTRUMENT_SOLO,
+  INSTRUMENTAL: SECTION_KINDS.INSTRUMENT_SOLO,
+  DANCEBREAK: SECTION_KINDS.DANCE_BREAK,
+  INSTRUMENTSOLO: SECTION_KINDS.INSTRUMENT_SOLO,
+  RAPVERSE: SECTION_KINDS.RAP,
+  VERSES: SECTION_KINDS.VERSE,
+  CHORUSES: SECTION_KINDS.CHORUS,
+};
+
+const levenshtein = (a: string, b: string) => {
+  const dp = Array.from({ length: a.length + 1 }, (_, i) => [i, ...Array(b.length).fill(0)]);
+  for (let j = 1; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] = Math.min(
+        dp[i - 1][j] + 1,
+        dp[i][j - 1] + 1,
+        dp[i - 1][j - 1] + (a[i - 1] === b[j - 1] ? 0 : 1),
+      );
+    }
+  }
+  return dp[a.length][b.length];
+};
+
+/**
+ * Finds the section kind closest to a bracket label (e.g. `[Verse 2]`, `[pre chorus]`, `[Chrous]`).
+ * Returns undefined when nothing is reasonably close.
+ */
+const findClosestSectionKind = (label: string): string | undefined => {
+  // Drop numbering and separators: "Verse 2" -> "VERSE", "Pre-Chorus" -> "PRECHORUS"
+  const normalized = label.toUpperCase().replace(/[^A-Z]/g, '');
+  if (!normalized) return undefined;
+
+  if (SECTION_KIND_ALIASES[normalized]) return SECTION_KIND_ALIASES[normalized];
+
+  const candidates = Object.values(SECTION_KINDS)
+    .filter((kind) => kind !== SECTION_KINDS.UNKNOWN)
+    .map((kind) => ({ kind: kind as string, key: kind.replace(/_/g, '') }));
+
+  const exact = candidates.find((c) => c.key === normalized);
+  if (exact) return exact.kind;
+
+  let best: { kind: string; distance: number } | undefined;
+  candidates.forEach(({ kind, key }) => {
+    const distance = levenshtein(normalized, key);
+    if (!best || distance < best.distance) best = { kind, distance };
+  });
+
+  const threshold = Math.max(2, Math.floor(normalized.length / 3));
+  return best && best.distance <= threshold ? best.kind : undefined;
 };

@@ -1,5 +1,6 @@
 import { DatabaseFilled, MessageFilled, NotificationFilled } from '@ant-design/icons';
 import type { Song, SongLine, SongPart, SongSection, UID } from '@types';
+import { NULL } from '@utils/constants';
 
 type NewSongQuickLogProps = {
   song: Song;
@@ -10,22 +11,30 @@ export function NewSongQuickLog({ song }: NewSongQuickLogProps) {
       {song.sectionIds.map((sectionId) => {
         const section = song.content[sectionId] as SongSection;
         if (section.type !== 'section') return null;
-        return <SectionEntry content={song.content} key={section.id} linesIds={section.linesIds} />;
+        return (
+          <SectionEntry
+            content={song.content}
+            key={section.id}
+            kind={section.kind}
+            linesIds={section.linesIds}
+          />
+        );
       })}
     </ul>
   );
 }
 
 type SectionEntryProps = {
+  kind: string;
   linesIds: UID[];
   content: Song['content'];
 };
 
-function SectionEntry({ linesIds, content }: SectionEntryProps) {
+function SectionEntry({ kind, linesIds, content }: SectionEntryProps) {
   return (
     <li className="lyrics-quick-log__section-entry">
       <span>
-        <DatabaseFilled /> Section X
+        <DatabaseFilled /> Section {kind && kind !== NULL ? kind : 'X'}
       </span>
       <ul className="lyrics-quick-log__lines">
         {linesIds.map((lineId) => {
