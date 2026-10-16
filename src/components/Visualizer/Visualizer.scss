@@ -179,13 +179,11 @@
     gap: get-unit(2);
   }
 
+  // Each word paints its own gradient with a clipped text fill, so the container must not
+  // paint a white clipped background behind them (it bleeds through during opacity transitions)
   &__text {
-    background: get-color("white");
     font-weight: bold;
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-fill-color: transparent;
+    isolation: isolate;
   }
 }
 
@@ -216,13 +214,11 @@
     gap: get-unit(2);
   }
 
+  // Each word paints its own gradient with a clipped text fill, so the container must not
+  // paint a white clipped background behind them (it bleeds through during opacity transitions)
   &__text {
-    background: get-color("white");
     font-weight: bold;
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    text-fill-color: transparent;
+    isolation: isolate;
   }
 
   &__line {
