@@ -68,50 +68,73 @@ export const LyricBox = memo(function LyricBox({ snapshot, assignees, timestamp 
                 // Duration in seconds (timestamps are in 100ms units)
                 const animationDuration = (endTime - startTime) * 0.1;
 
+                // Words are revealed one after another (weighted by length) so a part that wraps
+                // onto multiple lines fills top line first instead of the whole block at once
+                const words = text.split(/\s+/).filter(Boolean);
+                const totalWeight = words.reduce((sum, word) => sum + word.length + 1, 0) || 1;
+                let elapsedWeight = 0;
+
                 return (
                   <span
                     key={`${text}-${partIndex}`}
                     style={{
                       display: 'inline-block',
-                      position: 'relative',
                       marginRight: '0.5em',
                       fontStyle: isAllOrNone ? 'italic' : 'normal',
                     }}
                   >
-                    {/* Background (unsung) text */}
-                    <span
-                      style={{
-                        background: `linear-gradient(180deg, ${colors.join(', ')})`,
-                        backgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        opacity: 0.3,
-                      }}
-                    >
-                      {text}
-                    </span>
-                    {/* Foreground (sung) text with clip-path */}
-                    <motion.span
-                      animate={{
-                        clipPath: isActive ? 'inset(0 0% 0 0)' : 'inset(0 100% 0 0)',
-                      }}
-                      initial={{
-                        clipPath: 'inset(0 100% 0 0)',
-                      }}
-                      style={{
-                        position: 'absolute',
-                        left: 0,
-                        top: 0,
-                        background: `linear-gradient(180deg, ${colors.join(', ')})`,
-                        backgroundClip: 'text',
-                        WebkitTextFillColor: 'transparent',
-                        fontWeight: 900,
-                      }}
-                      transition={{
-                        clipPath: { duration: isActive ? animationDuration : 0, ease: 'linear' },
-                      }}
-                    >
-                      {text}
-                    </motion.span>
+                    {words.map((word, wordIndex) => {
+                      const wordDelay = (elapsedWeight / totalWeight) * animationDuration;
+                      const wordDuration = ((word.length + 1) / totalWeight) * animationDuration;
+                      elapsedWeight += word.length + 1;
+                      const gradient = `linear-gradient(180deg, ${colors.join(', ')})`;
+
+                      return (
+                        <span
+                          key={`${word}-${wordIndex}`}
+                          style={{ display: 'inline-block', position: 'relative', marginRight: '0.3em' }}
+                        >
+                          {/* Background (unsung) text */}
+                          <span
+                            style={{
+                              background: gradient,
+                              backgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              opacity: 0.3,
+                            }}
+                          >
+                            {word}
+                          </span>
+                          {/* Foreground (sung) text with clip-path */}
+                          <motion.span
+                            animate={{
+                              clipPath: isActive ? 'inset(0 0% 0 0)' : 'inset(0 100% 0 0)',
+                            }}
+                            initial={{
+                              clipPath: 'inset(0 100% 0 0)',
+                            }}
+                            style={{
+                              position: 'absolute',
+                              left: 0,
+                              top: 0,
+                              background: gradient,
+                              backgroundClip: 'text',
+                              WebkitTextFillColor: 'transparent',
+                              fontWeight: 900,
+                            }}
+                            transition={{
+                              clipPath: {
+                                duration: isActive ? wordDuration : 0,
+                                delay: isActive ? wordDelay : 0,
+                                ease: 'linear',
+                              },
+                            }}
+                          >
+                            {word}
+                          </motion.span>
+                        </span>
+                      );
+                    })}
                   </span>
                 );
               })}
