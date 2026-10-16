@@ -267,7 +267,7 @@ const buildBarSnapshots = (distribution: Distribution, song: Song) => {
         const snapshot = { ...snapshotsPerUnit[unit][assigneeId] };
 
         // Only count non-adlib, non-dismissible lines in the main duration
-        if (!line.adlib && !line.dismissible) {
+        if (!line.adlib && (!line.dismissible || line.harmonyOf)) {
           snapshot.duration += 1;
           snapshot.percentage = Math.floor((snapshot.duration / maxAssigneeDuration) * 100);
         }

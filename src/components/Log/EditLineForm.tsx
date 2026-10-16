@@ -3,7 +3,7 @@ import { useLogLine } from '@hooks/useLogInstances';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
 import type { SongLine, UID } from '@types';
-import { getCompletionPercentage } from '@utils';
+import { distributor, getCompletionPercentage } from '@utils';
 import { LINE_SKILL } from '@utils/constants';
 import {
   Button,
@@ -20,7 +20,7 @@ import {
   Typography,
 } from 'antd';
 import type React from 'react';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { CriteriaRule } from './CriteriaRule';
 import { MoveLinesToSectionSelector } from './MoveLinesToSectionSelector';
@@ -47,8 +47,33 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
     partsIds: tempLine.partsIds.length > 0,
   };
 
+  // Same-section lines whose text contains this line's text (fully or partially)
+  const harmonyOptions = useMemo(() => {
+    const section = distributor.getSection(tempLine.sectionId, song);
+    return section.linesIds
+      .filter((id) => id !== lineId)
+      .map((id) => distributor.getLine(id, song))
+      .filter((target) => !target.adlib && !target.harmonyOf)
+      .map((target) => ({ target, targetText: distributor.getLineText(target.id, song) }))
+      .filter(({ targetText }) => distributor.isHarmonyTextMatch(text, targetText))
+      .map(({ target, targetText }) => ({ label: targetText, value: target.id }));
+  }, [song, tempLine.sectionId, lineId, text]);
+
+  const harmonyTargetIsInvalid =
+    !!tempLine.harmonyOf && !harmonyOptions.some((option) => option.value === tempLine.harmonyOf);
+
   const onValuesChange = (changedValues: Partial<SongLine>) => {
-    setTempLine({ ...tempLine, ...changedValues });
+    const updates: Partial<SongLine> = { ...changedValues };
+    // Harmony lines are dismissible by default (can be switched back off) and are never adlibs
+    if (changedValues.harmonyOf) {
+      updates.dismissible = true;
+      updates.adlib = false;
+    }
+    if (changedValues.adlib) {
+      updates.harmonyOf = undefined;
+    }
+    form.setFieldsValue(updates);
+    setTempLine({ ...tempLine, ...updates });
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: idk
@@ -104,6 +129,17 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
           <Switch />
         </Form.Item>
       </div>
+
+      <Form.Item
+        extra={
+          harmonyTargetIsInvalid ? 'Warning: this line text no longer matches the target line.' : undefined
+        }
+        help="Line this one is sung on top of. Its text must be fully or partially in the target line."
+        label="Harmony of"
+        name="harmonyOf"
+      >
+        <Select allowClear options={harmonyOptions} placeholder="Not a harmony" />
+      </Form.Item>
 
       <Form.Item help={`Collection of lyrics from all parts (${tempLine.partsIds.length}).`} label="Lyric">
         <Input disabled value={text} />

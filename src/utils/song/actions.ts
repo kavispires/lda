@@ -561,6 +561,13 @@ export const deleteLine = (song: Song, lineId: UID, shallow?: boolean): Song => 
   // 3. Delete the line itself
   delete copy.content[line.id];
 
+  // 4. Clear harmony references pointing to the deleted line
+  Object.values(copy.content).forEach((entry) => {
+    if (entry.type === 'line' && entry.harmonyOf === line.id) {
+      entry.harmonyOf = undefined;
+    }
+  });
+
   copy.updatedAt = Date.now();
   return copy;
 };

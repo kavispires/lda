@@ -123,6 +123,7 @@ function ViewLine({ instanceId }: ViewEntryProps) {
         <span className="log-line__line-text">
           {!!line.adlib && '> '}
           {!!line.dismissible && '* '}
+          {!!line.harmonyOf && '& '}
         </span>
         {distributor.getLine(instanceId, song).partsIds.map((partId) => (
           <ViewPart instanceId={partId} key={partId} />

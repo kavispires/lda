@@ -116,6 +116,11 @@ export type SongLine = {
    */
   adlib?: boolean;
   /**
+   * Id of the line this line is sung on top of (harmony). Its text must be fully or partially contained in the target line.
+   * Harmony lines are mutually exclusive with adlibs and are usually dismissible, but always count in the main duration.
+   */
+  harmonyOf?: UID;
+  /**
    * Ordered part ids
    */
   partsIds: UID[];
