@@ -267,3 +267,168 @@
     opacity: 1;
   }
 }
+
+// Mobile layout (max-width: 767px): full-screen overlay with a blurred thumbnail backdrop
+.visualizer-mobile {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: black;
+  color: get-color("white");
+  height: 100dvh;
+
+  &__backdrop {
+    position: absolute;
+    inset: -24px;
+    background-size: cover;
+    background-position: center;
+    filter: blur(16px);
+  }
+
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+  }
+
+  // Off-screen but still mounted so the player keeps working
+  &__video {
+    position: absolute;
+    top: 0;
+    left: -9999px;
+    width: 320px;
+    height: 180px;
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
+  }
+
+  &__seek-bar {
+    background: transparent;
+    border-radius: 0;
+  }
+
+  &__title {
+    text-align: center;
+    padding: get-unit(1 4);
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.75);
+
+    h3 {
+      margin: 0;
+      font-size: 1rem;
+    }
+    p {
+      margin: 0;
+      font-size: 0.8rem;
+      opacity: 0.75;
+    }
+  }
+
+  &__bars {
+    flex: 0 0 auto;
+    // Fits 9 compact rows by default, scrolls beyond that
+    max-height: 260px;
+    overflow-y: auto;
+    padding: get-unit(0 2);
+
+    &--full {
+      flex: 1;
+      max-height: none;
+    }
+  }
+
+  &__lyrics {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .visualizer__lyrics {
+      flex: 1;
+      min-height: 0;
+      // No vertical padding: the scroller aligns lyrics against its exact height
+      padding: get-unit(0 3);
+      font-size: 0.85em;
+      // Softly fade lyrics leaving through the top instead of cutting them
+      mask-image: linear-gradient(to bottom, transparent 0, black 32px);
+    }
+  }
+
+  &__adlibs {
+    flex: 0 0 auto;
+
+    .visualizer__adlibs {
+      padding: get-unit(0 3);
+      font-size: 0.6em;
+    }
+    .adlib-box-container {
+      padding-bottom: get-unit(2);
+    }
+  }
+
+  &__up-next {
+    font-size: 0.75em;
+    padding-bottom: 3.5rem;
+  }
+
+  .visualizer-controls--mobile {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0;
+    pointer-events: none;
+
+    &.visualizer-controls--visible {
+      pointer-events: auto;
+    }
+  }
+}
+
+.bars-box--compact {
+  padding: get-unit(1 2);
+  gap: 0;
+  font-size: 0.75em;
+
+  .bar {
+    height: 28px;
+    align-items: center;
+    gap: get-unit(1);
+  }
+
+  .bar__track {
+    display: none;
+  }
+
+  .bar__timestamp {
+    margin: 0;
+    font-size: 0.9em;
+  }
+
+  .ant-avatar {
+    width: 22px;
+    height: 22px;
+    line-height: 18px;
+    font-size: 0.8em;
+  }
+
+  .bar__progress,
+  .bar__full-progress,
+  .bar__progress-gutter {
+    height: 6px;
+  }
+}

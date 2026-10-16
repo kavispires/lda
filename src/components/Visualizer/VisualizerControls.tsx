@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import type { useVideoControls } from '@hooks/useVideoControls';
 import type { DistributionFreshness } from '@services/DistributionVisualizerProvider';
-import { Badge, Button, Popover, Typography } from 'antd';
+import { Badge, Button, Popover, Segmented, Typography } from 'antd';
 import clsx from 'clsx';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useKeyPressEvent } from 'react-use';
@@ -18,9 +18,28 @@ type VisualizerControlsProps = {
   videoControls: ReturnType<typeof useVideoControls>;
   songId: string;
   freshness: DistributionFreshness;
+  isMobile?: boolean;
+  displayMode?: DisplayMode;
+  onDisplayModeChange?: (mode: DisplayMode) => void;
 };
 
-export function VisualizerControls({ videoControls, isVisible, songId, freshness }: VisualizerControlsProps) {
+export type DisplayMode = 'regular' | 'barsOnly' | 'lyricsOnly';
+
+const DISPLAY_MODE_OPTIONS: { label: string; value: DisplayMode }[] = [
+  { label: 'Both', value: 'regular' },
+  { label: 'Lyrics', value: 'lyricsOnly' },
+  { label: 'Bars', value: 'barsOnly' },
+];
+
+export function VisualizerControls({
+  videoControls,
+  isVisible,
+  songId,
+  freshness,
+  isMobile = false,
+  displayMode,
+  onDisplayModeChange,
+}: VisualizerControlsProps) {
   const { isPlaying, pauseVideo, playVideo, seekToStart, seekToEnd, onRestart } = videoControls;
   const navigate = useNavigate();
   const { distributionId } = useParams();
@@ -30,7 +49,23 @@ export function VisualizerControls({ videoControls, isVisible, songId, freshness
   });
 
   return (
-    <div className={clsx('visualizer-controls', isVisible && 'visualizer-controls--visible')}>
+    // biome-ignore lint/a11y/noStaticElementInteractions: stops taps from toggling the controls on mobile
+    <div
+      className={clsx(
+        'visualizer-controls',
+        isVisible && 'visualizer-controls--visible',
+        isMobile && 'visualizer-controls--mobile',
+      )}
+      onClick={(e) => e.stopPropagation()}
+    >
+      {isMobile && displayMode && onDisplayModeChange && (
+        <Segmented
+          className="visualizer-controls__display-mode"
+          onChange={onDisplayModeChange}
+          options={DISPLAY_MODE_OPTIONS}
+          value={displayMode}
+        />
+      )}
       <Button onClick={onRestart}>
         <UndoOutlined />
       </Button>

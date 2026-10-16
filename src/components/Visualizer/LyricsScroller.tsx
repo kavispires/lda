@@ -13,6 +13,8 @@ type LyricsScrollerProps = {
   timestamp: number;
   maxHeight: number;
   songTitle: string;
+  /** Vertically centers the active lyric instead of anchoring it to the bottom */
+  centered?: boolean;
 };
 
 // Estimated height per lyric box in pixels (used before measurement)
@@ -24,6 +26,7 @@ export const LyricsScroller = memo(function LyricsScroller({
   lyricsSnapshots,
   maxHeight,
   songTitle,
+  centered = false,
 }: LyricsScrollerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [lyricHeights, setLyricHeights] = useState<Map<string, number>>(new Map());
@@ -88,7 +91,6 @@ export const LyricsScroller = memo(function LyricsScroller({
       return 0;
     }
 
-    const bottomOffset = maxHeight; // Position bottom of active lyric at the bottom of the container
     const titleHeight = maxHeight; // Title takes full viewport height
 
     // Calculate total offset from start to bottom of current lyric (including title)
@@ -99,14 +101,19 @@ export const LyricsScroller = memo(function LyricsScroller({
     }
 
     // Add current lyric height to get to the bottom
+    let currentHeight = ESTIMATED_LYRIC_HEIGHT;
     if (currentIndex < orderedLyricsKeys.length && currentIndex >= 0) {
       const currentKey = orderedLyricsKeys[currentIndex];
-      totalOffset += lyricHeights.get(currentKey) || ESTIMATED_LYRIC_HEIGHT;
+      currentHeight = lyricHeights.get(currentKey) || ESTIMATED_LYRIC_HEIGHT;
+      totalOffset += currentHeight;
     }
+
+    // Position the bottom of the active lyric at the bottom of the container (or centered)
+    const bottomOffset = centered ? (maxHeight + currentHeight) / 2 : maxHeight;
 
     // Move container up so bottom of current lyric appears at bottomOffset
     return bottomOffset - totalOffset;
-  }, [currentIndex, orderedLyricsKeys, lyricHeights, maxHeight]);
+  }, [currentIndex, orderedLyricsKeys, lyricHeights, maxHeight, centered]);
 
   // Store ref to lyric element
   const setLyricRef = (key: string, element: HTMLDivElement | null) => {
