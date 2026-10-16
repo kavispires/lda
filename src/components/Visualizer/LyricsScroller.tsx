@@ -127,7 +127,11 @@ export const LyricsScroller = memo(function LyricsScroller({
   return (
     <div className="visualizer__lyrics" ref={containerRef} style={{ maxHeight, overflow: 'hidden' }}>
       {/* Animated lyrics container */}
-      <motion.div animate={{ y: translateY }} initial={false} transition={{ duration: 0.3, ease: 'linear' }}>
+      <motion.div
+        animate={{ y: translateY }}
+        initial={false}
+        transition={{ duration: 0.8, ease: 'easeInOut' }}
+      >
         <AnimatePresence mode="popLayout">
           <motion.div
             animate={{ opacity: currentIndex === -1 ? 1 : 0.05 }}
@@ -158,7 +162,7 @@ export const LyricsScroller = memo(function LyricsScroller({
                 initial={{ opacity: 0.05 }}
                 key={key}
                 ref={(el) => setLyricRef(key, el)}
-                transition={{ duration: 0.3 }}
+                transition={{ duration: 0.6 }}
               >
                 <LyricBox assignees={assignees} snapshot={snapshot} timestamp={timestamp} />
               </motion.div>
