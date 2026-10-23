@@ -23,7 +23,7 @@ const navigationCards = [
   {
     id: 'simulation',
     title: 'Simulation',
-    description: 'Initialize and run survival show simulations with 50 contestants',
+    description: 'Initialize a cast of 50 contestants with assigned cards and starting statistics',
     icon: <RocketOutlined style={{ fontSize: '64px', color: '#722ed1' }} />,
     path: '/the-search/simulation',
     color: '#f9f0ff',
@@ -46,8 +46,8 @@ export function TheSearchPage() {
     <Content>
       <Typography.Title level={1}>The Search</Typography.Title>
       <Typography.Paragraph style={{ fontSize: '16px' }}>
-        A survival show simulation where contestants compete in challenges, build relationships, and fight for
-        the top spot. Manage contestants, explore card libraries, and simulate dramatic episodes.
+        A survival show simulator in development. Manage contestants, explore card libraries, and initialize a
+        cast of 50 contestants. Episode simulation is being rebuilt.
       </Typography.Paragraph>
 
       <Row gutter={[24, 24]} style={{ marginTop: '3rem' }}>
