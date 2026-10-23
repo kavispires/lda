@@ -24,6 +24,7 @@ import type { AttributeCard } from '../types/common';
 import type { Contestant } from '../types/contestant';
 import {
   DANCE_STYLES,
+  GENRE_AFFINITIES,
   LEADERSHIP_STYLES,
   RAP_STYLES,
   VISUAL_VIBES,
@@ -50,6 +51,7 @@ const ALL_SPECIALTIES = {
   ...RAP_STYLES,
   ...VISUAL_VIBES,
   ...LEADERSHIP_STYLES,
+  ...GENRE_AFFINITIES,
 };
 
 const PERSONALITY_DESCRIPTIONS: Record<string, string> = {
@@ -185,6 +187,13 @@ function BasicInfoTab({ contestant }: { contestant: Contestant }) {
           </Descriptions.Item>
           <Descriptions.Item label="Score">{contestant.aggregations.score}</Descriptions.Item>
           <Descriptions.Item label="Experience">{contestant.aggregations.experience}</Descriptions.Item>
+          <Descriptions.Item label="Practice">
+            <Tooltip title="Temporary preparation shared across the episode, calculated by practice sessions.">
+              <span>
+                {contestant.aggregations.practice ? contestant.aggregations.practice : 'Not practiced (0)'}
+              </span>
+            </Tooltip>
+          </Descriptions.Item>
           <Descriptions.Item label="Screen Time">
             {contestant.aggregations.screenTime.toFixed(1)}
           </Descriptions.Item>
@@ -337,11 +346,23 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
               'N/A'
             )}
           </Descriptions.Item>
-          <Descriptions.Item label="Leadership Style" span={2}>
+          <Descriptions.Item label="Leadership Style">
             {contestant.specialties.leadershipStyle ? (
               <Tooltip title={getSpecialtyTooltip(contestant.specialties.leadershipStyle)}>
                 <span style={{ cursor: 'help', borderBottom: '1px dotted' }}>
                   {contestant.specialties.leadershipStyle}
+                </span>
+              </Tooltip>
+            ) : (
+              'N/A'
+            )}
+          </Descriptions.Item>
+          <Descriptions.Item label="Genre Affinity">
+            {contestant.specialties.genreAffinity ? (
+              <Tooltip title={getSpecialtyTooltip(contestant.specialties.genreAffinity)}>
+                <span style={{ cursor: 'help', borderBottom: '1px dotted' }}>
+                  {GENRE_AFFINITIES[contestant.specialties.genreAffinity]?.name ||
+                    contestant.specialties.genreAffinity}
                 </span>
               </Tooltip>
             ) : (

@@ -61,12 +61,14 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
     grade: partial.grade || GRADES.D,
     rank: partial.rank ?? 0,
     status: partial.status || STATUSES.ACTIVE,
-    specialties: partial.specialties || {
+    specialties: {
       vocalColor: '',
       danceStyle: '',
       rapStyle: '',
       visualVibe: '',
       leadershipStyle: '',
+      genreAffinity: '',
+      ...partial.specialties,
     },
     alignment: partial.alignment || ALIGNMENTS.TRUE_NEUTRAL,
     coreSkills: partial.coreSkills || {
@@ -102,7 +104,8 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
     attributes: partial.attributes || [],
     missionRating: partial.missionRating || 0,
     condition: partial.condition || 'STABLE',
-    aggregations: partial.aggregations || {
+    aggregations: {
+      practice: 0,
       happiness: 50,
       audienceRatio: 0,
       contestantsLikeness: 50,
@@ -114,6 +117,7 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
       center: 0,
       leader: 0,
       mvp: 0,
+      ...partial.aggregations,
     },
     events: partial.events || [],
     relationships: partial.relationships || {},

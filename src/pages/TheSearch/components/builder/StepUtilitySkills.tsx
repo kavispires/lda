@@ -203,6 +203,15 @@ export function StepUtilitySkills({
       <Typography.Paragraph>
         Rate the contestant's secondary skills that influence growth, relationships, and narrative events.
       </Typography.Paragraph>
+      <Card size="small" style={{ marginBottom: '1rem' }} title="Practice (simulation only)">
+        <Typography.Text>
+          {contestant.aggregations?.practice ? contestant.aggregations.practice : 'Not practiced (0)'}
+        </Typography.Text>
+        <Typography.Paragraph style={{ marginBottom: 0 }} type="secondary">
+          Calculated automatically from practice sessions and shared across the episode. This temporary value
+          is not an editable utility skill.
+        </Typography.Paragraph>
+      </Card>
 
       <ContestantHeader
         color={contestant.color}

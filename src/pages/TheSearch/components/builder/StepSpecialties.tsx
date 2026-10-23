@@ -63,7 +63,7 @@ function countContestantsWithSpecialty(contestants: Contestant[], field: keyof S
 
 /**
  * Generate DNA/hash from specialties
- * Format: vc-SWEET_ds-SMOOTH_rs-SWAG_vv-CUTE_ls-COMMANDER
+ * Format: vc-SWEET_ds-SMOOTH_rs-SWAG_vv-CUTE_ls-COMMANDER_ga-MAINSTREAM_POP
  */
 function generateSpecialtiesHash(specialties?: Specialties): string {
   if (!specialties) return '';
@@ -73,8 +73,9 @@ function generateSpecialtiesHash(specialties?: Specialties): string {
   const rs = specialties.rapStyle || 'NONE';
   const vv = specialties.visualVibe || 'NONE';
   const ls = specialties.leadershipStyle || 'NONE';
+  const ga = specialties.genreAffinity || 'NONE';
 
-  return `vc-${vc}_ds-${ds}_rs-${rs}_vv-${vv}_ls-${ls}`;
+  return `vc-${vc}_ds-${ds}_rs-${rs}_vv-${vv}_ls-${ls}_ga-${ga}`;
 }
 
 /**
@@ -86,6 +87,7 @@ const ALL_SPECIALTY_KEYS: Array<keyof Specialties> = [
   'rapStyle',
   'visualVibe',
   'leadershipStyle',
+  'genreAffinity',
 ];
 
 export function StepSpecialties({
@@ -149,6 +151,7 @@ export function StepSpecialties({
     const rapStyle = generateRandomSpecialty('rapStyle', existingContestants, true);
     const visualVibe = generateRandomSpecialty('visualVibe', existingContestants, true);
     const leadershipStyle = generateRandomSpecialty('leadershipStyle', existingContestants, true);
+    const genreAffinity = generateRandomSpecialty('genreAffinity', existingContestants, true);
 
     const updated: Specialties = {
       vocalColor,
@@ -156,6 +159,7 @@ export function StepSpecialties({
       rapStyle,
       visualVibe,
       leadershipStyle,
+      genreAffinity,
     };
 
     setSelectedSpecialties(updated);
@@ -163,19 +167,22 @@ export function StepSpecialties({
     updateContestant({ specialties: updated });
   };
 
-  const onValuesChange = (_changedValues: Partial<Specialties>, allValues: Specialties) => {
+  const onValuesChange = () => {
+    const allValues: Specialties = form.getFieldsValue(true);
     setSelectedSpecialties(allValues);
     updateContestant({ specialties: allValues });
   };
 
-  const onFinish = (values: Specialties) => {
+  const onFinish = () => {
+    const values: Specialties = form.getFieldsValue(true);
     updateContestant({ specialties: values });
     setStep((prev) => prev + 1);
   };
 
   const handleSubmitForm = async (): Promise<boolean> => {
     try {
-      const values = await form.validateFields();
+      await form.validateFields();
+      const values: Specialties = form.getFieldsValue(true);
       updateContestant({ specialties: values });
       return true;
     } catch (_error) {
@@ -277,6 +284,7 @@ export function StepSpecialties({
                 { value: 'rapStyle', label: 'Rap Style' },
                 { value: 'visualVibe', label: 'Visual Vibe' },
                 { value: 'leadershipStyle', label: 'Leadership Style' },
+                { value: 'genreAffinity', label: 'Genre Affinity' },
               ]}
               placeholder="Select specialties to display"
               size="small"
@@ -295,6 +303,7 @@ export function StepSpecialties({
                 rapStyle: '',
                 visualVibe: '',
                 leadershipStyle: '',
+                genreAffinity: '',
               }
             }
             layout="vertical"
@@ -311,6 +320,8 @@ export function StepSpecialties({
               renderSpecialtyField('visualVibe', 'Visual Vibe', 'visualVibe')}
             {(visibleSpecialties.length === 0 || visibleSpecialties.includes('leadershipStyle')) &&
               renderSpecialtyField('leadershipStyle', 'Leadership Style', 'leadershipStyle')}
+            {(visibleSpecialties.length === 0 || visibleSpecialties.includes('genreAffinity')) &&
+              renderSpecialtyField('genreAffinity', 'Genre Affinity', 'genreAffinity')}
 
             <Form.Item>
               <ContestantBuilderStepperControls
@@ -506,6 +517,41 @@ export function StepSpecialties({
                       >
                         {specialty?.name || stat.id}: {stat.count} ({stat.percentage}%){' '}
                         <span style={{ color: occurrenceColor }}>[🎯: {occurrence}%]</span>
+                      </div>
+                    );
+                  })
+                ) : (
+                  <div style={{ color: '#999' }}>No data yet</div>
+                )}
+              </div>
+            </div>
+            <div style={{ marginBottom: '1rem' }}>
+              <Typography.Text strong style={{ fontSize: '0.875rem' }}>
+                Genre Affinity ({countContestantsWithSpecialty(existingContestants, 'genreAffinity')})
+              </Typography.Text>
+              <div style={{ fontSize: '0.7rem', marginTop: '0.25rem' }}>
+                {getSpecialtyUsageStats(existingContestants, 'genreAffinity').length > 0 ? (
+                  getSpecialtyUsageStats(existingContestants, 'genreAffinity').map((stat) => {
+                    const specialty = getSpecialtyById('genreAffinity', stat.id);
+                    const isCurrent = contestant.specialties?.genreAffinity === stat.id;
+                    const occurrence = specialty?.occurrence || 0;
+                    const occurrenceColor =
+                      stat.percentage < occurrence - 5
+                        ? '#faad14'
+                        : stat.percentage > occurrence + 5
+                          ? '#ff4d4f'
+                          : 'inherit';
+                    return (
+                      <div
+                        key={stat.id}
+                        style={{
+                          fontWeight: isCurrent ? 'bold' : 'normal',
+                          color: isCurrent ? '#1890ff' : '#666',
+                          marginBottom: '0.25rem',
+                        }}
+                      >
+                        {specialty?.name || stat.id}: {stat.count} ({stat.percentage}%){' '}
+                        <span style={{ color: occurrenceColor }}>[🎯: {Math.round(occurrence)}%]</span>
                       </div>
                     );
                   })

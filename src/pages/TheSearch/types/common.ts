@@ -83,6 +83,7 @@ export interface PerformancePart {
     rapStyle?: string;
     danceStyle?: string;
     visualVibe?: string;
+    genreAffinity?: string;
   };
   /**
    * The raw difficulty (1-5) to perform this part.

@@ -1,5 +1,6 @@
 import { Button, Card, Descriptions, Divider, Space, Typography } from 'antd';
 import type { Contestant } from '../../types/contestant';
+import { getSpecialtyById } from '../../utilities/helpers';
 import { ContestantAvatar } from '../ContestantAvatar';
 
 type StepReviewProps = {
@@ -111,6 +112,17 @@ export function StepReview({ contestant, setStep, onSave, isEditMode = false }: 
         </Descriptions>
       </Card>
 
+      <Card size="small" style={{ marginBottom: '1rem' }} title="Simulation State">
+        <Descriptions column={1} size="small">
+          <Descriptions.Item label="Practice">
+            {contestant.aggregations?.practice ? contestant.aggregations.practice : 'Not practiced (0)'}
+          </Descriptions.Item>
+        </Descriptions>
+        <Typography.Text type="secondary">
+          Temporary episode preparation, calculated automatically by practice sessions.
+        </Typography.Text>
+      </Card>
+
       <Card size="small" style={{ marginBottom: '1rem' }} title="Specialties">
         <Descriptions column={2} size="small">
           <Descriptions.Item label="Vocal Color">
@@ -127,6 +139,12 @@ export function StepReview({ contestant, setStep, onSave, isEditMode = false }: 
           </Descriptions.Item>
           <Descriptions.Item label="Leadership Style">
             {contestant.specialties?.leadershipStyle || 'Not selected'}
+          </Descriptions.Item>
+          <Descriptions.Item label="Genre Affinity">
+            {contestant.specialties?.genreAffinity
+              ? getSpecialtyById('genreAffinity', contestant.specialties.genreAffinity)?.name ||
+                contestant.specialties.genreAffinity
+              : 'Not selected'}
           </Descriptions.Item>
         </Descriptions>
       </Card>

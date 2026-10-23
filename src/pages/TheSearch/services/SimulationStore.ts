@@ -1,5 +1,6 @@
 import { Store } from '@tanstack/react-store';
 import type { Contestant } from '../types/contestant';
+import { normalizeContestant } from '../utilities/contestant-factory';
 
 /**
  * Simulation state structure
@@ -41,7 +42,11 @@ function loadFromStorage(): SimulationState {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored) {
-      return JSON.parse(stored);
+      const state: SimulationState = JSON.parse(stored);
+      return {
+        ...state,
+        contestants: state.contestants.map(normalizeContestant),
+      };
     }
   } catch {
     // Silent error - return initial state
@@ -82,7 +87,12 @@ export const simulationActions = {
   initializeSimulation(contestants: Contestant[]) {
     simulationStore.setState((state) => ({
       ...state,
-      contestants,
+      contestants: contestants.map((contestant) =>
+        normalizeContestant({
+          ...contestant,
+          aggregations: { ...contestant.aggregations, practice: 0 },
+        }),
+      ),
       status: 'ready',
       createdAt: Date.now(),
     }));
@@ -112,7 +122,7 @@ export const simulationActions = {
   updateContestants(contestants: Contestant[]) {
     simulationStore.setState((state) => ({
       ...state,
-      contestants,
+      contestants: contestants.map(normalizeContestant),
     }));
   },
 };

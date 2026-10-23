@@ -32,6 +32,7 @@ import { ContestantAvatar } from '../components/ContestantAvatar';
 import { useContestantsParserMutation } from '../hooks/useContestants';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import type { Contestant } from '../types/contestant';
+import { getSpecialtyById } from '../utilities/helpers';
 
 type ContestantWithScore = Contestant & {
   score: number;
@@ -97,6 +98,7 @@ const generateDNA = (contestant: Contestant, visibleColumns: Set<string>): strin
     'rapStyle',
     'visualVibe',
     'leadershipStyle',
+    'genreAffinity',
   ];
 
   for (const colKey of columnOrder) {
@@ -132,7 +134,11 @@ const generateDNA = (contestant: Contestant, visibleColumns: Set<string>): strin
       ].includes(colKey)
     ) {
       value = contestant.personality?.[colKey as keyof typeof contestant.personality];
-    } else if (['vocalColor', 'danceStyle', 'rapStyle', 'visualVibe', 'leadershipStyle'].includes(colKey)) {
+    } else if (
+      ['vocalColor', 'danceStyle', 'rapStyle', 'visualVibe', 'leadershipStyle', 'genreAffinity'].includes(
+        colKey,
+      )
+    ) {
       value = contestant.specialties?.[colKey as keyof typeof contestant.specialties];
     }
 
@@ -204,6 +210,7 @@ const checkIncomplete = (contestant: Contestant): string[] => {
   if (!contestant.specialties?.rapStyle) missing.push('Rap Style');
   if (!contestant.specialties?.visualVibe) missing.push('Visual Vibe');
   if (!contestant.specialties?.leadershipStyle) missing.push('Leadership Style');
+  if (!contestant.specialties?.genreAffinity) missing.push('Genre Affinity');
 
   return missing;
 };
@@ -243,11 +250,11 @@ const columnCategories = {
   },
   specialties: {
     label: 'Specialties',
-    columns: ['vocalColor', 'danceStyle', 'rapStyle', 'visualVibe', 'leadershipStyle'],
+    columns: ['vocalColor', 'danceStyle', 'rapStyle', 'visualVibe', 'leadershipStyle', 'genreAffinity'],
   },
   status: {
     label: 'Status',
-    columns: ['score', 'dna', 'updatedAt', 'incomplete', 'actions'],
+    columns: ['score', 'practice', 'dna', 'updatedAt', 'incomplete', 'actions'],
   },
 };
 
@@ -295,6 +302,8 @@ const columnLabels: Record<string, string> = {
   rapStyle: 'Rap Style',
   visualVibe: 'Visual Vibe',
   leadershipStyle: 'Leadership Style',
+  genreAffinity: 'Genre Affinity',
+  practice: 'Practice',
   score: 'Score',
   dna: 'DNA',
   updatedAt: 'Updated',
@@ -887,7 +896,24 @@ export function ContestantsListingPage() {
         (a.specialties?.leadershipStyle || '').localeCompare(b.specialties?.leadershipStyle || ''),
       sortOrder: sortField === 'leadershipStyle' ? sortOrder : undefined,
     },
+    {
+      title: 'Genre Affinity',
+      dataIndex: ['specialties', 'genreAffinity'],
+      key: 'genreAffinity',
+      render: (value?: string) => (value ? getSpecialtyById('genreAffinity', value)?.name || value : '-'),
+      sorter: (a, b) =>
+        (a.specialties?.genreAffinity || '').localeCompare(b.specialties?.genreAffinity || ''),
+      sortOrder: sortField === 'genreAffinity' ? sortOrder : undefined,
+    },
     // Calculated/Status columns
+    {
+      title: 'Practice',
+      dataIndex: ['aggregations', 'practice'],
+      key: 'practice',
+      render: (value: number) => (value ? value : 'Not practiced (0)'),
+      sorter: (a, b) => (a.aggregations?.practice ?? 0) - (b.aggregations?.practice ?? 0),
+      sortOrder: sortField === 'practice' ? sortOrder : undefined,
+    },
     {
       title: 'Score',
       key: 'score',

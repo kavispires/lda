@@ -189,12 +189,21 @@ export interface Specialties {
    * The style of leadership
    */
   leadershipStyle: string;
+  /**
+   * Preferred musical genre cluster, independent of track.
+   */
+  genreAffinity: string;
 }
 
 /**
  * Mutable values that change over the course of the simulation, representing the contestant's current state in terms of popularity, experience, and screen presence.
  */
 export interface Aggregations {
+  /**
+   * Temporary episode-wide preparation, calculated by practice sessions.
+   * Zero means not practiced.
+   */
+  practice: number;
   /**
    * Current happiness level, influenced by narrative events and performance outcomes. High happiness can boost performance, while low happiness can lead to burnout or quitting events.
    * Range: 0-100, starts at 50 (neutral)

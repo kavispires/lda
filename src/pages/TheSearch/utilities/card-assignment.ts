@@ -7,6 +7,7 @@ import type { AttributeCard } from '../types/common';
 import type { Contestant } from '../types/contestant';
 import {
   DANCE_STYLES,
+  GENRE_AFFINITIES,
   LEADERSHIP_STYLES,
   RAP_STYLES,
   VISUAL_VIBES,
@@ -301,6 +302,7 @@ function collectAllInfluences(
     { type: 'rapStyle', value: contestant.specialties.rapStyle, library: RAP_STYLES },
     { type: 'visualVibe', value: contestant.specialties.visualVibe, library: VISUAL_VIBES },
     { type: 'leadershipStyle', value: contestant.specialties.leadershipStyle, library: LEADERSHIP_STYLES },
+    { type: 'genreAffinity', value: contestant.specialties.genreAffinity, library: GENRE_AFFINITIES },
   ];
 
   for (const { value, library } of specialties) {
