@@ -483,7 +483,7 @@ export const LEADERSHIP_STYLES: Record<string, AttributeCard> = {
     type: 'leadershipStyle',
     group: 'leadership',
     description: 'Leads through humor, optimism, and keeping tension low.',
-    occurrence: 12,
+    occurrence: 8,
     influences: {
       'personality.extroversion': 5,
       'personality.resilience': 4,
@@ -513,7 +513,7 @@ export const LEADERSHIP_STYLES: Record<string, AttributeCard> = {
     type: 'leadershipStyle',
     group: 'leadership',
     description: 'A strict, results-oriented leader.',
-    occurrence: 8,
+    occurrence: 12,
     influences: {
       'personality.discipline': 6,
       'personality.gentleness': -4,

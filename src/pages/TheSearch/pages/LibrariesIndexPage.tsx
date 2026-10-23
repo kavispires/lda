@@ -6,6 +6,15 @@ import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';
 import personaCardsData from '../data/persona-cards.json';
 import secretCardsData from '../data/secret-cards.json';
+import {
+  DANCE_STYLES,
+  GENRE_AFFINITIES,
+  LEADERSHIP_STYLES,
+  RAP_STYLES,
+  VISUAL_VIBES,
+  VOCAL_COLORS,
+  ZODIAC_SIGNS,
+} from '../utilities/attribute-libraries';
 
 const libraryCards = [
   {
@@ -41,6 +50,25 @@ const libraryCards = [
     count: Object.keys(secretCardsData).length,
     path: '/the-search/libraries/secrets',
   },
+  {
+    id: 'specialties',
+    title: 'Specialties',
+    description: 'Vocal colors, dance and rap styles, visual vibes, leadership styles, and genre affinities',
+    icon: <BookOutlined style={{ fontSize: '48px', color: '#13c2c2' }} />,
+    count: [VOCAL_COLORS, DANCE_STYLES, RAP_STYLES, VISUAL_VIBES, LEADERSHIP_STYLES, GENRE_AFFINITIES].reduce(
+      (count, library) => count + Object.keys(library).length,
+      0,
+    ),
+    path: '/the-search/libraries/specialties',
+  },
+  {
+    id: 'zodiac-signs',
+    title: 'Zodiac Signs',
+    description: 'Zodiac archetypes and their configured attributes',
+    icon: <BookOutlined style={{ fontSize: '48px', color: '#fa8c16' }} />,
+    count: Object.keys(ZODIAC_SIGNS).length,
+    path: '/the-search/libraries/zodiac-signs',
+  },
 ];
 
 export function LibrariesIndexPage() {
@@ -50,7 +78,8 @@ export function LibrariesIndexPage() {
     <Content>
       <Typography.Title level={2}>The Search - Libraries</Typography.Title>
       <Typography.Paragraph>
-        Browse and manage card libraries that define contestant attributes, behaviors, and gameplay mechanics.
+        Browse card, specialty, and zodiac libraries that define contestant attributes, behaviors, and
+        gameplay mechanics.
       </Typography.Paragraph>
 
       <Row gutter={[16, 16]} style={{ marginTop: '2rem' }}>

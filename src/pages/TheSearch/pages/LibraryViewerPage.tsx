@@ -24,16 +24,25 @@ import {
   Tag,
   Typography,
 } from 'antd';
+import { capitalize } from 'lodash';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-// Import JSON data
 import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';
 import personaCardsData from '../data/persona-cards.json';
 import secretCardsData from '../data/secret-cards.json';
 import type { AttributeCard } from '../types/common';
+import {
+  DANCE_STYLES,
+  GENRE_AFFINITIES,
+  LEADERSHIP_STYLES,
+  RAP_STYLES,
+  VISUAL_VIBES,
+  VOCAL_COLORS,
+  ZODIAC_SIGNS,
+} from '../utilities/attribute-libraries';
 
-type LibraryType = 'identity' | 'persona' | 'interest' | 'secrets';
+type LibraryType = 'identity' | 'persona' | 'interest' | 'secrets' | 'specialties' | 'zodiac-signs';
 
 type LibraryConfig = {
   title: string;
@@ -62,6 +71,26 @@ const libraryConfigs: Record<LibraryType, LibraryConfig> = {
     description:
       "Hidden backstories, scandals, and personal struggles that can dramatically impact a contestant's journey",
     data: Object.values(secretCardsData) as unknown as AttributeCard[],
+  },
+  specialties: {
+    title: 'Specialties',
+    description: 'Vocal colors, dance and rap styles, visual vibes, leadership styles, and genre affinities',
+    data: [
+      ...Object.values(VOCAL_COLORS),
+      ...Object.values(DANCE_STYLES),
+      ...Object.values(RAP_STYLES),
+      ...Object.values(VISUAL_VIBES),
+      ...Object.values(LEADERSHIP_STYLES),
+      ...Object.values(GENRE_AFFINITIES),
+    ].map((entry) => ({
+      ...entry,
+      name: `${capitalize(entry.group)}: ${entry.id}`,
+    })),
+  },
+  'zodiac-signs': {
+    title: 'Zodiac Signs',
+    description: 'Zodiac archetypes and their configured attributes',
+    data: Object.values(ZODIAC_SIGNS),
   },
 };
 
@@ -140,10 +169,12 @@ export function LibraryViewerPage() {
     return result;
   }, [config, searchQuery, selectedGroup, sortBy]);
 
+  const getCardKey = (card: AttributeCard) => (type === 'specialties' ? `${card.type}.${card.id}` : card.id);
+
   const handleCopy = () => {
     const dataObject = filteredAndSortedCards.reduce(
       (acc, card) => {
-        acc[card.id] = card;
+        acc[getCardKey(card)] = card;
         return acc;
       },
       {} as Record<string, AttributeCard>,
@@ -163,7 +194,7 @@ export function LibraryViewerPage() {
   const handleDownload = () => {
     const dataObject = filteredAndSortedCards.reduce(
       (acc, card) => {
-        acc[card.id] = card;
+        acc[getCardKey(card)] = card;
         return acc;
       },
       {} as Record<string, AttributeCard>,
@@ -370,7 +401,7 @@ export function LibraryViewerPage() {
             const hasSet = card.set && Object.keys(card.set).length > 0;
 
             return (
-              <Col key={card.id} lg={8} md={12} xs={24}>
+              <Col key={getCardKey(card)} lg={8} md={12} xs={24}>
                 <Card
                   hoverable
                   onClick={() => setSelectedCard(card)}
