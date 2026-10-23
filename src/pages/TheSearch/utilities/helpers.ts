@@ -113,6 +113,49 @@ export function getSpecialtyById(type: SpecialtyType, id: string): AttributeCard
   return specialties[id];
 }
 
+export function getSpecialtyUsageStats(
+  contestants: Contestant[],
+  type: SpecialtyType,
+  includeUnused = false,
+): Array<{ id: string; name: string; count: number; percentage: number }> {
+  const usageMap = new Map<string, number>(
+    includeUnused ? getSpecialtyOptions(type).map(({ value }) => [value, 0]) : [],
+  );
+
+  for (const contestant of contestants) {
+    const id = contestant.specialties?.[type];
+    if (id) usageMap.set(id, (usageMap.get(id) || 0) + 1);
+  }
+
+  const stats = Array.from(usageMap, ([id, count]) => ({
+    id,
+    name: getSpecialtyById(type, id)?.name || id,
+    count,
+    percentage: contestants.length ? Math.round((count / contestants.length) * 100) : 0,
+  })).sort((a, b) => b.count - a.count);
+
+  return includeUnused ? stats : stats.slice(0, 10);
+}
+
+export function generateSmartSpecialty(
+  type: SpecialtyType,
+  currentValue: string,
+  contestants: Contestant[],
+): string {
+  const usage = getSpecialtyUsageStats(contestants, type, true);
+  const currentUsage = usage.find((stat) => stat.id === currentValue);
+  const currentTarget = getSpecialtyById(type, currentValue)?.occurrence ?? 0;
+  if (currentValue && (!currentUsage || currentUsage.percentage <= currentTarget + 5)) {
+    return currentValue;
+  }
+
+  const underused = usage.filter((stat) => {
+    const specialty = getSpecialtyById(type, stat.id);
+    return specialty && stat.percentage < specialty.occurrence - 5;
+  });
+  return underused.length ? underused[Math.floor(Math.random() * underused.length)].id : currentValue;
+}
+
 /**
  * Gets all zodiac sign options in a format suitable for Select component
  */

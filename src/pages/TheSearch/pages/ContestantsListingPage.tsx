@@ -29,10 +29,11 @@ import type { FilterValue, SorterResult } from 'antd/es/table/interface';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContestantAvatar } from '../components/ContestantAvatar';
+import { EditableSpecialtyCell } from '../components/EditableSpecialtyCell';
 import { useContestantsParserMutation } from '../hooks/useContestants';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import type { Contestant } from '../types/contestant';
-import { getSpecialtyById } from '../utilities/helpers';
+import type { SpecialtyType } from '../utilities/helpers';
 
 type ContestantWithScore = Contestant & {
   score: number;
@@ -318,6 +319,7 @@ export function ContestantsListingPage() {
   const parserMutation = useContestantsParserMutation();
   const {
     contestants: contestantsData,
+    updateLocalContestant,
     deleteLocalContestant,
     hasDirtyChanges,
     dirtyCount,
@@ -467,6 +469,27 @@ export function ContestantsListingPage() {
 
     return false;
   });
+
+  const updateSpecialty = (id: string, field: SpecialtyType, value: string) => {
+    const contestant = contestantsData[id];
+    updateLocalContestant({
+      ...contestant,
+      specialties: { ...contestant.specialties, [field]: value },
+      updatedAt: Date.now(),
+    });
+  };
+
+  const renderSpecialtyCell = (field: SpecialtyType, record: ContestantWithScore) => (
+    <EditableSpecialtyCell
+      contestantName={record.name}
+      contestants={contestants}
+      disabled={isSaving}
+      label={columnLabels[field]}
+      onChange={(value) => updateSpecialty(record.id, field, value)}
+      type={field}
+      value={record.specialties[field]}
+    />
+  );
 
   // Pre-calculate scores, incomplete data, and DNA for all filtered contestants
   const contestantsWithScores = useMemo(() => {
@@ -859,7 +882,7 @@ export function ContestantsListingPage() {
       title: 'Vocal Color',
       dataIndex: ['specialties', 'vocalColor'],
       key: 'vocalColor',
-      render: (value?: string) => value || '-',
+      render: (_value, record) => renderSpecialtyCell('vocalColor', record),
       sorter: (a, b) => (a.specialties?.vocalColor || '').localeCompare(b.specialties?.vocalColor || ''),
       sortOrder: sortField === 'vocalColor' ? sortOrder : undefined,
     },
@@ -867,7 +890,7 @@ export function ContestantsListingPage() {
       title: 'Dance Style',
       dataIndex: ['specialties', 'danceStyle'],
       key: 'danceStyle',
-      render: (value?: string) => value || '-',
+      render: (_value, record) => renderSpecialtyCell('danceStyle', record),
       sorter: (a, b) => (a.specialties?.danceStyle || '').localeCompare(b.specialties?.danceStyle || ''),
       sortOrder: sortField === 'danceStyle' ? sortOrder : undefined,
     },
@@ -875,7 +898,7 @@ export function ContestantsListingPage() {
       title: 'Rap Style',
       dataIndex: ['specialties', 'rapStyle'],
       key: 'rapStyle',
-      render: (value?: string) => value || '-',
+      render: (_value, record) => renderSpecialtyCell('rapStyle', record),
       sorter: (a, b) => (a.specialties?.rapStyle || '').localeCompare(b.specialties?.rapStyle || ''),
       sortOrder: sortField === 'rapStyle' ? sortOrder : undefined,
     },
@@ -883,7 +906,7 @@ export function ContestantsListingPage() {
       title: 'Visual Vibe',
       dataIndex: ['specialties', 'visualVibe'],
       key: 'visualVibe',
-      render: (value?: string) => value || '-',
+      render: (_value, record) => renderSpecialtyCell('visualVibe', record),
       sorter: (a, b) => (a.specialties?.visualVibe || '').localeCompare(b.specialties?.visualVibe || ''),
       sortOrder: sortField === 'visualVibe' ? sortOrder : undefined,
     },
@@ -891,7 +914,7 @@ export function ContestantsListingPage() {
       title: 'Leadership Style',
       dataIndex: ['specialties', 'leadershipStyle'],
       key: 'leadershipStyle',
-      render: (value?: string) => value || '-',
+      render: (_value, record) => renderSpecialtyCell('leadershipStyle', record),
       sorter: (a, b) =>
         (a.specialties?.leadershipStyle || '').localeCompare(b.specialties?.leadershipStyle || ''),
       sortOrder: sortField === 'leadershipStyle' ? sortOrder : undefined,
@@ -900,7 +923,7 @@ export function ContestantsListingPage() {
       title: 'Genre Affinity',
       dataIndex: ['specialties', 'genreAffinity'],
       key: 'genreAffinity',
-      render: (value?: string) => (value ? getSpecialtyById('genreAffinity', value)?.name || value : '-'),
+      render: (_value, record) => renderSpecialtyCell('genreAffinity', record),
       sorter: (a, b) =>
         (a.specialties?.genreAffinity || '').localeCompare(b.specialties?.genreAffinity || ''),
       sortOrder: sortField === 'genreAffinity' ? sortOrder : undefined,
@@ -1110,6 +1133,10 @@ export function ContestantsListingPage() {
         Manage contestants for The Search survival show simulation. Total contestants: {contestants.length}
         {' | '}
         <FirestoreConsoleLink label="Open in Firestore Console" path="/contestants" />
+      </Typography.Paragraph>
+      <Typography.Paragraph type="secondary">
+        Click a specialty cell to edit it, inspect usage statistics, or choose Random. Use Columns to show the
+        specialty columns.
       </Typography.Paragraph>
 
       <Flex align="center" gap={8} style={{ marginBottom: '1rem' }}>
