@@ -3,6 +3,7 @@ import { useState } from 'react';
 import type { EpisodeScene } from '../types/audition-episode';
 import type { BattleAction, BattleTeam } from '../types/battle-episode';
 import type { SimulationState } from '../types/simulation';
+import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeContestantList, EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
 import styles from './NarrativeEpisodeView.module.scss';
 import { NarrativeStage, OpeningCredits } from './NarrativeStage';
@@ -116,6 +117,7 @@ export function NarrativeBattlePlayer({
 
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+      <CopyEpisodeRundown episode={2} state={state} />
       {actionError && <Alert role="alert" title={actionError} type="error" />}
       <NarrativeStage
         episode={2}

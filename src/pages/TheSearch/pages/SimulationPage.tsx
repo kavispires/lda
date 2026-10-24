@@ -22,6 +22,7 @@ import { AuditionEpisodeView } from '../components/AuditionEpisodeView';
 import { BattleEpisodeView } from '../components/BattleEpisodeView';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { ContestantDetailModal } from '../components/ContestantDetailModal';
+import { CopyMarkdownButton } from '../components/CopyMarkdownButton';
 import { NarrativeAuditionView, NarrativeBattleView } from '../components/NarrativeEpisodeView';
 import { TrackTag } from '../components/TrackTag';
 import { useContestantsContext } from '../services/ContestantsProvider';
@@ -31,6 +32,7 @@ import type { BattleAction } from '../types/battle-episode';
 import type { Contestant } from '../types/contestant';
 import type { SeasonRuntime } from '../types/simulation';
 import type { TRACKS } from '../utilities/constants';
+import { createSeasonCastProfiles } from '../utilities/contestant-profile';
 import { isSeasonRankingVisible, projectEpisodeContestant } from '../utilities/episode-visibility';
 
 export function SimulationPage() {
@@ -427,6 +429,14 @@ function SimulationOverview({
         </div>
 
         <Space style={{ marginBottom: '1rem' }}>
+          {runtime && (
+            <CopyMarkdownButton
+              createText={() => createSeasonCastProfiles(runtime)}
+              key={runtime.runId}
+              label="Copy all contestant profiles"
+              successMessage="All contestant profiles copied as Markdown."
+            />
+          )}
           <Button
             icon={<TableOutlined />}
             onClick={() => setViewMode('table')}

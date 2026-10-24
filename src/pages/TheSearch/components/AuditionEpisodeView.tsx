@@ -20,6 +20,7 @@ import type { AuditionAction, MoodChoices } from '../types/audition-episode';
 import type { Specialties } from '../types/contestant';
 import type { SimulationState } from '../types/simulation';
 import { ContestantAvatar } from './ContestantAvatar';
+import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeContestantList, EpisodeSceneNarrative } from './EpisodeNarrative';
 import { ChangeDirection, ValueChange } from './SimulationChange';
 
@@ -162,6 +163,7 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
 
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+      <CopyEpisodeRundown episode={1} state={state} />
       <Modal
         centered
         closable={false}

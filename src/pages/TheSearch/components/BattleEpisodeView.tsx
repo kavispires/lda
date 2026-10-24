@@ -3,6 +3,7 @@ import { useState } from 'react';
 import type { BattleAction, BattleEvaluation, BattlePhase, BattleTeam } from '../types/battle-episode';
 import type { SimulationState } from '../types/simulation';
 import { ContestantAvatar } from './ContestantAvatar';
+import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeContestantList, EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
 import { NarrativeStage, OpeningCredits } from './NarrativeStage';
 import { ValueChange } from './SimulationChange';
@@ -269,6 +270,7 @@ export function BattleEpisodeView({ state, onAction, onInspect, actionError }: B
 
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+      <CopyEpisodeRundown episode={2} state={state} />
       <Modal
         centered
         closable={false}

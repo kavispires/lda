@@ -32,6 +32,8 @@ try {
     await server.ssrLoadModule(`/src/pages/TheSearch/engine/${name}.test.ts`);
   }
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-visibility.test.ts');
+  await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-rundown.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/utilities/contestant-profile.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/EpisodeNarrative.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/BattleEpisodeView.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/ContestantDetailModal.test.tsx');

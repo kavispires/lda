@@ -7,6 +7,7 @@ import type { EpisodePreparation, JudgeId, PreparationAction } from '../types/na
 import type { SimulationState } from '../types/simulation';
 import { BattleEpisodeView } from './BattleEpisodeView';
 import { ContestantAvatar } from './ContestantAvatar';
+import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeSceneNarrative } from './EpisodeNarrative';
 import { NarrativeBattlePlayer } from './NarrativeBattlePlayer';
 import styles from './NarrativeEpisodeView.module.scss';
@@ -333,6 +334,7 @@ export function NarrativeAuditionView({
   );
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+      <CopyEpisodeRundown episode={1} state={state} />
       {preparing && preparation && (
         <PreparationDialog
           actionError={actionError}
