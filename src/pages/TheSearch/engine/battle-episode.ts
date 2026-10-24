@@ -24,13 +24,13 @@ import { assertBattleEpisode } from './battle-validation';
 import { appendContestantHistory, recordContestantChanges } from './change-history';
 import { createSeededRandom, type RandomSource, shuffleWithRandom } from './random';
 
-function member(state: SimulationState, id: string): Contestant {
+export function member(state: SimulationState, id: string): Contestant {
   const contestant = state.contestants.find((entry) => entry.id === id);
   if (!contestant) throw new Error(`Unknown battle contestant "${id}".`);
   return contestant;
 }
 
-function episode(state: SimulationState): BattleEpisode {
+export function episode(state: SimulationState): BattleEpisode {
   if (!state.runtime?.battle) throw new Error('Start Episode 2 before continuing.');
   return state.runtime.battle;
 }
@@ -53,13 +53,13 @@ function scene(
   });
 }
 
-function songFor(state: SimulationState, team: BattleTeam): BattleSong {
+export function songFor(state: SimulationState, team: BattleTeam): BattleSong {
   const song = state.runtime?.definitions.battleSongs?.find((entry) => entry.id === team.songId);
   if (!song) throw new Error('The team has no snapshotted battle song.');
   return song;
 }
 
-function orderedTeams(ep: BattleEpisode): BattleTeam[] {
+export function orderedTeams(ep: BattleEpisode): BattleTeam[] {
   return ep.pairings.flatMap((pairing) =>
     pairing.teamIds.map((id) => {
       const team = ep.teams.find((entry) => entry.id === id);
@@ -80,7 +80,7 @@ function pickWeighted<T>(entries: readonly T[], weight: (entry: T) => number, ra
   return entries[entries.length - 1];
 }
 
-function initialEpisode(state: SimulationState, random: RandomSource): BattleEpisode {
+export function initialEpisode(state: SimulationState, random: RandomSource): BattleEpisode {
   const runtime = state.runtime;
   if (
     !runtime?.audition ||
@@ -196,7 +196,7 @@ function initialEpisode(state: SimulationState, random: RandomSource): BattleEpi
   return ep;
 }
 
-function roomHighlight(state: SimulationState, random: RandomSource): void {
+export function roomHighlight(state: SimulationState, random: RandomSource): void {
   const ep = episode(state);
   const room = ep.rooms[ep.roomCursor];
   const pairs = room.memberIds.flatMap((a, index) =>
@@ -237,9 +237,10 @@ function roomHighlight(state: SimulationState, random: RandomSource): void {
     [...room.memberIds],
   );
   ep.roomCursor++;
+  if (ep.version === 2) ep.scenes.at(-1)!.paragraphContestantIds = [[a, b], []];
 }
 
-function createCaptains(ep: BattleEpisode): void {
+export function createCaptains(ep: BattleEpisode): void {
   ep.teams = ep.rankedIds.slice(0, 6).map((id, index) => ({
     id: `team-${index + 1}`,
     name: `Team ${index + 1}`,
@@ -255,13 +256,13 @@ function createCaptains(ep: BattleEpisode): void {
   }));
 }
 
-function draftRound(state: SimulationState, random: RandomSource): void {
+export function draftRound(state: SimulationState, random: RandomSource, pickIndex?: number): void {
   const ep = episode(state);
   const picked = new Set(ep.teams.flatMap((team) => team.memberIds));
   const picks: string[] = [];
   const paragraphs: string[] = [];
   const identities: string[][] = [];
-  for (const team of ep.teams) {
+  for (const team of pickIndex === undefined ? ep.teams : [ep.teams[pickIndex]]) {
     const captain = member(state, team.captainId);
     const available = ep.participantIds.filter((id) => !picked.has(id));
     const tie = new Map(available.map((id) => [id, random()]));
@@ -309,11 +310,20 @@ function draftRound(state: SimulationState, random: RandomSource): void {
       changeBattleRelationship(unpicked, chosen, delta);
     }
   }
-  ep.draftRound++;
-  scene(ep, 'draft', `Draft round ${ep.draftRound}`, paragraphs, picks, identities);
+  if (pickIndex === undefined || pickIndex === 5) ep.draftRound++;
+  scene(
+    ep,
+    'draft',
+    pickIndex === undefined
+      ? `Draft round ${ep.draftRound}`
+      : `${member(state, ep.teams[pickIndex].captainId).name}'s pick`,
+    paragraphs,
+    picks,
+    identities,
+  );
 }
 
-function createPairings(state: SimulationState, random: RandomSource): void {
+export function createPairings(state: SimulationState, random: RandomSource, react = true): void {
   const ep = episode(state);
   const teams = shuffleWithRandom(ep.teams, random);
   const catalog = state.runtime!.definitions.battleSongs!;
@@ -345,8 +355,10 @@ function createPairings(state: SimulationState, random: RandomSource): void {
     const first = member(state, a.captainId);
     const second = member(state, b.captainId);
     const tense = first.personality.ambition > 4 || battleRelationship(first, second.id) < 40;
-    changeBattleRelationship(first, second.id, tense ? -2 : 1);
-    changeBattleRelationship(second, first.id, second.personality.gentleness > 0 ? 1 : -1);
+    if (react) {
+      changeBattleRelationship(first, second.id, tense ? -2 : 1);
+      changeBattleRelationship(second, first.id, second.personality.gentleness > 0 ? 1 : -1);
+    }
     return `${a.name} (${songFor(state, a).title}) faces ${b.name} (${songFor(state, b).title}). ${first.name} responds with ${tense ? 'competitive tension' : 'measured respect'}.`;
   });
   scene(
@@ -358,7 +370,7 @@ function createPairings(state: SimulationState, random: RandomSource): void {
   );
 }
 
-function assignRoles(state: SimulationState, team: BattleTeam, random: RandomSource): void {
+export function assignRoles(state: SimulationState, team: BattleTeam, random: RandomSource): void {
   const song = songFor(state, team);
   const ids = [...team.memberIds];
   const permutations = (list: string[]): string[][] =>
@@ -415,9 +427,16 @@ function assignRoles(state: SimulationState, team: BattleTeam, random: RandomSou
   team.centerId = [...ids].sort(
     (a, b) =>
       votes(b) - votes(a) ||
-      member(state, b).coreSkills.stagePresence - member(state, a).coreSkills.stagePresence ||
-      member(state, b).coreSkills.visual - member(state, a).coreSkills.visual ||
-      member(state, b).utilitySkills.charisma - member(state, a).utilitySkills.charisma ||
+      (episode(state).version === 2
+        ? member(state, b).utilitySkills.charisma - member(state, a).utilitySkills.charisma ||
+          Object.values(member(state, b).coreSkills).reduce((sum, value) => sum + value, 0) -
+            Object.values(member(state, a).coreSkills).reduce((sum, value) => sum + value, 0)
+        : 0) ||
+      (episode(state).version === 2
+        ? 0
+        : member(state, b).coreSkills.stagePresence - member(state, a).coreSkills.stagePresence ||
+          member(state, b).coreSkills.visual - member(state, a).coreSkills.visual ||
+          member(state, b).utilitySkills.charisma - member(state, a).utilitySkills.charisma) ||
       ties.get(a)! - ties.get(b)!,
   )[0];
   member(state, team.centerId).aggregations.center++;
@@ -476,7 +495,7 @@ function preparation(state: SimulationState, random: RandomSource): void {
   ep.phase = 'preparation';
 }
 
-function featuredConflict(state: SimulationState): void {
+export function featuredConflict(state: SimulationState): void {
   const ep = episode(state);
   const team = orderedTeams(ep)[ep.teamCursor];
   const leader = member(state, team.captainId);
@@ -508,6 +527,7 @@ function featuredConflict(state: SimulationState): void {
     ],
     ep.conflict.contestantIds,
   );
+  if (ep.version === 2) ep.scenes.at(-1)!.paragraphContestantIds = [ep.conflict.contestantIds, []];
 }
 
 function perform(state: SimulationState, random: RandomSource): void {
@@ -569,7 +589,7 @@ function perform(state: SimulationState, random: RandomSource): void {
   ep.phase = 'performance';
 }
 
-function battleWinner(ep: BattleEpisode, teamIds: readonly string[]): string {
+export function battleWinner(ep: BattleEpisode, teamIds: readonly string[]): string {
   const performances = teamIds.map((id) => ep.performances.find((entry) => entry.teamId === id));
   if (performances.some((entry) => !entry))
     throw new Error('Both teams must perform before a winner exists.');
@@ -589,7 +609,7 @@ function battleWinner(ep: BattleEpisode, teamIds: readonly string[]): string {
   )[0];
 }
 
-function losingIds(ep: BattleEpisode): string[] {
+export function losingIds(ep: BattleEpisode): string[] {
   return ep.pairings.flatMap((pairing) => {
     const winner = battleWinner(ep, pairing.teamIds);
     return ep.teams.find((team) => pairing.teamIds.includes(team.id) && team.id !== winner)!.memberIds;
@@ -745,7 +765,7 @@ function revealResult(state: SimulationState, random: RandomSource): void {
   }
 }
 
-function finish(state: SimulationState): void {
+export function finish(state: SimulationState): void {
   const ep = episode(state);
   const evaluations = new Map(
     ep.performances
@@ -791,7 +811,7 @@ function finish(state: SimulationState): void {
   );
 }
 
-function captureChanges(state: SimulationState, before: readonly Contestant[], cause: string): void {
+export function captureChanges(state: SimulationState, before: readonly Contestant[], cause: string): void {
   const ep = episode(state);
   for (const id of ep.participantIds) {
     const contestant = member(state, id);

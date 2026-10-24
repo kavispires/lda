@@ -345,6 +345,7 @@ export function resolveBroadcast(input: AudienceInput & { cut: BroadcastCut }): 
 }
 
 export function resolveNarrativeAudience(input: {
+  castSize?: number;
   contestants: readonly Contestant[];
   evaluations: readonly AuditionEvaluation[];
   reactions: readonly AuditionReaction[];

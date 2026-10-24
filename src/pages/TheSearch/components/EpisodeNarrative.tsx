@@ -220,7 +220,9 @@ export function EpisodeSceneNarrative({
     }
     const isNote =
       reactionNote ||
-      (emphasizeMain && /\b(composure|relationship|coordination|practice)\b.*(?:→|->)/i.test(paragraph));
+      (emphasizeMain &&
+        (/^Reaction:/i.test(paragraph) ||
+          /\b(composure|relationship|coordination|practice)\b.*(?:→|->)/i.test(paragraph)));
     return [{ paragraph, index, isNote }];
   });
   const ids = [

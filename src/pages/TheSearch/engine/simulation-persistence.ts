@@ -180,7 +180,7 @@ export function decodeSimulationState(stored: string): SimulationState {
   const runtime = value.runtime;
   if (
     !isRecord(runtime) ||
-    (runtime.version !== 1 && runtime.version !== 2) ||
+    (runtime.version !== 1 && runtime.version !== 2 && runtime.version !== 3) ||
     typeof runtime.runId !== 'string' ||
     !runtime.runId.trim() ||
     typeof runtime.seed !== 'number' ||
@@ -241,7 +241,7 @@ export function decodeSimulationState(stored: string): SimulationState {
     if (runtime.version === 1 && isRecord(audition) && audition.relationshipPolicy === undefined) {
       audition.relationshipPolicy = 'reactions-only';
     }
-    if (runtime.version === 2) {
+    if (runtime.version === 2 || runtime.version === 3) {
       assertNarrativeAudition(audition, value.contestants, runtime.definitions, {
         archived: runtime.episode === 2,
       });
@@ -269,6 +269,8 @@ export function decodeSimulationState(stored: string): SimulationState {
       throw new Error('Group Battles requires a completed Auditions archive.');
     }
     assertBattleEpisode(battle, value.contestants, definitions);
+    if ((runtime.version === 3) !== (battle.version === 2))
+      throw new Error('The battle format does not match its season.');
     if (
       runtime.phase !== (battle.phase === 'complete' ? 'episode-complete' : 'battles') ||
       battle.participantIds.length !== audition.survivorIds.length ||
@@ -347,7 +349,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       deferredConsequences,
     },
   };
-  if (runtime.version === 2 && restored.runtime) {
+  if ((runtime.version === 2 || runtime.version === 3) && restored.runtime) {
     if (runtime.openingCast !== undefined) {
       if (
         !Array.isArray(runtime.openingCast) ||

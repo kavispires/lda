@@ -104,8 +104,14 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
-  const AuditionView = simulationState.runtime?.version === 2 ? NarrativeAuditionView : AuditionEpisodeView;
-  const BattleView = simulationState.runtime?.version === 2 ? NarrativeBattleView : BattleEpisodeView;
+  const AuditionView =
+    simulationState.runtime && simulationState.runtime.version !== 1
+      ? NarrativeAuditionView
+      : AuditionEpisodeView;
+  const BattleView =
+    simulationState.runtime && simulationState.runtime.version !== 1
+      ? NarrativeBattleView
+      : BattleEpisodeView;
 
   return (
     <Content>
@@ -117,7 +123,11 @@ export function SimulationPage() {
         assign personas, attributes, and calculate initial statistics.
       </Typography.Paragraph>
       <Alert
-        description="Follow fifty contestants through Auditions, then the final thirty into dorm life, team drafts and Group Battles. Eighteen will survive Episode 2."
+        description={
+          simulationState.runtime && simulationState.runtime.version !== 3
+            ? 'Follow fifty contestants through Auditions, then the final thirty into dorm life, team drafts and Group Battles. Eighteen will survive Episode 2.'
+            : 'Follow fifty contestants through Auditions, then thirty into dorm life, captain-led drafts and The Battles. Discover the results as each episode unfolds.'
+        }
         showIcon
         style={{ marginBottom: '1rem' }}
         title="The Search"
@@ -481,7 +491,7 @@ function SimulationOverview({
   );
   return (
     <div style={{ marginTop: '2rem' }}>
-      {runtime?.version === 2 ? (
+      {runtime && runtime.version !== 1 ? (
         <Collapse items={[{ key: 'cast', label: 'Details — season cast', children: overview }]} />
       ) : (
         overview

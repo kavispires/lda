@@ -15,7 +15,7 @@ export function createSeasonSetup(
     now: number;
     useBias?: boolean;
     definitions?: SimulationDefinitions;
-    formatVersion?: 1 | 2;
+    formatVersion?: 1 | 2 | 3;
   },
 ): { contestants: Contestant[]; runtime: SeasonRuntime; createdAt: number } {
   if (!options.runId.trim() || !Number.isFinite(options.now)) {
@@ -41,7 +41,7 @@ export function createSeasonSetup(
   return {
     contestants,
     runtime: {
-      version: options.formatVersion ?? 2,
+      version: options.formatVersion ?? 3,
       runId: options.runId,
       seed: options.seed,
       randomState: random.getState(),

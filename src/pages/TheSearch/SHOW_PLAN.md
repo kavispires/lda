@@ -14,12 +14,12 @@ on player interaction and how the simulation systems connect.
 
 Contestant management, card libraries, cast initialization, and playable
 Episodes 1 and 2 now exist. New simulations use the narrative format described
-below; version-1 saves retain their original engine throughout both episodes.
+below; version-1 and version-2 saves retain their original episode rules.
 Broader-season gaps still need design.
 
 ### Narrative format for new simulations
 
-Runtime version 2 starts with five opening credits slots selected from the top
+Runtime versions 2 and 3 start with five opening credits slots selected from the top
 ten effective seven-core-skill averages (visual, then saved seeded tie-break).
 Later episodes retain surviving selections and replace only vacant slots.
 Each episode has its own two-option mood in all six specialties; later options
@@ -56,16 +56,69 @@ gives -2, otherwise unchanged. No self, reciprocal or survivor-blame effects are
 introduced. Full changes persist; narration shows only standout reactions.
 MVP and a blocking secret investigation close the episode.
 
-Episode 2 receives fresh preparation, then its existing dorm cold open, opening
+For existing runtime-2 seasons, Episode 2 receives fresh preparation, then its existing dorm cold open, opening
 credits, and next-day stage/ranking reveal. Its draft, rehearsal, battle, broadcast,
 three-save and elimination mechanics are unchanged; deeper Episode 2 story
-restructuring remains deferred. Both episodes use narrative stages, host speech
+restructuring is preserved as the older format. Both episodes use narrative stages, host speech
 bubbles, blocking decisions, optional calculation details and read-only archives.
 Inspection, animation and replay never apply simulation effects.
 
 Versioned validation preserves saved choices, RNG and once-only effects. Existing
-version-1 runs are never silently upgraded; start a new simulation to use this
+version-1 and version-2 runs are never silently upgraded; start a new simulation to use the latest
 format. The legacy Auditions contracts below continue to describe version 1.
+
+### Runtime 3: The Battles narrative
+
+New simulations retain modern Auditions and use eight sequences for Episode 2:
+five dorm groups of six, opening credits, captain selection/drafting/pairings,
+three fully featured battles, judge reviews/results, and saves/finale.
+
+Only the six captains are announced early. The first full eighteen-survivor
+ranking appears after saves, final departures, peer MVP, and the secret check.
+Mike announces that future episodes eliminate the lowest-ranked contestants;
+future episode implementation and elimination counts remain out of scope.
+
+Each of six teams has two practice sessions, a captain spotlight, a no-self-vote
+center ballot, and an independent Support/Mediate/Push decision. Center grants
++1 temporary stage presence, clamped together with rival composure to skill 1..5.
+Team B's rehearsal is a flashback; A's performance cannot rewrite its practice.
+
+Center preference is visual + stage presence + charisma + outgoing affection/20.
+Tied totals favor charisma, average core skill, then a saved random draw.
+Captain-named teams draft individual picks in four rounds of captain order 1–6,
+retaining the established passed-over resentment.
+
+Each contestant reacts to one opposing contestant at matchup announcement:
+greatest absolute outgoing-affection distance from neutral, then a seeded tie.
+Existing dislike below 40 or ambition above 4 gives -2; otherwise respect gives +1.
+
+The original individual battle formula and coordination remain dominant.
+John averages technical delivery, Megan stage/potential/uniqueness, Michael
+visual/consistency/leadership. Each team's final score is
+`clamp(base + (John + Megan + Michael)/60, 0, 100)`, a maximum five-point bonus.
+Judges use stored performance dice and equal influence, without new random rolls.
+All three review every team before any battle winner is announced.
+
+Six equal performance units give each contestant 1/30 coverage, credited once.
+Audience voting closes silently without a broadcast package. Losing teams are
+provisionally eliminated before three distinct saves finalize eighteen survivors.
+The judges save the highest individual performer; the audience saves the next
+eligible vote leader; the player chooses production's save from its shortlist.
+
+After final departures, a survivor's outgoing affection >=60 establishes a friend.
+Per departed friend, dislike toward each defeating-team member is
+`clamp(-10 + gentleness + maturity - sensitivity, -15, 0)`, capped at -15 total
+per target for the episode. No saved-friend, self, or reciprocal penalties.
+
+After the full ranking reveal, each survivor reacts emotionally and may change
+their outgoing bond toward the contestant immediately above by at most two.
+First place has no target. **Implementation default:** disposition is
+`(affection - 50)/5 + gentleness + maturity - sensitivity - ambition`;
+round disposition/10 and clamp to -2..+2. These reactions never rerank contestants.
+
+Versioned story records, strict evidence validation, reveal-aware profiles, and
+read-only archives prevent reapplying consequences or exposing future footage.
+See `SHOW_EPISODES.md` for the descriptive episode treatment.
 
 ### Legacy playable foundation
 

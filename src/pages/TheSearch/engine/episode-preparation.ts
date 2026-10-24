@@ -1,7 +1,7 @@
 import type { MoodChoices, MoodOptions } from '../types/audition-episode';
 import type { Contestant, CoreSkills, Specialties } from '../types/contestant';
 import type { EpisodePreparation, PreparationAction } from '../types/narrative';
-import type { SeasonRuntime, SimulationState } from '../types/simulation';
+import { isNarrativeSeason, type SeasonRuntime, type SimulationState } from '../types/simulation';
 import { recordContestantChanges } from './change-history';
 import { type RandomSource, shuffleWithRandom } from './random';
 
@@ -24,7 +24,7 @@ const CORE: (keyof CoreSkills)[] = [
 ];
 
 function runtimeOf(state: SimulationState): SeasonRuntime {
-  if (!state.runtime || state.runtime.version !== 2)
+  if (!state.runtime || !isNarrativeSeason(state.runtime))
     throw new Error('Episode preparation requires a narrative season.');
   return state.runtime;
 }

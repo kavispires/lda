@@ -2,6 +2,7 @@ import { Store } from '@tanstack/react-store';
 import { transitionAudition } from '../engine/audition-episode';
 import { transitionBattle } from '../engine/battle-episode';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from '../engine/narrative-audition';
+import { transitionBattleStory } from '../engine/narrative-battle';
 import { createSeasonSetup } from '../engine/season-setup';
 import {
   emptySimulationState,
@@ -11,7 +12,7 @@ import {
 import type { AuditionAction } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
 import type { Contestant } from '../types/contestant';
-import type { SimulationState } from '../types/simulation';
+import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 
 export type { SimulationState } from '../types/simulation';
 
@@ -56,19 +57,20 @@ export const simulationActions = {
 
   dispatchAudition(action: AuditionAction, expectedRevision: number) {
     const current = simulationStore.state;
-    const next =
-      current.runtime?.version === 2
-        ? transitionNarrativeAudition(current, action, expectedRevision)
-        : transitionAudition(current, action, expectedRevision);
+    const next = isNarrativeSeason(current.runtime)
+      ? transitionNarrativeAudition(current, action, expectedRevision)
+      : transitionAudition(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 
   dispatchBattle(action: BattleAction, expectedRevision: number) {
     const current = simulationStore.state;
     const next =
-      current.runtime?.version === 2
-        ? transitionNarrativeBattle(current, action, expectedRevision)
-        : transitionBattle(current, action, expectedRevision);
+      current.runtime?.version === 3
+        ? transitionBattleStory(current, action, expectedRevision)
+        : current.runtime?.version === 2
+          ? transitionNarrativeBattle(current, action, expectedRevision)
+          : transitionBattle(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

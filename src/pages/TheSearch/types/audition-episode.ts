@@ -61,6 +61,7 @@ export interface EpisodeScene {
   presentation?: NarrativeAuditionStory['presentation'];
   speaker?: { name: string; role: string };
   introductions?: Record<string, string[]>;
+  dialogues?: { name: string; role: string; paragraphs: string[]; paragraphContestantIds?: string[][] }[];
 }
 
 export interface BroadcastCut {

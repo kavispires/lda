@@ -24,7 +24,7 @@ function fixture(): SimulationState {
   );
   const state = transitionAudition(
     {
-      ...createSeasonSetup(source, { seed: 190, runId: 'narrative-ui', now: 1 }),
+      ...createSeasonSetup(source, { seed: 190, runId: 'narrative-ui', now: 1, formatVersion: 2 }),
       status: 'ready',
       persistenceError: null,
     },

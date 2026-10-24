@@ -144,7 +144,7 @@ test('corrupt or unsupported saves report a visible error and are not silently o
   const state: SimulationState = { ...setup, status: 'ready', persistenceError: null };
   const wrongVersion = structuredClone(state);
   if (!wrongVersion.runtime) assert.fail('Missing runtime');
-  Object.assign(wrongVersion.runtime, { version: 3 });
+  Object.assign(wrongVersion.runtime, { version: 999 });
   assert.throws(() => decodeSimulationState(JSON.stringify(wrongVersion)), /unsupported version/);
   const mismatched = structuredClone(state);
   if (!mismatched.runtime) assert.fail('Missing runtime');

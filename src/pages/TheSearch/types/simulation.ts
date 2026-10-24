@@ -19,7 +19,7 @@ export interface SimulationDefinitions {
 }
 
 export interface SeasonRuntime {
-  version: 1 | 2;
+  version: 1 | 2 | 3;
   runId: string;
   seed: number;
   randomState: number;
@@ -40,6 +40,10 @@ export interface SeasonRuntime {
   show: ShowAudience;
   revealedSecrets: { contestantId: string; cardId: string }[];
   deferredConsequences: DeferredConsequence[];
+}
+
+export function isNarrativeSeason(runtime: { version: number } | null | undefined): boolean {
+  return runtime?.version === 2 || runtime?.version === 3;
 }
 
 export interface SimulationState {

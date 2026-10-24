@@ -2,7 +2,7 @@ import type { AuditionAction, AuditionEpisode, EpisodeScene } from '../types/aud
 import type { BattleAction } from '../types/battle-episode';
 import type { Contestant } from '../types/contestant';
 import { auditionSequence } from '../types/narrative';
-import type { SimulationState } from '../types/simulation';
+import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 import { selectAuditionHighlights } from '../utilities/audition-highlights';
 import { projectEpisodeContestant } from '../utilities/episode-visibility';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
@@ -215,7 +215,7 @@ export function transitionNarrativeAudition(
   action: AuditionAction,
   revision: number,
 ): SimulationState {
-  if (current.runtime?.version !== 2 || current.status !== 'ready')
+  if (!current.runtime || !isNarrativeSeason(current.runtime) || current.status !== 'ready')
     throw new Error('Start a new narrative simulation first.');
   const old = current.runtime.audition;
   if (revision !== (old?.revision ?? 0)) {

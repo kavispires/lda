@@ -115,6 +115,7 @@ export interface BattleEvaluation {
   finalScore: number;
   grade: Contestant['grade'];
   tieBreakKey: number;
+  centerBonus?: number;
 }
 
 export interface BattlePerformance {
@@ -123,10 +124,70 @@ export interface BattlePerformance {
   meanScore: number;
   coordination: number;
   finalScore: number;
+  baseScore?: number;
+  judging?: Record<
+    'john' | 'megan' | 'michael',
+    { score: number; bonus: number; comment: string; checks: BattleCheck[] }
+  >;
+}
+
+export type BattleStoryStage =
+  | 'dorms'
+  | 'credits'
+  | 'challenge'
+  | 'captains'
+  | 'draft'
+  | 'pairings'
+  | 'rehearsal'
+  | 'leadership'
+  | 'center'
+  | 'intervention'
+  | 'intervention-result'
+  | 'performance'
+  | 'opponent-reaction'
+  | 'reviews'
+  | 'winners'
+  | 'twist'
+  | 'judge-save'
+  | 'audience-save'
+  | 'production-save'
+  | 'save-result'
+  | 'departures'
+  | 'mvp'
+  | 'secret-choice'
+  | 'secret-result'
+  | 'ranking-rule'
+  | 'ranking'
+  | 'rank-reactions'
+  | 'complete';
+
+export interface BattleStoryReaction {
+  observerId: string;
+  targetId: string | null;
+  before: number;
+  after: number;
+  emotion: string;
+}
+
+export interface BattleStory {
+  stage: BattleStoryStage;
+  sequence: number;
+  draftPick: number;
+  pairingCursor: number;
+  reviewCursor: number;
+  departureCursor: number;
+  interventions: Record<string, BattleConflictChoice>;
+  exposure: Record<string, number>;
+  creditedTeamIds: string[];
+  matchupReactions: BattleStoryReaction[];
+  rankReactions: BattleStoryReaction[];
+  rankRevealed: boolean;
+  backlashApplied: boolean;
 }
 
 export interface BattleEpisode {
-  version: 1;
+  version: 1 | 2;
+  story?: BattleStory;
   phase: BattlePhase;
   revision: number;
   lastAction: { revision: number; action: BattleAction };

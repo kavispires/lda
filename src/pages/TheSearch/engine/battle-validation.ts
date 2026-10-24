@@ -4,6 +4,7 @@ import type { SimulationDefinitions } from '../types/simulation';
 import { validateBattleSongs } from '../utilities/battle-songs';
 import { auditionGrade, auditionMinimumFace } from './audition-scoring';
 import { clampBattle } from './battle-scoring';
+import { assertNarrativeBattleEpisode } from './narrative-battle-validation';
 
 const phases = [
   'dorms',
@@ -98,6 +99,10 @@ export function assertBattleEpisode(
   definitions: SimulationDefinitions,
 ): asserts value is BattleEpisode {
   object(value, 'episode');
+  if (value.version === 2) {
+    assertNarrativeBattleEpisode(value, contestants, definitions);
+    return;
+  }
   const required = [
     'version',
     'phase',

@@ -36,7 +36,7 @@ function setup(): SimulationState {
     }),
   );
   return {
-    ...createSeasonSetup(source, { seed: 12345, runId: 'narrative-test', now: 1000 }),
+    ...createSeasonSetup(source, { seed: 12345, runId: 'narrative-test', now: 1000, formatVersion: 2 }),
     status: 'ready',
     persistenceError: null,
   };

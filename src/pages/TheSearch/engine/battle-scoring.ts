@@ -122,6 +122,7 @@ export function scoreBattleTeam(
   contestants: readonly Contestant[],
   composure: number,
   random: RandomSource,
+  narrative = false,
 ): BattlePerformance {
   const evaluations = team.memberIds.map((id): BattleEvaluation => {
     const contestant = contestants.find((entry) => entry.id === id);
@@ -150,7 +151,11 @@ export function scoreBattleTeam(
     };
     const stageCheck = normalized(
       'stagePresence',
-      clampBattle(contestant.coreSkills.stagePresence + composure, 1, 5),
+      clampBattle(
+        contestant.coreSkills.stagePresence + composure + (narrative && id === team.centerId ? 1 : 0),
+        1,
+        5,
+      ),
     );
     const stageScore = stageCheck.score;
     const impressionChecks = [
@@ -175,6 +180,7 @@ export function scoreBattleTeam(
       finalScore,
       grade: auditionGrade(finalScore),
       tieBreakKey: random(),
+      ...(narrative ? { centerBonus: id === team.centerId ? 1 : 0 } : {}),
     };
   });
   const meanScore = evaluations.reduce((sum, evaluation) => sum + evaluation.finalScore, 0) / 5;

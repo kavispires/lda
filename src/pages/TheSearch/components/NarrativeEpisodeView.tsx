@@ -8,6 +8,7 @@ import type { SimulationState } from '../types/simulation';
 import { BattleEpisodeView } from './BattleEpisodeView';
 import { ContestantAvatar } from './ContestantAvatar';
 import { EpisodeSceneNarrative } from './EpisodeNarrative';
+import { NarrativeBattlePlayer } from './NarrativeBattlePlayer';
 import styles from './NarrativeEpisodeView.module.scss';
 import { NarrativeStage, OpeningCredits } from './NarrativeStage';
 import { PersonnelAvatar } from './personnel/PersonnelAvatar';
@@ -560,6 +561,15 @@ export function NarrativeBattleView({
         onInspect={onInspect}
         phase={!preparation.mood ? 'mood' : 'opening-cast'}
         preparation={preparation}
+        state={state}
+      />
+    );
+  if (runtime.version === 3)
+    return (
+      <NarrativeBattlePlayer
+        actionError={actionError}
+        onAction={onAction}
+        onInspect={onInspect}
         state={state}
       />
     );

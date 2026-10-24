@@ -24,7 +24,10 @@ try {
     'audition-episode',
     'battle-episode',
     'battle-validation',
+    'battle-judging',
+    'narrative-battle-validation',
     'narrative-audition',
+    'narrative-battle',
   ]) {
     await server.ssrLoadModule(`/src/pages/TheSearch/engine/${name}.test.ts`);
   }
@@ -33,6 +36,7 @@ try {
   await server.ssrLoadModule('/src/pages/TheSearch/components/BattleEpisodeView.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/ContestantDetailModal.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/NarrativeEpisodeView.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/components/NarrativeBattlePlayer.test.tsx');
 } finally {
   await server.close();
 }
