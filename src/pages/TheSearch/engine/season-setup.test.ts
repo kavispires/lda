@@ -30,7 +30,19 @@ function sourcePool(): Record<string, Contestant> {
   );
 }
 
-const options = { seed: 12345, runId: 'test-season', now: 123456 };
+const options = { seed: 12345, runId: 'test-season', now: 123456, formatVersion: 1 as const };
+
+test('season setup excludes self from every contestant relationship map', () => {
+  const setup = createSeasonSetup(sourcePool(), options);
+  for (const contestant of setup.contestants) {
+    assert.equal(Object.hasOwn(contestant.relationships, contestant.id), false);
+    assert.equal(Object.keys(contestant.relationships).length, 49);
+    assert.deepEqual(
+      setup.runtime.initialContestants.find((entry) => entry.id === contestant.id)?.relationships,
+      contestant.relationships,
+    );
+  }
+});
 
 test('seeded draws resume exactly from their persisted state and reject invalid seeds', () => {
   const random = createSeededRandom(0);
@@ -64,7 +76,7 @@ test('setup is reproducible, captures complete histories and isolates all source
     );
   }
   current.coreSkills.vocals = 1;
-  current.relationships[current.id].push(90);
+  current.relationships[first.contestants[1].id].push(90);
   assert.deepEqual(pool, original);
   assert.notDeepEqual(current, first.runtime.initialContestants[0]);
   pool[current.id].name = 'Edited database profile';
@@ -94,8 +106,14 @@ test('new runtime round-trips without rerolls and legacy setups remain inspectab
     },
   };
   definitions.auditionSongs = definitions.auditionSongs.map((song) => ({ ...song, genre: 'ARCHIVED_GENRE' }));
+  assert.ok(definitions.battleSongs);
+  definitions.battleSongs = definitions.battleSongs.map((song) => ({ ...song, genre: 'ARCHIVED_GENRE' }));
   assert.equal(
     decodeSimulationState(JSON.stringify(archived)).runtime?.definitions.auditionSongs[0].genre,
+    'ARCHIVED_GENRE',
+  );
+  assert.equal(
+    decodeSimulationState(JSON.stringify(archived)).runtime?.definitions.battleSongs?.[0].genre,
     'ARCHIVED_GENRE',
   );
   const legacyContestants = state.contestants.map((contestant) => {
@@ -126,7 +144,7 @@ test('corrupt or unsupported saves report a visible error and are not silently o
   const state: SimulationState = { ...setup, status: 'ready', persistenceError: null };
   const wrongVersion = structuredClone(state);
   if (!wrongVersion.runtime) assert.fail('Missing runtime');
-  Object.assign(wrongVersion.runtime, { version: 2 });
+  Object.assign(wrongVersion.runtime, { version: 3 });
   assert.throws(() => decodeSimulationState(JSON.stringify(wrongVersion)), /unsupported version/);
   const mismatched = structuredClone(state);
   if (!mismatched.runtime) assert.fail('Missing runtime');

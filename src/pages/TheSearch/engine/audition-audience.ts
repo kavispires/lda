@@ -87,10 +87,14 @@ function castMap(contestants: readonly Contestant[]): Map<string, Contestant> {
   return cast;
 }
 
-function validateCast(contestants: readonly Contestant[], evaluations: readonly AuditionEvaluation[]) {
+function validateCast(
+  contestants: readonly Contestant[],
+  evaluations: readonly AuditionEvaluation[],
+  castSize = CONFIG.castSize as number,
+) {
   const cast = castMap(contestants);
-  if (cast.size !== CONFIG.castSize || evaluations.length !== CONFIG.castSize) {
-    throw new Error('Auditions broadcast requires all 50 unique contestants and evaluations.');
+  if (cast.size !== castSize || evaluations.length !== castSize) {
+    throw new Error(`Broadcast requires all ${castSize} unique contestants and evaluations.`);
   }
   const ranked = rankAuditions(evaluations);
   for (const evaluation of ranked) {
@@ -157,8 +161,9 @@ export function createBroadcastCuts(
   evaluations: readonly AuditionEvaluation[],
   reactions: readonly AuditionReaction[],
   random: RandomSource,
+  castSize: number = CONFIG.castSize,
 ): BroadcastCut[] {
-  const { cast, ranked, byId } = validateCast(contestants, evaluations);
+  const { cast, ranked, byId } = validateCast(contestants, evaluations, castSize);
   validateReactions(reactions, cast);
   const mandatory = [...ranked.slice(0, 2), ...ranked.slice(-2)].map((evaluation) => evaluation.contestantId);
   const themes = [
@@ -296,23 +301,91 @@ function reception(evaluation: AuditionEvaluation): number {
   );
 }
 
-export function resolveBroadcast(input: {
+interface AudienceInput {
   contestants: readonly Contestant[];
   evaluations: readonly AuditionEvaluation[];
   reactions: readonly AuditionReaction[];
-  cut: BroadcastCut;
   mood: MoodChoices;
   show: ShowAudience;
   random: RandomSource;
   /** Frozen song metadata enables genre diversity; absent metadata uses recorded contestant tracks. */
   songs?: readonly AuditionSong[];
-}): { contestants: Contestant[]; show: ShowAudience; outcome: AudienceOutcome } {
-  const { contestants, evaluations, reactions, cut, mood, random, songs } = input;
-  const { cast, ranked, byId } = validateCast(contestants, evaluations);
+  castSize?: number;
+}
+
+type AudienceResult = { contestants: Contestant[]; show: ShowAudience; outcome: AudienceOutcome };
+type ShownScene = { share: number; reactions: readonly AuditionReaction[] };
+
+export function resolveBroadcast(input: AudienceInput & { cut: BroadcastCut }): AudienceResult {
+  const { cut, contestants, reactions } = input;
+  validateCut(
+    cut,
+    contestants.map(({ id }) => id),
+  );
+  return resolveAudience({
+    ...input,
+    exposure: cut.exposure,
+    creditScreenTime: true,
+    scenes: cut.featuredIds.map((id) => {
+      const descriptions = cut.footage
+        .filter((footage) => footage.contestantId === id)
+        .map((footage) => footage.description);
+      return {
+        share:
+          Math.max(0, cut.exposure[id] - CONFIG.baselineRuntime / contestants.length) /
+          (1 - CONFIG.baselineRuntime),
+        reactions: reactions.filter(
+          (reaction) =>
+            reaction.observerId === id &&
+            descriptions.some((description) => description.includes(reaction.narrative)),
+        ),
+      };
+    }),
+  });
+}
+
+export function resolveNarrativeAudience(input: {
+  contestants: readonly Contestant[];
+  evaluations: readonly AuditionEvaluation[];
+  reactions: readonly AuditionReaction[];
+  exposure: Record<string, number>;
+  mood: MoodChoices;
+  show: ShowAudience;
+  random: RandomSource;
+  songs: readonly AuditionSong[];
+}): AudienceResult {
+  const ids = input.contestants.map(({ id }) => id);
+  if (
+    Object.keys(input.exposure).length !== ids.length ||
+    Object.keys(input.exposure).some((id) => !ids.includes(id)) ||
+    ids.some((id) => !Number.isFinite(input.exposure[id]) || input.exposure[id] <= 0) ||
+    Math.abs(ids.reduce((sum, id) => sum + input.exposure[id], 0) - 1) > 1e-9
+  ) {
+    throw new Error('Narrative exposure must be positive for the full cast and total one.');
+  }
+  return resolveAudience({
+    ...input,
+    creditScreenTime: false,
+    scenes: ids.map((id) => ({
+      share: input.exposure[id],
+      reactions: input.reactions.filter((reaction) => reaction.observerId === id),
+    })),
+  });
+}
+
+function resolveAudience(
+  input: AudienceInput & {
+    exposure: Record<string, number>;
+    scenes: readonly ShownScene[];
+    creditScreenTime: boolean;
+  },
+): AudienceResult {
+  const { contestants, evaluations, reactions, mood, random, songs } = input;
+  const coverage = input.exposure;
+  const { cast, ranked, byId } = validateCast(contestants, evaluations, input.castSize);
   validateReactions(reactions, cast);
   validateShow(input.show);
   const ids = contestants.map(({ id }) => id);
-  validateCut(cut, ids);
   for (const [id, count] of Object.entries(input.show.fans)) {
     if (count > 0 && !cast.has(id))
       throw new Error(`Loyal fans have no eligible favorite: ${id}. Transfer fans before voting.`);
@@ -322,7 +395,7 @@ export function resolveBroadcast(input: {
   const receptions = Object.fromEntries(
     evaluations.map((evaluation) => [evaluation.contestantId, reception(evaluation)]),
   );
-  const shownReception = ids.reduce((sum, id) => sum + cut.exposure[id] * receptions[id], 0);
+  const shownReception = ids.reduce((sum, id) => sum + coverage[id] * receptions[id], 0);
   const songGenres = songs ? new Map(songs.map((song) => [song.id, song.genre])) : null;
   if (songGenres && evaluations.some((evaluation) => !songGenres.has(evaluation.songId))) {
     throw new Error('Broadcast song metadata must include every recorded audition song.');
@@ -330,7 +403,7 @@ export function resolveBroadcast(input: {
   const categoryShares = new Map<string, number>();
   for (const id of ids) {
     const category = songGenres?.get(entry(byId, id).songId) ?? entry(cast, id).track;
-    categoryShares.set(category, (categoryShares.get(category) ?? 0) + cut.exposure[id]);
+    categoryShares.set(category, (categoryShares.get(category) ?? 0) + coverage[id]);
   }
   // Simpson diversity: a single category is 0; equal coverage of available categories is 100.
   const categories = categoryShares.size;
@@ -343,18 +416,8 @@ export function resolveBroadcast(input: {
         );
   let actualSceneIntensity = 0;
   let negativeSceneShare = 0;
-  for (const id of cut.featuredIds) {
-    const descriptions = cut.footage
-      .filter((footage) => footage.contestantId === id)
-      .map((footage) => footage.description);
-    const shown = reactions.filter(
-      (reaction) =>
-        reaction.observerId === id &&
-        descriptions.some((description) => description.includes(reaction.narrative)),
-    );
+  for (const { share: sceneShare, reactions: shown } of input.scenes) {
     if (!shown.length) continue;
-    const sceneShare =
-      Math.max(0, cut.exposure[id] - CONFIG.baselineRuntime / ids.length) / (1 - CONFIG.baselineRuntime);
     actualSceneIntensity +=
       (sceneShare * shown.reduce((sum, reaction) => sum + intensity(reaction), 0)) / shown.length;
     negativeSceneShare +=
@@ -389,7 +452,7 @@ export function resolveBroadcast(input: {
   show.audience += newViewers;
   show.general += newViewers;
   const votingPopulation = show.audience;
-  const exposure = ids.map((id) => cut.exposure[id]);
+  const exposure = ids.map((id) => coverage[id]);
   // Appeal is frozen before popularity updates; acquired viewers join general before this vote.
   const appeal = contestants.map((contestant) => {
     const preference = ratio(finite(contestant.aggregations.audienceRatio, 'Audience preference'));
@@ -428,11 +491,13 @@ export function resolveBroadcast(input: {
     );
     show.general -= newFans[id];
     show.fans[id] = (show.fans[id] ?? 0) + newFans[id];
-    // Screen time accumulates percentage points of exposure, not minutes.
-    aggregations.screenTime = finite(aggregations.screenTime, 'Screen time') + 100 * cut.exposure[id];
+    if (input.creditScreenTime) {
+      // Narrative beats have already credited their screen time.
+      aggregations.screenTime = finite(aggregations.screenTime, 'Screen time') + 100 * coverage[id];
+    }
     aggregations.audienceRatio = ratio(
       ratio(aggregations.audienceRatio) +
-        cut.exposure[id] *
+        coverage[id] *
           ((receptions[id] - CONFIG.satisfactionNeutral) / CONFIG.satisfactionNeutral) *
           CONFIG.popularityScale,
     );
@@ -545,10 +610,12 @@ export function chooseAuditionMvp(
   evaluations: readonly AuditionEvaluation[],
   survivorIds: readonly string[],
   random: RandomSource,
+  options: { castSize?: number; survivorCount?: number } = {},
 ): MvpResult {
-  const { byId } = validateCast(contestants, evaluations);
+  const { byId } = validateCast(contestants, evaluations, options.castSize);
   const { survivors } = survivorCast(contestants, survivorIds);
-  if (survivors.length !== CONFIG.survivorCount) throw new Error('Auditions MVP requires all 30 survivors.');
+  if (survivors.length !== (options.survivorCount ?? CONFIG.survivorCount))
+    throw new Error(`MVP requires all ${options.survivorCount ?? CONFIG.survivorCount} survivors.`);
   const totals = Object.fromEntries(survivorIds.map((id) => [id, 0]));
   const ballots: Record<string, string> = {};
   for (const voter of survivors) {

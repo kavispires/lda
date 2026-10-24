@@ -20,7 +20,7 @@ import type { AuditionAction, MoodChoices } from '../types/audition-episode';
 import type { Specialties } from '../types/contestant';
 import type { SimulationState } from '../types/simulation';
 import { ContestantAvatar } from './ContestantAvatar';
-import { EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
+import { EpisodeContestantList, EpisodeSceneNarrative } from './EpisodeNarrative';
 import { ChangeDirection, ValueChange } from './SimulationChange';
 
 const moodFields: { key: keyof Specialties; label: string }[] = [
@@ -71,22 +71,14 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
   const cast = new Map(state.contestants.map((contestant) => [contestant.id, contestant]));
   const name = (id: string) => cast.get(id)?.name ?? id;
   const song = (id: string) => episode.pool.find((item) => item.id === id);
-  const inspect = (id: string) => (
+  const inspect = (id: string, portrait = false) => (
     <Button onClick={() => onInspect(id)} size="small" type="link">
+      {portrait && <ContestantAvatar enablePreview={false} id={id} name={name(id)} size={28} />}
       {name(id)}
     </Button>
   );
   const people = (ids: string[]) => (
-    <Space wrap>
-      {ids.map((id) => (
-        <Button key={id} onClick={() => onInspect(id)} style={{ height: 'auto', padding: 8 }}>
-          <Space>
-            <ContestantAvatar enablePreview={false} id={id} name={name(id)} size={32} />
-            {name(id)}
-          </Space>
-        </Button>
-      ))}
-    </Space>
+    <EpisodeContestantList contestants={state.contestants} ids={ids} onInspect={onInspect} />
   );
   const action = (value: AuditionAction) => onAction(value, episode.revision);
   const continueButton = (label: string) => (
@@ -264,13 +256,18 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
                 {episode.cuts.map((cut) => (
                   <Col key={cut.id} md={8} xs={24}>
                     <Card title={cut.title}>
-                      <Typography.Paragraph>{cut.description}</Typography.Paragraph>
-                      {people(cut.featuredIds)}
-                      {cut.footage.map((footage, index) => (
-                        <Typography.Paragraph key={`${footage.contestantId}-${index}`}>
-                          {inspect(footage.contestantId)} — <EpisodeNarrative text={footage.description} />
-                        </Typography.Paragraph>
-                      ))}
+                      <EpisodeSceneNarrative
+                        contestants={state.contestants}
+                        onInspect={onInspect}
+                        reactions={[]}
+                        scene={{
+                          id: `broadcast-${cut.id}`,
+                          kind: 'broadcast',
+                          title: cut.title,
+                          paragraphs: [cut.description, ...cut.footage.map((footage) => footage.description)],
+                          contestantIds: cut.featuredIds,
+                        }}
+                      />
                       <Button onClick={() => action({ type: 'broadcast', cutId: cut.id })} type="primary">
                         Air {cut.title}
                       </Button>
@@ -362,8 +359,12 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
         {scene && (
           <section aria-label={scene.title}>
             <Typography.Title level={3}>{scene.title}</Typography.Title>
-            <EpisodeSceneNarrative reactions={episode.reactions} scene={scene} />
-            {people(scene.contestantIds)}
+            <EpisodeSceneNarrative
+              contestants={state.contestants}
+              onInspect={onInspect}
+              reactions={episode.reactions}
+              scene={scene}
+            />
           </section>
         )}
 
@@ -442,7 +443,7 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
                 />
                 <Table
                   columns={[
-                    { title: 'Contestant', dataIndex: 'id', render: (id: string) => inspect(id) },
+                    { title: 'Contestant', dataIndex: 'id', render: (id: string) => inspect(id, true) },
                     { title: 'Raw votes', dataIndex: 'votes' },
                     {
                       title: 'New fans',
@@ -507,13 +508,23 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
                 {episode.secret && (
                   <Alert
                     description={
-                      <>
-                        {inspect(episode.secret.contestantId)} —{' '}
-                        <EpisodeNarrative text={episode.secret.description} />
-                        {episode.secret.deferred.length > 0 && (
-                          <p>Recorded consequences will apply at the next episode opening.</p>
-                        )}
-                      </>
+                      <EpisodeSceneNarrative
+                        contestants={state.contestants}
+                        onInspect={onInspect}
+                        reactions={[]}
+                        scene={{
+                          id: 'closing-secret',
+                          kind: 'secret',
+                          title: episode.secret.title,
+                          paragraphs: [
+                            episode.secret.description,
+                            ...(episode.secret.deferred.length
+                              ? ['Recorded consequences will apply at the next episode opening.']
+                              : []),
+                          ],
+                          contestantIds: [episode.secret.contestantId],
+                        }}
+                      />
                     }
                     showIcon
                     title={`${episode.secret.cardId ? 'Secret revealed' : 'No secret found'}: ${episode.secret.title}`}
@@ -558,7 +569,7 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
               children: (
                 <Table
                   columns={[
-                    { title: 'Contestant', dataIndex: 'id', render: (id: string) => inspect(id) },
+                    { title: 'Contestant', dataIndex: 'id', render: (id: string) => inspect(id, true) },
                     { title: 'Song', dataIndex: 'songId', render: (id: string) => song(id)?.title ?? id },
                     {
                       title: 'Arrangement',
@@ -631,12 +642,23 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
             {
               key: 'reactions',
               label: 'Backstage reactions',
-              children: episode.reactions.map((reaction, index) => (
-                <Typography.Paragraph key={`${reaction.observerId}-${reaction.performerId}-${index}`}>
-                  {inspect(reaction.observerId)} watching {inspect(reaction.performerId)}:{' '}
-                  <EpisodeNarrative text={reaction.narrative} />
-                </Typography.Paragraph>
-              )),
+              children: (
+                <EpisodeSceneNarrative
+                  contestants={state.contestants}
+                  onInspect={onInspect}
+                  reactions={[]}
+                  scene={{
+                    id: 'backstage-reactions',
+                    kind: 'recap',
+                    title: 'Backstage reactions',
+                    paragraphs: episode.reactions.map((reaction) => reaction.narrative),
+                    contestantIds: episode.reactions.flatMap((reaction) => [
+                      reaction.observerId,
+                      reaction.performerId,
+                    ]),
+                  }}
+                />
+              ),
             },
           ]}
         />

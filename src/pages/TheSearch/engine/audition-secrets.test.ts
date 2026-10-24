@@ -12,7 +12,7 @@ function fixture(consequence: AttributeCard['consequence']) {
       return [id, createContestant({ id, name: id })];
     }),
   );
-  const setup = createSeasonSetup(source, { seed: 987, runId: 'secret-test', now: 1 });
+  const setup = createSeasonSetup(source, { seed: 987, runId: 'secret-test', now: 1, formatVersion: 1 });
   const definitions = structuredClone(setup.runtime.definitions);
   const original = Object.values(definitions.cards.secret)[0];
   const card: AttributeCard = { ...original, id: 'TEST_SECRET', consequence };

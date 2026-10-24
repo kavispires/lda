@@ -52,7 +52,7 @@ function changeValue(value: unknown): value is ChangeValue {
     (object(value) && Object.values(value).every(changeValue))
   );
 }
-function change(value: unknown): value is PropertyChange {
+export function change(value: unknown): value is PropertyChange {
   return (
     object(value) &&
     typeof value.path === 'string' &&
@@ -69,7 +69,7 @@ function preferences(value: unknown): boolean {
     (value.potentialOrCharisma === 'potential' || value.potentialOrCharisma === 'charisma')
   );
 }
-function check(value: unknown): value is AuditionSkillCheck {
+export function check(value: unknown): value is AuditionSkillCheck {
   return (
     object(value) &&
     typeof value.skill === 'string' &&
@@ -84,7 +84,7 @@ function check(value: unknown): value is AuditionSkillCheck {
     number(value.score, 0, 100)
   );
 }
-function evaluation(value: unknown): value is AuditionEvaluation {
+export function evaluation(value: unknown): value is AuditionEvaluation {
   return (
     object(value) &&
     typeof value.contestantId === 'string' &&
@@ -111,7 +111,7 @@ function evaluation(value: unknown): value is AuditionEvaluation {
     value.tieBreakKey < 1
   );
 }
-function reaction(value: unknown): value is AuditionReaction {
+export function reaction(value: unknown): value is AuditionReaction {
   return (
     object(value) &&
     typeof value.observerId === 'string' &&
@@ -128,7 +128,7 @@ function reaction(value: unknown): value is AuditionReaction {
     typeof value.narrative === 'string'
   );
 }
-function scene(value: unknown): value is EpisodeScene {
+export function scene(value: unknown): value is EpisodeScene {
   return (
     object(value) &&
     typeof value.id === 'string' &&
@@ -145,6 +145,10 @@ function scene(value: unknown): value is EpisodeScene {
       'recap',
     ].includes(String(value.kind)) &&
     strings(value.paragraphs) &&
+    (value.paragraphContestantIds === undefined ||
+      (Array.isArray(value.paragraphContestantIds) &&
+        value.paragraphContestantIds.length === value.paragraphs.length &&
+        value.paragraphContestantIds.every(strings))) &&
     uniqueIds(value.contestantIds)
   );
 }
@@ -165,7 +169,7 @@ function cut(value: unknown): value is BroadcastCut {
     Math.abs(Object.values(value.exposure).reduce((sum, exposure) => sum + exposure, 0) - 1) < 1e-8
   );
 }
-function outcome(value: unknown): value is AudienceOutcome {
+export function outcome(value: unknown): value is AudienceOutcome {
   return (
     object(value) &&
     counts(value.votes) &&
@@ -189,7 +193,7 @@ export function isDeferredConsequence(value: unknown): value is DeferredConseque
     changeValue(value.value)
   );
 }
-function secret(value: unknown): value is SecretResult {
+export function secret(value: unknown): value is SecretResult {
   return (
     object(value) &&
     typeof value.contestantId === 'string' &&
@@ -200,7 +204,7 @@ function secret(value: unknown): value is SecretResult {
     value.deferred.every(isDeferredConsequence)
   );
 }
-function mvp(value: unknown): value is MvpResult {
+export function mvp(value: unknown): value is MvpResult {
   return (
     object(value) &&
     object(value.ballots) &&
@@ -243,6 +247,7 @@ export function assertAuditionEpisode(
   value: unknown,
   contestants: readonly Contestant[],
   definitions: SimulationDefinitions,
+  { archived = false }: { archived?: boolean } = {},
 ): asserts value is AuditionEpisode {
   const invalid = () => {
     throw new Error('The saved Auditions episode is invalid or incomplete.');
@@ -375,6 +380,7 @@ export function assertAuditionEpisode(
     return invalid();
   const revealedDepartures = new Set(value.eliminatedIds.slice(0, value.revealedEliminations));
   if (
+    !archived &&
     !contestants.every(
       (contestant) => contestant.status === (revealedDepartures.has(contestant.id) ? 'ELIMINATED' : 'ACTIVE'),
     )
@@ -396,7 +402,12 @@ export function assertAuditionEpisode(
       (entry) =>
         ids.has(entry.observerId) && ids.has(entry.performerId) && entry.observerId !== entry.performerId,
     ) ||
-    !value.scenes.every((entry) => entry.contestantIds.every((id) => ids.has(id))) ||
+    !value.scenes.every(
+      (entry) =>
+        entry.contestantIds.every((id) => ids.has(id)) &&
+        (entry.paragraphContestantIds === undefined ||
+          entry.paragraphContestantIds.every((mentions) => mentions.every((id) => ids.has(id)))),
+    ) ||
     new Set(value.scenes.map((entry) => entry.id)).size !== value.scenes.length ||
     !value.secretCandidates.every((id) => ids.has(id)) ||
     value.secretCandidates.length > 3
@@ -475,6 +486,7 @@ export function assertAuditionEpisode(
   if (value.phase === 'secret' && value.secretCandidates.length !== 3) return invalid();
   if (
     value.phase === 'complete' &&
+    !archived &&
     contestants.filter((contestant) => contestant.status === 'ACTIVE').length !== 30
   )
     return invalid();

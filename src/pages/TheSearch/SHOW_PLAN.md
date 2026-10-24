@@ -12,17 +12,72 @@ on player interaction and how the simulation systems connect.
   coefficient or algorithm, authorized for implementation and later tuning; not
   an additional story mechanic or a claim that its exact algebra was approved.
 
-Contestant management, card libraries, cast initialization, and the rebuilt
-playable Episode 1 now exist. The previous episode engine was removed and
-replaced with the established Auditions contracts below. Broader-season gaps
-still need design.
+Contestant management, card libraries, cast initialization, and playable
+Episodes 1 and 2 now exist. New simulations use the narrative format described
+below; version-1 saves retain their original engine throughout both episodes.
+Broader-season gaps still need design.
+
+### Narrative format for new simulations
+
+Runtime version 2 starts with five opening credits slots selected from the top
+ten effective seven-core-skill averages (visual, then saved seeded tie-break).
+Later episodes retain surviving selections and replace only vacant slots.
+Each episode has its own two-option mood in all six specialties; later options
+come from the previous combined ranking's first and last active survivors, with
+a distinct seeded fallback when they match. Randomize fills, but does not confirm,
+the decision. Opening credits grant +0.02 audience preference once per episode,
+capped at +1, independently of audition exposure.
+
+Mike Philip presents Auditions as manual story beats: welcome, opening credits,
+judges, then audition blocks of **3 / 12 / 5 / 10 / 5 / 12 / 3**.
+The 3/5/5/3 featured auditions each have a public introduction followed by their
+performance; the other blocks are condensed montages with expandable profiles.
+Songs are locked internally, not announced on an upfront board. All fifty
+performances retain causal reactions and universal opinions.
+
+John Stan evaluates song-tested technical skills, Megan Ryder averages stage
+presence/potential/uniqueness, and Michael Lion averages visual/consistency/
+leadership. Leadership rotates John → Megan → Michael every seven actual
+auditions, including montage contestants. The chosen song's primary track-skill
+check has weight 3, the leading judge has weight 2, and each other judge has
+weight 1: `(3 * track + 2 * lead + other + other) / 7`. The track check retains
+the song's skill requirement, difficulty ceiling and shared performance dice;
+off-track auditions use the song's track, not the contestant's usual track.
+Previously saved panel-only results retain their original scores.
+The judge-only bottom twenty depart, separately from cumulative 60% performance,
+30% normalized votes and 10% production ranking contributions.
+
+Coverage is nineteen normalized units: one per featured audition, one shared by
+each montage. Screen time is recorded when the beat plays, not during voting.
+Audience resolution is silent before results; modern Auditions has no broadcast
+package decision. Four groups of five departures trigger survivor-to-departed
+farewells using frozen outgoing relationships: baseline >=53 gives +2, <=47
+gives -2, otherwise unchanged. No self, reciprocal or survivor-blame effects are
+introduced. Full changes persist; narration shows only standout reactions.
+MVP and a blocking secret investigation close the episode.
+
+Episode 2 receives fresh preparation, then its existing dorm cold open, opening
+credits, and next-day stage/ranking reveal. Its draft, rehearsal, battle, broadcast,
+three-save and elimination mechanics are unchanged; deeper Episode 2 story
+restructuring remains deferred. Both episodes use narrative stages, host speech
+bubbles, blocking decisions, optional calculation details and read-only archives.
+Inspection, animation and replay never apply simulation effects.
+
+Versioned validation preserves saved choices, RNG and once-only effects. Existing
+version-1 runs are never silently upgraded; start a new simulation to use this
+format. The legacy Auditions contracts below continue to describe version 1.
+
+### Legacy playable foundation
+
 Genre Affinity and the temporary Practice aggregation are now present in the
 contestant model and interfaces. Audition foundations now provide the editable
 song catalog, deterministic scoring/judging primitives, seeded setup snapshots,
 and complete setup change histories. Episode orchestration now covers the
 player-paced opening through all 50 auditions, broadcast, voting, 20 departures,
-peer MVP, secret check, and recap. The practice-session engine and Episodes 2–11
-remain unimplemented.
+peer MVP, secret check, and recap. Episode 2 adds dorms, the ranking reveal,
+captain-led drafting, utility-based practice, team battles, three distinct saves,
+elimination backlash, and its own MVP/secret closure. Episodes 3–11 remain
+unimplemented.
 
 **Current playable boundary:** The catalog is
 `data/audition-songs.json`, with five editable placeholder songs per track.
@@ -30,7 +85,11 @@ New setups sample and persist nine songs with the approved difficulty coverage.
 No song-editing UI is required. Seeded episode transitions lock autonomous choices,
 resolve causal live reactions, apply the selected broadcast, and close the episode
 with exactly thirty survivors. All performances, choices, scenes, and contestant
-changes remain in the season archive; cumulative standings stay hidden.
+changes remain in the season archive; cumulative standings stay hidden until
+Episode 2's stage introduction. After Auditions closes, an explicit start button
+continues the same saved season into Group Battles. `data/battle-songs.json`
+contains editable five-part placeholder arrangements. Episode 2 closes with
+eighteen survivors and does not automatically start Episode 3.
 New setups persist their seed/random state and frozen definitions/source snapshots.
 Older saved setups remain inspectable but do not acquire fabricated seeds or
 snapshots. A storage failure is surfaced rather than reported as a saved phase.
@@ -70,7 +129,7 @@ stage-presence scoring, population accounting, and persisted phase resumption
 are now implemented; this does not claim completion of the broader season.
 The skill-and-requirement minimum-face mechanic replaces the earlier stat-based
 baseline and direct consistency variance formula for milestone 1. Utility-driven
-Practice remains specified for later episodes; its engine is not implemented.
+Practice is now implemented for Episode 2; Auditions still has no practice sessions.
 
 Latest confirmed performance decisions:
 - Share one ordinary raw 2d6 pair per contestant performance across technical,
@@ -690,13 +749,13 @@ attention without making the show enjoyable.
 **Established:** One overall ranking carries across the season, accumulating
 contributions from audience votes, performances, and other factors. It is not
 reset for each mission. Audience votes contribute from Episode 1, but the ranking
-is not publicly revealed until Episode 3.
+is first publicly revealed on stage in Episode 2, after the dorm arrival.
 
 The overall ranking is distinct from a particular performance's evaluation.
 Episode 1's performance-only elimination and Episode 2's team losses/saves retain
 their explicit rules. Later references to "lowest ranked" use the cumulative
 overall ranking, including Episode 4's lowest-ranked member within each group.
-Episode 2 still needs an audience-save decision separate from normal rank updates.
+Episode 2's audience save is separate from normal ranking updates.
 
 **Established ranking inputs:** Audience votes, evaluated performance, and a
 defined, limited production-preference contribution. Production influence is
@@ -746,7 +805,8 @@ the 10% weight makes its new-episode contribution five points.
 
 **Established visibility:** Store all cumulative calculations and changes from
 Episode 1, but hide the cumulative leaderboard, scores, and ranks from the normal
-UI, including history details and rendered history JSON, until Episode 3.
+UI, including history details and rendered history JSON, until Episode 2's
+on-stage ranking announcement. Dorm scenes do not reveal it early.
 Individual audition grades/components/results remain inspectable; this is a
 presentation boundary, not deletion of logs.
 
@@ -1431,7 +1491,7 @@ contribution: 60% audition performance, 30% leader-relative votes
 (`100 * votes / maximumVotes`, default zero for all when maximum is zero), 10%
 existing production preference; retain .75 of previous cumulative total.
 No audience or production save. All cumulative calculations/changes are stored
-but hidden from normal UI/history details until Episode 3. Individual audition
+but hidden from normal UI/history details until Episode 2's stage introduction. Individual audition
 grades/results remain inspectable. Reveal departures in a few short groups with
 complete archived lists, transfer fans, then resolve survivor MVP and the last
 secret-check interaction under their shared contracts. Any post-vote public
@@ -1452,63 +1512,144 @@ force 20 F grades, reroll results to fill a quota, or secretly lower performance
 then judges, audience, and production/label each save one contestant: 12 leave,
 18 remain. Trainers give feedback and choose the winning teams.
 
-**Established team formation:** The top six contestants become captains. Contestants
-then negotiate their own teams, considering friendships and willingness to join.
-Teams can include frenemies or contestants who dislike one another. Captains use
-their leadership skills to manage the resulting tension. Each team votes for its
-performance center under the shared role rules.
+**Established opening:** Production assigns the thirty survivors randomly to five
+fixed dorm rooms of six. Contestants cannot choose or refuse their placement.
+Show one highlighted personality/relationship-weighted interaction per room,
+including constructive interactions rather than guaranteed fights.
+Show all five complete room rosters immediately on arrival. A highlighted
+interaction can feature two roommates; it does not mean the room has only two occupants.
 
-The top six are drawn from the continuing overall ranking. Audience votes already
-contribute at this point even though that ranking is not yet public.
+The next day, the host announces the challenge and reveals the continuing overall
+ranking for the first time. Public votes and delivered performances contribute;
+the final top five debut as **Squirrel Zone 2**. The existing cumulative formula
+remains in force, including its hidden production contribution; the host does not
+disclose internal production preference. Dorm scenes must not leak the ranking.
+
+**Established team formation:** The top six in Episode 1's continuing overall
+ranking become captains. In four rounds, captains pick in repeated rank order
+1 through 6, not snake order. Each captain selects their highest-liked available
+contestant using their outgoing relationship. Break ties by the candidate's
+utility charisma, then the average of all seven core skills, then seeded
+randomness. Picks are compulsory. This replaces the earlier negotiation,
+invitation-refusal, and deadline-assignment proposal.
+Each pick records its actual deciding criterion, including tie-breakers, in the
+saved scene. Show all four draft rounds before advancing to the battle pairings.
+Contestant names in sentences open their details without inline portraits.
+After the section text, show one portrait button for each mentioned contestant,
+including highlighted reactions, plus the scene's recorded participants.
+Rankings show portraits directly in their rows, without a trailing button group.
+Sections involving more than 20 unique contestants also omit the trailing buttons
+and keep protagonist portraits inline instead. Persist identity references so
+equal or overlapping names do not route links to the wrong contestant.
+After each pick, contestants still unpicked lose 1 relationship point toward
+both the captain and the chosen contestant. Gentleness >= 5 or maturity >= 5
+grants immunity, including when sensitivity <= -5; otherwise sensitivity <= -5
+increases each loss to 2. Captains and already-selected contestants do not react,
+and a contestant stops reacting as soon as they are picked. Losses accumulate
+across picks, stay within the normal 0-100 bounds, and persist in change history.
 
 **Established battle structure:** Three head-to-head battles, with the two teams
-in each pair performing different songs. Three winning teams advance and 15
-contestants from losing teams are at risk.
+in each pair performing different songs of comparable difficulty. Production
+randomly pairs teams and assigns songs using the saved seed. Editable placeholder
+songs and their five parts live under `data/battle-songs.json`. Three winning
+teams advance and 15 contestants from losing teams are at risk.
+
+**Established preparation and roles:** The captain is the team leader and assigns
+one featured song part to each contestant, prioritizing skill fit. Show whether
+each contestant likes or dislikes their assignment, considering ambition and
+relationships. The leader is not automatically the center. Each member votes for
+another member as center, considering visual, stage presence, charisma, and their
+outgoing relationships. **No self-votes.** Resolve tied center votes by stage
+presence, then visual, then charisma, then a persisted seeded draw.
+
+Each team completes exactly two practice sessions: learning their parts and a
+full rehearsal. Use the established utility-based temporary Practice rules and a
+separate core leadership check for each session. Leadership affects management
+of tension and cooperation, not automatic success or failure based on a disliked
+teammate. Coordination has a small bounded effect on the team score. This episode
+does not introduce permanent skill growth or implicit fatigue penalties.
+
+**Established presentation:** Show A's preparation and performance, then B's
+preparation as a flashback and B's performance. Both preparations are resolved
+before A performs. A's performance can affect B's immediate temporary composure,
+not B's already-completed practice. Repeat for all three battles. Keep major
+moments prominent and relationship details as sparse, indented highlights.
+
+**Established evaluation:** Evaluate assigned parts using the shared scoring
+foundation, integrating nonzero Practice as a secondary tested skill. Combine
+individual evaluations into a team score with a bounded coordination modifier.
+The higher team score wins; public votes affect saves and the overall ranking,
+not the battle winner. Persist checks, dice, individual and team scores, and
+explainable tie-breaks.
 
 **Established save interaction:** Judges and audience independently save contestants
-before the production/label save. Those saves must be distinct. Then offer the
-player a shortlist drawn from the remaining at-risk contestants, from which they
-choose the production save. Exactly three distinct contestants are saved.
+before the production/label save. Resolve the judge save first using delivered
+individual performance, then audience support among the remaining eligible
+contestants. Those saves must be distinct. Offer the player a shortlist drawn
+from the remaining at-risk contestants, from which they choose the production
+save. Exactly three distinct contestants are saved. A save is an explicit
+individual exception to their team's loss; only twelve contestants leave.
 
 **Established withdrawal adjustment:** If a contestant from a winning team
 withdraws, offer an extra production-save shortlist so another losing-team
 contestant survives. This is an explicit exception to the normal three-save count,
 preserving the episode's total departures and 18 remaining contestants.
 Departed contestants cannot be selected for a save.
+Voluntary withdrawal mechanics remain a separate implementation scope; Episode 2
+must not silently invent departures or extra saves.
 
-**Proposed additional player interaction:** Respond to a practice conflict.
-Team formation and center selection belong to the contestants, not the player.
+**Established elimination backlash:** Take outgoing friendships immediately before
+results. A survivor considers a contestant a friend at relationship 60 or higher.
+Each actually eliminated friend produces a -15 relationship change toward each
+member of the team that defeated that friend, excluding self. Cap the combined
+episode penalty at -30 per target and clamp relationships to 0-100. Apply only
+after the three saves; a saved friend does not trigger elimination backlash.
+Record causes and full changes without narrating every affected pair.
 
-**Connections:** Relationships affect teammate selection and coordination. Saving
-someone can change trust, audience reaction, and perceptions of favoritism.
+**Established player interaction and closure:** Rooms, drafting, parts, centers,
+and winners are autonomous. Pause in blocking, non-dismissible decision dialogs
+for one featured practice-conflict response, a broadcast-cut choice before voting,
+and the production save after judge/audience saves. If there is no genuine dispute,
+frame the practice decision honestly as an approach rather than inventing a fight.
+Finish with an eighteen-survivor, no-self-vote MVP, the secret check, and recap.
+Newly eliminated contestants remain eligible for the closing secret check.
+Record one complete Episode 2 change history for every participant; preserve the
+twenty Episode 1 departures and the Episode 1 archive.
 
-**Established negotiation deadline:** If negotiations leave unfilled places,
-production assigns the remaining contestants to open slots. Record involuntary
-placements honestly and apply the resulting emotional/relationship consequences;
-do not pretend every team formed through mutual agreement.
+**Implementation defaults:** Low-level event weights, leadership thresholds,
+bounded coordination coefficients, part-assignment preference weights, comparable
+song difficulty selection, the save-shortlist ordering, and numerical tie-break
+fallbacks are deterministic tunable defaults. They must be recorded and
+explainable, not hidden extra outcome guarantees. Scenes, choices, all random
+draws, and consequences persist atomically before publication. An older completed
+Auditions run may snapshot the new battle catalog when Episode 2 starts; it must
+not reroll or rewrite Episode 1.
 
-**Open:** Set the top-six tie-breaker and how battle pairings are drawn;
-define song-selection authority and comparison of different songs. Define how
-negotiations handle rejected invitations and how deadline assignments fill exactly
-six teams of five. Set the order between judge and audience saves, conflict handling,
-their selection criteria, and the production-save shortlist rules. Explain why a
-saved contestant survives despite their team's loss.
+Current scoring defaults retain `min(100, .55 * technical + .35 * stage
+- .20 * mean of the four impressions)`. Average the five individual scores,
+  add coordination bounded to -5 through +5, and clamp the team result to 0-100.
+  Leadership succeeds at an adjusted 2d6 total of at least 8, using the song's
+  difficulty as its requirement; each session shifts coordination by one point.
+  Temporary B-team composure is recorded, consumed after performing, and never
+  changes permanent skills or completed practice. Opening ranks are renumbered
+  among the thirty survivors at the stage reveal, without rewriting Episode 1's
+  historical standings.
 
 ### Episode 3 - Boot Camp
 
 **Format:** 18 contestants in three groups undertake tests of performance, agility,
-and related abilities. No elimination. The continuing overall ranking is publicly
-revealed for the first time; audience votes have contributed since Episode 1.
+and related abilities. No elimination. The continuing overall ranking, first
+revealed in Episode 2, continues to incorporate public votes and performance.
 
 **Proposed small interaction:** Respond to a specific request for extra training,
 recovery, or team-building support, rather than scheduling the entire boot camp.
 
 **Connections:** Learning, memory, stamina, and leadership influence growth and
 readiness. Shared training changes relationships; the broadcast adds to the
-cumulative ranking before its first public reveal.
+cumulative ranking.
 
 **Open:** Test list, group sizes/composition, growth limits, fatigue rules, and
-how the first public reveal is presented.
+how the continuing ranking update is presented.
 
 ### Episode 4 - Mega Groups
 
@@ -1789,7 +1930,7 @@ was left unapproved in this interview.
 9. Withdrawal probabilities/cap/timing and remaining team-specific cut adjustments;
    withdrawals are excluded from the first playable Auditions.
 10. Later private-information boundaries beyond the established secret visibility
-    and hidden cumulative leaderboard until Episode 3.
+    and hidden cumulative leaderboard until Episode 2's stage introduction.
 
 ## 9. Implementation sequence
 
@@ -1807,7 +1948,7 @@ was left unapproved in this interview.
    Reuse the existing scoring foundations, adding the explicit composed
    stage-presence input without changing technical or bonus-quality checks.
 5. Add Episode 2 to exercise teams, directional relationships, and distinct saves.
-6. Add Episode 3 to establish training and the first public overall-ranking reveal.
+6. Add Episode 3 to establish boot-camp training and continuing ranking updates.
 7. Extend the same foundations through Episodes 4-11 after separately designing
    their remaining content/rules; the season outline is not implementation-complete.
 8. Balance full seasons for meaningful choices, exposure fairness, bias strength,

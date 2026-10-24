@@ -7,6 +7,7 @@ import {
   chooseAuditionMvp,
   createBroadcastCuts,
   resolveBroadcast,
+  resolveNarrativeAudience,
   transferEliminatedFans,
 } from './audition-audience';
 import { rankAuditions, scoreAudition } from './audition-scoring';
@@ -92,6 +93,99 @@ function uniformEvaluation(evaluation: AuditionEvaluation, score: number): Audit
 function close(actual: number, expected: number) {
   assert.ok(Math.abs(actual - expected) < 1e-9, `${actual} differs from ${expected}`);
 }
+
+function narrativeExposure() {
+  return Object.fromEntries(
+    Array.from({ length: 50 }, (_, index) => [
+      `c-${index}`,
+      index < 16 ? 1 / 19 : index < 28 || index >= 38 ? 1 / 228 : 1 / 190,
+    ]),
+  );
+}
+
+test('narrative coverage conserves audience and votes without legacy floors or a second screen-time credit', () => {
+  const { contestants, evaluations, show } = fixture();
+  const exposure = narrativeExposure();
+  for (const contestant of contestants) {
+    contestant.aggregations.screenTime = 7 + exposure[contestant.id] * 100;
+  }
+  show.general = 900;
+  show.fans['c-0'] = 100;
+  const input = { contestants, evaluations, show, exposure, mood, reactions: [], songs: [song] };
+  const before = structuredClone(input);
+  const result = resolveNarrativeAudience({ ...input, random: random(99) });
+  assert.deepEqual(result, resolveNarrativeAudience({ ...input, random: random(99) }));
+  assert.deepEqual(input, before);
+  close(
+    Object.values(exposure).reduce((sum, value) => sum + value, 0),
+    1,
+  );
+  assert.equal(
+    Object.values(result.outcome.votes).reduce((sum, value) => sum + value, 0),
+    result.outcome.votingPopulation,
+  );
+  assert.equal(result.outcome.votingPopulation, result.show.audience);
+  assert.equal(
+    result.show.general + Object.values(result.show.fans).reduce((sum, value) => sum + value, 0),
+    result.show.audience,
+  );
+  assert.ok(result.outcome.votes['c-0'] >= 100);
+  for (const [index, contestant] of result.contestants.entries()) {
+    assert.equal(contestant.aggregations.screenTime, contestants[index].aggregations.screenTime);
+    close(
+      contestant.aggregations.audienceRatio,
+      exposure[contestant.id] * ((result.outcome.receptions[contestant.id] - 50) / 50) * 0.08,
+    );
+  }
+  assert.ok(result.contestants.every(({ rank }) => rank > 0));
+});
+
+test('narrative audience shares legacy reception, fan, satisfaction and cumulative rules without package selection', () => {
+  const { contestants, evaluations, cuts, show } = fixture();
+  const shared = { contestants, evaluations, show, mood, reactions: [], songs: [song] };
+  const legacy = resolveBroadcast({ ...shared, cut: cuts[0], random: random(21) });
+  const modern = resolveNarrativeAudience({ ...shared, exposure: cuts[0].exposure, random: random(21) });
+  assert.deepEqual(modern.show, legacy.show);
+  assert.deepEqual(modern.outcome, legacy.outcome);
+  assert.deepEqual(
+    modern.contestants.map(({ aggregations, rank }) => ({ ...aggregations, screenTime: 0, rank })),
+    legacy.contestants.map(({ aggregations, rank }) => ({ ...aggregations, screenTime: 0, rank })),
+  );
+});
+
+test('only supplied shown reactions affect narrative scenes at recorded coverage, without inventing cutaways', () => {
+  const { contestants, evaluations, show } = fixture();
+  const shared = { contestants, evaluations, show, mood, exposure: narrativeExposure(), songs: [song] };
+  const none = resolveNarrativeAudience({ ...shared, reactions: [], random: random() });
+  const shown = resolveNarrativeAudience({ ...shared, reactions: [reaction()], random: random() });
+  close(shown.outcome.attention - none.outcome.attention, 30 * shared.exposure['c-2']);
+  close(shown.outcome.enjoyment, none.outcome.enjoyment);
+  const negative = resolveNarrativeAudience({
+    ...shared,
+    reactions: [reaction('c-28', 'jealousy')],
+    random: random(),
+  });
+  close(negative.outcome.attention - none.outcome.attention, 30 * shared.exposure['c-28']);
+  close(none.outcome.enjoyment - negative.outcome.enjoyment, 20 * shared.exposure['c-28']);
+});
+
+test('narrative coverage requires exactly the full cast with positive normalized shares', () => {
+  const { contestants, evaluations, show } = fixture();
+  const input = { contestants, evaluations, show, mood, reactions: [], songs: [song], random: random() };
+  const valid = narrativeExposure();
+  const missing = { ...valid };
+  delete missing['c-0'];
+  for (const exposure of [
+    missing,
+    { ...valid, stranger: 0.1 },
+    { ...valid, 'c-0': 0 },
+    { ...valid, 'c-0': -0.1 },
+    { ...valid, 'c-0': Number.NaN },
+    { ...valid, 'c-0': 0.5 },
+  ]) {
+    assert.throws(() => resolveNarrativeAudience({ ...input, exposure }), /exposure/);
+  }
+});
 
 test('three seeded cuts cover all 50, feature mandatory extremes, and preview only recorded content', () => {
   const { contestants, evaluations } = fixture();

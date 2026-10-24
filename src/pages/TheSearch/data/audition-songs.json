@@ -1,7 +1,7 @@
 [
   {
     "id": "vocal-window-seat",
-    "title": "Window Seat",
+    "title": "Window Seat (Vocal Ballad)",
     "description": "A gentle original ballad with short phrases and an intimate melody.",
     "track": "VOCAL",
     "genre": "ACOUSTIC_BALLAD",
@@ -9,7 +9,7 @@
   },
   {
     "id": "vocal-paper-sun",
-    "title": "Paper Sun",
+    "title": "Paper Sun (Vocal Pop)",
     "description": "An original bright pop arrangement with a small moving chorus.",
     "track": "VOCAL",
     "genre": "MAINSTREAM_POP",
@@ -19,7 +19,7 @@
   },
   {
     "id": "vocal-copper-hour",
-    "title": "Copper Hour",
+    "title": "Copper Hour (Vocal Soul)",
     "description": "An original soul piece built around sustained notes and syncopated phrasing.",
     "track": "VOCAL",
     "genre": "SOUL_GROOVE",
@@ -27,7 +27,7 @@
   },
   {
     "id": "vocal-glass-staircase",
-    "title": "Glass Staircase",
+    "title": "Glass Staircase (Vocal Theatrical)",
     "description": "An original dramatic pop arrangement with wide intervals and precise movement.",
     "track": "VOCAL",
     "genre": "THEATRICAL_POP",
@@ -37,7 +37,7 @@
   },
   {
     "id": "vocal-signal-fires",
-    "title": "Signal Fires",
+    "title": "Signal Fires (Vocal Rock)",
     "description": "An original rock showcase demanding controlled belts and rapid register changes.",
     "track": "VOCAL",
     "genre": "ROCK_EDGE",
@@ -45,7 +45,7 @@
   },
   {
     "id": "rap-corner-map",
-    "title": "Corner Map",
+    "title": "Corner Map (Rap Hip-Hop)",
     "description": "An original laid-back hip-hop sketch with spacious rhythmic patterns.",
     "track": "RAP",
     "genre": "HIP_HOP",
@@ -53,7 +53,7 @@
   },
   {
     "id": "rap-pocket-radio",
-    "title": "Pocket Radio",
+    "title": "Pocket Radio (Rap Pop)",
     "description": "An original pop crossover with clear verses and a simple sung refrain.",
     "track": "RAP",
     "genre": "MAINSTREAM_POP",
@@ -63,7 +63,7 @@
   },
   {
     "id": "rap-midnight-meter",
-    "title": "Midnight Meter",
+    "title": "Midnight Meter (Rap Soul)",
     "description": "An original groove-led rap arrangement with shifting accents.",
     "track": "RAP",
     "genre": "SOUL_GROOVE",
@@ -73,7 +73,7 @@
   },
   {
     "id": "rap-static-garden",
-    "title": "Static Garden",
+    "title": "Static Garden (Rap Electronic)",
     "description": "An original electronic rap piece with tightly spaced rhythmic switches.",
     "track": "RAP",
     "genre": "ELECTRONIC",
@@ -81,7 +81,7 @@
   },
   {
     "id": "rap-switchyard",
-    "title": "Switchyard",
+    "title": "Switchyard (Rap Hip-Hop)",
     "description": "An original hip-hop showcase combining intricate flows with demanding footwork.",
     "track": "RAP",
     "genre": "HIP_HOP",
@@ -91,7 +91,7 @@
   },
   {
     "id": "dance-small-orbit",
-    "title": "Small Orbit",
+    "title": "Small Orbit (Dance Electronic)",
     "description": "An original electronic routine with simple steps and clear counts.",
     "track": "DANCE",
     "genre": "ELECTRONIC",
@@ -99,7 +99,7 @@
   },
   {
     "id": "dance-sidewalk-prism",
-    "title": "Sidewalk Prism",
+    "title": "Sidewalk Prism (Dance Hip-Hop)",
     "description": "An original hip-hop routine with basic isolations and a brief rhythmic verse.",
     "track": "DANCE",
     "genre": "HIP_HOP",
@@ -109,7 +109,7 @@
   },
   {
     "id": "dance-neon-postcard",
-    "title": "Neon Postcard",
+    "title": "Neon Postcard (Dance Pop)",
     "description": "An original dance-pop number balancing quick transitions and a sung hook.",
     "track": "DANCE",
     "genre": "MAINSTREAM_POP",
@@ -119,7 +119,7 @@
   },
   {
     "id": "dance-velvet-gears",
-    "title": "Velvet Gears",
+    "title": "Velvet Gears (Dance Soul)",
     "description": "An original funk routine demanding precise groove and layered body control.",
     "track": "DANCE",
     "genre": "SOUL_GROOVE",
@@ -127,7 +127,7 @@
   },
   {
     "id": "dance-clockwork-crown",
-    "title": "Clockwork Crown",
+    "title": "Clockwork Crown (Dance Theatrical)",
     "description": "An original theatrical routine with intricate lines, fast changes, and vocal passages.",
     "track": "DANCE",
     "genre": "THEATRICAL_POP",

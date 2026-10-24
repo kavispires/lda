@@ -13,6 +13,7 @@ import {
   ZODIAC_SIGNS,
 } from './attribute-libraries';
 import { getAuditionSongs } from './audition-songs';
+import { BATTLE_SONGS, validateBattleSongs } from './battle-songs';
 
 export function freezeSimulationSnapshot<T>(value: T): T {
   if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -23,6 +24,7 @@ export function freezeSimulationSnapshot<T>(value: T): T {
 }
 
 export function getSimulationDefinitions(): SimulationDefinitions {
+  validateBattleSongs(BATTLE_SONGS, Object.keys(GENRE_AFFINITIES));
   return structuredClone({
     cards: { persona, identity, interest, secret },
     specialties: {
@@ -35,5 +37,6 @@ export function getSimulationDefinitions(): SimulationDefinitions {
     },
     zodiacSigns: ZODIAC_SIGNS,
     auditionSongs: getAuditionSongs(),
+    battleSongs: BATTLE_SONGS,
   });
 }

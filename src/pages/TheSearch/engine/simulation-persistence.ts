@@ -2,10 +2,14 @@ import type { AttributeCard, ChangeValue, PropertyChange } from '../types/common
 import type { ChangeLogEntry, Contestant } from '../types/contestant';
 import type { SimulationDefinitions, SimulationState } from '../types/simulation';
 import { validateAuditionSongs } from '../utilities/audition-songs';
+import { validateBattleSongs } from '../utilities/battle-songs';
 import { ALIGNMENTS, GRADES, STATUSES, TRACKS } from '../utilities/constants';
 import { createContestant } from '../utilities/contestant-factory';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { assertAuditionEpisode, isDeferredConsequence, isShowAudience } from './audition-validation';
+import { assertBattleEpisode } from './battle-validation';
+import { assertPreparation } from './episode-preparation';
+import { assertNarrativeAudition } from './narrative-validation';
 import { createSeededRandom } from './random';
 
 export const SIMULATION_STORAGE_KEY = 'the-search-simulation-setup';
@@ -145,6 +149,7 @@ function assertDefinitions(value: unknown): asserts value is SimulationDefinitio
   const genres = specialties.genreAffinity;
   if (!isCardLibrary(genres)) throw new Error('The saved genre definitions are invalid.');
   validateAuditionSongs(value.auditionSongs, Object.keys(genres));
+  if (value.battleSongs !== undefined) validateBattleSongs(value.battleSongs, Object.keys(genres));
 }
 
 export function decodeSimulationState(stored: string): SimulationState {
@@ -162,6 +167,7 @@ export function decodeSimulationState(stored: string): SimulationState {
   if (status !== 'idle' && status !== 'initializing' && status !== 'ready') {
     throw new Error('The saved simulation status is invalid.');
   }
+  const currentContestants = value.contestants;
   if (value.runtime === undefined || value.runtime === null) {
     return {
       contestants: value.contestants,
@@ -174,14 +180,15 @@ export function decodeSimulationState(stored: string): SimulationState {
   const runtime = value.runtime;
   if (
     !isRecord(runtime) ||
-    runtime.version !== 1 ||
+    (runtime.version !== 1 && runtime.version !== 2) ||
     typeof runtime.runId !== 'string' ||
     !runtime.runId.trim() ||
     typeof runtime.seed !== 'number' ||
     typeof runtime.randomState !== 'number' ||
-    (runtime.episode !== 0 && runtime.episode !== 1) ||
+    (runtime.episode !== 0 && runtime.episode !== 1 && runtime.episode !== 2) ||
     (runtime.phase !== 'setup-complete' &&
       runtime.phase !== 'auditions' &&
+      runtime.phase !== 'battles' &&
       runtime.phase !== 'episode-complete') ||
     !isRecord(runtime.setup) ||
     typeof runtime.setup.useBias !== 'boolean' ||
@@ -197,7 +204,7 @@ export function decodeSimulationState(stored: string): SimulationState {
   assertDefinitions(runtime.definitions);
   const definitions = runtime.definitions;
   if (
-    runtime.episode === 1 &&
+    runtime.episode >= 1 &&
     ['audition', 'show', 'revealedSecrets', 'deferredConsequences'].some(
       (field) => runtime[field] === undefined,
     )
@@ -205,6 +212,7 @@ export function decodeSimulationState(stored: string): SimulationState {
     throw new Error('The saved episode audience or consequences are missing.');
   }
   const audition = runtime.audition ?? null;
+  const battle = runtime.battle ?? null;
   const show =
     runtime.show === undefined
       ? {
@@ -230,21 +238,50 @@ export function decodeSimulationState(stored: string): SimulationState {
     throw new Error('The saved audience or secret consequences are invalid.');
   }
   if (audition !== null) {
-    if (isRecord(audition) && audition.relationshipPolicy === undefined) {
+    if (runtime.version === 1 && isRecord(audition) && audition.relationshipPolicy === undefined) {
       audition.relationshipPolicy = 'reactions-only';
     }
-    assertAuditionEpisode(audition, value.contestants, runtime.definitions);
-    if (audition.audience && audition.audience.votingPopulation !== show.audience) {
+    if (runtime.version === 2) {
+      assertNarrativeAudition(audition, value.contestants, runtime.definitions, {
+        archived: runtime.episode === 2,
+      });
+    } else {
+      assertAuditionEpisode(audition, value.contestants, runtime.definitions, {
+        archived: runtime.episode === 2,
+      });
+    }
+    if (runtime.episode === 1 && audition.audience && audition.audience.votingPopulation !== show.audience) {
       throw new Error('The saved closed votes do not match the audience population.');
     }
     if (
-      runtime.episode !== 1 ||
-      runtime.phase !== (audition.phase === 'complete' ? 'episode-complete' : 'auditions')
+      runtime.episode === 0 ||
+      (runtime.episode === 1 &&
+        runtime.phase !== (audition.phase === 'complete' ? 'episode-complete' : 'auditions')) ||
+      (runtime.episode === 2 && audition.phase !== 'complete')
     ) {
       throw new Error('The saved episode phase does not match its progress.');
     }
   } else if (runtime.episode !== 0 || runtime.phase !== 'setup-complete') {
     throw new Error('The saved episode progress is missing.');
+  }
+  if (battle !== null) {
+    if (runtime.episode !== 2 || !audition || audition.phase !== 'complete') {
+      throw new Error('Group Battles requires a completed Auditions archive.');
+    }
+    assertBattleEpisode(battle, value.contestants, definitions);
+    if (
+      runtime.phase !== (battle.phase === 'complete' ? 'episode-complete' : 'battles') ||
+      battle.participantIds.length !== audition.survivorIds.length ||
+      !battle.participantIds.every((id) => audition.survivorIds.includes(id)) ||
+      !audition.eliminatedIds.every(
+        (id) => currentContestants.find((contestant) => contestant.id === id)?.status === 'ELIMINATED',
+      ) ||
+      (battle.audience !== null && battle.audience.votingPopulation !== show.audience)
+    ) {
+      throw new Error('The saved battle progress does not match its cast, audience or phase.');
+    }
+  } else if (runtime.episode === 2) {
+    throw new Error('The saved Group Battles episode is missing.');
   }
   const auditionPoolIds = runtime.setup.auditionPoolIds;
   if (
@@ -262,7 +299,6 @@ export function decodeSimulationState(stored: string): SimulationState {
   }
   const selectedIds = runtime.setup.selectedIds;
   const sources = runtime.sourceContestants;
-  const currentContestants = value.contestants;
   const initialContestants = runtime.initialContestants;
   if (
     selectedIds.length !== 50 ||
@@ -288,13 +324,13 @@ export function decodeSimulationState(stored: string): SimulationState {
   ) {
     throw new Error('The saved audience or consequences refer to unknown contestants.');
   }
-  return {
+  const restored: SimulationState = {
     contestants: value.contestants,
     status,
     createdAt: value.createdAt,
     persistenceError: null,
     runtime: {
-      version: 1,
+      version: runtime.version,
       runId: runtime.runId,
       seed: runtime.seed,
       randomState: runtime.randomState,
@@ -305,11 +341,76 @@ export function decodeSimulationState(stored: string): SimulationState {
       initialContestants: freezeSimulationSnapshot(runtime.initialContestants),
       definitions: freezeSimulationSnapshot(runtime.definitions),
       audition,
+      ...(battle ? { battle } : {}),
       show,
       revealedSecrets,
       deferredConsequences,
     },
   };
+  if (runtime.version === 2 && restored.runtime) {
+    if (runtime.openingCast !== undefined) {
+      if (
+        !Array.isArray(runtime.openingCast) ||
+        runtime.openingCast.length !== 5 ||
+        !runtime.openingCast.every(
+          (id): id is string => typeof id === 'string' && selectedIds.includes(id),
+        ) ||
+        new Set(runtime.openingCast).size !== 5
+      )
+        throw new Error('The saved opening cast is invalid.');
+      restored.runtime.openingCast = runtime.openingCast;
+    }
+    if (runtime.preparations !== undefined) {
+      if (
+        !isRecord(runtime.preparations) ||
+        Object.keys(runtime.preparations).some((key) => key !== '1' && key !== '2')
+      )
+        throw new Error('Invalid saved episode preparations.');
+      restored.runtime.preparations = {};
+      for (const number of [2, 1] as const) {
+        const preparation = runtime.preparations[number];
+        if (preparation === undefined) continue;
+        assertPreparation(
+          preparation,
+          { contestants: restored.contestants, runtime: restored.runtime },
+          number,
+        );
+        restored.runtime.preparations[number] = preparation;
+      }
+    }
+    const first = restored.runtime.preparations?.[1];
+    const second = restored.runtime.preparations?.[2];
+    if (
+      audition &&
+      (!first ||
+        JSON.stringify(first.moodOptions) !== JSON.stringify(audition.moodOptions) ||
+        JSON.stringify(first.mood) !== JSON.stringify(audition.mood))
+    )
+      throw new Error('Auditions preparation does not match the story.');
+    if (audition && first) {
+      const played = !['opening-cast', 'mood', 'host-intro'].includes(audition.phase);
+      if (
+        first.openingPlayed !== played ||
+        (audition.phase === 'opening-cast') !== first.slots.some((id) => id === null)
+      )
+        throw new Error('Auditions preparation progress does not match its story.');
+    }
+    if (second && audition?.phase !== 'complete')
+      throw new Error('Episode 2 preparation requires completed Auditions.');
+    if (battle && (!second?.mood || second.slots.some((id) => id === null)))
+      throw new Error('Group Battles preparation is missing.');
+    if (
+      battle &&
+      second &&
+      second.openingPlayed !== battle.scenes.some((scene) => scene.title === 'Opening credits')
+    )
+      throw new Error('Group Battles credits do not match their recorded effect.');
+    if ((first?.openingPlayed || second?.openingPlayed) && !restored.runtime.openingCast)
+      throw new Error('Opening credits are missing their cast.');
+  } else if (runtime.openingCast !== undefined || runtime.preparations !== undefined) {
+    throw new Error('A legacy season cannot contain narrative preparations.');
+  }
+  return restored;
 }
 
 export function loadSimulationState(storage: Pick<Storage, 'getItem'>): SimulationState {

@@ -1,0 +1,158 @@
+[
+  {
+    "id": "battle-neon",
+    "title": "Neon Signal (Dance Pop)",
+    "description": "Editable placeholder: an upbeat pop ensemble.",
+    "genre": "MAINSTREAM_POP",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "harmony", "name": "Harmony", "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }] },
+      {
+        "id": "rap",
+        "name": "Rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "dance", "name": "Dance break", "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }] },
+      {
+        "id": "hook",
+        "name": "Hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "battle-city",
+    "title": "City Frequency (Rap Hip-Hop)",
+    "description": "Editable placeholder: a rhythmic crossover.",
+    "genre": "HIP_HOP",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "harmony", "name": "Harmony", "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }] },
+      {
+        "id": "rap",
+        "name": "Rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "dance", "name": "Dance break", "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }] },
+      {
+        "id": "hook",
+        "name": "Hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "battle-afterglow",
+    "title": "Afterglow (Soul Groove)",
+    "description": "Editable placeholder: a warm harmony-led arrangement.",
+    "genre": "SOUL_GROOVE",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "harmony", "name": "Harmony", "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }] },
+      {
+        "id": "rap",
+        "name": "Rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "dance", "name": "Dance break", "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }] },
+      {
+        "id": "hook",
+        "name": "Hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "battle-paper",
+    "title": "Paper Satellites (Acoustic Ballad)",
+    "description": "Editable placeholder: a melodic pop ballad.",
+    "genre": "ACOUSTIC_BALLAD",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "harmony", "name": "Harmony", "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }] },
+      {
+        "id": "rap",
+        "name": "Rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "dance", "name": "Dance break", "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }] },
+      {
+        "id": "hook",
+        "name": "Hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "battle-electric",
+    "title": "Electric Steps (Dance Pop)",
+    "description": "Editable placeholder: a dance-pop showcase.",
+    "genre": "MAINSTREAM_POP",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "harmony", "name": "Harmony", "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }] },
+      {
+        "id": "rap",
+        "name": "Rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "dance", "name": "Dance break", "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }] },
+      {
+        "id": "hook",
+        "name": "Hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "battle-midnight",
+    "title": "Midnight Relay (Rap Soul)",
+    "description": "Editable placeholder: a groove-driven team number.",
+    "genre": "HIP_HOP",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "harmony", "name": "Harmony", "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }] },
+      {
+        "id": "rap",
+        "name": "Rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      { "id": "dance", "name": "Dance break", "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }] },
+      {
+        "id": "hook",
+        "name": "Hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  }
+]

@@ -1,10 +1,123 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { Children, isValidElement, type ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import type { AuditionReaction } from '../types/audition-episode';
-import { EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
+import { EpisodeContestantList, EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
 import { PropertyChangeValue } from './SimulationChange';
 
+test('introductions render track and card-name tags without treating card names as contestant mentions', () => {
+  const html = renderToStaticMarkup(
+    <EpisodeNarrative
+      contestants={[
+        { id: 'declan', name: 'Declan' },
+        { id: 'magnet', name: 'The Drama Magnet' },
+      ]}
+      mentionedIds={['declan']}
+      onInspect={() => {}}
+      text="Declan steps forward: he chose the <Tag>Dance</Tag> track, his zodiac sign is Scorpio. Even when he's silent, drama finds him. <Tag>The Drama Magnet</Tag>"
+    />,
+  );
+  assert.match(html, />Dance<\/span>/);
+  assert.match(html, />The Drama Magnet<\/span>/);
+  assert.match(html, /Even when he&#x27;s silent, drama finds him/);
+  assert.equal((html.match(/class="ant-tag /g) ?? []).length, 2);
+  assert.equal((html.match(/data-contestant-id=/g) ?? []).length, 1);
+  assert.ok(!html.includes('&lt;Tag&gt;'));
+  const unrecorded = renderToStaticMarkup(
+    <EpisodeNarrative
+      contestants={[
+        { id: 'declan', name: 'Declan' },
+        { id: 'magnet', name: 'The Drama Magnet' },
+      ]}
+      onInspect={() => {}}
+      text="Declan: <Tag>The Drama Magnet</Tag>"
+    />,
+  );
+  assert.equal((unrecorded.match(/data-contestant-id=/g) ?? []).length, 1);
+});
+
+test('sentence mentions are name-only links without losing tags or change arrows', () => {
+  const html = renderToStaticMarkup(
+    <EpisodeNarrative
+      contestants={[
+        { id: 'ana', name: 'Ana' },
+        { id: 'ana-maria', name: 'Ana Maria' },
+      ]}
+      onInspect={() => {}}
+      text="Ana Maria selects Ana, not Anabel: relationship 50 → 55; graded B."
+    />,
+  );
+  assert.equal((html.match(/data-contestant-id=/g) ?? []).length, 2);
+  assert.ok(html.includes('data-contestant-id="ana-maria"'));
+  assert.ok(html.includes('data-contestant-id="ana"'));
+  assert.ok(!html.includes('images/contestants/ana-maria.jpg'));
+  assert.ok(!html.includes('images/contestants/ana.jpg'));
+  assert.match(html, /aria-label="Increased"/);
+  assert.match(html, />graded B<\/span>/);
+  assert.ok(html.includes('Anabel'));
+});
+
+test('ordered identities route same-name mentions to the correct details and escape regex characters', () => {
+  const inspected: string[] = [];
+  const text = 'Alex (Jr.) selects Alex (Jr.).';
+  const contestants = [
+    { id: 'captain', name: 'Alex (Jr.)' },
+    { id: 'picked', name: 'Alex (Jr.)' },
+  ];
+  const node = EpisodeNarrative({
+    text,
+    contestants,
+    mentionedIds: ['captain', 'picked'],
+    onInspect: (id) => inspected.push(id),
+    showProtagonistAvatar: true,
+  });
+  assert.ok(isValidElement<{ children: ReactNode }>(node));
+  type LinkProps = { 'data-contestant-id': string; onClick: () => void };
+  const links = Children.toArray(node.props.children).filter(
+    (child) => isValidElement<LinkProps>(child) && typeof child.props['data-contestant-id'] === 'string',
+  );
+  for (const link of links) {
+    assert.ok(isValidElement<LinkProps>(link));
+    link.props.onClick();
+  }
+  assert.deepEqual(inspected, ['captain', 'picked']);
+  const html = renderToStaticMarkup(node);
+  assert.ok(html.includes('images/contestants/captain.jpg'));
+  assert.ok(!html.includes('images/contestants/picked.jpg'));
+  inspected.length = 0;
+  const list = EpisodeContestantList({
+    contestants,
+    ids: ['picked', 'captain', 'picked'],
+    onInspect: (id) => inspected.push(id),
+  });
+  assert.ok(isValidElement<{ children: ReactNode }>(list));
+  for (const button of Children.toArray(list.props.children)) {
+    assert.ok(isValidElement<LinkProps>(button));
+    button.props.onClick();
+  }
+  assert.deepEqual(inspected, ['picked', 'captain']);
+  assert.equal(text, 'Alex (Jr.) selects Alex (Jr.).');
+});
+
+test('legacy scenes link repeated unique names without guessing between namesakes', () => {
+  const html = renderToStaticMarkup(
+    <EpisodeNarrative
+      contestants={[
+        { id: 'first-alex', name: 'Alex' },
+        { id: 'other-alex', name: 'Alex' },
+        { id: 'jo', name: 'Jo' },
+      ]}
+      onInspect={() => {}}
+      showProtagonistAvatar
+      text="Alex watches Jo. Jo performs next."
+    />,
+  );
+  assert.equal((html.match(/data-contestant-id="jo"/g) ?? []).length, 2);
+  assert.ok(!html.includes('data-contestant-id="first-alex"'));
+  assert.ok(!html.includes('data-contestant-id="other-alex"'));
+  assert.ok(html.includes('Alex watches'));
+});
 test('audition sentences tag grades and keywords and show colored change directions', () => {
   const html = renderToStaticMarkup(
     <EpisodeNarrative text="Alex is graded C. Jo reacts: relationship 50 → 53; composure 0 → -1." />,
@@ -124,6 +237,12 @@ test('previously saved audition scenes show only their strongest notes without h
   const original = structuredClone(reactions);
   const html = renderToStaticMarkup(
     <EpisodeSceneNarrative
+      contestants={[
+        { id: 'performer', name: 'First' },
+        { id: 'second', name: 'Second' },
+        ...reactions.map((reaction, index) => ({ id: reaction.observerId, name: `Observer${index}` })),
+      ]}
+      onInspect={() => {}}
       reactions={reactions}
       scene={{
         id: 'saved-scene',
@@ -142,7 +261,51 @@ test('previously saved audition scenes show only their strongest notes without h
   assert.ok(!html.includes('Observer0'));
   assert.ok(html.includes('Observer1'));
   assert.ok(html.includes('Observer2'));
-  assert.ok(html.includes('First performs'));
-  assert.ok(html.includes('Second performs'));
+  const visible = html.replace(/<[^>]*>/g, '');
+  assert.ok(visible.includes('First performs'));
+  assert.ok(visible.includes('Second performs'));
+  const footerIndex = html.indexOf('aria-label="Contestant details"');
+  assert.ok(footerIndex > html.lastIndexOf('Song Two'), 'all buttons follow the section text');
+  assert.ok(!html.slice(0, footerIndex).includes('<img'));
+  const footer = html.slice(footerIndex);
+  for (const id of ['performer', 'second', 'observer-1', 'observer-2']) {
+    assert.equal((footer.match(new RegExp(`data-contestant-id="${id}"`, 'g')) ?? []).length, 1);
+    assert.ok(footer.includes(`images/contestants/${id}.jpg`));
+  }
+  assert.ok(!footer.includes('observer-0'));
   assert.deepEqual(reactions, original);
+});
+
+test('sections switch from trailing portrait buttons to inline portraits only above 20 unique contestants', () => {
+  for (const count of [20, 21]) {
+    const contestants = Array.from({ length: count }, (_, index) => ({
+      id: `actor-${index}`,
+      name: `Actor ${index}`,
+    }));
+    const html = renderToStaticMarkup(
+      <EpisodeSceneNarrative
+        contestants={contestants}
+        onInspect={() => {}}
+        reactions={[]}
+        scene={{
+          id: 'large-section',
+          kind: 'choices',
+          title: 'The stage',
+          contestantIds: contestants.map(({ id }) => id),
+          paragraphs: [...contestants.map(({ name }) => `${name} joins the stage.`), 'Actor 0 returns.'],
+          paragraphContestantIds: [...contestants.map(({ id }) => [id]), ['actor-0']],
+        }}
+      />,
+    );
+    const footer = html.indexOf('aria-label="Contestant details"');
+    if (count === 20) {
+      assert.ok(footer > 0, 'twenty unique contestants still get buttons despite repeated mentions');
+      assert.ok(!html.slice(0, footer).includes('<img'));
+      assert.equal((html.match(/<img /g) ?? []).length, 20);
+    } else {
+      assert.equal(footer, -1, 'twenty-one contestants never get a trailing button group');
+      assert.equal((html.match(/<img /g) ?? []).length, 22);
+      assert.equal((html.match(/data-contestant-id=/g) ?? []).length, 22);
+    }
+  }
 });

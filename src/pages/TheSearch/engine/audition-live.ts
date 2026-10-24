@@ -1,4 +1,10 @@
-import type { AuditionEvaluation, AuditionPreferences, AuditionSong, AuditionTrack } from '../types/audition';
+import type {
+  AuditionEvaluation,
+  AuditionPreferences,
+  AuditionSong,
+  AuditionTrack,
+  ScoreAuditionInput,
+} from '../types/audition';
 import type { AuditionReaction, AuditionRelationshipPolicy } from '../types/audition-episode';
 import type { Contestant } from '../types/contestant';
 import { TRACKS } from '../utilities/constants';
@@ -204,6 +210,7 @@ export function resolveLiveAudition(input: {
   composure: Record<string, number>;
   random: RandomSource;
   relationshipPolicy?: AuditionRelationshipPolicy;
+  score?: (input: ScoreAuditionInput) => AuditionEvaluation;
 }): {
   contestants: Contestant[];
   evaluation: AuditionEvaluation;
@@ -235,7 +242,7 @@ export function resolveLiveAudition(input: {
     selectedSong(contestant.id);
     if (contestant.id !== performerId) relationship(contestant, performerId);
   }
-  const evaluation = scoreAudition({
+  const evaluation = (input.score ?? scoreAudition)({
     contestant: performer,
     song: selectedSong(performerId),
     composure: composure[performerId] ?? 0,

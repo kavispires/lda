@@ -1,3 +1,4 @@
+import type { BattlePhase } from '../types/battle-episode';
 import type { ChangeValue } from '../types/common';
 import type { Contestant } from '../types/contestant';
 import type { SeasonRuntime } from '../types/simulation';
@@ -7,6 +8,10 @@ export function isSeasonRankingPath(path: string): boolean {
     /(^|\.)(rank|currentRank|cumulativeRank|rankHistory|currentRankHistory)(\.|$)/i.test(path) ||
     /(^|\.)aggregations\.score(\.|$)/.test(path)
   );
+}
+
+export function isSeasonRankingVisible(runtime: { battle?: { phase: BattlePhase } | null } | null): boolean {
+  return !!runtime?.battle && runtime.battle.phase !== 'dorms';
 }
 
 /** A display-only copy. The persisted contestant remains the simulation's source of truth. */
@@ -27,7 +32,7 @@ export function projectEpisodeContestant(contestant: Contestant, runtime: Season
     return result.replace(/\bSECRET_[A-Z0-9_]+\b/g, (id) => (revealed.has(id) ? id : ''));
   };
   const hiddenEvent = (event: string) => scrubText(event) !== event;
-  const hideRanking = runtime.episode < 3;
+  const hideRanking = !isSeasonRankingVisible(runtime);
   const scrub = (value: ChangeValue, path = ''): ChangeValue => {
     if (typeof value === 'string') return scrubText(value);
     if (Array.isArray(value))

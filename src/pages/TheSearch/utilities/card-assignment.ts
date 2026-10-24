@@ -428,12 +428,13 @@ function applyInfluences(
 
 /**
  * Initialize relationships for a contestant
- * All contestants start with a relationship score of 50 with everyone (including themselves)
+ * All contestants start with a relationship score of 50 with every other contestant.
  */
-function initializeRelationships(contestantIds: string[]): Record<string, number[]> {
+function initializeRelationships(contestantIds: string[], ownerId: string): Record<string, number[]> {
   const relationships: Record<string, number[]> = {};
 
   for (const id of contestantIds) {
+    if (id === ownerId) continue;
     relationships[id] = [50];
   }
 
@@ -516,7 +517,7 @@ export function processSimulationContestants(
 
     // Initialize relationships
     recordMutation('Initialize cast relationships', () => {
-      contestant.relationships = initializeRelationships(selectedIds);
+      contestant.relationships = initializeRelationships(selectedIds, contestant.id);
     });
 
     // Update attributes array with assigned card IDs

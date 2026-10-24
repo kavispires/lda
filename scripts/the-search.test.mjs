@@ -14,17 +14,25 @@ const server = await createServer({
 try {
   for (const name of [
     'audition-scoring',
+    'audition-panel',
+    'episode-preparation',
     'season-setup',
     'change-history',
     'audition-live',
     'audition-audience',
     'audition-secrets',
     'audition-episode',
+    'battle-episode',
+    'battle-validation',
+    'narrative-audition',
   ]) {
     await server.ssrLoadModule(`/src/pages/TheSearch/engine/${name}.test.ts`);
   }
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-visibility.test.ts');
   await server.ssrLoadModule('/src/pages/TheSearch/components/EpisodeNarrative.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/components/BattleEpisodeView.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/components/ContestantDetailModal.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/components/NarrativeEpisodeView.test.tsx');
 } finally {
   await server.close();
 }

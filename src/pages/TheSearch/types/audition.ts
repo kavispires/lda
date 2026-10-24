@@ -1,4 +1,5 @@
 import type { Contestant, CoreSkills, UtilitySkills } from './contestant';
+import type { PanelJudging } from './narrative';
 
 export type AuditionLevel = 1 | 2 | 3 | 4 | 5;
 export type AuditionTrack = Contestant['track'];
@@ -61,6 +62,7 @@ export interface ScoreAuditionInput {
 }
 
 export interface AuditionEvaluation {
+  readonly panel?: PanelJudging;
   readonly contestantId: string;
   readonly songId: string;
   readonly rawDice: AuditionDice;

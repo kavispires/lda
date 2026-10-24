@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "private": true,
   "type": "module",
-  "homepage": "https://ld.kavispires.com",
+ "homepage": "https://ld.kavispires.com",
   "dependencies": {
     "@ant-design/icons": "^6.3.4",
     "@tanstack/react-query": "^5.104.5",

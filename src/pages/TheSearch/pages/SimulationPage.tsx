@@ -7,6 +7,7 @@ import {
   Card,
   Checkbox,
   Col,
+  Collapse,
   Descriptions,
   Progress,
   Row,
@@ -18,16 +19,19 @@ import {
 import { type Key, useState } from 'react';
 import type { ValuesOf } from 'types/common';
 import { AuditionEpisodeView } from '../components/AuditionEpisodeView';
+import { BattleEpisodeView } from '../components/BattleEpisodeView';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { ContestantDetailModal } from '../components/ContestantDetailModal';
+import { NarrativeAuditionView, NarrativeBattleView } from '../components/NarrativeEpisodeView';
 import { TrackTag } from '../components/TrackTag';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
 import type { AuditionAction } from '../types/audition-episode';
+import type { BattleAction } from '../types/battle-episode';
 import type { Contestant } from '../types/contestant';
 import type { SeasonRuntime } from '../types/simulation';
 import type { TRACKS } from '../utilities/constants';
-import { projectEpisodeContestant } from '../utilities/episode-visibility';
+import { isSeasonRankingVisible, projectEpisodeContestant } from '../utilities/episode-visibility';
 
 export function SimulationPage() {
   const { contestants: contestantsData } = useContestantsContext();
@@ -45,6 +49,15 @@ export function SimulationPage() {
       simulationActions.dispatchAudition(action, revision);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save the next audition scene.');
+    }
+  };
+
+  const handleBattleAction = (action: BattleAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchBattle(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next battle scene.');
     }
   };
 
@@ -91,6 +104,8 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
+  const AuditionView = simulationState.runtime?.version === 2 ? NarrativeAuditionView : AuditionEpisodeView;
+  const BattleView = simulationState.runtime?.version === 2 ? NarrativeBattleView : BattleEpisodeView;
 
   return (
     <Content>
@@ -102,10 +117,10 @@ export function SimulationPage() {
         assign personas, attributes, and calculate initial statistics.
       </Typography.Paragraph>
       <Alert
-        description="Build your cast, then follow Episode 1 from the opening mood through auditions, broadcast, audience votes and the final thirty."
+        description="Follow fifty contestants through Auditions, then the final thirty into dorm life, team drafts and Group Battles. Eighteen will survive Episode 2."
         showIcon
         style={{ marginBottom: '1rem' }}
-        title="The Search — Auditions"
+        title="The Search"
         type="info"
       />
 
@@ -177,17 +192,57 @@ export function SimulationPage() {
         <>
           {simulationState.runtime ? (
             <>
-              <Typography.Paragraph type="secondary">
-                Seed: {simulationState.runtime.seed}. Songs, source profiles and definitions are frozen for
-                this season.
-              </Typography.Paragraph>
-              <AuditionEpisodeView
-                actionError={error}
-                key={simulationState.runtime.runId}
-                onAction={handleAuditionAction}
-                onInspect={setSelectedId}
-                state={simulationState}
-              />
+              {simulationState.runtime.version === 1 && (
+                <Typography.Paragraph type="secondary">
+                  Seed: {simulationState.runtime.seed}. Songs, source profiles and definitions are frozen for
+                  this season.
+                </Typography.Paragraph>
+              )}
+              {simulationState.runtime.battle ? (
+                <>
+                  <BattleView
+                    actionError={error ?? undefined}
+                    key={`${simulationState.runtime.runId}-battles`}
+                    onAction={handleBattleAction}
+                    onInspect={setSelectedId}
+                    state={simulationState}
+                  />
+                  <Collapse
+                    items={[
+                      {
+                        key: 'auditions',
+                        label: 'Episode 1 — Auditions archive',
+                        children: (
+                          <AuditionView
+                            onAction={handleAuditionAction}
+                            onInspect={setSelectedId}
+                            state={simulationState}
+                          />
+                        ),
+                      },
+                    ]}
+                    style={{ marginTop: 16 }}
+                  />
+                </>
+              ) : (
+                <>
+                  <AuditionView
+                    actionError={error ?? undefined}
+                    key={simulationState.runtime.runId}
+                    onAction={handleAuditionAction}
+                    onInspect={setSelectedId}
+                    state={simulationState}
+                  />
+                  {simulationState.runtime.audition?.phase === 'complete' && (
+                    <BattleView
+                      actionError={error ?? undefined}
+                      onAction={handleBattleAction}
+                      onInspect={setSelectedId}
+                      state={simulationState}
+                    />
+                  )}
+                </>
+              )}
             </>
           ) : (
             <Alert
@@ -255,6 +310,18 @@ function SimulationOverview({
       ? 'Surviving'
       : 'In cast';
   const columns = [
+    ...(isSeasonRankingVisible(runtime)
+      ? [
+          {
+            title: 'Rank',
+            dataIndex: 'rank',
+            key: 'rank',
+            width: 75,
+            render: (rank: number, contestant: Contestant) => (contestant.status === 'ACTIVE' ? rank : '—'),
+            sorter: (a: Contestant, b: Contestant) => a.rank - b.rank,
+          },
+        ]
+      : []),
     {
       title: 'ID',
       dataIndex: 'id',
@@ -286,7 +353,7 @@ function SimulationOverview({
       sorter: (a: Contestant, b: Contestant) => a.track.localeCompare(b.track),
     },
     {
-      title: 'Grade',
+      title: runtime?.battle ? 'Latest grade' : 'Grade',
       dataIndex: 'grade',
       key: 'grade',
       width: 80,
@@ -318,104 +385,113 @@ function SimulationOverview({
     },
   ];
 
+  const overview = (
+    <Card>
+      <Space align="start" orientation="vertical" size="large" style={{ width: '100%' }}>
+        <div>
+          <Typography.Title level={2}>Season Cast</Typography.Title>
+          <Typography.Paragraph>
+            Inspect any of the {contestants.length} contestants without advancing the episode.
+          </Typography.Paragraph>
+        </div>
+
+        <Descriptions bordered column={2}>
+          <Descriptions.Item label="Total Contestants">{contestants.length}</Descriptions.Item>
+          <Descriptions.Item label="Resolved Auditions">{evaluatedIds.size}</Descriptions.Item>
+          <Descriptions.Item label="VOCAL Track">{trackCounts.VOCAL || 0}</Descriptions.Item>
+          <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
+          <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
+          <Descriptions.Item label="Status">
+            {runtime?.battle
+              ? `Episode 2 — ${runtime.battle.phase}`
+              : (runtime?.audition?.phase ?? 'Setup complete')}
+          </Descriptions.Item>
+        </Descriptions>
+
+        <div>
+          <Typography.Title level={4}>Revealed Grade Distribution</Typography.Title>
+          <Typography.Text>
+            A: {gradeCounts.A || 0} | B: {gradeCounts.B || 0} | C: {gradeCounts.C || 0} | D:{' '}
+            {gradeCounts.D || 0} | F: {gradeCounts.F || 0}
+          </Typography.Text>
+        </div>
+
+        <Space style={{ marginBottom: '1rem' }}>
+          <Button
+            icon={<TableOutlined />}
+            onClick={() => setViewMode('table')}
+            type={viewMode === 'table' ? 'primary' : 'default'}
+          >
+            Table View
+          </Button>
+          <Button
+            icon={<AppstoreOutlined />}
+            onClick={() => setViewMode('cards')}
+            type={viewMode === 'cards' ? 'primary' : 'default'}
+          >
+            Card View
+          </Button>
+        </Space>
+
+        {viewMode === 'table' ? (
+          <Table
+            columns={columns}
+            dataSource={contestants}
+            onRow={(record) => ({
+              onClick: () => onSelect(record.id),
+              style: { cursor: 'pointer' },
+            })}
+            pagination={{
+              pageSize,
+              showSizeChanger: true,
+              pageSizeOptions: [10, 20, 30, 50],
+              showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} contestants`,
+              onShowSizeChange: (_, newPageSize) => setPageSize(newPageSize),
+            }}
+            rowKey="id"
+            scroll={{ x: 800 }}
+            size="small"
+          />
+        ) : (
+          <Row gutter={[16, 16]}>
+            {contestants.map((contestant) => (
+              <Col key={contestant.id} lg={6} md={8} sm={12} xs={24}>
+                <Card hoverable onClick={() => onSelect(contestant.id)} style={{ textAlign: 'center' }}>
+                  <ContestantAvatar
+                    enablePreview={false}
+                    id={contestant.id}
+                    name={contestant.name}
+                    size={80}
+                  />
+                  <Typography.Title level={5} style={{ marginTop: '0.5rem', marginBottom: '0.25rem' }}>
+                    {contestant.name}
+                  </Typography.Title>
+                  <Typography.Text type="secondary">{contestant.id}</Typography.Text>
+                  <div style={{ marginTop: '0.5rem' }}>
+                    <TrackTag track={contestant.track} />
+                    <Tag>{hasGrade(contestant.id) ? contestant.grade : 'Not performed'}</Tag>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+      </Space>
+    </Card>
+  );
   return (
     <div style={{ marginTop: '2rem' }}>
-      <Card>
-        <Space align="start" orientation="vertical" size="large" style={{ width: '100%' }}>
-          <div>
-            <Typography.Title level={2}>Season Cast</Typography.Title>
-            <Typography.Paragraph>
-              Inspect any of the {contestants.length} contestants without advancing the episode.
-            </Typography.Paragraph>
-          </div>
-
-          <Descriptions bordered column={2}>
-            <Descriptions.Item label="Total Contestants">{contestants.length}</Descriptions.Item>
-            <Descriptions.Item label="Resolved Auditions">{evaluatedIds.size}</Descriptions.Item>
-            <Descriptions.Item label="VOCAL Track">{trackCounts.VOCAL || 0}</Descriptions.Item>
-            <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
-            <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
-            <Descriptions.Item label="Status">
-              {runtime?.audition?.phase ?? 'Setup complete'}
-            </Descriptions.Item>
-          </Descriptions>
-
-          <div>
-            <Typography.Title level={4}>Revealed Grade Distribution</Typography.Title>
-            <Typography.Text>
-              A: {gradeCounts.A || 0} | B: {gradeCounts.B || 0} | C: {gradeCounts.C || 0} | D:{' '}
-              {gradeCounts.D || 0} | F: {gradeCounts.F || 0}
-            </Typography.Text>
-          </div>
-
-          <Space style={{ marginBottom: '1rem' }}>
-            <Button
-              icon={<TableOutlined />}
-              onClick={() => setViewMode('table')}
-              type={viewMode === 'table' ? 'primary' : 'default'}
-            >
-              Table View
-            </Button>
-            <Button
-              icon={<AppstoreOutlined />}
-              onClick={() => setViewMode('cards')}
-              type={viewMode === 'cards' ? 'primary' : 'default'}
-            >
-              Card View
-            </Button>
-          </Space>
-
-          {viewMode === 'table' ? (
-            <Table
-              columns={columns}
-              dataSource={contestants}
-              onRow={(record) => ({
-                onClick: () => onSelect(record.id),
-                style: { cursor: 'pointer' },
-              })}
-              pagination={{
-                pageSize,
-                showSizeChanger: true,
-                pageSizeOptions: [10, 20, 30, 50],
-                showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} contestants`,
-                onShowSizeChange: (_, newPageSize) => setPageSize(newPageSize),
-              }}
-              rowKey="id"
-              scroll={{ x: 800 }}
-              size="small"
-            />
-          ) : (
-            <Row gutter={[16, 16]}>
-              {contestants.map((contestant) => (
-                <Col key={contestant.id} lg={6} md={8} sm={12} xs={24}>
-                  <Card hoverable onClick={() => onSelect(contestant.id)} style={{ textAlign: 'center' }}>
-                    <ContestantAvatar
-                      enablePreview={false}
-                      id={contestant.id}
-                      name={contestant.name}
-                      size={80}
-                    />
-                    <Typography.Title level={5} style={{ marginTop: '0.5rem', marginBottom: '0.25rem' }}>
-                      {contestant.name}
-                    </Typography.Title>
-                    <Typography.Text type="secondary">{contestant.id}</Typography.Text>
-                    <div style={{ marginTop: '0.5rem' }}>
-                      <TrackTag track={contestant.track} />
-                      <Tag>{hasGrade(contestant.id) ? contestant.grade : 'Not performed'}</Tag>
-                    </div>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          )}
-        </Space>
-      </Card>
-
+      {runtime?.version === 2 ? (
+        <Collapse items={[{ key: 'cast', label: 'Details — season cast', children: overview }]} />
+      ) : (
+        overview
+      )}
       <ContestantDetailModal
         allContestants={contestants}
         contestant={selectedContestant}
         definitions={runtime?.definitions}
-        hideSeasonRanking={!runtime || runtime.episode < 3}
+        hidePerformance={!!runtime && !!selectedId && !hasGrade(selectedId)}
+        hideSeasonRanking={!isSeasonRankingVisible(runtime)}
         onClose={() => onSelect(null)}
       />
     </div>

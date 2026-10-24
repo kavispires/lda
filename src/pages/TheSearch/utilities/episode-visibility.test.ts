@@ -1,5 +1,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
+import { transitionBattle } from '../engine/battle-episode';
+import { advanceBattleTo, completedAuditionsFixture } from '../engine/battle-fixtures';
 import type { AttributeCard } from '../types/common';
 import type { SeasonRuntime } from '../types/simulation';
 import { createContestant } from './contestant-factory';
@@ -127,6 +129,30 @@ test('cumulative rankings and nested score changes are hidden without concealing
   assert.deepEqual(projected.changeLog[0].change.snapshot, {
     attributes: [],
     aggregations: { happiness: 60 },
+  });
+
+  test('rankings first become public at the Episode 2 stage announcement, not dorm arrival', () => {
+    const dorms = transitionBattle(completedAuditionsFixture(), { type: 'start' }, 0);
+    assert.ok(dorms.runtime?.battle);
+    const contestant = dorms.contestants.find((entry) => entry.id === dorms.runtime?.battle?.rankedIds[0]);
+    assert.ok(contestant);
+    assert.ok(contestant.rank > 0);
+    const hidden = projectEpisodeContestant(contestant, dorms.runtime);
+    assert.equal(hidden.rank, 0);
+    assert.equal(hidden.aggregations.score, 0);
+    assert.ok(hidden.changeLog.every((entry) => entry.rank === 0));
+
+    const stage = advanceBattleTo(dorms, 'ranking');
+    assert.ok(stage.runtime);
+    const canonical = stage.contestants.find((entry) => entry.id === contestant.id);
+    assert.ok(canonical);
+    const revealed = projectEpisodeContestant(canonical, stage.runtime);
+    assert.equal(revealed.rank, canonical.rank);
+    assert.equal(revealed.aggregations.score, canonical.aggregations.score);
+    assert.deepEqual(
+      revealed.changeLog.map((entry) => entry.rank),
+      canonical.changeLog.map((entry) => entry.rank),
+    );
   });
   assert.deepEqual(projected.changeLog[0].changes?.find((change) => change.path === 'aggregations')?.after, {
     happiness: 60,

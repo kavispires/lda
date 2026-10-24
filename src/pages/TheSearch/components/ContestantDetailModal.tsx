@@ -77,6 +77,7 @@ interface ContestantDetailModalProps {
   allContestants: Contestant[];
   onClose: () => void;
   hideSeasonRanking?: boolean;
+  hidePerformance?: boolean;
   definitions?: SimulationDefinitions;
 }
 
@@ -85,6 +86,7 @@ export function ContestantDetailModal({
   allContestants,
   onClose,
   hideSeasonRanking = false,
+  hidePerformance = false,
   definitions,
 }: ContestantDetailModalProps) {
   if (!contestant) return null;
@@ -93,7 +95,13 @@ export function ContestantDetailModal({
     {
       key: 'basic',
       label: 'Basic Info',
-      children: <BasicInfoTab contestant={contestant} hideSeasonRanking={hideSeasonRanking} />,
+      children: (
+        <BasicInfoTab
+          contestant={contestant}
+          hidePerformance={hidePerformance}
+          hideSeasonRanking={hideSeasonRanking}
+        />
+      ),
     },
     {
       key: 'skills',
@@ -149,9 +157,11 @@ export function ContestantDetailModal({
 function BasicInfoTab({
   contestant,
   hideSeasonRanking,
+  hidePerformance,
 }: {
   contestant: Contestant;
   hideSeasonRanking: boolean;
+  hidePerformance: boolean;
 }) {
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
@@ -162,15 +172,19 @@ function BasicInfoTab({
           <Descriptions.Item label="Track">
             <TrackTag track={contestant.track} />
           </Descriptions.Item>
-          <Descriptions.Item label="Grade">{contestant.grade}</Descriptions.Item>
+          <Descriptions.Item label="Grade">
+            {hidePerformance ? 'Not performed' : contestant.grade}
+          </Descriptions.Item>
           <Descriptions.Item label="Status">{contestant.status}</Descriptions.Item>
           {!hideSeasonRanking && (
             <Descriptions.Item label="Rank">{contestant.rank || 'N/A'}</Descriptions.Item>
           )}
-          <Descriptions.Item label="Mission Rating">
-            <Rate allowHalf count={5} disabled value={contestant.missionRating} />
-            <span style={{ marginLeft: '8px' }}>{contestant.missionRating}</span>
-          </Descriptions.Item>
+          {!hidePerformance && (
+            <Descriptions.Item label="Mission Rating">
+              <Rate allowHalf count={5} disabled value={contestant.missionRating} />
+              <span style={{ marginLeft: '8px' }}>{contestant.missionRating}</span>
+            </Descriptions.Item>
+          )}
           <Descriptions.Item label="Condition">
             <Tag
               color={
@@ -550,12 +564,14 @@ function RelationshipsTab({
     return 'same';
   };
 
-  const relationships = Object.entries(contestant.relationships || {}).map(([id, values]) => ({
-    id,
-    name: contestantsMap[id]?.name || 'Unknown',
-    value: values[values.length - 1] || 50,
-    change: getRelationshipChange(values),
-  }));
+  const relationships = Object.entries(contestant.relationships || {})
+    .filter(([id]) => id !== contestant.id)
+    .map(([id, values]) => ({
+      id,
+      name: contestantsMap[id]?.name || 'Unknown',
+      value: values[values.length - 1] || 50,
+      change: getRelationshipChange(values),
+    }));
 
   const sortedRelationships = [...relationships].sort((a, b) => {
     if (sortBy === 'value') return b.value - a.value;
@@ -740,7 +756,7 @@ function ChangeLogTab({
                         dataIndex: 'path',
                         render: (path: string) => (
                           <Tag style={{ maxWidth: '100%', whiteSpace: 'normal' }}>
-                            {path === 'episode1.composure'
+                            {/^(episode1|episode2)\.composure$/.test(path)
                               ? 'Composure'
                               : path.startsWith('relationships.')
                                 ? `Relationship: ${path.slice('relationships.'.length)}`

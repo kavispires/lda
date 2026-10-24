@@ -1,11 +1,17 @@
 import type { AuditionBatchJudging, AuditionEvaluation, AuditionSong } from './audition';
 import type { ChangeValue, PropertyChange } from './common';
 import type { Specialties } from './contestant';
+import type { NarrativeAuditionStory, PreparationAction } from './narrative';
 
 export type MoodChoices = Record<keyof Specialties, string>;
 export type MoodOptions = Record<keyof Specialties, string[]>;
 export type AuditionRelationshipPolicy = 'reactions-only' | 'everyone-forms-opinions';
 export type AuditionPhase =
+  | 'opening-cast'
+  | 'host-intro'
+  | 'credits'
+  | 'judges'
+  | 'introduction'
   | 'mood'
   | 'choices'
   | 'live'
@@ -40,10 +46,21 @@ export interface EpisodeScene {
     | 'eliminations'
     | 'mvp'
     | 'secret'
+    | 'dorms'
+    | 'ranking'
+    | 'draft'
+    | 'practice'
+    | 'battles'
+    | 'saves'
     | 'recap';
   title: string;
   paragraphs: string[];
   contestantIds: string[];
+  paragraphContestantIds?: string[][];
+  sequence?: number;
+  presentation?: NarrativeAuditionStory['presentation'];
+  speaker?: { name: string; role: string };
+  introductions?: Record<string, string[]>;
 }
 
 export interface BroadcastCut {
@@ -99,6 +116,7 @@ export interface SecretResult {
 }
 
 export type AuditionAction =
+  | PreparationAction
   | { type: 'start' }
   | { type: 'mood'; choices: MoodChoices }
   | { type: 'advance' }
@@ -106,7 +124,8 @@ export type AuditionAction =
   | { type: 'secret'; contestantId: string };
 
 export interface AuditionEpisode {
-  version: 1;
+  version: 1 | 2;
+  story?: NarrativeAuditionStory;
   relationshipPolicy: AuditionRelationshipPolicy;
   phase: AuditionPhase;
   revision: number;
