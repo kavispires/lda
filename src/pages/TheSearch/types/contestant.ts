@@ -1,6 +1,6 @@
 import type { ValuesOf } from '@types';
 import type { ALIGNMENTS, GRADES, STATUSES, TRACKS } from '../utilities/constants';
-import type { ChangeRecord } from './common';
+import type { ChangeRecord, ChangeValue, PropertyChange } from './common';
 
 /**
  * Squirrel Zone: The Search
@@ -401,5 +401,7 @@ export interface ChangeLogEntry {
   /**
    * A record of changes to the contestant's attributes, skills, or other properties during the episode.
    */
-  change: ChangeRecord;
+  change: ChangeRecord<ChangeValue>;
+  phaseId?: string;
+  changes?: PropertyChange[];
 }

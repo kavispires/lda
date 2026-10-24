@@ -1,0 +1,138 @@
+[
+  {
+    "id": "vocal-window-seat",
+    "title": "Window Seat",
+    "description": "A gentle original ballad with short phrases and an intimate melody.",
+    "track": "VOCAL",
+    "genre": "ACOUSTIC_BALLAD",
+    "part": { "testedSkills": [{ "skill": "vocals", "requiredLevel": 1 }] }
+  },
+  {
+    "id": "vocal-paper-sun",
+    "title": "Paper Sun",
+    "description": "An original bright pop arrangement with a small moving chorus.",
+    "track": "VOCAL",
+    "genre": "MAINSTREAM_POP",
+    "part": {
+      "testedSkills": [{ "skill": "vocals", "requiredLevel": 2 }, { "skill": "dance", "requiredLevel": 1 }]
+    }
+  },
+  {
+    "id": "vocal-copper-hour",
+    "title": "Copper Hour",
+    "description": "An original soul piece built around sustained notes and syncopated phrasing.",
+    "track": "VOCAL",
+    "genre": "SOUL_GROOVE",
+    "part": { "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }] }
+  },
+  {
+    "id": "vocal-glass-staircase",
+    "title": "Glass Staircase",
+    "description": "An original dramatic pop arrangement with wide intervals and precise movement.",
+    "track": "VOCAL",
+    "genre": "THEATRICAL_POP",
+    "part": {
+      "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 3 }]
+    }
+  },
+  {
+    "id": "vocal-signal-fires",
+    "title": "Signal Fires",
+    "description": "An original rock showcase demanding controlled belts and rapid register changes.",
+    "track": "VOCAL",
+    "genre": "ROCK_EDGE",
+    "part": { "testedSkills": [{ "skill": "vocals", "requiredLevel": 5 }] }
+  },
+  {
+    "id": "rap-corner-map",
+    "title": "Corner Map",
+    "description": "An original laid-back hip-hop sketch with spacious rhythmic patterns.",
+    "track": "RAP",
+    "genre": "HIP_HOP",
+    "part": { "testedSkills": [{ "skill": "rap", "requiredLevel": 1 }] }
+  },
+  {
+    "id": "rap-pocket-radio",
+    "title": "Pocket Radio",
+    "description": "An original pop crossover with clear verses and a simple sung refrain.",
+    "track": "RAP",
+    "genre": "MAINSTREAM_POP",
+    "part": {
+      "testedSkills": [{ "skill": "rap", "requiredLevel": 2 }, { "skill": "vocals", "requiredLevel": 1 }]
+    }
+  },
+  {
+    "id": "rap-midnight-meter",
+    "title": "Midnight Meter",
+    "description": "An original groove-led rap arrangement with shifting accents.",
+    "track": "RAP",
+    "genre": "SOUL_GROOVE",
+    "part": {
+      "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+    }
+  },
+  {
+    "id": "rap-static-garden",
+    "title": "Static Garden",
+    "description": "An original electronic rap piece with tightly spaced rhythmic switches.",
+    "track": "RAP",
+    "genre": "ELECTRONIC",
+    "part": { "testedSkills": [{ "skill": "rap", "requiredLevel": 4 }] }
+  },
+  {
+    "id": "rap-switchyard",
+    "title": "Switchyard",
+    "description": "An original hip-hop showcase combining intricate flows with demanding footwork.",
+    "track": "RAP",
+    "genre": "HIP_HOP",
+    "part": {
+      "testedSkills": [{ "skill": "rap", "requiredLevel": 5 }, { "skill": "dance", "requiredLevel": 4 }]
+    }
+  },
+  {
+    "id": "dance-small-orbit",
+    "title": "Small Orbit",
+    "description": "An original electronic routine with simple steps and clear counts.",
+    "track": "DANCE",
+    "genre": "ELECTRONIC",
+    "part": { "testedSkills": [{ "skill": "dance", "requiredLevel": 1 }] }
+  },
+  {
+    "id": "dance-sidewalk-prism",
+    "title": "Sidewalk Prism",
+    "description": "An original hip-hop routine with basic isolations and a brief rhythmic verse.",
+    "track": "DANCE",
+    "genre": "HIP_HOP",
+    "part": {
+      "testedSkills": [{ "skill": "dance", "requiredLevel": 2 }, { "skill": "rap", "requiredLevel": 1 }]
+    }
+  },
+  {
+    "id": "dance-neon-postcard",
+    "title": "Neon Postcard",
+    "description": "An original dance-pop number balancing quick transitions and a sung hook.",
+    "track": "DANCE",
+    "genre": "MAINSTREAM_POP",
+    "part": {
+      "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+    }
+  },
+  {
+    "id": "dance-velvet-gears",
+    "title": "Velvet Gears",
+    "description": "An original funk routine demanding precise groove and layered body control.",
+    "track": "DANCE",
+    "genre": "SOUL_GROOVE",
+    "part": { "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }] }
+  },
+  {
+    "id": "dance-clockwork-crown",
+    "title": "Clockwork Crown",
+    "description": "An original theatrical routine with intricate lines, fast changes, and vocal passages.",
+    "track": "DANCE",
+    "genre": "THEATRICAL_POP",
+    "part": {
+      "testedSkills": [{ "skill": "dance", "requiredLevel": 5 }, { "skill": "vocals", "requiredLevel": 3 }]
+    }
+  }
+]

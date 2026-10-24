@@ -8,13 +8,32 @@ on player interaction and how the simulation systems connect.
 - **Established:** Requirements from the season outline and subsequent design decisions.
 - **Proposed:** Design suggestions to connect those requirements; not yet approved.
 - **Open:** Decisions that must be settled before implementing the affected system.
+- **Implementation default:** An explicitly documented, configurable low-level
+  coefficient or algorithm, authorized for implementation and later tuning; not
+  an additional story mechanic or a claim that its exact algebra was approved.
 
-Contestant management, card libraries, and cast initialization currently exist.
-The previous Episode 1 implementation and its episode engine have been removed.
-The episode mechanics described here must be designed and implemented anew.
+Contestant management, card libraries, cast initialization, and the rebuilt
+playable Episode 1 now exist. The previous episode engine was removed and
+replaced with the established Auditions contracts below. Broader-season gaps
+still need design.
 Genre Affinity and the temporary Practice aggregation are now present in the
-contestant model and interfaces; practice-session and performance engines remain
-unimplemented.
+contestant model and interfaces. Audition foundations now provide the editable
+song catalog, deterministic scoring/judging primitives, seeded setup snapshots,
+and complete setup change histories. Episode orchestration now covers the
+player-paced opening through all 50 auditions, broadcast, voting, 20 departures,
+peer MVP, secret check, and recap. The practice-session engine and Episodes 2–11
+remain unimplemented.
+
+**Current playable boundary:** The catalog is
+`data/audition-songs.json`, with five editable placeholder songs per track.
+New setups sample and persist nine songs with the approved difficulty coverage.
+No song-editing UI is required. Seeded episode transitions lock autonomous choices,
+resolve causal live reactions, apply the selected broadcast, and close the episode
+with exactly thirty survivors. All performances, choices, scenes, and contestant
+changes remain in the season archive; cumulative standings stay hidden.
+New setups persist their seed/random state and frozen definitions/source snapshots.
+Older saved setups remain inspectable but do not acquire fabricated seeds or
+snapshots. A storage failure is surfaced rather than reported as a saved phase.
 
 ### First playable milestone and blockers
 
@@ -24,30 +43,31 @@ interaction and meaningful audience/popularity consequences, not merely a scorin
 and elimination screen. Later episodes require separate design; the full-season
 rules below are not implementation-complete.
 
-Settle the remaining contracts in this approved order:
-1. [ ] **Songs/selection:** Actual fixed-arrangement song/part catalog and ordered
-   per-skill requirements; pool size, insufficient-library behavior, selection
-   weights, and off-track probabilities.
-2. [ ] **Live reactions:** Triggers, magnitudes, temporary performance influence,
-   and directional relationship consequences.
-3. [ ] **Broadcast/audience:** Audience-only raw/adjusted doubles and twist effects,
-   appeal/fan acquisition, satisfaction/viewer deltas; package composition/count,
-   alternatives and number of choices, exposure/runtime allocation. Preserve the
-   exposure floor, no editing influence on survival, and six mood picks at +3%
-   each (maximum +18%).
-4. [ ] **Episode closure:** Exact reveal/results timing, cumulative score
-   contributions under the existing ranking rules, MVP procedure/ties, and
-   secret-check resolution/order. Keep established shortlist and no-op rules.
+The four milestone design contracts are now established (checked means designed,
+not implemented):
+1. [x] **Songs/selection:** Shared three-song-per-track pool, difficulty coverage,
+   catalog validation, autonomous locked weighted selection, and off-track rules.
+2. [x] **Live reactions:** Causal observer comparisons, sparse personality-shaped
+   reactions, bounded temporary composure, and directional relationships.
+3. [x] **Broadcast/audience:** One of three complete cuts, footage-based effects,
+   exposure floor, raw-double reception twists, moods, voting/fans, and show caps.
+4. [x] **Episode closure:** Votes before grouped elimination, stored cumulative
+   contributions, survivor MVP, then the secret check and recap.
 
-Build the complete slice after these contracts are settled. Isolated scoring
-implementation requires a separate request. Runtime foundations must support
+The complete slice implements these contracts. Runtime foundations support
 seeded reproducibility, frozen source snapshots, persisted outcomes, choices, and
 phase resumption throughout. Practice is not a launch blocker: milestone 1 has no
 simulated practice sessions.
 
 ## Interview checkpoint
 
-Auditions scoring is confirmed; the next interview follows the blocker order above.
+Auditions' complete light-narrative design and numerical tunings below are
+confirmed. No high-impact milestone behavior question remains from this interview.
+Remaining exact coefficients may be documented configurable implementation
+defaults without another constant-by-constant interview. Schema, data validation,
+and balance calibration remain ongoing work. Milestone 1's runtime/UI, composed
+stage-presence scoring, population accounting, and persisted phase resumption
+are now implemented; this does not claim completion of the broader season.
 The skill-and-requirement minimum-face mechanic replaces the earlier stat-based
 baseline and direct consistency variance formula for milestone 1. Utility-driven
 Practice remains specified for later episodes; its engine is not implemented.
@@ -58,7 +78,8 @@ Latest confirmed performance decisions:
   `floor = clamp(2 * skill - required level, 1, 5)` and `adjusted face = max(raw, floor)`.
 - Technical parts retain ordered skill weights `[2, 1, ...]` and difficulty
   ceilings 60/70/80/90/100 for requirements 1–5.
-- Stage presence uses the integer `stagePresence` skill, requirement 3, and
+- Stage presence uses the integer effective `stagePresence` skill (base plus
+  temporary composure, clamped 1–5), requirement 3, and
   `100 * (adjustedSum - 2) / 10`, without a technical ceiling. Visual, uniqueness,
   potential, and charisma each use the corresponding skill and that same
   requirement/conversion. Calculate all four impressions even when only two score.
@@ -69,7 +90,8 @@ Latest confirmed performance decisions:
   per pair and lock preferences before the whole batch.
 - `final = min(100, .55 * technical + .35 * stagePresence
   - .10 * selectedBonusA + .10 * selectedBonusB)`. Do not renormalize the possible
-    110%. Rank and grade using unrounded values; round only for display (precision open).
+    110%. Rank and grade using unrounded values; display precision is a configurable
+    default, not a scoring decision.
 - Equal capped final scores break ties by higher technical, then higher stage
   presence, then a persisted seeded draw, never hidden uncapped surplus.
 - Absolute grades: A ≥85, B ≥70, C ≥55, D ≥40, F <40. These are agreed starting
@@ -80,19 +102,23 @@ Latest confirmed performance decisions:
   additional direct live consistency adjustment. Practice stays 0 and is omitted;
   the old variance formula is not stacked. Potential means demonstrated promise,
   not permanent growth.
-- Live reactions remain required and immediate for later contestants, through
-  temporary condition/readiness state and relationships, never instant permanent
-  core/utility skill changes. Triggers, state, and formulas remain open; reactions
-  are not Practice >0 and imply no approved dice modifier.
+- Live reactions can affect an unperformed contestant's integer effective stage
+  presence through temporary composure in -1..+1; they never alter saved skills,
+  technical checks, raw dice, bonus-quality skills, or Practice. Consume composure
+  after that contestant performs. Past performances cannot change.
 - Persist the season seed, frozen starting data, phase, choices, and resolved
   outcomes. The same frozen start/seed/choices reproduces results; reload never
   rerolls or reapplies effects. Deep-copy contestants and freeze simulation-relevant
   library/song definitions; source edits affect new runs only, never an active run.
 
-Song choices still weigh ability and genre affinity with personality-driven risk;
-investment, maturity, or discipline at +7 or above individually vetoes off-track
-auditions. Actual song contracts, live reactions, broadcast/audience formulas, and
-episode closure remain the next design work, not assumed implementation details.
+The confirmed scene order is compact opening mood → autonomous locked song
+choices/reveals → sequential live auditions/reactions → broadcast choice →
+audience effects/votes → grouped elimination (20 leave, 30 survive) → survivor
+MVP → secret check last → recap awaiting the next explicit episode start.
+Watch the episode unfold through meaningful Continue-paced scenes, not 50 equally
+long reports or 50 mandatory announcement clicks. Uneventful auditions can be
+summarized; every participant and result remains inspectable and archived.
+No voluntary withdrawals occur in the first playable Auditions.
 
 ## 1. Premise and player objective
 
@@ -119,7 +145,8 @@ satisfaction.
   and friendships unfolding before the later performance and elimination/results.
 - After each episode, contestants choose an MVP or MVPs recognizing the preceding
   episode. One overall MVP is chosen by survivors under the shared MVP rules;
-  exact phase, voting procedure, and ties remain to be defined.
+  Auditions' phase, voting procedure, and ties are established below. Later
+  mission-specific awards still need their own rules.
 
 Every episode must include player interaction. Every offered choice must affect
 at least one contestant or the show itself, immediately or through a recorded
@@ -142,7 +169,7 @@ calculation is visible to the player.
 Counts refer to active contestants. Eliminated contestants remain in the season
 archive and history.
 
-**Established withdrawal exception:** Withdrawals are rare (usually none; one or
+**Later-season withdrawal design, excluded from milestone 1:** Withdrawals are rare (usually none; one or
 two may occur in a season) and can trigger only in episodes with enough scheduled
 elimination slots to absorb them. A departure consumes one of that episode's
 elimination slots rather than adding another exit.
@@ -223,22 +250,22 @@ Player choices + contestant traits + current state
 Use `types/contestant.ts` as the starting model, rather than creating an unrelated
 set of game stats.
 
-| Existing data                             | Proposed role in the simulation                                                                                      |
-| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| Core skills                               | Track execution, stage presence, visuals, uniqueness, and leadership                                                 |
-| Utility skills                            | Training growth, memory, stamina, performance variance, and variety ability                                          |
-| Personality                               | Autonomous choices, cooperation, conflict, stress responses, and public perception                                   |
-| Specialties                               | Song, concept, role, and mission fit                                                                                 |
-| `condition` and happiness                 | Readiness, recovery needs, and reactions to outcomes                                                                 |
-| `relationships`                           | Teammate preference, trust, cooperation, conflict, and emotional consequences                                        |
-| `audienceRatio`                           | General audience preference toward an individual contestant                                                          |
-| `fanbaseRatio`                            | Strength of that contestant's committed voting support                                                               |
-| `productionRatio`                         | Production preference and editorial attention, not audience approval                                                 |
-| `contestantsLikeness`                     | Summary of incoming relationships from other contestants                                                             |
-| `screenTime`                              | Cumulative exposure; keep episode-specific allocations separately                                                    |
-| `score`, `grade`, `rank`, `missionRating` | Cumulative points, quality grades, overall season standing, and mission evaluation; exact point mapping remains open |
-| Leader, center, and MVP counts            | Recorded opportunities and achievements                                                                              |
-| Cards, events, and change logs            | Starting influences, triggered developments, and traceable history                                                   |
+| Existing data                             | Proposed role in the simulation                                                                                                                          |
+| ----------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Core skills                               | Track execution, stage presence, visuals, uniqueness, and leadership                                                                                     |
+| Utility skills                            | Training growth, memory, stamina, performance variance, and variety ability                                                                              |
+| Personality                               | Autonomous choices, cooperation, conflict, stress responses, and public perception                                                                       |
+| Specialties                               | Song, concept, role, and mission fit                                                                                                                     |
+| `condition` and happiness                 | Readiness, recovery needs, and reactions to outcomes                                                                                                     |
+| `relationships`                           | Teammate preference, trust, cooperation, conflict, and emotional consequences                                                                            |
+| `audienceRatio`                           | General audience preference toward an individual contestant                                                                                              |
+| `fanbaseRatio`                            | Strength of that contestant's committed voting support                                                                                                   |
+| `productionRatio`                         | Production preference and editorial attention, not audience approval                                                                                     |
+| `contestantsLikeness`                     | Summary of incoming relationships from other contestants                                                                                                 |
+| `screenTime`                              | Cumulative exposure; keep episode-specific allocations separately                                                                                        |
+| `score`, `grade`, `rank`, `missionRating` | Cumulative points, quality grades, overall season standing, and mission evaluation; Auditions mapping is established, later mission mappings remain open |
+| Leader, center, and MVP counts            | Recorded opportunities and achievements                                                                                                                  |
+| Cards, events, and change logs            | Starting influences, triggered developments, and traceable history                                                                                       |
 
 Ratios currently use -1 to 1; relationships and happiness use 0 to 100.
 Skills used in checks and their required levels use integers from 1 to 5, never
@@ -298,8 +325,11 @@ statistics, and listing views include the specialty. Older profiles and saved
 drafts normalize to an unselected affinity, without randomly assigning one.
 `PerformancePart.specialtyFavors` can also reference genre affinity.
 
-**Open:** Performance-fit effects and the remaining song metadata. Episode
-audience-mood selection and voting bonuses are planned, not implemented.
+**Established Auditions fit:** Matching affinity doubles song-selection weight;
+it is not an extra technical or judge-score bonus. Required fixed-arrangement
+song metadata is defined in the pool contract.
+**Open for later missions:** Additional performance-fit effects/song metadata.
+Episode audience-mood selection and voting bonuses are designed, not implemented.
 
 #### Task structure and evaluation - design in progress
 
@@ -366,7 +396,7 @@ and a Practice technical score of 36. The complete part score is
 If Bob has Practice 0, omit that contribution and retain the vocal/dance subtotal.
 Fractional scores are distinct from skill values, which must remain integers.
 Retain unrounded component/final scores for ranking and grades; round only for
-display. The number of displayed decimals remains open.
+display. Display precision is a configurable implementation default.
 
 **Proposed:** Define performance criteria per challenge. Track skill, difficulty,
 specialty fit, preparation, condition, and team cooperation should matter in
@@ -487,9 +517,9 @@ skill levels produce the same clamped minimum on the same task, identical
 technical chances are intentional. For example, skills 1, 2, and 3 against
 difficulty 5 all have minimum 1. Do not add a second direct skill modifier merely
 to distinguish them.
-Auditions' scoring components are finalized below. Actual song/part contracts,
-live-reaction influence, and audience-only critical twists still need design;
-later missions require their own aggregation rules.
+Auditions' scoring, song/part contracts, temporary composure, and audience-only
+critical twists are established below; later missions require their own
+aggregation rules.
 
 **Established minimum-face handling:** Roll ordinary d6s with faces 1 through 6,
 then raise any face below the tested skill's calculated minimum to that minimum.
@@ -501,7 +531,8 @@ For Bob's dance skill 4 against difficulty 3, the calculated minimum is 5:
 raw faces 1 through 5 become 5, while 6 stays 6. A shared raw roll of `[1, 4]`
 becomes `[2, 4]` for his vocal minimum of 2 and `[5, 5]` for his dance minimum of 5.
 The minimum is derived from skill and difficulty, not always the saved skill alone.
-Record both raw and adjusted faces; critical-twist interpretation remains open.
+Record both raw and adjusted faces; Auditions detects audience twists only on
+the shared raw pair, never adjusted doubles.
 
 **Earlier baseline approach - superseded for milestone 1:** The previously agreed
 stat-based expected-quality model is replaced by minimum-face scoring, not stacked
@@ -542,16 +573,17 @@ not a reversal of the technical execution adjustment:
 Keep the selected minimum-face technical scoring for judging/evaluation. Do not turn
 double 1 into automatic technical perfection or double 6 into technical failure,
 and do not add an unapproved second direct performance-score modifier.
-Whether doubles are detected on raw or adjusted faces, audience-twist magnitudes,
-trait/context conditions, and exact reception metrics still need definition.
+For Auditions, natural/raw double 1 adds 10 audience-reception points and natural/raw
+double 6 subtracts 10; clamp reception to 0–100. No extra trait gate or judge/
+technical modifier applies. The reception formula is specified under Episode 1.
 
 **Proposed other utility roles:** Affect appropriate preparation, challenge, and
 growth mechanics, not necessarily every score as universal bonuses.
 
 Record rolls and their actual score effects so outcomes can be explained and
-reloading does not reroll them. Remaining Auditions work includes song/part
-contracts, temporary live-reaction influence, and audience-twist details, not a
-second expected-quality formula or fractional skills. Later missions still need
+reloading does not reroll them. Remaining Auditions work is implementing the
+established song, composure, and audience contracts, not designing a second
+expected-quality formula or fractional skills. Later missions still need
 aggregation, utility-effect, and growth rules.
 
 **Alternatives not selected:** A success-count d6 pool and a skill-sized pool capped
@@ -589,8 +621,8 @@ Record changes from specific events such as support during practice, role disput
 shared success, blame, betrayal, and elimination. Clamp values to 0-100 and explain
 changes. Recompute `contestantsLikeness` from incoming relationships.
 
-**Open:** Exact deltas, the active/archive population used for likeness, how
-sensitivity and gentleness modify reactions, and when history samples are appended.
+**Open for broader season:** Deltas outside the established Auditions reactions,
+the active/archive population used for likeness, and later history cadence.
 Do not change every pair automatically without a defined interaction or rule.
 
 ### Screen time and the opening
@@ -616,7 +648,14 @@ additional exposure; the player cannot accidentally omit someone from the baseli
 Exposure amplifies audience response to what was shown. More screen time is an
 opportunity for popularity, not a guarantee of positive reception.
 
-**Open:** Define the budget: contestant-focused airtime versus total runtime,
+**Established Auditions budget:** Use contestant-focused airtime for all 50 episode
+participants, including the 20 later eliminated. Opening-title exposure is
+additional and does not satisfy this floor. Half the cut's runtime is baseline
+coverage, half features; split-screen runtime counts once, exposure for each
+person. Exact segment allocation and solo/shared attention coefficients are
+configurable implementation defaults, subject to these invariants.
+
+**Open for later episodes:** Define the budget: contestant-focused airtime versus total runtime,
 whether opening exposure counts toward the 1% floor, treatment of contestants
 eliminated during that episode, and any airtime cap. Define how simultaneous
 exposure affects attention/popularity compared with a solo feature; equal credited
@@ -631,15 +670,18 @@ Audience size and viewer satisfaction are **show-wide**. Neither is a contestant
 satisfaction causes viewer attrition over subsequent episodes. After the finale,
 satisfaction also determines how many viewers remain fans of the final group.
 
-**Proposed:** Use a 0-100 satisfaction meter and retain episode-by-episode history
+**Established:** Use a 0-100 satisfaction meter and retain episode-by-episode history
 for both metrics. Calculate satisfaction changes from performance quality,
 engaging stories, attachment to the cast, variety, and perceived fairness.
 
 **Established initial meters:** Audience size is a fictional viewer count, starting
 at 100,000 viewers. Satisfaction starts at 50 on a 0-100 scale.
 
-**Open:** The delay and strength of retention effects, new-viewer acquisition,
-and the post-season conversion formula.
+**Established Auditions timing/caps:** Satisfaction changes by at most +/-10 per
+episode, bounded 0–100. Strong shown reception can bring up to 12% new viewers.
+Low satisfaction causes attrition at the next episode's opening, at most 10% of
+the then-current audience, never retroactive removal of closed voters. Exact
+curves are tunable implementation defaults; post-season conversion remains open.
 
 Individual audience preference, fanbase loyalty, and exposure can feed voting,
 but need distinct roles and bounded effects. A disliked contestant can create
@@ -702,8 +744,14 @@ Weights are fractions (for example, 60% is 0.60). Neutral production preference
 therefore gives 50 production-component points, not a 50-point ranking bonus:
 the 10% weight makes its new-episode contribution five points.
 
-**Open:** Mission evaluation details, voting windows, tie-breakers, elimination
-backlash, and what private ranking information the player can inspect before Episode 3.
+**Established visibility:** Store all cumulative calculations and changes from
+Episode 1, but hide the cumulative leaderboard, scores, and ranks from the normal
+UI, including history details and rendered history JSON, until Episode 3.
+Individual audition grades/components/results remain inspectable; this is a
+presentation boundary, not deletion of logs.
+
+**Open for later missions:** Evaluation details, voting windows, tie-breakers,
+and elimination backlash beyond the established Auditions closure.
 
 **Established vote normalization:** Give the episode's leading vote-getter 100
 vote-component points; other contestants receive points proportional to their
@@ -713,8 +761,8 @@ votes relative to that leader. Preserve vote gaps rather than using only positio
 vote component = 100 * contestant votes / highest episode vote count
 ```
 
-Raw vote counts remain in history. Define the no-votes case explicitly rather than
-dividing by zero or inventing votes.
+Raw vote counts remain in history. Auditions' implementation default for zero
+votes is zero vote-component points for everyone, never fabricated votes.
 
 **Established fan behavior:** Loyal fan support persists across episodes, while
 general audience preferences can change more readily. When a favorite leaves,
@@ -739,7 +787,10 @@ from each of these six specialty categories to represent that episode's audience
 
 Contestants matching those preferences receive more audience favor that episode.
 Present small randomized shortlists per category, not the entire libraries.
-Persist the selected mood with the episode.
+For Auditions, show three random options per category on one compact opening
+screen; choose one each and lock for the episode. Persist shortlists and choices,
+so reload never rerolls. If fewer than three eligible distinct values exist,
+offer all of them (implementation guard), preserving the existing repeat rule.
 
 **Established match strength:** Each matching category gives +3% general-viewer
 vote appeal, stacking additively to at most +18% across six categories. Apply it
@@ -754,14 +805,14 @@ category's choice.
 This is a recurring small player interaction, not a recurring editing loop.
 It does not imply that the player controls contestant song choices or performances.
 
-**Open:** Shortlist size/sampling, general-viewer appeal calculation and conversion
-to votes, and whether the mood has any satisfaction effect.
+Auditions' appeal/voting rules are established below; mood is an episode-only
+general-appeal modifier, not another scoring or satisfaction bonus.
+**Open for later episodes:** Any different sampling or audience mechanics.
 The separate idea of audience segments is not an approved requirement.
 
-**Open:** Fan acquisition and transfer proportions, aggregation/storage model,
-how general audience preferences generate votes, and how fan support relates to
-the existing `fanbaseRatio` modifier. Audience retention still follows the separate
-show-satisfaction rules.
+Auditions' fan acquisition, transfer, and `fanbaseRatio` use are established below.
+Persistent fan counts are separate from ratio modifiers. Storage/schema work
+remains; audience retention follows the separate show-satisfaction rules.
 
 ### MVP recognition
 
@@ -770,18 +821,23 @@ episode. There is one overall MVP per episode, chosen by all survivors. Only
 survivors can vote or receive the award; eliminated contestants are ineligible.
 This is a peer decision, not the player naming a winner.
 
-Each voter's perception of the performance and their relationships influence their
-choice. Personality determines how strongly they value friendship compared with
-perceived performance quality. Current overall rank does not directly determine
+Each voter's perception of performance, directional relationships, and personality
+affinity influence their choice. For Auditions their weights are 40%/40%/20%;
+personality does not replace those weights. Current overall rank does not directly determine
 their choice; the MVP need not be the highest-ranked or technically best contestant.
 
-**Open:** The precise post-elimination voting phase, self-votes, ties, perception
-rules, and award consequences.
+**Established Auditions:** After elimination, all 30 survivors privately vote once
+for another survivor, never themselves. Use weighted random choice from the
+40% observed-performance / 40% directional-relationship / 20% personality-affinity
+blend, with each component on 0–100. Perception and affinity formulas are
+configurable defaults, not simply judge rank. A suitable default uses visible
+delivery/star-quality perception and mean normalized personality-trait similarity.
+Plurality wins; ties use a persisted seeded draw. Increment `aggregations.mvp`;
+recognition only, no automatic ranking bonus or unapproved stat effects.
 The existing `aggregations.mvp` can count awards, but retain each vote/award in
 episode history rather than recording only a counter.
 
-**Proposed:** Recognition affects emotions and relationships. Do not silently add
-ranking points until an explicit reward rule is approved.
+**Open for later episodes:** Mission-specific recognition/emotional effects.
 
 ### Secrets and event consequences
 
@@ -824,9 +880,21 @@ Initial card influences apply once; public reveal consequences apply when their
 trigger occurs and must not repeat accidentally. Hidden secret assignments must
 not leak through player-facing card lists or generic contestant details.
 
-**Open:** Repeat selections and ordering relative to MVP voting.
-Define audience/production responses using the existing card `consequence` data
-where appropriate.
+**Established Auditions order/eligibility:** The three-person check follows MVP
+and is the last interaction before recap. Exclude already publicly revealed
+secret holders from future shortlists; previous misses may reappear. Draw from
+this episode's participants, including newly eliminated contestants, subject to
+the existing survivor availability gate. Hit: public reveal and authored
+consequence exactly once. Miss: no-op. Private-discovery rules are unchanged.
+
+Apply only validated authored numeric consequences and existing condition/status
+strings; defer outcome-changing targets until a future opening. Clamp ordinary stat bounds,
+and never reapply starting card influences or invent extra penalties. Unsupported
+targets/configuration must produce an explicit configuration error, not a silently
+ignored effect. Any public response occurs after votes close and may change
+closing state/future popularity, never closed votes, past performances, or survival.
+Generic card `set` override scope/precedence remains open for broader-season design;
+this is not permission to add an override mechanic to Auditions.
 
 ### Practice and dorm-life event roulette
 
@@ -1010,23 +1078,27 @@ assume it already implements this 50-contestant opening selection.
 
 ### Audition song pool
 
-**Established:** During setup, the simulator automatically selects a subset of
-audition songs from each track's song library. For example, if there are five songs
-per track, a run could select three vocal, three dance, and three rap songs.
-Those selections form the shared audition options for that run.
+**Established:** During setup, sample and persist three songs per track: one
+approachable, one intermediate, one demanding. These are shared options; multiple
+contestants may choose the same song. The five editable JSON placeholders per
+track already exist, but sampling/validation remains implementation work.
+Each fixed arrangement declares ordered tested skills and per-skill requirements.
+Implementation default: bucket by primary requirement 1–2 / 3 / 4–5 respectively,
+with seeded sampling within buckets. Validate every track's required coverage
+before running; insufficient/invalid catalog is an explicit configuration error,
+never fabricated songs, an undersized pool, or a quiet fallback.
 
 Contestants choose autonomously from the selected pool; the player does not assign
 or approve their songs. Persist the pool so reloading does not change the options.
 Off-track choices are allowed subject to the personality rules in Episode 1.
 
-**Open:** Fixed versus configurable pool size, insufficient library handling,
-and selection weights.
 Song choices lock before auditions begin; earlier performances cannot change them.
 
 ## 6. Episode plans
 
-The format and elimination counts below are established. Player interactions and
-system connections are proposals unless explicitly identified as established.
+The format and elimination counts below are established. Episode 1's complete
+light-narrative contract is established; later episode interactions and connections
+remain proposals unless explicitly identified as established.
 
 ### Episode 1 - Auditions
 
@@ -1034,6 +1106,29 @@ system connections are proposals unless explicitly identified as established.
 rap, or dance. Grades reflect absolute performance quality. Eliminate the bottom
 20 by audition evaluation, regardless of grade; the eliminated group need not all
 have F grades.
+
+**Established presentation/phase contract:** The player watches an episode unfold,
+using Continue between meaningful scenes rather than receiving 50 equally long
+reports. Start explicitly, then:
+1. Compact opening mood screen: six locked specialty choices.
+2. Autonomous song choices lock for all 50, with notable choices revealed.
+3. Randomized live auditions resolve sequentially in 13/13/13/11 batches, with
+   immediate eligible reactions after each audition. Summarize uneventful stretches
+   while highlighting meaningful performances/reactions; no 50-click requirement.
+4. After all 50 are scored, choose one complete broadcast cut.
+5. Resolve shown-footage audience effects, then close audience votes.
+6. Reveal the 20 departures and 30 survivors in a few short groups, focusing on
+   upsets/emotional departures. Full lists/results remain inspectable.
+7. All survivors privately vote for MVP; resolve and recognize the winner.
+8. Secret check last (or skip under its established gate), then recap.
+9. Save completed state and await the next explicit episode start.
+
+Scene counts and low-level layout are implementation defaults, not new mechanics.
+All participants, individual results, choices, and actual state mutations remain
+inspectable/archived within the visibility rules. No voluntary withdrawals,
+simulated practice, or growth occurs in this milestone. Sequential resolution is
+mandatory even when presentation groups auditions: never calculate a past audition
+retrospectively from later reactions, results, or ranks.
 
 **Established:** Editing cannot change Episode 1 survival. Its consequences affect
 popularity, viewer satisfaction, audience retention, and future support, not the
@@ -1053,9 +1148,8 @@ the primary technical skill within the 55% component; a rapper choosing a vocal
 audition is evaluated on the arrangement's vocal-led tested skills, not their
 registered rap track.
 
-**Established off-track decision drivers:** Personality shapes whether a
-contestant takes this risk. Discipline at -7 or below makes changing track more
-likely; curiosity at +7 or above also encourages it. High investment, maturity,
+**Established off-track decision:** Normally the probability is 10%; it becomes
+25% only when BOTH discipline <= -7 AND curiosity >= +7. High investment, maturity,
 or discipline (+7 or above) individually rules out the risk entirely. Any one of
 these protective traits is a hard veto, even when curiosity or low discipline
 would otherwise encourage changing track.
@@ -1065,9 +1159,15 @@ personality to override good judgment. Do not always optimize expected evaluatio
 or protect contestants from poor choices; reckless choices can genuinely backfire.
 This does not override the protective-trait veto on changing tracks.
 
-**Open:** Baseline off-track probability, the strength of encouraging traits below
-the hard-veto boundary, and how the contestant chooses among alternative tracks
-and songs.
+Selection considers all tested skills with first-skill weight 2, others 1,
+generally favoring requirements close to current ability. Matching genre
+multiplies a song's selection weight by 2. Use weighted randomness, not a
+guaranteed best song. Configurable implementation default: weighted mean absolute
+skill/requirement gap `g`, fit weight `1 / (1 + g)`, then genre multiplier.
+For multi-part arrangements, use the arrangement's ordered requirements in that
+gap calculation. On an off-track roll, default to equal seeded choice among the
+other valid tracks, then use the same song weights. These coefficients/algorithms
+are tunable defaults, not extra personality drama or player song approval.
 
 **Established audition evaluation:** The song's primary track supplies the
 technical foundation, but Auditions specifically rewards star quality:
@@ -1090,9 +1190,10 @@ factors are equal.
 | Batch preference: visual OR uniqueness  | 10%    |
 | Batch preference: potential OR charisma | 10%    |
 
-**Established stage-presence conversion:** Use the integer `stagePresence` skill
-against requirement 3. On the same raw performance dice used for technical
-checks, raise each face to at least `clamp(2 * stagePresence - 3, 1, 5)`, then
+**Established stage-presence conversion:** For this audition only, use integer
+`effectiveStagePresence = clamp(baseStagePresence + composure, 1, 5)` against
+requirement 3. On the same raw performance dice used for technical
+checks, raise each face to at least `clamp(2 * effectiveStagePresence - 3, 1, 5)`, then
 score `100 * (adjustedSum - 2) / 10`. No technical difficulty ceiling applies to
 this 0–100 component.
 
@@ -1114,7 +1215,7 @@ final = min(100, 0.55 * technical + 0.35 * stagePresence
 ```
 
 Keep component values and the capped final unrounded for ranking and grades;
-display rounding only (decimal count still open). Equal capped final scores use
+display rounding only (decimal count is a configurable default). Equal capped final scores use
 higher technical, then higher stage presence, then a persisted seeded draw.
 Do not use uncapped surplus as a hidden tie-breaker. Auditions has no growth
 bonus or extra direct consistency variance adjustment.
@@ -1162,10 +1263,74 @@ These absolute thresholds are the agreed starting balance and may be calibrated
 against simulated distributions. Eliminate the bottom 20 by audition evaluation
 independently of grade, with no audience or production save.
 
-**Established player interaction:** After the auditions, the player selects between
-complete, preassembled broadcast sequence packages with different casts and tones,
-including short split-screen cuts. Each decision offers a limited selection of
-packages, not an unrestricted contestant list or manual casting of every slot.
+#### Live reaction contract
+
+After each audition, every other cast member forms a small directional opinion,
+including those already performed; exclude the performer. A completed fifty-person
+Auditions therefore records all 2,450 observer/performer opinions. This is specific
+to watching Auditions, not a general rule that relationships drift without contact.
+At most one notable reaction per observer per audition. Most opinions are quiet
+and do not become episode notes. Order affects state and directional relationships,
+not locked songs.
+
+Use visible delivery and star-quality impressions, never future results or ranks.
+Before their own audition, observers compare against capability expectations from
+their locked song and current skills, without rolling their future performance.
+After performing, they may compare with their actual past result. Same-song
+comparisons are stronger. Configurable perception default: compare the same
+0–100 blend of 55% technical delivery, 35% stage presence, and equal shares of the
+remaining 10% across four star-quality impressions; expectation averages the
+ordinary raw-pair possibilities through existing scoring without drawing a roll.
+This is a perception metric, not a replacement judge score.
+
+**Adopted tuning:** Require an absolute meaningful comparison gap >=15 points
+normally, >=10 for the same song; only then roll a 15% normal or 45% same-song
+reaction chance. Personality shapes admiration, inspiration, intimidation,
+jealousy, confidence, or sympathy. Ambition/sensitivity may favor rivalry or
+intimidation; gentleness/maturity may favor admiration/inspiration. Excellence
+does not automatically cause envy. Exact personality/type weights are configurable
+defaults conditioned on the observed comparison, not invented events.
+
+Quiet opinions change the directional relationship by +/-1. A notable reaction
+replaces that small impression with +/-3 total, or +/-5 for a strong same-song
+reaction; do not stack an extra quiet point. All effects stay bounded 0–100,
+with no automatic reciprocity. Implementation defaults reuse the existing
+comparison/personality-shaped reaction weights for quiet opinion direction:
+admiration, inspiration, and sympathy are positive; jealousy, intimidation,
+and confidence from judging a weaker performance are negative. Quiet impressions
+never change composure. Default strong-gap thresholds are 30 normally / 20 same-song, tunable.
+Highlight at most two strong reactions per Continue-paced scene, preferring larger
+actual relationship/composure effects rather than listing every observer's changes.
+Keep every performance summary and log ALL actual mutations,
+including nonnarrated ones. Narrative selection must not discard resolved effects.
+
+Only notable reactions affect temporary composure. It accumulates opposing signed
+reaction effects and clamps to
+-1..+1 (default individual effect: +1 for inspiration/confidence, -1 for
+intimidation; admiration/jealousy/sympathy can be relationship-only). It changes
+only effective integer stage presence for the observer's own upcoming audition;
+consume/reset after performing. It NEVER edits saved/permanent core or utility
+skills, technical checks, raw dice, or Practice. Already-finished observers may
+change relationships but not past performance or accumulate readiness for a later
+mission. All bonus impressions still use base corresponding skills.
+
+**Save compatibility:** Newly started Auditions persist the
+`everyone-forms-opinions` relationship policy. Existing started episodes retain
+`reactions-only`, including their original +/-1 or strong same-song +/-3 effects
+and randomness sequence. Missing policy metadata migrates to that legacy mode;
+do not backfill opinions or rewrite saved votes, fan transfers, or MVP outcomes.
+
+Persist reaction causes, composure transitions, base/effective stage-presence
+levels, shared raw dice, per-check adjusted dice/floors, and their effects.
+Foundation scoring needs explicit temporary effective-stage input; its current
+absence is required code work, not a conflict with the unchanged floor rules.
+
+#### Broadcast contract
+
+**Established player interaction:** Once all 50 auditions are scored and before
+votes or elimination reveal, choose ONE of THREE complete preassembled cuts:
+musical-performance emphasis; personality/star-quality emphasis; or
+backstage/rivalry emphasis. No manual slot casting or repeated editing decisions.
 
 The player knows performance descriptions and grades while choosing packages.
 The elimination list is revealed later. Editing still cannot change the locked
@@ -1176,46 +1341,108 @@ Package previews show only their cast, footage, and editorial intent/tone. They 
 not disclose predicted effects, risk labels, numerical ranges, or exact stat changes.
 The player must judge the likely consequences from the content.
 
-Automatic baseline montage coverage guarantees everyone's exposure floor.
-The chosen sequence packages distribute additional attention above that baseline.
+Every cut reserves 50% of contestant runtime for baseline coverage of all 50,
+guaranteeing >=1% exposure each, and 50% for ten featured contestants. Features
+include at least two strongest and two weakest available auditions, plus six
+theme-varied contestants, without duplicates. Strongest/weakest are relative:
+never describe an audition as amazing/terrible unless absolute quality supports it.
+Shared coverage may be someone's only footage; no fixed number of eliminated
+contestants must receive a particular edit. Split-screen runtime counts once,
+but exposure counts for every person shown. Segment allocation is a configurable
+default constrained by these budgets/floors.
 
-There is not enough broadcast time to show all 50 auditions sequentially. A few
-terrible and a few amazing auditions must make the cut because both can attract
-viewers. Many other performances receive condensed coverage; approximately ten
-of the eliminated contestants may receive only shared split-screen exposure,
-while still meeting the minimum exposure rule.
+Use only actual recorded footage/reactions for scene and rivalry content; do not
+fabricate feuds to fill a cut. A cut without rivalry can emphasize available
+backstage/personality footage instead. There is no fixed good/neutral/bad cut
+bonus: audience outcomes depend on actual shown performances, star quality,
+variety, and emotional scenes. Exposure can affect popularity, fans, and the
+show, never judging or the elimination cutoff.
 
 Songs and audition order are not player-controlled: contestants lock their own
 song choices, and the simulator randomizes the performance order.
 
-**Open:** Package composition rules, number of package alternatives and decisions,
-runtime allocation and how mandatory standout/terrible
-features are enforced.
 Do not confuse filmed performance order with the player's later broadcast order.
 
-**Established contestant reactions:** Audition order and shared song choices matter.
-A contestant who performed poorly earlier may react to a later contestant performing
-the same song. Their personality determines whether this creates affinity,
-resentment, or another response, affecting directional relationships and happiness.
+#### Audience, votes, and closing state
 
-Auditions resolve live, one at a time. Song choices are locked beforehand, but
-reactions immediately update contestant state and can affect contestants who have
-not performed yet. Later events cannot retroactively change an earlier performance.
-Use temporary condition/readiness state and directional relationship changes,
-not instant permanent core/utility skill-rating changes. This readiness is not
-Practice >0: no practice sessions are simulated in milestone 1. Exact triggers,
-temporary state, magnitudes, and performance-influence formulas remain undesigned;
-no dice effect is implied.
+**Established reception:** All components are 0–100:
+`base reception = .40 * technical + .30 * stagePresence + .10 * visual
+- .10 * uniqueness + .10 * charisma`. Use resolved delivery (including effective
+  stage presence); do not include judge-selected bonus preferences. Then raw double
+  1 adds 10 reception points, raw double 6 subtracts 10; clamp 0–100.
+  Adjusted doubles never trigger this, and neither twist modifies judging/technical
+  scores. Reception is distinct from vote appeal.
 
-**Proposed additional connections:** Song/track fit and temporary readiness affect
-performance. Grades affect happiness and reputation; broadcast exposure affects
-audience attachment. Reactions to auditions can establish first impressions and
-supportive or rival relationships.
+**Established voting:** Each viewer casts one vote while all 50 remain eligible.
+A fresh season starts entirely general, with no existing fans. Loyal fans vote
+for their eligible favorite. Each general viewer notices three distinct
+exposure-weighted candidates, then chooses one based on reception, the episode's
+six mood matches (+3% each, max +18% general appeal), and existing `audienceRatio`.
+Implementation defaults: sample without replacement proportional to shown
+exposure, then choose with positive weight
+`max(1, reception) * (1 + audienceRatio / 2) * (1 + .03 * moodMatches)`.
+Use a pre-broadcast preference snapshot for this vote; subsequent popularity
+changes must not recursively feed the same calculation. Coefficients are
+configurable, not user-facing algebra or a guaranteed best-candidate vote.
+If fewer than three candidates are eligible, notice all; if none, record zero
+votes without fabricating candidates. Persist raw totals and the voting population.
 
-**Open:** Actual song/part catalog, pool/selection weights and off-track
-probabilities; live-reaction triggers, magnitudes, temporary performance influence,
-and relationship consequences; broadcast/audience contracts and episode closure
-as listed in the milestone checklist.
+**Fans/population conservation:** Persist integer fan counts per favorite separately
+from `fanbaseRatio`, plus the general-viewer population. After voting, a base 10%
+of general voters convert to fans of the candidate they actually voted for,
+adjusted by the recipient's fanbase modifier. Configurable default conversion
+probability: `clamp(.10 * (1 + fanbaseRatio), 0, 1)`; seeded draws or population-
+conserving integer allocation may aggregate this. Move viewers from general to
+fan counts; never duplicate them or count existing loyal voters as new conversions.
+After elimination, transfer 80% of departed favorites' fans to survivors, favoring
+positive connections from the departed favorite to each survivor; 20% become
+general undecided viewers, not audience departures. Default transfer weight:
+`1 + max(0, relationship - 50)`; integer largest-remainder allocation with persisted
+seeded ties preserves totals. If no survivors are eligible, all affected fans
+become general rather than vanishing. Transfer-weight coefficients and integer
+rounding are tunable defaults; the established 80%/20% split is not an open question.
+
+**Show effects and timing:** Starting meters remain 100,000 viewers/satisfaction
+50. Derive show changes from actual shown performance/star quality, variety, and
+recorded emotional scenes, not the selected cut's name. Rivalry may attract
+viewers while reducing enjoyment, but neither outcome is guaranteed.
+Satisfaction delta is capped +/-10 and satisfaction stays 0–100. Strong reception
+can acquire up to 12% new viewers. Low satisfaction removes up to 10% of the
+current audience at the NEXT episode opening, not from already-closed voting.
+Configurable formula defaults may blend runtime-weighted reception and actual
+scene valence/variety into bounded enjoyment/attention indices; positive attention
+drives acquisition, enjoyment drives satisfaction. Document these exact curves
+and any scene coefficients in configuration rather than claiming them approved.
+No fixed rivalry penalty or cut-name bonus is allowed.
+
+Implementation timing default: calculate the 12% acquisition ceiling against
+the pre-broadcast audience and resolve that acquisition before voting;
+new viewers join as general and vote in this episode. Freeze that population
+at vote opening. Integer rounding and later attrition allocation must preserve
+`audience = general + sum(fans)` and cannot remove closed votes. Future attrition
+uses the closing satisfaction, including any valid post-vote response.
+Popularity default: update `audienceRatio` from exposure-scaled signed reception
+after closing votes, clamped -1..1; scale is a documented tunable coefficient.
+Keep fan counts, popularity, show audience, satisfaction, and production preference
+distinct. Do not invent extra happiness/reputation penalties from grades.
+
+**Ranking/closure:** Before elimination reveal, persist the existing Episode 1
+contribution: 60% audition performance, 30% leader-relative votes
+(`100 * votes / maximumVotes`, default zero for all when maximum is zero), 10%
+existing production preference; retain .75 of previous cumulative total.
+No audience or production save. All cumulative calculations/changes are stored
+but hidden from normal UI/history details until Episode 3. Individual audition
+grades/results remain inspectable. Reveal departures in a few short groups with
+complete archived lists, transfer fans, then resolve survivor MVP and the last
+secret-check interaction under their shared contracts. Any post-vote public
+secret response changes only closing state/future popularity, not votes or survival.
+
+**Implemented for milestone 1:** Pool validation/sampling, locking/selection,
+reaction/composure input, narrative pacing, cut assembly, audience/fan population
+accounting, persisted phases, MVP, and validated authored secret consequences.
+Remaining low-level fit, perception, personality weights, scene allocation,
+audience curves, and rounding are authorized configurable implementation defaults,
+not unresolved high-impact story design.
 Calibrate the audition model for a believable spread of performances, but do not
 force 20 F grades, reroll results to fill a quota, or secretly lower performances.
 
@@ -1465,6 +1692,12 @@ and frozen definitions isolate the run from subsequent source/library edits.
 - Pending interactions and deferred consequences, including secret reveal state.
 - Performance components, judge feedback, peer votes, audience votes, rankings,
   saves, eliminations, and completed episode snapshots.
+- Auditions' sampled song pool, all locked choices, randomized live order,
+  batch preferences, base/effective checks, composure/reaction causes, and resolved
+  scene boundaries; all three cut manifests and the selected cut's runtime/exposure.
+- Mood shortlists/choices, vote-opening audience/preference snapshot, general/fan
+  integer populations and transitions, raw votes, MVP ballots/tie result,
+  revealed-secret/consequence IDs, and pending next-opening attrition.
 - A chronological event/decision ledger covering both autonomous developments
   and player choices, with causes, targets, before/after values, and explanations.
 
@@ -1477,8 +1710,10 @@ rank, score, and status when changed. Preserve intermediate changes and their
 causes even when a field returns to its starting value. Record episode-end
 results and summaries alongside these changes. Persist entries with the resolved
 phase/episode so resuming cannot duplicate them. Never write this runtime history
-back to source contestant profiles. The existing setup logger is not yet a
-complete implementation of this requirement.
+back to source contestant profiles. Setup and Auditions use the same before/after
+history foundation with causes and stable phase IDs. In-progress episode changes
+are saved with each scene; closure appends one episode entry per participant,
+including the twenty eliminated contestants.
 
 The contestant change log supports individual recaps but cannot alone represent
 the show's decisions, teams, votes, or full history. Do not hide season events in
@@ -1488,6 +1723,10 @@ an arbitrary contestant's log.
 character scenes, practice developments, performances, and reveals rather than
 autoplaying through the season. Before each episode, the player explicitly clicks
 "Start episode X"; completing one episode does not start the next automatically.
+Auditions uses light narrative: highlight consequential moments and summarize
+uneventful auditions, with Continue between meaningful scenes, not 50 equally
+long reports or mandatory individual announcements. All details remain accessible;
+exact summary-scene count and layout are implementation defaults.
 
 The player can always revisit previous material, open a contestant profile, and
 return to the same place in the current episode. Inspection/history navigation
@@ -1504,46 +1743,59 @@ All season mutations stay separate from the source contestant library.
 
 ## 8. Decisions to settle before implementation
 
-The established decisions above are not reopened by this list. The milestone 1
-blocker checklist and approved order are at the top of this document. The broader
-remaining gaps below also cover later episodes; they are not all launch blockers.
-Practice is specified for later episodes, not required for milestone 1.
-1. Actual Auditions song/part catalog, ordered per-skill requirements, pool size,
-   insufficient-library behavior, selection weights, and off-track probabilities.
-   Later missions still need evaluation/aggregation rules, utility effects,
-   meaningful-growth measurement, and bonus limits; Auditions scoring is settled.
-2. Satisfaction changes, new-viewer acquisition, retention timing/strength, and
-   post-season fan conversion.
-3. General-viewer voting, fan acquisition/transfer proportions, audience-preference
-   shortlist size/sampling, and the use of existing popularity/fanbase modifiers.
-4. Remaining episode-specific group/role/song authority and judging criteria.
-5. Card-effect precision, other explicit override targets, repair/search limits,
-   data validation, and the five canonical bias IDs.
-6. Opening feature strength, initial/replacement sampling, and presentation.
-7. Broadcast budget, floor eligibility, opening inclusion, solo versus simultaneous
-   exposure effects, and Auditions package composition/count, alternatives,
-   number of choices, and runtime allocation. Audience-only double detection
-   (raw versus adjusted), twist effects, appeal/fan acquisition, and viewer/
-   satisfaction deltas remain open; keep the +3% mood matches and +18% maximum.
-8. Auditions live-reaction triggers, temporary condition/readiness state,
-   magnitudes/performance influence, and directional relationship consequences.
-   Later episodes also need roulette catalog/weights/frequency and history cadence.
-9. Exact Auditions reveal/results timing and cumulative score contributions under
-   the established ranking weights, normalization, and 75% retention rule.
-   Voting windows, rank lock points, and later save/tie procedures remain open;
-   Auditions evaluation ties and performance-only survival are settled.
-10. Center/MVP/Ultimate Visual voting details, recognition effects, and secret-check
-    repeat-selection rules.
-11. Withdrawal probabilities/cap/timing and remaining team-specific cut adjustments.
-12. Persistence/schema implementation and private information available to the
-    player versus the in-world audience. Seeded reproducibility, frozen source
-    isolation, phase resumption, and navigation without rerolls/reapplied effects
-    are requirements, not open design alternatives.
+The established decisions above are not reopened by this list. Milestone 1's
+important behavior contracts are closed; its checked design checklist is not an
+implementation-completion checklist. No further high-impact Auditions question
+was left unapproved in this interview.
+
+**Implemented milestone defaults and remaining tuning, not new story design:**
+- Catalog and saved-episode validation reject insufficient pools or incomplete
+  progress rather than silently repairing configuration or rerolling outcomes.
+- `engine/audition-config.ts` centralizes the approved caps and tunable coefficients;
+  live/audience helpers document their remaining local weighting and rounding.
+  Live scenes cover up to four auditions, stopping at judging-batch boundaries;
+  elimination scenes reveal five departures each.
+- Audience enjoyment combines 80% exposure-weighted reception and 20% variety,
+  minus actual negative-footage share; attention combines 70% reception and 30%
+  actual scene intensity. Satisfaction changes by at most ten points, acquisition
+  by at most 12%, and low satisfaction queues at most 10% next-opening attrition.
+  Cut IDs themselves provide no numerical bonuses.
+- Secret consequences validate numeric stat deltas and the existing authored
+  condition/status strings. Conditions apply immediately after voting; status
+  and cumulative-score effects are queued as deferred consequences, never used to
+  undo locked votes, performances, or the thirty-survivor cut. Applying those
+  queued effects and attrition belongs to a future episode-opening implementation.
+- Balance calibration remains open; foundation, live, audience, persistence,
+  secret, visibility, and full-episode tests exercise the current slice.
+
+**Broader-season decisions still open:**
+1. Later mission evaluation/aggregation, utility effects, permanent skill growth,
+   fatigue/condition penalties, and meaningful-growth bonus limits. Practice's
+   specified later-episode engine remains unimplemented, not required for Auditions.
+2. Post-season fan retention/conversion and any mission-specific audience variants.
+3. Remaining episode-specific group/role/song authority, judging criteria,
+   voting windows, rank locks, saves, and later tie procedures.
+4. Generic card-effect precision, allowed `set` targets/override precedence,
+   repair/search limits, other validation, and the five canonical bias IDs.
+   Do not invent a missing arbitrary override policy for this milestone.
+5. Broader opening-title initial/replacement sampling, feature strength, and
+   presentation. These setup details are separate from the closed Auditions
+   cut/mood contract; baseline audition exposure never depends on an opening bonus.
+6. Later-episode broadcast budget/eligibility and solo/shared attention variants.
+7. Later roulette catalog/weights/frequency, private-discovery relationship rules,
+   history cadence, and active/archive likeness population.
+8. Center/Ultimate Visual voting and mission-specific recognition effects beyond
+   Auditions' survivor MVP.
+9. Withdrawal probabilities/cap/timing and remaining team-specific cut adjustments;
+   withdrawals are excluded from the first playable Auditions.
+10. Later private-information boundaries beyond the established secret visibility
+    and hidden cumulative leaderboard until Episode 3.
 
 ## 9. Implementation sequence
 
-1. Settle milestone 1 contracts in order: songs/selection → live reactions →
-   broadcast/audience → episode closure. Do not reopen established scoring,
+1. Use the now-established milestone 1 contracts: songs/selection → live reactions →
+   broadcast/audience → episode closure. Document configurable implementation
+   defaults; do not reopen scoring, Practice, batch appetite, grades, ties,
    ranking, shortlist, or secret-check no-op rules.
 2. Add season state, phase progression, decision/effect records, persistence, and
    deterministic randomness before adding episode-specific shortcuts.
@@ -1552,7 +1804,8 @@ Practice is specified for later episodes, not required for milestone 1.
    those systems: autonomous song selection, live reactions, choices, performance,
    broadcast packages, meaningful audience/popularity effects, grading,
    elimination, and closure. No simulated practice or growth bonus in Auditions.
-   Do not implement isolated scoring unless separately requested.
+   Reuse the existing scoring foundations, adding the explicit composed
+   stage-presence input without changing technical or bonus-quality checks.
 5. Add Episode 2 to exercise teams, directional relationships, and distinct saves.
 6. Add Episode 3 to establish training and the first public overall-ranking reveal.
 7. Extend the same foundations through Episodes 4-11 after separately designing
@@ -1568,6 +1821,14 @@ meaningful audience/popularity consequences. Enforce the confirmed scoring,
 absolute grades, seeded ties, source isolation, reproducibility, and phase
 resumption rules. Practice and the full 11-episode season are not milestone 1
 requirements.
+The episode must feel like a light, player-paced unfolding show: compact mood,
+locked songs, meaningful live highlights, one of three footage-based cuts,
+votes before grouped elimination, survivor MVP, secret check last, and recap
+awaiting the next explicit start. Verify sparse causal reactions/composure,
+exposure/runtime invariants, population conservation, next-opening attrition,
+post-vote-only secret consequences, complete inspectable audition archives, and
+no cumulative leaderboard leakage through normal history UI before Episode 3.
+These are acceptance requirements, not claims of implementation.
 
 **Full-season criteria (later scope):**
 - The roster follows the season table and always ends with five distinct winners.

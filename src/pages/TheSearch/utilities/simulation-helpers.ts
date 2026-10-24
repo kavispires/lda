@@ -1,4 +1,5 @@
 import type { Dictionary } from 'types/common';
+import { type RandomSource, shuffleWithRandom } from '../engine/random';
 import type { Contestant } from '../types/contestant';
 import { GRADES, TRACKS } from './constants';
 
@@ -6,9 +7,9 @@ import { GRADES, TRACKS } from './constants';
  * Generate random track distribution for 50 contestants
  * VOCAL: 20-26, RAP: 12-18, DANCE: 12-18 (totaling 50)
  */
-function generateRandomDistribution(): Record<string, number> {
+function generateRandomDistribution(random: RandomSource): Record<string, number> {
   // Random VOCAL count between 20-26
-  const vocalCount = 20 + Math.floor(Math.random() * 7); // 20, 21, 22, 23, 24, 25, or 26
+  const vocalCount = 20 + Math.floor(random() * 7); // 20, 21, 22, 23, 24, 25, or 26
 
   // Remaining slots for RAP and DANCE
   const remaining = 50 - vocalCount;
@@ -16,7 +17,7 @@ function generateRandomDistribution(): Record<string, number> {
   // Random RAP count between 12-18, but not exceeding remaining
   const maxRap = Math.min(18, remaining - 12); // Ensure at least 12 for DANCE
   const minRap = Math.max(12, remaining - 18); // Ensure at most 18 for DANCE
-  const rapCount = minRap + Math.floor(Math.random() * (maxRap - minRap + 1));
+  const rapCount = minRap + Math.floor(random() * (maxRap - minRap + 1));
 
   // DANCE gets the rest
   const danceCount = remaining - rapCount;
@@ -47,8 +48,15 @@ const GRADE_PRIORITY = {
  * @param useBias - If true, force-include all contestants with bias=true
  * @returns Array of 50 selected contestant IDs
  */
-export function selectDiverseContestants(contestantsData: Dictionary<Contestant>, useBias = false): string[] {
-  const contestants = Object.values(contestantsData);
+export function selectDiverseContestants(
+  contestantsData: Dictionary<Contestant>,
+  useBias = false,
+  random: RandomSource = Math.random,
+): string[] {
+  const contestants = shuffleWithRandom(
+    Object.values(contestantsData).sort((a, b) => a.id.localeCompare(b.id)),
+    random,
+  );
 
   if (contestants.length < 50) {
     throw new Error(`Not enough contestants in database. Found ${contestants.length}, need at least 50.`);
@@ -92,14 +100,14 @@ export function selectDiverseContestants(contestantsData: Dictionary<Contestant>
       if (priorityA !== priorityB) {
         return priorityB - priorityA; // Higher grade first
       }
-      // If same grade, randomize
-      return Math.random() - 0.5;
+      // Equal grades retain the seeded shuffle order.
+      return 0;
     });
   }
 
   // Generate random distribution for remaining slots
   const remainingSlots = 50 - selected.length;
-  const distribution = generateRandomDistribution();
+  const distribution = generateRandomDistribution(random);
 
   // Adjust distribution proportionally if we have bias contestants
   if (useBias && selected.length > 0) {
@@ -143,19 +151,7 @@ export function selectDiverseContestants(contestantsData: Dictionary<Contestant>
   }
 
   // Final shuffle to randomize order while maintaining diversity
-  return shuffleArray(selected).slice(0, 50);
-}
-
-/**
- * Fisher-Yates shuffle algorithm
- */
-function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
+  return shuffleWithRandom(selected, random).slice(0, 50);
 }
 
 /**

@@ -1,128 +1,59 @@
 import { Store } from '@tanstack/react-store';
+import { transitionAudition } from '../engine/audition-episode';
+import { createSeasonSetup } from '../engine/season-setup';
+import {
+  emptySimulationState,
+  loadSimulationState,
+  SIMULATION_STORAGE_KEY,
+} from '../engine/simulation-persistence';
+import type { AuditionAction } from '../types/audition-episode';
 import type { Contestant } from '../types/contestant';
-import { normalizeContestant } from '../utilities/contestant-factory';
+import type { SimulationState } from '../types/simulation';
 
-/**
- * Simulation state structure
- */
-export interface SimulationState {
-  /**
-   * Array of contestants in the current simulation
-   */
-  contestants: Contestant[];
-  /**
-   * Simulation status
-   */
-  status: 'idle' | 'initializing' | 'ready';
-  /**
-   * Timestamp when simulation was created
-   */
-  createdAt: number;
-}
+export type { SimulationState } from '../types/simulation';
 
-/**
- * Initial simulation state
- */
-const initialState: SimulationState = {
-  contestants: [],
-  status: 'idle',
-  createdAt: 0,
-};
-
-/**
- * LocalStorage key for persisting simulation state
- */
-// Keep setup state separate from incompatible legacy episode results.
-const STORAGE_KEY = 'the-search-simulation-setup';
-
-/**
- * Load simulation state from localStorage
- */
 function loadFromStorage(): SimulationState {
+  if (typeof window === 'undefined') return emptySimulationState();
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      const state: SimulationState = JSON.parse(stored);
-      return {
-        ...state,
-        contestants: state.contestants.map(normalizeContestant),
-      };
-    }
-  } catch {
-    // Silent error - return initial state
-  }
-  return initialState;
-}
-
-/**
- * Save simulation state to localStorage
- */
-function saveToStorage(state: SimulationState): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    // Silent error - localStorage might be full or unavailable
+    return loadSimulationState(window.localStorage);
+  } catch (error) {
+    return {
+      ...emptySimulationState(),
+      persistenceError: `Could not access simulation storage: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
 }
 
-/**
- * Create the simulation store with localStorage persistence
- */
 export const simulationStore = new Store<SimulationState>(loadFromStorage());
 
-/**
- * Subscribe to store changes and persist to localStorage
- */
-simulationStore.subscribe(() => {
-  saveToStorage(simulationStore.state);
-});
+function commitState(next: SimulationState): void {
+  // Save before publishing state so a failed write cannot look like a completed phase.
+  window.localStorage.setItem(SIMULATION_STORAGE_KEY, JSON.stringify(next));
+  simulationStore.setState(() => next);
+}
 
-/**
- * Store actions
- */
 export const simulationActions = {
-  /**
-   * Initialize a new simulation with contestants
-   */
-  initializeSimulation(contestants: Contestant[]) {
-    simulationStore.setState((state) => ({
-      ...state,
-      contestants: contestants.map((contestant) =>
-        normalizeContestant({
-          ...contestant,
-          aggregations: { ...contestant.aggregations, practice: 0 },
-        }),
-      ),
-      status: 'ready',
-      createdAt: Date.now(),
-    }));
+  initializeSimulation(
+    sourceContestants: Record<string, Contestant>,
+    options: { useBias?: boolean; seed?: number } = {},
+  ) {
+    const setup = createSeasonSetup(sourceContestants, {
+      seed: options.seed ?? crypto.getRandomValues(new Uint32Array(1))[0],
+      runId: crypto.randomUUID(),
+      now: Date.now(),
+      useBias: options.useBias,
+    });
+    commitState({ ...setup, status: 'ready', persistenceError: null });
   },
 
-  /**
-   * Update simulation status
-   */
-  setStatus(status: SimulationState['status']) {
-    simulationStore.setState((state) => ({
-      ...state,
-      status,
-    }));
-  },
-
-  /**
-   * Clear the simulation
-   */
   clearSimulation() {
-    simulationStore.setState(() => initialState);
-    localStorage.removeItem(STORAGE_KEY);
+    window.localStorage.removeItem(SIMULATION_STORAGE_KEY);
+    simulationStore.setState(emptySimulationState);
   },
 
-  /**
-   * Update contestants
-   */
-  updateContestants(contestants: Contestant[]) {
-    simulationStore.setState((state) => ({
-      ...state,
-      contestants: contestants.map(normalizeContestant),
-    }));
+  dispatchAudition(action: AuditionAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionAudition(current, action, expectedRevision);
+    if (next !== current) commitState(next);
   },
 };

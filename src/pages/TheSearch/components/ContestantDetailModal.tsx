@@ -20,8 +20,9 @@ import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';
 import personaCardsData from '../data/persona-cards.json';
 import secretCardsData from '../data/secret-cards.json';
-import type { AttributeCard } from '../types/common';
+import type { AttributeCard, PropertyChange } from '../types/common';
 import type { Contestant } from '../types/contestant';
+import type { SimulationDefinitions } from '../types/simulation';
 import {
   DANCE_STYLES,
   GENRE_AFFINITIES,
@@ -30,7 +31,10 @@ import {
   VISUAL_VIBES,
   VOCAL_COLORS,
 } from '../utilities/attribute-libraries';
+import { isSeasonRankingPath } from '../utilities/episode-visibility';
 import { ContestantAvatar } from './ContestantAvatar';
+import { EpisodeNarrative } from './EpisodeNarrative';
+import { PropertyChangeValue } from './SimulationChange';
 import { TrackTag } from './TrackTag';
 
 const PERSONA_CARDS = personaCardsData as Dictionary<AttributeCard>;
@@ -72,26 +76,34 @@ interface ContestantDetailModalProps {
   contestant: Contestant | null;
   allContestants: Contestant[];
   onClose: () => void;
+  hideSeasonRanking?: boolean;
+  definitions?: SimulationDefinitions;
 }
 
-export function ContestantDetailModal({ contestant, allContestants, onClose }: ContestantDetailModalProps) {
+export function ContestantDetailModal({
+  contestant,
+  allContestants,
+  onClose,
+  hideSeasonRanking = false,
+  definitions,
+}: ContestantDetailModalProps) {
   if (!contestant) return null;
 
   const tabItems = [
     {
       key: 'basic',
       label: 'Basic Info',
-      children: <BasicInfoTab contestant={contestant} />,
+      children: <BasicInfoTab contestant={contestant} hideSeasonRanking={hideSeasonRanking} />,
     },
     {
       key: 'skills',
       label: 'Skills & Specialties',
-      children: <SkillsTab contestant={contestant} />,
+      children: <SkillsTab contestant={contestant} definitions={definitions} />,
     },
     {
       key: 'personality',
       label: 'Personality & Attributes',
-      children: <PersonalityTab contestant={contestant} />,
+      children: <PersonalityTab contestant={contestant} definitions={definitions} />,
     },
     {
       key: 'relationships',
@@ -101,7 +113,7 @@ export function ContestantDetailModal({ contestant, allContestants, onClose }: C
     {
       key: 'changelog',
       label: 'Change Log',
-      children: <ChangeLogTab contestant={contestant} />,
+      children: <ChangeLogTab contestant={contestant} hideSeasonRanking={hideSeasonRanking} />,
     },
   ];
 
@@ -134,7 +146,13 @@ export function ContestantDetailModal({ contestant, allContestants, onClose }: C
 }
 
 // Tab 1: Basic Information and Statistics
-function BasicInfoTab({ contestant }: { contestant: Contestant }) {
+function BasicInfoTab({
+  contestant,
+  hideSeasonRanking,
+}: {
+  contestant: Contestant;
+  hideSeasonRanking: boolean;
+}) {
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       {/* Basic Info */}
@@ -146,7 +164,9 @@ function BasicInfoTab({ contestant }: { contestant: Contestant }) {
           </Descriptions.Item>
           <Descriptions.Item label="Grade">{contestant.grade}</Descriptions.Item>
           <Descriptions.Item label="Status">{contestant.status}</Descriptions.Item>
-          <Descriptions.Item label="Rank">{contestant.rank || 'N/A'}</Descriptions.Item>
+          {!hideSeasonRanking && (
+            <Descriptions.Item label="Rank">{contestant.rank || 'N/A'}</Descriptions.Item>
+          )}
           <Descriptions.Item label="Mission Rating">
             <Rate allowHalf count={5} disabled value={contestant.missionRating} />
             <span style={{ marginLeft: '8px' }}>{contestant.missionRating}</span>
@@ -185,7 +205,9 @@ function BasicInfoTab({ contestant }: { contestant: Contestant }) {
           <Descriptions.Item label="Contestants Likeness">
             {contestant.aggregations.contestantsLikeness.toFixed(1)}
           </Descriptions.Item>
-          <Descriptions.Item label="Score">{contestant.aggregations.score}</Descriptions.Item>
+          {!hideSeasonRanking && (
+            <Descriptions.Item label="Score">{contestant.aggregations.score}</Descriptions.Item>
+          )}
           <Descriptions.Item label="Experience">{contestant.aggregations.experience}</Descriptions.Item>
           <Descriptions.Item label="Practice">
             <Tooltip title="Temporary preparation shared across the episode, calculated by practice sessions.">
@@ -216,10 +238,23 @@ function BasicInfoTab({ contestant }: { contestant: Contestant }) {
 }
 
 // Tab 2: Core Skills, Utility Skills, Specialties
-function SkillsTab({ contestant }: { contestant: Contestant }) {
+function SkillsTab({
+  contestant,
+  definitions,
+}: {
+  contestant: Contestant;
+  definitions?: SimulationDefinitions;
+}) {
+  const specialties = definitions
+    ? Object.values(definitions.specialties).reduce<Record<string, AttributeCard>>(
+        (all, group) => Object.assign(all, group),
+        {},
+      )
+    : ALL_SPECIALTIES;
+  const specialtyLabel = (id: string) => (definitions ? (specialties[id]?.name ?? id) : id);
   const getSpecialtyTooltip = (specialtyId: string | undefined): string => {
     if (!specialtyId) return '';
-    const specialty = ALL_SPECIALTIES[specialtyId];
+    const specialty = specialties[specialtyId];
     return specialty?.description || '';
   };
 
@@ -306,7 +341,7 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
             {contestant.specialties.vocalColor ? (
               <Tooltip title={getSpecialtyTooltip(contestant.specialties.vocalColor)}>
                 <span style={{ cursor: 'help', borderBottom: '1px dotted' }}>
-                  {contestant.specialties.vocalColor}
+                  {specialtyLabel(contestant.specialties.vocalColor)}
                 </span>
               </Tooltip>
             ) : (
@@ -317,7 +352,7 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
             {contestant.specialties.danceStyle ? (
               <Tooltip title={getSpecialtyTooltip(contestant.specialties.danceStyle)}>
                 <span style={{ cursor: 'help', borderBottom: '1px dotted' }}>
-                  {contestant.specialties.danceStyle}
+                  {specialtyLabel(contestant.specialties.danceStyle)}
                 </span>
               </Tooltip>
             ) : (
@@ -328,7 +363,7 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
             {contestant.specialties.rapStyle ? (
               <Tooltip title={getSpecialtyTooltip(contestant.specialties.rapStyle)}>
                 <span style={{ cursor: 'help', borderBottom: '1px dotted' }}>
-                  {contestant.specialties.rapStyle}
+                  {specialtyLabel(contestant.specialties.rapStyle)}
                 </span>
               </Tooltip>
             ) : (
@@ -339,7 +374,7 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
             {contestant.specialties.visualVibe ? (
               <Tooltip title={getSpecialtyTooltip(contestant.specialties.visualVibe)}>
                 <span style={{ cursor: 'help', borderBottom: '1px dotted' }}>
-                  {contestant.specialties.visualVibe}
+                  {specialtyLabel(contestant.specialties.visualVibe)}
                 </span>
               </Tooltip>
             ) : (
@@ -350,7 +385,7 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
             {contestant.specialties.leadershipStyle ? (
               <Tooltip title={getSpecialtyTooltip(contestant.specialties.leadershipStyle)}>
                 <span style={{ cursor: 'help', borderBottom: '1px dotted' }}>
-                  {contestant.specialties.leadershipStyle}
+                  {specialtyLabel(contestant.specialties.leadershipStyle)}
                 </span>
               </Tooltip>
             ) : (
@@ -361,7 +396,7 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
             {contestant.specialties.genreAffinity ? (
               <Tooltip title={getSpecialtyTooltip(contestant.specialties.genreAffinity)}>
                 <span style={{ cursor: 'help', borderBottom: '1px dotted' }}>
-                  {GENRE_AFFINITIES[contestant.specialties.genreAffinity]?.name ||
+                  {specialties[contestant.specialties.genreAffinity]?.name ||
                     contestant.specialties.genreAffinity}
                 </span>
               </Tooltip>
@@ -376,16 +411,30 @@ function SkillsTab({ contestant }: { contestant: Contestant }) {
 }
 
 // Tab 3: Appearance, Assigned Attributes, and Personality
-function PersonalityTab({ contestant }: { contestant: Contestant }) {
+function PersonalityTab({
+  contestant,
+  definitions,
+}: {
+  contestant: Contestant;
+  definitions?: SimulationDefinitions;
+}) {
+  const cards: Record<string, AttributeCard> = definitions
+    ? {
+        ...definitions.cards.persona,
+        ...definitions.cards.identity,
+        ...definitions.cards.interest,
+        ...definitions.cards.secret,
+      }
+    : ALL_CARDS;
   const getCardTooltip = (cardId: string): string => {
-    const card = ALL_CARDS[cardId];
+    const card = cards[cardId];
     if (!card) return '';
     return card.description || '';
   };
 
   const getPersonaDescription = (): string => {
     if (!contestant.persona) return '';
-    const persona = PERSONA_CARDS[contestant.persona];
+    const persona = (definitions?.cards.persona ?? PERSONA_CARDS)[contestant.persona];
     return persona?.description || '';
   };
 
@@ -422,7 +471,7 @@ function PersonalityTab({ contestant }: { contestant: Contestant }) {
             <Typography.Text strong>Persona: </Typography.Text>
             <Tooltip title={getPersonaDescription()}>
               <Tag color="magenta" style={{ cursor: 'help' }}>
-                {contestant.persona}
+                {definitions ? (cards[contestant.persona]?.name ?? contestant.persona) : contestant.persona}
               </Tag>
             </Tooltip>
           </div>
@@ -444,7 +493,7 @@ function PersonalityTab({ contestant }: { contestant: Contestant }) {
                   }
                   style={{ cursor: 'help' }}
                 >
-                  {attrId}
+                  {definitions ? (cards[attrId]?.name ?? attrId) : attrId}
                 </Tag>
               </Tooltip>
             ))}
@@ -606,7 +655,13 @@ function RelationshipsTab({
 }
 
 // Tab 5: Change Log
-function ChangeLogTab({ contestant }: { contestant: Contestant }) {
+function ChangeLogTab({
+  contestant,
+  hideSeasonRanking,
+}: {
+  contestant: Contestant;
+  hideSeasonRanking: boolean;
+}) {
   const columns = [
     {
       title: 'Episode',
@@ -621,7 +676,7 @@ function ChangeLogTab({ contestant }: { contestant: Contestant }) {
       width: 80,
     },
     {
-      title: 'Score',
+      title: hideSeasonRanking ? 'Judged episode score' : 'Score',
       dataIndex: 'score',
       key: 'score',
       width: 80,
@@ -638,6 +693,7 @@ function ChangeLogTab({ contestant }: { contestant: Contestant }) {
       dataIndex: 'summary',
       key: 'summary',
       ellipsis: true,
+      render: (summary: string) => <EpisodeNarrative text={summary} />,
     },
     {
       title: 'Events',
@@ -656,7 +712,7 @@ function ChangeLogTab({ contestant }: { contestant: Contestant }) {
           Historical record of the contestant's journey through the competition.
         </Typography.Paragraph>
         <Table
-          columns={columns}
+          columns={columns.filter((column) => !hideSeasonRanking || column.key !== 'rank')}
           dataSource={contestant.changeLog}
           expandable={{
             expandedRowRender: (record) => (
@@ -676,14 +732,59 @@ function ChangeLogTab({ contestant }: { contestant: Contestant }) {
                 <br />
                 <br />
                 <Typography.Text strong>Changes: </Typography.Text>
-                <pre style={{ marginTop: '8px', fontSize: '12px' }}>
-                  {JSON.stringify(record.change, null, 2)}
-                </pre>
+                {record.changes ? (
+                  <Table<PropertyChange & { key: number }>
+                    columns={[
+                      {
+                        title: 'Attribute',
+                        dataIndex: 'path',
+                        render: (path: string) => (
+                          <Tag style={{ maxWidth: '100%', whiteSpace: 'normal' }}>
+                            {path === 'episode1.composure'
+                              ? 'Composure'
+                              : path.startsWith('relationships.')
+                                ? `Relationship: ${path.slice('relationships.'.length)}`
+                                : path}
+                          </Tag>
+                        ),
+                      },
+                      {
+                        title: 'New value',
+                        render: (_, change) => <PropertyChangeValue change={change} />,
+                      },
+                      {
+                        title: 'Cause',
+                        dataIndex: 'cause',
+                        render: (cause: string) => <EpisodeNarrative text={cause} />,
+                      },
+                    ]}
+                    dataSource={record.changes
+                      .filter(({ path }) => !hideSeasonRanking || !isSeasonRankingPath(path))
+                      .map((change, key) => ({ ...change, key }))}
+                    pagination={false}
+                    rowKey="key"
+                    scroll={{ x: 650 }}
+                    size="small"
+                    style={{ marginTop: 8 }}
+                  />
+                ) : (
+                  <pre style={{ marginTop: '8px', fontSize: '12px' }}>
+                    {JSON.stringify(
+                      Object.fromEntries(
+                        Object.entries(record.change).filter(
+                          ([path]) => !hideSeasonRanking || !isSeasonRankingPath(path),
+                        ),
+                      ),
+                      null,
+                      2,
+                    )}
+                  </pre>
+                )}
               </div>
             ),
           }}
           pagination={false}
-          rowKey={(record) => `${record.episode}`}
+          rowKey={(record) => `${record.episode}-${record.phaseId ?? 'summary'}`}
           size="small"
         />
       </div>

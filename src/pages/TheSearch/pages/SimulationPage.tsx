@@ -15,18 +15,19 @@ import {
   Tag,
   Typography,
 } from 'antd';
-import { useState } from 'react';
+import { type Key, useState } from 'react';
 import type { ValuesOf } from 'types/common';
+import { AuditionEpisodeView } from '../components/AuditionEpisodeView';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { ContestantDetailModal } from '../components/ContestantDetailModal';
 import { TrackTag } from '../components/TrackTag';
-import secretCardsData from '../data/secret-cards.json';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
+import type { AuditionAction } from '../types/audition-episode';
 import type { Contestant } from '../types/contestant';
-import { processSimulationContestants } from '../utilities/card-assignment';
+import type { SeasonRuntime } from '../types/simulation';
 import type { TRACKS } from '../utilities/constants';
-import { selectDiverseContestants } from '../utilities/simulation-helpers';
+import { projectEpisodeContestant } from '../utilities/episode-visibility';
 
 export function SimulationPage() {
   const { contestants: contestantsData } = useContestantsContext();
@@ -36,6 +37,16 @@ export function SimulationPage() {
   const [progressText, setProgressText] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [useBias, setUseBias] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
+  const handleAuditionAction = (action: AuditionAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchAudition(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next audition scene.');
+    }
+  };
 
   const handleStartSimulation = async () => {
     setIsInitializing(true);
@@ -47,25 +58,20 @@ export function SimulationPage() {
       setProgress(20);
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const selectedIds = selectDiverseContestants(contestantsData, useBias);
-
       setProgressText('Assigning attribute cards and calculating influences...');
       setProgress(40);
       await new Promise((resolve) => setTimeout(resolve, 300));
-
-      const processedContestants = processSimulationContestants(selectedIds, contestantsData);
 
       setProgressText('Initializing simulation state...');
       setProgress(80);
       await new Promise((resolve) => setTimeout(resolve, 200));
 
-      simulationActions.initializeSimulation(processedContestants);
+      simulationActions.initializeSimulation(contestantsData, { useBias });
 
       setProgressText('Simulation ready!');
       setProgress(100);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
-      simulationActions.setStatus('idle');
     } finally {
       setIsInitializing(false);
     }
@@ -73,10 +79,14 @@ export function SimulationPage() {
 
   const handleClearSimulation = () => {
     if (window.confirm('Are you sure you want to clear the current simulation? This cannot be undone.')) {
-      simulationActions.clearSimulation();
-      setProgress(0);
-      setProgressText('');
-      setError(null);
+      try {
+        simulationActions.clearSimulation();
+        setProgress(0);
+        setProgressText('');
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Could not clear the saved simulation.');
+      }
     }
   };
 
@@ -92,12 +102,22 @@ export function SimulationPage() {
         assign personas, attributes, and calculate initial statistics.
       </Typography.Paragraph>
       <Alert
-        description="You can initialize and inspect your cast. Episode simulation is being rebuilt."
+        description="Build your cast, then follow Episode 1 from the opening mood through auditions, broadcast, audience votes and the final thirty."
         showIcon
         style={{ marginBottom: '1rem' }}
-        title="Simulation Setup"
+        title="The Search — Auditions"
         type="info"
       />
+
+      {simulationState.persistenceError && (
+        <Alert
+          description={simulationState.persistenceError}
+          showIcon
+          style={{ marginBottom: '1rem' }}
+          title="Saved Simulation Error"
+          type="error"
+        />
+      )}
 
       {error && (
         <Alert
@@ -105,7 +125,7 @@ export function SimulationPage() {
           description={error}
           showIcon
           style={{ marginBottom: '1rem' }}
-          title="Initialization Error"
+          title="Simulation Error"
           type="error"
         />
       )}
@@ -155,20 +175,63 @@ export function SimulationPage() {
 
       {hasSimulation && !isInitializing && (
         <>
+          {simulationState.runtime ? (
+            <>
+              <Typography.Paragraph type="secondary">
+                Seed: {simulationState.runtime.seed}. Songs, source profiles and definitions are frozen for
+                this season.
+              </Typography.Paragraph>
+              <AuditionEpisodeView
+                actionError={error}
+                key={simulationState.runtime.runId}
+                onAction={handleAuditionAction}
+                onInspect={setSelectedId}
+                state={simulationState}
+              />
+            </>
+          ) : (
+            <Alert
+              description="This older setup has no seed or frozen definitions. You can inspect it, but start a new simulation to use the audition foundations."
+              showIcon
+              style={{ marginTop: '1rem' }}
+              title="Legacy Setup"
+              type="warning"
+            />
+          )}
           <Button danger onClick={handleClearSimulation} style={{ marginTop: '2rem' }}>
             Clear Simulation
           </Button>
-          <SimulationOverview contestants={simulationState.contestants} />
+          <SimulationOverview
+            contestants={simulationState.contestants}
+            onSelect={setSelectedId}
+            runtime={simulationState.runtime}
+            selectedId={selectedId}
+          />
         </>
       )}
     </Content>
   );
 }
 
-function SimulationOverview({ contestants }: { contestants: Contestant[] }) {
+function SimulationOverview({
+  contestants: canonicalContestants,
+  runtime,
+  selectedId,
+  onSelect,
+}: {
+  contestants: Contestant[];
+  runtime: SeasonRuntime | null;
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
+}) {
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
-  const [selectedContestant, setSelectedContestant] = useState<Contestant | null>(null);
   const [pageSize, setPageSize] = useState(10);
+  const contestants = runtime
+    ? canonicalContestants.map((contestant) => projectEpisodeContestant(contestant, runtime))
+    : canonicalContestants;
+  const selectedContestant = contestants.find((contestant) => contestant.id === selectedId) ?? null;
+  const evaluatedIds = new Set(runtime?.audition?.evaluations.map((evaluation) => evaluation.contestantId));
+  const hasGrade = (id: string) => !runtime || evaluatedIds.has(id);
   const trackCounts = contestants.reduce(
     (acc, c) => {
       acc[c.track] = (acc[c.track] || 0) + 1;
@@ -177,18 +240,20 @@ function SimulationOverview({ contestants }: { contestants: Contestant[] }) {
     {} as Record<string, number>,
   );
 
-  const gradeCounts = contestants.reduce(
-    (acc, c) => {
-      acc[c.grade] = (acc[c.grade] || 0) + 1;
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
+  const gradeCounts = contestants
+    .filter((contestant) => hasGrade(contestant.id))
+    .reduce(
+      (acc, c) => {
+        acc[c.grade] = (acc[c.grade] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
-  const secretCount = contestants.filter((c) =>
-    c.attributes.some((id) => Object.hasOwn(secretCardsData, id)),
-  ).length;
-
+  const activeStatusLabel =
+    runtime?.audition && ['mvp', 'secret', 'complete'].includes(runtime.audition.phase)
+      ? 'Surviving'
+      : 'In cast';
   const columns = [
     {
       title: 'ID',
@@ -225,7 +290,23 @@ function SimulationOverview({ contestants }: { contestants: Contestant[] }) {
       dataIndex: 'grade',
       key: 'grade',
       width: 80,
-      sorter: (a: Contestant, b: Contestant) => a.grade.localeCompare(b.grade),
+      render: (grade: string, contestant: Contestant) => (hasGrade(contestant.id) ? grade : 'Not performed'),
+      sorter: (a: Contestant, b: Contestant) =>
+        (hasGrade(a.id) ? a.grade : 'Not performed').localeCompare(
+          hasGrade(b.id) ? b.grade : 'Not performed',
+        ),
+    },
+    {
+      title: 'Status',
+      dataIndex: 'status',
+      key: 'status',
+      sorter: (a: Contestant, b: Contestant) => a.status.localeCompare(b.status),
+      filters: [
+        { text: activeStatusLabel, value: 'ACTIVE' },
+        { text: 'Departed', value: 'ELIMINATED' },
+      ],
+      onFilter: (value: Key | boolean, record: Contestant) => record.status === value,
+      render: (status: string) => (status === 'ELIMINATED' ? 'Departed' : activeStatusLabel),
     },
     {
       title: 'Persona',
@@ -242,23 +323,25 @@ function SimulationOverview({ contestants }: { contestants: Contestant[] }) {
       <Card>
         <Space align="start" orientation="vertical" size="large" style={{ width: '100%' }}>
           <div>
-            <Typography.Title level={2}>Simulation Ready</Typography.Title>
+            <Typography.Title level={2}>Season Cast</Typography.Title>
             <Typography.Paragraph>
-              Successfully initialized simulation with {contestants.length} contestants.
+              Inspect any of the {contestants.length} contestants without advancing the episode.
             </Typography.Paragraph>
           </div>
 
           <Descriptions bordered column={2}>
             <Descriptions.Item label="Total Contestants">{contestants.length}</Descriptions.Item>
-            <Descriptions.Item label="Secret Cards">{secretCount}</Descriptions.Item>
+            <Descriptions.Item label="Resolved Auditions">{evaluatedIds.size}</Descriptions.Item>
             <Descriptions.Item label="VOCAL Track">{trackCounts.VOCAL || 0}</Descriptions.Item>
             <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
             <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
-            <Descriptions.Item label="Status">Ready</Descriptions.Item>
+            <Descriptions.Item label="Status">
+              {runtime?.audition?.phase ?? 'Setup complete'}
+            </Descriptions.Item>
           </Descriptions>
 
           <div>
-            <Typography.Title level={4}>Grade Distribution</Typography.Title>
+            <Typography.Title level={4}>Revealed Grade Distribution</Typography.Title>
             <Typography.Text>
               A: {gradeCounts.A || 0} | B: {gradeCounts.B || 0} | C: {gradeCounts.C || 0} | D:{' '}
               {gradeCounts.D || 0} | F: {gradeCounts.F || 0}
@@ -287,7 +370,7 @@ function SimulationOverview({ contestants }: { contestants: Contestant[] }) {
               columns={columns}
               dataSource={contestants}
               onRow={(record) => ({
-                onClick: () => setSelectedContestant(record),
+                onClick: () => onSelect(record.id),
                 style: { cursor: 'pointer' },
               })}
               pagination={{
@@ -305,11 +388,7 @@ function SimulationOverview({ contestants }: { contestants: Contestant[] }) {
             <Row gutter={[16, 16]}>
               {contestants.map((contestant) => (
                 <Col key={contestant.id} lg={6} md={8} sm={12} xs={24}>
-                  <Card
-                    hoverable
-                    onClick={() => setSelectedContestant(contestant)}
-                    style={{ textAlign: 'center' }}
-                  >
+                  <Card hoverable onClick={() => onSelect(contestant.id)} style={{ textAlign: 'center' }}>
                     <ContestantAvatar
                       enablePreview={false}
                       id={contestant.id}
@@ -322,7 +401,7 @@ function SimulationOverview({ contestants }: { contestants: Contestant[] }) {
                     <Typography.Text type="secondary">{contestant.id}</Typography.Text>
                     <div style={{ marginTop: '0.5rem' }}>
                       <TrackTag track={contestant.track} />
-                      <Tag>{contestant.grade}</Tag>
+                      <Tag>{hasGrade(contestant.id) ? contestant.grade : 'Not performed'}</Tag>
                     </div>
                   </Card>
                 </Col>
@@ -335,7 +414,9 @@ function SimulationOverview({ contestants }: { contestants: Contestant[] }) {
       <ContestantDetailModal
         allContestants={contestants}
         contestant={selectedContestant}
-        onClose={() => setSelectedContestant(null)}
+        definitions={runtime?.definitions}
+        hideSeasonRanking={!runtime || runtime.episode < 3}
+        onClose={() => onSelect(null)}
       />
     </div>
   );
