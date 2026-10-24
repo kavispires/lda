@@ -10,6 +10,7 @@ import type {
 import type { SimulationState } from '../types/simulation';
 import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
+import { awardNewActivity, recordSceneTV } from './activity-awards';
 import { chooseAuditionMvp, resolveNarrativeAudience, transferEliminatedFans } from './audition-audience';
 import { revealAuditionSecret } from './audition-secrets';
 import {
@@ -98,7 +99,7 @@ function append(
     presentation: host ? 'host' : 'introduction',
     ...(host ? { speaker: { name: 'Mike Philip', role: 'Host' } } : {}),
   };
-  ep.scenes.push(scene);
+  ep.scenes.push(recordSceneTV(scene));
   return scene;
 }
 
@@ -122,7 +123,7 @@ function describeDraftTeam(state: SimulationState, team: BattleTeam) {
       outgoing < 50 && incoming < 50
         ? `Reaction: ${mention(chosenId)} and ${mention(id)} both feel uneasy about having to work together, given their strained relationship.`
         : `Reaction: ${mention(outgoing < 50 ? chosenId : id)} feels uneasy about sharing a team with ${mention(outgoing < 50 ? id : chosenId)}, given their strained relationship.`;
-    return [{ paragraph, strength: Math.min(outgoing, incoming) }];
+    return [{ paragraph, strength: Math.min(outgoing, incoming), contestantId: id }];
   });
   reactions.sort((a, b) => a.strength - b.strength);
   const additions = [
@@ -132,6 +133,15 @@ function describeDraftTeam(state: SimulationState, team: BattleTeam) {
   scene.paragraphs.push(...additions.map((entry) => entry.paragraph));
   scene.paragraphContestantIds?.push(...additions.map((entry) => entry.ids));
   scene.contestantIds = [...team.memberIds];
+  scene.tvMoments ??= {};
+  scene.tvMoments.appearance ??= {};
+  const moments = scene.tvMoments.appearance;
+  moments[chosenId] = 3;
+  for (const reaction of reactions.slice(0, 2)) {
+    const tier = reaction.strength < 40 ? 6 : 3;
+    moments[chosenId] = moments[chosenId] === 6 ? 6 : tier;
+    moments[reaction.contestantId] = tier;
+  }
 }
 
 function showRoom(state: SimulationState, random: RandomSource) {
@@ -356,7 +366,7 @@ function intervene(state: SimulationState, action: Extract<BattleAction, { type:
   changeBattleRelationship(b, a.id, bond);
   ep.conflictChoice = action.choice;
   story(state).interventions[team.id] = action.choice;
-  append(
+  const scene = append(
     state,
     'intervention-result',
     story(state).sequence,
@@ -370,6 +380,7 @@ function intervene(state: SimulationState, action: Extract<BattleAction, { type:
     ],
     ep.conflict.contestantIds,
   );
+  if (action.choice === 'push') recordSceneTV(scene, 6);
 }
 
 function reactToPerformance(state: SimulationState) {
@@ -747,9 +758,7 @@ function mvp(state: SimulationState, random: RandomSource) {
     'mvp',
     'mvp',
     'The survivors choose their MVP',
-    [
-      `${mention(person.id)} wins the eighteen survivors' peer ballot. Nobody votes for themselves, and the honor adds no hidden ranking points.`,
-    ],
+    [`${mention(person.id)} wins the eighteen survivors' peer ballot. Nobody votes for themselves.`],
     [person.id],
     true,
   );
@@ -1048,6 +1057,14 @@ function finalize(state: SimulationState, random: ReturnType<typeof createSeeded
 }
 
 export function transitionBattleStory(
+  current: SimulationState,
+  action: BattleAction,
+  revision: number,
+): SimulationState {
+  return awardNewActivity(current, transitionBattleStoryInternal(current, action, revision));
+}
+
+function transitionBattleStoryInternal(
   current: SimulationState,
   action: BattleAction,
   revision: number,

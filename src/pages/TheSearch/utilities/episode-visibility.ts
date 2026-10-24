@@ -7,7 +7,7 @@ import { seasonRanks } from './season-ranking';
 export function isSeasonRankingPath(path: string): boolean {
   return (
     /(^|\.)(rank|currentRank|cumulativeRank|rankHistory|currentRankHistory)(\.|$)/i.test(path) ||
-    /(^|\.)aggregations\.score(\.|$)/.test(path)
+    /(^|\.)aggregations\.rankingScore(\.|$)/.test(path)
   );
 }
 
@@ -142,7 +142,7 @@ export function projectEpisodeContestant(contestant: Contestant, runtime: Season
     const prior = runtime.bootcamp.startingContestants.find((entry) => entry.id === contestant.id);
     if (prior) {
       result.rank = prior.rank;
-      result.aggregations.score = prior.aggregations.score;
+      result.aggregations.rankingScore = prior.aggregations.rankingScore;
       // Audience closure is internal until Mike presents the new standings.
       result.aggregations.audienceRatio = prior.aggregations.audienceRatio;
       result.aggregations.fanbaseRatio = prior.aggregations.fanbaseRatio;
@@ -153,7 +153,7 @@ export function projectEpisodeContestant(contestant: Contestant, runtime: Season
   result.events = result.events.filter((event) => !hiddenEvent(event));
   if (hideRanking) {
     result.rank = 0;
-    result.aggregations.score = 0;
+    result.aggregations.rankingScore = 0;
   }
   result.changeLog = result.changeLog.map((entry) => {
     const hideHistoricalRanking = hideRanking || runtime.version === 3;

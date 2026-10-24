@@ -840,7 +840,7 @@ export function assertNarrativeBattleEpisode(
   if (ep.audience !== null) {
     const expectedRanking = [...participants].sort(
       (a, b) =>
-        contestant(b).aggregations.score - contestant(a).aggregations.score ||
+        contestant(b).aggregations.rankingScore - contestant(a).aggregations.rankingScore ||
         evaluations.get(b)!.finalScore - evaluations.get(a)!.finalScore ||
         evaluations.get(b)!.technicalScore - evaluations.get(a)!.technicalScore ||
         evaluations.get(b)!.stageScore - evaluations.get(a)!.stageScore ||
@@ -1002,7 +1002,7 @@ export function assertNarrativeBattleEpisode(
       object(consequence, 'deferred consequence');
       check(
         consequence.contestantId === ep.secret.contestantId &&
-          ['status', 'aggregations.score'].includes(consequence.path),
+          ['status', 'aggregations.rankingScore'].includes(consequence.path),
         'invalid deferred consequence',
       );
       text(consequence.cause);

@@ -129,7 +129,7 @@ export function closeBootcampAudience(state: SimulationState, random: RandomSour
   const byId = new Map(result.contestants.map((person) => [person.id, person]));
   for (const person of result.contestants) {
     person.aggregations.screenTime += 100 * exposure[person.id];
-    person.aggregations.score += 5 * ep.winners.filter((id) => id === person.id).length;
+    person.aggregations.rankingScore += 5 * ep.winners.filter((id) => id === person.id).length;
     person.grade = auditionGrade(performances[performanceOrder.get(person.id)!].finalScore);
     person.missionRating = { A: 5, B: 4, C: 3, D: 2, F: 1 }[person.grade];
     // Closing the ballot must not publish the still-sealed continuing placement.
@@ -138,7 +138,7 @@ export function closeBootcampAudience(state: SimulationState, random: RandomSour
   ep.rankedIds = [...result.contestants]
     .sort(
       (a, b) =>
-        b.aggregations.score - a.aggregations.score ||
+        b.aggregations.rankingScore - a.aggregations.rankingScore ||
         performanceOrder.get(a.id)! - performanceOrder.get(b.id)!,
     )
     .map((person) => person.id);

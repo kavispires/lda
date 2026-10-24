@@ -6,6 +6,7 @@ import type { SimulationState } from '../types/simulation';
 import { BATTLE_SONGS, validateBattleSongs } from '../utilities/battle-songs';
 import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
+import { awardNewActivity, recordSceneTV } from './activity-awards';
 import {
   chooseAuditionMvp,
   createBroadcastCuts,
@@ -44,14 +45,16 @@ function scene(
   contestantIds: string[] = [],
   paragraphContestantIds?: string[][],
 ): void {
-  ep.scenes.push({
-    id: `battles-scene-${ep.scenes.length}`,
-    kind,
-    title,
-    paragraphs,
-    contestantIds,
-    ...(paragraphContestantIds ? { paragraphContestantIds } : {}),
-  });
+  ep.scenes.push(
+    recordSceneTV({
+      id: `battles-scene-${ep.scenes.length}`,
+      kind,
+      title,
+      paragraphs,
+      contestantIds,
+      ...(paragraphContestantIds ? { paragraphContestantIds } : {}),
+    }),
+  );
 }
 
 export function songFor(state: SimulationState, team: BattleTeam): BattleSong {
@@ -107,7 +110,7 @@ export function initialEpisode(state: SimulationState, random: RandomSource): Ba
   const ties = new Map(ids.map((id) => [id, random()]));
   const rankedIds = [...ids].sort(
     (a, b) =>
-      member(state, b).aggregations.score - member(state, a).aggregations.score ||
+      member(state, b).aggregations.rankingScore - member(state, a).aggregations.rankingScore ||
       ties.get(a)! - ties.get(b)! ||
       a.localeCompare(b),
   );
@@ -826,6 +829,14 @@ export function captureChanges(state: SimulationState, before: readonly Contesta
 }
 
 export function transitionBattle(
+  current: SimulationState,
+  action: BattleAction,
+  revision: number,
+): SimulationState {
+  return awardNewActivity(current, transitionBattleInternal(current, action, revision));
+}
+
+function transitionBattleInternal(
   current: SimulationState,
   action: BattleAction,
   expectedRevision: number,

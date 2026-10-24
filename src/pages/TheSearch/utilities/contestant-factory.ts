@@ -112,6 +112,7 @@ export function createContestant(partial: Partial<Contestant> = {}): Contestant 
       productionRatio: 0,
       fanbaseRatio: 0,
       score: 0,
+      rankingScore: 0,
       experience: 0,
       screenTime: 0,
       center: 0,
@@ -164,6 +165,7 @@ export function normalizeContestant(contestant: Partial<Contestant>): Contestant
     aggregations: {
       ...defaults.aggregations,
       ...(contestant.aggregations || {}),
+      rankingScore: contestant.aggregations?.rankingScore ?? contestant.aggregations?.score ?? 0,
     },
     // Ensure arrays and objects exist
     attributes: contestant.attributes || defaults.attributes,

@@ -780,9 +780,9 @@ High investment can sustain effort; low investment may produce checking out
 after repeated resets. Show safe exhaustion or rest, not dangerous collapse.
 
 Announce the winning group and one individual standout eligible from all
-eighteen, including members outside the winning group. Every individual win
-grants +0.05 audience preference (capped at +1) and +5 continuing-score points
-once. A previous winner can win again; group victory adds no extra fixed bonus.
+eighteen, including members outside the winning group. A previous winner can
+win again. Winner benefits are applied internally, never explained as point
+bonuses in the story.
 
 ### Sequence 8: Relief and recognition
 
@@ -792,7 +792,7 @@ someone else; MVP is recognition, not a hidden ranking bonus.
 
 The new 1-18 continuing ranking combines public voting and episode performance:
 50% pair individual score, 30% final individual score, and 20% final group score,
-with the winner points added after ordinary score resolution. Rewards improve
+with winner benefits applied internally after ordinary ranking resolution. Rewards improve
 prospects, not guarantee a fixed placement rise. Show meaningful actual movement
 from Episode 2. Clear only this episode's temporary fatigue, preserving starting
 condition and practice. End without a secret investigation or Episode 4.
@@ -808,9 +808,17 @@ only recorded groups, ballots, checks, fatigue, events, and results.
 History is read-only and preserves actual speakers and contestant references.
 Completed Episodes 1 and 2 remain available as archives. Once Episode 3 is
 complete, its Markdown rundown includes the actual chronological scenes,
-challenge evidence, ballots, group attempts, fatigue, rewards, audience outcome,
+challenge evidence, ballots, group attempts, fatigue, winners, audience outcome,
 peer MVP, and final ranking. The separate all-cast profile export remains the
 initialization snapshot.
+
+Across Episodes 1-3, TV value and artistic experience accrue silently. Actual
+on-camera moments can add TV points even when they portray a contestant
+negatively. Completed practice and performances/challenges add experience,
+including failed attempts; coaching, social drama, and repeated challenge
+resets do not. These totals appear only in optional owner details and do not
+change the show's existing ranking or performance calculations. Never explain
+their awards in dialogue, narration, or the copied story rundown.
 
 Profiles, optional performance details, and the episode archive can be inspected
 without advancing the story or repeating any consequence. Hidden secrets and

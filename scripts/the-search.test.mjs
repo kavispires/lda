@@ -34,6 +34,7 @@ try {
     await server.ssrLoadModule(`/src/pages/TheSearch/engine/${name}.test.ts`);
   }
   await server.ssrLoadModule('/src/pages/TheSearch/engine/bootcamp-episode.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/engine/activity-awards.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/engine/episode-auto-complete.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-visibility.test.ts');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-rundown.test.tsx');

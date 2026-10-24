@@ -47,6 +47,7 @@ export function createSeasonSetup(
       randomState: random.getState(),
       episode: 0,
       phase: 'setup-complete',
+      progression: { version: 1, baseline: [], awards: {} },
       setup: { useBias, selectedIds, auditionPoolIds },
       sourceContestants: source,
       initialContestants: freezeSimulationSnapshot(structuredClone(contestants)),

@@ -11,6 +11,7 @@ import type { SeasonRuntime, SimulationState } from '../types/simulation';
 import { selectAuditionHighlights } from '../utilities/audition-highlights';
 import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
+import { awardNewActivity, recordAiredReactions, recordSceneTV } from './activity-awards';
 import {
   chooseAuditionMvp,
   createBroadcastCuts,
@@ -56,13 +57,15 @@ function scene(
   paragraphs: string[],
   contestantIds: string[] = [],
 ): void {
-  episode.scenes.push({
-    id: `auditions-scene-${episode.scenes.length}`,
-    kind,
-    title,
-    paragraphs,
-    contestantIds,
-  });
+  episode.scenes.push(
+    recordSceneTV({
+      id: `auditions-scene-${episode.scenes.length}`,
+      kind,
+      title,
+      paragraphs,
+      contestantIds,
+    }),
+  );
 }
 
 function captureChanges(state: SimulationState, before: readonly Contestant[], cause: string): void {
@@ -263,6 +266,7 @@ function resolveLiveScene(state: SimulationState, random: RandomSource): void {
     paragraphs.filter((_, index) => !hiddenNotes.has(index)),
     featured,
   );
+  recordAiredReactions(episode.scenes.at(-1)!, [...highlights]);
   if (episode.cursor === 50) {
     episode.cuts = createBroadcastCuts(state.contestants, episode.evaluations, episode.reactions, random);
     episode.phase = 'broadcast';
@@ -270,6 +274,14 @@ function resolveLiveScene(state: SimulationState, random: RandomSource): void {
 }
 
 export function transitionAudition(
+  current: SimulationState,
+  action: AuditionAction,
+  revision: number,
+): SimulationState {
+  return awardNewActivity(current, transitionAuditionInternal(current, action, revision));
+}
+
+function transitionAuditionInternal(
   current: SimulationState,
   action: AuditionAction,
   expectedRevision: number,

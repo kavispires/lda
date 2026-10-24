@@ -190,20 +190,20 @@ test('Boot Camp closes conserved support, credits normalized footage once, and s
       ) < 1e-9,
     );
     const expected =
-      0.75 * prior.aggregations.score +
+      0.75 * prior.aggregations.rankingScore +
       0.6 * 69 +
       0.3 * ((100 * ep.audience.votes[id]) / maximum) +
       0.1 * (50 * (prior.aggregations.productionRatio + 1)) +
       5 * ep.winners.filter((winner) => winner === id).length;
-    assert.ok(Math.abs(person.aggregations.score - expected) < 1e-9);
+    assert.ok(Math.abs(person.aggregations.rankingScore - expected) < 1e-9);
   }
   assert.deepEqual(ep.startingContestants, before.runtime!.bootcamp!.startingContestants);
-  const scores = state.contestants.map((person) => person.aggregations.score);
+  const scores = state.contestants.map((person) => person.aggregations.rankingScore);
   chooseBootcampMvp(state, createSeededRandom(72).next);
   assert.equal(Object.keys(ep.mvp!.ballots).length, 18);
   for (const [voter, chosen] of Object.entries(ep.mvp!.ballots)) assert.notEqual(voter, chosen);
   assert.deepEqual(
-    state.contestants.map((person) => person.aggregations.score),
+    state.contestants.map((person) => person.aggregations.rankingScore),
     scores,
   );
   const winner = state.contestants.find((person) => person.id === ep.mvp!.winnerId)!;
@@ -286,7 +286,7 @@ test('closed score ties use deterministic composite evidence, not old ranks', ()
   state.runtime!.show = { audience: 0, general: 0, fans: {}, satisfaction: 50, pendingAttrition: 0 };
   ep.winners = Array(4).fill(ep.participantIds[0]);
   for (const person of state.contestants) {
-    person.aggregations.score = 0;
+    person.aggregations.rankingScore = 0;
     person.aggregations.productionRatio = 0;
   }
   const first = ep.participantIds[1];

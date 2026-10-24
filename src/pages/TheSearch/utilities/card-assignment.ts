@@ -534,6 +534,7 @@ export function processSimulationContestants(
     recordMutation('Initialize hidden season rank, reset episode Practice and timestamp setup', () => {
       contestant.rank = i + 1;
       contestant.aggregations.practice = 0;
+      contestant.aggregations.score = 0;
       contestant.updatedAt = now;
     });
     contestant = appendContestantHistory(
@@ -543,7 +544,7 @@ export function processSimulationContestants(
         episode: 0,
         missionRating: contestant.missionRating,
         rank: contestant.rank,
-        score: contestant.aggregations.score,
+        score: contestant.aggregations.rankingScore,
         status: contestant.status,
         summary: 'Initial Setup',
         events: contestant.attributes,

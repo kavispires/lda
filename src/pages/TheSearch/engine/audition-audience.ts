@@ -588,8 +588,8 @@ function resolveEvidenceAudience(input: {
       CONFIG.performanceContribution * entry(byId, id).finalScore +
       CONFIG.voteContribution * (maximumVotes ? (100 * votes[id]) / maximumVotes : 0) +
       CONFIG.productionContribution * production;
-    aggregations.score =
-      CONFIG.cumulativeRetention * finite(aggregations.score, 'Cumulative score') + contribution;
+    aggregations.rankingScore =
+      CONFIG.cumulativeRetention * finite(aggregations.rankingScore, 'Cumulative score') + contribution;
   }
   const auditionOrder = new Map(
     (input.rankingOrder ?? evidence.map((evaluation) => evaluation.contestantId)).map((id, index) => [
@@ -600,7 +600,7 @@ function resolveEvidenceAudience(input: {
   [...updated]
     .sort(
       (left, right) =>
-        right.aggregations.score - left.aggregations.score ||
+        right.aggregations.rankingScore - left.aggregations.rankingScore ||
         entry(auditionOrder, left.id) - entry(auditionOrder, right.id),
     )
     .forEach((contestant, index) => {

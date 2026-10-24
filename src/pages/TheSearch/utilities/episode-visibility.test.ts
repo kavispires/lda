@@ -31,7 +31,7 @@ function fixture() {
   contestant.attributes = ['PUBLIC', card.id];
   contestant.events = ['PUBLIC_EVENT', card.id];
   contestant.rank = 7;
-  contestant.aggregations.score = 123;
+  contestant.aggregations.rankingScore = 123;
   contestant.changeLog = [
     {
       episode: 1,
@@ -43,17 +43,22 @@ function fixture() {
       events: ['AUDITION', card.id],
       change: {
         rank: 7,
-        'aggregations.score': 123,
+        'aggregations.rankingScore': 123,
         snapshot: {
           attributes: [card.id, { description: card.description }],
-          aggregations: { score: 123, happiness: 60 },
+          aggregations: { rankingScore: 123, happiness: 60 },
           rank: 7,
         },
       },
       changes: [
         { path: 'rank', before: 0, after: 7, cause: 'Standings' },
-        { path: 'aggregations.score', before: 0, after: 123, cause: 'Contribution' },
-        { path: 'aggregations', before: { score: 0 }, after: { score: 123, happiness: 60 }, cause: 'Update' },
+        { path: 'aggregations.rankingScore', before: 0, after: 123, cause: 'Contribution' },
+        {
+          path: 'aggregations',
+          before: { rankingScore: 0 },
+          after: { rankingScore: 123, happiness: 60 },
+          cause: 'Update',
+        },
         {
           path: 'attributes',
           after: [card.id, 'PUBLIC'],
@@ -130,11 +135,11 @@ test('cumulative rankings and nested score changes are hidden without concealing
   const { contestant, runtime } = fixture();
   const projected = projectEpisodeContestant(contestant, runtime);
   assert.equal(projected.rank, 0);
-  assert.equal(projected.aggregations.score, 0);
+  assert.equal(projected.aggregations.rankingScore, 0);
   assert.equal(projected.changeLog[0].rank, 0);
   assert.equal(projected.changeLog[0].score, 76.4321);
   assert.equal('rank' in projected.changeLog[0].change, false);
-  assert.equal('aggregations.score' in projected.changeLog[0].change, false);
+  assert.equal('aggregations.rankingScore' in projected.changeLog[0].change, false);
   assert.deepEqual(projected.changeLog[0].change.snapshot, {
     attributes: [],
     aggregations: { happiness: 60 },
@@ -144,7 +149,7 @@ test('cumulative rankings and nested score changes are hidden without concealing
   });
   assert.equal(
     projected.changeLog[0].changes?.some(
-      (change) => change.path === 'rank' || change.path === 'aggregations.score',
+      (change) => change.path === 'rank' || change.path === 'aggregations.rankingScore',
     ),
     false,
   );
@@ -183,12 +188,12 @@ test('new battles hide full ranks until the closing reveal and never publish ini
   assert.equal(isSeasonRankingVisible(runtime), false);
   assert.equal(projectEpisodeContestant(contestant, runtime).rank, 0);
   assert.equal(projectSeasonCast([contestant], runtime)[0].rank, 0);
-  assert.equal(projectEpisodeContestant(contestant, runtime).aggregations.score, 0);
+  assert.equal(projectEpisodeContestant(contestant, runtime).aggregations.rankingScore, 0);
   runtime.battle.story.rankRevealed = true;
   const revealed = projectEpisodeContestant(contestant, runtime);
   assert.equal(isSeasonRankingVisible(runtime), true);
   assert.equal(revealed.rank, contestant.rank);
-  assert.equal(revealed.aggregations.score, contestant.aggregations.score);
+  assert.equal(revealed.aggregations.rankingScore, contestant.aggregations.rankingScore);
   assert.equal(revealed.changeLog[0].rank, 0);
   assert.equal('rank' in revealed.changeLog[0].change, false);
   assert.deepEqual(revealed.changeLog[0].change.snapshot, {
@@ -400,7 +405,7 @@ test('rankings first become public at the Episode 2 stage announcement, not dorm
   assert.ok(contestant.rank > 0);
   const hidden = projectEpisodeContestant(contestant, dorms.runtime);
   assert.equal(hidden.rank, 0);
-  assert.equal(hidden.aggregations.score, 0);
+  assert.equal(hidden.aggregations.rankingScore, 0);
   assert.ok(hidden.changeLog.every((entry) => entry.rank === 0));
 
   const stage = advanceBattleTo(dorms, 'ranking');
@@ -409,7 +414,7 @@ test('rankings first become public at the Episode 2 stage announcement, not dorm
   assert.ok(canonical);
   const revealed = projectEpisodeContestant(canonical, stage.runtime);
   assert.equal(revealed.rank, canonical.rank);
-  assert.equal(revealed.aggregations.score, canonical.aggregations.score);
+  assert.equal(revealed.aggregations.rankingScore, canonical.aggregations.rankingScore);
   assert.deepEqual(
     revealed.changeLog.map((entry) => entry.rank),
     canonical.changeLog.map((entry) => entry.rank),

@@ -3,6 +3,7 @@ import type { BootcampAction, BootcampEpisode, BootcampPhase } from '../types/bo
 import type { Contestant } from '../types/contestant';
 import type { SimulationState } from '../types/simulation';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
+import { awardNewActivity, recordSceneTV } from './activity-awards';
 import { chooseBootcampMvp, closeBootcampAudience } from './bootcamp-audience';
 import {
   bootcampWinner,
@@ -85,17 +86,22 @@ function append(
     refs.push(found);
     return result;
   });
-  ep.scenes.push({
-    id: `bootcamp-${ep.scenes.length}`,
-    kind: phase === 'ranking' ? 'ranking' : 'recap',
-    sequence,
-    title,
-    paragraphs: text,
-    contestantIds: [...new Set(ids)],
-    paragraphContestantIds: refs,
-    presentation: speaker ? 'host' : 'performance',
-    ...(speaker ? { speaker } : {}),
-  });
+  ep.scenes.push(
+    recordSceneTV(
+      {
+        id: `bootcamp-${ep.scenes.length}`,
+        kind: phase === 'ranking' ? 'ranking' : 'recap',
+        sequence,
+        title,
+        paragraphs: text,
+        contestantIds: [...new Set(ids)],
+        paragraphContestantIds: refs,
+        presentation: speaker ? 'host' : 'performance',
+        ...(speaker ? { speaker } : {}),
+      },
+      phase === 'performance' ? 0 : undefined,
+    ),
+  );
 }
 const host = { name: 'Mike Philip', role: 'Host' };
 const trainer = { name: 'Sargent Miller', role: 'Boot Camp trainer' };
@@ -369,9 +375,7 @@ function winner(state: SimulationState) {
   ep.winners.push(id);
   const person = member(state, id);
   person.aggregations.audienceRatio = Math.min(1, person.aggregations.audienceRatio + 0.05);
-  const paragraphs = [
-    `${mention(id)} is the individual winner. Their audience preference rises, and five continuing-score points will be included in the closing ranking.`,
-  ];
+  const paragraphs = [`${mention(id)} is the individual winner.`];
   if (ep.round === 4) {
     ep.winningGroupId = bootcampWinningGroup(ep.groups, ep.groupResults, ep.evaluations);
     paragraphs.push(
@@ -624,6 +628,14 @@ export function transitionBootcamp(
   action: BootcampAction,
   revision: number,
 ): SimulationState {
+  return awardNewActivity(current, transitionBootcampInternal(current, action, revision));
+}
+
+function transitionBootcampInternal(
+  current: SimulationState,
+  action: BootcampAction,
+  revision: number,
+): SimulationState {
   const runtime = current.runtime;
   if (!runtime || runtime.version !== 3 || current.status !== 'ready' || runtime.battle?.phase !== 'complete')
     throw new Error('Complete The Battles in a current-format season before Boot Camp.');
@@ -691,7 +703,7 @@ export function transitionBootcamp(
               phaseId: `${runtime.runId}:bootcamp:complete`,
               rank: person.rank,
               status: person.status,
-              score: person.aggregations.score,
+              score: person.aggregations.rankingScore,
               missionRating: person.missionRating,
               summary: 'Boot Camp completed.',
               events: person.events.filter((event) => event.startsWith('BOOTCAMP_')),

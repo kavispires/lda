@@ -20,6 +20,11 @@ export interface SimulationDefinitions {
 }
 
 export interface SeasonRuntime {
+  progression?: {
+    version: 1;
+    baseline: string[];
+    awards: Record<string, { tv: number; experience: number }>;
+  };
   version: 1 | 2 | 3;
   runId: string;
   seed: number;

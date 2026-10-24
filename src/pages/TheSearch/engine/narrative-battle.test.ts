@@ -270,7 +270,7 @@ test('rank reactions follow the immediately higher survivor without changing ran
   const ep = state.runtime!.battle!;
   const standings = ep.survivorIds.map((id) => {
     const person = state.contestants.find((entry) => entry.id === id)!;
-    return [id, person.rank, person.aggregations.score];
+    return [id, person.rank, person.aggregations.rankingScore];
   });
 
   applyBattleRankReactions(state);
@@ -282,7 +282,7 @@ test('rank reactions follow the immediately higher survivor without changing ran
   assert.deepEqual(
     ep.survivorIds.map((id) => {
       const person = state.contestants.find((entry) => entry.id === id)!;
-      return [id, person.rank, person.aggregations.score];
+      return [id, person.rank, person.aggregations.rankingScore];
     }),
     standings,
   );

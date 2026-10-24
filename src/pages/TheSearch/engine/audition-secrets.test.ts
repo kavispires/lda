@@ -28,7 +28,7 @@ test('secret reveals apply bounded authored effects but defer locked survival an
     'aggregations.audienceRatio': 5,
     condition: 'INJURED',
     status: 'ELIMINATED',
-    'aggregations.score': -100,
+    'aggregations.rankingScore': -100,
   });
   const before = structuredClone(contestant);
   const resolved = revealAuditionSecret([contestant], contestant.id, definitions);
@@ -39,10 +39,10 @@ test('secret reveals apply bounded authored effects but defer locked survival an
   assert.equal(updated.aggregations.audienceRatio, 1);
   assert.equal(updated.condition, 'INJURED');
   assert.equal(updated.status, contestant.status);
-  assert.equal(updated.aggregations.score, contestant.aggregations.score);
+  assert.equal(updated.aggregations.rankingScore, contestant.aggregations.rankingScore);
   assert.deepEqual(
     resolved.result.deferred.map((entry) => entry.path),
-    ['status', 'aggregations.score'],
+    ['status', 'aggregations.rankingScore'],
   );
   assert.deepEqual(updated.events, [...contestant.events, 'SECRET_REVEALED:TEST_SECRET']);
   assert.throws(

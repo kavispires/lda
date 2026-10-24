@@ -17,6 +17,44 @@ Episodes 1, 2, and 3 now exist. New simulations use the narrative format describ
 below; version-1 and version-2 saves retain their original episode rules.
 Broader-season gaps still need design.
 
+### Silent TV value and artistic experience
+
+`aggregations.score` is now cumulative **TV value**, not competition points.
+It is an owner-facing measure of how much compelling television a contestant
+creates. It never changes votes, audience preference, performances, captain
+selection, saves, rankings, or other show outcomes.
+
+Recorded on-camera moments earn one tier: +1 minor, +3 meaningful, or +6
+standout. Dull moments can earn zero. A confrontation or memorable failure can
+be valuable television; negative behavior is not automatically a deduction.
+TV points never decay or decrease, and tiers do not stack for the same moment.
+Actual aired reaction highlights count; invisible relationship calculations do
+not. Performances have their own stable identity, so presenting their results
+again cannot award them again.
+
+The existing competition calculation is stored in `aggregations.rankingScore`,
+unchanged in formula and outcomes. All references below to cumulative overall
+score, continuing score, or ranking points mean this field. The general
+Contestants catalog's separate calculated skill average is unchanged.
+
+`aggregations.experience` retains historical card-based experience and gains
++1 for each completed substantive practice session and +3 for each completed
+performance/challenge, including failure. A group challenge credits every
+participant. Multiple checks or resets within one challenge do not multiply
+XP. Coaching, social drama, rank reactions, and award announcements grant no
+XP. There is no experience-based skill growth yet.
+
+TV points and XP are awarded inside normal episode transitions with persisted
+event identities. Reloading, browsing history, repeating an action, or using
+auto-completion never duplicates an award. Existing saved seasons preserve
+their competition points and experience, adopt TV value at zero, and earn
+points only for subsequent activity; there is no historical backfill.
+
+Totals and audit changes remain available in optional owner details. TV/XP
+awards and ranking-point mechanics never appear in narration, host/judge
+dialogue, episode explanations, or copied story rundowns. Existing saved
+story text receives the same presentation filtering without changing outcomes.
+
 ### Narrative format for new simulations
 
 Runtime versions 2 and 3 start with five opening credits slots selected from the top
@@ -835,14 +873,14 @@ These weight each episode's new contribution; they do not replace Episode 1's
 separate performance-only elimination rule.
 
 **Established ranking memory:** Earlier contributions gradually lose weight. The
-overall score is a decaying cumulative record, not an equally weighted permanent
+competition-points total is a decaying cumulative record, not an equally weighted permanent
 sum and not an abrupt reset. Retain the original episode contributions in history.
 
 At each completed episode, retain 75% of the previous total, then add that episode's
 new weighted contribution:
 
 ```text
-new overall score = previous overall score * 0.75 + new episode contribution
+new rankingScore = previous rankingScore * 0.75 + new episode contribution
 ```
 
 Apply the retention rule to the whole previous total. Older contributions retain
@@ -864,7 +902,7 @@ therefore gives 50 production-component points, not a 50-point ranking bonus:
 the 10% weight makes its new-episode contribution five points.
 
 **Established visibility:** Store all cumulative calculations and changes from
-Episode 1, but hide the cumulative leaderboard, scores, and ranks from the normal
+Episode 1, but hide the cumulative leaderboard, ranking points, and ranks from the normal
 UI, including history details and rendered history JSON, until Episode 2's
 on-stage ranking announcement. Dorm scenes do not reveal it early.
 Individual audition grades/components/results remain inspectable; this is a

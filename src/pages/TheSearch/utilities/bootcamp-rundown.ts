@@ -1,5 +1,6 @@
 import type { SimulationState } from '../types/simulation';
 import { markdown } from './markdown';
+import { storyText } from './story-presentation';
 
 /** Boot Camp has its own evidence contract, not audition or song records. */
 export function createBootcampRundown(state: SimulationState): string {
@@ -78,13 +79,13 @@ export function createBootcampRundown(state: SimulationState): string {
       lines.push(`**${markdown(scene.speaker.name)} (${markdown(scene.speaker.role)}):**`, '');
     for (const paragraph of scene.paragraphs)
       lines.push(
-        `${scene.speaker ? '> ' : ''}${markdown(paragraph).replace(/\n/g, scene.speaker ? '\n> ' : '\n')}`,
+        `${scene.speaker ? '> ' : ''}${markdown(storyText(paragraph)).replace(/\n/g, scene.speaker ? '\n> ' : '\n')}`,
         '',
       );
     for (const dialogue of scene.dialogues ?? []) {
       lines.push(`**${markdown(dialogue.name)} (${markdown(dialogue.role)}):**`, '');
       for (const paragraph of dialogue.paragraphs)
-        lines.push(`> ${markdown(paragraph).replace(/\n/g, '\n> ')}`, '');
+        lines.push(`> ${markdown(storyText(paragraph)).replace(/\n/g, '\n> ')}`, '');
     }
   }
   lines.push('## Production reference: groups and blind pair selection', '');
@@ -141,24 +142,20 @@ export function createBootcampRundown(state: SimulationState): string {
       );
     lines.push('');
   }
-  lines.push('## Production reference: winners and rewards', '');
+  lines.push('## Production reference: winners', '');
   for (const [index, id] of episode.winners.entries())
-    lines.push(
-      `- Round ${index + 1} individual winner: **${name(id)}**. Winner reward: +0.05 audience preference (capped at +1) and +5 continuing-score points.`,
-    );
-  if (episode.winningGroupId)
-    lines.push(
-      `- Final winning group: **${groupName(episode.winningGroupId)}**. No separate fixed group-win bonus.`,
-    );
+    lines.push(`- Round ${index + 1} individual winner: **${name(id)}**.`);
+  if (episode.winningGroupId) lines.push(`- Final winning group: **${groupName(episode.winningGroupId)}**.`);
   lines.push(
     '',
-    `Continuing-score winner awards applied: ${episode.scoreAwardsApplied ? 'yes' : 'no'}. Episode performance uses 50% pair individual score, 30% final individual score, and 20% final group score. Temporary fatigue is cleared without altering permanent skills or pre-existing conditions.`,
+    'Temporary fatigue is cleared without altering permanent skills or pre-existing conditions.',
     '',
     '## Production reference: recorded property changes',
     '',
   );
   for (const id of episode.participantIds) {
     for (const change of episode.changes[id] ?? []) {
+      if (/^aggregations\.(score|rankingScore|experience)$/.test(change.path)) continue;
       if (!/^(relationships\.|aggregations\.|condition$|grade$|missionRating$|rank$)/.test(change.path))
         continue;
       const path = change.path.startsWith('relationships.')

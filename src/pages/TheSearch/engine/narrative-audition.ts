@@ -7,6 +7,7 @@ import { selectAuditionHighlights } from '../utilities/audition-highlights';
 import { projectEpisodeContestant } from '../utilities/episode-visibility';
 import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
+import { awardNewActivity, recordAiredReactions, recordSceneTV } from './activity-awards';
 import { chooseAuditionMvp, resolveNarrativeAudience } from './audition-audience';
 import { transitionAudition } from './audition-episode';
 import { chooseAuditionSongs, resolveLiveAudition } from './audition-live';
@@ -36,23 +37,25 @@ function appendScene(
   ids: string[] = [],
   mentions?: string[][],
 ) {
-  ep.scenes.push({
-    id: `story-${ep.scenes.length}`,
-    kind,
-    title,
-    paragraphs,
-    contestantIds: ids,
-    sequence: ep.story?.sequence,
-    presentation: ep.story?.presentation,
-    ...(['host', 'judges', 'results'].includes(ep.story?.presentation ?? '')
-      ? { speaker: { name: 'Mike Philip', role: 'Host' } }
-      : {}),
-    ...(mentions
-      ? { paragraphContestantIds: mentions }
-      : ids.length === 0
-        ? { paragraphContestantIds: paragraphs.map(() => []) }
+  ep.scenes.push(
+    recordSceneTV({
+      id: `story-${ep.scenes.length}`,
+      kind,
+      title,
+      paragraphs,
+      contestantIds: ids,
+      sequence: ep.story?.sequence,
+      presentation: ep.story?.presentation,
+      ...(['host', 'judges', 'results'].includes(ep.story?.presentation ?? '')
+        ? { speaker: { name: 'Mike Philip', role: 'Host' } }
         : {}),
-  });
+      ...(mentions
+        ? { paragraphContestantIds: mentions }
+        : ids.length === 0
+          ? { paragraphContestantIds: paragraphs.map(() => []) }
+          : {}),
+    }),
+  );
 }
 
 function capture(state: SimulationState, before: readonly Contestant[], cause: string) {
@@ -197,6 +200,7 @@ function nextAudition(state: SimulationState, random: ReturnType<typeof createSe
       ...highlights.map((reaction) => [reaction.observerId, reaction.performerId]),
     ]);
     ep.scenes[ep.scenes.length - 1].introductions = introductions;
+    recordAiredReactions(ep.scenes.at(-1)!, highlights);
   }
 }
 
@@ -212,6 +216,14 @@ function finish(state: SimulationState, random: ReturnType<typeof createSeededRa
 }
 
 export function transitionNarrativeAudition(
+  current: SimulationState,
+  action: AuditionAction,
+  revision: number,
+): SimulationState {
+  return awardNewActivity(current, transitionNarrativeAuditionInternal(current, action, revision));
+}
+
+function transitionNarrativeAuditionInternal(
   current: SimulationState,
   action: AuditionAction,
   revision: number,
@@ -352,6 +364,7 @@ export function transitionNarrativeAudition(
         [id],
         [[id], ...highlights.map((reaction) => [reaction.observerId, reaction.performerId])],
       );
+      recordAiredReactions(ep.scenes.at(-1)!, highlights);
     } else if (ep.phase === 'live' && ep.cursor < 50) nextAudition(next, random);
     else if (ep.phase === 'live' && ep.cursor === 50) {
       if (!ep.mood) throw new Error('Missing opening mood.');
@@ -438,6 +451,14 @@ export function transitionNarrativeAudition(
 }
 
 export function transitionNarrativeBattle(
+  current: SimulationState,
+  action: BattleAction,
+  revision: number,
+): SimulationState {
+  return awardNewActivity(current, transitionNarrativeBattleInternal(current, action, revision));
+}
+
+function transitionNarrativeBattleInternal(
   current: SimulationState,
   action: BattleAction,
   revision: number,

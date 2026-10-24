@@ -7,6 +7,7 @@ import { ALIGNMENTS, GRADES, STATUSES, TRACKS } from '../utilities/constants';
 import { createContestant } from '../utilities/contestant-factory';
 import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
+import { restoreActivityProgression } from './activity-awards';
 import { assertAuditionEpisode, isDeferredConsequence, isShowAudience } from './audition-validation';
 import { assertBattleEpisode } from './battle-validation';
 import { assertBootcampEpisode } from './bootcamp-validation';
@@ -73,6 +74,23 @@ function isContestant(value: unknown): value is Contestant {
   if (isRecord(value.aggregations) && value.aggregations.practice === undefined) {
     value.aggregations.practice = 0;
   }
+  if (isRecord(value.aggregations) && value.aggregations.rankingScore === undefined) {
+    value.aggregations.rankingScore = value.aggregations.score;
+    value.aggregations.score = 0;
+    if (Array.isArray(value.changeLog))
+      for (const entry of value.changeLog) {
+        if (!isRecord(entry)) continue;
+        if (isRecord(entry.change)) {
+          for (const [path, change] of Object.entries(entry.change)) {
+            if (path === 'aggregations.score') {
+              entry.change['aggregations.rankingScore'] = change;
+              delete entry.change[path];
+            } else migrateRankingEvidence(change, path);
+          }
+        }
+        migrateRankingChanges(entry.changes);
+      }
+  }
   const template = createContestant({ id: 'validation', name: 'Validation', updatedAt: 1 });
   return (
     hasShape(value, template) &&
@@ -97,6 +115,41 @@ function isContestant(value: unknown): value is Contestant {
     ) &&
     (value.bias === undefined || typeof value.bias === 'boolean')
   );
+}
+
+function migrateRankingEvidence(value: unknown, path: string): void {
+  if (!isRecord(value)) return;
+  if (/(^|\.)aggregations$/.test(path) && Object.hasOwn(value, 'score')) {
+    value.rankingScore = value.score;
+    delete value.score;
+  }
+  for (const [key, child] of Object.entries(value))
+    migrateRankingEvidence(child, path ? `${path}.${key}` : key);
+}
+
+function migrateRankingChanges(value: unknown): void {
+  if (!Array.isArray(value)) return;
+  for (const change of value) {
+    if (!isRecord(change) || typeof change.path !== 'string') continue;
+    if (change.path === 'aggregations.score') change.path = 'aggregations.rankingScore';
+    else {
+      migrateRankingEvidence(change.before, change.path);
+      migrateRankingEvidence(change.after, change.path);
+    }
+  }
+}
+
+function migrateLegacyRankingPaths(value: unknown): void {
+  if (Array.isArray(value)) {
+    for (const child of value) migrateLegacyRankingPaths(child);
+  } else if (isRecord(value)) {
+    if (value.path === 'aggregations.score') value.path = 'aggregations.rankingScore';
+    if (Object.hasOwn(value, 'aggregations.score')) {
+      value['aggregations.rankingScore'] = value['aggregations.score'];
+      delete value['aggregations.score'];
+    }
+    for (const child of Object.values(value)) migrateLegacyRankingPaths(child);
+  }
 }
 
 function isContestants(value: unknown): value is Contestant[] {
@@ -156,6 +209,8 @@ function assertDefinitions(value: unknown): asserts value is SimulationDefinitio
 
 export function decodeSimulationState(stored: string): SimulationState {
   const value: unknown = JSON.parse(stored);
+  if (isRecord(value) && isRecord(value.runtime) && value.runtime.progression === undefined)
+    migrateLegacyRankingPaths(value);
   if (
     !isRecord(value) ||
     !isContestants(value.contestants) ||
@@ -217,6 +272,10 @@ export function decodeSimulationState(stored: string): SimulationState {
   const audition = runtime.audition ?? null;
   const battle = runtime.battle ?? null;
   const bootcamp = runtime.bootcamp ?? null;
+  if (runtime.progression === undefined)
+    for (const record of [audition, battle, bootcamp])
+      if (isRecord(record) && isRecord(record.changes))
+        for (const changes of Object.values(record.changes)) migrateRankingChanges(changes);
   if (
     (runtime.episode === 3 && (runtime.version !== 3 || bootcamp === null)) ||
     (bootcamp !== null && (runtime.version !== 3 || runtime.episode !== 3)) ||
@@ -463,6 +522,7 @@ export function decodeSimulationState(stored: string): SimulationState {
     throw new Error('A legacy season cannot contain narrative preparations.');
   }
   applySeasonRanks(restored);
+  restoreActivityProgression(restored, runtime.progression);
   return restored;
 }
 

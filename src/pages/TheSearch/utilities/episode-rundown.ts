@@ -2,6 +2,7 @@ import type { ChangeValue } from '../types/common';
 import type { SimulationState } from '../types/simulation';
 import { createBootcampRundown } from './bootcamp-rundown';
 import { markdown } from './markdown';
+import { storyText } from './story-presentation';
 
 function affection(value: ChangeValue | undefined): number | undefined {
   if (typeof value === 'number') return value;
@@ -98,13 +99,13 @@ export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 
     if (scene.speaker)
       lines.push(`**${markdown(scene.speaker.name)} (${markdown(scene.speaker.role)}):**`, '');
     for (const paragraph of scene.paragraphs) {
-      const text = markdown(paragraph);
+      const text = markdown(storyText(paragraph));
       lines.push(scene.speaker ? `> ${text.replace(/\n/g, '\n> ')}` : text, '');
     }
     for (const dialogue of scene.dialogues ?? []) {
       lines.push(`**${markdown(dialogue.name)} (${markdown(dialogue.role)}):**`, '');
       for (const paragraph of dialogue.paragraphs)
-        lines.push(`> ${markdown(paragraph).replace(/\n/g, '\n> ')}`, '');
+        lines.push(`> ${markdown(storyText(paragraph)).replace(/\n/g, '\n> ')}`, '');
     }
     for (const [id, paragraphs] of Object.entries(scene.introductions ?? {})) {
       lines.push(`**Full montage introduction: ${name(id)}**`, '');

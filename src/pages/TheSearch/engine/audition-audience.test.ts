@@ -398,7 +398,7 @@ test('song metadata supplies genre diversity and missing metadata uses tracks', 
 
 test('screen time, bounded popularity, cumulative contributions and ranks update without changing auditions or survival', () => {
   const { contestants, evaluations, cuts, show } = fixture();
-  contestants[0].aggregations.score = 400;
+  contestants[0].aggregations.rankingScore = 400;
   contestants[0].aggregations.screenTime = 10;
   contestants[0].aggregations.productionRatio = 2;
   contestants[0].aggregations.audienceRatio = 2;
@@ -421,8 +421,8 @@ test('screen time, bounded popularity, cumulative contributions and ranks update
     close(contestant.aggregations.screenTime, original.aggregations.screenTime + cuts[0].exposure[id] * 100);
     const production = Math.min(1, original.aggregations.productionRatio);
     close(
-      contestant.aggregations.score,
-      0.75 * original.aggregations.score +
+      contestant.aggregations.rankingScore,
+      0.75 * original.aggregations.rankingScore +
         0.6 * evaluations[index].finalScore +
         (0.3 * 100 * result.outcome.votes[id]) / maxVotes +
         0.1 * 50 * (production + 1),
@@ -509,7 +509,7 @@ test('zero viewers produce zero votes and cumulative ties follow the persisted a
     [...result.contestants].sort((left, right) => left.rank - right.rank).map(({ id }) => id),
     rankAuditions(tied).map(({ contestantId }) => contestantId),
   );
-  assert.ok(result.contestants.every((contestant) => contestant.aggregations.score === 35));
+  assert.ok(result.contestants.every((contestant) => contestant.aggregations.rankingScore === 35));
 });
 
 test('fan transfer uses directional final relationships, integer allocation, and seeded remainder ties', () => {

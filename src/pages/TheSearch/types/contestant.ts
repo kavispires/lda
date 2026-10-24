@@ -229,11 +229,15 @@ export interface Aggregations {
    */
   fanbaseRatio: number;
   /**
-   * Total score points gained in the simulation.
+   * Cumulative television value. Owner-facing only; never affects competition outcomes.
    */
   score: number;
   /**
-   * Baseline proficiency gained from historical training/work.
+   * Competition points used by the existing audience and ranking calculations.
+   */
+  rankingScore: number;
+  /**
+   * Historical experience plus completed practice and performance activity.
    */
   experience: number;
   /**

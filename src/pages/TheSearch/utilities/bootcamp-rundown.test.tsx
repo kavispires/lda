@@ -176,7 +176,7 @@ test('Boot Camp projection preserves public Episode 2 scores until ranking and n
   const person = state.contestants.find((entry) => entry.id === ids[0])!;
   const prior = episode.startingContestants.find((entry) => entry.id === ids[0])!;
   person.rank = 18;
-  person.aggregations.score = 999999;
+  person.aggregations.rankingScore = 999999;
   person.aggregations.audienceRatio = 0.99;
   person.grade = 'F';
   person.changeLog.push({ ...structuredClone(prior.changeLog.at(-1)!), episode: 3, score: 999999 });
@@ -184,14 +184,14 @@ test('Boot Camp projection preserves public Episode 2 scores until ranking and n
   episode.rankRevealed = false;
   const hidden = projectEpisodeContestant(person, runtime);
   assert.equal(hidden.rank, prior.rank);
-  assert.equal(hidden.aggregations.score, prior.aggregations.score);
+  assert.equal(hidden.aggregations.rankingScore, prior.aggregations.rankingScore);
   assert.equal(hidden.aggregations.audienceRatio, prior.aggregations.audienceRatio);
   assert.equal(hidden.grade, 'F');
   assert.ok(hidden.changeLog.every((entry) => entry.episode !== 3));
   episode.rankRevealed = true;
   const visible = projectEpisodeContestant(person, runtime);
   assert.equal(visible.rank, 18);
-  assert.equal(visible.aggregations.score, 999999);
+  assert.equal(visible.aggregations.rankingScore, 999999);
   assert.equal(visible.grade, 'F');
 });
 

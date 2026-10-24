@@ -220,7 +220,9 @@ function BasicInfoTab({
             {contestant.aggregations.contestantsLikeness.toFixed(1)}
           </Descriptions.Item>
           {!hideSeasonRanking && (
-            <Descriptions.Item label="Score">{contestant.aggregations.score}</Descriptions.Item>
+            <Descriptions.Item label="Ranking Points">
+              {contestant.aggregations.rankingScore}
+            </Descriptions.Item>
           )}
           <Descriptions.Item label="Experience">{contestant.aggregations.experience}</Descriptions.Item>
           <Descriptions.Item label="Practice">
@@ -245,7 +247,7 @@ function BasicInfoTab({
           <Descriptions.Item label="Center Count">{contestant.aggregations.center}</Descriptions.Item>
           <Descriptions.Item label="Leader Count">{contestant.aggregations.leader}</Descriptions.Item>
           <Descriptions.Item label="MVP Count">{contestant.aggregations.mvp}</Descriptions.Item>
-          <Descriptions.Item label="Score">{contestant.aggregations.score}</Descriptions.Item>
+          <Descriptions.Item label="TV Score">{contestant.aggregations.score}</Descriptions.Item>
         </Descriptions>
       </div>
     </Space>

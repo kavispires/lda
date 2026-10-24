@@ -103,7 +103,7 @@ test('rooms, stage ranking and four-round outgoing-relationship draft stay fixed
   assert.equal(ep(state).phase, 'ranking');
   const combined = [...initial.contestants]
     .filter((entry) => ep(state).participantIds.includes(entry.id))
-    .sort((a, b) => b.aggregations.score - a.aggregations.score);
+    .sort((a, b) => b.aggregations.rankingScore - a.aggregations.rankingScore);
   assert.deepEqual(
     ep(state).rankedIds,
     combined.map((entry) => entry.id),

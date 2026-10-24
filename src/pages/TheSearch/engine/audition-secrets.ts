@@ -73,7 +73,7 @@ export function revealAuditionSecret(
   for (const [path, value] of Object.entries(card.consequence ?? {})) {
     const cause = `Public reveal: ${card.name}`;
     // Outcome-changing effects cannot rewrite the already locked audition cut.
-    if (path === 'status' || path === 'aggregations.score') {
+    if (path === 'status' || path === 'aggregations.rankingScore') {
       deferred.push({ contestantId, path, value, cause });
       continue;
     }

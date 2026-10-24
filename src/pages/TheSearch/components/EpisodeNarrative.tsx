@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import type { AuditionReaction, EpisodeScene } from '../types/audition-episode';
 import type { Contestant } from '../types/contestant';
 import { selectAuditionHighlights } from '../utilities/audition-highlights';
+import { storyText } from '../utilities/story-presentation';
 import { ContestantAvatar } from './ContestantAvatar';
 import { ValueChange } from './SimulationChange';
 
@@ -80,6 +81,7 @@ export function EpisodeNarrative({
   mentionedIds?: readonly string[];
   showProtagonistAvatar?: boolean;
 }) {
+  text = storyText(text);
   if (!onInspect || contestants.length === 0) return <NarrativeText text={text} />;
   const mentions = narrativeMentions(text, contestants, mentionedIds);
   const parts: ReactNode[] = [];

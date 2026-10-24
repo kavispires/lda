@@ -37,6 +37,7 @@ export interface AuditionReaction {
 
 export interface EpisodeScene {
   id: string;
+  tvMoments?: Record<string, Record<string, 1 | 3 | 6>>;
   kind:
     | 'opening'
     | 'choices'

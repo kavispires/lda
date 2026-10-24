@@ -181,7 +181,7 @@ test('song weights include genre and all ordered tested skills, not merely the p
 test('live audition shares one raw pair, persists tie key, consumes composure, and assigns only mission grade', () => {
   const person = contestant('performer');
   person.rank = 42;
-  person.aggregations.score = 321;
+  person.aggregations.rankingScore = 321;
   const input = { ...liveInput([person]), composure: { performer: 1 }, random: draws([0, 0.2, 0.7]).next };
   const snapshot = structuredClone({ contestants: input.contestants, composure: input.composure });
   const result = resolveLiveAudition(input);
@@ -205,7 +205,7 @@ test('live audition shares one raw pair, persists tie key, consumes composure, a
     result.contestants[0].missionRating,
     { A: 5, B: 4, C: 3, D: 2, F: 1 }[result.evaluation.grade],
   );
-  assert.equal(result.contestants[0].aggregations.score, 321);
+  assert.equal(result.contestants[0].aggregations.rankingScore, 321);
   assert.equal(result.contestants[0].rank, 42);
   assert.deepEqual(result.contestants[0].changeLog, []);
   assert.deepEqual({ contestants: input.contestants, composure: input.composure }, snapshot);

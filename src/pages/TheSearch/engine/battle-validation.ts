@@ -905,7 +905,7 @@ export function assertBattleEpisode(
       object(consequence, 'secret consequence');
       check(consequence.contestantId === ep.secret.contestantId, 'secret consequence contestant mismatch');
       check(
-        consequence.path === 'status' || consequence.path === 'aggregations.score',
+        consequence.path === 'status' || consequence.path === 'aggregations.rankingScore',
         'invalid deferred path',
       );
       text(consequence.cause);
