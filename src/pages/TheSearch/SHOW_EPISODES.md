@@ -680,6 +680,138 @@ departures. They become part of the relationships carried into the next episode.
 The episode ends with **eighteen survivors and twelve new departures**.
 Episode 3 does not start automatically.
 
+## Episode 3: Boot Camp
+
+The eighteen Battles survivors head outdoors. Mike Philip hosts and introduces
+Sargent Miller, who leads the assessment. The player starts the episode explicitly
+and advances one recorded beat at a time; this is not a three-judge performance
+panel or a permanent skill-training system.
+
+### Before the episode
+
+Retain opening-cast members still competing and replace only missing slots from
+the strongest-core shortlist. Set six opening tastes using the highest- and
+lowest-ranked survivors' specialties, with unique fallback options and Randomize.
+Confirm these choices before the cold open. The usual +0.02 opening preference
+applies once when the credits actually air.
+
+### Sequence overview
+
+| Sequence | What the audience watches                                                        |
+| -------- | -------------------------------------------------------------------------------- |
+| 1        | Empty beds and the survivors' opinions about the previous departures.            |
+| 2        | The confirmed opening portraits.                                                 |
+| 3        | Mike introduces Miller, three random groups, and blind pair selection.           |
+| 4        | Blind ballots, Marathon Mic, all three pairs, and an individual winner.          |
+| 5        | New blind ballots, Action Sequence, all three pairs, and a winner.               |
+| 6        | Remaining pairs, Distraction Box, their performances, and a winner.              |
+| 7        | All three groups attempt Sync Gauntlet; a winning group and individual standout. |
+| 8        | Mike's surprise, relief, the peer MVP, and the updated continuing ranking.       |
+
+### Sequence 1: Empty beds
+
+The survivors return to their existing rooms, not new challenge-group dorms.
+Missing roommates leave empty beds. Very extroverted contestants lose one
+happiness per empty bed; very introverted contestants gain one. Moderate traits
+have no automatic change. This bounded adjustment happens once, even after reload.
+Every survivor voices an opinion grounded in personality and genuine outgoing
+attachments. Roommates can agree, disagree, grieve, feel relieved, or find resolve;
+the edit highlights meaningful responses without inventing friendships.
+
+### Sequence 2: Opening
+
+The chosen portraits play and their normal one-time audience benefit applies.
+The cast and mood were already confirmed, so replaying the scene never reapplies
+the reward.
+
+### Sequence 3: Outdoors
+
+Mike introduces Sargent Miller. A saved shuffle forms three neutral groups of
+six, separate from the surviving roommates. Introduce their full rosters and
+actual first impressions. Small affection changes are directional; being grouped
+together does not itself imply close friendship.
+
+Miller explains that teammates must nominate pairs without knowing the next
+exercise, followed by a full-group assessment. Nobody promises an elimination
+count. Before the first two pair challenges, each of the six teammates chooses
+two distinct eligible members; eligible self-votes are allowed. Used contestants
+cannot be nominated again, although they still vote. Personality, maturity's
+stronger/weaker balancing, and relationships inform ballots. Persisted random
+keys break ties, not an undisclosed optimal-skill override. Lock all three groups'
+pairs before each reveal.
+
+### Sequence 4: Marathon Mic
+
+Reveal the treadmill microphone challenge only after the blind nominations.
+Each pair receives its own performance beat, exertion, reactions, and Miller's
+assessment. Stamina and consistency dominate, with vocal/rap microphone delivery;
+Dance contestants use their stronger vocal or rap skill. Discipline can help
+pacing and resilience can support a low-stamina underdog. Sensitivity alone is
+not failure: a recorded low roll is also needed for a panic/voice-crack failure.
+Announce one individual winner across the six entrants.
+
+### Sequence 5: Action Sequence
+
+Repeat blind ballots using only unplayed teammates, then reveal an obstacle
+course and synchronized vault/pose. Acrobatics matters most, but the pair's weaker
+consistency genuinely affects synchronization. Show safe missteps, breakthroughs,
+curiosity, goofing off, and actual reactions where supported by the rolls.
+Ambitious overreach can be embarrassing, never a permanent injury. Charisma can
+make a genuine failure charming without changing it into technical success.
+After all three pairs perform, Miller announces an individual winner.
+
+### Sequence 6: Distraction Box
+
+The remaining two members of each group form its pair automatically; there is
+no redundant ballot. Announce these pairs before revealing hand choreography
+under sensory distractions. Consistency and learning drive the checks.
+Resilience/maturity can protect timing; sensitivity plus low dice can disrupt it.
+An actual mistake may earn an apology or sympathy, and a genuine camera moment
+may earn coverage. Show every pair before naming the round's individual winner.
+
+### Sequence 7: Sync Gauntlet
+
+All eighteen perform in their groups, with saved staging. Each group gets full
+attention: stamina, consistency, temporary fatigue, synchronization attempts,
+Miller's assessments, and any real support or confrontation. Reset effects are
+temporary corrections, not lasting skill growth or a route to higher raw quality.
+At most five resets are allowed, then an assisted finish or safety stop.
+High investment can sustain effort; low investment may produce checking out
+after repeated resets. Show safe exhaustion or rest, not dangerous collapse.
+
+Announce the winning group and one individual standout eligible from all
+eighteen, including members outside the winning group. Every individual win
+grants +0.05 audience preference (capped at +1) and +5 continuing-score points
+once. A previous winner can win again; group victory adds no extra fixed bonus.
+
+### Sequence 8: Relief and recognition
+
+Only now does Mike announce the surprise: all eighteen remain. Let the
+contestants react before the peer MVP vote and announcement. Everyone votes for
+someone else; MVP is recognition, not a hidden ranking bonus.
+
+The new 1-18 continuing ranking combines public voting and episode performance:
+50% pair individual score, 30% final individual score, and 20% final group score,
+with the winner points added after ordinary score resolution. Rewards improve
+prospects, not guarantee a fixed placement rise. Show meaningful actual movement
+from Episode 2. Clear only this episode's temporary fatigue, preserving starting
+condition and practice. End without a secret investigation or Episode 4.
+
+### Presentation and archives
+
+Until the ranking airs, profiles and the overview retain clearly labeled
+Episode 2 public ranks and continuing scores. Internal updated standings and
+future exercises never appear in optional Details. Ballots can show eligible
+names before the challenge is revealed, but not its hidden name. Details contain
+only recorded groups, ballots, checks, fatigue, events, and results.
+
+History is read-only and preserves actual speakers and contestant references.
+Completed Episodes 1 and 2 remain available as archives. Once Episode 3 is
+complete, its Markdown rundown includes the actual chronological scenes,
+challenge evidence, ballots, group attempts, fatigue, rewards, audience outcome,
+peer MVP, and final ranking. The separate all-cast profile export remains the
+initialization snapshot.
+
 Profiles, optional performance details, and the episode archive can be inspected
 without advancing the story or repeating any consequence. Hidden secrets and
 future results are not revealed by inspection. Opening portraits remain

@@ -70,7 +70,7 @@ test('battle start card does not reveal the save twist', () => {
     <NarrativeBattlePlayer onAction={noAction} onInspect={() => {}} state={state} />,
   );
   assert.match(html, /Start Episode 2/);
-  assert.doesNotMatch(html, /saves|18|eighteen|second chance/i);
+  assert.doesNotMatch(html.replace(/<svg\b[^>]*>[\s\S]*?<\/svg>/g, ''), /saves|18|eighteen|second chance/i);
 });
 
 test('battle credits render the saved opening portraits without advancing or exposing team calculations', () => {

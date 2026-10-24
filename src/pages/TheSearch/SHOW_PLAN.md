@@ -13,7 +13,7 @@ on player interaction and how the simulation systems connect.
   an additional story mechanic or a claim that its exact algebra was approved.
 
 Contestant management, card libraries, cast initialization, and playable
-Episodes 1 and 2 now exist. New simulations use the narrative format described
+Episodes 1, 2, and 3 now exist. New simulations use the narrative format described
 below; version-1 and version-2 saves retain their original episode rules.
 Broader-season gaps still need design.
 
@@ -802,7 +802,14 @@ attention without making the show enjoyable.
 **Established:** One overall ranking carries across the season, accumulating
 contributions from audience votes, performances, and other factors. It is not
 reset for each mission. Audience votes contribute from Episode 1, but the ranking
-is first publicly revealed on stage in Episode 2, after the dorm arrival.
+is first publicly revealed on stage in the Episode 2 finale.
+
+All fifty contestants have a season position from initialization, kept hidden
+until that reveal. Departures lock into the bottom remaining positions, ordered
+by their season standing when they leave: Auditions departures occupy 31-50;
+The Battles departures occupy 19-30. The remaining eighteen can move within 1-18.
+Later episodes never move a departed contestant's locked position, and the
+Season Cast table continues to show every contestant's place.
 
 The overall ranking is distinct from a particular performance's evaluation.
 Episode 1's performance-only elimination and Episode 2's team losses/saves retain
@@ -1690,19 +1697,67 @@ Current scoring defaults retain `min(100, .55 * technical + .35 * stage
 
 ### Episode 3 - Boot Camp
 
-**Format:** 18 contestants in three groups undertake tests of performance, agility,
-and related abilities. No elimination. The continuing overall ranking, first
-revealed in Episode 2, continues to incorporate public votes and performance.
+**Accepted format:** Eighteen survivors retain their Episode 2 rooms and empty
+beds, then enter three seeded random groups of six. Mike Philip hosts; Sargent
+Miller assesses four outdoor challenges, not the audition judges. Nobody leaves,
+but this is a surprise announced only by Mike in Sequence 8.
 
-**Proposed small interaction:** Respond to a specific request for extra training,
-recovery, or team-building support, rather than scheduling the entire boot camp.
+**Preparation and player control:** Start explicitly after completed runtime-3
+Battles, retain surviving opening cast, fill missing slots from the strongest-core
+shortlist, and choose six specialty moods from the highest/lowest survivor
+anchors (with unique fallbacks and Randomize). Credits grant +0.02 preference
+once. Advance individually saved beats; history and profile inspection are
+read-only. Runtime-1/2 behavior remains unchanged.
 
-**Connections:** Learning, memory, stamina, and leadership influence growth and
-readiness. Shared training changes relationships; the broadcast adds to the
-cumulative ranking.
+**Eight sequences:** Empty beds; opening; outdoor briefing and groups; Marathon
+Mic; Action Sequence; Distraction Box; Sync Gauntlet; relief, peer MVP, and ranking.
+Extroversion >= 5 costs one happiness per empty bed; <= -5 gains one; clamp to
+0-100 and apply once. Dorm opinions and group first impressions have recorded,
+directional relationship consequences, never invented friendships.
 
-**Open:** Test list, group sizes/composition, growth limits, fatigue rules, and
-how the continuing ranking update is presented.
+**Blind pair selection:** All six members cast equal two-distinct-person ballots
+before Challenges 1 and 2. Eligible self-votes are allowed; already-used members
+cannot be nominated. Personality, maturity's stronger/weaker balancing, and
+outgoing affection inform choices without knowledge of the exercise. Saved
+random tie keys resolve cutoff ties. Challenge 3 uses the remaining pair without
+a redundant ballot. Lock all three pairs before revealing each exercise.
+
+**Accepted scoring:** Seeded medium-difficulty two-d6 skill-floor checks normalize
+to 0-100. Marathon Mic is 50% stamina, 30% consistency, 20% microphone delivery;
+Dance uses the stronger vocal/rap skill with a saved tie choice. Action Sequence
+is 60% acrobatics, 20% own consistency, 20% the pair's weaker consistency.
+Distraction Box is 60% consistency and 40% learning. Sync Gauntlet starts at
+50% stamina and 50% consistency per member. Final group score is 60% mean
+stamina and 40% weakest consistency, minus three points per actual reset.
+Keep all scores bounded to 0-100 and persist check/tie evidence.
+
+**Fatigue and behavior:** Pair loads 6/5/4 minus stamina, bounded to 0-5, cost two
+final-performance points per unit. Personality thresholds are >= 5 / <= -5;
+risky failures require recorded low dice (raw total <= 4), not sensitivity alone.
+Technical personality adjustments are bounded to +/-10 except explicit panic
+failure. Final attempts require every timing contribution to reach 60; resets
+give +10 temporary correction, with support/fatigue/checking-out effects
+reassessed. Stop after five resets with assistance or a safety stop. Additional
+individual reset/behavior penalties cap at ten. No permanent skill growth,
+lasting injuries, or uncontrolled collapse; restore starting condition/practice.
+
+**Rewards and closure:** Challenges 1-3 each award one individual winner; the
+finale awards a winning group and an individual standout from all eighteen.
+Each individual win gives +0.05 audience preference, capped at +1, and +5
+continuing-score points once; repeat wins are allowed. No fixed group bonus or
+guaranteed placement rise. Aggregate performance is 50% pair score, 30% final
+individual score, 20% final group score. Apply ordinary audience/continuing-score
+rules before the fixed winner points. Baseline pair/group coverage plus at most
+two extra recorded spotlight units informs public support; charisma and edits
+are reception, not invented technical skill.
+
+**Reveal boundary:** Keep Episode 2's public ranks/scores available until the new
+ranking airs. Hide internal closure and future exercises from details/profiles.
+Sequence 8 reveals no elimination, then eighteen no-self peer MVP ballots, then
+contiguous ranks 1-18 with actual placement reactions. MVP adds no hidden ranking
+bonus. There is no investigation or automatic Episode 4. Complete Episode 3
+rundowns include actual scenes, ballots, dice, fatigue, events, winners, audience,
+MVP, and ranking; older exports and initialization-only cast profiles stay intact.
 
 ### Episode 4 - Mega Groups
 

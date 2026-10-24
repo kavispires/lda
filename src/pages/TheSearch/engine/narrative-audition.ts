@@ -5,6 +5,7 @@ import { auditionSequence } from '../types/narrative';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 import { selectAuditionHighlights } from '../utilities/audition-highlights';
 import { projectEpisodeContestant } from '../utilities/episode-visibility';
+import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { chooseAuditionMvp, resolveNarrativeAudience } from './audition-audience';
 import { transitionAudition } from './audition-episode';
@@ -380,6 +381,7 @@ export function transitionNarrativeAudition(
       ep.rankedIds = rankAuditions(ep.evaluations).map((entry) => entry.contestantId);
       ep.survivorIds = ep.rankedIds.slice(0, 30);
       ep.eliminatedIds = ep.rankedIds.slice(30).reverse();
+      applySeasonRanks(next);
       story.farewellBaseline = Object.fromEntries(
         next.contestants.map((entry) => [
           entry.id,

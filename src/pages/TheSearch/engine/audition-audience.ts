@@ -316,6 +316,33 @@ interface AudienceInput {
 type AudienceResult = { contestants: Contestant[]; show: ShowAudience; outcome: AudienceOutcome };
 type ShownScene = { share: number; reactions: readonly AuditionReaction[] };
 
+/** Recorded performance evidence in deterministic performance order, independent of an exercise's format. */
+export interface AudienceEvidence {
+  contestantId: string;
+  finalScore: number;
+  reception: number;
+  observedScore: number;
+  category: string;
+}
+
+function validateEvidence(contestants: readonly Contestant[], evidence: readonly AudienceEvidence[]) {
+  const cast = castMap(contestants);
+  if (
+    evidence.length !== cast.size ||
+    new Set(evidence.map((entry) => entry.contestantId)).size !== cast.size ||
+    evidence.some(
+      (entry) =>
+        !cast.has(entry.contestantId) ||
+        !entry.category.trim() ||
+        [entry.finalScore, entry.reception, entry.observedScore].some(
+          (score) => !Number.isFinite(score) || score < 0 || score > 100,
+        ),
+    )
+  )
+    throw new Error('Audience evidence must cover the cast with bounded recorded scores.');
+  return { cast, byId: new Map(evidence.map((entry) => [entry.contestantId, entry])) };
+}
+
 export function resolveBroadcast(input: AudienceInput & { cut: BroadcastCut }): AudienceResult {
   const { cut, contestants, reactions } = input;
   validateCut(
@@ -381,9 +408,67 @@ function resolveAudience(
     creditScreenTime: boolean;
   },
 ): AudienceResult {
-  const { contestants, evaluations, reactions, mood, random, songs } = input;
-  const coverage = input.exposure;
+  const { contestants, evaluations, songs } = input;
   const { cast, ranked, byId } = validateCast(contestants, evaluations, input.castSize);
+  const songGenres = songs ? new Map(songs.map((song) => [song.id, song.genre])) : null;
+  if (songGenres && evaluations.some((evaluation) => !songGenres.has(evaluation.songId))) {
+    throw new Error('Broadcast song metadata must include every recorded audition song.');
+  }
+  return resolveEvidenceAudience({
+    ...input,
+    rankingOrder: ranked.map((evaluation) => evaluation.contestantId),
+    evidence: evaluations.map((evaluation) => ({
+      contestantId: evaluation.contestantId,
+      finalScore: evaluation.finalScore,
+      reception: reception(evaluation),
+      observedScore:
+        CONFIG.mvpTechnical * evaluation.technical.score + CONFIG.mvpStage * evaluation.stagePresence.score,
+      category:
+        songGenres?.get(entry(byId, evaluation.contestantId).songId) ??
+        entry(cast, evaluation.contestantId).track,
+    })),
+  });
+}
+
+export function resolveNarrativeEvidenceAudience(input: {
+  contestants: readonly Contestant[];
+  evidence: readonly AudienceEvidence[];
+  exposure: Record<string, number>;
+  mood: MoodChoices;
+  show: ShowAudience;
+  random: RandomSource;
+}): AudienceResult {
+  const ids = input.contestants.map(({ id }) => id);
+  if (
+    Object.keys(input.exposure).length !== ids.length ||
+    Object.keys(input.exposure).some((id) => !ids.includes(id)) ||
+    ids.some((id) => !Number.isFinite(input.exposure[id]) || input.exposure[id] <= 0) ||
+    Math.abs(ids.reduce((sum, id) => sum + input.exposure[id], 0) - 1) > 1e-9
+  )
+    throw new Error('Narrative exposure must be positive for the full cast and total one.');
+  return resolveEvidenceAudience({
+    ...input,
+    reactions: [],
+    creditScreenTime: false,
+    scenes: ids.map((id) => ({ share: input.exposure[id], reactions: [] })),
+  });
+}
+
+function resolveEvidenceAudience(input: {
+  contestants: readonly Contestant[];
+  evidence: readonly AudienceEvidence[];
+  reactions: readonly AuditionReaction[];
+  mood: MoodChoices;
+  show: ShowAudience;
+  random: RandomSource;
+  exposure: Record<string, number>;
+  scenes: readonly ShownScene[];
+  creditScreenTime: boolean;
+  rankingOrder?: readonly string[];
+}): AudienceResult {
+  const { contestants, evidence, reactions, mood, random } = input;
+  const coverage = input.exposure;
+  const { cast, byId } = validateEvidence(contestants, evidence);
   validateReactions(reactions, cast);
   validateShow(input.show);
   const ids = contestants.map(({ id }) => id);
@@ -394,16 +479,12 @@ function resolveAudience(
   const show = structuredClone(input.show);
   const updated = structuredClone([...contestants]);
   const receptions = Object.fromEntries(
-    evaluations.map((evaluation) => [evaluation.contestantId, reception(evaluation)]),
+    evidence.map((evaluation) => [evaluation.contestantId, evaluation.reception]),
   );
   const shownReception = ids.reduce((sum, id) => sum + coverage[id] * receptions[id], 0);
-  const songGenres = songs ? new Map(songs.map((song) => [song.id, song.genre])) : null;
-  if (songGenres && evaluations.some((evaluation) => !songGenres.has(evaluation.songId))) {
-    throw new Error('Broadcast song metadata must include every recorded audition song.');
-  }
   const categoryShares = new Map<string, number>();
   for (const id of ids) {
-    const category = songGenres?.get(entry(byId, id).songId) ?? entry(cast, id).track;
+    const category = entry(byId, id).category;
     categoryShares.set(category, (categoryShares.get(category) ?? 0) + coverage[id]);
   }
   // Simpson diversity: a single category is 0; equal coverage of available categories is 100.
@@ -510,7 +591,12 @@ function resolveAudience(
     aggregations.score =
       CONFIG.cumulativeRetention * finite(aggregations.score, 'Cumulative score') + contribution;
   }
-  const auditionOrder = new Map(ranked.map((evaluation, index) => [evaluation.contestantId, index]));
+  const auditionOrder = new Map(
+    (input.rankingOrder ?? evidence.map((evaluation) => evaluation.contestantId)).map((id, index) => [
+      id,
+      index,
+    ]),
+  );
   [...updated]
     .sort(
       (left, right) =>
@@ -614,17 +700,40 @@ export function chooseAuditionMvp(
   options: { castSize?: number; survivorCount?: number } = {},
 ): MvpResult {
   const { byId } = validateCast(contestants, evaluations, options.castSize);
+  return chooseEvidenceMvp(
+    contestants,
+    evaluations.map((evaluation) => ({
+      contestantId: evaluation.contestantId,
+      finalScore: evaluation.finalScore,
+      reception: reception(evaluation),
+      observedScore:
+        CONFIG.mvpTechnical * entry(byId, evaluation.contestantId).technical.score +
+        CONFIG.mvpStage * entry(byId, evaluation.contestantId).stagePresence.score,
+      category: 'audition',
+    })),
+    survivorIds,
+    random,
+    options.survivorCount ?? CONFIG.survivorCount,
+  );
+}
+
+export function chooseEvidenceMvp(
+  contestants: readonly Contestant[],
+  evidence: readonly AudienceEvidence[],
+  survivorIds: readonly string[],
+  random: RandomSource,
+  survivorCount: number,
+): MvpResult {
+  const { byId } = validateEvidence(contestants, evidence);
   const { survivors } = survivorCast(contestants, survivorIds);
-  if (survivors.length !== (options.survivorCount ?? CONFIG.survivorCount))
-    throw new Error(`MVP requires all ${options.survivorCount ?? CONFIG.survivorCount} survivors.`);
+  if (survivors.length !== survivorCount) throw new Error(`MVP requires all ${survivorCount} survivors.`);
   const totals = Object.fromEntries(survivorIds.map((id) => [id, 0]));
   const ballots: Record<string, string> = {};
   for (const voter of survivors) {
     const eligible = survivors.filter((candidate) => candidate.id !== voter.id);
     const weights = eligible.map((candidate) => {
       const evaluation = entry(byId, candidate.id);
-      const observed =
-        CONFIG.mvpTechnical * evaluation.technical.score + CONFIG.mvpStage * evaluation.stagePresence.score;
+      const observed = evaluation.observedScore;
       const traits = Object.keys(voter.personality) as (keyof Contestant['personality'])[];
       if (!traits.length) throw new Error('MVP affinity requires personality traits.');
       const affinity =

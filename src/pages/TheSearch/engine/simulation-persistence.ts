@@ -5,9 +5,11 @@ import { validateAuditionSongs } from '../utilities/audition-songs';
 import { validateBattleSongs } from '../utilities/battle-songs';
 import { ALIGNMENTS, GRADES, STATUSES, TRACKS } from '../utilities/constants';
 import { createContestant } from '../utilities/contestant-factory';
+import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { assertAuditionEpisode, isDeferredConsequence, isShowAudience } from './audition-validation';
 import { assertBattleEpisode } from './battle-validation';
+import { assertBootcampEpisode } from './bootcamp-validation';
 import { assertPreparation } from './episode-preparation';
 import { assertNarrativeAudition } from './narrative-validation';
 import { createSeededRandom } from './random';
@@ -185,10 +187,11 @@ export function decodeSimulationState(stored: string): SimulationState {
     !runtime.runId.trim() ||
     typeof runtime.seed !== 'number' ||
     typeof runtime.randomState !== 'number' ||
-    (runtime.episode !== 0 && runtime.episode !== 1 && runtime.episode !== 2) ||
+    (runtime.episode !== 0 && runtime.episode !== 1 && runtime.episode !== 2 && runtime.episode !== 3) ||
     (runtime.phase !== 'setup-complete' &&
       runtime.phase !== 'auditions' &&
       runtime.phase !== 'battles' &&
+      runtime.phase !== 'bootcamp' &&
       runtime.phase !== 'episode-complete') ||
     !isRecord(runtime.setup) ||
     typeof runtime.setup.useBias !== 'boolean' ||
@@ -213,6 +216,19 @@ export function decodeSimulationState(stored: string): SimulationState {
   }
   const audition = runtime.audition ?? null;
   const battle = runtime.battle ?? null;
+  const bootcamp = runtime.bootcamp ?? null;
+  if (
+    (runtime.episode === 3 && (runtime.version !== 3 || bootcamp === null)) ||
+    (bootcamp !== null && (runtime.version !== 3 || runtime.episode !== 3)) ||
+    (runtime.phase === 'bootcamp' && runtime.episode !== 3)
+  )
+    throw new Error('Boot Camp requires a current-format Episode 3 season.');
+  let archiveContestants = currentContestants;
+  if (bootcamp !== null) {
+    if (!isRecord(bootcamp) || !isContestants(bootcamp.startingContestants))
+      throw new Error('The saved Boot Camp starting cast is invalid.');
+    archiveContestants = bootcamp.startingContestants;
+  }
   const show =
     runtime.show === undefined
       ? {
@@ -242,12 +258,12 @@ export function decodeSimulationState(stored: string): SimulationState {
       audition.relationshipPolicy = 'reactions-only';
     }
     if (runtime.version === 2 || runtime.version === 3) {
-      assertNarrativeAudition(audition, value.contestants, runtime.definitions, {
-        archived: runtime.episode === 2,
+      assertNarrativeAudition(audition, archiveContestants, runtime.definitions, {
+        archived: runtime.episode >= 2,
       });
     } else {
-      assertAuditionEpisode(audition, value.contestants, runtime.definitions, {
-        archived: runtime.episode === 2,
+      assertAuditionEpisode(audition, archiveContestants, runtime.definitions, {
+        archived: runtime.episode >= 2,
       });
     }
     if (runtime.episode === 1 && audition.audience && audition.audience.votingPopulation !== show.audience) {
@@ -257,7 +273,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       runtime.episode === 0 ||
       (runtime.episode === 1 &&
         runtime.phase !== (audition.phase === 'complete' ? 'episode-complete' : 'auditions')) ||
-      (runtime.episode === 2 && audition.phase !== 'complete')
+      (runtime.episode >= 2 && audition.phase !== 'complete')
     ) {
       throw new Error('The saved episode phase does not match its progress.');
     }
@@ -265,25 +281,42 @@ export function decodeSimulationState(stored: string): SimulationState {
     throw new Error('The saved episode progress is missing.');
   }
   if (battle !== null) {
-    if (runtime.episode !== 2 || !audition || audition.phase !== 'complete') {
+    if (runtime.episode < 2 || !audition || audition.phase !== 'complete') {
       throw new Error('Group Battles requires a completed Auditions archive.');
     }
-    assertBattleEpisode(battle, value.contestants, definitions);
+    assertBattleEpisode(battle, archiveContestants, definitions);
     if ((runtime.version === 3) !== (battle.version === 2))
       throw new Error('The battle format does not match its season.');
     if (
-      runtime.phase !== (battle.phase === 'complete' ? 'episode-complete' : 'battles') ||
+      (runtime.episode === 2 &&
+        runtime.phase !== (battle.phase === 'complete' ? 'episode-complete' : 'battles')) ||
+      (runtime.episode === 3 && battle.phase !== 'complete') ||
       battle.participantIds.length !== audition.survivorIds.length ||
       !battle.participantIds.every((id) => audition.survivorIds.includes(id)) ||
       !audition.eliminatedIds.every(
         (id) => currentContestants.find((contestant) => contestant.id === id)?.status === 'ELIMINATED',
       ) ||
-      (battle.audience !== null && battle.audience.votingPopulation !== show.audience)
+      (runtime.episode === 2 &&
+        battle.audience !== null &&
+        battle.audience.votingPopulation !== show.audience)
     ) {
       throw new Error('The saved battle progress does not match its cast, audience or phase.');
     }
-  } else if (runtime.episode === 2) {
+  } else if (runtime.episode >= 2) {
     throw new Error('The saved Group Battles episode is missing.');
+  }
+  if (bootcamp !== null) {
+    assertBootcampEpisode(bootcamp, currentContestants, definitions);
+    freezeSimulationSnapshot(bootcamp.startingContestants);
+    if (
+      !battle ||
+      battle.phase !== 'complete' ||
+      runtime.phase !== (bootcamp.phase === 'complete' ? 'episode-complete' : 'bootcamp') ||
+      bootcamp.participantIds.length !== battle.survivorIds.length ||
+      !bootcamp.participantIds.every((id) => battle.survivorIds.includes(id)) ||
+      (bootcamp.audience !== null && bootcamp.audience.votingPopulation !== show.audience)
+    )
+      throw new Error('The saved Boot Camp progress does not match its archive, cast or audience.');
   }
   const auditionPoolIds = runtime.setup.auditionPoolIds;
   if (
@@ -344,6 +377,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       definitions: freezeSimulationSnapshot(runtime.definitions),
       audition,
       ...(battle ? { battle } : {}),
+      ...(bootcamp ? { bootcamp } : {}),
       show,
       revealedSecrets,
       deferredConsequences,
@@ -365,11 +399,13 @@ export function decodeSimulationState(stored: string): SimulationState {
     if (runtime.preparations !== undefined) {
       if (
         !isRecord(runtime.preparations) ||
-        Object.keys(runtime.preparations).some((key) => key !== '1' && key !== '2')
+        Object.keys(runtime.preparations).some(
+          (key) => key !== '1' && key !== '2' && (key !== '3' || runtime.version !== 3),
+        )
       )
         throw new Error('Invalid saved episode preparations.');
       restored.runtime.preparations = {};
-      for (const number of [2, 1] as const) {
+      for (const number of [3, 2, 1] as const) {
         const preparation = runtime.preparations[number];
         if (preparation === undefined) continue;
         assertPreparation(
@@ -382,6 +418,7 @@ export function decodeSimulationState(stored: string): SimulationState {
     }
     const first = restored.runtime.preparations?.[1];
     const second = restored.runtime.preparations?.[2];
+    const third = restored.runtime.preparations?.[3];
     if (
       audition &&
       (!first ||
@@ -407,11 +444,25 @@ export function decodeSimulationState(stored: string): SimulationState {
       second.openingPlayed !== battle.scenes.some((scene) => scene.title === 'Opening credits')
     )
       throw new Error('Group Battles credits do not match their recorded effect.');
-    if ((first?.openingPlayed || second?.openingPlayed) && !restored.runtime.openingCast)
+    if (third && battle?.phase !== 'complete')
+      throw new Error('Episode 3 preparation requires completed Group Battles.');
+    if (bootcamp && (!third?.mood || third.slots.some((id) => id === null)))
+      throw new Error('Boot Camp preparation is missing.');
+    if (
+      bootcamp &&
+      third &&
+      third.openingPlayed !== bootcamp.scenes.some((scene) => scene.title === 'Opening credits')
+    )
+      throw new Error('Boot Camp credits do not match their recorded effect.');
+    if (
+      (first?.openingPlayed || second?.openingPlayed || third?.openingPlayed) &&
+      !restored.runtime.openingCast
+    )
       throw new Error('Opening credits are missing their cast.');
   } else if (runtime.openingCast !== undefined || runtime.preparations !== undefined) {
     throw new Error('A legacy season cannot contain narrative preparations.');
   }
+  applySeasonRanks(restored);
   return restored;
 }
 

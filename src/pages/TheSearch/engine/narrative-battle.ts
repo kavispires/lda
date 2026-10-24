@@ -8,6 +8,7 @@ import type {
   BattleTeam,
 } from '../types/battle-episode';
 import type { SimulationState } from '../types/simulation';
+import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { chooseAuditionMvp, resolveNarrativeAudience, transferEliminatedFans } from './audition-audience';
 import { revealAuditionSecret } from './audition-secrets';
@@ -622,6 +623,7 @@ function saveProduction(state: SimulationState, id: string) {
   const saved = new Set([ep.judgeSaveId, ep.audienceSaveId, id]);
   ep.eliminatedIds = losingIds(ep).filter((entry) => !saved.has(entry));
   ep.survivorIds = ep.finalRankedIds.filter((entry) => !ep.eliminatedIds.includes(entry));
+  applySeasonRanks(state);
   append(
     state,
     'save-result',

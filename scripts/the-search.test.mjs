@@ -28,11 +28,16 @@ try {
     'narrative-battle-validation',
     'narrative-audition',
     'narrative-battle',
+    'bootcamp-scoring',
+    'bootcamp-integration',
   ]) {
     await server.ssrLoadModule(`/src/pages/TheSearch/engine/${name}.test.ts`);
   }
+  await server.ssrLoadModule('/src/pages/TheSearch/engine/bootcamp-episode.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/engine/episode-auto-complete.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-visibility.test.ts');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-rundown.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/utilities/bootcamp-rundown.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/contestant-profile.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/EpisodeNarrative.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/BattleEpisodeView.test.tsx');

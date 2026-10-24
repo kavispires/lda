@@ -4,6 +4,7 @@ import type { BattleAction, BattleEpisode, BattleSong, BattleTeam } from '../typ
 import type { Contestant } from '../types/contestant';
 import type { SimulationState } from '../types/simulation';
 import { BATTLE_SONGS, validateBattleSongs } from '../utilities/battle-songs';
+import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import {
   chooseAuditionMvp,
@@ -949,6 +950,7 @@ export function transitionBattle(
       ep.survivorIds = ep.finalRankedIds.filter((id) => !ep.eliminatedIds.includes(id));
       if (ep.survivorIds.length !== 18 || ep.eliminatedIds.length !== 12)
         throw new Error('Battle saves must leave eighteen survivors and twelve departures.');
+      applySeasonRanks(next);
       ep.phase = 'results';
       scene(
         ep,

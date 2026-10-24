@@ -531,7 +531,8 @@ export function processSimulationContestants(
       if (cardIds.personaId) contestant.persona = cardIds.personaId;
     });
 
-    recordMutation('Reset episode Practice and timestamp setup', () => {
+    recordMutation('Initialize hidden season rank, reset episode Practice and timestamp setup', () => {
+      contestant.rank = i + 1;
       contestant.aggregations.practice = 0;
       contestant.updatedAt = now;
     });

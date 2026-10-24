@@ -63,6 +63,13 @@ test('setup is reproducible, captures complete histories and isolates all source
   assert.deepEqual(first, second);
   assert.deepEqual(pool, original);
   assert.equal(first.contestants.length, 50);
+  assert.deepEqual(
+    first.contestants.map((contestant) => contestant.rank).sort((a, b) => a - b),
+    Array.from({ length: 50 }, (_, index) => index + 1),
+  );
+  for (const contestant of first.contestants) {
+    assert.equal(contestant.changeLog.find((entry) => entry.phaseId === 'setup')?.rank, contestant.rank);
+  }
   assert.equal(new Set(first.runtime.setup.selectedIds).size, 50);
   assert.ok(first.contestants.every((contestant) => contestant.aggregations.practice === 0));
   assert.notEqual(first.runtime.randomState, first.runtime.seed);

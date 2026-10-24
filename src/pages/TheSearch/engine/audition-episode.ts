@@ -9,6 +9,7 @@ import type { PropertyChange } from '../types/common';
 import type { Contestant, Specialties } from '../types/contestant';
 import type { SeasonRuntime, SimulationState } from '../types/simulation';
 import { selectAuditionHighlights } from '../utilities/audition-highlights';
+import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import {
   chooseAuditionMvp,
@@ -365,6 +366,7 @@ export function transitionAudition(
       episode.rankedIds = ranked.map((evaluation) => evaluation.contestantId);
       episode.survivorIds = episode.rankedIds.slice(0, 30);
       episode.eliminatedIds = episode.rankedIds.slice(30).reverse();
+      applySeasonRanks(next);
       captureChanges(next, before, `Broadcast and closed audience vote: ${cut.title}`);
       episode.phase = 'audience';
       scene(

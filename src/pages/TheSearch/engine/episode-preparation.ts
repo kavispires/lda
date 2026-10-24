@@ -51,7 +51,7 @@ function choices(value: unknown, options: MoodOptions): value is MoodChoices {
 
 export function initializePreparation(
   state: SimulationState,
-  episode: 1 | 2,
+  episode: 1 | 2 | 3,
   random: RandomSource,
 ): EpisodePreparation {
   const runtime = runtimeOf(state);
@@ -60,6 +60,15 @@ export function initializePreparation(
   const active = state.contestants.filter((contestant) => contestant.status === 'ACTIVE');
   if (episode === 2 && runtime.audition?.phase !== 'complete')
     throw new Error('Complete Episode 1 before preparing Episode 2.');
+  if (
+    episode === 3 &&
+    (runtime.version !== 3 ||
+      runtime.battle?.phase !== 'complete' ||
+      runtime.battle.survivorIds.length !== 18 ||
+      active.length !== 18 ||
+      active.some((person) => !runtime.battle!.survivorIds.includes(person.id)))
+  )
+    throw new Error('Complete The Battles with eighteen locked survivors before preparing Episode 3.');
   if (active.length < 5) throw new Error('The opening requires five active contestants.');
   const libraries = Object.fromEntries(
     FIELDS.map((field) => {
@@ -70,10 +79,10 @@ export function initializePreparation(
   ) as MoodOptions;
   const activeIds = new Set(active.map((contestant) => contestant.id));
   if (
-    episode === 2 &&
+    episode >= 2 &&
     (!runtime.openingCast || runtime.openingCast.length !== 5 || new Set(runtime.openingCast).size !== 5)
   )
-    throw new Error('Episode 2 requires the previous five-person opening cast.');
+    throw new Error(`Episode ${episode} requires the previous five-person opening cast.`);
   const slots: (string | null)[] =
     episode === 1
       ? Array<string | null>(5).fill(null)
@@ -89,8 +98,11 @@ export function initializePreparation(
     (left, right) => total(right) - total(left) || right.coreSkills.visual - left.coreSkills.visual,
   );
   const shortlist = candidates.slice(0, 10).map((contestant) => contestant.id);
+  const previousRanking = episode === 3 ? runtime.battle!.finalRankedIds : null;
   const rank = (contestant: Contestant) =>
-    contestant.changeLog.findLast((entry) => entry.episode === episode - 1)?.rank ?? contestant.rank;
+    previousRanking
+      ? previousRanking.indexOf(contestant.id)
+      : (contestant.changeLog.findLast((entry) => entry.episode === episode - 1)?.rank ?? contestant.rank);
   const ranked = [...active].sort(
     (left, right) => rank(left) - rank(right) || (left.id < right.id ? -1 : left.id > right.id ? 1 : 0),
   );
@@ -133,7 +145,14 @@ export function applyPreparation(
   random: RandomSource,
 ): void {
   const runtime = runtimeOf(state);
-  const episode = runtime.battle ? 2 : runtime.audition?.phase === 'complete' ? 2 : 1;
+  const episode =
+    runtime.preparations?.[3] && runtime.battle?.phase === 'complete'
+      ? 3
+      : runtime.battle
+        ? 2
+        : runtime.audition?.phase === 'complete'
+          ? 2
+          : 1;
   const preparation = runtime.preparations?.[episode];
   if (!preparation) throw new Error('Initialize episode preparation first.');
   if (preparation.openingPlayed) throw new Error('Opening preparation is already complete.');
@@ -171,12 +190,12 @@ export function applyPreparation(
   } else throw new Error('Unknown episode preparation action.');
 }
 
-export function playOpening(state: SimulationState, episode: 1 | 2): void {
+export function playOpening(state: SimulationState, episode: 1 | 2 | 3): void {
   const runtime = runtimeOf(state);
   const preparation = runtime.preparations?.[episode];
   if (!preparation) throw new Error('Initialize episode preparation first.');
   if (preparation.openingPlayed) return;
-  const record = episode === 1 ? runtime.audition : runtime.battle;
+  const record = episode === 1 ? runtime.audition : episode === 2 ? runtime.battle : runtime.bootcamp;
   if (!record) throw new Error('Start the episode before playing its opening.');
   if (
     !preparation.mood ||
@@ -189,11 +208,14 @@ export function playOpening(state: SimulationState, episode: 1 | 2): void {
     throw new Error('The opening requires five distinct active contestants and a locked mood.');
   for (const id of preparation.slots) {
     const contestant = state.contestants.find((entry) => entry.id === id)!;
-    const before = structuredClone(contestant);
+    const before = episode === 3 ? null : structuredClone(contestant);
     contestant.aggregations.audienceRatio = Math.min(1, contestant.aggregations.audienceRatio + 0.02);
-    const changes = recordContestantChanges(before, contestant, `Episode ${episode} opening credits`);
-    record.changes[id] ??= [];
-    record.changes[id].push(...changes);
+    // Boot Camp captures every beat's contestant changes in its transition.
+    if (before) {
+      const changes = recordContestantChanges(before, contestant, `Episode ${episode} opening credits`);
+      record.changes[id] ??= [];
+      record.changes[id].push(...changes);
+    }
   }
   preparation.openingPlayed = true;
 }
@@ -201,7 +223,7 @@ export function playOpening(state: SimulationState, episode: 1 | 2): void {
 export function assertPreparation(
   value: unknown,
   state: { contestants: readonly Contestant[]; runtime: SeasonRuntime },
-  episode: 1 | 2,
+  episode: 1 | 2 | 3,
 ): asserts value is EpisodePreparation {
   const fail = () => {
     throw new Error(`Invalid Episode ${episode} preparation.`);
@@ -259,7 +281,9 @@ export function assertPreparation(
       (value.mood !== null && gaps !== 0))
   )
     fail();
-  const latest = episode === 2 || !state.runtime.preparations?.[2];
+  const latest = !([1, 2, 3] as const).some(
+    (number) => number > episode && state.runtime.preparations?.[number],
+  );
   if (
     latest &&
     gaps === 0 &&

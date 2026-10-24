@@ -1,0 +1,128 @@
+import type { AuditionAction, MoodChoices, MoodOptions } from '../types/audition-episode';
+import type { BattleAction } from '../types/battle-episode';
+import type { EpisodePreparation, PreparationAction } from '../types/narrative';
+import { isNarrativeSeason, type SimulationState } from '../types/simulation';
+import { transitionAudition } from './audition-episode';
+import { transitionBattle } from './battle-episode';
+import { transitionBootcamp } from './bootcamp-episode';
+import { transitionNarrativeAudition, transitionNarrativeBattle } from './narrative-audition';
+import { transitionBattleStory } from './narrative-battle';
+
+export type EpisodeNumber = 1 | 2 | 3;
+
+export function isEpisodeComplete(state: SimulationState, episode: EpisodeNumber): boolean {
+  const runtime = state.runtime;
+  const record = episode === 1 ? runtime?.audition : episode === 2 ? runtime?.battle : runtime?.bootcamp;
+  return record?.phase === 'complete';
+}
+
+function first<T>(values: readonly T[], label: string): T {
+  if (!values.length) throw new Error(`Cannot auto-complete: no ${label} available.`);
+  return values[0];
+}
+
+function moodChoices(options: MoodOptions): MoodChoices {
+  return {
+    vocalColor: first(options.vocalColor, 'vocal color'),
+    danceStyle: first(options.danceStyle, 'dance style'),
+    rapStyle: first(options.rapStyle, 'rap style'),
+    visualVibe: first(options.visualVibe, 'visual vibe'),
+    leadershipStyle: first(options.leadershipStyle, 'leadership style'),
+    genreAffinity: first(options.genreAffinity, 'genre affinity'),
+  };
+}
+
+function preparationAction(
+  preparation: EpisodePreparation | undefined,
+): PreparationAction | { type: 'start' } {
+  if (!preparation) return { type: 'start' };
+  if (!preparation.mood)
+    return { type: 'mood', choices: preparation.randomizedMood ?? moodChoices(preparation.moodOptions) };
+  return {
+    type: 'opening-cast',
+    contestantIds: preparation.shortlist.slice(0, preparation.requiredSelections),
+  };
+}
+
+function advanceAutomatically(state: SimulationState, episode: EpisodeNumber): SimulationState {
+  const runtime = state.runtime;
+  if (!runtime) throw new Error('Initialize a simulation before auto-completing an episode.');
+  if (episode === 1) {
+    const current = runtime.audition;
+    const preparation = runtime.preparations?.[1];
+    let action: AuditionAction = { type: 'advance' };
+    if (!current) action = { type: 'start' };
+    else if (current.phase === 'opening-cast') {
+      if (!preparation) throw new Error('The opening cast preparation is missing.');
+      action = {
+        type: 'opening-cast',
+        contestantIds: preparation.shortlist.slice(0, preparation.requiredSelections),
+      };
+    } else if (current.phase === 'mood')
+      action = { type: 'mood', choices: preparation?.randomizedMood ?? moodChoices(current.moodOptions) };
+    else if (current.phase === 'broadcast')
+      action = { type: 'broadcast', cutId: first(current.cuts, 'broadcast cut').id };
+    else if (current.phase === 'secret')
+      action = { type: 'secret', contestantId: first(current.secretCandidates, 'secret candidate') };
+    const transition = isNarrativeSeason(runtime) ? transitionNarrativeAudition : transitionAudition;
+    return transition(state, action, current?.revision ?? 0);
+  }
+  if (episode === 2) {
+    const current = runtime.battle;
+    const preparation = runtime.preparations?.[2];
+    let action: BattleAction = { type: 'advance' };
+    if (!current) action = preparationAction(preparation);
+    else if (current.story) {
+      if (current.story.stage === 'intervention') action = { type: 'conflict', choice: 'mediate' };
+      else if (current.story.stage === 'production-save')
+        action = {
+          type: 'production-save',
+          contestantId: first(current.productionShortlist, 'production nominee'),
+        };
+      else if (current.story.stage === 'secret-choice')
+        action = { type: 'secret', contestantId: first(current.secretCandidates, 'secret candidate') };
+    } else if (current.phase === 'conflict') action = { type: 'conflict', choice: 'mediate' };
+    else if (current.phase === 'broadcast')
+      action = { type: 'broadcast', cutId: first(current.cuts, 'broadcast cut').id };
+    else if (current.phase === 'saves')
+      action = {
+        type: 'production-save',
+        contestantId: first(current.productionShortlist, 'production nominee'),
+      };
+    else if (current.phase === 'secret')
+      action = { type: 'secret', contestantId: first(current.secretCandidates, 'secret candidate') };
+    const transition =
+      runtime.version === 3
+        ? transitionBattleStory
+        : runtime.version === 2
+          ? transitionNarrativeBattle
+          : transitionBattle;
+    return transition(state, action, current?.revision ?? preparation?.revision ?? 0);
+  }
+  const current = runtime.bootcamp;
+  const preparation = runtime.preparations?.[3];
+  return transitionBootcamp(
+    state,
+    current ? { type: 'advance' } : preparationAction(preparation),
+    current?.revision ?? preparation?.revision ?? 0,
+  );
+}
+
+export async function autoCompleteEpisode(
+  initial: SimulationState,
+  episode: EpisodeNumber,
+): Promise<SimulationState> {
+  if (episode !== 1 && episode !== 2 && episode !== 3) throw new Error('Unknown episode.');
+  if (initial.status !== 'ready' || !initial.runtime)
+    throw new Error('Initialize a simulation before auto-completing an episode.');
+  let state = initial;
+  for (let step = 0; step < 500; step++) {
+    if (isEpisodeComplete(state, episode)) return state;
+    // Let the loading indicator paint and keep the browser responsive between batches.
+    if (step % 8 === 0) await new Promise<void>((resolve) => setTimeout(resolve, 0));
+    const next = advanceAutomatically(state, episode);
+    if (next === state) throw new Error('Auto-completion could not advance the episode.');
+    state = next;
+  }
+  throw new Error('Auto-completion exceeded the episode step limit.');
+}

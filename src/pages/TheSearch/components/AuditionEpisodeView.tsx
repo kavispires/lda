@@ -19,6 +19,7 @@ import type { AuditionEvaluation, AuditionSkillCheck } from '../types/audition';
 import type { AuditionAction, MoodChoices } from '../types/audition-episode';
 import type { Specialties } from '../types/contestant';
 import type { SimulationState } from '../types/simulation';
+import { AutoCompleteEpisodeButton } from './AutoCompleteEpisodeButton';
 import { ContestantAvatar } from './ContestantAvatar';
 import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeContestantList, EpisodeSceneNarrative } from './EpisodeNarrative';
@@ -57,6 +58,7 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
   if (!episode) {
     return runtime.episode === 0 ? (
       <Card title="Episode 1 — Auditions">
+        <AutoCompleteEpisodeButton episode={1} state={state} />
         <Typography.Paragraph>
           Fifty contestants, one first impression. Lock the opening mood, watch their song choices and
           performances unfold, then choose the broadcast. The judges send twenty home; the audience decides
@@ -164,6 +166,7 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <CopyEpisodeRundown episode={1} state={state} />
+      <AutoCompleteEpisodeButton episode={1} onCompleted={() => setHistoryId(null)} state={state} />
       <Modal
         centered
         closable={false}
@@ -177,6 +180,7 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
         width={1040}
       >
         <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+          <AutoCompleteEpisodeButton episode={1} onCompleted={() => setHistoryId(null)} state={state} />
           <Alert
             description="Choose below to continue. Nothing advances until your decision is saved."
             showIcon

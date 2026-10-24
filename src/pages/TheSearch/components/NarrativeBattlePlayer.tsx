@@ -3,6 +3,7 @@ import { useState } from 'react';
 import type { EpisodeScene } from '../types/audition-episode';
 import type { BattleAction, BattleTeam } from '../types/battle-episode';
 import type { SimulationState } from '../types/simulation';
+import { AutoCompleteEpisodeButton } from './AutoCompleteEpisodeButton';
 import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeContestantList, EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
 import styles from './NarrativeEpisodeView.module.scss';
@@ -49,6 +50,7 @@ export function NarrativeBattlePlayer({
   if (!episode) {
     return runtime.audition?.phase === 'complete' ? (
       <NarrativeStage episode={2} title="The Battles">
+        <AutoCompleteEpisodeButton episode={2} state={state} />
         <Typography.Paragraph>
           Thirty contestants move into production-assigned dorms. Six captains will draft teams, rehearse, and
           face three head-to-head battles.
@@ -118,6 +120,7 @@ export function NarrativeBattlePlayer({
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <CopyEpisodeRundown episode={2} state={state} />
+      <AutoCompleteEpisodeButton episode={2} onCompleted={() => setHistory(null)} state={state} />
       {actionError && <Alert role="alert" title={actionError} type="error" />}
       <NarrativeStage
         episode={2}
@@ -323,6 +326,7 @@ export function NarrativeBattlePlayer({
           }
         >
           <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+            <AutoCompleteEpisodeButton episode={2} onCompleted={() => setHistory(null)} state={state} />
             {actionError && <Alert role="alert" title={actionError} type="error" />}
             {intervention ? (
               <>

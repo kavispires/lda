@@ -1,6 +1,8 @@
 import { Store } from '@tanstack/react-store';
 import { transitionAudition } from '../engine/audition-episode';
 import { transitionBattle } from '../engine/battle-episode';
+import { transitionBootcamp } from '../engine/bootcamp-episode';
+import { autoCompleteEpisode, type EpisodeNumber } from '../engine/episode-auto-complete';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from '../engine/narrative-audition';
 import { transitionBattleStory } from '../engine/narrative-battle';
 import { createSeasonSetup } from '../engine/season-setup';
@@ -11,6 +13,7 @@ import {
 } from '../engine/simulation-persistence';
 import type { AuditionAction } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
+import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 
@@ -37,6 +40,15 @@ function commitState(next: SimulationState): void {
 }
 
 export const simulationActions = {
+  async autoCompleteEpisode(episode: EpisodeNumber, expectedState: SimulationState) {
+    if (simulationStore.state !== expectedState)
+      throw new Error('The simulation changed. Retry auto-completing the current episode.');
+    const next = await autoCompleteEpisode(expectedState, episode);
+    if (simulationStore.state !== expectedState)
+      throw new Error('The simulation changed during auto-completion. Your latest progress was kept.');
+    if (next !== expectedState) commitState(next);
+  },
+
   initializeSimulation(
     sourceContestants: Record<string, Contestant>,
     options: { useBias?: boolean; seed?: number } = {},
@@ -71,6 +83,12 @@ export const simulationActions = {
         : current.runtime?.version === 2
           ? transitionNarrativeBattle(current, action, expectedRevision)
           : transitionBattle(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+
+  dispatchBootcamp(action: BootcampAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionBootcamp(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

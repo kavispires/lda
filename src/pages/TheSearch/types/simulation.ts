@@ -1,6 +1,7 @@
 import type { AuditionSong } from './audition';
 import type { AuditionEpisode, DeferredConsequence, ShowAudience } from './audition-episode';
 import type { BattleEpisode, BattleSong } from './battle-episode';
+import type { BootcampEpisode } from './bootcamp-episode';
 import type { AttributeCard } from './common';
 import type { Contestant, Specialties } from './contestant';
 import type { EpisodePreparation } from './narrative';
@@ -23,8 +24,8 @@ export interface SeasonRuntime {
   runId: string;
   seed: number;
   randomState: number;
-  episode: 0 | 1 | 2;
-  phase: 'setup-complete' | 'auditions' | 'battles' | 'episode-complete';
+  episode: 0 | 1 | 2 | 3;
+  phase: 'setup-complete' | 'auditions' | 'battles' | 'bootcamp' | 'episode-complete';
   setup: {
     useBias: boolean;
     selectedIds: string[];
@@ -35,8 +36,9 @@ export interface SeasonRuntime {
   definitions: SimulationDefinitions;
   audition: AuditionEpisode | null;
   battle?: BattleEpisode | null;
+  bootcamp?: BootcampEpisode | null;
   openingCast?: string[];
-  preparations?: Partial<Record<1 | 2, EpisodePreparation>>;
+  preparations?: Partial<Record<1 | 2 | 3, EpisodePreparation>>;
   show: ShowAudience;
   revealedSecrets: { contestantId: string; cardId: string }[];
   deferredConsequences: DeferredConsequence[];

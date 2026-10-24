@@ -20,6 +20,7 @@ import { type Key, useState } from 'react';
 import type { ValuesOf } from 'types/common';
 import { AuditionEpisodeView } from '../components/AuditionEpisodeView';
 import { BattleEpisodeView } from '../components/BattleEpisodeView';
+import { BootcampEpisodeView } from '../components/BootcampEpisodeView';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { ContestantDetailModal } from '../components/ContestantDetailModal';
 import { CopyMarkdownButton } from '../components/CopyMarkdownButton';
@@ -29,11 +30,12 @@ import { useContestantsContext } from '../services/ContestantsProvider';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
 import type { AuditionAction } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
+import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
 import type { SeasonRuntime } from '../types/simulation';
 import type { TRACKS } from '../utilities/constants';
 import { createSeasonCastProfiles } from '../utilities/contestant-profile';
-import { isSeasonRankingVisible, projectEpisodeContestant } from '../utilities/episode-visibility';
+import { isSeasonRankingVisible, projectSeasonCast } from '../utilities/episode-visibility';
 
 export function SimulationPage() {
   const { contestants: contestantsData } = useContestantsContext();
@@ -60,6 +62,15 @@ export function SimulationPage() {
       simulationActions.dispatchBattle(action, revision);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save the next battle scene.');
+    }
+  };
+
+  const handleBootcampAction = (action: BootcampAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchBootcamp(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Boot Camp scene.');
     }
   };
 
@@ -106,6 +117,13 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
+  const archivedState = simulationState.runtime?.bootcamp
+    ? {
+        ...simulationState,
+        contestants: simulationState.runtime.bootcamp.startingContestants,
+        runtime: { ...simulationState.runtime, bootcamp: undefined },
+      }
+    : simulationState;
   const AuditionView =
     simulationState.runtime && simulationState.runtime.version !== 1
       ? NarrativeAuditionView
@@ -210,7 +228,44 @@ export function SimulationPage() {
                   this season.
                 </Typography.Paragraph>
               )}
-              {simulationState.runtime.battle ? (
+              {simulationState.runtime.bootcamp ? (
+                <>
+                  <BootcampEpisodeView
+                    actionError={error}
+                    key={`${simulationState.runtime.runId}-bootcamp`}
+                    onAction={handleBootcampAction}
+                    onInspect={setSelectedId}
+                    state={simulationState}
+                  />
+                  <Collapse
+                    items={[
+                      {
+                        key: 'battles',
+                        label: 'Episode 2 — The Battles archive',
+                        children: (
+                          <BattleView
+                            onAction={handleBattleAction}
+                            onInspect={setSelectedId}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'auditions',
+                        label: 'Episode 1 — Auditions archive',
+                        children: (
+                          <AuditionView
+                            onAction={handleAuditionAction}
+                            onInspect={setSelectedId}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                    ]}
+                    style={{ marginTop: 16 }}
+                  />
+                </>
+              ) : simulationState.runtime.battle ? (
                 <>
                   <BattleView
                     actionError={error ?? undefined}
@@ -219,6 +274,15 @@ export function SimulationPage() {
                     onInspect={setSelectedId}
                     state={simulationState}
                   />
+                  {simulationState.runtime.version === 3 &&
+                    simulationState.runtime.battle.phase === 'complete' && (
+                      <BootcampEpisodeView
+                        actionError={error}
+                        onAction={handleBootcampAction}
+                        onInspect={setSelectedId}
+                        state={simulationState}
+                      />
+                    )}
                   <Collapse
                     items={[
                       {
@@ -293,9 +357,7 @@ function SimulationOverview({
 }) {
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   const [pageSize, setPageSize] = useState(10);
-  const contestants = runtime
-    ? canonicalContestants.map((contestant) => projectEpisodeContestant(contestant, runtime))
-    : canonicalContestants;
+  const contestants = runtime ? projectSeasonCast(canonicalContestants, runtime) : canonicalContestants;
   const selectedContestant = contestants.find((contestant) => contestant.id === selectedId) ?? null;
   const evaluatedIds = new Set(runtime?.audition?.evaluations.map((evaluation) => evaluation.contestantId));
   const hasGrade = (id: string) => !runtime || evaluatedIds.has(id);
@@ -329,7 +391,6 @@ function SimulationOverview({
             dataIndex: 'rank',
             key: 'rank',
             width: 75,
-            render: (rank: number, contestant: Contestant) => (contestant.status === 'ACTIVE' ? rank : '—'),
             sorter: (a: Contestant, b: Contestant) => a.rank - b.rank,
           },
         ]
@@ -405,6 +466,13 @@ function SimulationOverview({
           <Typography.Paragraph>
             Inspect any of the {contestants.length} contestants without advancing the episode.
           </Typography.Paragraph>
+          {runtime?.bootcamp && (
+            <Typography.Paragraph type="secondary">
+              {runtime.bootcamp.rankRevealed
+                ? 'Ranks and continuing scores: Episode 3.'
+                : 'Ranks and continuing scores: previous public Episode 2 standings.'}
+            </Typography.Paragraph>
+          )}
         </div>
 
         <Descriptions bordered column={2}>
@@ -414,9 +482,11 @@ function SimulationOverview({
           <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
           <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
           <Descriptions.Item label="Status">
-            {runtime?.battle
-              ? `Episode 2 — ${runtime.battle.phase}`
-              : (runtime?.audition?.phase ?? 'Setup complete')}
+            {runtime?.bootcamp
+              ? `Episode 3 — ${runtime.bootcamp.phase}`
+              : runtime?.battle
+                ? `Episode 2 — ${runtime.battle.phase}`
+                : (runtime?.audition?.phase ?? 'Setup complete')}
           </Descriptions.Item>
         </Descriptions>
 

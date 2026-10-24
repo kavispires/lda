@@ -162,6 +162,55 @@ test('relationship history direction compares current values rather than growing
   assert.match(html, /<code>0<\/code>/);
 });
 
+test('happiness narration uses blue increases and orange decreases with only the final value, including saved prose', () => {
+  for (const { text, color, direction, final, previous } of [
+    {
+      text: 'The quiet room changes happiness from 50 to 53.',
+      color: '#1677ff',
+      direction: 'Increased',
+      final: '53',
+      previous: '50',
+    },
+    { text: 'Happiness 53 → 49.', color: '#fa8c16', direction: 'Decreased', final: '49', previous: '53' },
+    { text: 'happiness 1 -> 0.', color: '#fa8c16', direction: 'Decreased', final: '0', previous: '1' },
+  ]) {
+    const html = renderToStaticMarkup(<EpisodeNarrative text={text} />);
+    assert.match(html, new RegExp(`aria-label="${direction}"[^>]*style="color:${color}"`));
+    const visible = html.replace(/<[^>]*>/g, '');
+    assert.match(visible, new RegExp(`happiness\\s*${final}`, 'i'));
+    assert.doesNotMatch(visible, new RegExp(`\\b${previous}\\b|\\bfrom\\b|\\bto\\b|→|->`));
+  }
+  const unchanged = renderToStaticMarkup(<EpisodeNarrative text="happiness 100 → 100." />);
+  assert.doesNotMatch(unchanged, /aria-label="Increased"|aria-label="Decreased"/);
+  assert.equal((unchanged.replace(/<[^>]*>/g, '').match(/100/g) ?? []).length, 1);
+});
+
+test('happiness history follows the same final-value colors without changing relationship colors', () => {
+  for (const [before, after, color, direction] of [
+    [50, 53, '#1677ff', 'Increased'],
+    [53, 49, '#fa8c16', 'Decreased'],
+  ] as const) {
+    const html = renderToStaticMarkup(
+      <PropertyChangeValue
+        change={{
+          path: 'aggregations.happiness',
+          before,
+          after,
+          cause: 'Dorm atmosphere',
+        }}
+      />,
+    );
+    assert.match(html, new RegExp(`aria-label="${direction}"[^>]*style="color:${color}"`));
+    assert.match(html, new RegExp(`<code>${after}</code>`));
+    assert.doesNotMatch(html.replace(/<[^>]*>/g, ''), new RegExp(`\\b${before}\\b`));
+  }
+  const mixed = renderToStaticMarkup(
+    <EpisodeNarrative text="happiness 50 → 53; relationship 50 → 55; happiness 53 → 49; relationship 55 → 50." />,
+  );
+  for (const color of ['#1677ff', '#fa8c16', '#52c41a', '#ff4d4f'])
+    assert.ok(mixed.includes(`color:${color}`));
+});
+
 test('history shows arrows only when comparable values actually changed', () => {
   for (const values of [
     { before: 0, after: 0 },

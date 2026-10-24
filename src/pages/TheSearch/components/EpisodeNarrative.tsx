@@ -162,14 +162,27 @@ export function EpisodeContestantList({
 
 function NarrativeText({ text }: { text: string }) {
   const parts: ReactNode[] = [];
+  const happinessChange =
+    /\b(?<happiness>happiness)\s+(?:from\s+)?(?<happinessBefore>-?\d+(?:\.\d+)?)\s*(?:\u2192|->|\bto\b)\s*(?<happinessAfter>-?\d+(?:\.\d+)?)/;
   const tokens = new RegExp(
-    `${/\bgraded\s+([ABCDF])\b|\b(composure|relationships?)\b|(-?\d+(?:\.\d+)?)\s*(?:\u2192|->)\s*(-?\d+(?:\.\d+)?)/.source}|${inlineTags.source}`,
+    `${/\bgraded\s+([ABCDF])\b|\b(composure|relationships?)\b|(-?\d+(?:\.\d+)?)\s*(?:\u2192|->)\s*(-?\d+(?:\.\d+)?)/.source}|${inlineTags.source}|${happinessChange.source}`,
     'gi',
   );
   let cursor = 0;
   for (const match of text.matchAll(tokens)) {
     parts.push(text.slice(cursor, match.index));
-    if (match[5]) {
+    if (match.groups?.happiness) {
+      parts.push(
+        <span key={match.index}>
+          {match.groups.happiness}{' '}
+          <ValueChange
+            after={Number(match.groups.happinessAfter)}
+            before={Number(match.groups.happinessBefore)}
+            metric="happiness"
+          />
+        </span>,
+      );
+    } else if (match[5]) {
       parts.push(<Tag key={match.index}>{match[5]}</Tag>);
     } else if (match[1]) {
       parts.push(

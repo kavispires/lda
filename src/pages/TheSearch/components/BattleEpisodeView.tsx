@@ -2,6 +2,7 @@ import { Alert, Button, Card, Collapse, Modal, Progress, Space, Table, Tag, Typo
 import { useState } from 'react';
 import type { BattleAction, BattleEvaluation, BattlePhase, BattleTeam } from '../types/battle-episode';
 import type { SimulationState } from '../types/simulation';
+import { AutoCompleteEpisodeButton } from './AutoCompleteEpisodeButton';
 import { ContestantAvatar } from './ContestantAvatar';
 import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeContestantList, EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
@@ -40,6 +41,7 @@ export function BattleEpisodeView({ state, onAction, onInspect, actionError }: B
   if (!episode) {
     return runtime.audition?.phase === 'complete' ? (
       <Card title="Episode 2 — Team Battles">
+        <AutoCompleteEpisodeButton episode={2} state={state} />
         <Typography.Paragraph>
           Thirty contestants move into five production-assigned dorms. Six captains draft their teams,
           rehearse, and face three battles. Three distinct saves give losing-team contestants a second chance.
@@ -271,6 +273,7 @@ export function BattleEpisodeView({ state, onAction, onInspect, actionError }: B
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <CopyEpisodeRundown episode={2} state={state} />
+      <AutoCompleteEpisodeButton episode={2} onCompleted={() => setHistory(null)} state={state} />
       <Modal
         centered
         closable={false}
@@ -284,6 +287,7 @@ export function BattleEpisodeView({ state, onAction, onInspect, actionError }: B
         width={1000}
       >
         <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+          <AutoCompleteEpisodeButton episode={2} onCompleted={() => setHistory(null)} state={state} />
           <Alert
             description="Inspecting contestants does not close this dialog. The episode resumes only after your choice is saved."
             title="Episode paused — your decision is required."

@@ -2,6 +2,7 @@ import type { BattlePhase, BattleStory } from '../types/battle-episode';
 import type { ChangeValue } from '../types/common';
 import type { Contestant } from '../types/contestant';
 import type { SeasonRuntime } from '../types/simulation';
+import { seasonRanks } from './season-ranking';
 
 export function isSeasonRankingPath(path: string): boolean {
   return (
@@ -22,6 +23,7 @@ export function isSeasonRankingVisible(
 function projectBattleReveals(contestant: Contestant, runtime: SeasonRuntime): Contestant {
   const result = structuredClone(contestant);
   const episode = runtime.battle;
+  if (runtime.bootcamp) return result;
   if (runtime.version !== 3 || !episode?.story) return result;
   if (!episode.participantIds.includes(contestant.id)) return result;
   const team = episode.teams.find((entry) => entry.memberIds.includes(contestant.id));
@@ -136,22 +138,28 @@ export function projectEpisodeContestant(contestant: Contestant, runtime: Season
     return value;
   };
   const result = projectBattleReveals(contestant, runtime);
+  if (runtime.bootcamp && !runtime.bootcamp.rankRevealed) {
+    const prior = runtime.bootcamp.startingContestants.find((entry) => entry.id === contestant.id);
+    if (prior) {
+      result.rank = prior.rank;
+      result.aggregations.score = prior.aggregations.score;
+      // Audience closure is internal until Mike presents the new standings.
+      result.aggregations.audienceRatio = prior.aggregations.audienceRatio;
+      result.aggregations.fanbaseRatio = prior.aggregations.fanbaseRatio;
+    }
+    result.changeLog = result.changeLog.filter((entry) => entry.episode !== 3);
+  }
   result.attributes = result.attributes.filter((id) => !hiddenEvent(id));
   result.events = result.events.filter((event) => !hiddenEvent(event));
   if (hideRanking) {
     result.rank = 0;
     result.aggregations.score = 0;
-  } else if (runtime.version === 3 && runtime.battle && !runtime.battle.survivorIds.includes(result.id)) {
-    result.rank = 0;
   }
   result.changeLog = result.changeLog.map((entry) => {
     const hideHistoricalRanking = hideRanking || runtime.version === 3;
     return {
       ...entry,
-      rank:
-        hideRanking || (runtime.version === 3 && (entry.episode < 2 || entry.status === 'ELIMINATED'))
-          ? 0
-          : entry.rank,
+      rank: hideRanking || (runtime.version === 3 && entry.episode < 2) ? 0 : entry.rank,
       score: hideHistoricalRanking && entry.episode === 0 ? 0 : entry.score,
       summary: scrubText(entry.summary),
       events: entry.events.filter((event) => !hiddenEvent(event)),
@@ -181,4 +189,19 @@ export function projectEpisodeContestant(contestant: Contestant, runtime: Season
     };
   });
   return result;
+}
+
+export function projectSeasonCast(contestants: readonly Contestant[], runtime: SeasonRuntime): Contestant[] {
+  const projected = contestants.map((contestant) => projectEpisodeContestant(contestant, runtime));
+  if (!isSeasonRankingVisible(runtime)) return projected;
+  const ranks = seasonRanks(projected, runtime);
+  for (const contestant of projected) {
+    const rank = ranks.get(contestant.id);
+    if (rank === undefined) throw new Error('A contestant is missing their displayed season rank.');
+    contestant.rank = rank;
+    if (contestant.status === 'ELIMINATED') {
+      for (const entry of contestant.changeLog) if (entry.status === 'ELIMINATED') entry.rank = rank;
+    }
+  }
+  return projected;
 }

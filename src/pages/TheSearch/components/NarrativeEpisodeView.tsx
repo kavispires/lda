@@ -5,6 +5,7 @@ import type { AuditionAction, EpisodeScene, MoodChoices } from '../types/auditio
 import type { BattleAction } from '../types/battle-episode';
 import type { EpisodePreparation, JudgeId, PreparationAction } from '../types/narrative';
 import type { SimulationState } from '../types/simulation';
+import { AutoCompleteEpisodeButton } from './AutoCompleteEpisodeButton';
 import { BattleEpisodeView } from './BattleEpisodeView';
 import { ContestantAvatar } from './ContestantAvatar';
 import { CopyEpisodeRundown } from './CopyEpisodeRundown';
@@ -101,6 +102,7 @@ export function PreparationDialog({
       width={880}
     >
       <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+        <AutoCompleteEpisodeButton episode={preparation.episode} state={state} />
         <Typography.Paragraph>
           {cast
             ? `Fill ${preparation.requiredSelections} opening ${preparation.requiredSelections === 1 ? 'slot' : 'slots'}. Your retained cast keeps its place.`
@@ -304,6 +306,7 @@ export function NarrativeAuditionView({
         title="Auditions"
       >
         <p>Fifty contestants. Five places in the next Squirrel Zone. The search starts here.</p>
+        <AutoCompleteEpisodeButton episode={1} state={state} />
         {actionError && <Alert title={actionError} type="error" />}
       </NarrativeStage>
     );
@@ -335,6 +338,7 @@ export function NarrativeAuditionView({
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <CopyEpisodeRundown episode={1} state={state} />
+      <AutoCompleteEpisodeButton episode={1} onCompleted={() => setHistory(null)} state={state} />
       {preparing && preparation && (
         <PreparationDialog
           actionError={actionError}
@@ -356,6 +360,7 @@ export function NarrativeAuditionView({
         title="Investigate a secret"
       >
         <Space orientation="vertical">
+          <AutoCompleteEpisodeButton episode={1} onCompleted={() => setHistory(null)} state={state} />
           <p>Choose one contestant to investigate before the episode closes.</p>
           {actionError && <Alert title={actionError} type="error" />}
           {episode.secretCandidates.map((id) => (
@@ -589,6 +594,7 @@ export function NarrativeBattleView({
         }
         title="Opening credits"
       >
+        <AutoCompleteEpisodeButton episode={2} state={state} />
         {actionError && <Alert title={actionError} type="error" />}
         <OpeningCredits ids={runtime.openingCast ?? []} onInspect={onInspect} state={state} />
       </NarrativeStage>

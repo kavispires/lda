@@ -3,6 +3,22 @@ import { Avatar, type AvatarProps } from 'antd';
 import type { ReactNode } from 'react';
 
 const personnel: Partial<Record<string, { placeholder: ReactNode; src?: string }>> = {
+  'Sargent Miller': {
+    placeholder: (
+      <svg aria-hidden="true" height="100%" viewBox="0 0 80 80" width="100%">
+        <circle cx="40" cy="40" fill="#e1ead9" r="40" />
+        <path d="M9 80V70a31 31 0 0 1 62 0v10" fill="#526344" />
+        <path d="m29 54 11 10 11-10-5 26H34" fill="#d0d6b5" />
+        <ellipse cx="40" cy="33" fill="#bd8864" rx="17" ry="21" />
+        <path d="M23 24V14h34v10z" fill="#526344" />
+        <path d="M16 25h48l-8 5H24z" fill="#37452f" />
+        <circle cx="34" cy="35" fill="#372d28" r="2" />
+        <circle cx="46" cy="35" fill="#372d28" r="2" />
+        <path d="M34 45h12" stroke="#754d3a" strokeLinecap="round" strokeWidth="2" />
+        <path d="m38 65 4 0-1 12h-2z" fill="#d9c075" />
+      </svg>
+    ),
+  },
   'Mike Philip': {
     placeholder: (
       <svg aria-hidden="true" height="100%" viewBox="0 0 80 80" width="100%">
