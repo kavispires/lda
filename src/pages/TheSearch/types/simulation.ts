@@ -8,6 +8,7 @@ import type { MegaGroupsEpisode, MegaGroupTestPair } from './mega-groups-episode
 import type { EpisodePreparation } from './narrative';
 import type { PhotoshootConcept, PhotoshootEpisode } from './photoshoot-episode';
 import type { TrackSpecialSong, TrackSpecialsEpisode } from './track-specials-episode';
+import type { DoubtGirlsMember, VersatilityEpisode, VersatilitySong } from './versatility-episode';
 
 export interface SimulationDefinitions {
   cards: {
@@ -24,6 +25,8 @@ export interface SimulationDefinitions {
   megaGroupSongs?: BattleSong[];
   photoshootConcepts?: PhotoshootConcept[];
   trackSpecialSongs?: TrackSpecialSong[];
+  versatilitySongs?: VersatilitySong[];
+  doubtGirls?: DoubtGirlsMember[];
 }
 
 export interface SeasonRuntime {
@@ -36,7 +39,7 @@ export interface SeasonRuntime {
   runId: string;
   seed: number;
   randomState: number;
-  episode: 0 | 1 | 2 | 3 | 4 | 5 | 6;
+  episode: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7;
   phase:
     | 'setup-complete'
     | 'auditions'
@@ -45,6 +48,7 @@ export interface SeasonRuntime {
     | 'mega-groups'
     | 'photoshoot'
     | 'track-specials'
+    | 'versatility'
     | 'episode-complete';
   setup: {
     useBias: boolean;
@@ -60,8 +64,9 @@ export interface SeasonRuntime {
   megaGroups?: MegaGroupsEpisode | null;
   photoshoot?: PhotoshootEpisode | null;
   trackSpecials?: TrackSpecialsEpisode | null;
+  versatility?: VersatilityEpisode | null;
   openingCast?: string[];
-  preparations?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6, EpisodePreparation>>;
+  preparations?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7, EpisodePreparation>>;
   show: ShowAudience;
   revealedSecrets: { contestantId: string; cardId: string }[];
   deferredConsequences: DeferredConsequence[];

@@ -50,22 +50,36 @@ export function revealAuditionSecret(
   definitions: SimulationDefinitions,
 ): { contestants: Contestant[]; result: SecretResult } {
   validateSecretConsequences(definitions.cards.secret);
+  const contestant = contestants.find((entry) => entry.id === contestantId);
+  if (!contestant) throw new Error('The selected secret-check contestant does not exist.');
+  const card = contestant.attributes.map((id) => definitions.cards.secret[id]).find(Boolean);
+  if (card) return revealExactAuditionSecret(contestants, contestantId, card.id, definitions);
+  return {
+    contestants: structuredClone([...contestants]),
+    result: {
+      contestantId,
+      cardId: null,
+      title: 'No secret uncovered',
+      description: 'The check reveals nothing. Nothing changes.',
+      deferred: [],
+    },
+  };
+}
+
+/** Reveal a particular held card without changing the legacy first-card selection. */
+export function revealExactAuditionSecret(
+  contestants: readonly Contestant[],
+  contestantId: string,
+  cardId: string,
+  definitions: SimulationDefinitions,
+): { contestants: Contestant[]; result: SecretResult } {
+  validateSecretConsequences(definitions.cards.secret);
   const updated = structuredClone([...contestants]);
   const contestant = updated.find((entry) => entry.id === contestantId);
   if (!contestant) throw new Error('The selected secret-check contestant does not exist.');
-  const card = contestant.attributes.map((id) => definitions.cards.secret[id]).find(Boolean);
-  if (!card) {
-    return {
-      contestants: updated,
-      result: {
-        contestantId,
-        cardId: null,
-        title: 'No secret uncovered',
-        description: 'The check reveals nothing. Nothing changes.',
-        deferred: [],
-      },
-    };
-  }
+  const card = definitions.cards.secret[cardId];
+  if (!card || card.id !== cardId || !contestant.attributes.includes(cardId))
+    throw new Error('The exact secret must belong to the contestant and frozen catalog.');
   if (contestant.events.includes(`SECRET_REVEALED:${card.id}`)) {
     throw new Error('This secret has already been publicly revealed.');
   }

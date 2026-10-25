@@ -80,6 +80,7 @@ interface ContestantDetailModalProps {
   hidePerformance?: boolean;
   definitions?: SimulationDefinitions;
   withdrawnEpisode?: number;
+  expelledEpisode?: number;
 }
 
 export function ContestantDetailModal({
@@ -90,6 +91,7 @@ export function ContestantDetailModal({
   hidePerformance = false,
   definitions,
   withdrawnEpisode,
+  expelledEpisode,
 }: ContestantDetailModalProps) {
   if (!contestant) return null;
 
@@ -100,6 +102,7 @@ export function ContestantDetailModal({
       children: (
         <BasicInfoTab
           contestant={contestant}
+          expelledEpisode={expelledEpisode}
           hidePerformance={hidePerformance}
           hideSeasonRanking={hideSeasonRanking}
           withdrawnEpisode={withdrawnEpisode}
@@ -127,6 +130,7 @@ export function ContestantDetailModal({
       children: (
         <ChangeLogTab
           contestant={contestant}
+          expelledEpisode={expelledEpisode}
           hideSeasonRanking={hideSeasonRanking}
           withdrawnEpisode={withdrawnEpisode}
         />
@@ -145,7 +149,7 @@ export function ContestantDetailModal({
       open={!!contestant}
       title={
         <Space>
-          <ContestantAvatar enablePreview={false} id={contestant.id} name={contestant.name} size={48} />
+          <ContestantAvatar enablePreview={false} id={contestant.id} name={contestant.name} size={96} />
           <div>
             <Typography.Text strong>{contestant.name}</Typography.Text>
             <br />
@@ -168,11 +172,13 @@ function BasicInfoTab({
   hideSeasonRanking,
   hidePerformance,
   withdrawnEpisode,
+  expelledEpisode,
 }: {
   contestant: Contestant;
   hideSeasonRanking: boolean;
   hidePerformance: boolean;
   withdrawnEpisode?: number;
+  expelledEpisode?: number;
 }) {
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
@@ -187,7 +193,11 @@ function BasicInfoTab({
             {hidePerformance ? 'Not performed' : contestant.grade}
           </Descriptions.Item>
           <Descriptions.Item label="Status">
-            {withdrawnEpisode && contestant.status === 'ELIMINATED' ? 'WITHDREW' : contestant.status}
+            {expelledEpisode && contestant.status === 'ELIMINATED'
+              ? 'EXPELLED'
+              : withdrawnEpisode && contestant.status === 'ELIMINATED'
+                ? 'WITHDREW'
+                : contestant.status}
           </Descriptions.Item>
           {!hideSeasonRanking && (
             <Descriptions.Item label="Rank">{contestant.rank || 'N/A'}</Descriptions.Item>
@@ -691,10 +701,12 @@ function ChangeLogTab({
   contestant,
   hideSeasonRanking,
   withdrawnEpisode,
+  expelledEpisode,
 }: {
   contestant: Contestant;
   hideSeasonRanking: boolean;
   withdrawnEpisode?: number;
+  expelledEpisode?: number;
 }) {
   const columns = [
     {
@@ -722,9 +734,11 @@ function ChangeLogTab({
       width: 100,
       render: (status: string, entry: ChangeLogEntry) => (
         <Tag>
-          {withdrawnEpisode && entry.episode >= withdrawnEpisode && status === 'ELIMINATED'
-            ? 'WITHDREW'
-            : status}
+          {expelledEpisode && entry.episode >= expelledEpisode && status === 'ELIMINATED'
+            ? 'EXPELLED'
+            : withdrawnEpisode && entry.episode >= withdrawnEpisode && status === 'ELIMINATED'
+              ? 'WITHDREW'
+              : status}
         </Tag>
       ),
     },

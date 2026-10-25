@@ -28,11 +28,16 @@ export function seasonRanks(
     (id): id is string => !!id && person(id).status === 'ELIMINATED',
   );
   const trackDepartures = runtime.trackSpecials?.eliminatedId ? [runtime.trackSpecials.eliminatedId] : [];
+  const versatilityDepartures = [
+    ...(runtime.versatility?.expelledId ? [runtime.versatility.expelledId] : []),
+    ...(runtime.versatility?.eliminatedIds ?? []),
+  ];
   const departed = new Set([
     ...auditionDepartures,
     ...battleDepartures,
     ...megaDepartures,
     ...trackDepartures,
+    ...versatilityDepartures,
   ]);
   const remaining = contestants
     .filter((entry) => !departed.has(entry.id))
@@ -40,6 +45,7 @@ export function seasonRanks(
     .map((entry) => entry.id);
   const ordered = [
     ...remaining,
+    ...versatilityDepartures,
     ...trackDepartures,
     ...megaDepartures,
     ...battleDepartures,

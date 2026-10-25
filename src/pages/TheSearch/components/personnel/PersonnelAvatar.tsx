@@ -2,7 +2,27 @@ import { UserOutlined } from '@ant-design/icons';
 import { Avatar, type AvatarProps } from 'antd';
 import type { ReactNode } from 'react';
 
+function guestPortrait(color: string) {
+  return (
+    <svg aria-hidden="true" height="100%" viewBox="0 0 80 80" width="100%">
+      <circle cx="40" cy="40" fill={color} r="40" />
+      <path d="M19 60V27c0-27 42-27 42 0v33" fill="#49352e" />
+      <path d="M10 80V72a30 30 0 0 1 60 0v8" fill={color} />
+      <ellipse cx="40" cy="33" fill="#dba57e" rx="17" ry="21" />
+      <path d="M23 28V20c0-18 34-18 34 2L44 16 23 30" fill="#49352e" />
+      <circle cx="34" cy="34" fill="#49352e" r="2" />
+      <circle cx="46" cy="34" fill="#49352e" r="2" />
+      <path d="M34 44q6 5 12 0" fill="none" stroke="#a65b61" strokeWidth="2" />
+    </svg>
+  );
+}
+
 const personnel: Partial<Record<string, { placeholder: ReactNode; src?: string }>> = {
+  Diana: { placeholder: guestPortrait('#b8d9cf') },
+  Una: { placeholder: guestPortrait('#d6c5ef') },
+  Tracy: { placeholder: guestPortrait('#ddbac6') },
+  Brittany: { placeholder: guestPortrait('#efcf9c') },
+  Olive: { placeholder: guestPortrait('#c6d9ef') },
   'Jane Strauss': {
     placeholder: (
       <svg aria-hidden="true" height="100%" viewBox="0 0 80 80" width="100%">

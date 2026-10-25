@@ -44,6 +44,7 @@ export function episodeRelationshipUpdates(
     runtime.megaGroups,
     runtime.photoshoot,
     runtime.trackSpecials,
+    runtime.versatility,
   ];
   const current = records[episode - 1];
   if (!current) throw new Error('The relationship updates are missing their episode.');

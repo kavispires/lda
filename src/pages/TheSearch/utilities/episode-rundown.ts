@@ -8,6 +8,7 @@ import { createRelationshipUpdatesMarkdown } from './relationship-updates';
 import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 import { createTrackSpecialsRundown } from './track-specials-rundown';
+import { createVersatilityRundown } from './versatility-rundown';
 
 function affection(value: ChangeValue | undefined): number | undefined {
   if (typeof value === 'number') return value;
@@ -18,7 +19,11 @@ function affection(value: ChangeValue | undefined): number | undefined {
   return undefined;
 }
 
-export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 2 | 3 | 4 | 5 | 6): string {
+export function createEpisodeRundown(
+  state: SimulationState,
+  episodeNumber: 1 | 2 | 3 | 4 | 5 | 6 | 7,
+): string {
+  if (episodeNumber === 7) return createVersatilityRundown(state);
   if (episodeNumber === 6) return createTrackSpecialsRundown(state);
   if (episodeNumber === 5) return createPhotoshootRundown(state);
   if (episodeNumber === 4) return createMegaGroupsRundown(state);

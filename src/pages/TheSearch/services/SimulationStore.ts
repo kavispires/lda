@@ -15,6 +15,7 @@ import {
   SIMULATION_STORAGE_KEY,
 } from '../engine/simulation-persistence';
 import { transitionTrackSpecials } from '../engine/track-specials-episode';
+import { transitionVersatility } from '../engine/versatility-episode';
 import type { AuditionAction } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
@@ -23,6 +24,7 @@ import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 import type { TrackSpecialsAction } from '../types/track-specials-episode';
+import type { VersatilityAction } from '../types/versatility-episode';
 
 export type { SimulationState } from '../types/simulation';
 
@@ -114,6 +116,12 @@ export const simulationActions = {
   dispatchTrackSpecials(action: TrackSpecialsAction, expectedRevision: number) {
     const current = simulationStore.state;
     const next = transitionTrackSpecials(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+
+  dispatchVersatility(action: VersatilityAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionVersatility(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

@@ -1263,3 +1263,127 @@ Its mutual-feeling pairs use the sixteen competitors, not returning guests.
 Copied rundowns and Copy Show So Far include complete factual events and
 viewer-only relationship notes, while omitting unsuccessful investigations
 and all silent TV/experience mechanics.
+
+## Episode 7: Versatility
+
+Fifteen contestants return for three Doubt Girls songs, in three groups of five.
+Everyone must perform outside their own primary track. Two ranked eliminations
+are followed by an entirely separate production expulsion, leaving twelve.
+
+### Before the episode
+
+Retain surviving opening members, fill only vacancies from the strongest-core
+shortlist and choose the six tastes from Episode 6's highest/lowest survivors.
+Confirm before Mike's briefing. The opening follows the briefing inside
+Sequence 1 and applies its normal small preference once.
+
+| Sequence | What the audience watches                                                               |
+| -------- | --------------------------------------------------------------------------------------- |
+| 1        | Mike announces Doubt Girls and the strict off-track challenge; confirmed opening.       |
+| 2        | Fixed feasible parts, fifteen actual draft picks and three complete groups.             |
+| 3        | Leader/center ballots, two practices, real adaptation and modal conflicts.              |
+| 4        | One random Doubt Girls member joins all three regular judges.                           |
+| 5        | All three groups perform, with individual attention and four judges' feedback.          |
+| 6        | Rare permanent breakthroughs, only after all performance grades lock.                   |
+| 7        | Fifteen announced ranks, bottom-two elimination, farewells and thirteen backstage.      |
+| 8        | Actual-secret revelation and expulsion, shocked twelve, MVP and separate investigation. |
+
+### The off-track draft and practice
+
+Role slots are fixed from the actual primary-track population. The draft keeps
+a legal completion after each pick: difficult populations use backing tracks
+and less-balanced arrangements, never someone's primary track as an exception.
+The most outgoing, strongest leaders generally pick earlier; previous rank and
+saved ties settle equal priority. Disciplined/mature contestants prioritize their
+stronger available secondary skill. Ambitious, resilient high-potential trainees
+can gamble on their weaker option; late picks may genuinely be left with it.
+Existing affection resolves otherwise equivalent group choices.
+
+Each group elects a leader and center, then completes two real practices.
+Self-votes are allowed for roles, not MVP. Support, Mediate and Push remain
+blocking modal decisions when a genuine conflict occurs.
+
+Masculine presentation or SWAG does not imply inability or refusal. A refusal
+also needs low curiosity, low maturity and no improvement in the second
+practice. Its actual scene carries an episode-only score penalty and directed
+teammate resentment once. Curious/CUTE contestants can instead earn an
+expressive camera moment without pretending weak technique was mastery.
+
+### The fourth judge and performance
+
+Only at Sequence 4, one member is drawn uniformly:
+
+| Member   | Favored own specialties                      |
+| -------- | -------------------------------------------- |
+| Diana    | CARETAKER leadership or STANDARD vocal color |
+| Una      | POPPING dance or FLOW rap                    |
+| Tracy    | SWAG rap or REBEL visual                     |
+| Brittany | HIGH_PITCH vocal or MASCULINE visual         |
+| Olive    | CUTE or FLOWER_BOY visual                    |
+
+She is an additional judge: John, Megan and Michael all remain. A match grants
+her assessment a nonstacking +2 effective secondary skill, capped at five,
+without changing permanent skills or the other judges. Off-track delivery,
+guest, John, Megan and Michael contribute in a 3:2:1:1:1 ratio. Checks share
+one actual saved performance roll per contestant; practice, coordination and
+any recorded refusal modify the final episode performance.
+
+### Rare breakthroughs
+
+After all grades are fixed, each performer rolls two saved d6. The first must
+be six and the second must not exceed their potential: a potential/36 chance.
+A success permanently improves the performed off-track core skill by one,
+capped at five. Zero growth is valid. A capped pass produces no false growth
+headline. The flashback uses actual rehearsal/performance evidence, and a weak
+stage can yield an incremental discovery rather than invented mastery.
+
+Growth carries forward only on the mutable season cast. It cannot rewrite the
+performance just seen, original profiles or Episodes 1-6. Artistic experience
+is separate and does not cause the breakthrough.
+
+### The three distinct departures
+
+Public voting and continuing points resolve once from the recorded performance.
+Mike announces fifteen places and eliminates 14 and 15 without saves.
+The thirteen remaining really reach the holding room before production returns.
+
+Production identifies the least-liked remaining hidden-secret holder using
+incoming feelings from all twelve peers; this is not a peer expulsion vote.
+The relationship-based selection stays outside the cast's knowledge. If none
+has an unrevealed secret, production attaches an eligible catalog secret and
+reveals it without backdating its setup effects. An already public first card
+does not conceal another genuinely unrevealed card.
+
+The exact real secret is made public and its immediate consequences apply once.
+Production separately expels the person. A health or background secret is never
+falsely described as a conduct violation. The mandatory expulsion is distinct
+from any deferred status consequence written on the card.
+
+Keep the announced fifteen-person ranking as history. Final season positions
+place the expelled contestant at 13, ranked departures at 14/15 and the twelve
+survivors in their previous relative order. Positions 16-50 never move.
+
+The remaining twelve become ANXIOUS with high sensitivity, otherwise STRESSED,
+without overwriting severe or physical conditions. These conditions persist
+until later normal events change them. Only these twelve privately vote for
+MVP, then production conducts the separate ordinary modal investigation.
+It can miss; a real revelation cannot rewrite the locked ranking or create
+a fourth departure.
+
+### Playback, history and copied rundowns
+
+Previous public standings remain visible until Sequence 7. The guest,
+unperformed checks, future growth and expulsion remain hidden until their
+actual beats. All decisions save before publication; history and inspection
+are read-only. Earlier episode archives use their own boundary snapshots.
+
+Every performer receives two practice completions and one performance
+completion, including eventual departures. TV and experience remain silent.
+Auto-complete follows the same choices and stops on Episode 7's final screen.
+
+The copied episode includes actual songs/roles, all four judges, real growth,
+both rankings, distinct departures, the actual expulsion secret and only
+successful closing investigations. Relationships Updates compares Episode 6's
+ending with Episode 7's ending, including the fifteen competitors. Combined
+show copy includes this episode and its separate viewer-only notes.
+Twelve continue; Episode 8 is next, not implemented or automatically started.

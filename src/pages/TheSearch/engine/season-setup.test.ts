@@ -125,6 +125,11 @@ test('new runtime round-trips without rerolls and legacy setups remain inspectab
     ...song,
     genre: 'ARCHIVED_GENRE',
   }));
+  assert.ok(definitions.versatilitySongs);
+  definitions.versatilitySongs = definitions.versatilitySongs.map((song) => ({
+    ...song,
+    genre: 'ARCHIVED_GENRE',
+  }));
   assert.equal(
     decodeSimulationState(JSON.stringify(archived)).runtime?.definitions.auditionSongs[0].genre,
     'ARCHIVED_GENRE',
@@ -135,6 +140,10 @@ test('new runtime round-trips without rerolls and legacy setups remain inspectab
   );
   assert.equal(
     decodeSimulationState(JSON.stringify(archived)).runtime?.definitions.megaGroupSongs?.[0].genre,
+    'ARCHIVED_GENRE',
+  );
+  assert.equal(
+    decodeSimulationState(JSON.stringify(archived)).runtime?.definitions.versatilitySongs?.[0].genre,
     'ARCHIVED_GENRE',
   );
   const legacyContestants = state.contestants.map((contestant) => {

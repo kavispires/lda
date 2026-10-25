@@ -30,6 +30,7 @@ import { NarrativeAuditionView, NarrativeBattleView } from '../components/Narrat
 import { PhotoshootEpisodeView } from '../components/PhotoshootEpisodeView';
 import { TrackSpecialsEpisodeView } from '../components/TrackSpecialsEpisodeView';
 import { TrackTag } from '../components/TrackTag';
+import { VersatilityEpisodeView } from '../components/VersatilityEpisodeView';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
 import type { AuditionAction } from '../types/audition-episode';
@@ -40,6 +41,7 @@ import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import type { SeasonRuntime, SimulationState } from '../types/simulation';
 import type { TrackSpecialsAction } from '../types/track-specials-episode';
+import type { VersatilityAction } from '../types/versatility-episode';
 import type { TRACKS } from '../utilities/constants';
 import { createSeasonCastProfiles } from '../utilities/contestant-profile';
 import { isSeasonRankingVisible, projectSeasonCast } from '../utilities/episode-visibility';
@@ -111,6 +113,14 @@ export function SimulationPage() {
       setError(err instanceof Error ? err.message : 'Could not save the next Track Specials scene.');
     }
   };
+  const handleVersatilityAction = (action: VersatilityAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchVersatility(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Versatility scene.');
+    }
+  };
 
   const handleStartSimulation = async () => {
     setIsInitializing(true);
@@ -155,23 +165,40 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
-  const photoshootArchiveState: SimulationState = simulationState.runtime?.trackSpecials
+  const trackSpecialsArchiveState: SimulationState = simulationState.runtime?.versatility
     ? {
         ...simulationState,
-        contestants: simulationState.runtime.trackSpecials.startingContestants,
+        contestants: simulationState.runtime.versatility.startingContestants,
         runtime: {
           ...simulationState.runtime,
-          trackSpecials: undefined,
-          episode: 5,
+          versatility: undefined,
+          episode: 6,
           phase: 'episode-complete',
           revealedSecrets: simulationState.runtime.revealedSecrets.filter((entry) =>
             simulationState
-              .runtime!.trackSpecials!.startingContestants.find((person) => person.id === entry.contestantId)
+              .runtime!.versatility!.startingContestants.find((person) => person.id === entry.contestantId)
               ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
           ),
         },
       }
     : simulationState;
+  const photoshootArchiveState: SimulationState = trackSpecialsArchiveState.runtime?.trackSpecials
+    ? {
+        ...trackSpecialsArchiveState,
+        contestants: trackSpecialsArchiveState.runtime.trackSpecials.startingContestants,
+        runtime: {
+          ...trackSpecialsArchiveState.runtime,
+          trackSpecials: undefined,
+          episode: 5,
+          phase: 'episode-complete',
+          revealedSecrets: trackSpecialsArchiveState.runtime.revealedSecrets.filter((entry) =>
+            trackSpecialsArchiveState
+              .runtime!.trackSpecials!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : trackSpecialsArchiveState;
   const megaGroupsArchiveState = photoshootArchiveState.runtime?.photoshoot
     ? {
         ...photoshootArchiveState,
@@ -309,13 +336,51 @@ export function SimulationPage() {
                 <>
                   {simulationState.runtime.trackSpecials ? (
                     <>
-                      <TrackSpecialsEpisodeView
-                        actionError={error}
-                        key={`${simulationState.runtime.runId}-track-specials`}
-                        onAction={handleTrackSpecialsAction}
-                        onInspect={inspectContestant}
-                        state={simulationState}
-                      />
+                      {simulationState.runtime.versatility ? (
+                        <>
+                          <VersatilityEpisodeView
+                            actionError={error}
+                            key={`${simulationState.runtime.runId}-versatility`}
+                            onAction={handleVersatilityAction}
+                            onInspect={inspectContestant}
+                            state={simulationState}
+                          />
+                          <Collapse
+                            items={[
+                              {
+                                key: 'track-specials',
+                                label: 'Episode 6 — Track Specials archive',
+                                children: (
+                                  <TrackSpecialsEpisodeView
+                                    onAction={handleTrackSpecialsAction}
+                                    onInspect={(id) => inspectContestant(id, trackSpecialsArchiveState)}
+                                    state={trackSpecialsArchiveState}
+                                  />
+                                ),
+                              },
+                            ]}
+                            style={{ marginTop: 16 }}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <TrackSpecialsEpisodeView
+                            actionError={error}
+                            key={`${simulationState.runtime.runId}-track-specials`}
+                            onAction={handleTrackSpecialsAction}
+                            onInspect={inspectContestant}
+                            state={simulationState}
+                          />
+                          {simulationState.runtime.trackSpecials.phase === 'complete' && (
+                            <VersatilityEpisodeView
+                              actionError={error}
+                              onAction={handleVersatilityAction}
+                              onInspect={inspectContestant}
+                              state={simulationState}
+                            />
+                          )}
+                        </>
+                      )}
                       <Collapse
                         items={[
                           {
@@ -696,9 +761,11 @@ function SimulationOverview({
       onFilter: (value: Key | boolean, record: Contestant) => record.status === value,
       render: (status: string, contestant: Contestant) =>
         status === 'ELIMINATED'
-          ? runtime?.megaGroups?.withdrawnId === contestant.id
-            ? 'Withdrew'
-            : 'Eliminated'
+          ? runtime?.versatility?.expelledId === contestant.id
+            ? 'Expelled'
+            : runtime?.megaGroups?.withdrawnId === contestant.id
+              ? 'Withdrew'
+              : 'Eliminated'
           : activeStatusLabel,
     },
     {
@@ -719,7 +786,15 @@ function SimulationOverview({
           <Typography.Paragraph>
             Inspect any of the {contestants.length} contestants without advancing the episode.
           </Typography.Paragraph>
-          {runtime?.trackSpecials ? (
+          {runtime?.versatility ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.versatility.expelledId
+                ? 'Final season placements after Episode 7 departures.'
+                : runtime.versatility.rankRevealed
+                  ? 'Announced Episode 7 performance ranking.'
+                  : 'Ranks and continuing scores: previous public Episode 6 standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.trackSpecials ? (
             <Typography.Paragraph type="secondary">
               {runtime.trackSpecials.rankRevealed
                 ? 'Ranks and continuing scores: Episode 6.'
@@ -757,17 +832,19 @@ function SimulationOverview({
           <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
           <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
           <Descriptions.Item label="Status">
-            {runtime?.trackSpecials
-              ? `Episode 6 — ${runtime.trackSpecials.phase}`
-              : runtime?.photoshoot
-                ? `Episode 5 — ${runtime.photoshoot.phase}`
-                : runtime?.megaGroups
-                  ? `Episode 4 — ${runtime.megaGroups.phase}`
-                  : runtime?.bootcamp
-                    ? `Episode 3 — ${runtime.bootcamp.phase}`
-                    : runtime?.battle
-                      ? `Episode 2 — ${runtime.battle.phase}`
-                      : (runtime?.audition?.phase ?? 'Setup complete')}
+            {runtime?.versatility
+              ? `Episode 7 — ${runtime.versatility.phase}`
+              : runtime?.trackSpecials
+                ? `Episode 6 — ${runtime.trackSpecials.phase}`
+                : runtime?.photoshoot
+                  ? `Episode 5 — ${runtime.photoshoot.phase}`
+                  : runtime?.megaGroups
+                    ? `Episode 4 — ${runtime.megaGroups.phase}`
+                    : runtime?.bootcamp
+                      ? `Episode 3 — ${runtime.bootcamp.phase}`
+                      : runtime?.battle
+                        ? `Episode 2 — ${runtime.battle.phase}`
+                        : (runtime?.audition?.phase ?? 'Setup complete')}
           </Descriptions.Item>
         </Descriptions>
 
@@ -861,6 +938,9 @@ function SimulationOverview({
         allContestants={inspectionCast}
         contestant={selectedContestant}
         definitions={inspectionRuntime?.definitions}
+        expelledEpisode={
+          selectedId && inspectionRuntime?.versatility?.expelledId === selectedId ? 7 : undefined
+        }
         hidePerformance={!!runtime && !!selectedId && !hasGrade(selectedId)}
         hideSeasonRanking={!isSeasonRankingVisible(inspectionRuntime)}
         onClose={() => onSelect(null)}

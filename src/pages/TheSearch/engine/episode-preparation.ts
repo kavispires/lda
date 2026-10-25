@@ -6,6 +6,7 @@ import { getMegaGroupsCatalogs } from '../utilities/mega-groups-catalogs';
 import { getPhotoshootConcepts } from '../utilities/photoshoot-concepts';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { getTrackSpecialSongs } from '../utilities/track-special-songs';
+import { getVersatilityCatalogs } from '../utilities/versatility-catalogs';
 import { recordContestantChanges } from './change-history';
 import { type RandomSource, shuffleWithRandom } from './random';
 
@@ -55,7 +56,7 @@ function choices(value: unknown, options: MoodOptions): value is MoodChoices {
 
 export function initializePreparation(
   state: SimulationState,
-  episode: 1 | 2 | 3 | 4 | 5 | 6,
+  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7,
   random: RandomSource,
 ): EpisodePreparation {
   const runtime = runtimeOf(state);
@@ -74,6 +75,26 @@ export function initializePreparation(
   )
     throw new Error('Complete The Battles with eighteen locked survivors before preparing Episode 3.');
   if (active.length < 5) throw new Error('The opening requires five active contestants.');
+  if (episode === 7) {
+    const previous = runtime.trackSpecials;
+    if (
+      runtime.version !== 3 ||
+      previous?.phase !== 'complete' ||
+      previous.survivorIds.length !== 15 ||
+      active.length !== 15 ||
+      active.some((person) => !previous.survivorIds.includes(person.id))
+    )
+      throw new Error('Complete Track Specials with fifteen locked survivors before preparing Versatility.');
+    if (!runtime.definitions.versatilitySongs || !runtime.definitions.doubtGirls) {
+      if (runtime.versatility) throw new Error('Versatility definitions are missing from an active episode.');
+      const catalogs = getVersatilityCatalogs();
+      runtime.definitions = freezeSimulationSnapshot({
+        ...runtime.definitions,
+        versatilitySongs: runtime.definitions.versatilitySongs ?? catalogs.versatilitySongs,
+        doubtGirls: runtime.definitions.doubtGirls ?? catalogs.doubtGirls,
+      });
+    }
+  }
   if (episode === 6) {
     const previous = runtime.photoshoot;
     if (
@@ -158,15 +179,17 @@ export function initializePreparation(
   );
   const shortlist = candidates.slice(0, 10).map((contestant) => contestant.id);
   const previousRanking =
-    episode === 6
-      ? runtime.photoshoot!.rankedIds
-      : episode === 5
-        ? runtime.megaGroups!.finalRankedIds.filter((id) => activeIds.has(id))
-        : episode === 4
-          ? runtime.bootcamp!.rankedIds
-          : episode === 3
-            ? runtime.battle!.finalRankedIds
-            : null;
+    episode === 7
+      ? runtime.trackSpecials!.survivorIds
+      : episode === 6
+        ? runtime.photoshoot!.rankedIds
+        : episode === 5
+          ? runtime.megaGroups!.finalRankedIds.filter((id) => activeIds.has(id))
+          : episode === 4
+            ? runtime.bootcamp!.rankedIds
+            : episode === 3
+              ? runtime.battle!.finalRankedIds
+              : null;
   const rank = (contestant: Contestant) =>
     previousRanking
       ? previousRanking.indexOf(contestant.id)
@@ -214,19 +237,21 @@ export function applyPreparation(
 ): void {
   const runtime = runtimeOf(state);
   const episode =
-    runtime.preparations?.[6] && runtime.photoshoot?.phase === 'complete'
-      ? 6
-      : runtime.preparations?.[5] && runtime.megaGroups?.phase === 'complete'
-        ? 5
-        : runtime.preparations?.[4] && runtime.bootcamp?.phase === 'complete'
-          ? 4
-          : runtime.preparations?.[3] && runtime.battle?.phase === 'complete'
-            ? 3
-            : runtime.battle
-              ? 2
-              : runtime.audition?.phase === 'complete'
+    runtime.preparations?.[7] && runtime.trackSpecials?.phase === 'complete'
+      ? 7
+      : runtime.preparations?.[6] && runtime.photoshoot?.phase === 'complete'
+        ? 6
+        : runtime.preparations?.[5] && runtime.megaGroups?.phase === 'complete'
+          ? 5
+          : runtime.preparations?.[4] && runtime.bootcamp?.phase === 'complete'
+            ? 4
+            : runtime.preparations?.[3] && runtime.battle?.phase === 'complete'
+              ? 3
+              : runtime.battle
                 ? 2
-                : 1;
+                : runtime.audition?.phase === 'complete'
+                  ? 2
+                  : 1;
   const preparation = runtime.preparations?.[episode];
   if (!preparation) throw new Error('Initialize episode preparation first.');
   if (preparation.openingPlayed) throw new Error('Opening preparation is already complete.');
@@ -264,7 +289,7 @@ export function applyPreparation(
   } else throw new Error('Unknown episode preparation action.');
 }
 
-export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4 | 5 | 6): void {
+export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4 | 5 | 6 | 7): void {
   const runtime = runtimeOf(state);
   const preparation = runtime.preparations?.[episode];
   if (!preparation) throw new Error('Initialize episode preparation first.');
@@ -280,7 +305,9 @@ export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4 | 5 |
             ? runtime.megaGroups
             : episode === 5
               ? runtime.photoshoot
-              : runtime.trackSpecials;
+              : episode === 6
+                ? runtime.trackSpecials
+                : runtime.versatility;
   if (!record) throw new Error('Start the episode before playing its opening.');
   if (
     !preparation.mood ||
@@ -308,7 +335,7 @@ export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4 | 5 |
 export function assertPreparation(
   value: unknown,
   state: { contestants: readonly Contestant[]; runtime: SeasonRuntime },
-  episode: 1 | 2 | 3 | 4 | 5 | 6,
+  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7,
 ): asserts value is EpisodePreparation {
   const fail = () => {
     throw new Error(`Invalid Episode ${episode} preparation.`);
@@ -366,7 +393,7 @@ export function assertPreparation(
       (value.mood !== null && gaps !== 0))
   )
     fail();
-  const latest = !([1, 2, 3, 4, 5, 6] as const).some(
+  const latest = !([1, 2, 3, 4, 5, 6, 7] as const).some(
     (number) => number > episode && state.runtime.preparations?.[number],
   );
   if (

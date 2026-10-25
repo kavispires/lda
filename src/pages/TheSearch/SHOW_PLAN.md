@@ -2054,24 +2054,69 @@ relationship notes. No Episode 7, global condition system or XP skill growth.
 
 ### Episode 7 - Versatility
 
-**Format:** Three groups of five take on challenges outside each group's dominant
-track. The three lowest-ranked contestants leave, leaving 12.
+**Format:** Fifteen contestants form three groups of five for distinct Doubt Girls
+songs. Every performer uses a secondary Vocal/Rap/Dance track, without exceptions.
+Two ranked eliminations and a separate actual-secret expulsion leave twelve.
 
-**Established off-track rule:** Try to distribute contestants so the challenge
-pushes as many as possible outside their own track. Some may still perform in their
-usual track. Production and the general audience see those contestants' contributions
-as less special in this mission; existing fans still appreciate them without that
-same discount.
+**Preparation and draft:** Confirm the retained/replenished opening and six tastes
+from Episode 6's final survivors before Mike's briefing. The shared opening plays
+inside Sequence 1. Freeze feasible role slots before drafting; test completion
+after every pick. Balance roles where possible, never by permitting a primary
+track. Draft priority averages normalized extroversion and leadership, then
+previous rank and saved ties. Discipline or maturity >=5 chooses the strongest
+available secondary skill. Otherwise high ambition/resilience with potential >=4
+permits a saved 50% weaker-skill gamble. Affection resolves equivalent groups.
 
-**Proposed small interaction:** Respond to one request for coaching support or
-an ambitious off-track concept, rather than setting every group's challenge.
+**Rehearsals:** Use ordinary leader/center ballots and two practices, with at most
+one real modal conflict per team. MASCULINE/SWAG alone never causes refusal.
+Refusal additionally requires curiosity <=-5, maturity <5 and stalled second
+practice: -10 episode performance, each teammate toward refuser -2, refuser toward
+leader -1 excluding self. Curiosity >=5 or CUTE gives an actual expressive
+performance moment and +0.02 audience preference once.
 
-**Connections:** Learning, memory, potential, resilience, and cooperation become
-important. Recognize improvement without making established skill irrelevant.
+**Fourth judge:** Uniformly draw Diana, Una, Tracy, Brittany or Olive only at
+Sequence 4. All three regular judges remain. A matching own specialty gives +2
+effective off-track skill, capped at 5, only in the guest's assessment, once even
+if both preferences match. One saved raw 2d6 pair drives every performer's checks.
+Use normalized skill floors at the assigned part difficulty; other checks use
+medium difficulty, with the ordinary temporary center stage bonus.
 
-**Open:** Group formation authority, dominant-track ties, challenge selection,
-difficulty comparability, and the size of the production/general-audience discount
-for staying in-track. Elimination uses the cumulative overall ranking.
+`T = off-track; J = T; M = mean(stage,potential,uniqueness);`
+`L = mean(visual,consistency,leadership); G = .70*guestOffTrack + .30*stage.`
+`Final = clamp((3T+2G+J+M+L)/8 + 2*practice + coordination + refusal, 0, 100).`
+
+**Rare permanent growth:** After all grades lock, save two d6 for all fifteen,
+including capped skills. Gate=6 and second die <=potential passes. Add +1 to
+the actual performed core skill, capped at 5; no quota and no capped false
+headline. The chance is potential/36. This is an explicit Episode 7 exception,
+not XP-driven growth. Preserve source cast, earlier snapshots and locked scores.
+
+**Ranked departures:** Resolve ordinary public voting/ranking once using the
+existing 0.75/0.60/0.30/0.10 formula. Announce all fifteen and eliminate 14/15.
+Show farewells and an actual thirteen-person holding-room interlude.
+
+**Secret-triggered expulsion:** Among survivors with an unrevealed secret, choose
+the lowest incoming affection total from all twelve peers, with saved ties.
+If none has a hidden secret, choose the least-liked survivor and attach/reveal an
+eligible weighted frozen-catalog secret, preferring unused cards and never
+reapplying setup influences. Empty eligibility is an explicit atomic error.
+Reveal the exact actual card once. Any secret may qualify; health/background
+revelations are not fabricated misconduct. Production separately removes the
+contestant and does not disclose the relationship-based selection to the cast.
+
+Preserve the announced ranking separately. Expelled locks at 13, ranked departures
+at 14/15, twelve survivors compact in relative order and earlier positions 16-50
+stay locked. Process actual departure fans once. Shock sets ANXIOUS for sensitivity
+of at least 5, otherwise STRESSED, preserving severe/physical conditions; no automatic reset.
+Only the twelve then cast no-self peer MVP ballots and receive the separate standard
+modal investigation. Deferred consequences cannot create a fourth departure.
+
+**Integration:** Native revision-bound episode, full-history compressed saves,
+reveal-safe archives/profiles, auto-complete stopping at seven, actual-secret
+rundowns, combined show copy and viewer-only Relationships Updates. Every performer
+earns exactly +5 activity XP from two practices and one performance; growth and
+revelations grant none. TV/XP remain silent and do not influence results.
+Episode 8 is next, not started.
 
 ### Episode 8 - Variety Show
 
