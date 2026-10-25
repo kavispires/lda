@@ -7,7 +7,12 @@ import { TRACKS } from '../utilities/constants';
 import { createContestant } from '../utilities/contestant-factory';
 import { createSeededRandom } from './random';
 import { createSeasonSetup } from './season-setup';
-import { decodeSimulationState, loadSimulationState, SIMULATION_STORAGE_KEY } from './simulation-persistence';
+import {
+  decodeSimulationState,
+  encodeSimulationState,
+  loadSimulationState,
+  SIMULATION_STORAGE_KEY,
+} from './simulation-persistence';
 
 function sourcePool(): Record<string, Contestant> {
   return Object.fromEntries(
@@ -115,12 +120,21 @@ test('new runtime round-trips without rerolls and legacy setups remain inspectab
   definitions.auditionSongs = definitions.auditionSongs.map((song) => ({ ...song, genre: 'ARCHIVED_GENRE' }));
   assert.ok(definitions.battleSongs);
   definitions.battleSongs = definitions.battleSongs.map((song) => ({ ...song, genre: 'ARCHIVED_GENRE' }));
+  assert.ok(definitions.megaGroupSongs);
+  definitions.megaGroupSongs = definitions.megaGroupSongs.map((song) => ({
+    ...song,
+    genre: 'ARCHIVED_GENRE',
+  }));
   assert.equal(
     decodeSimulationState(JSON.stringify(archived)).runtime?.definitions.auditionSongs[0].genre,
     'ARCHIVED_GENRE',
   );
   assert.equal(
     decodeSimulationState(JSON.stringify(archived)).runtime?.definitions.battleSongs?.[0].genre,
+    'ARCHIVED_GENRE',
+  );
+  assert.equal(
+    decodeSimulationState(JSON.stringify(archived)).runtime?.definitions.megaGroupSongs?.[0].genre,
     'ARCHIVED_GENRE',
   );
   const legacyContestants = state.contestants.map((contestant) => {
@@ -164,6 +178,23 @@ test('corrupt or unsupported saves report a visible error and are not silently o
     },
   });
   assert.equal(valid.persistenceError, null);
+});
+
+test('compressed saves preserve Unicode and reject corruption or unsupported storage versions', () => {
+  const state: SimulationState = {
+    ...createSeasonSetup(sourcePool(), options),
+    status: 'ready',
+    persistenceError: null,
+  };
+  state.contestants[0].name = 'Performer \u00e9 \ud83c\udfb5';
+  const encoded = encodeSimulationState(state);
+  assert.deepEqual(decodeSimulationState(encoded), JSON.parse(JSON.stringify(state)));
+  for (const stored of [encoded.slice(0, 32), encoded.replace(':1:', ':999:')]) {
+    const restored = loadSimulationState({ getItem: () => stored });
+    assert.match(restored.persistenceError ?? '', /Could not restore/);
+    assert.equal(restored.runtime, null);
+    assert.equal(restored.contestants.length, 0);
+  }
 });
 
 test('runtime actions publish only after persistence succeeds and leave the database pool untouched', () => {

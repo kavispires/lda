@@ -21,7 +21,7 @@ import interestCardsData from '../data/interest-cards.json';
 import personaCardsData from '../data/persona-cards.json';
 import secretCardsData from '../data/secret-cards.json';
 import type { AttributeCard, PropertyChange } from '../types/common';
-import type { Contestant } from '../types/contestant';
+import type { ChangeLogEntry, Contestant } from '../types/contestant';
 import type { SimulationDefinitions } from '../types/simulation';
 import {
   DANCE_STYLES,
@@ -79,6 +79,7 @@ interface ContestantDetailModalProps {
   hideSeasonRanking?: boolean;
   hidePerformance?: boolean;
   definitions?: SimulationDefinitions;
+  withdrawnEpisode?: number;
 }
 
 export function ContestantDetailModal({
@@ -88,6 +89,7 @@ export function ContestantDetailModal({
   hideSeasonRanking = false,
   hidePerformance = false,
   definitions,
+  withdrawnEpisode,
 }: ContestantDetailModalProps) {
   if (!contestant) return null;
 
@@ -100,6 +102,7 @@ export function ContestantDetailModal({
           contestant={contestant}
           hidePerformance={hidePerformance}
           hideSeasonRanking={hideSeasonRanking}
+          withdrawnEpisode={withdrawnEpisode}
         />
       ),
     },
@@ -121,7 +124,13 @@ export function ContestantDetailModal({
     {
       key: 'changelog',
       label: 'Change Log',
-      children: <ChangeLogTab contestant={contestant} hideSeasonRanking={hideSeasonRanking} />,
+      children: (
+        <ChangeLogTab
+          contestant={contestant}
+          hideSeasonRanking={hideSeasonRanking}
+          withdrawnEpisode={withdrawnEpisode}
+        />
+      ),
     },
   ];
 
@@ -158,10 +167,12 @@ function BasicInfoTab({
   contestant,
   hideSeasonRanking,
   hidePerformance,
+  withdrawnEpisode,
 }: {
   contestant: Contestant;
   hideSeasonRanking: boolean;
   hidePerformance: boolean;
+  withdrawnEpisode?: number;
 }) {
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
@@ -175,7 +186,9 @@ function BasicInfoTab({
           <Descriptions.Item label="Grade">
             {hidePerformance ? 'Not performed' : contestant.grade}
           </Descriptions.Item>
-          <Descriptions.Item label="Status">{contestant.status}</Descriptions.Item>
+          <Descriptions.Item label="Status">
+            {withdrawnEpisode && contestant.status === 'ELIMINATED' ? 'WITHDREW' : contestant.status}
+          </Descriptions.Item>
           {!hideSeasonRanking && (
             <Descriptions.Item label="Rank">{contestant.rank || 'N/A'}</Descriptions.Item>
           )}
@@ -677,9 +690,11 @@ function RelationshipsTab({
 function ChangeLogTab({
   contestant,
   hideSeasonRanking,
+  withdrawnEpisode,
 }: {
   contestant: Contestant;
   hideSeasonRanking: boolean;
+  withdrawnEpisode?: number;
 }) {
   const columns = [
     {
@@ -705,7 +720,13 @@ function ChangeLogTab({
       dataIndex: 'status',
       key: 'status',
       width: 100,
-      render: (status: string) => <Tag>{status}</Tag>,
+      render: (status: string, entry: ChangeLogEntry) => (
+        <Tag>
+          {withdrawnEpisode && entry.episode >= withdrawnEpisode && status === 'ELIMINATED'
+            ? 'WITHDREW'
+            : status}
+        </Tag>
+      ),
     },
     {
       title: 'Summary',

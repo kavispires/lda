@@ -124,6 +124,21 @@ export function scoreBattleTeam(
   random: RandomSource,
   narrative = false,
 ): BattlePerformance {
+  return scoreGroupTeam(team, song, contestants, composure, random, narrative, 5);
+}
+
+/** Shared arithmetic; the Battles wrapper retains its historical five-person divisor. */
+export function scoreGroupTeam(
+  team: BattleTeam,
+  song: BattleSong,
+  contestants: readonly Contestant[],
+  composure: number,
+  random: RandomSource,
+  narrative = true,
+  divisor = team.memberIds.length,
+): BattlePerformance {
+  if (!Number.isInteger(divisor) || divisor < 1 || !team.memberIds.length)
+    throw new Error('Group performance needs a positive group size.');
   const evaluations = team.memberIds.map((id): BattleEvaluation => {
     const contestant = contestants.find((entry) => entry.id === id);
     const part = song.parts.find((entry) => entry.id === team.partAssignments[id]);
@@ -183,7 +198,7 @@ export function scoreBattleTeam(
       ...(narrative ? { centerBonus: id === team.centerId ? 1 : 0 } : {}),
     };
   });
-  const meanScore = evaluations.reduce((sum, evaluation) => sum + evaluation.finalScore, 0) / 5;
+  const meanScore = evaluations.reduce((sum, evaluation) => sum + evaluation.finalScore, 0) / divisor;
   return {
     teamId: team.id,
     evaluations,

@@ -319,7 +319,7 @@ calculation is visible to the player.
 Counts refer to active contestants. Eliminated contestants remain in the season
 archive and history.
 
-**Later-season withdrawal design, excluded from milestone 1:** Withdrawals are rare (usually none; one or
+**General later-season withdrawal proposal, superseded for Episode 4 below:** Withdrawals are rare (usually none; one or
 two may occur in a season) and can trigger only in episodes with enough scheduled
 elimination slots to absorb them. A departure consumes one of that episode's
 elimination slots rather than adding another exit.
@@ -845,14 +845,15 @@ is first publicly revealed on stage in the Episode 2 finale.
 All fifty contestants have a season position from initialization, kept hidden
 until that reveal. Departures lock into the bottom remaining positions, ordered
 by their season standing when they leave: Auditions departures occupy 31-50;
-The Battles departures occupy 19-30. The remaining eighteen can move within 1-18.
+The Battles departures occupy 19-30. Episode 4 locks its ranked elimination at
+18 and its withdrawal at 17, leaving sixteen contestants competing within 1-16.
 Later episodes never move a departed contestant's locked position, and the
 Season Cast table continues to show every contestant's place.
 
 The overall ranking is distinct from a particular performance's evaluation.
 Episode 1's performance-only elimination and Episode 2's team losses/saves retain
 their explicit rules. Later references to "lowest ranked" use the cumulative
-overall ranking, including Episode 4's lowest-ranked member within each group.
+overall ranking, including Episode 4's lowest-ranked contestant overall.
 Episode 2's audience save is separate from normal ranking updates.
 
 **Established ranking inputs:** Audience votes, evaluated performance, and a
@@ -1799,19 +1800,77 @@ MVP, and ranking; older exports and initialization-only cast profiles stay intac
 
 ### Episode 4 - Mega Groups
 
-**Format:** Two groups of nine perform two songs each. The lowest-ranked contestant
-in each group is eliminated, leaving 16.
+**Format:** Eighteen survivors form two nine-person teams and perform four
+distinct songs in A1/B1/A2/B2 order. Each song has nine assigned parts. One
+overall rank-18 elimination and one later voluntary withdrawal leave sixteen.
+The ten-sequence narrative is documented in SHOW_EPISODES.md.
 
-**Proposed small interaction:** Respond to one leader or center dispute without
-taking control of all group composition, songs, or role assignments.
+**Opening:** Preserve dorms. Comfort the single unhappiest contestant with the
+gentlest surviving roommate (or a visitor if alone): +10 reciprocal affection,
++5 happiness to the distressed contestant and +0.10 audienceRatio to both.
+The opening retains its ordinary boost. Mike's tired/fun/ready hand-raisers
+receive +0.01 fanbaseRatio/audienceRatio/productionRatio respectively, once.
 
-**Connections:** Leadership and relationships matter at a larger scale. Uneven
-role distribution creates tradeoffs between stage quality, fairness, and exposure.
+**Blind teams:** Freeze editable `mega-group-tests.json` and
+`mega-group-songs.json` definitions for the run. Choose one seeded pair:
+Hamburger (resilience+maturity) versus Ice cream (curiosity+sensitivity);
+Cat (ambition+gentleness) versus Dog (extroversion+sincerity); Balloon
+(curiosity+extroversion) versus Skate (discipline+resilience). Each contestant
+chooses the greater own sum without knowing earlier membership; ties use
+saved draws. Apply small directed arrival reactions.
 
-**Established elimination basis:** The lowest contestant in the cumulative overall
-ranking within each group leaves.
+**Rebalancing:** Every original member of an overcrowded team nominates exactly
+the excess number of distinct other members. Prefer moving the lowest equal
+blend of normalized outgoing affection and mean core skill. Highest totals
+move; tied cutoffs use saved draws. Ballots are secret to contestants but
+visible to viewers. Movers lose 3 happiness and 5 outgoing affection toward
+each original stayer. Original stayers lose 1 happiness once. Apply final-team
+relationship reactions separately. Both teams finish with exactly nine.
 
-**Open:** When the ranking is locked and how both songs contribute to it.
+**Practice and roles:** Public leader ballots compare leadership with a +1
+effective point for matching the voter's own leadership style, then outgoing
+affection. Center ballots compare stage presence, outgoing affection and
+visual. Self-votes are allowed for these role elections. One leader and center
+serve both songs. Two standard practice sessions cover both songs; actual
+tension/harmony and Support/Mediate/Push decisions carry real consequences.
+Preserve five-person Battles results when sharing group-size-aware helpers.
+
+**Judging and ranking:** All three regular judges respond immediately after
+each performance. Jane Strauss appears only in Sequence 9. Average normalized
+consistency and uniqueness checks from both songs' saved dice; >=70 grants
+one +0.05 productionRatio benefit, with no flat point award or disapproval
+penalty. Average each contestant's two individual performances equally and
+run the unchanged cumulative audience/ranking calculation exactly once.
+
+**Closing order:** Jane -> locked audience/ranking -> eighteen-person no-self
+peer MVP -> standard secret investigation -> public ranking/movement/reactions
+-> rank-18 elimination -> separate withdrawal. Secrets defer outcome-changing
+effects. MVP/investigation may recognize a later departure; never rerun them.
+No saves.
+
+**Withdrawal:** Among the seventeen survivors, inspect only the single
+unhappiest contestant. If investment <0 they withdraw; otherwise the lowest
+available rank withdraws. No discipline-plus-ambition test. Preserve the
+announced ranking separately, then lock withdrawal at final season position
+17, elimination at 18 and compact survivors to 1-16. Do not move prior departures.
+Record the withdrawal distinctly from competitive elimination and process
+each departure's audience/fan consequences once.
+
+**Persistence and visibility:** Existing runtime-3 Boot Camp saves adopt only
+missing Episode 4 catalogs on first preparation; no reset or historical replay.
+Persist all choices, ballots, practice, four performances and reveal states.
+Keep prior public ranks until the reveal, preserve earlier archives, and hide
+Jane/future results/the withdrawal candidate before their scenes.
+
+**Silent progression:** Extend the existing TV/XP ledger without competition
+coupling. Two completed practice sessions (+1 each) and two songs (+3 each)
+give +8 activity XP per contestant, including failures. Social/award/repeated
+viewing beats grant no XP. TV tiers follow actual on-camera moments and never
+feed decisions. No award mechanics appear in narration or copied rundowns.
+
+**Ending:** Complete Markdown export and automatic playback land on Episode
+4's final screen. Mark Episode 5 Photoshoot unlocked/next, not automatically
+started or falsely playable. No Episode 5 flow is included here.
 
 ### Episode 5 - Photoshoot
 

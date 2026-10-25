@@ -138,6 +138,24 @@ export function projectEpisodeContestant(contestant: Contestant, runtime: Season
     return value;
   };
   const result = projectBattleReveals(contestant, runtime);
+  if (runtime.megaGroups && !runtime.megaGroups.rankRevealed) {
+    const episode = runtime.megaGroups;
+    const prior = episode.startingContestants.find((entry) => entry.id === contestant.id);
+    if (prior) {
+      result.rank = prior.rank;
+      result.aggregations.rankingScore = prior.aggregations.rankingScore;
+    }
+    const changes = episode.changes[contestant.id] ?? [];
+    const closingCauses = new Set(
+      changes.filter((change) => change.path === 'aggregations.rankingScore').map((change) => change.cause),
+    );
+    for (const change of [...changes].reverse()) {
+      if (!closingCauses.has(change.cause) || typeof change.before !== 'number') continue;
+      if (change.path === 'aggregations.audienceRatio') result.aggregations.audienceRatio = change.before;
+      if (change.path === 'aggregations.fanbaseRatio') result.aggregations.fanbaseRatio = change.before;
+    }
+    result.changeLog = result.changeLog.filter((entry) => entry.episode !== 4);
+  }
   if (runtime.bootcamp && !runtime.bootcamp.rankRevealed) {
     const prior = runtime.bootcamp.startingContestants.find((entry) => entry.id === contestant.id);
     if (prior) {

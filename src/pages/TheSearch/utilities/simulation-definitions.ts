@@ -14,6 +14,7 @@ import {
 } from './attribute-libraries';
 import { getAuditionSongs } from './audition-songs';
 import { BATTLE_SONGS, validateBattleSongs } from './battle-songs';
+import { getMegaGroupsCatalogs } from './mega-groups-catalogs';
 
 export function freezeSimulationSnapshot<T>(value: T): T {
   if (value !== null && typeof value === 'object' && !Object.isFrozen(value)) {
@@ -38,5 +39,6 @@ export function getSimulationDefinitions(): SimulationDefinitions {
     zodiacSigns: ZODIAC_SIGNS,
     auditionSongs: getAuditionSongs(),
     battleSongs: BATTLE_SONGS,
+    ...getMegaGroupsCatalogs(),
   });
 }

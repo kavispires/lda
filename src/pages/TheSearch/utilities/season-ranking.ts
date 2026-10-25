@@ -24,12 +24,15 @@ export function seasonRanks(
   const battleDepartures = runtime.battle?.finalRankedIds.filter((id) => battleEliminated.has(id)) ?? [];
   if (battleDepartures.length !== battleEliminated.size)
     throw new Error('Season ranking is missing locked battle placements.');
-  const departed = new Set([...auditionDepartures, ...battleDepartures]);
+  const megaDepartures = [runtime.megaGroups?.withdrawnId, runtime.megaGroups?.eliminatedId].filter(
+    (id): id is string => !!id && person(id).status === 'ELIMINATED',
+  );
+  const departed = new Set([...auditionDepartures, ...battleDepartures, ...megaDepartures]);
   const remaining = contestants
     .filter((entry) => !departed.has(entry.id))
     .sort((a, b) => a.rank - b.rank)
     .map((entry) => entry.id);
-  const ordered = [...remaining, ...battleDepartures, ...auditionDepartures];
+  const ordered = [...remaining, ...megaDepartures, ...battleDepartures, ...auditionDepartures];
   if (ordered.length !== contestants.length || new Set(ordered).size !== ordered.length)
     throw new Error('Season ranking must contain every contestant exactly once.');
   return new Map(ordered.map((id, index) => [person(id).id, index + 1]));

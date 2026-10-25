@@ -24,6 +24,7 @@ import { BootcampEpisodeView } from '../components/BootcampEpisodeView';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { ContestantDetailModal } from '../components/ContestantDetailModal';
 import { CopyMarkdownButton } from '../components/CopyMarkdownButton';
+import { MegaGroupsEpisodeView } from '../components/MegaGroupsEpisodeView';
 import { NarrativeAuditionView, NarrativeBattleView } from '../components/NarrativeEpisodeView';
 import { TrackTag } from '../components/TrackTag';
 import { useContestantsContext } from '../services/ContestantsProvider';
@@ -32,6 +33,7 @@ import type { AuditionAction } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
+import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { SeasonRuntime } from '../types/simulation';
 import type { TRACKS } from '../utilities/constants';
 import { createSeasonCastProfiles } from '../utilities/contestant-profile';
@@ -71,6 +73,15 @@ export function SimulationPage() {
       simulationActions.dispatchBootcamp(action, revision);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save the next Boot Camp scene.');
+    }
+  };
+
+  const handleMegaGroupsAction = (action: MegaGroupsAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchMegaGroups(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Mega Groups scene.');
     }
   };
 
@@ -117,13 +128,20 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
-  const archivedState = simulationState.runtime?.bootcamp
+  const bootcampArchiveState = simulationState.runtime?.megaGroups
     ? {
         ...simulationState,
-        contestants: simulationState.runtime.bootcamp.startingContestants,
-        runtime: { ...simulationState.runtime, bootcamp: undefined },
+        contestants: simulationState.runtime.megaGroups.startingContestants,
+        runtime: { ...simulationState.runtime, megaGroups: undefined },
       }
     : simulationState;
+  const archivedState = bootcampArchiveState.runtime?.bootcamp
+    ? {
+        ...bootcampArchiveState,
+        contestants: bootcampArchiveState.runtime.bootcamp.startingContestants,
+        runtime: { ...bootcampArchiveState.runtime, bootcamp: undefined },
+      }
+    : bootcampArchiveState;
   const AuditionView =
     simulationState.runtime && simulationState.runtime.version !== 1
       ? NarrativeAuditionView
@@ -228,7 +246,55 @@ export function SimulationPage() {
                   this season.
                 </Typography.Paragraph>
               )}
-              {simulationState.runtime.bootcamp ? (
+              {simulationState.runtime.megaGroups ? (
+                <>
+                  <MegaGroupsEpisodeView
+                    actionError={error}
+                    key={`${simulationState.runtime.runId}-mega-groups`}
+                    onAction={handleMegaGroupsAction}
+                    onInspect={setSelectedId}
+                    state={simulationState}
+                  />
+                  <Collapse
+                    items={[
+                      {
+                        key: 'bootcamp',
+                        label: 'Episode 3 — Boot Camp archive',
+                        children: (
+                          <BootcampEpisodeView
+                            onAction={handleBootcampAction}
+                            onInspect={setSelectedId}
+                            state={bootcampArchiveState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'battles',
+                        label: 'Episode 2 — The Battles archive',
+                        children: (
+                          <BattleView
+                            onAction={handleBattleAction}
+                            onInspect={setSelectedId}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'auditions',
+                        label: 'Episode 1 — Auditions archive',
+                        children: (
+                          <AuditionView
+                            onAction={handleAuditionAction}
+                            onInspect={setSelectedId}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                    ]}
+                    style={{ marginTop: 16 }}
+                  />
+                </>
+              ) : simulationState.runtime.bootcamp ? (
                 <>
                   <BootcampEpisodeView
                     actionError={error}
@@ -237,6 +303,14 @@ export function SimulationPage() {
                     onInspect={setSelectedId}
                     state={simulationState}
                   />
+                  {simulationState.runtime.bootcamp.phase === 'complete' && (
+                    <MegaGroupsEpisodeView
+                      actionError={error}
+                      onAction={handleMegaGroupsAction}
+                      onInspect={setSelectedId}
+                      state={simulationState}
+                    />
+                  )}
                   <Collapse
                     items={[
                       {
@@ -446,7 +520,12 @@ function SimulationOverview({
         { text: 'Departed', value: 'ELIMINATED' },
       ],
       onFilter: (value: Key | boolean, record: Contestant) => record.status === value,
-      render: (status: string) => (status === 'ELIMINATED' ? 'Departed' : activeStatusLabel),
+      render: (status: string, contestant: Contestant) =>
+        status === 'ELIMINATED'
+          ? runtime?.megaGroups?.withdrawnId === contestant.id
+            ? 'Withdrew'
+            : 'Eliminated'
+          : activeStatusLabel,
     },
     {
       title: 'Persona',
@@ -466,12 +545,22 @@ function SimulationOverview({
           <Typography.Paragraph>
             Inspect any of the {contestants.length} contestants without advancing the episode.
           </Typography.Paragraph>
-          {runtime?.bootcamp && (
+          {runtime?.megaGroups ? (
             <Typography.Paragraph type="secondary">
-              {runtime.bootcamp.rankRevealed
-                ? 'Ranks and continuing scores: Episode 3.'
-                : 'Ranks and continuing scores: previous public Episode 2 standings.'}
+              {runtime.megaGroups.phase === 'complete'
+                ? 'Final season placements after Episode 4 departures.'
+                : runtime.megaGroups.rankRevealed
+                  ? 'Announced Episode 4 performance ranking.'
+                  : 'Ranks and continuing scores: previous public Episode 3 standings.'}
             </Typography.Paragraph>
+          ) : (
+            runtime?.bootcamp && (
+              <Typography.Paragraph type="secondary">
+                {runtime.bootcamp.rankRevealed
+                  ? 'Ranks and continuing scores: Episode 3.'
+                  : 'Ranks and continuing scores: previous public Episode 2 standings.'}
+              </Typography.Paragraph>
+            )
           )}
         </div>
 
@@ -482,11 +571,13 @@ function SimulationOverview({
           <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
           <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
           <Descriptions.Item label="Status">
-            {runtime?.bootcamp
-              ? `Episode 3 — ${runtime.bootcamp.phase}`
-              : runtime?.battle
-                ? `Episode 2 — ${runtime.battle.phase}`
-                : (runtime?.audition?.phase ?? 'Setup complete')}
+            {runtime?.megaGroups
+              ? `Episode 4 — ${runtime.megaGroups.phase}`
+              : runtime?.bootcamp
+                ? `Episode 3 — ${runtime.bootcamp.phase}`
+                : runtime?.battle
+                  ? `Episode 2 — ${runtime.battle.phase}`
+                  : (runtime?.audition?.phase ?? 'Setup complete')}
           </Descriptions.Item>
         </Descriptions>
 
@@ -583,6 +674,7 @@ function SimulationOverview({
         hidePerformance={!!runtime && !!selectedId && !hasGrade(selectedId)}
         hideSeasonRanking={!isSeasonRankingVisible(runtime)}
         onClose={() => onSelect(null)}
+        withdrawnEpisode={selectedId && runtime?.megaGroups?.withdrawnId === selectedId ? 4 : undefined}
       />
     </div>
   );

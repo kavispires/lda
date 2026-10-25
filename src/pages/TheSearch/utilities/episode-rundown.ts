@@ -2,6 +2,7 @@ import type { ChangeValue } from '../types/common';
 import type { SimulationState } from '../types/simulation';
 import { createBootcampRundown } from './bootcamp-rundown';
 import { markdown } from './markdown';
+import { createMegaGroupsRundown } from './mega-groups-rundown';
 import { storyText } from './story-presentation';
 
 function affection(value: ChangeValue | undefined): number | undefined {
@@ -13,7 +14,8 @@ function affection(value: ChangeValue | undefined): number | undefined {
   return undefined;
 }
 
-export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 2 | 3): string {
+export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 2 | 3 | 4): string {
+  if (episodeNumber === 4) return createMegaGroupsRundown(state);
   if (episodeNumber === 3) return createBootcampRundown(state);
   const runtime = state.runtime;
   const record = episodeNumber === 1 ? runtime?.audition : runtime?.battle;

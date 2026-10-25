@@ -3,11 +3,13 @@ import { transitionAudition } from '../engine/audition-episode';
 import { transitionBattle } from '../engine/battle-episode';
 import { transitionBootcamp } from '../engine/bootcamp-episode';
 import { autoCompleteEpisode, type EpisodeNumber } from '../engine/episode-auto-complete';
+import { transitionMegaGroups } from '../engine/mega-groups-episode';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from '../engine/narrative-audition';
 import { transitionBattleStory } from '../engine/narrative-battle';
 import { createSeasonSetup } from '../engine/season-setup';
 import {
   emptySimulationState,
+  encodeSimulationState,
   loadSimulationState,
   SIMULATION_STORAGE_KEY,
 } from '../engine/simulation-persistence';
@@ -15,6 +17,7 @@ import type { AuditionAction } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
+import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 
 export type { SimulationState } from '../types/simulation';
@@ -35,7 +38,7 @@ export const simulationStore = new Store<SimulationState>(loadFromStorage());
 
 function commitState(next: SimulationState): void {
   // Save before publishing state so a failed write cannot look like a completed phase.
-  window.localStorage.setItem(SIMULATION_STORAGE_KEY, JSON.stringify(next));
+  window.localStorage.setItem(SIMULATION_STORAGE_KEY, encodeSimulationState(next));
   simulationStore.setState(() => next);
 }
 
@@ -89,6 +92,12 @@ export const simulationActions = {
   dispatchBootcamp(action: BootcampAction, expectedRevision: number) {
     const current = simulationStore.state;
     const next = transitionBootcamp(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+
+  dispatchMegaGroups(action: MegaGroupsAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionMegaGroups(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

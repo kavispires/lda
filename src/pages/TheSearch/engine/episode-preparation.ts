@@ -2,6 +2,8 @@ import type { MoodChoices, MoodOptions } from '../types/audition-episode';
 import type { Contestant, CoreSkills, Specialties } from '../types/contestant';
 import type { EpisodePreparation, PreparationAction } from '../types/narrative';
 import { isNarrativeSeason, type SeasonRuntime, type SimulationState } from '../types/simulation';
+import { getMegaGroupsCatalogs } from '../utilities/mega-groups-catalogs';
+import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { recordContestantChanges } from './change-history';
 import { type RandomSource, shuffleWithRandom } from './random';
 
@@ -51,7 +53,7 @@ function choices(value: unknown, options: MoodOptions): value is MoodChoices {
 
 export function initializePreparation(
   state: SimulationState,
-  episode: 1 | 2 | 3,
+  episode: 1 | 2 | 3 | 4,
   random: RandomSource,
 ): EpisodePreparation {
   const runtime = runtimeOf(state);
@@ -70,6 +72,24 @@ export function initializePreparation(
   )
     throw new Error('Complete The Battles with eighteen locked survivors before preparing Episode 3.');
   if (active.length < 5) throw new Error('The opening requires five active contestants.');
+  if (episode === 4) {
+    if (
+      runtime.version !== 3 ||
+      runtime.bootcamp?.phase !== 'complete' ||
+      active.length !== 18 ||
+      active.some((person) => !runtime.bootcamp!.participantIds.includes(person.id))
+    )
+      throw new Error('Complete Boot Camp with eighteen survivors before preparing Mega Groups.');
+    if (!runtime.definitions.megaGroupTests || !runtime.definitions.megaGroupSongs) {
+      if (runtime.megaGroups) throw new Error('Mega Groups definitions are missing from an active episode.');
+      const catalogs = getMegaGroupsCatalogs();
+      runtime.definitions = freezeSimulationSnapshot({
+        ...runtime.definitions,
+        megaGroupTests: runtime.definitions.megaGroupTests ?? catalogs.megaGroupTests,
+        megaGroupSongs: runtime.definitions.megaGroupSongs ?? catalogs.megaGroupSongs,
+      });
+    }
+  }
   const libraries = Object.fromEntries(
     FIELDS.map((field) => {
       const values = Object.keys(runtime.definitions.specialties[field]);
@@ -98,7 +118,8 @@ export function initializePreparation(
     (left, right) => total(right) - total(left) || right.coreSkills.visual - left.coreSkills.visual,
   );
   const shortlist = candidates.slice(0, 10).map((contestant) => contestant.id);
-  const previousRanking = episode === 3 ? runtime.battle!.finalRankedIds : null;
+  const previousRanking =
+    episode === 4 ? runtime.bootcamp!.rankedIds : episode === 3 ? runtime.battle!.finalRankedIds : null;
   const rank = (contestant: Contestant) =>
     previousRanking
       ? previousRanking.indexOf(contestant.id)
@@ -146,13 +167,15 @@ export function applyPreparation(
 ): void {
   const runtime = runtimeOf(state);
   const episode =
-    runtime.preparations?.[3] && runtime.battle?.phase === 'complete'
-      ? 3
-      : runtime.battle
-        ? 2
-        : runtime.audition?.phase === 'complete'
+    runtime.preparations?.[4] && runtime.bootcamp?.phase === 'complete'
+      ? 4
+      : runtime.preparations?.[3] && runtime.battle?.phase === 'complete'
+        ? 3
+        : runtime.battle
           ? 2
-          : 1;
+          : runtime.audition?.phase === 'complete'
+            ? 2
+            : 1;
   const preparation = runtime.preparations?.[episode];
   if (!preparation) throw new Error('Initialize episode preparation first.');
   if (preparation.openingPlayed) throw new Error('Opening preparation is already complete.');
@@ -190,12 +213,19 @@ export function applyPreparation(
   } else throw new Error('Unknown episode preparation action.');
 }
 
-export function playOpening(state: SimulationState, episode: 1 | 2 | 3): void {
+export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4): void {
   const runtime = runtimeOf(state);
   const preparation = runtime.preparations?.[episode];
   if (!preparation) throw new Error('Initialize episode preparation first.');
   if (preparation.openingPlayed) return;
-  const record = episode === 1 ? runtime.audition : episode === 2 ? runtime.battle : runtime.bootcamp;
+  const record =
+    episode === 1
+      ? runtime.audition
+      : episode === 2
+        ? runtime.battle
+        : episode === 3
+          ? runtime.bootcamp
+          : runtime.megaGroups;
   if (!record) throw new Error('Start the episode before playing its opening.');
   if (
     !preparation.mood ||
@@ -208,9 +238,9 @@ export function playOpening(state: SimulationState, episode: 1 | 2 | 3): void {
     throw new Error('The opening requires five distinct active contestants and a locked mood.');
   for (const id of preparation.slots) {
     const contestant = state.contestants.find((entry) => entry.id === id)!;
-    const before = episode === 3 ? null : structuredClone(contestant);
+    const before = episode >= 3 ? null : structuredClone(contestant);
     contestant.aggregations.audienceRatio = Math.min(1, contestant.aggregations.audienceRatio + 0.02);
-    // Boot Camp captures every beat's contestant changes in its transition.
+    // Later episodes capture each beat's contestant changes in their transition.
     if (before) {
       const changes = recordContestantChanges(before, contestant, `Episode ${episode} opening credits`);
       record.changes[id] ??= [];
@@ -223,7 +253,7 @@ export function playOpening(state: SimulationState, episode: 1 | 2 | 3): void {
 export function assertPreparation(
   value: unknown,
   state: { contestants: readonly Contestant[]; runtime: SeasonRuntime },
-  episode: 1 | 2 | 3,
+  episode: 1 | 2 | 3 | 4,
 ): asserts value is EpisodePreparation {
   const fail = () => {
     throw new Error(`Invalid Episode ${episode} preparation.`);
@@ -281,7 +311,7 @@ export function assertPreparation(
       (value.mood !== null && gaps !== 0))
   )
     fail();
-  const latest = !([1, 2, 3] as const).some(
+  const latest = !([1, 2, 3, 4] as const).some(
     (number) => number > episode && state.runtime.preparations?.[number],
   );
   if (

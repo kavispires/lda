@@ -62,6 +62,8 @@ export interface EpisodeScene {
   presentation?: NarrativeAuditionStory['presentation'];
   speaker?: { name: string; role: string };
   introductions?: Record<string, string[]>;
+  illustrations?: { src: string; label: string }[];
+  contestantChanges?: Record<string, PropertyChange[]>;
   dialogues?: { name: string; role: string; paragraphs: string[]; paragraphContestantIds?: string[][] }[];
 }
 

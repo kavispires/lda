@@ -812,7 +812,7 @@ challenge evidence, ballots, group attempts, fatigue, winners, audience outcome,
 peer MVP, and final ranking. The separate all-cast profile export remains the
 initialization snapshot.
 
-Across Episodes 1-3, TV value and artistic experience accrue silently. Actual
+Across Episodes 1-4, TV value and artistic experience accrue silently. Actual
 on-camera moments can add TV points even when they portray a contestant
 negatively. Completed practice and performances/challenges add experience,
 including failed attempts; coaching, social drama, and repeated challenge
@@ -824,3 +824,113 @@ Profiles, optional performance details, and the episode archive can be inspected
 without advancing the story or repeating any consequence. Hidden secrets and
 future results are not revealed by inspection. Opening portraits remain
 readable for viewers who prefer reduced motion.
+
+## Episode 4: Mega Groups
+
+Eighteen contestants return from Boot Camp. Two new teams of nine must each
+prepare two different songs. Mike announces one bottom-ranked elimination;
+the separate voluntary departure remains a surprise until the final sequence.
+
+Keep surviving opening cast members, replace only vacant slots and choose the
+episode's mood using the usual preparation. Existing completed Boot Camp saves
+can continue without replaying earlier episodes.
+
+| Sequence | On screen                                                                                                                                                                                                                                                  |
+| -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1        | Exhaustion in the existing dorms. The unhappiest survivor considers leaving; their gentlest surviving roommate comforts them. If alone, the comforter visits from another dorm. They stay, their friendship grows, and the distressed contestant recovers. |
+| 2        | Play the five-person opening.                                                                                                                                                                                                                              |
+| 3        | Mike asks who is tired, who had fun and who is ready. Show each group of raised hands, then explain Mega Groups and the announced elimination.                                                                                                             |
+| 4        | Eighteen independent image choices create initially uneven teams. Show arrivals, rosters, viewer-visible secret transfer votes, reluctant moves and reactions until both teams have nine members.                                                          |
+| 5        | Team A elects its leader, assigns both songs' parts, rehearses, handles real harmony/tension and elects a center. Perform A1, followed immediately by the judges' comments.                                                                                |
+| 6        | Repeat the preparation and performance structure for Team B and song B1.                                                                                                                                                                                   |
+| 7        | Team A returns for A2, then immediate judges' comments.                                                                                                                                                                                                    |
+| 8        | Team B performs B2, then immediate judges' comments.                                                                                                                                                                                                       |
+| 9        | Mike reveals that Master Choreographer Jane Strauss watched secretly. She discusses consistency and uniqueness. Run the eighteen-person MVP vote and the usual secret investigation before announcing the ranking and eliminating rank 18.                 |
+| 10       | A surviving contestant chooses to leave. Show the farewell, distinguish the withdrawal from the competitive elimination, and close with sixteen survivors.                                                                                                 |
+
+### Blind image test
+
+The editable `data/mega-group-tests.json` catalog contains the team names,
+images and personality measures. One pair is selected for the episode:
+
+| Team A    | Personality sum          | Team B    | Personality sum          |
+| --------- | ------------------------ | --------- | ------------------------ |
+| Hamburger | Resilience + Maturity    | Ice cream | Curiosity + Sensitivity  |
+| Cat       | Ambition + Gentleness    | Dog       | Extroversion + Sincerity |
+| Balloon   | Curiosity + Extroversion | Skate     | Discipline + Resilience  |
+
+Contestants cannot see earlier choices. Each chooses the image matching their
+larger personality sum, with saved random ties. Viewers see who joins whom and
+how existing bonds or friction affect those arrivals. Choices need not produce
+balanced teams.
+
+If a team has more than nine members, every original member secretly nominates
+exactly the number of other members who must move. No self-votes. Lower affection
+and weaker overall skills make a nomination more likely. Highest vote totals
+move; a saved draw settles tied cutoffs. The viewers see all ballots, but
+contestants never learn who nominated them.
+
+Moved contestants lose 3 happiness and 5 outgoing affection toward each
+original teammate who stays. Those original stayers lose 1 happiness once.
+Everyone then reacts to the people in their final team. Show full rosters so
+the changes remain easy to follow.
+
+### Practice, roles and songs
+
+There are four distinct editable songs, each arranged into nine parts.
+Each team publicly elects one leader and one center for both songs. Leader
+ballots consider leadership ability and the voter's own leadership-style
+preference, with relationships breaking ties. Center ballots prioritize stage
+presence, then relationship, then visual. The leader can also become center.
+
+Two standard practice sessions cover both songs. Show part fit, readiness,
+leadership, coordination, support and genuine disagreements. A harmonious team
+must not suddenly acquire a fabricated fight. Production can use the existing
+Support, Mediate and Push choices when a rehearsal decision occurs.
+
+Every contestant performs twice. Each performance receives its own recorded
+checks and immediate comments from John Stan, Megan Ryder and Michael Lion.
+The second song is not a replay of the first result.
+
+### Jane, recognition and departures
+
+Jane Strauss is introduced only after all four songs. Her assessment uses
+recorded consistency and uniqueness evidence from both performances, with
+grounded praise and criticism rather than new performance rolls.
+
+All eighteen performers vote for another performer as MVP. Production then
+conducts the normal secret investigation. These happen before the ranking and
+departures: someone recognized here may subsequently leave. Do not repeat an
+award or investigate a replacement. Outcome-changing secret consequences remain
+deferred; they cannot rewrite the locked episode result.
+
+The two songs contribute equally to each contestant's episode performance.
+Apply the established cumulative ranking once, reveal movement from Episode 3,
+and show genuine placement reactions. The bottom contestant overall leaves;
+this is not an elimination of the lowest member of each team. There are no saves.
+
+For the final withdrawal, inspect the **single unhappiest remaining contestant**.
+If their investment is below zero, they leave. Otherwise, the lowest-ranked
+remaining contestant leaves. This is a separate departure, not a second
+competitive elimination.
+
+Preserve the announced eighteen-person ranking as performance history. Final
+season placements lock the withdrawal at **17**, the ranked elimination at
+**18**, and compact the remaining contestants to **1-16** without changing
+their relative order. Earlier eliminated positions stay locked.
+
+### Finale, details and copying
+
+Use the existing linked portraits, happiness/relationship change indicators,
+personnel speech and one-beat playback. Prior public rankings remain available
+until the new reveal; optional details never disclose unperformed results or
+the withdrawal candidate. Recorded ballots/checks and read-only scene history
+remain inspectable without changing the episode.
+
+Auto-complete runs the same transitions and lands on Episode 4's final screen.
+The Markdown rundown includes all ten sequences, secret transfer ballots,
+four performances, Jane, MVP, investigation, announced rankings and distinct
+departures. TV/experience awards stay silent.
+
+Episode 5 - Photoshoot is marked unlocked as the next episode. It does not
+start automatically and is not playable until its own episode flow is implemented.

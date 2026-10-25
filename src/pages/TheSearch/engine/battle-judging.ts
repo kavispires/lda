@@ -22,11 +22,25 @@ export function addBattleJudging(
   performance: BattlePerformance,
   contestants: readonly Contestant[],
 ): BattlePerformance {
+  return addGroupJudging(performance, contestants, 5);
+}
+
+export function addGroupJudging(
+  performance: BattlePerformance,
+  contestants: readonly Contestant[],
+  groupSize: number,
+): BattlePerformance {
   if (
-    performance.evaluations.length !== 5 ||
-    new Set(performance.evaluations.map((evaluation) => evaluation.contestantId)).size !== 5
+    !Number.isInteger(groupSize) ||
+    groupSize < 1 ||
+    performance.evaluations.length !== groupSize ||
+    new Set(performance.evaluations.map((evaluation) => evaluation.contestantId)).size !== groupSize
   )
-    throw new Error('Battle judging requires five distinct recorded performances.');
+    throw new Error(
+      groupSize === 5
+        ? 'Battle judging requires five distinct recorded performances.'
+        : `Group judging requires ${groupSize} distinct recorded performances.`,
+    );
   const john: BattleCheck[] = [];
   const megan: BattleCheck[] = [];
   const michael: BattleCheck[] = [];

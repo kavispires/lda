@@ -1,18 +1,27 @@
 import type { AuditionAction, MoodChoices, MoodOptions } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
+import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { EpisodePreparation, PreparationAction } from '../types/narrative';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 import { transitionAudition } from './audition-episode';
 import { transitionBattle } from './battle-episode';
 import { transitionBootcamp } from './bootcamp-episode';
+import { transitionMegaGroups } from './mega-groups-episode';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from './narrative-audition';
 import { transitionBattleStory } from './narrative-battle';
 
-export type EpisodeNumber = 1 | 2 | 3;
+export type EpisodeNumber = 1 | 2 | 3 | 4;
 
 export function isEpisodeComplete(state: SimulationState, episode: EpisodeNumber): boolean {
   const runtime = state.runtime;
-  const record = episode === 1 ? runtime?.audition : episode === 2 ? runtime?.battle : runtime?.bootcamp;
+  const record =
+    episode === 1
+      ? runtime?.audition
+      : episode === 2
+        ? runtime?.battle
+        : episode === 3
+          ? runtime?.bootcamp
+          : runtime?.megaGroups;
   return record?.phase === 'complete';
 }
 
@@ -99,6 +108,15 @@ function advanceAutomatically(state: SimulationState, episode: EpisodeNumber): S
           : transitionBattle;
     return transition(state, action, current?.revision ?? preparation?.revision ?? 0);
   }
+  if (episode === 4) {
+    const current = runtime.megaGroups;
+    const preparation = runtime.preparations?.[4];
+    let action: MegaGroupsAction = current ? { type: 'advance' } : preparationAction(preparation);
+    if (current?.phase === 'intervention') action = { type: 'conflict', choice: 'mediate' };
+    if (current?.phase === 'secret-choice')
+      action = { type: 'secret', contestantId: first(current.secretCandidates, 'secret candidate') };
+    return transitionMegaGroups(state, action, current?.revision ?? preparation?.revision ?? 0);
+  }
   const current = runtime.bootcamp;
   const preparation = runtime.preparations?.[3];
   return transitionBootcamp(
@@ -112,7 +130,7 @@ export async function autoCompleteEpisode(
   initial: SimulationState,
   episode: EpisodeNumber,
 ): Promise<SimulationState> {
-  if (episode !== 1 && episode !== 2 && episode !== 3) throw new Error('Unknown episode.');
+  if (episode !== 1 && episode !== 2 && episode !== 3 && episode !== 4) throw new Error('Unknown episode.');
   if (initial.status !== 'ready' || !initial.runtime)
     throw new Error('Initialize a simulation before auto-completing an episode.');
   let state = initial;
