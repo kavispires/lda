@@ -14,6 +14,7 @@ import {
   loadSimulationState,
   SIMULATION_STORAGE_KEY,
 } from '../engine/simulation-persistence';
+import { transitionTrackSpecials } from '../engine/track-specials-episode';
 import type { AuditionAction } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
@@ -21,6 +22,7 @@ import type { Contestant } from '../types/contestant';
 import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
+import type { TrackSpecialsAction } from '../types/track-specials-episode';
 
 export type { SimulationState } from '../types/simulation';
 
@@ -106,6 +108,12 @@ export const simulationActions = {
   dispatchPhotoshoot(action: PhotoshootAction, expectedRevision: number) {
     const current = simulationStore.state;
     const next = transitionPhotoshoot(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+
+  dispatchTrackSpecials(action: TrackSpecialsAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionTrackSpecials(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

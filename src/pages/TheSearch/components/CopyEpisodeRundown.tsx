@@ -7,7 +7,7 @@ export function CopyEpisodeRundown({
   episode,
 }: {
   state: SimulationState;
-  episode: 1 | 2 | 3 | 4 | 5;
+  episode: 1 | 2 | 3 | 4 | 5 | 6;
 }) {
   const record =
     episode === 1
@@ -18,7 +18,9 @@ export function CopyEpisodeRundown({
           ? state.runtime?.bootcamp
           : episode === 4
             ? state.runtime?.megaGroups
-            : state.runtime?.photoshoot;
+            : episode === 5
+              ? state.runtime?.photoshoot
+              : state.runtime?.trackSpecials;
   if (record?.phase !== 'complete') return null;
   return (
     <CopyMarkdownButton

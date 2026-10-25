@@ -23,7 +23,9 @@ export function AutoCompleteEpisodeButton({
     isEpisodeComplete(state, episode) ||
     (episode === 2 && !isEpisodeComplete(state, 1)) ||
     (episode === 3 && (runtime.version !== 3 || !isEpisodeComplete(state, 2))) ||
-    (episode === 4 && (runtime.version !== 3 || !isEpisodeComplete(state, 3)))
+    (episode === 4 && (runtime.version !== 3 || !isEpisodeComplete(state, 3))) ||
+    (episode === 5 && (runtime.version !== 3 || !isEpisodeComplete(state, 4))) ||
+    (episode === 6 && (runtime.version !== 3 || !isEpisodeComplete(state, 5)))
   )
     return null;
 

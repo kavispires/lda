@@ -123,8 +123,7 @@ export function PhotoshootEpisodeView({
             <Button onClick={() => setHistory(null)}>Return to current scene</Button>
           ) : episode.phase === 'complete' ? (
             <Typography.Text>
-              Episode complete. All sixteen continue. Episode 6 — Track Specials is next; it is not playable
-              yet.
+              Episode complete. All sixteen continue. Episode 6 — Track Specials is next.
             </Typography.Text>
           ) : decision ? (
             <Typography.Text>The episode is paused for your decision.</Typography.Text>

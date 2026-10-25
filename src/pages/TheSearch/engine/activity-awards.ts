@@ -4,7 +4,7 @@ import type { SimulationState } from '../types/simulation';
 import { recordContestantChanges } from './change-history';
 
 type Tier = 0 | 1 | 3 | 6;
-type Activity = { episode: 1 | 2 | 3 | 4 | 5; contestantId: string; tv: Tier; experience: 0 | 1 | 3 };
+type Activity = { episode: 1 | 2 | 3 | 4 | 5 | 6; contestantId: string; tv: Tier; experience: 0 | 1 | 3 };
 
 export function recordSceneTV(scene: EpisodeScene, tier?: Tier): EpisodeScene {
   const ordinary: Record<EpisodeScene['kind'], Tier> = {
@@ -58,7 +58,7 @@ function activities(state: SimulationState): Map<string, Activity> {
     if (result.has(key)) throw new Error('Activity identity must be unique.');
     result.set(key, activity);
   };
-  for (const number of [1, 2, 3, 4, 5] as const) {
+  for (const number of [1, 2, 3, 4, 5, 6] as const) {
     const episode =
       number === 1
         ? runtime.audition
@@ -68,7 +68,9 @@ function activities(state: SimulationState): Map<string, Activity> {
             ? runtime.bootcamp
             : number === 4
               ? runtime.megaGroups
-              : runtime.photoshoot;
+              : number === 5
+                ? runtime.photoshoot
+                : runtime.trackSpecials;
     for (const scene of episode?.scenes ?? []) {
       if (scene.tvMoments === undefined) continue;
       if (scene.tvMoments === null || typeof scene.tvMoments !== 'object' || Array.isArray(scene.tvMoments))
@@ -152,6 +154,23 @@ function activities(state: SimulationState): Map<string, Activity> {
         tv: evaluation.finalScore >= 85 ? 6 : 3,
         experience: 3,
       });
+  for (const team of runtime.trackSpecials?.teams ?? [])
+    for (const practice of team.practice)
+      for (const person of practice.contestants)
+        add(`practice:${team.id}:${practice.session}`, {
+          episode: 6,
+          contestantId: person.contestantId,
+          tv: 0,
+          experience: 1,
+        });
+  for (const performance of runtime.trackSpecials?.performances ?? [])
+    for (const evaluation of performance.evaluations)
+      add(`performance:${performance.teamId}`, {
+        episode: 6,
+        contestantId: evaluation.contestantId,
+        tv: evaluation.grade === 'A' ? 6 : 3,
+        experience: 3,
+      });
   return result;
 }
 
@@ -207,7 +226,7 @@ export function awardNewActivity(before: SimulationState, next: SimulationState)
   const baseline = new Set(progression.baseline);
   const byId = new Map(next.contestants.map((person) => [person.id, person]));
   const tvTotals = new Map(next.contestants.map((person) => [person.id, 0]));
-  const changes = new Map<string, { tv: number; experience: number; episode: 1 | 2 | 3 | 4 | 5 }>();
+  const changes = new Map<string, { tv: number; experience: number; episode: Activity['episode'] }>();
   for (const [key, activity] of activities(next)) {
     if (baseline.has(key)) continue;
     tvTotals.set(activity.contestantId, (tvTotals.get(activity.contestantId) ?? 0) + activity.tv);
@@ -240,7 +259,9 @@ export function awardNewActivity(before: SimulationState, next: SimulationState)
             ? next.runtime.bootcamp
             : total.episode === 4
               ? next.runtime.megaGroups
-              : next.runtime.photoshoot;
+              : total.episode === 5
+                ? next.runtime.photoshoot
+                : next.runtime.trackSpecials;
     if (!episode) throw new Error('Activity requires its recorded episode.');
     episode.changes[id] ??= [];
     episode.changes[id].push(...recorded);

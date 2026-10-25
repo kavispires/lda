@@ -1129,4 +1129,137 @@ drama, viewer-visible ballots, any actual secret revelation and continuing ranki
 secrets remain hidden. Television-value and artistic-experience mechanics stay
 silent in the narration and copied text.
 
-Episode 6 - Track Specials is marked next, not playable yet.
+Episode 6 - Track Specials becomes available after the Photoshoot finale.
+
+## Episode 6: Track Specials
+
+Sixteen contestants perform within their primary tracks. All thirty-four former
+contestants return as a voting jury, including the Mega Groups voluntary
+withdrawal. They are guests, not reinstated competitors. Rank 16 leaves without
+a save, and fifteen continue to Episode 7.
+
+### Before the episode
+
+Retain surviving opening members and replace only vacant slots from the usual
+strongest-core shortlist. The six opening tastes use the highest- and
+lowest-ranked Episode 5 survivors' specialties. Confirm preparation before the
+cold open; the shared portraits and opening lyrics play in Sequence 2, with the
+normal once-only +0.02 audience preference.
+
+### Sequence overview
+
+| Sequence | What the audience watches                                                              |
+| -------- | -------------------------------------------------------------------------------------- |
+| 1        | Closed dorms, consolidated rooms and contrasting reactions to lost personal space.     |
+| 2        | The confirmed opening portraits and lyrics.                                            |
+| 3        | Primary-track groups formed by existing mutual affection, with their morale boost.     |
+| 4        | Songs, leader/center elections, two practice sessions and genuine isolated disputes.   |
+| 5        | Mike reveals the thirty-four-person jury and the survivors face their former peers.    |
+| 6        | Track performances, observational judge comments and the jury's reactions and ballots. |
+| 7        | Best awards followed by the unexpected Worst awards, including contradictory results.  |
+| 8        | Peer MVP, investigation, updated ranking and the rank-16 farewell.                     |
+
+### Sequence 1: Re-Lodging
+
+Production consolidates the sixteen into three six-bed rooms occupied 6/6/4,
+preserving former roommate blocks where possible. The previous rooms remain
+intact in earlier episode archives. Extroversion strictly above 5 adds three
+happiness; strictly below -5 removes three. Values exactly 5/-5 are neutral
+for this event. The episode does not repeat Boot Camp's empty-bed penalty.
+
+### Sequence 3: Track Specials and Affinity Groups
+
+Nobody changes primary track to fill a team. Use the fewest groups of three
+or four possible within each track, with a trio/duo for five, a duo for two,
+and a solo for one. Choose the complete partition with strongest mutual
+affection, not a skill-based draft or a greedy pick that strands friends.
+Each member gains three happiness and two outgoing affection toward every
+teammate once; solos have no self-relationship change. Where the available
+bonds are weak, narration acknowledges a best available grouping rather than
+claiming that strangers or rivals have become close friends.
+
+Production assigns distinct track songs and exact-size arrangements by the
+group's categorical specialty fit and genre affinity. Groups cannot choose
+an off-track song or obtain an advantage from a fabricated extra performer.
+
+### Sequence 4: Practice and Roles
+
+Leader votes favor leadership and matching leadership style, then affection.
+Center votes weight affection 70% and normalized track/stage ability 30%, so
+a beloved weaker performer can win. Self-votes are allowed; solos take both
+roles without fictional peer ballots.
+
+Each group completes two standard practice sessions. Actual leadership,
+learning, stamina and discipline differences can produce harmony or friction,
+but friendship does not guarantee successful practice. An actual dispute
+pauses for a blocking support/mediate/push production modal. The choice,
+consequences and continued rehearsal are saved, not rerolled on replay.
+
+### Sequence 5: The Returning Jury
+
+The jury is not revealed before this sequence. Its thirty-four members use
+frozen personality and outgoing relationship evidence, without reactivation
+or changes to locked departure places.
+
+Resilience or ambition at least 5 protects against automatic reveal stress.
+Otherwise sensitivity or sincerity at least 5 costs five happiness and adds
+a temporary five-point readiness penalty to this episode's performance.
+Sensitivity selects ANXIOUS; sincerity alone selects STRESSED. Extroversion
+at least 5 independently adds three reunion happiness. These labels do not
+erase injuries, recovery or already more severe conditions.
+
+### Sequence 6: Performances and Ballots
+
+Every contestant performs once, including any solo/duo. Technical track
+ability dominates the result, with stage presence, visual/uniqueness,
+practice, coordination and recorded readiness also contributing. The three
+regular judges observe and comment from the actual evidence but add no
+judging bonuses.
+
+Jurors react as acts happen, but cast final choices only after seeing every
+performance. Sincerity or maturity at least 5 makes a juror objective.
+Otherwise sincerity at most -5, ambition at least 5 or sensitivity at least
+5 makes them entirely relationship-biased. Others use an equal blend.
+Narration must not invent resentment or attribute a departure to an
+unsupported culprit, or give jurors knowledge of secret transfer ballots.
+
+Each juror chooses Best and Worst in Group, Overall, Vocalist, Rapper, Dancer,
+Visual and Uniqueness. Track categories include only that primary track;
+other individual categories include all sixteen. A voter cannot give the
+same recipient both choices in one category. Empty tracks omit their award;
+a singleton track has an uncontested Best and no Worst. Every real ballot
+is viewer-visible, not automatically disclosed to the contestants.
+
+### Sequence 7: Best and Worst
+
+Best Group multiplies each member's performance by 1.20, Best Overall by
+1.35 and other Bests by 1.20. Worst Group uses 0.80, Worst Overall 0.65 and
+other Worsts 0.80. Earned factors multiply, bounded together to 0.40-2.00;
+the adjusted performance remains 0-100. Raw checks/results remain unchanged.
+Different jurors can make the same person an aggregate Best and Worst.
+
+Each Best adds six happiness and each Worst removes eight, with the total
+award adjustment limited to -16/+12. Any Worst triggers STRESSED, or DEPRESSED
+for high sensitivity, while preserving more severe or physical conditions.
+Reactions reflect resilience, sensitivity and actual bonds rather than
+guaranteed breakdowns.
+
+### Sequence 8: Elimination and Close
+
+All sixteen vote privately for a separate peer MVP using raw performance and
+the existing relationship/personality rules; there are no self-votes or extra
+MVP ranking points. Resolve public voting and the continuing ranking once.
+Only the performance contribution uses the jury multiplier: previous points,
+public vote contribution and production preference keep their usual formula.
+
+Seal the ranking before the standard modal investigation. A miss changes
+nothing; a real reveal uses existing consequences without rewriting the
+sealed result. Mike reveals the sixteen places with movement from Episode 5,
+then rank 16 leaves without a save. Earlier places 17-50 remain locked.
+Show real farewells and stop with fifteen survivors; Episode 7 has not begun.
+
+The final Relationships Updates screen compares with Episode 5's ending.
+Its mutual-feeling pairs use the sixteen competitors, not returning guests.
+Copied rundowns and Copy Show So Far include complete factual events and
+viewer-only relationship notes, while omitting unsuccessful investigations
+and all silent TV/experience mechanics.

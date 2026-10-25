@@ -1,3 +1,4 @@
+import { after, describe } from 'node:test';
 import { createServer } from 'vite';
 import react from '@vitejs/plugin-react';
 
@@ -11,7 +12,8 @@ const server = await createServer({
   logLevel: 'error',
 });
 
-try {
+describe('The Search', async () => {
+  after(() => server.close());
   for (const name of [
     'audition-scoring',
     'audition-panel',
@@ -39,6 +41,8 @@ try {
   await server.ssrLoadModule('/src/pages/TheSearch/engine/activity-awards.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/engine/mega-groups-integration.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/engine/photoshoot-integration.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/engine/track-specials-episode.test.ts');
+  await server.ssrLoadModule('/src/pages/TheSearch/engine/track-specials-integration.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/engine/episode-auto-complete.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-visibility.test.ts');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-rundown.test.tsx');
@@ -52,6 +56,4 @@ try {
   await server.ssrLoadModule('/src/pages/TheSearch/components/NarrativeBattlePlayer.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/LaterEpisodeViews.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/RelationshipUpdates.test.tsx');
-} finally {
-  await server.close();
-}
+});

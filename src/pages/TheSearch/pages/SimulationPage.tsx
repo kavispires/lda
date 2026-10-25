@@ -28,6 +28,7 @@ import { CopyShowSoFar } from '../components/CopyShowSoFar';
 import { MegaGroupsEpisodeView } from '../components/MegaGroupsEpisodeView';
 import { NarrativeAuditionView, NarrativeBattleView } from '../components/NarrativeEpisodeView';
 import { PhotoshootEpisodeView } from '../components/PhotoshootEpisodeView';
+import { TrackSpecialsEpisodeView } from '../components/TrackSpecialsEpisodeView';
 import { TrackTag } from '../components/TrackTag';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
@@ -38,6 +39,7 @@ import type { Contestant } from '../types/contestant';
 import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import type { SeasonRuntime, SimulationState } from '../types/simulation';
+import type { TrackSpecialsAction } from '../types/track-specials-episode';
 import type { TRACKS } from '../utilities/constants';
 import { createSeasonCastProfiles } from '../utilities/contestant-profile';
 import { isSeasonRankingVisible, projectSeasonCast } from '../utilities/episode-visibility';
@@ -101,6 +103,14 @@ export function SimulationPage() {
       setError(err instanceof Error ? err.message : 'Could not save the next Photoshoot scene.');
     }
   };
+  const handleTrackSpecialsAction = (action: TrackSpecialsAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchTrackSpecials(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Track Specials scene.');
+    }
+  };
 
   const handleStartSimulation = async () => {
     setIsInitializing(true);
@@ -145,21 +155,38 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
-  const megaGroupsArchiveState = simulationState.runtime?.photoshoot
+  const photoshootArchiveState: SimulationState = simulationState.runtime?.trackSpecials
     ? {
         ...simulationState,
-        contestants: simulationState.runtime.photoshoot.startingContestants,
+        contestants: simulationState.runtime.trackSpecials.startingContestants,
         runtime: {
           ...simulationState.runtime,
-          photoshoot: undefined,
+          trackSpecials: undefined,
+          episode: 5,
+          phase: 'episode-complete',
           revealedSecrets: simulationState.runtime.revealedSecrets.filter((entry) =>
             simulationState
-              .runtime!.photoshoot!.startingContestants.find((person) => person.id === entry.contestantId)
+              .runtime!.trackSpecials!.startingContestants.find((person) => person.id === entry.contestantId)
               ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
           ),
         },
       }
     : simulationState;
+  const megaGroupsArchiveState = photoshootArchiveState.runtime?.photoshoot
+    ? {
+        ...photoshootArchiveState,
+        contestants: photoshootArchiveState.runtime.photoshoot.startingContestants,
+        runtime: {
+          ...photoshootArchiveState.runtime,
+          photoshoot: undefined,
+          revealedSecrets: photoshootArchiveState.runtime.revealedSecrets.filter((entry) =>
+            photoshootArchiveState
+              .runtime!.photoshoot!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : photoshootArchiveState;
   const bootcampArchiveState = megaGroupsArchiveState.runtime?.megaGroups
     ? {
         ...megaGroupsArchiveState,
@@ -280,13 +307,51 @@ export function SimulationPage() {
               )}
               {simulationState.runtime.photoshoot ? (
                 <>
-                  <PhotoshootEpisodeView
-                    actionError={error}
-                    key={`${simulationState.runtime.runId}-photoshoot`}
-                    onAction={handlePhotoshootAction}
-                    onInspect={inspectContestant}
-                    state={simulationState}
-                  />
+                  {simulationState.runtime.trackSpecials ? (
+                    <>
+                      <TrackSpecialsEpisodeView
+                        actionError={error}
+                        key={`${simulationState.runtime.runId}-track-specials`}
+                        onAction={handleTrackSpecialsAction}
+                        onInspect={inspectContestant}
+                        state={simulationState}
+                      />
+                      <Collapse
+                        items={[
+                          {
+                            key: 'photoshoot',
+                            label: 'Episode 5 — The Photoshoot archive',
+                            children: (
+                              <PhotoshootEpisodeView
+                                onAction={handlePhotoshootAction}
+                                onInspect={(id) => inspectContestant(id, photoshootArchiveState)}
+                                state={photoshootArchiveState}
+                              />
+                            ),
+                          },
+                        ]}
+                        style={{ marginTop: 16 }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <PhotoshootEpisodeView
+                        actionError={error}
+                        key={`${simulationState.runtime.runId}-photoshoot`}
+                        onAction={handlePhotoshootAction}
+                        onInspect={inspectContestant}
+                        state={simulationState}
+                      />
+                      {simulationState.runtime.photoshoot.phase === 'complete' && (
+                        <TrackSpecialsEpisodeView
+                          actionError={error}
+                          onAction={handleTrackSpecialsAction}
+                          onInspect={inspectContestant}
+                          state={simulationState}
+                        />
+                      )}
+                    </>
+                  )}
                   <Collapse
                     items={[
                       {
@@ -654,7 +719,13 @@ function SimulationOverview({
           <Typography.Paragraph>
             Inspect any of the {contestants.length} contestants without advancing the episode.
           </Typography.Paragraph>
-          {runtime?.photoshoot ? (
+          {runtime?.trackSpecials ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.trackSpecials.rankRevealed
+                ? 'Ranks and continuing scores: Episode 6.'
+                : 'Ranks and continuing scores: previous public Episode 5 standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.photoshoot ? (
             <Typography.Paragraph type="secondary">
               {runtime.photoshoot.rankRevealed
                 ? 'Ranks and continuing scores: Episode 5.'
@@ -686,15 +757,17 @@ function SimulationOverview({
           <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
           <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
           <Descriptions.Item label="Status">
-            {runtime?.photoshoot
-              ? `Episode 5 — ${runtime.photoshoot.phase}`
-              : runtime?.megaGroups
-                ? `Episode 4 — ${runtime.megaGroups.phase}`
-                : runtime?.bootcamp
-                  ? `Episode 3 — ${runtime.bootcamp.phase}`
-                  : runtime?.battle
-                    ? `Episode 2 — ${runtime.battle.phase}`
-                    : (runtime?.audition?.phase ?? 'Setup complete')}
+            {runtime?.trackSpecials
+              ? `Episode 6 — ${runtime.trackSpecials.phase}`
+              : runtime?.photoshoot
+                ? `Episode 5 — ${runtime.photoshoot.phase}`
+                : runtime?.megaGroups
+                  ? `Episode 4 — ${runtime.megaGroups.phase}`
+                  : runtime?.bootcamp
+                    ? `Episode 3 — ${runtime.bootcamp.phase}`
+                    : runtime?.battle
+                      ? `Episode 2 — ${runtime.battle.phase}`
+                      : (runtime?.audition?.phase ?? 'Setup complete')}
           </Descriptions.Item>
         </Descriptions>
 

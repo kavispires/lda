@@ -1974,23 +1974,83 @@ events/ballots/results without hidden secrets or silent awards.
 
 ### Episode 6 - Track Specials
 
-**Format:** 16 contestants perform track-special songs in groups of three or four.
-Eliminate the lowest-ranked contestant, leaving 15.
+**Format:** Sixteen Photoshoot survivors complete eight player-paced sequences.
+Consolidate dorms, form primary-track affinity groups, rehearse, reveal all
+thirty-four former contestants as a jury (including the voluntary withdrawal),
+perform, announce Best/Worst awards, then peer MVP, investigation, ranking and
+rank-16 elimination. No saves; fifteen remain. Episode 7 is not started.
 
-**Established grouping fallback:** Keep performances within each contestant's track.
-When the remaining track populations cannot form groups of three or four, allow
-solo/duo exceptions. Do not alter earlier eliminations to manufacture track quotas.
-A strong performance with this extra individual exposure can be especially valuable
-for the contestant's popularity.
+**Preparation and rooms:** Retain the surviving five-person opening cast,
+replace vacancies from the ordinary shortlist and offer six tastes anchored to
+the highest/lowest Episode 5 ranks. Confirm before the cold open. Play shared
+portraits/lyrics and +0.02 preference once. Re-lodge into 6/6/4 occupants,
+retaining roommate blocks where possible without rewriting Episode 2 rooms.
+Extroversion >5 gives +3 happiness; <-5 gives -3. Exact +/-5 is neutral here.
 
-**Proposed small interaction:** Decide who receives a limited extra practice
-opportunity; song and role selection otherwise follow the mission's autonomous rules.
+**Affinity and songs:** Within each track choose the fewest groups of three/four
+and maximize total reciprocal affection across the whole partition. Five uses
+3+2, two a duo, one a solo; empty tracks have no group. Never manufacture quotas
+or claim weak bonds are close friendships. Grouping adds +3 happiness and +2
+outgoing relationship per teammate once. Frozen editable songs have exact-size
+1-4 performer arrangements and production chooses distinct best specialty/genre
+fits. Center ballots use 70% affection and 30% track/stage ability; leader
+ballots favor leadership/style then affection. Self-votes are allowed; solo
+roles are appointments. Two practices show real leadership/trait friction;
+actual disputes use blocking support/mediate/push modals.
 
-**Connections:** Track ability and specialties dominate, with cooperation and
-preparation modifying the result.
+**Jury reveal:** Freeze all 34 departed voting profiles at Episode 6 start.
+They remain inactive guests with their old places intact. Reveal them only in
+Sequence 5. Resilience/ambition >=5 prevents automatic stress; otherwise
+sensitivity/sincerity >=5 costs 5 happiness and a recorded -5 readiness modifier.
+Sensitivity selects ANXIOUS, sincerity alone STRESSED. Extroversion >=5 adds
+3 reunion happiness independently. Preserve physical/severe conditions.
 
-**Open:** Partitioning rules, song/role authority, and exposure allocation between
-groups of different sizes. Elimination uses the cumulative overall ranking.
+**Performance evidence:** Save one 2d6 pair per performer, shared by normalized
+primary-track, stage-presence, visual and uniqueness checks. Raw result is
+65% track +20% stage +15% mean(visual, uniqueness), plus twice practice,
+coordination and reveal readiness, bounded to 0-100. Center uses the existing
+temporary +1 effective stage level. Use true group-size means. Judges comment
+but add no score. Intercut genuine juror reactions; nobody votes on unseen acts.
+
+**Jury voting:** Cast final Best/Worst ballots after all performances. High
+sincerity or maturity (>=5) overrides bias and uses technical evidence.
+Otherwise low sincerity (<=-5), high ambition or high sensitivity uses only
+recorded outgoing relationships; neutral voters blend both equally. Group uses
+group means; Overall uses raw individual result; track categories use their
+respective saved check and primary-track eligibility; Visual/Uniqueness use
+those recorded checks. Resolve ties with saved evidence/keys.
+
+Seven categories: Group, Overall, Vocalist, Rapper, Dancer, Visual, Uniqueness.
+One voter cannot choose the same Best/Worst recipient in one category, but
+different jurors may produce contradictory aggregate awards. Empty tracks omit
+their award; singleton tracks award an uncontested Best and no Worst.
+Record every ballot and tally. Do not invent a departure culprit or disclose
+secret transfer-voter knowledge through juror behavior.
+
+**Awards:** Best Group x1.20 for each member, Best Overall x1.35, other Bests
+x1.20; Worst Group x0.80, Worst Overall x0.65, other Worsts x0.80.
+Multiply earned factors once, bound the product to 0.40-2.00 and adjusted
+performance to 0-100. +6 happiness per Best/-8 per Worst, with the final
+award adjustment bounded to -16/+12 from a fixed pre-tally baseline.
+Any Worst causes STRESSED or, with high sensitivity, DEPRESSED, without
+erasing physical/more severe conditions or altering already performed checks.
+
+**Finale and silence:** Peer MVP uses all sixteen, no self-votes and raw
+performance evidence, not jury-adjusted scores. It is separate from Best
+Overall and grants no new points. Run ordinary audience resolution once:
+0.75 retained prior ranking points +0.60 jury-adjusted performance
++0.30 normalized public votes +0.10 production preference. Keep reception
+based on real footage; do not double-apply multipliers to popularity.
+Seal before the three-person secret investigation; miss is no-op and actual
+reveals cannot rewrite ranking/status outcomes. Reveal movement from Episode 5,
+eliminate rank 16, conserve population/fans and lock all fifty placements.
+
+Two practices + one performance grant exactly +5 competitor activity XP.
+Returning jurors receive no training XP or competitive points. Actual footage
+uses existing once-only TV tiers; neither TV nor XP affects voting/ranking or
+appears in narration/rundowns. Extend compressed/full-history saves, failed-write
+safety, archives, auto-complete, combined show copy and historical viewer-only
+relationship notes. No Episode 7, global condition system or XP skill growth.
 
 ### Episode 7 - Versatility
 

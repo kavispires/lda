@@ -10,6 +10,7 @@ import { validateMegaGroupsCatalogs } from '../utilities/mega-groups-catalogs';
 import { validatePhotoshootConcepts } from '../utilities/photoshoot-concepts';
 import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
+import { validateTrackSpecialSongs } from '../utilities/track-special-songs';
 import { restoreActivityProgression } from './activity-awards';
 import { assertAuditionEpisode, isDeferredConsequence, isShowAudience } from './audition-validation';
 import { assertBattleEpisode } from './battle-validation';
@@ -19,6 +20,7 @@ import { assertMegaGroupsEpisode } from './mega-groups-validation';
 import { assertNarrativeAudition } from './narrative-validation';
 import { assertPhotoshootEpisode } from './photoshoot-validation';
 import { createSeededRandom } from './random';
+import { assertTrackSpecialsEpisode, validateTrackSpecials } from './track-specials-validation';
 
 export const SIMULATION_STORAGE_KEY = 'the-search-simulation-setup';
 const COMPRESSED_PREFIX = 'the-search:compressed:';
@@ -223,6 +225,7 @@ function assertDefinitions(value: unknown): asserts value is SimulationDefinitio
     if (!isCardLibrary(visualVibes)) throw new Error('The saved visual-vibe definitions are invalid.');
     validatePhotoshootConcepts(value.photoshootConcepts, Object.keys(visualVibes));
   }
+  if (value.trackSpecialSongs !== undefined) validateTrackSpecialSongs(value.trackSpecialSongs);
 }
 
 export function decodeSimulationState(stored: string): SimulationState {
@@ -273,13 +276,15 @@ export function decodeSimulationState(stored: string): SimulationState {
       runtime.episode !== 2 &&
       runtime.episode !== 3 &&
       runtime.episode !== 4 &&
-      runtime.episode !== 5) ||
+      runtime.episode !== 5 &&
+      runtime.episode !== 6) ||
     (runtime.phase !== 'setup-complete' &&
       runtime.phase !== 'auditions' &&
       runtime.phase !== 'battles' &&
       runtime.phase !== 'bootcamp' &&
       runtime.phase !== 'mega-groups' &&
       runtime.phase !== 'photoshoot' &&
+      runtime.phase !== 'track-specials' &&
       runtime.phase !== 'episode-complete') ||
     !isRecord(runtime.setup) ||
     typeof runtime.setup.useBias !== 'boolean' ||
@@ -307,8 +312,9 @@ export function decodeSimulationState(stored: string): SimulationState {
   const bootcamp = runtime.bootcamp ?? null;
   const megaGroups = runtime.megaGroups ?? null;
   const photoshoot = runtime.photoshoot ?? null;
+  const trackSpecials = runtime.trackSpecials ?? null;
   if (runtime.progression === undefined)
-    for (const record of [audition, battle, bootcamp, megaGroups, photoshoot])
+    for (const record of [audition, battle, bootcamp, megaGroups, photoshoot, trackSpecials])
       if (isRecord(record) && isRecord(record.changes))
         for (const changes of Object.values(record.changes)) migrateRankingChanges(changes);
   if (
@@ -325,10 +331,22 @@ export function decodeSimulationState(stored: string): SimulationState {
     throw new Error('Mega Groups requires a current-format Episode 4 season.');
   if (
     (runtime.episode === 5 && (runtime.version !== 3 || photoshoot === null)) ||
-    (photoshoot !== null && (runtime.version !== 3 || runtime.episode !== 5)) ||
+    (photoshoot !== null && (runtime.version !== 3 || runtime.episode < 5)) ||
     (runtime.phase === 'photoshoot' && runtime.episode !== 5)
   )
     throw new Error('Photoshoot requires a current-format Episode 5 season.');
+  if (
+    (runtime.episode === 6 && (runtime.version !== 3 || trackSpecials === null)) ||
+    (trackSpecials !== null && (runtime.version !== 3 || runtime.episode !== 6)) ||
+    (runtime.phase === 'track-specials' && runtime.episode !== 6)
+  )
+    throw new Error('Track Specials requires a current-format Episode 6 season.');
+  let photoshootContestants = currentContestants;
+  if (trackSpecials !== null) {
+    if (!isRecord(trackSpecials) || !isContestants(trackSpecials.startingContestants))
+      throw new Error('The saved Track Specials starting cast is invalid.');
+    photoshootContestants = trackSpecials.startingContestants;
+  }
   let megaGroupsContestants = currentContestants;
   if (photoshoot !== null) {
     if (!isRecord(photoshoot) || !isContestants(photoshoot.startingContestants))
@@ -450,7 +468,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       bootcamp.phase !== 'complete' ||
       (runtime.episode === 4 &&
         runtime.phase !== (megaGroups.phase === 'complete' ? 'episode-complete' : 'mega-groups')) ||
-      (runtime.episode === 5 && megaGroups.phase !== 'complete') ||
+      (runtime.episode >= 5 && megaGroups.phase !== 'complete') ||
       megaGroups.participantIds.length !== bootcamp.participantIds.length ||
       !megaGroups.participantIds.every((id) => bootcamp.participantIds.includes(id)) ||
       (runtime.episode === 4 &&
@@ -459,20 +477,39 @@ export function decodeSimulationState(stored: string): SimulationState {
     )
       throw new Error('The saved Mega Groups progress does not match its archive, cast or audience.');
   }
-  if (runtime.episode === 5 && !megaGroups)
+  if (runtime.episode >= 5 && !megaGroups)
     throw new Error('Photoshoot requires a completed Mega Groups archive.');
   if (photoshoot !== null) {
-    assertPhotoshootEpisode(photoshoot, currentContestants, definitions);
+    assertPhotoshootEpisode(photoshoot, photoshootContestants, definitions);
     freezeSimulationSnapshot(photoshoot.startingContestants);
     if (
       !megaGroups ||
       megaGroups.phase !== 'complete' ||
-      runtime.phase !== (photoshoot.phase === 'complete' ? 'episode-complete' : 'photoshoot') ||
+      (runtime.episode === 5 &&
+        runtime.phase !== (photoshoot.phase === 'complete' ? 'episode-complete' : 'photoshoot')) ||
+      (runtime.episode >= 6 && photoshoot.phase !== 'complete') ||
       photoshoot.participantIds.length !== megaGroups.survivorIds.length ||
       !photoshoot.participantIds.every((id) => megaGroups.survivorIds.includes(id)) ||
-      (photoshoot.audience !== null && photoshoot.audience.votingPopulation !== show.audience)
+      (runtime.episode === 5 &&
+        photoshoot.audience !== null &&
+        photoshoot.audience.votingPopulation !== show.audience)
     )
       throw new Error('The saved Photoshoot progress does not match its archive, cast or audience.');
+  }
+  if (runtime.episode === 6 && !photoshoot)
+    throw new Error('Track Specials requires a completed Photoshoot archive.');
+  if (trackSpecials !== null) {
+    assertTrackSpecialsEpisode(trackSpecials, currentContestants, definitions);
+    freezeSimulationSnapshot(trackSpecials.startingContestants);
+    if (
+      !photoshoot ||
+      photoshoot.phase !== 'complete' ||
+      runtime.phase !== (trackSpecials.phase === 'complete' ? 'episode-complete' : 'track-specials') ||
+      trackSpecials.participantIds.length !== photoshoot.survivorIds.length ||
+      !trackSpecials.participantIds.every((id) => photoshoot.survivorIds.includes(id)) ||
+      (trackSpecials.audience !== null && trackSpecials.audience.votingPopulation !== show.audience)
+    )
+      throw new Error('The saved Track Specials progress does not match its archive, cast or audience.');
   }
   const auditionPoolIds = runtime.setup.auditionPoolIds;
   if (
@@ -536,6 +573,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       ...(bootcamp ? { bootcamp } : {}),
       ...(megaGroups ? { megaGroups } : {}),
       ...(photoshoot ? { photoshoot } : {}),
+      ...(trackSpecials ? { trackSpecials } : {}),
       show,
       revealedSecrets,
       deferredConsequences,
@@ -561,12 +599,12 @@ export function decodeSimulationState(stored: string): SimulationState {
           (key) =>
             key !== '1' &&
             key !== '2' &&
-            ((key !== '3' && key !== '4' && key !== '5') || runtime.version !== 3),
+            ((key !== '3' && key !== '4' && key !== '5' && key !== '6') || runtime.version !== 3),
         )
       )
         throw new Error('Invalid saved episode preparations.');
       restored.runtime.preparations = {};
-      for (const number of [5, 4, 3, 2, 1] as const) {
+      for (const number of [6, 5, 4, 3, 2, 1] as const) {
         const preparation = runtime.preparations[number];
         if (preparation === undefined) continue;
         assertPreparation(
@@ -582,6 +620,7 @@ export function decodeSimulationState(stored: string): SimulationState {
     const third = restored.runtime.preparations?.[3];
     const fourth = restored.runtime.preparations?.[4];
     const fifth = restored.runtime.preparations?.[5];
+    const sixth = restored.runtime.preparations?.[6];
     if (
       audition &&
       (!first ||
@@ -637,12 +676,23 @@ export function decodeSimulationState(stored: string): SimulationState {
       fifth.openingPlayed !== photoshoot.scenes.some((scene) => scene.title === 'Opening credits')
     )
       throw new Error('Photoshoot credits do not match their recorded effect.');
+    if (sixth && photoshoot?.phase !== 'complete')
+      throw new Error('Episode 6 preparation requires completed Photoshoot.');
+    if (trackSpecials && (!sixth?.mood || sixth.slots.some((id) => id === null)))
+      throw new Error('Track Specials preparation is missing.');
+    if (
+      trackSpecials &&
+      sixth &&
+      sixth.openingPlayed !== trackSpecials.scenes.some((scene) => scene.title === 'Opening credits')
+    )
+      throw new Error('Track Specials credits do not match their recorded effect.');
     if (
       (first?.openingPlayed ||
         second?.openingPlayed ||
         third?.openingPlayed ||
         fourth?.openingPlayed ||
-        fifth?.openingPlayed) &&
+        fifth?.openingPlayed ||
+        sixth?.openingPlayed) &&
       !restored.runtime.openingCast
     )
       throw new Error('Opening credits are missing their cast.');
@@ -651,6 +701,7 @@ export function decodeSimulationState(stored: string): SimulationState {
   }
   applySeasonRanks(restored);
   restoreActivityProgression(restored, runtime.progression);
+  if (restored.runtime?.trackSpecials) validateTrackSpecials(restored);
   return restored;
 }
 
