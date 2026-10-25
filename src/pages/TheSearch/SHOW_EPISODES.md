@@ -1386,4 +1386,139 @@ both rankings, distinct departures, the actual expulsion secret and only
 successful closing investigations. Relationships Updates compares Episode 6's
 ending with Episode 7's ending, including the fifteen competitors. Combined
 show copy includes this episode and its separate viewer-only notes.
-Twelve continue; Episode 8 is next, not implemented or automatically started.
+Twelve continue; Episode 8 can be prepared separately and never starts automatically.
+
+## Episode 8: Variety Show
+
+Twelve contestants enter a colorful studio instead of another music stage.
+Mike Philip introduces actress **Roxana Michaels**, who joins John Stan,
+Megan Ryder and Michael Lion. Wit, likability, charm and adaptability matter
+this week; Vocal, Dance and Rap do not determine these challenges.
+
+### Before the episode
+
+Retain surviving opening portraits, replace only vacant slots from the strongest
+core shortlist and confirm six tastes anchored to Episode 7's final twelve,
+not its historical fifteen-person announced order. The opening plays in
+Sequence 2 with its ordinary once-only preference benefit. Prior permanent
+growth and conditions carry forward; this episode does not reset them.
+
+### The eight sequences
+
+| Sequence | What plays                                                                                                                                                              |
+| -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1        | Mike welcomes the twelve; Roxana joins all three regular judges and explains the media-readiness test.                                                                  |
+| 2        | The confirmed portraits and shared opening lyrics play.                                                                                                                 |
+| 3        | Roxana announces eight cast-voted icebreaker winners, one category at a time, with grounded reactions.                                                                  |
+| 4        | Twelve colored-ball draws form three random four-person teams, with real introductions and occasional ambition friction.                                                |
+| 5        | Each team completes physical comedy/gag games; all four members receive actual assessments and commentary.                                                              |
+| 6        | Roxana interviews the groups; advance every answer individually, including genuine charm, sincerity or fumbles.                                                         |
+| 7        | Each team draws a premise and props, elects an improv leader, prepares for five minutes and performs its skit. A real disagreement can pause for a production decision. |
+| 8        | Four-judge assessments, twelve-person comic MVP, ordinary investigation, twelve standings, bottom-two departures and Top 10 farewells.                                  |
+
+### Private icebreaker
+
+| Category          | Five-person eligibility statistic |
+| ----------------- | --------------------------------- |
+| Model             | Visual                            |
+| Find a girlfriend | Gentleness + extroversion         |
+| Marry first       | Maturity                          |
+| Be rich           | Ambition                          |
+| Smartest          | Discipline                        |
+| Creative          | Curiosity                         |
+| Sincere           | Sincerity                         |
+| Best Person       | Sum of all personality traits     |
+
+These are game labels, not objective predictions or moral judgments. Freeze
+eligibility and outgoing relationships before the game. All twelve choose their
+most-liked eligible peer in every category; no self-vote, repeated winners
+allowed, saved seeded ties. Cast all 96 choices before applying any benefit.
+Earlier awards cannot alter later choices.
+
+Each winner receives +0.10 audience preference and +3 happiness. A voter whose
+choice wins gains +1 happiness and +1 outgoing affection toward the winner;
+the winner gains +1 affection toward that voter. Clamp actual changes.
+No benefit for losing choices or experience for the game.
+
+Only the category, winner and actual reaction footage are public. Eligibility,
+choices and totals remain hidden in playback, Details, history and copied
+rundowns. Winners never know who voted for them. Ordinary relationship values
+and viewer-only net notes stay truthful without attributing private choices.
+
+### Blind teams and genuine comedy
+
+Teams are one saved random 4/4/4 draw, never skill- or affection-balanced.
+Extroverts can hype their real teams; a genuine high/low ambition clash can
+cause bounded reciprocal friction, not blanket hostility among strangers.
+
+Physical variety relies on stamina, acrobatics and charisma. Exaggerated faces
+and harmless gags can earn actual coverage; discipline alone is not a penalty.
+An inflexible contestant with weak saved charisma can look stiff.
+
+Interviews rely on charisma, sincerity and maturity. Thoughtful answers can
+endear contestants to Roxana. A calculated answer is called fake only when
+the actual low-roll/trait conditions support a failure. Sensitive contestants
+can recover charmingly or fumble, rather than failing automatically. Prompts
+use public information, never an automatic hidden-secret revelation.
+
+Improv relies on charisma, curiosity and extroversion, with individual ideas,
+group structure and ensemble chemistry. Introverted members can succeed
+through creativity and delivery. Resilience can rescue a genuinely failed
+joke without pretending its original setup landed or rerolling the performance.
+Without anyone at leadership 3 or above, team organization suffers even when
+an individual joke succeeds.
+
+One improv leader is elected per team using normal leadership/style/affection
+priorities. There is no center election or new music rehearsal. Support,
+Mediate and Push are offered only for a recorded preparation disagreement;
+they affect bounded episode coordination and the involved pair's affection.
+All production decisions block advancement until saved.
+
+### Assessments and departures
+
+Every act uses one saved 2d6 pair per person, shared across that act's utility
+checks. Personality contributions normalize directly to 0-100. Physical uses
+40% stamina/35% acrobatics/25% charisma; interviews 50% charisma/25% sincerity/
+25% maturity; improv 40% charisma/35% curiosity/25% extroversion. Actual personal
+event modifiers total at most -10..+10.
+
+Each act's final result is **70% personal and 30% team**. Physical/interview team
+results are true means of four completed answers, never precomputed unseen
+contributions. Improv also includes bounded affection cohesion, preparation
+coordination and any actual organizational penalty.
+
+The overall variety result and all four judges contribute **20% each**:
+John uses personal physical delivery, Megan interview/improv, Michael charisma
+and ensemble results, Roxana sustained charisma and the weakest personal act.
+Roxana joins rather than replaces a judge; her assessment is not a second flat
+guest bonus. No primary-track, music, growth or icebreaker score bonus applies.
+
+All twelve privately choose any other contestant for comic MVP, not just a
+teammate, using actual comic evidence and existing affection/personality rules.
+Audience and cumulative ranking resolve once using the existing formula.
+Keep Episode 7's public ranks and points visible until Mike's reveal.
+
+The standard investigation has a saved unbiased shortlist, can miss and can
+reveal another genuinely hidden card after an older revelation. Its effects
+cannot rewrite the sealed results or add a third departure. Mike reveals all
+twelve places with movement, eliminates exactly ranks 11 and 12 and leaves ten.
+Earlier positions 13-50, including the expelled position 13, remain locked.
+Departure fans transfer once with total population conserved.
+
+### Playback, persistence and copied story
+
+Editable physical games, public prompts, improv premises and prop boxes are
+frozen for the season. Old saves adopt only missing definitions when preparing
+Episode 8. Every choice, draw, answer, check and result survives reload without
+rerolling. Previous episodes retain their own historical cast boundaries.
+
+Each competitor completes three acts and one substantive improv preparation.
+Their experience and actual-footage TV awards remain silent and never affect
+scores, ballots or judging. There is no new permanent skill growth.
+
+Episode/combined copied stories cover the real eight sequences, public game
+winners, teams, all acts, judges, decisions, MVP, actual revelations, standings
+and departures, but never private icebreaker evidence or unsuccessful checks.
+Relationships Updates compares Episode 7's ending with Episode 8's ending
+across all twelve, including the two departures. Auto-complete preserves
+choices and stops on Episode 8's Top 10 screen. Episode 9 has not begun.

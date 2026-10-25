@@ -4,7 +4,12 @@ import type { SimulationState } from '../types/simulation';
 import { recordContestantChanges } from './change-history';
 
 type Tier = 0 | 1 | 3 | 6;
-type Activity = { episode: 1 | 2 | 3 | 4 | 5 | 6 | 7; contestantId: string; tv: Tier; experience: 0 | 1 | 3 };
+type Activity = {
+  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  contestantId: string;
+  tv: Tier;
+  experience: 0 | 1 | 3;
+};
 
 export function recordSceneTV(scene: EpisodeScene, tier?: Tier): EpisodeScene {
   const ordinary: Record<EpisodeScene['kind'], Tier> = {
@@ -58,7 +63,7 @@ function activities(state: SimulationState): Map<string, Activity> {
     if (result.has(key)) throw new Error('Activity identity must be unique.');
     result.set(key, activity);
   };
-  for (const number of [1, 2, 3, 4, 5, 6, 7] as const) {
+  for (const number of [1, 2, 3, 4, 5, 6, 7, 8] as const) {
     const episode =
       number === 1
         ? runtime.audition
@@ -72,7 +77,9 @@ function activities(state: SimulationState): Map<string, Activity> {
                 ? runtime.photoshoot
                 : number === 6
                   ? runtime.trackSpecials
-                  : runtime.versatility;
+                  : number === 7
+                    ? runtime.versatility
+                    : runtime.varietyShow;
     for (const scene of episode?.scenes ?? []) {
       if (scene.tvMoments === undefined) continue;
       if (scene.tvMoments === null || typeof scene.tvMoments !== 'object' || Array.isArray(scene.tvMoments))
@@ -190,6 +197,23 @@ function activities(state: SimulationState): Map<string, Activity> {
         tv: evaluation.grade === 'A' ? 6 : 3,
         experience: 3,
       });
+  for (const team of runtime.varietyShow?.teams ?? [])
+    if (team.preparation?.completed)
+      for (const contestantId of team.memberIds)
+        add(`improv-preparation:${team.id}`, {
+          episode: 8,
+          contestantId,
+          tv: 0,
+          experience: 1,
+        });
+  for (const segment of runtime.varietyShow?.segments ?? [])
+    for (const evaluation of segment.evaluations)
+      add(`segment:${segment.kind}`, {
+        episode: 8,
+        contestantId: evaluation.contestantId,
+        tv: evaluation.personalScore >= 85 ? 6 : 3,
+        experience: 3,
+      });
   return result;
 }
 
@@ -282,7 +306,9 @@ export function awardNewActivity(before: SimulationState, next: SimulationState)
                 ? next.runtime.photoshoot
                 : total.episode === 6
                   ? next.runtime.trackSpecials
-                  : next.runtime.versatility;
+                  : total.episode === 7
+                    ? next.runtime.versatility
+                    : next.runtime.varietyShow;
     if (!episode) throw new Error('Activity requires its recorded episode.');
     episode.changes[id] ??= [];
     episode.changes[id].push(...recorded);

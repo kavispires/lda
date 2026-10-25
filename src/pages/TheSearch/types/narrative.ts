@@ -19,7 +19,7 @@ export interface PanelJudging {
 }
 
 export interface EpisodePreparation {
-  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7;
+  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
   revision: number;
   lastAction: { revision: number; action: PreparationAction } | null;
   moodOptions: MoodOptions;

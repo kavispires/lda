@@ -837,13 +837,20 @@ export function validateVersatility(state: SimulationState): void {
   if (!runtime?.versatility) return;
   assertVersatilityEpisode(runtime.versatility, state.contestants, runtime.definitions);
   const ep = runtime.versatility;
+  const archived = runtime.episode === 8 && !!runtime.varietyShow && ep.phase === 'complete';
   if (
-    runtime.episode !== 7 ||
-    runtime.phase !== (ep.phase === 'complete' ? 'episode-complete' : 'versatility')
+    !archived &&
+    (runtime.episode !== 7 ||
+      runtime.phase !== (ep.phase === 'complete' ? 'episode-complete' : 'versatility'))
   )
     fail('runtime phase');
   const show = ep.fanTransfers.at(-1)?.after ?? ep.audienceAfter;
-  if (show) same(runtime.show, show, 'live audience population');
+  if (show)
+    same(
+      archived ? runtime.varietyShow!.startingShow : runtime.show,
+      show,
+      archived ? 'Episode 8 audience boundary' : 'live audience population',
+    );
   if (
     ep.expulsion &&
     runtime.revealedSecrets.filter(

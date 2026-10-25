@@ -30,6 +30,7 @@ import { NarrativeAuditionView, NarrativeBattleView } from '../components/Narrat
 import { PhotoshootEpisodeView } from '../components/PhotoshootEpisodeView';
 import { TrackSpecialsEpisodeView } from '../components/TrackSpecialsEpisodeView';
 import { TrackTag } from '../components/TrackTag';
+import { VarietyShowEpisodeView } from '../components/VarietyShowEpisodeView';
 import { VersatilityEpisodeView } from '../components/VersatilityEpisodeView';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
@@ -41,6 +42,7 @@ import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import type { SeasonRuntime, SimulationState } from '../types/simulation';
 import type { TrackSpecialsAction } from '../types/track-specials-episode';
+import type { VarietyShowAction } from '../types/variety-show-episode';
 import type { VersatilityAction } from '../types/versatility-episode';
 import type { TRACKS } from '../utilities/constants';
 import { createSeasonCastProfiles } from '../utilities/contestant-profile';
@@ -121,6 +123,14 @@ export function SimulationPage() {
       setError(err instanceof Error ? err.message : 'Could not save the next Versatility scene.');
     }
   };
+  const handleVarietyShowAction = (action: VarietyShowAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchVarietyShow(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Variety Show scene.');
+    }
+  };
 
   const handleStartSimulation = async () => {
     setIsInitializing(true);
@@ -165,23 +175,41 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
-  const trackSpecialsArchiveState: SimulationState = simulationState.runtime?.versatility
+  const versatilityArchiveState: SimulationState = simulationState.runtime?.varietyShow
     ? {
         ...simulationState,
-        contestants: simulationState.runtime.versatility.startingContestants,
+        contestants: simulationState.runtime.varietyShow.startingContestants,
         runtime: {
           ...simulationState.runtime,
-          versatility: undefined,
-          episode: 6,
+          varietyShow: undefined,
+          episode: 7,
           phase: 'episode-complete',
+          show: simulationState.runtime.varietyShow.startingShow,
           revealedSecrets: simulationState.runtime.revealedSecrets.filter((entry) =>
             simulationState
-              .runtime!.versatility!.startingContestants.find((person) => person.id === entry.contestantId)
+              .runtime!.varietyShow!.startingContestants.find((person) => person.id === entry.contestantId)
               ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
           ),
         },
       }
     : simulationState;
+  const trackSpecialsArchiveState: SimulationState = versatilityArchiveState.runtime?.versatility
+    ? {
+        ...versatilityArchiveState,
+        contestants: versatilityArchiveState.runtime.versatility.startingContestants,
+        runtime: {
+          ...versatilityArchiveState.runtime,
+          versatility: undefined,
+          episode: 6,
+          phase: 'episode-complete',
+          revealedSecrets: versatilityArchiveState.runtime.revealedSecrets.filter((entry) =>
+            versatilityArchiveState
+              .runtime!.versatility!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : versatilityArchiveState;
   const photoshootArchiveState: SimulationState = trackSpecialsArchiveState.runtime?.trackSpecials
     ? {
         ...trackSpecialsArchiveState,
@@ -338,13 +366,51 @@ export function SimulationPage() {
                     <>
                       {simulationState.runtime.versatility ? (
                         <>
-                          <VersatilityEpisodeView
-                            actionError={error}
-                            key={`${simulationState.runtime.runId}-versatility`}
-                            onAction={handleVersatilityAction}
-                            onInspect={inspectContestant}
-                            state={simulationState}
-                          />
+                          {simulationState.runtime.varietyShow ? (
+                            <>
+                              <VarietyShowEpisodeView
+                                actionError={error}
+                                key={`${simulationState.runtime.runId}-variety-show`}
+                                onAction={handleVarietyShowAction}
+                                onInspect={inspectContestant}
+                                state={simulationState}
+                              />
+                              <Collapse
+                                items={[
+                                  {
+                                    key: 'versatility',
+                                    label: 'Episode 7 — Versatility archive',
+                                    children: (
+                                      <VersatilityEpisodeView
+                                        onAction={handleVersatilityAction}
+                                        onInspect={(id) => inspectContestant(id, versatilityArchiveState)}
+                                        state={versatilityArchiveState}
+                                      />
+                                    ),
+                                  },
+                                ]}
+                                style={{ marginTop: 16 }}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <VersatilityEpisodeView
+                                actionError={error}
+                                key={`${simulationState.runtime.runId}-versatility`}
+                                onAction={handleVersatilityAction}
+                                onInspect={inspectContestant}
+                                state={simulationState}
+                              />
+                              {simulationState.runtime.versatility.phase === 'complete' && (
+                                <VarietyShowEpisodeView
+                                  actionError={error}
+                                  onAction={handleVarietyShowAction}
+                                  onInspect={inspectContestant}
+                                  state={simulationState}
+                                />
+                              )}
+                            </>
+                          )}
                           <Collapse
                             items={[
                               {
@@ -786,7 +852,13 @@ function SimulationOverview({
           <Typography.Paragraph>
             Inspect any of the {contestants.length} contestants without advancing the episode.
           </Typography.Paragraph>
-          {runtime?.versatility ? (
+          {runtime?.varietyShow ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.varietyShow.rankRevealed
+                ? 'Ranks and continuing scores: Episode 8.'
+                : 'Ranks and continuing scores: previous public Episode 7 final standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.versatility ? (
             <Typography.Paragraph type="secondary">
               {runtime.versatility.expelledId
                 ? 'Final season placements after Episode 7 departures.'
@@ -832,19 +904,21 @@ function SimulationOverview({
           <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
           <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
           <Descriptions.Item label="Status">
-            {runtime?.versatility
-              ? `Episode 7 — ${runtime.versatility.phase}`
-              : runtime?.trackSpecials
-                ? `Episode 6 — ${runtime.trackSpecials.phase}`
-                : runtime?.photoshoot
-                  ? `Episode 5 — ${runtime.photoshoot.phase}`
-                  : runtime?.megaGroups
-                    ? `Episode 4 — ${runtime.megaGroups.phase}`
-                    : runtime?.bootcamp
-                      ? `Episode 3 — ${runtime.bootcamp.phase}`
-                      : runtime?.battle
-                        ? `Episode 2 — ${runtime.battle.phase}`
-                        : (runtime?.audition?.phase ?? 'Setup complete')}
+            {runtime?.varietyShow
+              ? `Episode 8 — ${runtime.varietyShow.phase}`
+              : runtime?.versatility
+                ? `Episode 7 — ${runtime.versatility.phase}`
+                : runtime?.trackSpecials
+                  ? `Episode 6 — ${runtime.trackSpecials.phase}`
+                  : runtime?.photoshoot
+                    ? `Episode 5 — ${runtime.photoshoot.phase}`
+                    : runtime?.megaGroups
+                      ? `Episode 4 — ${runtime.megaGroups.phase}`
+                      : runtime?.bootcamp
+                        ? `Episode 3 — ${runtime.bootcamp.phase}`
+                        : runtime?.battle
+                          ? `Episode 2 — ${runtime.battle.phase}`
+                          : (runtime?.audition?.phase ?? 'Setup complete')}
           </Descriptions.Item>
         </Descriptions>
 

@@ -13,7 +13,7 @@ on player interaction and how the simulation systems connect.
   an additional story mechanic or a claim that its exact algebra was approved.
 
 Contestant management, card libraries, cast initialization, and playable
-Episodes 1, 2, and 3 now exist. New simulations use the narrative format described
+Episodes 1 through 8 now exist. New simulations use the narrative format described
 below; version-1 and version-2 saves retain their original episode rules.
 Broader-season gaps still need design.
 
@@ -2120,20 +2120,72 @@ Episode 8 is next, not started.
 
 ### Episode 8 - Variety Show
 
-**Format:** Three groups of four complete three parts: a variety segment, an
-interview, and an improvised comedy/acting skit. Eliminate two, leaving 10.
+**Implemented format:** Continue the twelve final Versatility survivors. Confirm
+the retained/refilled opening and six tastes using their final standings.
+Roxana Michaels joins John, Megan and Michael for a studio briefing, followed
+by the opening and its once-only +0.02 preference benefit. No reset of permanent
+growth, conditions or previous placements.
 
-**Proposed small interaction:** Decide how to respond to an awkward moment or
-unexpected revelation, rather than scripting the entire variety show.
+**Private icebreaker:** Eight literal statistics determine five-person eligible
+lists: visual; gentleness + extroversion; maturity; ambition; discipline;
+curiosity; sincerity; and the sum of all personality traits. Every participant
+votes for their highest outgoing-affection eligible peer, never themselves.
+Save seeded ties and all 96 choices before any award. Repeat winners are valid.
+Announce one category at a time: winner +0.10 audience preference and +3 happiness;
+winning voters +1 happiness, voter-to-winner +1 affection and winner-to-voter +1.
+Clamp real changes. Eligibility, choices and totals remain private, including
+Details, history and copied stories. Winners do not learn their actual voters.
 
-**Established third segment:** Improvised comedy/acting tests creativity,
-confidence, composure, and group chemistry.
+**Blind teams and preparation:** One saved shuffle forms three groups of four;
+no balancing. Record genuine introductions and bounded ambition friction.
+Each group elects one improv leader using leadership/style/affection priorities,
+then has five minutes with a saved premise and prop box. No center, song,
+music practice or permanent growth. At most one genuine preparation disagreement
+per team offers a blocking Support/Mediate/Push decision. Their coordination/
+reciprocal-bond effects are +2/+1, +1/+2 and +3/-3; coordination is bounded -5..5.
 
-**Connections:** Charisma, extroversion, sincerity, maturity, and relationships shape
-the broadcast. Reserved contestants need viable ways to succeed too.
+**Three acts:** One saved 2d6 pair per person per act, 36 pairs total. Reuse medium
+utility checks normalized to 0-100; personality x normalizes as 5*(x+10).
+Physical = .40 stamina + .35 acrobatics + .25 charisma.
+Interview = .50 charisma + .25 sincerity + .25 maturity.
+Improv = .40 charisma + .35 curiosity + .25 extroversion.
+No Vocal/Rap/Dance or stage-presence check. Save genuine stiffness, calculated
+fumbles, thoughtful answers, shy charm and resilient recovery; bound combined
+personal modifiers to -10..+10. Introversion or sensitivity alone is not failure.
+Interview questions concern public personas, interests and aired events,
+not forced disclosure of hidden cards.
 
-**Open:** Group formation and scoring across all three parts.
-Elimination uses the cumulative overall ranking.
+Each act blends 70% personal result and 30% actual team result. Physical/
+interview team results are the mean of four completed personal results; future
+answers are not precomputed. Improv adds bounded affection cohesion and saved
+preparation coordination, with -15 structural confusion if nobody has leadership
+at least 3. Clamp scores, preserving actual individual successes within weak teams.
+
+**Equal panel:** Overall variety V is the mean of three blended acts. John J uses
+personal physical result; Megan M uses mean personal interview/improv. Michael L
+uses .70 mean charisma checks + .30 mean team results. Roxana R uses .60 mean
+charisma checks + .40 lowest personal act, rewarding sustained adaptability.
+Episode performance = (V+J+M+L+R)/5. No additional guest, music, growth or
+icebreaker technical bonus.
+
+**Finale:** All twelve vote for any other participant as comic MVP using native
+comic evidence and existing affection/personality voting. Resolve audience once
+with bounded real exposure/reception, preserving .75 prior points + .60 episode
+performance + .30 normalized votes + .10 production preference. Seal results
+before the separate standard investigation; all twelve are eligible before
+departures. Real revelations apply once, with outcome-changing consequences
+deferred. No fallback secret, expulsion or save.
+
+Reveal twelve standings, eliminate exactly ranks 11/12, transfer departure fans
+once and stop with ten. Positions 13-50, including Episode 7's expelled slot,
+never move. Earlier episode records/copies use frozen boundaries.
+
+**Integration:** Editable frozen challenge catalog, native revision-bound
+transitions, player, blocking decisions, compressed full-history saves,
+auto-complete stopping at eight, public-only rundown/combined copy and
+viewer-only relationship notes. Each competitor earns exactly +10 silent XP:
+three completed acts at +3 each and substantive improv preparation at +1.
+TV/XP never affect checks or results. Episode 9 is next, not started.
 
 ### Episode 9 - Music Videos
 

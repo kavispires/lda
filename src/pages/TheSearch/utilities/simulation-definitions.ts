@@ -17,6 +17,7 @@ import { BATTLE_SONGS, validateBattleSongs } from './battle-songs';
 import { getMegaGroupsCatalogs } from './mega-groups-catalogs';
 import { getPhotoshootConcepts } from './photoshoot-concepts';
 import { getTrackSpecialSongs } from './track-special-songs';
+import { getVarietyShowCatalog } from './variety-show-catalog';
 import { getVersatilityCatalogs } from './versatility-catalogs';
 
 export function freezeSimulationSnapshot<T>(value: T): T {
@@ -46,5 +47,6 @@ export function getSimulationDefinitions(): SimulationDefinitions {
     photoshootConcepts: getPhotoshootConcepts(),
     trackSpecialSongs: getTrackSpecialSongs(),
     ...getVersatilityCatalogs(),
+    varietyShowCatalog: getVarietyShowCatalog(),
   });
 }
