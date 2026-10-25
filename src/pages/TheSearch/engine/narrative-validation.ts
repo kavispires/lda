@@ -4,6 +4,7 @@ import type { Contestant } from '../types/contestant';
 import { auditionSequence } from '../types/narrative';
 import type { SimulationDefinitions } from '../types/simulation';
 import { validateAuditionSongs } from '../utilities/audition-songs';
+import { auditionPanelFinalScore } from './audition-panel';
 import { auditionGrade, rankAuditions } from './audition-scoring';
 import { change, check, evaluation, mvp, outcome, reaction, scene, secret } from './audition-validation';
 
@@ -58,6 +59,7 @@ function shape(value: unknown): value is AuditionEpisode {
   const story = value.story;
   return (
     value.version === 2 &&
+    (value.scoringVersion === undefined || value.scoringVersion === 1 || value.scoringVersion === 2) &&
     phases.includes(String(value.phase)) &&
     value.relationshipPolicy === 'everyone-forms-opinions' &&
     integer(value.revision, 1, Number.MAX_SAFE_INTEGER) &&
@@ -238,6 +240,17 @@ export function assertNarrativeAudition(
         fail('invalid song-track evaluation');
       expected = (3 * panel.track.score + judgeTotal) / 7;
     }
+    if (ep.scoringVersion === 2) {
+      if (
+        panel.track === undefined ||
+        !number(panel.rawFinalScore, 0, 100) ||
+        Math.abs(panel.rawFinalScore - expected) > 1e-9
+      )
+        fail('invalid raw panel score for the audition scale');
+    } else if (panel.rawFinalScore !== undefined) {
+      fail('unexpected adjusted panel evidence for the original audition scale');
+    }
+    expected = auditionPanelFinalScore(expected, ep.scoringVersion);
     if (
       Math.abs(expected - entry.finalScore) > 1e-9 ||
       panel.finalScore !== entry.finalScore ||

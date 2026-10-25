@@ -125,7 +125,7 @@ function resolveOne(state: SimulationState, random: ReturnType<typeof createSeed
     composure: ep.composure,
     random: random.next,
     relationshipPolicy: 'everyone-forms-opinions',
-    score: (input) => scorePanelAudition(input, ep.cursor),
+    score: (input) => scorePanelAudition(input, ep.cursor, ep.scoringVersion),
   });
   state.contestants = result.contestants;
   ep.composure = result.composure;
@@ -245,6 +245,7 @@ function transitionNarrativeAuditionInternal(
     if (!ep || !next.runtime) throw new Error('Could not start Auditions.');
     const random = createSeededRandom(next.runtime.randomState);
     ep.version = 2;
+    if (next.runtime.version === 3) ep.scoringVersion = 2;
     ep.phase = 'opening-cast';
     ep.scenes = [];
     ep.story = {

@@ -8,6 +8,8 @@ export interface PanelJudging {
   weights: Record<JudgeId, number>;
   /** Absent on saved evaluations from the earlier panel-only formula. */
   track?: AuditionTechnicalCheck;
+  /** Unadjusted weighted panel result for the gentler audition scale. */
+  rawFinalScore?: number;
   finalScore: number;
   comment: string;
   consistency: number;

@@ -81,7 +81,17 @@ check has weight 3, the leading judge has weight 2, and each other judge has
 weight 1: `(3 * track + 2 * lead + other + other) / 7`. The track check retains
 the song's skill requirement, difficulty ceiling and shared performance dice;
 off-track auditions use the song's track, not the contestant's usual track.
-Previously saved panel-only results retain their original scores.
+For newly started runtime-3 Auditions, this weighted result is the raw panel
+score. The final evaluation adds 20% of its remaining headroom:
+`final = raw + 0.20 * (100 - raw)`. This improves ordinary results while
+preserving rare reachable A/F grades and the established grade thresholds.
+Dice, individual checks, difficulty ceilings and judge criteria do not change.
+The episode freezes scoring version 2 on start, and optional evaluation details
+retain the raw result and show the adjustment. Already-started episodes without
+this marker retain their original formula for every remaining audition.
+Previously saved panel-only results and runtime-1/2 scoring stay unchanged.
+Later episodes keep their scoring rules; changed audition results can naturally
+alter subsequent selections and standings.
 The judge-only bottom twenty depart, separately from cumulative 60% performance,
 30% normalized votes and 10% production ranking contributions.
 

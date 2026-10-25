@@ -4,10 +4,15 @@ import type { AuditionSong, ScoreAuditionInput } from '../types/audition';
 import type { AuditionEpisode, MoodChoices } from '../types/audition-episode';
 import type { SimulationState } from '../types/simulation';
 import { createContestant } from '../utilities/contestant-factory';
-import { resolveLiveAudition } from './audition-live';
-import { applyAuditionFarewells, judgeName, scorePanelAudition } from './audition-panel';
-import { scoreAudition } from './audition-scoring';
-import { createSeededRandom } from './random';
+import { chooseAuditionSongs, resolveLiveAudition } from './audition-live';
+import {
+  applyAuditionFarewells,
+  auditionPanelFinalScore,
+  judgeName,
+  scorePanelAudition,
+} from './audition-panel';
+import { auditionGrade, scoreAudition } from './audition-scoring';
+import { createSeededRandom, shuffleWithRandom } from './random';
 import { createSeasonSetup } from './season-setup';
 
 const song: AuditionSong = {
@@ -48,6 +53,133 @@ function input(): ScoreAuditionInput {
 function close(actual: number, expected: number): void {
   assert.ok(Math.abs(actual - expected) < 1e-9, `${actual} differs from ${expected}`);
 }
+
+test('gentler auditions lift only the final panel result and retain reachable A and F grades', () => {
+  const grades = new Set<string>();
+  for (const level of [1, 3, 5]) {
+    for (let first = 1; first <= 6; first++) {
+      for (let second = 1; second <= 6; second++) {
+        const originalInput = input();
+        for (const skill of Object.keys(
+          originalInput.contestant.coreSkills,
+        ) as (keyof typeof originalInput.contestant.coreSkills)[])
+          originalInput.contestant.coreSkills[skill] = level;
+        for (const skill of Object.keys(
+          originalInput.contestant.utilitySkills,
+        ) as (keyof typeof originalInput.contestant.utilitySkills)[])
+          originalInput.contestant.utilitySkills[skill] = level;
+        const performance: ScoreAuditionInput = {
+          ...originalInput,
+          song: { ...song, part: { testedSkills: [{ skill: 'vocals', requiredLevel: 5 }] } },
+          rawDice: [first, second],
+        };
+        const original = scorePanelAudition(performance, 0);
+        const eased = scorePanelAudition(performance, 0, 2);
+        assert.ok(original.panel && eased.panel);
+        close(eased.finalScore, original.finalScore + 0.2 * (100 - original.finalScore));
+        assert.equal(eased.panel.rawFinalScore, original.finalScore);
+        assert.equal(eased.panel.finalScore, eased.finalScore);
+        assert.equal(eased.grade, auditionGrade(eased.finalScore));
+        assert.ok(eased.finalScore >= original.finalScore && eased.finalScore <= 100);
+        assert.equal(eased.finalScore === original.finalScore, original.finalScore === 100);
+        assert.deepEqual(eased.technical, original.technical);
+        assert.deepEqual(eased.stagePresence, original.stagePresence);
+        assert.deepEqual(eased.impressions, original.impressions);
+        const { rawFinalScore, finalScore, ...easedPanel } = eased.panel;
+        const { finalScore: originalFinalScore, ...originalPanel } = original.panel;
+        assert.deepEqual(easedPanel, originalPanel);
+        assert.equal(rawFinalScore, originalFinalScore);
+        assert.equal(finalScore, eased.finalScore);
+        grades.add(eased.grade);
+      }
+    }
+  }
+  assert.deepEqual([...grades].sort(), ['A', 'B', 'C', 'D', 'F']);
+});
+
+test('gentler audition grade boundaries use unrounded results and reject invalid evidence', () => {
+  for (const [raw, final, grade] of [
+    [0, 20, 'F'],
+    [24.99, 39.992, 'F'],
+    [25, 40, 'D'],
+    [43.75, 55, 'C'],
+    [62.49, 69.992, 'C'],
+    [62.5, 70, 'B'],
+    [81.24, 84.992, 'B'],
+    [81.25, 85, 'A'],
+    [100, 100, 'A'],
+  ] as const) {
+    const score = auditionPanelFinalScore(raw, 2);
+    close(score, final);
+    assert.equal(auditionGrade(score), grade);
+    assert.equal(auditionPanelFinalScore(raw), raw);
+    assert.equal(auditionPanelFinalScore(raw, 1), raw);
+  }
+  for (const value of [-1, 101, Number.NaN, Number.POSITIVE_INFINITY])
+    assert.throws(() => auditionPanelFinalScore(value, 2), /Raw audition panel score/);
+  assert.throws(() => Reflect.apply(auditionPanelFinalScore, undefined, [50, 3]), /Unsupported/);
+});
+
+test('calibrated production casts get more Bs while A and F remain uncommon, not impossible', () => {
+  for (const varied of [false, true]) {
+    const source = Object.fromEntries(
+      Array.from({ length: 60 }, (_, index) => {
+        const person = createContestant({
+          id: `calibration-${index}`,
+          name: `Performer ${index}`,
+          updatedAt: 1,
+          track: index < 28 ? 'VOCAL' : index < 44 ? 'RAP' : 'DANCE',
+        });
+        if (varied) {
+          for (const [offset, key] of Object.keys(person.coreSkills).entries())
+            Object.assign(person.coreSkills, { [key]: 2 + ((index + offset * 2) % 3) });
+          for (const [offset, key] of Object.keys(person.utilitySkills).entries())
+            Object.assign(person.utilitySkills, { [key]: 2 + ((index + offset * 2 + 1) % 3) });
+        }
+        return [person.id, person];
+      }),
+    );
+    const original = { A: 0, B: 0, C: 0, D: 0, F: 0 };
+    const eased = { ...original };
+    let count = 0;
+    for (let seed = 1; seed <= 20; seed++) {
+      const setup = createSeasonSetup(source, {
+        seed: seed * 7919,
+        runId: `calibration-${varied}-${seed}`,
+        now: 1,
+      });
+      const random = createSeededRandom(setup.runtime.randomState);
+      const poolIds = setup.runtime.setup.auditionPoolIds;
+      assert.ok(poolIds);
+      const pool = setup.runtime.definitions.auditionSongs.filter((entry) => poolIds.includes(entry.id));
+      const choices = chooseAuditionSongs(setup.contestants, pool, random.next);
+      for (const [position, contestant] of shuffleWithRandom(setup.contestants, random.next).entries()) {
+        const chosen = pool.find(({ id }) => id === choices[contestant.id]);
+        assert.ok(chosen);
+        for (let first = 1; first <= 6; first++) {
+          for (let second = 1; second <= 6; second++) {
+            const performance: ScoreAuditionInput = {
+              contestant,
+              song: chosen,
+              rawDice: [first, second],
+              preferences: { visualOrUniqueness: 'visual', potentialOrCharisma: 'potential' },
+              tieBreakKey: 0,
+              composure: 0,
+            };
+            original[scorePanelAudition(performance, position).grade]++;
+            eased[scorePanelAudition(performance, position, 2).grade]++;
+            count++;
+          }
+        }
+      }
+    }
+    assert.ok(eased.B >= 1.5 * original.B, JSON.stringify({ varied, original, eased }));
+    assert.ok(eased.B / count >= 0.2 && eased.B / count <= 0.35);
+    assert.ok(eased.A > 0 && eased.A / count < 0.1);
+    assert.ok(eased.F > 0 && eased.F / count < 0.05);
+    assert.ok(eased.D + eased.F < original.D + original.F);
+  }
+});
 
 test('song track counts three times alongside the rotating panel at two, one and one', () => {
   for (const [position, lead] of [
@@ -239,7 +371,7 @@ test('live custom scorer runs only for the actual performer without changing obs
     random: panelRandom.next,
     score: (performance) => {
       scorerCalls++;
-      return scorePanelAudition(performance, 14);
+      return scorePanelAudition(performance, 14, 2);
     },
   });
   assert.equal(scorerCalls, 1);
@@ -252,6 +384,7 @@ test('live custom scorer runs only for the actual performer without changing obs
   );
   assert.deepEqual(modern.evaluation.technical, legacy.evaluation.technical);
   assert.ok(modern.evaluation.panel);
+  assert.ok(modern.evaluation.panel.rawFinalScore !== undefined);
 });
 
 function farewellFixture() {

@@ -14,6 +14,7 @@ import {
   NarrativeContinue,
   OpeningCredits,
 } from './NarrativeEpisodeView';
+import styles from './NarrativeEpisodeView.module.scss';
 
 function fixture(): SimulationState {
   const source = Object.fromEntries(
@@ -70,6 +71,45 @@ test('host opening is narrative-first and explicitly has no grade before a perfo
   assert.match(html, /No grade yet/);
   assert.match(html, /Play the opening sequence/);
   assert.doesNotMatch(html, /<table|Raw dice|Revision|Grade A/);
+  assert.doesNotMatch(html, /introduction portrait/);
+});
+
+test('Meet introductions show a large portrait on the left and introduction text on the right', () => {
+  const state = fixture();
+  const episode = state.runtime?.audition;
+  assert.ok(episode?.story);
+  const contestant = state.contestants[0];
+  episode.phase = 'introduction';
+  episode.story.presentation = 'introduction';
+  episode.story.pendingPerformerId = contestant.id;
+  episode.scenes = [
+    {
+      id: 'meet-contestant',
+      kind: 'choices',
+      title: `Meet ${contestant.name}`,
+      paragraphs: [`${contestant.name} steps forward.`],
+      contestantIds: [contestant.id],
+      presentation: 'introduction',
+    },
+  ];
+  const html = renderToStaticMarkup(
+    <NarrativeAuditionView
+      onAction={() => {
+        throw new Error('Rendering must not advance');
+      }}
+      onInspect={() => {}}
+      state={state}
+    />,
+  );
+  const portrait = html.match(/<figure\b[^>]*>[\s\S]*?<\/figure>/)?.[0];
+  assert.ok(portrait);
+  assert.ok(portrait.includes(`aria-label="${contestant.name} introduction portrait"`));
+  assert.match(portrait, /width:min\(320px, 100%\)/);
+  assert.ok(portrait.includes(`images/contestants/${contestant.id}.jpg`));
+  assert.match(portrait, /ant-avatar-square/);
+  assert.ok(html.includes(`class="${styles.introduction}"`));
+  assert.ok(html.indexOf('</figure>') < html.indexOf(' steps forward.'));
+  assert.match(html, /<\/figure><div>/);
 });
 
 for (const [position, judge] of [
@@ -138,6 +178,56 @@ test('judge introductions show all three personnel portraits', () => {
     assert.ok(html.includes(`aria-label="${name} portrait"`));
   }
   assert.equal((html.match(/<svg aria-hidden="true" height="100%"/g) ?? []).length, 3);
+});
+
+function ExpandedAuditionEvidence({ state }: { state: SimulationState }) {
+  const player = NarrativeAuditionView({ state, onAction: () => {}, onInspect: () => {} });
+  assert.ok(isValidElement<{ children: ReactNode }>(player));
+  for (const child of Children.toArray(player.props.children)) {
+    if (!isValidElement<{ items?: { key: string; children: ReactNode }[] }>(child)) continue;
+    const details = child.props.items?.find(({ key }) => key === 'details')?.children;
+    if (isValidElement<{ items: { children: ReactNode }[] }>(details))
+      return <>{details.props.items[0].children}</>;
+  }
+  assert.fail('Missing audition evidence');
+}
+
+test('the gentler score adjustment is transparent only inside optional audition details', () => {
+  const state = fixture();
+  const episode = state.runtime?.audition;
+  assert.ok(episode);
+  for (const version of [1, 2] as const) {
+    const result = scorePanelAudition(
+      {
+        contestant: state.contestants[0],
+        song: episode.pool[0],
+        preferences: { visualOrUniqueness: 'visual', potentialOrCharisma: 'potential' },
+        rawDice: [3, 4],
+        tieBreakKey: 0.25,
+      },
+      0,
+      version,
+    );
+    episode.evaluations = [result];
+    const hidden = renderToStaticMarkup(
+      <NarrativeAuditionView onAction={() => {}} onInspect={() => {}} state={state} />,
+    );
+    assert.doesNotMatch(hidden, /Raw panel result|Audition adjustment|remaining headroom/);
+    const details = renderToStaticMarkup(<ExpandedAuditionEvidence state={state} />);
+    assert.ok(details.includes(`Final ${result.finalScore.toFixed(1)}`));
+    if (version === 2) {
+      assert.ok(result.panel?.rawFinalScore !== undefined);
+      assert.ok(details.includes(`Raw panel result: ${result.panel.rawFinalScore.toFixed(1)}`));
+      assert.ok(
+        details.includes(
+          `Audition adjustment: +${(result.finalScore - result.panel.rawFinalScore).toFixed(1)}`,
+        ),
+      );
+      assert.match(details, /20% of remaining headroom/);
+    } else {
+      assert.doesNotMatch(details, /Raw panel result|Audition adjustment/);
+    }
+  }
 });
 
 test('credits have five inspectable portraits and never dispatch gameplay on render', () => {

@@ -6,6 +6,7 @@ import type { NarrativeAuditionStory, PreparationAction } from './narrative';
 export type MoodChoices = Record<keyof Specialties, string>;
 export type MoodOptions = Record<keyof Specialties, string[]>;
 export type AuditionRelationshipPolicy = 'reactions-only' | 'everyone-forms-opinions';
+export type AuditionScoringVersion = 1 | 2;
 export type AuditionPhase =
   | 'opening-cast'
   | 'host-intro'
@@ -129,6 +130,7 @@ export type AuditionAction =
 
 export interface AuditionEpisode {
   version: 1 | 2;
+  scoringVersion?: AuditionScoringVersion;
   story?: NarrativeAuditionStory;
   relationshipPolicy: AuditionRelationshipPolicy;
   phase: AuditionPhase;

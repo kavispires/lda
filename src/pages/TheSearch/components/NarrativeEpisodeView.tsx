@@ -237,6 +237,12 @@ function StoredEvaluation({ evaluation }: { evaluation: AuditionEvaluation }) {
       <Typography.Text>
         <Tag>Grade {evaluation.grade}</Tag> Final {evaluation.finalScore.toFixed(1)}
       </Typography.Text>
+      {evaluation.panel?.rawFinalScore !== undefined && (
+        <div>
+          Raw panel result: {evaluation.panel.rawFinalScore.toFixed(1)} · Audition adjustment: +
+          {(evaluation.finalScore - evaluation.panel.rawFinalScore).toFixed(1)} (20% of remaining headroom)
+        </div>
+      )}
       {evaluation.panel?.track && (
         <div>
           Song track — {evaluation.panel.track.skill}: {evaluation.panel.track.score.toFixed(1)} · weight 3
@@ -327,14 +333,38 @@ export function NarrativeAuditionView({
   const host = !!selected?.speaker || presentation === 'host' || presentation === 'results';
   const blocking = preparing || episode.phase === 'secret';
   const act = (action: AuditionAction) => onAction(action, episode.revision);
-  const renderScene = (scene: EpisodeScene) => (
-    <EpisodeSceneNarrative
-      contestants={state.contestants}
-      onInspect={onInspect}
-      reactions={episode.reactions}
-      scene={scene}
-    />
-  );
+  const renderScene = (scene: EpisodeScene, showPortrait = false) => {
+    const contestant = showPortrait
+      ? state.contestants.find((person) => person.id === scene.contestantIds[0])
+      : undefined;
+    const narrative = (
+      <EpisodeSceneNarrative
+        contestants={state.contestants}
+        onInspect={onInspect}
+        reactions={episode.reactions}
+        scene={scene}
+      />
+    );
+    if (!contestant) return narrative;
+    return (
+      <div className={styles.introduction}>
+        <figure
+          aria-label={`${contestant.name} introduction portrait`}
+          style={{ width: 'min(320px, 100%)', aspectRatio: '1', margin: 0 }}
+        >
+          <ContestantAvatar
+            alt={`Portrait of ${contestant.name}`}
+            id={contestant.id}
+            name={contestant.name}
+            shape="square"
+            size={320}
+            style={{ width: '100%', height: '100%' }}
+          />
+        </figure>
+        <div>{narrative}</div>
+      </div>
+    );
+  };
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <CopyEpisodeRundown episode={1} state={state} />
@@ -437,7 +467,7 @@ export function NarrativeAuditionView({
           </div>
         )}
         {selected ? (
-          presentation !== 'credits' && renderScene(selected)
+          presentation !== 'credits' && renderScene(selected, presentation === 'introduction')
         ) : (
           <p>
             The opening cast and mood are chosen before the first performance. No audition has been judged
@@ -449,14 +479,17 @@ export function NarrativeAuditionView({
             items={Object.entries(selected.introductions).map(([id, paragraphs]) => ({
               key: id,
               label: `Meet ${state.contestants.find((entry) => entry.id === id)?.name ?? id}`,
-              children: renderScene({
-                id: `profile-${id}`,
-                kind: 'choices',
-                title: 'Public introduction',
-                paragraphs,
-                contestantIds: [id],
-                paragraphContestantIds: paragraphs.map(() => [id]),
-              }),
+              children: renderScene(
+                {
+                  id: `profile-${id}`,
+                  kind: 'choices',
+                  title: 'Public introduction',
+                  paragraphs,
+                  contestantIds: [id],
+                  paragraphContestantIds: paragraphs.map(() => [id]),
+                },
+                true,
+              ),
             }))}
           />
         )}

@@ -257,7 +257,7 @@ Every audition combines four evaluations in a **3:2:1:1 balance**:
 | The second judge's evaluation                                                | 1      |
 | The third judge's evaluation                                                 | 1      |
 
-These seven weighted parts produce the final score. A vocal song tests vocals,
+These seven weighted parts produce the raw panel score. A vocal song tests vocals,
 a rap song tests rap, and a dance song tests dance. Going off-track does not
 allow a contestant to fall back on their usual specialty.
 
@@ -265,6 +265,14 @@ The song's difficulty matters, as does execution on the day. John also considers
 the other technical skills an arrangement actually calls for, giving its primary
 skill extra emphasis within his evaluation. Unused technical skills are not
 invented as additional requirements.
+
+Newly started current-format Auditions receive a gentler final evaluation:
+**final = raw panel score + 20% of its remaining distance to 100**. For example,
+50 becomes 60, 65 becomes 72, and 80 becomes 84. Only the final result changes;
+the recorded dice, technical checks and individual judges' evaluations do not.
+The raw result and adjustment are available in optional Details. Already-started
+Auditions retain their original scale throughout, including after reloading.
+Legacy-format seasons and later episodes' scoring rules remain unchanged.
 
 The grade bands are **A at 85 or above, B at 70, C at 55, D at 40, and F below
 40**. Detailed checks remain available for inspection, but the episode itself

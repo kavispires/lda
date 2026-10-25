@@ -54,6 +54,12 @@
   font-size: 16px;
   line-height: 1.85;
 }
+.introduction {
+  display: grid;
+  grid-template-columns: minmax(0, 320px) minmax(0, 1fr);
+  gap: clamp(16px, 3vw, 32px);
+  align-items: start;
+}
 .footer {
   display: flex;
   gap: 16px;
@@ -161,6 +167,9 @@
   }
 }
 @media (max-width: 640px) {
+  .introduction {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
   .dialogue {
     flex-direction: column;
     gap: 16px;

@@ -1,4 +1,5 @@
 import type { AuditionEvaluation, AuditionSkillCheck, ScoreAuditionInput } from '../types/audition';
+import type { AuditionScoringVersion } from '../types/audition-episode';
 import type { Contestant } from '../types/contestant';
 import type { JudgeId } from '../types/narrative';
 import type { SimulationState } from '../types/simulation';
@@ -53,8 +54,20 @@ function comment(lead: JudgeId, criteria: readonly { name: string; score: number
   return `Among ${scope}, your strongest check was ${strongest.name} (${strongest.score.toFixed(1)}); your weakest was ${weakest.name} (${weakest.score.toFixed(1)}).`;
 }
 
+export function auditionPanelFinalScore(rawScore: number, version: AuditionScoringVersion = 1): number {
+  if (!Number.isFinite(rawScore) || rawScore < 0 || rawScore > 100)
+    throw new Error('Raw audition panel score must be between zero and one hundred.');
+  if (version === 1) return rawScore;
+  if (version === 2) return rawScore + 0.2 * (100 - rawScore);
+  throw new Error('Unsupported audition scoring version.');
+}
+
 /** Reuse observation checks; grade the song's track alongside the named panel. */
-export function scorePanelAudition(input: ScoreAuditionInput, position: number): AuditionEvaluation {
+export function scorePanelAudition(
+  input: ScoreAuditionInput,
+  position: number,
+  scoringVersion: AuditionScoringVersion = 1,
+): AuditionEvaluation {
   if (!Number.isInteger(position) || position < 0 || position >= 50) {
     throw new Error('Panel audition position must be between zero and forty-nine.');
   }
@@ -95,7 +108,8 @@ export function scorePanelAudition(input: ScoreAuditionInput, position: number):
   const weights: Record<JudgeId, number> = { john: 1, megan: 1, michael: 1 };
   weights[lead] = 2;
   const track = { ...evaluation.technical.checks[0], weight: 3 };
-  const finalScore = (3 * track.score + scores.john + scores.megan + scores.michael + scores[lead]) / 7;
+  const rawFinalScore = (3 * track.score + scores.john + scores.megan + scores.michael + scores[lead]) / 7;
+  const finalScore = auditionPanelFinalScore(rawFinalScore, scoringVersion);
   return {
     ...evaluation,
     finalScore,
@@ -105,6 +119,7 @@ export function scorePanelAudition(input: ScoreAuditionInput, position: number):
       scores,
       weights,
       track,
+      ...(scoringVersion === 2 ? { rawFinalScore } : {}),
       finalScore,
       consistency,
       leadership,

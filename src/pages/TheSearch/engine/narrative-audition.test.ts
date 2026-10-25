@@ -12,9 +12,9 @@ import { auditionGrade } from './audition-scoring';
 import { completedAuditionsFixture, nextBattleAction } from './battle-fixtures';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from './narrative-audition';
 import { createSeasonSetup } from './season-setup';
-import { decodeSimulationState } from './simulation-persistence';
+import { decodeSimulationState, encodeSimulationState } from './simulation-persistence';
 
-function setup(): SimulationState {
+function setup(formatVersion: 2 | 3 = 2): SimulationState {
   const definitions = getSimulationDefinitions();
   const source = Object.fromEntries(
     Array.from({ length: 65 }, (_, index) => {
@@ -36,7 +36,7 @@ function setup(): SimulationState {
     }),
   );
   return {
-    ...createSeasonSetup(source, { seed: 12345, runId: 'narrative-test', now: 1000, formatVersion: 2 }),
+    ...createSeasonSetup(source, { seed: 12345, runId: 'narrative-test', now: 1000, formatVersion }),
     status: 'ready',
     persistenceError: null,
   };
@@ -107,6 +107,7 @@ test('narrative Auditions plays all fifty in the exact story schedule and surviv
   const ep = restored.runtime?.audition;
   assert.ok(ep?.story);
   assert.equal(ep.version, 2);
+  assert.equal(ep.scoringVersion, undefined);
   assert.equal(ep.evaluations.length, 50);
   const performances = ep.scenes.filter(({ kind }) => kind === 'auditions');
   assert.deepEqual(
@@ -151,6 +152,78 @@ test('narrative Auditions plays all fifty in the exact story schedule and surviv
       (_, index) => (['john', 'megan', 'michael'] as const)[Math.floor(index / 7) % 3],
     ),
   );
+});
+
+test('new current-format auditions freeze the gentler scale and preserve it across every beat and compressed reload', () => {
+  const finished = play(setup(3), true);
+  const ep = finished.runtime?.audition;
+  assert.ok(ep);
+  assert.equal(ep.scoringVersion, 2);
+  for (const entry of ep.evaluations) {
+    assert.ok(entry.panel?.rawFinalScore !== undefined);
+    assert.equal(entry.finalScore, entry.panel.rawFinalScore + 0.2 * (100 - entry.panel.rawFinalScore));
+    assert.equal(entry.grade, auditionGrade(entry.finalScore));
+  }
+  assert.deepEqual(
+    JSON.parse(JSON.stringify(decodeSimulationState(encodeSimulationState(finished)))),
+    JSON.parse(JSON.stringify(finished)),
+  );
+});
+
+test('already-started current-format auditions keep original grades and the original scale for remaining performers', () => {
+  let state = transitionNarrativeAudition(setup(3), { type: 'start' }, 0);
+  assert.ok(state.runtime?.audition);
+  delete state.runtime.audition.scoringVersion;
+  while (!state.runtime?.audition?.evaluations.length)
+    state = transitionNarrativeAudition(state, nextAction(state), state.runtime?.audition?.revision ?? 0);
+  const first = structuredClone(state.runtime.audition.evaluations[0]);
+  const resumed = play(decodeSimulationState(encodeSimulationState(state)), false);
+  const ep = resumed.runtime?.audition;
+  assert.ok(ep);
+  assert.deepEqual(ep.evaluations[0], first);
+  assert.equal(ep.scoringVersion, undefined);
+  for (const entry of ep.evaluations) {
+    const panel = entry.panel;
+    assert.ok(panel?.track);
+    assert.equal(panel.rawFinalScore, undefined);
+    assert.equal(
+      entry.finalScore,
+      (3 * panel.track.score +
+        panel.scores.john +
+        panel.scores.megan +
+        panel.scores.michael +
+        panel.scores[panel.lead]) /
+        7,
+    );
+  }
+  assert.doesNotThrow(() => decodeSimulationState(encodeSimulationState(resumed)));
+});
+
+test('calibrated audition saves reject unknown models, mixed scales and damaged raw or final evidence', () => {
+  let state = setup(3);
+  while (!state.runtime?.audition?.evaluations.length)
+    state = transitionNarrativeAudition(state, nextAction(state), state.runtime?.audition?.revision ?? 0);
+  for (const damage of ['model', 'missing-model', 'raw', 'missing-raw', 'track', 'final'] as const) {
+    const invalid = structuredClone(state);
+    const ep = invalid.runtime?.audition;
+    const entry = ep?.evaluations[0];
+    assert.ok(ep && entry?.panel?.rawFinalScore !== undefined);
+    if (damage === 'model') Reflect.set(ep, 'scoringVersion', 3);
+    if (damage === 'missing-model') delete ep.scoringVersion;
+    if (damage === 'raw') entry.panel.rawFinalScore++;
+    if (damage === 'missing-raw') delete entry.panel.rawFinalScore;
+    if (damage === 'track') delete entry.panel.track;
+    if (damage === 'final') {
+      const finalScore = entry.finalScore + 0.2 * (100 - entry.finalScore);
+      ep.evaluations[0] = {
+        ...entry,
+        finalScore,
+        grade: auditionGrade(finalScore),
+        panel: { ...entry.panel, finalScore },
+      };
+    }
+    assert.throws(() => decodeSimulationState(JSON.stringify(invalid)), /narrative Auditions/);
+  }
 });
 
 test('featured introductions reveal public identity before resolving their performance, not secret cards', () => {
