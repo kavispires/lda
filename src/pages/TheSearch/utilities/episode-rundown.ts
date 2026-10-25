@@ -4,6 +4,7 @@ import { createBootcampRundown } from './bootcamp-rundown';
 import { markdown } from './markdown';
 import { createMegaGroupsRundown } from './mega-groups-rundown';
 import { createPhotoshootRundown } from './photoshoot-rundown';
+import { createRelationshipUpdatesMarkdown } from './relationship-updates';
 import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
@@ -311,5 +312,6 @@ export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 
         '',
       );
   }
+  lines.push('', createRelationshipUpdatesMarkdown(state, episodeNumber));
   return showRundown(`${lines.join('\n').trim()}\n`, record.secret);
 }

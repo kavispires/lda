@@ -10,6 +10,7 @@ import { PreparationDialog } from './NarrativeEpisodeView';
 import styles from './NarrativeEpisodeView.module.scss';
 import { NarrativeStage, OpeningCredits } from './NarrativeStage';
 import { PersonnelAvatar } from './personnel/PersonnelAvatar';
+import { EpisodeEndScreens } from './RelationshipUpdates';
 import { ChangeDirection, PropertyChangeValue } from './SimulationChange';
 
 export function MegaGroupsEpisodeView({
@@ -110,7 +111,7 @@ export function MegaGroupsEpisodeView({
         }
       : scene;
   return (
-    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+    <EpisodeEndScreens enabled={!lookingBack} episode={4} onInspect={onInspect} state={state}>
       <CopyEpisodeRundown episode={4} state={state} />
       {!decision && (
         <AutoCompleteEpisodeButton episode={4} onCompleted={() => setHistory(null)} state={state} />
@@ -347,6 +348,6 @@ export function MegaGroupsEpisodeView({
           },
         ]}
       />
-    </Space>
+    </EpisodeEndScreens>
   );
 }

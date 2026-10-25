@@ -10,6 +10,7 @@ import { PreparationDialog } from './NarrativeEpisodeView';
 import styles from './NarrativeEpisodeView.module.scss';
 import { NarrativeStage, OpeningCredits } from './NarrativeStage';
 import { PersonnelAvatar } from './personnel/PersonnelAvatar';
+import { EpisodeEndScreens } from './RelationshipUpdates';
 import { ChangeDirection } from './SimulationChange';
 
 export function BootcampEpisodeView({
@@ -107,7 +108,7 @@ export function BootcampEpisodeView({
         }
       : selected;
   return (
-    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+    <EpisodeEndScreens enabled={!lookingBack} episode={3} onInspect={onInspect} state={state}>
       <CopyEpisodeRundown episode={3} state={state} />
       <AutoCompleteEpisodeButton episode={3} onCompleted={() => setHistory(null)} state={state} />
       <NarrativeStage
@@ -301,6 +302,6 @@ export function BootcampEpisodeView({
           },
         ]}
       />
-    </Space>
+    </EpisodeEndScreens>
   );
 }

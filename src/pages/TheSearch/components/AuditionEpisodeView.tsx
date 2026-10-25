@@ -23,6 +23,7 @@ import { AutoCompleteEpisodeButton } from './AutoCompleteEpisodeButton';
 import { ContestantAvatar } from './ContestantAvatar';
 import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeContestantList, EpisodeSceneNarrative } from './EpisodeNarrative';
+import { EpisodeEndScreens } from './RelationshipUpdates';
 import { ChangeDirection, ValueChange } from './SimulationChange';
 
 const moodFields: { key: keyof Specialties; label: string }[] = [
@@ -164,7 +165,7 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
   };
 
   return (
-    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+    <EpisodeEndScreens enabled={!lookingBack} episode={1} onInspect={onInspect} state={state}>
       <CopyEpisodeRundown episode={1} state={state} />
       <AutoCompleteEpisodeButton episode={1} onCompleted={() => setHistoryId(null)} state={state} />
       <Modal
@@ -669,6 +670,6 @@ export function AuditionEpisodeView({ state, onAction, onInspect, actionError }:
           ]}
         />
       )}
-    </Space>
+    </EpisodeEndScreens>
   );
 }

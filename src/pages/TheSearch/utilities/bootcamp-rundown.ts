@@ -1,5 +1,6 @@
 import type { SimulationState } from '../types/simulation';
 import { markdown } from './markdown';
+import { createRelationshipUpdatesMarkdown } from './relationship-updates';
 import { SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
@@ -199,5 +200,6 @@ export function createBootcampRundown(state: SimulationState): string {
   }
   lines.push('', '### Updated continuing ranking', '');
   for (const [index, id] of episode.rankedIds.entries()) lines.push(`${index + 1}. ${name(id)}`);
+  lines.push('', createRelationshipUpdatesMarkdown(state, 3));
   return showRundown(`${lines.join('\n').trim()}\n`);
 }

@@ -15,6 +15,27 @@ the show's introduction, all season-entry contestant profiles, then completed
 episode rundowns in chronological order. It also works before the first episode,
 when only the introduction and cast are available. Unfinished episodes are omitted.
 
+## After each episode: Relationships Updates
+
+The **Relationships Updates** button after every finale opens a separate,
+viewer-only screen. These are observations about the episode, not a broadcast
+sequence, host announcement or additional interaction.
+
+Highlight every directed relationship whose net change is greater than five
+points in either direction, compared with the previous episode's ending.
+Auditions use season-entry relationships as their baseline. Show the direction,
+size of the change and final value, not every intermediate swing. Changed
+relationships can include contestants who departed.
+
+Also highlight mutual-feeling gaps of at least fifteen points among that
+episode's cast, including contestants who leave during the episode. List each
+pair once and show both directed values; do not imply that feelings are mutual.
+Keep earlier summaries anchored to their own episode's saved history.
+
+Copied episode rundowns and **Copy Show So Far** include the same notes in a
+clearly labeled, non-broadcast section. Viewing or copying them never changes
+relationships, results, TV score, experience or the saved episode.
+
 ## Episode 1: Auditions
 
 Fifty contestants get their first chance to show the public who they are. They

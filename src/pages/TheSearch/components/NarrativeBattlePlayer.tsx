@@ -9,6 +9,7 @@ import { EpisodeContestantList, EpisodeNarrative, EpisodeSceneNarrative } from '
 import styles from './NarrativeEpisodeView.module.scss';
 import { NarrativeStage, OpeningCredits } from './NarrativeStage';
 import { PersonnelAvatar } from './personnel/PersonnelAvatar';
+import { EpisodeEndScreens } from './RelationshipUpdates';
 
 interface NarrativeBattlePlayerProps {
   state: SimulationState;
@@ -118,7 +119,7 @@ export function NarrativeBattlePlayer({
   );
 
   return (
-    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+    <EpisodeEndScreens enabled={!lookingBack} episode={2} onInspect={onInspect} state={state}>
       <CopyEpisodeRundown episode={2} state={state} />
       <AutoCompleteEpisodeButton episode={2} onCompleted={() => setHistory(null)} state={state} />
       {actionError && <Alert role="alert" title={actionError} type="error" />}
@@ -371,6 +372,6 @@ export function NarrativeBattlePlayer({
           </Space>
         </Modal>
       )}
-    </Space>
+    </EpisodeEndScreens>
   );
 }

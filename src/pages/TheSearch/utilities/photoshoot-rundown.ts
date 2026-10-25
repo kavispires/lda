@@ -1,6 +1,7 @@
 import type { SimulationState } from '../types/simulation';
 import { markdown } from './markdown';
 import { photoshootFinaleScene } from './photoshoot-ranking-reactions';
+import { createRelationshipUpdatesMarkdown } from './relationship-updates';
 import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
@@ -169,5 +170,6 @@ export function createPhotoshootRundown(state: SimulationState): string {
     'Next time on The Search: Episode 6 - Track Specials.',
     '',
   );
+  lines.push('', createRelationshipUpdatesMarkdown(state, 5));
   return showRundown(lines.join('\n'), episode.secret);
 }

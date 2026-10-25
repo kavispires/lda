@@ -11,6 +11,7 @@ import { PreparationDialog } from './NarrativeEpisodeView';
 import styles from './NarrativeEpisodeView.module.scss';
 import { NarrativeStage, OpeningCredits } from './NarrativeStage';
 import { PersonnelAvatar } from './personnel/PersonnelAvatar';
+import { EpisodeEndScreens } from './RelationshipUpdates';
 import { ChangeDirection, PropertyChangeValue } from './SimulationChange';
 
 export function PhotoshootEpisodeView({
@@ -109,7 +110,7 @@ export function PhotoshootEpisodeView({
           }
         : scene;
   return (
-    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+    <EpisodeEndScreens enabled={!lookingBack} episode={5} onInspect={onInspect} state={state}>
       <CopyEpisodeRundown episode={5} state={state} />
       {!decision && (
         <AutoCompleteEpisodeButton episode={5} onCompleted={() => setHistory(null)} state={state} />
@@ -326,6 +327,6 @@ export function PhotoshootEpisodeView({
           },
         ]}
       />
-    </Space>
+    </EpisodeEndScreens>
   );
 }

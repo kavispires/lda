@@ -1,5 +1,6 @@
 import type { SimulationState } from '../types/simulation';
 import { markdown } from './markdown';
+import { createRelationshipUpdatesMarkdown } from './relationship-updates';
 import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
@@ -167,5 +168,6 @@ export function createMegaGroupsRundown(state: SimulationState): string {
     'Next time on The Search: Episode 5 - The Photoshoot.',
     '',
   );
+  lines.push('', createRelationshipUpdatesMarkdown(state, 4));
   return showRundown(lines.join('\n'), episode.secret);
 }

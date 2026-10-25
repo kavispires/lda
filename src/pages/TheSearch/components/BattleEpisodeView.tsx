@@ -7,6 +7,7 @@ import { ContestantAvatar } from './ContestantAvatar';
 import { CopyEpisodeRundown } from './CopyEpisodeRundown';
 import { EpisodeContestantList, EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
 import { NarrativeStage, OpeningCredits } from './NarrativeStage';
+import { EpisodeEndScreens } from './RelationshipUpdates';
 import { ValueChange } from './SimulationChange';
 
 interface BattleEpisodeViewProps {
@@ -271,7 +272,7 @@ export function BattleEpisodeView({ state, onAction, onInspect, actionError }: B
   };
 
   return (
-    <Space orientation="vertical" size="large" style={{ width: '100%' }}>
+    <EpisodeEndScreens enabled={!lookingBack} episode={2} onInspect={onInspect} state={state}>
       <CopyEpisodeRundown episode={2} state={state} />
       <AutoCompleteEpisodeButton episode={2} onCompleted={() => setHistory(null)} state={state} />
       <Modal
@@ -787,6 +788,6 @@ export function BattleEpisodeView({ state, onAction, onInspect, actionError }: B
             : []),
         ]}
       />
-    </Space>
+    </EpisodeEndScreens>
   );
 }
