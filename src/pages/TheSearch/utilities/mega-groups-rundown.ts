@@ -1,5 +1,6 @@
 import type { SimulationState } from '../types/simulation';
 import { markdown } from './markdown';
+import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
 export function createMegaGroupsRundown(state: SimulationState): string {
@@ -18,6 +19,8 @@ export function createMegaGroupsRundown(state: SimulationState): string {
     '# The Search - Episode 4: Mega Groups',
     '',
     '## Dramatization brief',
+    '',
+    SHOW_PREMISE,
     '',
     'Dramatize the recorded events without changing choices, ballots, performances, rankings or departures. Distinguish recorded dialogue from added speech. Transfer votes are secret from contestants, not viewers. Reveal Jane only in Sequence 9 and the withdrawal only in Sequence 10. Do not invent or reveal additional secrets.',
     '',
@@ -57,7 +60,7 @@ export function createMegaGroupsRundown(state: SimulationState): string {
   }
   lines.push('## Chronological episode narration', '');
   let sequence: number | undefined;
-  for (const scene of episode.scenes) {
+  for (const scene of rundownScenes(episode.scenes, episode.secret)) {
     if (scene.sequence !== undefined && scene.sequence !== sequence) {
       sequence = scene.sequence;
       lines.push(`### Sequence ${sequence}`, '');
@@ -119,7 +122,7 @@ export function createMegaGroupsRundown(state: SimulationState): string {
       lines.push(`- ${name(voter)} votes for ${name(choice)}.`);
     lines.push('');
   }
-  if (episode.secret)
+  if (episode.secret?.cardId)
     lines.push(
       '## Recorded investigation',
       '',
@@ -161,8 +164,8 @@ export function createMegaGroupsRundown(state: SimulationState): string {
     '',
     `Sixteen survivors: ${names(episode.survivorIds)}.`,
     '',
-    'Episode 5 - Photoshoot is unlocked as the next episode, but has not started.',
+    'Next time on The Search: Episode 5 - The Photoshoot.',
     '',
   );
-  return lines.join('\n');
+  return showRundown(lines.join('\n'), episode.secret);
 }

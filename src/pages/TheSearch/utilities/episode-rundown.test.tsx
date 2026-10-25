@@ -8,6 +8,7 @@ import { copyMarkdown } from '../components/CopyMarkdownButton';
 import { NarrativeBattlePlayer } from '../components/NarrativeBattlePlayer';
 import { NarrativeAuditionView } from '../components/NarrativeEpisodeView';
 import { advanceBattleTo, completedAuditionsFixture } from '../engine/battle-fixtures';
+import { autoCompleteEpisode } from '../engine/episode-auto-complete';
 import { advanceBattleStoryTo, narrativeBattleFixture } from '../engine/narrative-battle-fixtures';
 import type { SimulationState } from '../types/simulation';
 import { createEpisodeRundown } from './episode-rundown';
@@ -42,6 +43,7 @@ test('episode rundown includes every audition, montage introduction, judge comme
   assert.equal((text.match(/Leading judge \*\*/g) ?? []).length, 50);
   assert.equal((text.match(/^### Sequence /gm) ?? []).length, 11);
   for (const scene of episode.scenes) {
+    if (scene.kind === 'secret' && !episode.secret.cardId) continue;
     assert.ok(text.includes(scene.title));
     for (const paragraphs of Object.values(scene.introductions ?? {}))
       for (const paragraph of paragraphs)
@@ -57,8 +59,108 @@ test('episode rundown includes every audition, montage introduction, judge comme
   const winner = runtime.initialContestants.find((person) => person.id === winnerId);
   assert.ok(winner);
   assert.ok(text.includes(`**Peer MVP: ${winner.name}**`));
-  assert.ok(text.includes(episode.secret.description));
+  if (episode.secret.cardId) assert.ok(text.includes(episode.secret.description));
+  else assert.ok(!text.includes(episode.secret.description));
   assert.equal(JSON.stringify(state), before);
+});
+
+test('all episode rundowns read as the show and omit skipped or unsuccessful investigations without losing revelations', async () => {
+  let season = completedBattles();
+  for (const number of [3, 4, 5] as const) season = await autoCompleteEpisode(season, number);
+  for (const number of [1, 2, 3, 4, 5] as const) {
+    const state = structuredClone(season);
+    const runtime = state.runtime;
+    assert.ok(runtime);
+    const record =
+      number === 1
+        ? runtime.audition
+        : number === 2
+          ? runtime.battle
+          : number === 3
+            ? runtime.bootcamp
+            : number === 4
+              ? runtime.megaGroups
+              : runtime.photoshoot;
+    assert.ok(record);
+    record.scenes.unshift({
+      id: 'show-language',
+      kind: 'opening',
+      title: 'The competition continues',
+      paragraphs: ['This simulation follows the contestants. The SIMULATION has begun.'],
+      contestantIds: [],
+    });
+    const before = JSON.stringify(state);
+    const text = createEpisodeRundown(state, number);
+    assert.match(text, /televised talent competition to find the next Squirrel Zone/);
+    assert.match(text, /This show follows the contestants\. The show has begun\./);
+    assert.doesNotMatch(text, /simulation/i);
+    assert.equal(JSON.stringify(state), before, 'copying never rewrites stored scenes');
+    if (!('secret' in record)) {
+      assert.doesNotMatch(text, /investigat/i);
+      continue;
+    }
+    const contestantId = 'order' in record ? record.order[0] : record.participantIds[0];
+    const card = Object.values(runtime.definitions.cards.secret)[0];
+    assert.ok(card);
+    const otherScenes = record.scenes.filter((scene) => scene.kind !== 'secret');
+    for (const outcome of ['miss', 'skipped', 'revealed'] as const) {
+      record.secret =
+        outcome === 'skipped'
+          ? null
+          : {
+              contestantId,
+              cardId: outcome === 'revealed' ? card.id : null,
+              title: outcome === 'revealed' ? 'A real revelation' : 'No secret uncovered',
+              description:
+                outcome === 'revealed'
+                  ? 'A previously hidden truth comes to light.'
+                  : 'The check reveals nothing. Nothing changes.',
+              deferred: [],
+            };
+      record.scenes = [
+        ...otherScenes,
+        {
+          id: 'award-with-investigation-teaser',
+          kind: 'mvp',
+          title: 'Recognition',
+          paragraphs: [
+            'The contestants celebrate the award. Before we close, production has one final secret investigation.',
+          ],
+          contestantIds: [],
+        },
+        {
+          id: 'investigation-choice',
+          kind: 'secret',
+          title: 'The secret investigation shortlist',
+          paragraphs: ['Production chooses a contestant for investigation.'],
+          contestantIds: [contestantId],
+        },
+        {
+          id: 'investigation-result',
+          kind: 'secret',
+          title: record.secret?.title ?? 'The investigation desk is closed',
+          paragraphs: [
+            record.secret?.description ??
+              'No active unrevealed secret remains. The investigation is skipped.',
+          ],
+          contestantIds: [contestantId],
+        },
+      ];
+      const original = JSON.stringify(state);
+      const copy = createEpisodeRundown(state, number);
+      assert.doesNotMatch(copy, /simulation/i);
+      assert.match(copy, /The contestants celebrate the award\./);
+      if (outcome === 'revealed') {
+        assert.match(copy, /A real revelation/);
+        assert.match(copy, /A previously hidden truth comes to light\./);
+        assert.match(copy, /investigat/i);
+      } else {
+        assert.doesNotMatch(copy, /investigat|No secret uncovered|The check reveals nothing/i);
+        assert.doesNotMatch(copy, /A real revelation|A previously hidden truth/);
+      }
+      assert.equal(JSON.stringify(state), original);
+    }
+  }
 });
 
 test('episode rundown covers all Battles rehearsals, judges, saves, rankings, and recorded reactions', () => {

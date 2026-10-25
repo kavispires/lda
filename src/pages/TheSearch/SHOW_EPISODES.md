@@ -4,6 +4,17 @@ This document describes what is supposed to happen in each episode: the story
 the audience watches, the decisions production makes, and the consequences that
 carry into the next round.
 
+Copied episode Markdown presents The Search as a televised competition to find
+the next Squirrel Zone, never as a simulation. Include the closing investigation
+only when that episode actually reveals a secret; omit unsuccessful or skipped
+checks, their shortlist scenes and investigation teasers. Actual revelations
+remain part of the story. These copy rules do not change episode playback.
+
+**Copy Show So Far**, beside **Clear Simulation**, copies one Markdown document:
+the show's introduction, all season-entry contestant profiles, then completed
+episode rundowns in chronological order. It also works before the first episode,
+when only the introduction and cast are available. Unfinished episodes are omitted.
+
 ## Episode 1: Auditions
 
 Fifty contestants get their first chance to show the public who they are. They
@@ -937,7 +948,7 @@ remain inspectable without changing the episode.
 
 Auto-complete runs the same transitions and lands on Episode 4's final screen.
 The Markdown rundown includes all ten sequences, secret transfer ballots,
-four performances, Jane, MVP, investigation, announced rankings and distinct
+four performances, Jane, MVP, any actual secret revelation, announced rankings and distinct
 departures. TV/experience awards stay silent.
 
 Episode 5 - The Photoshoot is unlocked next. It does not start automatically.
@@ -1093,7 +1104,7 @@ final screen. It does not start Episode 6.
 
 The Markdown rundown records all eight sequences, concepts, draft choices,
 wardrobe, production decisions, solo and cover photographs, judge feedback,
-drama, viewer-visible ballots, investigation and continuing rankings. Hidden
+drama, viewer-visible ballots, any actual secret revelation and continuing rankings. Hidden
 secrets remain hidden. Television-value and artistic-experience mechanics stay
 silent in the narration and copied text.
 

@@ -24,6 +24,7 @@ import { BootcampEpisodeView } from '../components/BootcampEpisodeView';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { ContestantDetailModal } from '../components/ContestantDetailModal';
 import { CopyMarkdownButton } from '../components/CopyMarkdownButton';
+import { CopyShowSoFar } from '../components/CopyShowSoFar';
 import { MegaGroupsEpisodeView } from '../components/MegaGroupsEpisodeView';
 import { NarrativeAuditionView, NarrativeBattleView } from '../components/NarrativeEpisodeView';
 import { PhotoshootEpisodeView } from '../components/PhotoshootEpisodeView';
@@ -501,9 +502,12 @@ export function SimulationPage() {
               type="warning"
             />
           )}
-          <Button danger onClick={handleClearSimulation} style={{ marginTop: '2rem' }}>
-            Clear Simulation
-          </Button>
+          <Space align="start" style={{ marginTop: '2rem' }} wrap>
+            <Button danger onClick={handleClearSimulation}>
+              Clear Simulation
+            </Button>
+            <CopyShowSoFar key={simulationState.runtime?.runId} state={simulationState} />
+          </Space>
           <SimulationOverview
             contestants={simulationState.contestants}
             inspectionSnapshot={inspectionSnapshot}

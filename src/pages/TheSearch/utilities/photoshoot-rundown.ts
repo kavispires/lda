@@ -1,5 +1,6 @@
 import type { SimulationState } from '../types/simulation';
 import { markdown } from './markdown';
+import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
 export function createPhotoshootRundown(state: SimulationState): string {
@@ -18,6 +19,8 @@ export function createPhotoshootRundown(state: SimulationState): string {
     '# The Search - Episode 5: The Photoshoot',
     '',
     '## Dramatization brief',
+    '',
+    SHOW_PREMISE,
     '',
     'Dramatize the recorded events without changing concepts, draft picks, styling decisions, photographs, ballots or rankings. Distinguish recorded dialogue from added speech. Contestants learn that nobody leaves in Sequence 3, not during the dorm opening. Peer ballots are private from contestants, not viewers. Do not invent images or reveal additional secrets.',
     '',
@@ -63,7 +66,7 @@ export function createPhotoshootRundown(state: SimulationState): string {
   }
   lines.push('## Chronological episode narration', '');
   let sequence: number | undefined;
-  for (const scene of episode.scenes) {
+  for (const scene of rundownScenes(episode.scenes, episode.secret)) {
     if (scene.sequence !== undefined && scene.sequence !== sequence) {
       sequence = scene.sequence;
       lines.push(`### Sequence ${sequence}`, '');
@@ -125,7 +128,7 @@ export function createPhotoshootRundown(state: SimulationState): string {
       '',
     );
   }
-  if (episode.secret)
+  if (episode.secret?.cardId)
     lines.push(
       '## Recorded investigation',
       '',
@@ -161,8 +164,8 @@ export function createPhotoshootRundown(state: SimulationState): string {
     '',
     `All sixteen continue: ${names(episode.survivorIds)}.`,
     '',
-    'Episode 6 - Track Specials is next and has not started.',
+    'Next time on The Search: Episode 6 - Track Specials.',
     '',
   );
-  return lines.join('\n');
+  return showRundown(lines.join('\n'), episode.secret);
 }

@@ -1,5 +1,6 @@
 import type { SimulationState } from '../types/simulation';
 import { markdown } from './markdown';
+import { SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
 /** Boot Camp has its own evidence contract, not audition or song records. */
@@ -20,6 +21,8 @@ export function createBootcampRundown(state: SimulationState): string {
     '# The Search - Episode 3: Boot Camp',
     '',
     '## Dramatization brief',
+    '',
+    SHOW_PREMISE,
     '',
     'Dramatize only the recorded events, emotions, performances, and directional relationships. Keep results locked, distinguish recorded speech from added dialogue, and do not invent or reveal secrets. The no-elimination announcement belongs only in the finale.',
     '',
@@ -183,7 +186,7 @@ export function createBootcampRundown(state: SimulationState): string {
     '',
     '## Final outcome',
     '',
-    'Mike announces that all eighteen remain. No secret investigation or automatic Episode 4 follows.',
+    'Mike announces that all eighteen remain. The search for the next Squirrel Zone continues.',
     '',
   );
   if (episode.mvp) {
@@ -196,5 +199,5 @@ export function createBootcampRundown(state: SimulationState): string {
   }
   lines.push('', '### Updated continuing ranking', '');
   for (const [index, id] of episode.rankedIds.entries()) lines.push(`${index + 1}. ${name(id)}`);
-  return `${lines.join('\n').trim()}\n`;
+  return showRundown(`${lines.join('\n').trim()}\n`);
 }

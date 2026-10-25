@@ -4,6 +4,7 @@ import { createBootcampRundown } from './bootcamp-rundown';
 import { markdown } from './markdown';
 import { createMegaGroupsRundown } from './mega-groups-rundown';
 import { createPhotoshootRundown } from './photoshoot-rundown';
+import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
 function affection(value: ChangeValue | undefined): number | undefined {
@@ -38,7 +39,9 @@ export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 
     '',
     '## Dramatization brief',
     '',
-    'This is a factual rundown of a completed simulation episode. Dramatize the recorded events, emotions, and relationships without changing performances, votes, saves, rankings, or departures. Do not invent or reveal additional secrets. Distinguish recorded speech from any dialogue you add.',
+    SHOW_PREMISE,
+    '',
+    'This is a factual rundown of a completed episode. Dramatize the recorded events, emotions, and relationships without changing performances, votes, saves, rankings, or departures. Do not invent or reveal additional secrets. Distinguish recorded speech from any dialogue you add.',
     '',
     'The chronological story is followed by production reference material, including events condensed into montages and reactions that were not necessarily shown on screen.',
     '',
@@ -94,7 +97,7 @@ export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 
   }
   lines.push('## Chronological episode narration', '');
   let sequence: number | undefined;
-  for (const scene of record.scenes) {
+  for (const scene of rundownScenes(record.scenes, record.secret)) {
     if (scene.sequence !== undefined && scene.sequence !== sequence) {
       sequence = scene.sequence;
       lines.push(`### Sequence ${sequence}`, '');
@@ -294,7 +297,7 @@ export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 
       lines.push(`- ${name(voter)} votes for ${name(choice)}.`);
     lines.push('');
   }
-  if (record.secret) {
+  if (record.secret?.cardId) {
     lines.push(
       `### Closing investigation: ${markdown(record.secret.title)}`,
       '',
@@ -308,5 +311,5 @@ export function createEpisodeRundown(state: SimulationState, episodeNumber: 1 | 
         '',
       );
   }
-  return `${lines.join('\n').trim()}\n`;
+  return showRundown(`${lines.join('\n').trim()}\n`, record.secret);
 }
