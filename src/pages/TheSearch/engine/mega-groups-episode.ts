@@ -99,7 +99,7 @@ function append(
         paragraphs: text,
         contestantIds: [...new Set(ids)],
         paragraphContestantIds: references,
-        presentation: speaker ? 'host' : 'performance',
+        presentation: phase === 'credits' ? 'credits' : speaker ? 'host' : 'performance',
         ...(speaker ? { speaker } : {}),
       },
       tier,

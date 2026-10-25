@@ -1,5 +1,6 @@
 import type { SimulationState } from '../types/simulation';
 import { markdown } from './markdown';
+import { photoshootFinaleScene } from './photoshoot-ranking-reactions';
 import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
 import { storyText } from './story-presentation';
 
@@ -66,7 +67,8 @@ export function createPhotoshootRundown(state: SimulationState): string {
   }
   lines.push('## Chronological episode narration', '');
   let sequence: number | undefined;
-  for (const scene of rundownScenes(episode.scenes, episode.secret)) {
+  for (const recorded of rundownScenes(episode.scenes, episode.secret)) {
+    const scene = photoshootFinaleScene(episode, recorded);
     if (scene.sequence !== undefined && scene.sequence !== sequence) {
       sequence = scene.sequence;
       lines.push(`### Sequence ${sequence}`, '');

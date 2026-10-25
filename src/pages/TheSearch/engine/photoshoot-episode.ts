@@ -12,6 +12,7 @@ import type {
 } from '../types/photoshoot-episode';
 import type { SimulationState } from '../types/simulation';
 import { validatePhotoshootConcepts } from '../utilities/photoshoot-concepts';
+import { photoshootRankingReactions } from '../utilities/photoshoot-ranking-reactions';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { awardNewActivity, recordSceneTV } from './activity-awards';
 import { resolveNarrativeEvidenceAudience } from './audition-audience';
@@ -107,7 +108,7 @@ function append(
       paragraphs: text,
       contestantIds: [...new Set(ids)],
       paragraphContestantIds: references,
-      presentation: speaker ? 'host' : 'performance',
+      presentation: phase === 'credits' ? 'credits' : speaker ? 'host' : 'performance',
       ...(speaker ? { speaker } : {}),
     },
     tier,
@@ -119,6 +120,7 @@ function append(
     ep.screenTime[id] += 1;
     person(state, id).aggregations.screenTime += 1;
   }
+  return scene;
 }
 function start(state: SimulationState) {
   const runtime = state.runtime!;
@@ -997,23 +999,23 @@ function advance(state: SimulationState, random: RandomSource) {
     case 'secret-result':
       revealRanking(state);
       break;
-    case 'ranking':
+    case 'ranking': {
       ep.survivorIds = [...ep.rankedIds];
-      append(
+      const reactions = photoshootRankingReactions(ep);
+      const scene = append(
         state,
         'complete',
         8,
         'The Photoshoot: sixteen continue',
-        [
-          ...ep.survivorIds.map((id, index) => `${index + 1}. ${mention(id)}.`),
-          'All sixteen continue. Episode 5 is complete. Episode 6 is next and has not begun.',
-        ],
-        ep.survivorIds,
+        reactions.paragraphs,
+        reactions.contestantIds,
         host,
-        0,
+        3,
       );
+      scene.paragraphContestantIds = reactions.paragraphContestantIds;
       state.runtime!.phase = 'episode-complete';
       break;
+    }
     default:
       throw new Error('Choose the available Photoshoot action before continuing.');
   }

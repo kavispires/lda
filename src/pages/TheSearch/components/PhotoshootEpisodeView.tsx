@@ -1,7 +1,8 @@
-import { Alert, Button, Collapse, Space, Typography } from 'antd';
+import { Alert, Button, Collapse, Modal, Space, Typography } from 'antd';
 import { useState } from 'react';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import type { SimulationState } from '../types/simulation';
+import { photoshootFinaleScene } from '../utilities/photoshoot-ranking-reactions';
 import { AutoCompleteEpisodeButton } from './AutoCompleteEpisodeButton';
 import { ContestantAvatar } from './ContestantAvatar';
 import { CopyEpisodeRundown } from './CopyEpisodeRundown';
@@ -61,6 +62,7 @@ export function PhotoshootEpisodeView({
     latest;
   const lookingBack = scene?.id !== latest?.id;
   const decision = episode.phase === 'styling-choice' || episode.phase === 'secret-choice';
+  const credits = scene?.presentation === 'credits' || scene?.sequence === 2;
   const act = (action: PhotoshootAction) => onAction(action, episode.revision);
   const name = (id: string) => {
     const contestant = state.contestants.find((entry) => entry.id === id);
@@ -97,17 +99,21 @@ export function PhotoshootEpisodeView({
     </ol>
   );
   const narrativeScene =
-    scene?.kind === 'ranking'
-      ? {
-          ...scene,
-          paragraphs: scene.paragraphs.filter((text) => !/^\d+[.)]\s/.test(text)),
-          paragraphContestantIds: undefined,
-        }
-      : scene;
+    scene && !lookingBack && episode.phase === 'complete'
+      ? photoshootFinaleScene(episode, scene)
+      : scene?.kind === 'ranking'
+        ? {
+            ...scene,
+            paragraphs: scene.paragraphs.filter((text) => !/^\d+[.)]\s/.test(text)),
+            paragraphContestantIds: undefined,
+          }
+        : scene;
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <CopyEpisodeRundown episode={5} state={state} />
-      <AutoCompleteEpisodeButton episode={5} onCompleted={() => setHistory(null)} state={state} />
+      {!decision && (
+        <AutoCompleteEpisodeButton episode={5} onCompleted={() => setHistory(null)} state={state} />
+      )}
       <NarrativeStage
         episode={5}
         eyebrow={scene?.sequence ? `SEQUENCE ${scene.sequence}${lookingBack ? ' / Archive' : ''}` : undefined}
@@ -120,7 +126,7 @@ export function PhotoshootEpisodeView({
               yet.
             </Typography.Text>
           ) : decision ? (
-            <Typography.Text>Choose how to continue below.</Typography.Text>
+            <Typography.Text>The episode is paused for your decision.</Typography.Text>
           ) : (
             <Button onClick={() => act({ type: 'advance' })} type="primary">
               Continue
@@ -131,11 +137,11 @@ export function PhotoshootEpisodeView({
         speakerRole={scene?.speaker?.role}
         title={scene?.title ?? 'The Photoshoot'}
       >
-        {actionError && <Alert role="alert" title={actionError} type="error" />}
+        {!decision && actionError && <Alert role="alert" title={actionError} type="error" />}
         {episode.rankRevealed &&
           (scene?.kind === 'ranking' || (!lookingBack && episode.phase === 'complete')) &&
           ranking}
-        {narrativeScene && (
+        {!credits && narrativeScene && (
           <EpisodeSceneNarrative
             contestants={state.contestants}
             onInspect={onInspect}
@@ -173,33 +179,63 @@ export function PhotoshootEpisodeView({
             </div>
           </div>
         ))}
-        {scene?.presentation === 'credits' && preparation && (
+        {credits && preparation && (
           <OpeningCredits
             ids={preparation.slots.filter((id) => id !== null)}
             onInspect={onInspect}
             state={state}
           />
         )}
-        {!lookingBack && episode.phase === 'styling-choice' && (
-          <Space wrap>
-            <Button onClick={() => act({ type: 'styling', choice: 'intervene' })}>
-              Intervene — bring in stylists
-            </Button>
-            <Button onClick={() => act({ type: 'styling', choice: 'self-style' })}>
-              Let them clash — keep creative control
-            </Button>
-          </Space>
-        )}
-        {!lookingBack && episode.phase === 'secret-choice' && (
-          <Space wrap>
-            {episode.secretCandidates.map((id) => (
-              <Button key={id} onClick={() => act({ type: 'secret', contestantId: id })}>
-                Investigate {name(id)}
-              </Button>
-            ))}
-          </Space>
-        )}
       </NarrativeStage>
+      {decision && (
+        <Modal
+          centered
+          closable={false}
+          footer={null}
+          keyboard={false}
+          mask={{ closable: false }}
+          open
+          styles={{ body: { maxHeight: '75vh', overflowY: 'auto' } }}
+          title={
+            episode.phase === 'styling-choice'
+              ? `Your decision: styling ${episode.teams[episode.teamCursor]?.name ?? 'the group'}`
+              : 'Your decision: investigate a secret'
+          }
+        >
+          <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+            <AutoCompleteEpisodeButton episode={5} onCompleted={() => setHistory(null)} state={state} />
+            {actionError && <Alert role="alert" title={actionError} type="error" />}
+            {episode.phase === 'styling-choice' ? (
+              <>
+                <Typography.Paragraph>
+                  Bring in professional stylists for a stronger visual result at the cost of the team's
+                  creative control and happiness, or let them style themselves and live with their choices.
+                </Typography.Paragraph>
+                <Space wrap>
+                  <Button onClick={() => act({ type: 'styling', choice: 'intervene' })}>
+                    Intervene — bring in stylists
+                  </Button>
+                  <Button onClick={() => act({ type: 'styling', choice: 'self-style' })}>
+                    Let them clash — keep creative control
+                  </Button>
+                </Space>
+              </>
+            ) : (
+              episode.secretCandidates.map((id) => (
+                <Space key={id}>
+                  {person(id)}
+                  <Button onClick={() => act({ type: 'secret', contestantId: id })} type="primary">
+                    Investigate {name(id)}
+                  </Button>
+                </Space>
+              ))
+            )}
+            <Typography.Text type="secondary">
+              The episode is paused until your decision is saved.
+            </Typography.Text>
+          </Space>
+        </Modal>
+      )}
       {scene?.contestantChanges && (
         <Collapse
           items={[

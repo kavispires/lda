@@ -50,6 +50,7 @@ try {
   await server.ssrLoadModule('/src/pages/TheSearch/components/ContestantDetailModal.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/NarrativeEpisodeView.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/NarrativeBattlePlayer.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/components/LaterEpisodeViews.test.tsx');
 } finally {
   await server.close();
 }

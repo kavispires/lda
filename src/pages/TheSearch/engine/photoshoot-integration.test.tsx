@@ -104,8 +104,8 @@ test('Photoshoot integrates every-beat compressed reload, four styling gates, re
       const html = renderToStaticMarkup(
         <PhotoshootEpisodeView onAction={() => {}} onInspect={() => {}} state={state} />,
       );
-      assert.match(html, /bring in stylists/);
-      assert.match(html, /keep creative control/);
+      assert.match(html, /The episode is paused for your decision/);
+      assert.doesNotMatch(html, /bring in stylists|keep creative control/);
       assert.doesNotMatch(html, /aria-label="Episode 5 standings"/);
     }
     if (action.type === 'styling' && action.choice === 'intervene') {

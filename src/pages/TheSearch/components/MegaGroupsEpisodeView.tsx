@@ -1,4 +1,4 @@
-import { Alert, Button, Collapse, Image, Space, Typography } from 'antd';
+import { Alert, Button, Collapse, Image, Modal, Space, Typography } from 'antd';
 import { useState } from 'react';
 import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { SimulationState } from '../types/simulation';
@@ -65,6 +65,7 @@ export function MegaGroupsEpisodeView({
       : undefined;
   const act = (action: MegaGroupsAction) => onAction(action, episode.revision);
   const decision = episode.phase === 'intervention' || episode.phase === 'secret-choice';
+  const credits = scene?.presentation === 'credits' || scene?.sequence === 2;
   const name = (id: string) => state.contestants.find((person) => person.id === id)?.name ?? id;
   const person = (id: string) => (
     <Button data-contestant-id={id} onClick={() => onInspect(id)} type="link">
@@ -111,7 +112,9 @@ export function MegaGroupsEpisodeView({
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
       <CopyEpisodeRundown episode={4} state={state} />
-      <AutoCompleteEpisodeButton episode={4} onCompleted={() => setHistory(null)} state={state} />
+      {!decision && (
+        <AutoCompleteEpisodeButton episode={4} onCompleted={() => setHistory(null)} state={state} />
+      )}
       <NarrativeStage
         episode={4}
         eyebrow={scene?.sequence ? `SEQUENCE ${scene.sequence}${lookingBack ? ' / Archive' : ''}` : undefined}
@@ -123,7 +126,7 @@ export function MegaGroupsEpisodeView({
               Episode complete. Episode 5 — The Photoshoot is unlocked as the next episode.
             </Typography.Text>
           ) : decision ? (
-            <Typography.Text>Choose how to continue below.</Typography.Text>
+            <Typography.Text>The episode is paused for your decision.</Typography.Text>
           ) : (
             <Button onClick={() => act({ type: 'advance' })} type="primary">
               Continue
@@ -134,7 +137,7 @@ export function MegaGroupsEpisodeView({
         speakerRole={scene?.speaker?.role}
         title={scene?.title ?? 'Mega Groups'}
       >
-        {actionError && <Alert role="alert" title={actionError} type="error" />}
+        {!decision && actionError && <Alert role="alert" title={actionError} type="error" />}
         {illustrations && (
           <Space align="start" aria-label="Blind image choices" size="large" wrap>
             {illustrations.map((image) => (
@@ -147,7 +150,7 @@ export function MegaGroupsEpisodeView({
         )}
         {episode.rankRevealed && scene?.kind === 'ranking' && ranking(false)}
         {!lookingBack && episode.phase === 'complete' && ranking(true)}
-        {narrativeScene && (
+        {!credits && narrativeScene && (
           <EpisodeSceneNarrative
             contestants={state.contestants}
             onInspect={onInspect}
@@ -185,30 +188,63 @@ export function MegaGroupsEpisodeView({
             </div>
           </div>
         ))}
-        {scene?.presentation === 'credits' && preparation && (
+        {credits && preparation && (
           <OpeningCredits
             ids={preparation.slots.filter((id) => id !== null)}
             onInspect={onInspect}
             state={state}
           />
         )}
-        {!lookingBack && episode.phase === 'intervention' && (
-          <Space wrap>
-            <Button onClick={() => act({ type: 'conflict', choice: 'support' })}>Support</Button>
-            <Button onClick={() => act({ type: 'conflict', choice: 'mediate' })}>Mediate</Button>
-            <Button onClick={() => act({ type: 'conflict', choice: 'push' })}>Push</Button>
-          </Space>
-        )}
-        {!lookingBack && episode.phase === 'secret-choice' && (
-          <Space wrap>
-            {episode.secretCandidates.map((id) => (
-              <Button key={id} onClick={() => act({ type: 'secret', contestantId: id })}>
-                Investigate {name(id)}
-              </Button>
-            ))}
-          </Space>
-        )}
       </NarrativeStage>
+      {decision && (
+        <Modal
+          centered
+          closable={false}
+          footer={null}
+          keyboard={false}
+          mask={{ closable: false }}
+          open
+          styles={{ body: { maxHeight: '75vh', overflowY: 'auto' } }}
+          title={
+            episode.phase === 'intervention'
+              ? 'Your decision: help the rehearsal'
+              : 'Your decision: investigate a secret'
+          }
+        >
+          <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
+            <AutoCompleteEpisodeButton episode={4} onCompleted={() => setHistory(null)} state={state} />
+            {actionError && <Alert role="alert" title={actionError} type="error" />}
+            {episode.phase === 'intervention' ? (
+              <>
+                <Typography.Paragraph>
+                  <EpisodeNarrative
+                    contestants={state.contestants}
+                    onInspect={onInspect}
+                    text={episode.conflict?.description ?? 'Choose how to help this team rehearse.'}
+                  />
+                </Typography.Paragraph>
+                <Space wrap>
+                  <Button onClick={() => act({ type: 'conflict', choice: 'support' })}>Support</Button>
+                  <Button onClick={() => act({ type: 'conflict', choice: 'mediate' })}>Mediate</Button>
+                  <Button onClick={() => act({ type: 'conflict', choice: 'push' })}>Push</Button>
+                </Space>
+              </>
+            ) : (
+              episode.secretCandidates.map((id) => (
+                <Space key={id}>
+                  {person(id)}
+                  <Button onClick={() => act({ type: 'secret', contestantId: id })} type="primary">
+                    Investigate {name(id)}
+                  </Button>
+                </Space>
+              ))
+            )}
+            <Typography.Text type="secondary">
+              The episode is paused until your decision is saved.
+            </Typography.Text>
+          </Space>
+        </Modal>
+      )}
       {scene?.contestantChanges && (
         <Collapse
           items={[
