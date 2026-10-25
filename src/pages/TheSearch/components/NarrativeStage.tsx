@@ -15,25 +15,37 @@ export function OpeningCredits({
   onInspect: (id: string) => void;
 }) {
   return (
-    <div aria-label="Opening cast" className={styles.credits} role="group">
-      {ids.map((id, index) => {
-        const name = state.contestants.find((person) => person.id === id)?.name ?? id;
-        return (
-          <Button
-            aria-label={`View ${name}'s details`}
-            className={styles.credit}
-            data-contestant-id={id}
-            key={id}
-            onClick={() => onInspect(id)}
-            style={{ animationDelay: `${index * 160}ms` }}
-            type="text"
-          >
-            <ContestantAvatar enablePreview={false} id={id} name={name} size={80} />
-            <span>{name}</span>
-          </Button>
-        );
-      })}
-    </div>
+    <>
+      <div aria-label="Opening cast" className={styles.credits} role="group">
+        {ids.map((id, index) => {
+          const name = state.contestants.find((person) => person.id === id)?.name ?? id;
+          return (
+            <Button
+              aria-label={`View ${name}'s details`}
+              className={styles.credit}
+              data-contestant-id={id}
+              key={id}
+              onClick={() => onInspect(id)}
+              style={{ animationDelay: `${index * 160}ms` }}
+              type="text"
+            >
+              <ContestantAvatar enablePreview={false} id={id} name={name} size={80} />
+              <span>{name}</span>
+            </Button>
+          );
+        })}
+      </div>
+      <Typography.Paragraph aria-label="Opening song lyrics" className={styles.lyrics}>
+        {`Reach for the stars / The brighter ones
+Tell yourself apart / You’re the only one
+Follow your heart / We’re just begun
+It’s a fighting!
+
+Squirrel-squirrel life! Squirrel-squirrel life
+Squirrel-squirrel life! Squirrel-squirrel life
+Would pick-pick me up?`}
+      </Typography.Paragraph>
+    </>
   );
 }
 

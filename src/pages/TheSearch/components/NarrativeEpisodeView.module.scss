@@ -85,6 +85,11 @@
   padding: 16px;
   animation: entrance 0.7s both;
 }
+.lyrics {
+  margin: 0;
+  text-align: center;
+  white-space: pre-line;
+}
 .judges {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

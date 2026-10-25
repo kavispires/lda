@@ -236,7 +236,9 @@ test('credits have five inspectable portraits and never dispatch gameplay on ren
   const inspected: string[] = [];
   const node = OpeningCredits({ state, ids, onInspect: (id) => inspected.push(id) });
   assert.ok(isValidElement<{ children: ReactNode }>(node));
-  for (const child of Children.toArray(node.props.children)) {
+  const [cast] = Children.toArray(node.props.children);
+  assert.ok(isValidElement<{ children: ReactNode }>(cast));
+  for (const child of Children.toArray(cast.props.children)) {
     assert.ok(isValidElement<{ onClick: () => void }>(child));
     child.props.onClick();
   }

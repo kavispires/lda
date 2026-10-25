@@ -84,6 +84,17 @@ test('battle credits render the saved opening portraits without advancing or exp
   assert.match(html, /Opening cast/);
   for (const id of ids) assert.ok(html.includes(`images/contestants/${id}.jpg`));
   assert.equal((html.match(/data-contestant-id=/g) ?? []).length, 5);
+  assert.match(html, /aria-label="Opening song lyrics"/);
+  assert.ok(
+    html.includes(`Reach for the stars / The brighter ones
+Tell yourself apart / You’re the only one
+Follow your heart / We’re just begun
+It’s a fighting!
+
+Squirrel-squirrel life! Squirrel-squirrel life
+Squirrel-squirrel life! Squirrel-squirrel life
+Would pick-pick me up?`),
+  );
   assert.doesNotMatch(html, /Raw dice|coordination|<table/);
 });
 
