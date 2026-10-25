@@ -6,6 +6,7 @@ import { autoCompleteEpisode, type EpisodeNumber } from '../engine/episode-auto-
 import { transitionMegaGroups } from '../engine/mega-groups-episode';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from '../engine/narrative-audition';
 import { transitionBattleStory } from '../engine/narrative-battle';
+import { transitionPhotoshoot } from '../engine/photoshoot-episode';
 import { createSeasonSetup } from '../engine/season-setup';
 import {
   emptySimulationState,
@@ -18,6 +19,7 @@ import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
 import type { MegaGroupsAction } from '../types/mega-groups-episode';
+import type { PhotoshootAction } from '../types/photoshoot-episode';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 
 export type { SimulationState } from '../types/simulation';
@@ -98,6 +100,12 @@ export const simulationActions = {
   dispatchMegaGroups(action: MegaGroupsAction, expectedRevision: number) {
     const current = simulationStore.state;
     const next = transitionMegaGroups(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+
+  dispatchPhotoshoot(action: PhotoshootAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionPhotoshoot(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

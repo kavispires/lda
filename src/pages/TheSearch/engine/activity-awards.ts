@@ -4,7 +4,7 @@ import type { SimulationState } from '../types/simulation';
 import { recordContestantChanges } from './change-history';
 
 type Tier = 0 | 1 | 3 | 6;
-type Activity = { episode: 1 | 2 | 3 | 4; contestantId: string; tv: Tier; experience: 0 | 1 | 3 };
+type Activity = { episode: 1 | 2 | 3 | 4 | 5; contestantId: string; tv: Tier; experience: 0 | 1 | 3 };
 
 export function recordSceneTV(scene: EpisodeScene, tier?: Tier): EpisodeScene {
   const ordinary: Record<EpisodeScene['kind'], Tier> = {
@@ -58,7 +58,7 @@ function activities(state: SimulationState): Map<string, Activity> {
     if (result.has(key)) throw new Error('Activity identity must be unique.');
     result.set(key, activity);
   };
-  for (const number of [1, 2, 3, 4] as const) {
+  for (const number of [1, 2, 3, 4, 5] as const) {
     const episode =
       number === 1
         ? runtime.audition
@@ -66,7 +66,9 @@ function activities(state: SimulationState): Map<string, Activity> {
           ? runtime.battle
           : number === 3
             ? runtime.bootcamp
-            : runtime.megaGroups;
+            : number === 4
+              ? runtime.megaGroups
+              : runtime.photoshoot;
     for (const scene of episode?.scenes ?? []) {
       if (scene.tvMoments === undefined) continue;
       if (scene.tvMoments === null || typeof scene.tvMoments !== 'object' || Array.isArray(scene.tvMoments))
@@ -131,6 +133,25 @@ function activities(state: SimulationState): Map<string, Activity> {
         tv: evaluation.grade === 'A' ? 6 : 3,
         experience: 3,
       });
+  for (const team of runtime.photoshoot?.teams ?? [])
+    if (team.styling)
+      for (const contestantId of team.memberIds)
+        add(`styling:${team.id}`, { episode: 5, contestantId, tv: 0, experience: 1 });
+  for (const photo of runtime.photoshoot?.individualPhotos ?? [])
+    add('individual-photo', {
+      episode: 5,
+      contestantId: photo.contestantId,
+      tv: photo.grade === 'A' ? 6 : 3,
+      experience: 3,
+    });
+  for (const photo of runtime.photoshoot?.groupPhotos ?? [])
+    for (const evaluation of photo.evaluations)
+      add(`group-photo:${photo.teamId}`, {
+        episode: 5,
+        contestantId: evaluation.contestantId,
+        tv: evaluation.finalScore >= 85 ? 6 : 3,
+        experience: 3,
+      });
   return result;
 }
 
@@ -186,7 +207,7 @@ export function awardNewActivity(before: SimulationState, next: SimulationState)
   const baseline = new Set(progression.baseline);
   const byId = new Map(next.contestants.map((person) => [person.id, person]));
   const tvTotals = new Map(next.contestants.map((person) => [person.id, 0]));
-  const changes = new Map<string, { tv: number; experience: number; episode: 1 | 2 | 3 | 4 }>();
+  const changes = new Map<string, { tv: number; experience: number; episode: 1 | 2 | 3 | 4 | 5 }>();
   for (const [key, activity] of activities(next)) {
     if (baseline.has(key)) continue;
     tvTotals.set(activity.contestantId, (tvTotals.get(activity.contestantId) ?? 0) + activity.tv);
@@ -217,7 +238,9 @@ export function awardNewActivity(before: SimulationState, next: SimulationState)
           ? next.runtime.battle
           : total.episode === 3
             ? next.runtime.bootcamp
-            : next.runtime.megaGroups;
+            : total.episode === 4
+              ? next.runtime.megaGroups
+              : next.runtime.photoshoot;
     if (!episode) throw new Error('Activity requires its recorded episode.');
     episode.changes[id] ??= [];
     episode.changes[id].push(...recorded);

@@ -1869,23 +1869,98 @@ viewing beats grant no XP. TV tiers follow actual on-camera moments and never
 feed decisions. No award mechanics appear in narration or copied rundowns.
 
 **Ending:** Complete Markdown export and automatic playback land on Episode
-4's final screen. Mark Episode 5 Photoshoot unlocked/next, not automatically
-started or falsely playable. No Episode 5 flow is included here.
+4's final screen. Episode 5 Photoshoot is unlocked next, but starts only on an
+explicit Episode 5 action. Its flow is specified below.
 
 ### Episode 5 - Photoshoot
 
-**Format:** 16 contestants complete individual and group photoshoots emphasizing
-Uniqueness and Visual. No elimination. Contestants vote for "The Ultimate Visual."
+**Established format:** Sixteen Episode 4 survivors complete individual shoots
+and four four-person covers. Eight sequences: dorm aftermath, opening, wardrobe
+draft, styling, solo photography, covers, gallery/ballots, then recognition,
+investigation and ranking. Mike announces no elimination in Sequence 3; the dorm
+opening cannot react to safety before that announcement. Nobody leaves.
 
-**Proposed small interaction:** Choose between a few photo-feature opportunities
-or respond to a contestant's concept request, rather than directing the whole shoot.
+**Preparation:** Retain surviving opening members and replace only vacant slots.
+The six moods use highest/lowest final Episode 4 survivor specialties, not the
+original eighteen-person performance ranking. Normal once-only +0.02 opening
+preference applies when credits air. Keep actual dorms and empty beds.
 
-**Connections:** Visual vibe, uniqueness, charisma, and confidence drive different
-forms of success. Peer votes interact with relationships but should still reflect
-the photoshoot. Recognition affects confidence, rivalry, and public attention.
+**Catalog and draft:** Freeze the editable four-concept/outfit/prop catalog in
+the season. Existing completed Episode 4 saves adopt only missing definitions.
+Ranked survivors 1-4 become Concept Leaders, choose available concepts in rank
+order, then draft three teammates each in repeating leader order. Draft priority
+is outgoing relationship, charisma, mean core skill, saved draw. Preserve The
+Battles' seeded behavior when reusing helpers.
 
-**Open:** Peer-vote eligibility, self-votes, tie-breakers, and the title's reward.
-Keep the peer award separate from the audience ranking.
+Concept choice combines 70% visual-vibe fit and 30% normalized preferred traits.
+Catalog fit tables explicitly cover saved visual-vibe keys at 0/50/100 for
+clash/neutral/strong. Wardrobe proposals maximize fit then curiosity-aligned
+novelty; negotiation can produce actual personality-grounded conflict/support.
+
+**Four production decisions:** Choose Intervene or Let them clash for each team.
+Intervene grants a temporary +15 photo-result modifier, concept-appropriate
+outfits and -3 happiness per member once. Self-style quality averages normalized
+mean uniqueness and mean curiosity; modifier is
+`clamp(.5 * (quality - 50), -15, +25)`. Branches cannot stack. Final outfit fit
+adds -5/0/+5. These never permanently modify core skills or generic practice.
+
+**Native photo checks:** Each contestant has one saved raw 2d6 pair per individual
+shoot and a fresh pair for the group shoot, shared across that shoot's checks.
+Use existing minimum-face checks at required level 3, normalized to 0-100.
+Individual result is `.40 visual + .40 uniqueness + .20 charisma`, plus styling
+and outfit fit, bounded 0-100 with ordinary grade thresholds. Megan discusses
+uniqueness/potential; Michael visual/marketability; John has no invented music test.
+Actual strong/weak photos produce peer reactions. Extroversion >=5 or charisma >=4
+can generate banter, one attention unit and +5 reception, not guaranteed fans.
+
+**Covers:** Public four-person center ballots allow self-votes. Preference is
+visual + uniqueness + charisma + outgoing affection/20; tied preferences use
+stage presence then draw; tied totals use visual, charisma then draw.
+Group personal base is `.35 visual + .25 uniqueness + .25 stagePresence +
+.15 charisma`, plus styling/fit. Center gains a temporary +5 result.
+
+A non-center with ambition >=5 attempts to steal focus. Stage-presence evidence
+> =70 succeeds: +10 personal result, one attention unit, +5 reception; teammates'
+> outgoing affection toward them falls 6, or 8 for the displaced center. Failure
+> costs 10 result points, earns grounded criticism and losses of 3/4 respectively.
+> Gentle non-centers not already stealing yield: -5 own result and +2 cohesion
+> per supporter, capped +6; a real beneficiary gains +2 affection toward the helper.
+> Cohesion is `clamp((mean directed affection - 50)/10, -5, +5)` plus support,
+> minus 3 per stealing attempt capped at -6. Apply saved cohesion to all four;
+> the cover result averages their bounded personal results.
+
+**Gallery and Ultimate Visual:** Narrative descriptions/portraits/grades, not
+generated images. Sixteen private-in-world, viewer-visible ballots exclude self.
+Ordinary preference maximizes `.65 outgoing relationship + .35 individual photo`;
+ties favor photo then draw. A photo >=95 exceeding the closest friend's photo by
+> =25 can override friendship. Award ties favor individual photo then saved draw.
+> Group photos do not decide the award.
+
+Ultimate Visual replaces MVP, increments its existing counter once with a distinct
+label and grants +0.10 permanent audienceRatio once. No flat ranking-point bonus.
+Apply the benefit before closing ordinary audience voting; competition evidence
+is 60% individual and 40% personal group photo. Reception adds only recorded
+positive edits, capped +10. Baseline attention weight 2, up to 2 extra actual
+attention units, normalized for voting only; shared-shot screen time remains
+separate. Existing cumulative ranking/population formulas resolve once unchanged.
+
+**Investigation and ending:** Seal results before offering three randomly selected,
+distinct eligible participants (all available if fewer remain). Exclude publicly
+revealed holders, allow previous misses, retain the existing active-secret gate,
+and do not bias selection using hidden assignments. Miss is no-op; hit uses
+existing authored consequences with status/ranking effects deferred. Reveal ranks
+and movement from Episode 4 final survivor positions afterward. All sixteen remain
+active and locked departure slots 17-50 stay fixed. Episode 6 is next, not started
+or implemented.
+
+**Silent progression and saves:** Styling +1, individual shoot +3 and group shoot
++3 give +7 activity XP per participant, including poor photos. Existing 1/3/6 TV
+tiers credit actual moments only. Neither enters decisions or ranking; both stay
+out of narration/rundowns. Preserve compressed/raw-save loading, every-beat
+snapshot validation and persist-before-publication safety. Auto-complete preserves
+existing decisions, intervenes for undecided teams and resolves the ordinary
+investigation before the Episode 5 final screen. Copying includes all factual
+events/ballots/results without hidden secrets or silent awards.
 
 ### Episode 6 - Track Specials
 

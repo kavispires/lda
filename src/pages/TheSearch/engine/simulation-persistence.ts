@@ -7,6 +7,7 @@ import { validateBattleSongs } from '../utilities/battle-songs';
 import { ALIGNMENTS, GRADES, STATUSES, TRACKS } from '../utilities/constants';
 import { createContestant } from '../utilities/contestant-factory';
 import { validateMegaGroupsCatalogs } from '../utilities/mega-groups-catalogs';
+import { validatePhotoshootConcepts } from '../utilities/photoshoot-concepts';
 import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { restoreActivityProgression } from './activity-awards';
@@ -16,6 +17,7 @@ import { assertBootcampEpisode } from './bootcamp-validation';
 import { assertPreparation } from './episode-preparation';
 import { assertMegaGroupsEpisode } from './mega-groups-validation';
 import { assertNarrativeAudition } from './narrative-validation';
+import { assertPhotoshootEpisode } from './photoshoot-validation';
 import { createSeededRandom } from './random';
 
 export const SIMULATION_STORAGE_KEY = 'the-search-simulation-setup';
@@ -216,6 +218,11 @@ function assertDefinitions(value: unknown): asserts value is SimulationDefinitio
   if (value.battleSongs !== undefined) validateBattleSongs(value.battleSongs, Object.keys(genres));
   if (value.megaGroupTests !== undefined || value.megaGroupSongs !== undefined)
     validateMegaGroupsCatalogs(value.megaGroupTests, value.megaGroupSongs, Object.keys(genres));
+  if (value.photoshootConcepts !== undefined) {
+    const visualVibes = specialties.visualVibe;
+    if (!isCardLibrary(visualVibes)) throw new Error('The saved visual-vibe definitions are invalid.');
+    validatePhotoshootConcepts(value.photoshootConcepts, Object.keys(visualVibes));
+  }
 }
 
 export function decodeSimulationState(stored: string): SimulationState {
@@ -265,12 +272,14 @@ export function decodeSimulationState(stored: string): SimulationState {
       runtime.episode !== 1 &&
       runtime.episode !== 2 &&
       runtime.episode !== 3 &&
-      runtime.episode !== 4) ||
+      runtime.episode !== 4 &&
+      runtime.episode !== 5) ||
     (runtime.phase !== 'setup-complete' &&
       runtime.phase !== 'auditions' &&
       runtime.phase !== 'battles' &&
       runtime.phase !== 'bootcamp' &&
       runtime.phase !== 'mega-groups' &&
+      runtime.phase !== 'photoshoot' &&
       runtime.phase !== 'episode-complete') ||
     !isRecord(runtime.setup) ||
     typeof runtime.setup.useBias !== 'boolean' ||
@@ -297,8 +306,9 @@ export function decodeSimulationState(stored: string): SimulationState {
   const battle = runtime.battle ?? null;
   const bootcamp = runtime.bootcamp ?? null;
   const megaGroups = runtime.megaGroups ?? null;
+  const photoshoot = runtime.photoshoot ?? null;
   if (runtime.progression === undefined)
-    for (const record of [audition, battle, bootcamp, megaGroups])
+    for (const record of [audition, battle, bootcamp, megaGroups, photoshoot])
       if (isRecord(record) && isRecord(record.changes))
         for (const changes of Object.values(record.changes)) migrateRankingChanges(changes);
   if (
@@ -309,10 +319,22 @@ export function decodeSimulationState(stored: string): SimulationState {
     throw new Error('Boot Camp requires a current-format Episode 3 season.');
   if (
     (runtime.episode === 4 && (runtime.version !== 3 || megaGroups === null)) ||
-    (megaGroups !== null && (runtime.version !== 3 || runtime.episode !== 4)) ||
+    (megaGroups !== null && (runtime.version !== 3 || runtime.episode < 4)) ||
     (runtime.phase === 'mega-groups' && runtime.episode !== 4)
   )
     throw new Error('Mega Groups requires a current-format Episode 4 season.');
+  if (
+    (runtime.episode === 5 && (runtime.version !== 3 || photoshoot === null)) ||
+    (photoshoot !== null && (runtime.version !== 3 || runtime.episode !== 5)) ||
+    (runtime.phase === 'photoshoot' && runtime.episode !== 5)
+  )
+    throw new Error('Photoshoot requires a current-format Episode 5 season.');
+  let megaGroupsContestants = currentContestants;
+  if (photoshoot !== null) {
+    if (!isRecord(photoshoot) || !isContestants(photoshoot.startingContestants))
+      throw new Error('The saved Photoshoot starting cast is invalid.');
+    megaGroupsContestants = photoshoot.startingContestants;
+  }
   let bootcampContestants = currentContestants;
   if (megaGroups !== null) {
     if (!isRecord(megaGroups) || !isContestants(megaGroups.startingContestants))
@@ -409,7 +431,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       battle.phase !== 'complete' ||
       (runtime.episode === 3 &&
         runtime.phase !== (bootcamp.phase === 'complete' ? 'episode-complete' : 'bootcamp')) ||
-      (runtime.episode === 4 && bootcamp.phase !== 'complete') ||
+      (runtime.episode >= 4 && bootcamp.phase !== 'complete') ||
       bootcamp.participantIds.length !== battle.survivorIds.length ||
       !bootcamp.participantIds.every((id) => battle.survivorIds.includes(id)) ||
       (runtime.episode === 3 &&
@@ -418,20 +440,39 @@ export function decodeSimulationState(stored: string): SimulationState {
     )
       throw new Error('The saved Boot Camp progress does not match its archive, cast or audience.');
   }
-  if (runtime.episode === 4 && !bootcamp)
+  if (runtime.episode >= 4 && !bootcamp)
     throw new Error('Mega Groups requires a completed Boot Camp archive.');
   if (megaGroups !== null) {
-    assertMegaGroupsEpisode(megaGroups, currentContestants, definitions);
+    assertMegaGroupsEpisode(megaGroups, megaGroupsContestants, definitions);
     freezeSimulationSnapshot(megaGroups.startingContestants);
     if (
       !bootcamp ||
       bootcamp.phase !== 'complete' ||
-      runtime.phase !== (megaGroups.phase === 'complete' ? 'episode-complete' : 'mega-groups') ||
+      (runtime.episode === 4 &&
+        runtime.phase !== (megaGroups.phase === 'complete' ? 'episode-complete' : 'mega-groups')) ||
+      (runtime.episode === 5 && megaGroups.phase !== 'complete') ||
       megaGroups.participantIds.length !== bootcamp.participantIds.length ||
       !megaGroups.participantIds.every((id) => bootcamp.participantIds.includes(id)) ||
-      (megaGroups.audience !== null && megaGroups.audience.votingPopulation !== show.audience)
+      (runtime.episode === 4 &&
+        megaGroups.audience !== null &&
+        megaGroups.audience.votingPopulation !== show.audience)
     )
       throw new Error('The saved Mega Groups progress does not match its archive, cast or audience.');
+  }
+  if (runtime.episode === 5 && !megaGroups)
+    throw new Error('Photoshoot requires a completed Mega Groups archive.');
+  if (photoshoot !== null) {
+    assertPhotoshootEpisode(photoshoot, currentContestants, definitions);
+    freezeSimulationSnapshot(photoshoot.startingContestants);
+    if (
+      !megaGroups ||
+      megaGroups.phase !== 'complete' ||
+      runtime.phase !== (photoshoot.phase === 'complete' ? 'episode-complete' : 'photoshoot') ||
+      photoshoot.participantIds.length !== megaGroups.survivorIds.length ||
+      !photoshoot.participantIds.every((id) => megaGroups.survivorIds.includes(id)) ||
+      (photoshoot.audience !== null && photoshoot.audience.votingPopulation !== show.audience)
+    )
+      throw new Error('The saved Photoshoot progress does not match its archive, cast or audience.');
   }
   const auditionPoolIds = runtime.setup.auditionPoolIds;
   if (
@@ -494,6 +535,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       ...(battle ? { battle } : {}),
       ...(bootcamp ? { bootcamp } : {}),
       ...(megaGroups ? { megaGroups } : {}),
+      ...(photoshoot ? { photoshoot } : {}),
       show,
       revealedSecrets,
       deferredConsequences,
@@ -516,12 +558,15 @@ export function decodeSimulationState(stored: string): SimulationState {
       if (
         !isRecord(runtime.preparations) ||
         Object.keys(runtime.preparations).some(
-          (key) => key !== '1' && key !== '2' && ((key !== '3' && key !== '4') || runtime.version !== 3),
+          (key) =>
+            key !== '1' &&
+            key !== '2' &&
+            ((key !== '3' && key !== '4' && key !== '5') || runtime.version !== 3),
         )
       )
         throw new Error('Invalid saved episode preparations.');
       restored.runtime.preparations = {};
-      for (const number of [4, 3, 2, 1] as const) {
+      for (const number of [5, 4, 3, 2, 1] as const) {
         const preparation = runtime.preparations[number];
         if (preparation === undefined) continue;
         assertPreparation(
@@ -536,6 +581,7 @@ export function decodeSimulationState(stored: string): SimulationState {
     const second = restored.runtime.preparations?.[2];
     const third = restored.runtime.preparations?.[3];
     const fourth = restored.runtime.preparations?.[4];
+    const fifth = restored.runtime.preparations?.[5];
     if (
       audition &&
       (!first ||
@@ -581,8 +627,22 @@ export function decodeSimulationState(stored: string): SimulationState {
       fourth.openingPlayed !== megaGroups.scenes.some((scene) => scene.title === 'Opening credits')
     )
       throw new Error('Mega Groups credits do not match their recorded effect.');
+    if (fifth && megaGroups?.phase !== 'complete')
+      throw new Error('Episode 5 preparation requires completed Mega Groups.');
+    if (photoshoot && (!fifth?.mood || fifth.slots.some((id) => id === null)))
+      throw new Error('Photoshoot preparation is missing.');
     if (
-      (first?.openingPlayed || second?.openingPlayed || third?.openingPlayed || fourth?.openingPlayed) &&
+      photoshoot &&
+      fifth &&
+      fifth.openingPlayed !== photoshoot.scenes.some((scene) => scene.title === 'Opening credits')
+    )
+      throw new Error('Photoshoot credits do not match their recorded effect.');
+    if (
+      (first?.openingPlayed ||
+        second?.openingPlayed ||
+        third?.openingPlayed ||
+        fourth?.openingPlayed ||
+        fifth?.openingPlayed) &&
       !restored.runtime.openingCast
     )
       throw new Error('Opening credits are missing their cast.');

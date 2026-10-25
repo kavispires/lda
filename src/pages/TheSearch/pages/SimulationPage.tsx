@@ -26,6 +26,7 @@ import { ContestantDetailModal } from '../components/ContestantDetailModal';
 import { CopyMarkdownButton } from '../components/CopyMarkdownButton';
 import { MegaGroupsEpisodeView } from '../components/MegaGroupsEpisodeView';
 import { NarrativeAuditionView, NarrativeBattleView } from '../components/NarrativeEpisodeView';
+import { PhotoshootEpisodeView } from '../components/PhotoshootEpisodeView';
 import { TrackTag } from '../components/TrackTag';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
@@ -34,7 +35,8 @@ import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
 import type { MegaGroupsAction } from '../types/mega-groups-episode';
-import type { SeasonRuntime } from '../types/simulation';
+import type { PhotoshootAction } from '../types/photoshoot-episode';
+import type { SeasonRuntime, SimulationState } from '../types/simulation';
 import type { TRACKS } from '../utilities/constants';
 import { createSeasonCastProfiles } from '../utilities/contestant-profile';
 import { isSeasonRankingVisible, projectSeasonCast } from '../utilities/episode-visibility';
@@ -48,6 +50,11 @@ export function SimulationPage() {
   const [error, setError] = useState<string | null>(null);
   const [useBias, setUseBias] = useState(false);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [inspectionSnapshot, setInspectionSnapshot] = useState<SimulationState | null>(null);
+  const inspectContestant = (id: string | null, snapshot: SimulationState | null = null) => {
+    setInspectionSnapshot(snapshot);
+    setSelectedId(id);
+  };
 
   const handleAuditionAction = (action: AuditionAction, revision: number) => {
     try {
@@ -82,6 +89,15 @@ export function SimulationPage() {
       simulationActions.dispatchMegaGroups(action, revision);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Could not save the next Mega Groups scene.');
+    }
+  };
+
+  const handlePhotoshootAction = (action: PhotoshootAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchPhotoshoot(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Photoshoot scene.');
     }
   };
 
@@ -128,13 +144,28 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
-  const bootcampArchiveState = simulationState.runtime?.megaGroups
+  const megaGroupsArchiveState = simulationState.runtime?.photoshoot
     ? {
         ...simulationState,
-        contestants: simulationState.runtime.megaGroups.startingContestants,
-        runtime: { ...simulationState.runtime, megaGroups: undefined },
+        contestants: simulationState.runtime.photoshoot.startingContestants,
+        runtime: {
+          ...simulationState.runtime,
+          photoshoot: undefined,
+          revealedSecrets: simulationState.runtime.revealedSecrets.filter((entry) =>
+            simulationState
+              .runtime!.photoshoot!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
       }
     : simulationState;
+  const bootcampArchiveState = megaGroupsArchiveState.runtime?.megaGroups
+    ? {
+        ...megaGroupsArchiveState,
+        contestants: megaGroupsArchiveState.runtime.megaGroups.startingContestants,
+        runtime: { ...megaGroupsArchiveState.runtime, megaGroups: undefined },
+      }
+    : megaGroupsArchiveState;
   const archivedState = bootcampArchiveState.runtime?.bootcamp
     ? {
         ...bootcampArchiveState,
@@ -246,7 +277,66 @@ export function SimulationPage() {
                   this season.
                 </Typography.Paragraph>
               )}
-              {simulationState.runtime.megaGroups ? (
+              {simulationState.runtime.photoshoot ? (
+                <>
+                  <PhotoshootEpisodeView
+                    actionError={error}
+                    key={`${simulationState.runtime.runId}-photoshoot`}
+                    onAction={handlePhotoshootAction}
+                    onInspect={inspectContestant}
+                    state={simulationState}
+                  />
+                  <Collapse
+                    items={[
+                      {
+                        key: 'mega-groups',
+                        label: 'Episode 4 — Mega Groups archive',
+                        children: (
+                          <MegaGroupsEpisodeView
+                            onAction={handleMegaGroupsAction}
+                            onInspect={(id) => inspectContestant(id, megaGroupsArchiveState)}
+                            state={megaGroupsArchiveState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'bootcamp',
+                        label: 'Episode 3 — Boot Camp archive',
+                        children: (
+                          <BootcampEpisodeView
+                            onAction={handleBootcampAction}
+                            onInspect={(id) => inspectContestant(id, bootcampArchiveState)}
+                            state={bootcampArchiveState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'battles',
+                        label: 'Episode 2 — The Battles archive',
+                        children: (
+                          <BattleView
+                            onAction={handleBattleAction}
+                            onInspect={(id) => inspectContestant(id, archivedState)}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'auditions',
+                        label: 'Episode 1 — Auditions archive',
+                        children: (
+                          <AuditionView
+                            onAction={handleAuditionAction}
+                            onInspect={(id) => inspectContestant(id, archivedState)}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                    ]}
+                    style={{ marginTop: 16 }}
+                  />
+                </>
+              ) : simulationState.runtime.megaGroups ? (
                 <>
                   <MegaGroupsEpisodeView
                     actionError={error}
@@ -255,6 +345,14 @@ export function SimulationPage() {
                     onInspect={setSelectedId}
                     state={simulationState}
                   />
+                  {simulationState.runtime.megaGroups.phase === 'complete' && (
+                    <PhotoshootEpisodeView
+                      actionError={error}
+                      onAction={handlePhotoshootAction}
+                      onInspect={setSelectedId}
+                      state={simulationState}
+                    />
+                  )}
                   <Collapse
                     items={[
                       {
@@ -408,7 +506,8 @@ export function SimulationPage() {
           </Button>
           <SimulationOverview
             contestants={simulationState.contestants}
-            onSelect={setSelectedId}
+            inspectionSnapshot={inspectionSnapshot}
+            onSelect={inspectContestant}
             runtime={simulationState.runtime}
             selectedId={selectedId}
           />
@@ -421,18 +520,24 @@ export function SimulationPage() {
 function SimulationOverview({
   contestants: canonicalContestants,
   runtime,
+  inspectionSnapshot,
   selectedId,
   onSelect,
 }: {
   contestants: Contestant[];
   runtime: SeasonRuntime | null;
+  inspectionSnapshot: SimulationState | null;
   selectedId: string | null;
   onSelect: (id: string | null) => void;
 }) {
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
   const [pageSize, setPageSize] = useState(10);
   const contestants = runtime ? projectSeasonCast(canonicalContestants, runtime) : canonicalContestants;
-  const selectedContestant = contestants.find((contestant) => contestant.id === selectedId) ?? null;
+  const inspectionRuntime = inspectionSnapshot?.runtime ?? runtime;
+  const inspectionCast = inspectionSnapshot?.runtime
+    ? projectSeasonCast(inspectionSnapshot.contestants, inspectionSnapshot.runtime)
+    : contestants;
+  const selectedContestant = inspectionCast.find((contestant) => contestant.id === selectedId) ?? null;
   const evaluatedIds = new Set(runtime?.audition?.evaluations.map((evaluation) => evaluation.contestantId));
   const hasGrade = (id: string) => !runtime || evaluatedIds.has(id);
   const trackCounts = contestants.reduce(
@@ -545,7 +650,13 @@ function SimulationOverview({
           <Typography.Paragraph>
             Inspect any of the {contestants.length} contestants without advancing the episode.
           </Typography.Paragraph>
-          {runtime?.megaGroups ? (
+          {runtime?.photoshoot ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.photoshoot.rankRevealed
+                ? 'Ranks and continuing scores: Episode 5.'
+                : 'Ranks and continuing scores: previous public Episode 4 final standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.megaGroups ? (
             <Typography.Paragraph type="secondary">
               {runtime.megaGroups.phase === 'complete'
                 ? 'Final season placements after Episode 4 departures.'
@@ -571,13 +682,15 @@ function SimulationOverview({
           <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
           <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
           <Descriptions.Item label="Status">
-            {runtime?.megaGroups
-              ? `Episode 4 — ${runtime.megaGroups.phase}`
-              : runtime?.bootcamp
-                ? `Episode 3 — ${runtime.bootcamp.phase}`
-                : runtime?.battle
-                  ? `Episode 2 — ${runtime.battle.phase}`
-                  : (runtime?.audition?.phase ?? 'Setup complete')}
+            {runtime?.photoshoot
+              ? `Episode 5 — ${runtime.photoshoot.phase}`
+              : runtime?.megaGroups
+                ? `Episode 4 — ${runtime.megaGroups.phase}`
+                : runtime?.bootcamp
+                  ? `Episode 3 — ${runtime.bootcamp.phase}`
+                  : runtime?.battle
+                    ? `Episode 2 — ${runtime.battle.phase}`
+                    : (runtime?.audition?.phase ?? 'Setup complete')}
           </Descriptions.Item>
         </Descriptions>
 
@@ -668,13 +781,15 @@ function SimulationOverview({
         overview
       )}
       <ContestantDetailModal
-        allContestants={contestants}
+        allContestants={inspectionCast}
         contestant={selectedContestant}
-        definitions={runtime?.definitions}
+        definitions={inspectionRuntime?.definitions}
         hidePerformance={!!runtime && !!selectedId && !hasGrade(selectedId)}
-        hideSeasonRanking={!isSeasonRankingVisible(runtime)}
+        hideSeasonRanking={!isSeasonRankingVisible(inspectionRuntime)}
         onClose={() => onSelect(null)}
-        withdrawnEpisode={selectedId && runtime?.megaGroups?.withdrawnId === selectedId ? 4 : undefined}
+        withdrawnEpisode={
+          selectedId && inspectionRuntime?.megaGroups?.withdrawnId === selectedId ? 4 : undefined
+        }
       />
     </div>
   );

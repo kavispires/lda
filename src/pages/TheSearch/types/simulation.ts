@@ -6,6 +6,7 @@ import type { AttributeCard } from './common';
 import type { Contestant, Specialties } from './contestant';
 import type { MegaGroupsEpisode, MegaGroupTestPair } from './mega-groups-episode';
 import type { EpisodePreparation } from './narrative';
+import type { PhotoshootConcept, PhotoshootEpisode } from './photoshoot-episode';
 
 export interface SimulationDefinitions {
   cards: {
@@ -20,6 +21,7 @@ export interface SimulationDefinitions {
   battleSongs?: BattleSong[];
   megaGroupTests?: MegaGroupTestPair[];
   megaGroupSongs?: BattleSong[];
+  photoshootConcepts?: PhotoshootConcept[];
 }
 
 export interface SeasonRuntime {
@@ -32,8 +34,15 @@ export interface SeasonRuntime {
   runId: string;
   seed: number;
   randomState: number;
-  episode: 0 | 1 | 2 | 3 | 4;
-  phase: 'setup-complete' | 'auditions' | 'battles' | 'bootcamp' | 'mega-groups' | 'episode-complete';
+  episode: 0 | 1 | 2 | 3 | 4 | 5;
+  phase:
+    | 'setup-complete'
+    | 'auditions'
+    | 'battles'
+    | 'bootcamp'
+    | 'mega-groups'
+    | 'photoshoot'
+    | 'episode-complete';
   setup: {
     useBias: boolean;
     selectedIds: string[];
@@ -46,8 +55,9 @@ export interface SeasonRuntime {
   battle?: BattleEpisode | null;
   bootcamp?: BootcampEpisode | null;
   megaGroups?: MegaGroupsEpisode | null;
+  photoshoot?: PhotoshootEpisode | null;
   openingCast?: string[];
-  preparations?: Partial<Record<1 | 2 | 3 | 4, EpisodePreparation>>;
+  preparations?: Partial<Record<1 | 2 | 3 | 4 | 5, EpisodePreparation>>;
   show: ShowAudience;
   revealedSecrets: { contestantId: string; cardId: string }[];
   deferredConsequences: DeferredConsequence[];

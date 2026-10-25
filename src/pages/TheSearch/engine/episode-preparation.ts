@@ -3,6 +3,7 @@ import type { Contestant, CoreSkills, Specialties } from '../types/contestant';
 import type { EpisodePreparation, PreparationAction } from '../types/narrative';
 import { isNarrativeSeason, type SeasonRuntime, type SimulationState } from '../types/simulation';
 import { getMegaGroupsCatalogs } from '../utilities/mega-groups-catalogs';
+import { getPhotoshootConcepts } from '../utilities/photoshoot-concepts';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
 import { recordContestantChanges } from './change-history';
 import { type RandomSource, shuffleWithRandom } from './random';
@@ -53,7 +54,7 @@ function choices(value: unknown, options: MoodOptions): value is MoodChoices {
 
 export function initializePreparation(
   state: SimulationState,
-  episode: 1 | 2 | 3 | 4,
+  episode: 1 | 2 | 3 | 4 | 5,
   random: RandomSource,
 ): EpisodePreparation {
   const runtime = runtimeOf(state);
@@ -72,6 +73,24 @@ export function initializePreparation(
   )
     throw new Error('Complete The Battles with eighteen locked survivors before preparing Episode 3.');
   if (active.length < 5) throw new Error('The opening requires five active contestants.');
+  if (episode === 5) {
+    const previous = runtime.megaGroups;
+    if (
+      runtime.version !== 3 ||
+      previous?.phase !== 'complete' ||
+      previous.survivorIds.length !== 16 ||
+      active.length !== 16 ||
+      active.some((person) => !previous.survivorIds.includes(person.id))
+    )
+      throw new Error('Complete Mega Groups with sixteen locked survivors before preparing Photoshoot.');
+    if (!runtime.definitions.photoshootConcepts) {
+      if (runtime.photoshoot) throw new Error('Photoshoot definitions are missing from an active episode.');
+      runtime.definitions = freezeSimulationSnapshot({
+        ...runtime.definitions,
+        photoshootConcepts: getPhotoshootConcepts(),
+      });
+    }
+  }
   if (episode === 4) {
     if (
       runtime.version !== 3 ||
@@ -119,7 +138,13 @@ export function initializePreparation(
   );
   const shortlist = candidates.slice(0, 10).map((contestant) => contestant.id);
   const previousRanking =
-    episode === 4 ? runtime.bootcamp!.rankedIds : episode === 3 ? runtime.battle!.finalRankedIds : null;
+    episode === 5
+      ? runtime.megaGroups!.finalRankedIds.filter((id) => activeIds.has(id))
+      : episode === 4
+        ? runtime.bootcamp!.rankedIds
+        : episode === 3
+          ? runtime.battle!.finalRankedIds
+          : null;
   const rank = (contestant: Contestant) =>
     previousRanking
       ? previousRanking.indexOf(contestant.id)
@@ -167,15 +192,17 @@ export function applyPreparation(
 ): void {
   const runtime = runtimeOf(state);
   const episode =
-    runtime.preparations?.[4] && runtime.bootcamp?.phase === 'complete'
-      ? 4
-      : runtime.preparations?.[3] && runtime.battle?.phase === 'complete'
-        ? 3
-        : runtime.battle
-          ? 2
-          : runtime.audition?.phase === 'complete'
+    runtime.preparations?.[5] && runtime.megaGroups?.phase === 'complete'
+      ? 5
+      : runtime.preparations?.[4] && runtime.bootcamp?.phase === 'complete'
+        ? 4
+        : runtime.preparations?.[3] && runtime.battle?.phase === 'complete'
+          ? 3
+          : runtime.battle
             ? 2
-            : 1;
+            : runtime.audition?.phase === 'complete'
+              ? 2
+              : 1;
   const preparation = runtime.preparations?.[episode];
   if (!preparation) throw new Error('Initialize episode preparation first.');
   if (preparation.openingPlayed) throw new Error('Opening preparation is already complete.');
@@ -213,7 +240,7 @@ export function applyPreparation(
   } else throw new Error('Unknown episode preparation action.');
 }
 
-export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4): void {
+export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4 | 5): void {
   const runtime = runtimeOf(state);
   const preparation = runtime.preparations?.[episode];
   if (!preparation) throw new Error('Initialize episode preparation first.');
@@ -225,7 +252,9 @@ export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4): voi
         ? runtime.battle
         : episode === 3
           ? runtime.bootcamp
-          : runtime.megaGroups;
+          : episode === 4
+            ? runtime.megaGroups
+            : runtime.photoshoot;
   if (!record) throw new Error('Start the episode before playing its opening.');
   if (
     !preparation.mood ||
@@ -253,7 +282,7 @@ export function playOpening(state: SimulationState, episode: 1 | 2 | 3 | 4): voi
 export function assertPreparation(
   value: unknown,
   state: { contestants: readonly Contestant[]; runtime: SeasonRuntime },
-  episode: 1 | 2 | 3 | 4,
+  episode: 1 | 2 | 3 | 4 | 5,
 ): asserts value is EpisodePreparation {
   const fail = () => {
     throw new Error(`Invalid Episode ${episode} preparation.`);
@@ -311,7 +340,7 @@ export function assertPreparation(
       (value.mood !== null && gaps !== 0))
   )
     fail();
-  const latest = !([1, 2, 3, 4] as const).some(
+  const latest = !([1, 2, 3, 4, 5] as const).some(
     (number) => number > episode && state.runtime.preparations?.[number],
   );
   if (

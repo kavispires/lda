@@ -120,8 +120,7 @@ export function MegaGroupsEpisodeView({
             <Button onClick={() => setHistory(null)}>Return to current scene</Button>
           ) : episode.phase === 'complete' ? (
             <Typography.Text>
-              Episode complete. Episode 5 — Photoshoot is unlocked as the next episode; it is not playable
-              yet.
+              Episode complete. Episode 5 — The Photoshoot is unlocked as the next episode.
             </Typography.Text>
           ) : decision ? (
             <Typography.Text>Choose how to continue below.</Typography.Text>

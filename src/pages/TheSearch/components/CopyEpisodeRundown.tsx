@@ -2,7 +2,13 @@ import type { SimulationState } from '../types/simulation';
 import { createEpisodeRundown } from '../utilities/episode-rundown';
 import { CopyMarkdownButton } from './CopyMarkdownButton';
 
-export function CopyEpisodeRundown({ state, episode }: { state: SimulationState; episode: 1 | 2 | 3 | 4 }) {
+export function CopyEpisodeRundown({
+  state,
+  episode,
+}: {
+  state: SimulationState;
+  episode: 1 | 2 | 3 | 4 | 5;
+}) {
   const record =
     episode === 1
       ? state.runtime?.audition
@@ -10,7 +16,9 @@ export function CopyEpisodeRundown({ state, episode }: { state: SimulationState;
         ? state.runtime?.battle
         : episode === 3
           ? state.runtime?.bootcamp
-          : state.runtime?.megaGroups;
+          : episode === 4
+            ? state.runtime?.megaGroups
+            : state.runtime?.photoshoot;
   if (record?.phase !== 'complete') return null;
   return (
     <CopyMarkdownButton

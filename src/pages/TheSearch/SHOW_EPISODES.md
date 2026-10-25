@@ -932,5 +932,161 @@ The Markdown rundown includes all ten sequences, secret transfer ballots,
 four performances, Jane, MVP, investigation, announced rankings and distinct
 departures. TV/experience awards stay silent.
 
-Episode 5 - Photoshoot is marked unlocked as the next episode. It does not
-start automatically and is not playable until its own episode flow is implemented.
+Episode 5 - The Photoshoot is unlocked next. It does not start automatically.
+
+## Episode 5: The Photoshoot
+
+Sixteen survivors face an editorial challenge instead of a music performance:
+individual photographs and four-person covers. Nobody leaves this week, but
+contestants learn that only when Mike announces the challenge in Sequence 3.
+The camera tests visual appeal, individuality, presence and styling, while
+personal bonds and competing egos shape who gets noticed.
+
+### Before the episode
+
+Retain surviving opening-cast members and replace only vacant slots from the
+strongest-core shortlist. Offer the six opening tastes from the highest- and
+lowest-ranked **final Episode 4 survivors**, after the withdrawal. Confirm both
+choices before the dorm opening. The usual small opening preference applies
+once when the portraits air.
+
+### Sequence overview
+
+| Sequence | What the audience watches                                                     |
+| -------- | ----------------------------------------------------------------------------- |
+| 1        | Dorm conversations following the ranked elimination and voluntary withdrawal. |
+| 2        | The confirmed opening portraits.                                              |
+| 3        | Mike's no-elimination announcement, concept selection and twelve draft picks. |
+| 4        | Wardrobe proposals, group negotiations and four production decisions.         |
+| 5        | Sixteen individual shoots with monitor reactions and judge feedback.          |
+| 6        | Four center elections and cover shoots, with competition for the camera.      |
+| 7        | The gallery of individual edits and covers, followed by private peer ballots. |
+| 8        | Ultimate Visual, the investigation, updated standings and the final sixteen.  |
+
+### Sequence 1: The Aftermath
+
+Return to the real dorm assignments with their existing empty beds. The two
+new departures are different events: one contestant was eliminated by ranking,
+another withdrew. Personality and genuine outgoing bonds shape grief, resolve,
+guarded conversations and ambition. Nobody discusses this week's safety yet.
+
+### Sequence 2: Opening
+
+Play the confirmed portraits and apply their ordinary one-time audience benefit.
+Keeping an opening place does not confer a new leadership or center role.
+
+### Sequence 3: The Wardrobe and Concept Draft
+
+Mike Philip announces the reprieve and introduces four editorial concepts:
+**High Fashion/Chic**, **Streetwear/Rebel**, **Ethereal/Flower Boy**, and
+**Retro/Classic**. Concepts and wardrobe options live in the editable
+`data/photoshoot-concepts.json` catalog; a running season freezes its definitions.
+
+The top four survivors become Concept Leaders. In ranking order they choose
+one remaining concept, considering their own visual vibe and personality.
+They then draft one teammate apiece in repeating leader order for three rounds,
+creating four teams of four. Selection follows The Battles' outgoing-relationship
+priority, with charisma, average core skill and a saved draw breaking ties.
+
+Show all twelve picks and actual pass-over reactions. A last pick or a concept
+that clashes with someone's natural vibe can cause tension, but neither makes
+failure inevitable. Contestants do not change their permanent visual specialty.
+
+### Sequence 4: The Styling Phase
+
+Every contestant proposes an outfit and a prop. Curiosity affects novelty;
+uniqueness and the group's curiosity determine how successfully they can
+execute their own styling. Show the leader managing real proposals, competing
+ideas, harmony or disagreement rather than inventing a fight in every group.
+
+Production makes one choice for each team:
+- **Intervene:** Professional stylists deliver concept-appropriate outfits
+  and a substantial temporary photo-result boost. Each member loses a little
+  happiness because their creative control was taken away.
+- **Let them clash:** The team retains creative control. Strong curiosity and
+  uniqueness can beat the professional treatment; weak execution can leave a
+  messy look. The chosen wardrobe and its concept fit remain visible evidence.
+
+These effects apply to the episode's photographs, not permanent skills.
+Happiness uses the existing final-value arrows: blue for an increase, orange
+for a decrease. Relationship changes keep their normal direction indicators.
+
+### Sequence 5: Individual Photoshoots
+
+Give each of the sixteen contestants a full solo-camera beat. Visual and
+uniqueness lead the evaluation, charisma supports it, and recorded styling
+and outfit fit modify the result. Each shoot has its own saved roll, shared
+across its skill checks; replaying a scene cannot improve a photograph.
+
+Megan Ryder discusses individuality and potential. Michael Lion discusses
+visual appeal and marketability. John Stan takes a backseat: this is not a
+singing or dance test.
+
+Peers watch the monitor and react to actual photographs. Exceptional work can
+produce awe, while an awkward pose can produce embarrassment or sympathetic
+support. Extroverted or charismatic contestants can banter with the photographer
+and attract attention; popularity is not a guaranteed fixed number of new fans.
+
+### Sequence 6: Group Photoshoots
+
+Each team elects a center, with its Concept Leader eligible. The center election
+considers visual appeal, individuality, charisma and personal bonds. Self-votes
+are allowed for this role, unlike the later Ultimate Visual ballot.
+
+Shoot each four-person cover separately. Ambitious contestants outside the center
+can try to steal focus. Strong recorded stage presence makes the intrusion work
+for their own photograph, but teammates resent being overshadowed. A failed
+attempt looks incoherent and receives Michael's grounded criticism.
+
+Gentle non-centers can yield space and support the picture at the cost of some
+individual prominence, producing an angel edit. Relationships, actual support
+and disruption affect the group's cohesion. Preserve both personal results and
+the quality of the full cover rather than pretending every teammate posed alike.
+
+### Sequence 7: The Gallery and Peer Vote
+
+Reveal the sixteen individual edits and four covers as descriptions, portraits
+and recorded results; the simulator does not generate actual photographs.
+The edits use the already-recorded results, not a new roll.
+
+All sixteen privately vote for **The Ultimate Visual**, with no self-votes.
+Friendship heavily influences the choice, but an overwhelmingly exceptional
+individual photograph can win over a rival's loyalty. Group results do not
+determine this award. Ballots are private within the show but visible to viewers.
+Tied vote totals favor the stronger individual photograph, then a saved draw.
+
+### Sequence 8: Results, Ranking and the Secret
+
+Mike announces Ultimate Visual. The winner's photograph goes viral, permanently
+improving their audience preference. This replaces the ordinary MVP; it is not
+a second peer award or a guaranteed first-place ranking.
+
+Apply that benefit before closing the ordinary audience vote. The episode's
+competition evidence combines individual and personal group photographs, feeding
+the same continuing-points system as earlier episodes once. Seal those results
+before production's investigation.
+
+Offer three distinct eligible contestants for the usual secret check, or fewer
+if fewer remain eligible. A miss changes nothing; a revealed secret applies its
+ordinary consequences without rewriting the locked ranking. Skip the segment
+under the existing secret-availability gate.
+
+Finally reveal the sixteen-person standings, with up/down movement from the
+final Episode 4 survivor ranks. Bottom-three contestants worry about Episode 6,
+but nobody is eliminated or withdraws here. All prior departure positions remain
+locked and all sixteen contestants continue.
+
+### Finale, details and copying
+
+Normal playback pauses for all four styling decisions and any investigation.
+Auto-complete follows the same transitions, preserves decisions already made,
+uses professional intervention for undecided teams and lands on Episode 5's
+final screen. It does not start Episode 6.
+
+The Markdown rundown records all eight sequences, concepts, draft choices,
+wardrobe, production decisions, solo and cover photographs, judge feedback,
+drama, viewer-visible ballots, investigation and continuing rankings. Hidden
+secrets remain hidden. Television-value and artistic-experience mechanics stay
+silent in the narration and copied text.
+
+Episode 6 - Track Specials is marked next, not playable yet.
