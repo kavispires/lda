@@ -1,0 +1,2409 @@
+{
+  "HIGH_SCHOOL_VALEDICTORIAN": {
+    "id": "HIGH_SCHOOL_VALEDICTORIAN",
+    "type": "history",
+    "group": "Student Life",
+    "name": "High School Valedictorian",
+    "description": "Academic prodigy who gave up a scholarship for this show.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "personality.maturity": 1,
+      "utilitySkills.learning": 1
+    }
+  },
+  "ART_SCHOOL_DROPOUT": {
+    "id": "ART_SCHOOL_DROPOUT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Art School Dropout",
+    "description": "Left a prestigious art academy because it was 'too restricting'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "PRE_MED_FRESHMAN": {
+    "id": "PRE_MED_FRESHMAN",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Pre-Med Freshman",
+    "description": "On a gap year from college. Highly logical and stressed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "personality.sensitivity": 1
+    }
+  },
+  "THEATER_CLUB_PRESIDENT": {
+    "id": "THEATER_CLUB_PRESIDENT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Theater Club President",
+    "description": "Ran their high school drama department. Very dramatic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "coreSkills.stagePresence": 1
+    }
+  },
+  "VARSITY_BENCHWARMER": {
+    "id": "VARSITY_BENCHWARMER",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Varsity Benchwarmer",
+    "description": "Was on the football team but never actually played.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "personality.ambition": -1
+    }
+  },
+  "DEBATE_TEAM_CHAMPION": {
+    "id": "DEBATE_TEAM_CHAMPION",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Debate Team Champion",
+    "description": "Can argue their way out of anything. Highly articulate.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "personality.maturity": 1
+    }
+  },
+  "STUDENT_COUNCIL_PRESIDENT": {
+    "id": "STUDENT_COUNCIL_PRESIDENT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Student Council President",
+    "description": "Used to running things and organizing people.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.leadership": 2,
+      "personality.extroversion": 1
+    }
+  },
+  "BOARDING_SCHOOL_KID": {
+    "id": "BOARDING_SCHOOL_KID",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Boarding School Kid",
+    "description": "Sent away for high school. Very independent but isolated.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "personality.introversion": 1
+    }
+  },
+  "HOMESCHOOLED": {
+    "id": "HOMESCHOOLED",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Homeschooled",
+    "description": "Never went to traditional school. Socially a bit awkward.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1,
+      "personality.introversion": 2
+    }
+  },
+  "CHRONIC_TRUANT": {
+    "id": "CHRONIC_TRUANT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Chronic Truant",
+    "description": "Barely graduated because they were always skipping class.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -3,
+      "personality.ambition": -1
+    }
+  },
+  "CULINARY_SCHOOL_FRESHMAN": {
+    "id": "CULINARY_SCHOOL_FRESHMAN",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Culinary School Freshman",
+    "description": "Studying to be a chef before pivoting to music.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 1,
+      "utilitySkills.learning": 1
+    }
+  },
+  "FOREIGN_EXCHANGE_STUDENT": {
+    "id": "FOREIGN_EXCHANGE_STUDENT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Foreign Exchange Student",
+    "description": "Spent a year in a different country. Very cultured.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "aggregations.experience": 5
+    }
+  },
+  "CLASS_CLOWN": {
+    "id": "CLASS_CLOWN",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Class Clown",
+    "description": "Voted funniest in their yearbook. Can't take things seriously.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "personality.maturity": -2
+    }
+  },
+  "BAND_CAMP_GEEK": {
+    "id": "BAND_CAMP_GEEK",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Band Camp Geek",
+    "description": "Played trumpet in the marching band. Highly disciplined in music.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "personality.discipline": 1
+    }
+  },
+  "MATH_OLYMPIAD_WINNER": {
+    "id": "MATH_OLYMPIAD_WINNER",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Math Olympiad Winner",
+    "description": "A literal genius at numbers. Analyzes the competition mathematically.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 2,
+      "personality.maturity": 1
+    }
+  },
+  "PROM_KING": {
+    "id": "PROM_KING",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Prom King",
+    "description": "The most popular kid in their graduating class. Used to being loved.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "CHESS_CLUB_PRESIDENT": {
+    "id": "CHESS_CLUB_PRESIDENT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Chess Club President",
+    "description": "Strategic thinker who treats dorm life like a chessboard.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2,
+      "personality.curiosity": 1
+    }
+  },
+  "ALTERNATIVE_SCHOOL_STUDENT": {
+    "id": "ALTERNATIVE_SCHOOL_STUDENT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Alternative School Student",
+    "description": "Went to a school with no grades or tests. Very free-spirited.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1,
+      "personality.discipline": -2
+    }
+  },
+  "TRADE_SCHOOL_APPRENTICE": {
+    "id": "TRADE_SCHOOL_APPRENTICE",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Trade School Apprentice",
+    "description": "Was learning to be a mechanic before the audition.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "personality.discipline": 1
+    }
+  },
+  "EARLY_GRADUATE": {
+    "id": "EARLY_GRADUATE",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Early Graduate",
+    "description": "Skipped a grade and finished high school at 16.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 2,
+      "personality.maturity": 1
+    }
+  },
+  "SUPER_SENIOR": {
+    "id": "SUPER_SENIOR",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Super Senior",
+    "description": "Held back a year in high school. Older but not necessarily wiser.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -1,
+      "aggregations.experience": 5
+    }
+  },
+  "CHEER_DANCE_TEAM_CAPTAIN": {
+    "id": "CHEER_DANCE_TEAM_CAPTAIN",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Cheer/Dance Team Captain",
+    "description": "Led their school to nationals. Bossy but effective.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.leadership": 1,
+      "coreSkills.dance": 1
+    }
+  },
+  "YEARBOOK_EDITOR": {
+    "id": "YEARBOOK_EDITOR",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Yearbook Editor",
+    "description": "Obsessed with capturing memories. Has an eye for visuals.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "personality.discipline": 1
+    }
+  },
+  "AV_CLUB_PRESIDENT": {
+    "id": "AV_CLUB_PRESIDENT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "AV Club President",
+    "description": "Ran the school's morning announcements. Tech savvy.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 1,
+      "personality.extroversion": 1
+    }
+  },
+  "DETENTION_REGULAR": {
+    "id": "DETENTION_REGULAR",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Detention Regular",
+    "description": "Spent more time in the principal's office than in class.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -2,
+      "personality.resilience": 1
+    }
+  },
+  "COMMUNITY_COLLEGE_COMMUTER": {
+    "id": "COMMUNITY_COLLEGE_COMMUTER",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Community College Commuter",
+    "description": "Taking general ed classes while chasing the dream.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1,
+      "personality.investment": 1
+    }
+  },
+  "SECRET_IVY_LEAGUE_ACCEPT": {
+    "id": "SECRET_IVY_LEAGUE_ACCEPT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Secret Ivy League Accept",
+    "description": "Got into Harvard but didn't tell their parents they deferred.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 2,
+      "utilitySkills.learning": 2
+    }
+  },
+  "STUDY_ABROAD_RETURNEE": {
+    "id": "STUDY_ABROAD_RETURNEE",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Study Abroad Returnee",
+    "description": "Came back from a semester in Europe with a weird new accent.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1,
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "HIGH_SCHOOL_DROPOUT": {
+    "id": "HIGH_SCHOOL_DROPOUT",
+    "type": "history",
+    "group": "Student Life",
+    "name": "High School Dropout",
+    "description": "Left at 16 to pursue music full time. Huge risk taker.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 3,
+      "personality.discipline": -1
+    }
+  },
+  "VALEDICTORIANS_SHADOW": {
+    "id": "VALEDICTORIANS_SHADOW",
+    "type": "history",
+    "group": "Student Life",
+    "name": "Valedictorian's Shadow",
+    "description": "Graduated Salutatorian (2nd place). Has a huge chip on their shoulder.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 3,
+      "personality.resilience": -1
+    }
+  },
+  "INDUSTRY_LEGACY": {
+    "id": "INDUSTRY_LEGACY",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "Industry Legacy",
+    "description": "Child of a famous 90s pop star. Massive pressure.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.fanbaseRatio": 0.1,
+      "personality.ambition": 2
+    }
+  },
+  "CHILDHOOD_TRAINEE": {
+    "id": "CHILDHOOD_TRAINEE",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "Childhood Trainee",
+    "description": "Has been in the label system since they were 9 years old.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.experience": 20,
+      "personality.discipline": 2
+    }
+  },
+  "JUNIOR_OLYMPIC_ATHLETE": {
+    "id": "JUNIOR_OLYMPIC_ATHLETE",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "Junior Olympic Athlete",
+    "description": "Was training for the Olympics before an injury shifted their career.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 3,
+      "personality.resilience": 2
+    }
+  },
+  "VIRAL_TEEN_INVENTOR": {
+    "id": "VIRAL_TEEN_INVENTOR",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "Viral Teen Inventor",
+    "description": "Created a popular app at age 14. Highly intelligent.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 3,
+      "personality.curiosity": 2
+    }
+  },
+  "NATIONAL_SPELLING_BEE_CHAMP": {
+    "id": "NATIONAL_SPELLING_BEE_CHAMP",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "National Spelling Bee Champ",
+    "description": "Won the national televised spelling bee as a kid.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 3,
+      "personality.discipline": 1
+    }
+  },
+  "CLASSICAL_PRODIGY": {
+    "id": "CLASSICAL_PRODIGY",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "Classical Prodigy",
+    "description": "Played violin at Carnegie Hall at age 12.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "personality.discipline": 3
+    }
+  },
+  "TEEN_PUBLISHED_AUTHOR": {
+    "id": "TEEN_PUBLISHED_AUTHOR",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "Teen Published Author",
+    "description": "Wrote a bestselling YA novel at 16.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "personality.introversion": 1
+    }
+  },
+  "LOCAL_HERO": {
+    "id": "LOCAL_HERO",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "Local Hero",
+    "description": "Made the news for saving someone from a burning building.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 3,
+      "aggregations.audienceRatio": 0.15
+    }
+  },
+  "YOUNGEST_GRANDMASTER": {
+    "id": "YOUNGEST_GRANDMASTER",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "Youngest Grandmaster",
+    "description": "A chess grandmaster at age 15. Unbelievable strategic mind.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 3,
+      "personality.maturity": 2
+    }
+  },
+  "E_SPORTS_PRO": {
+    "id": "E_SPORTS_PRO",
+    "type": "history",
+    "group": "Extraordinary Past",
+    "name": "E-Sports Pro",
+    "description": "Was signed to a professional gaming team. Incredible reflexes and fanbase.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.fanbaseRatio": 0.08,
+      "utilitySkills.consistency": 2
+    }
+  },
+  "RAISED_IN_A_CIRCUS": {
+    "id": "RAISED_IN_A_CIRCUS",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Raised in a Circus",
+    "description": "Family traveled with a circus. Knows how to walk a tightrope.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.acrobatics": 3,
+      "coreSkills.uniqueness": 2
+    }
+  },
+  "SURVIVED_LIGHTNING": {
+    "id": "SURVIVED_LIGHTNING",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Survived Lightning",
+    "description": "Struck by lightning at age 10. Believes they are invincible.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 3,
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "ACCIDENTAL_MEME_FACE": {
+    "id": "ACCIDENTAL_MEME_FACE",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Accidental Meme Face",
+    "description": "Their awkward middle school photo is a global internet meme.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.audienceRatio": 0.1,
+      "utilitySkills.charisma": 1
+    }
+  },
+  "SHARK_ATTACK_SURVIVOR": {
+    "id": "SHARK_ATTACK_SURVIVOR",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Shark Attack Survivor",
+    "description": "Has a massive scar on their leg from a shark. Very brave.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 3,
+      "personality.ambition": 1
+    }
+  },
+  "PIRATE_SHIP_KID": {
+    "id": "PIRATE_SHIP_KID",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Pirate Ship Kid",
+    "description": "Parents ran a pirate-themed cruise. Lived on a boat for 5 years.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "TEEN_LOTTERY_WINNER": {
+    "id": "TEEN_LOTTERY_WINNER",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Teen Lottery Winner",
+    "description": "Won a scratch-off for $100k on their 18th birthday.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -2,
+      "aggregations.happiness": 10
+    }
+  },
+  "DOOMSDAY_PREPPER_KID": {
+    "id": "DOOMSDAY_PREPPER_KID",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Doomsday Prepper Kid",
+    "description": "Raised in a bunker. This is their first time in normal society.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "personality.introversion": 2
+    }
+  },
+  "HYPNOTIZED_ON_TV": {
+    "id": "HYPNOTIZED_ON_TV",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Hypnotized on TV",
+    "description": "Once acted like a chicken on a national hypnosis broadcast.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 2,
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "ACCIDENTAL_STOWAWAY": {
+    "id": "ACCIDENTAL_STOWAWAY",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Accidental Stowaway",
+    "description": "Fell asleep in a shipping crate and ended up in another state.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 3,
+      "personality.maturity": -2
+    }
+  },
+  "REINCARNATED_SOUL": {
+    "id": "REINCARNATED_SOUL",
+    "type": "history",
+    "group": "Bizarre Past",
+    "name": "Reincarnated Soul",
+    "description": "Genuinely believes they are a 19th-century poet reincarnated.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 3,
+      "personality.sensitivity": 2
+    }
+  },
+  "FORMER_BARISTA": {
+    "id": "FORMER_BARISTA",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Former Barista",
+    "description": "Used to make lattes before the show.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "AFTER_SCHOOL_TUTOR": {
+    "id": "AFTER_SCHOOL_TUTOR",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "After-School Tutor",
+    "description": "Helped middle schoolers with math.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 1,
+      "personality.gentleness": 1
+    }
+  },
+  "LOCAL_GARAGE_BAND": {
+    "id": "LOCAL_GARAGE_BAND",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Local Garage Band",
+    "description": "Played bass in a terrible indie band.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.experience": 5
+    }
+  },
+  "FREELANCE_TEEN_DESIGNER": {
+    "id": "FREELANCE_TEEN_DESIGNER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Freelance Teen Designer",
+    "description": "Made logos for local businesses on their laptop.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1
+    }
+  },
+  "PIZZA_DELIVERY_BOY": {
+    "id": "PIZZA_DELIVERY_BOY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Pizza Delivery Boy",
+    "description": "Drove a beat-up car delivering pizzas.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "LIFEGUARD": {
+    "id": "LIFEGUARD",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Lifeguard",
+    "description": "Worked at the community pool all summer.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "GROCERY_BAGGER": {
+    "id": "GROCERY_BAGGER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Grocery Bagger",
+    "description": "Bagged groceries at the local supermarket.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "RETAIL_CASHIER": {
+    "id": "RETAIL_CASHIER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Retail Cashier",
+    "description": "Folded clothes at a mall fast-fashion store.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "FAST_FOOD_COOK": {
+    "id": "FAST_FOOD_COOK",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Fast Food Cook",
+    "description": "Flipped burgers for minimum wage.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "AMUSEMENT_PARK_MASCOT": {
+    "id": "AMUSEMENT_PARK_MASCOT",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Amusement Park Mascot",
+    "description": "Sweated inside a giant squirrel suit for two summers.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2
+    }
+  },
+  "GOLF_CADDY": {
+    "id": "GOLF_CADDY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Golf Caddy",
+    "description": "Carried clubs for rich people.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1
+    }
+  },
+  "DOG_WALKER": {
+    "id": "DOG_WALKER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Dog Walker",
+    "description": "Walked the neighborhood dogs.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 1
+    }
+  },
+  "CAMP_COUNSELOR": {
+    "id": "CAMP_COUNSELOR",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Camp Counselor",
+    "description": "Led campfire songs for kids.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1
+    }
+  },
+  "MOVIE_THEATER_USHER": {
+    "id": "MOVIE_THEATER_USHER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Movie Theater Usher",
+    "description": "Swept popcorn off the floor.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "MALL_KIOSK_WORKER": {
+    "id": "MALL_KIOSK_WORKER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Mall Kiosk Worker",
+    "description": "Aggressively sold phone cases.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1
+    }
+  },
+  "FARM_HAND": {
+    "id": "FARM_HAND",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Farm Hand",
+    "description": "Woke up at 4 AM to feed animals.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 2
+    }
+  },
+  "DISHWASHER": {
+    "id": "DISHWASHER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Dishwasher",
+    "description": "Scrubbed plates in the back of a diner.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2
+    }
+  },
+  "CAR_WASH_ATTENDANT": {
+    "id": "CAR_WASH_ATTENDANT",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Car Wash Attendant",
+    "description": "Dried cars by hand.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "BABYSITTER": {
+    "id": "BABYSITTER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Babysitter",
+    "description": "Watched the neighbor's kids.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2
+    }
+  },
+  "LANDSCAPER": {
+    "id": "LANDSCAPER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Landscaper",
+    "description": "Mowed lawns in the summer heat.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "ICE_CREAM_SCOOPER": {
+    "id": "ICE_CREAM_SCOOPER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Ice Cream Scooper",
+    "description": "Has one incredibly strong forearm from scooping.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "LIBRARY_ASSISTANT": {
+    "id": "LIBRARY_ASSISTANT",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Library Assistant",
+    "description": "Re-shelved books in silence.",
+    "occurrence": 1,
+    "influences": {
+      "personality.introversion": 1
+    }
+  },
+  "KIDS_SPORTS_REFEREE": {
+    "id": "KIDS_SPORTS_REFEREE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Kids Sports Referee",
+    "description": "Got yelled at by angry parents at soccer games.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2
+    }
+  },
+  "BOWLING_ALLEY_ATTENDANT": {
+    "id": "BOWLING_ALLEY_ATTENDANT",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Bowling Alley Attendant",
+    "description": "Sprayed shoes with disinfectant.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "SKATE_SHOP_EMPLOYEE": {
+    "id": "SKATE_SHOP_EMPLOYEE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Skate Shop Employee",
+    "description": "Assembled skateboards for teenagers.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "LONG_TERM_GIRLFRIEND": {
+    "id": "LONG_TERM_GIRLFRIEND",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Long-Term Girlfriend",
+    "description": "Has a girlfriend back home. Very loyal.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 2,
+      "aggregations.fanbaseRatio": -0.02
+    }
+  },
+  "JUST_BROKEN_UP": {
+    "id": "JUST_BROKEN_UP",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Just Broken Up",
+    "description": "Dumped right before the audition. Nursing a broken heart.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.happiness": -5
+    }
+  },
+  "NEVER_BEEN_KISSED": {
+    "id": "NEVER_BEEN_KISSED",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Been Kissed",
+    "description": "Completely inexperienced in romance.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "SERIAL_TEEN_DATER": {
+    "id": "SERIAL_TEEN_DATER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Serial Teen Dater",
+    "description": "Had a different partner every month in high school.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "personality.sincerity": -1
+    }
+  },
+  "STILL_FRIENDS_WITH_EX": {
+    "id": "STILL_FRIENDS_WITH_EX",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Still Friends with Ex",
+    "description": "Maturity level is high, or they are just oblivious.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2
+    }
+  },
+  "ONLY_CHILD": {
+    "id": "ONLY_CHILD",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Only Child",
+    "description": "Used to getting all the attention.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 1,
+      "personality.gentleness": -1
+    }
+  },
+  "OLDEST_OF_5": {
+    "id": "OLDEST_OF_5",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Oldest of 5",
+    "description": "Used to taking care of everyone else.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.leadership": 1,
+      "personality.maturity": 2
+    }
+  },
+  "YOUNGEST_OF_5": {
+    "id": "YOUNGEST_OF_5",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Youngest of 5",
+    "description": "The baby of the family. Used to being babied.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -1,
+      "utilitySkills.charisma": 1
+    }
+  },
+  "MIDDLE_CHILD": {
+    "id": "MIDDLE_CHILD",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Middle Child",
+    "description": "Used to being overlooked. A natural peacekeeper.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2
+    }
+  },
+  "RAISED_BY_GRANDPARENTS": {
+    "id": "RAISED_BY_GRANDPARENTS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Raised by Grandparents",
+    "description": "Has an old soul and traditional manners.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2
+    }
+  },
+  "MILITARY_BRAT": {
+    "id": "MILITARY_BRAT",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Military Brat",
+    "description": "Moved bases every two years. Makes friends fast.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2
+    }
+  },
+  "CHILD_OF_DIVORCE": {
+    "id": "CHILD_OF_DIVORCE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Child of Divorce",
+    "description": "Split holidays and two bedrooms. Very adaptable.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "FRATERNAL_TWIN": {
+    "id": "FRATERNAL_TWIN",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Fraternal Twin",
+    "description": "Has a twin brother back home.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1
+    }
+  },
+  "IDENTICAL_TWIN": {
+    "id": "IDENTICAL_TWIN",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Identical Twin",
+    "description": "Used to sharing their exact face with someone else.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": -1,
+      "personality.introversion": -1
+    }
+  },
+  "ADOPTED": {
+    "id": "ADOPTED",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Adopted",
+    "description": "Loves their family fiercely.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 1
+    }
+  },
+  "RESTAURANT_FAMILY": {
+    "id": "RESTAURANT_FAMILY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Restaurant Family",
+    "description": "Grew up doing homework in a restaurant booth.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "TEACHER_PARENTS": {
+    "id": "TEACHER_PARENTS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Teacher Parents",
+    "description": "Has strict parents who value education.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2
+    }
+  },
+  "MOTEL_KID": {
+    "id": "MOTEL_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Motel Kid",
+    "description": "Family managed a roadside motel.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "FARM_KID": {
+    "id": "FARM_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Farm Kid",
+    "description": "Grew up surrounded by cornfields.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 1
+    }
+  },
+  "CITY_APARTMENT_KID": {
+    "id": "CITY_APARTMENT_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "City Apartment Kid",
+    "description": "Grew up taking the subway everywhere.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1
+    }
+  },
+  "SUBURBAN_KID": {
+    "id": "SUBURBAN_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Suburban Kid",
+    "description": "Grew up in a cul-de-sac riding bikes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "WEARS_BRACES": {
+    "id": "WEARS_BRACES",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Wears Braces",
+    "description": "Currently has metal tracks on their teeth.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "JUST_GOT_BRACES_OFF": {
+    "id": "JUST_GOT_BRACES_OFF",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Just Got Braces Off",
+    "description": "Constantly smiling to show off straight teeth.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1
+    }
+  },
+  "BROKE_AN_ARM_ONCE": {
+    "id": "BROKE_AN_ARM_ONCE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Broke an Arm Once",
+    "description": "Fell out of a tree at age 10.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "NEVER_LEFT_HOME_STATE": {
+    "id": "NEVER_LEFT_HOME_STATE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Left Home State",
+    "description": "This is their first time traveling.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2
+    }
+  },
+  "GOT_DRIVERS_LICENSE_YESTERDAY": {
+    "id": "GOT_DRIVERS_LICENSE_YESTERDAY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Got Driver's License Yesterday",
+    "description": "Just barely passed the test before flying out.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1
+    }
+  },
+  "FAILED_DRIVING_TEST_3_TIMES": {
+    "id": "FAILED_DRIVING_TEST_3_TIMES",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Failed Driving Test 3 Times",
+    "description": "Terrible behind the wheel.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -1
+    }
+  },
+  "HAD_A_GOTH_PHASE": {
+    "id": "HAD_A_GOTH_PHASE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Had a Goth Phase",
+    "description": "Used to wear black eyeliner and trip pants.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "HAD_A_SKATER_PHASE": {
+    "id": "HAD_A_SKATER_PHASE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Had a Skater Phase",
+    "description": "Used to wear DC shoes and listen to punk.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "FORMER_CHUBBY_KID": {
+    "id": "FORMER_CHUBBY_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Former Chubby Kid",
+    "description": "Had a massive glow-up the summer before the show.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "coreSkills.visual": 1
+    }
+  },
+  "LATE_BLOOMER": {
+    "id": "LATE_BLOOMER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Late Bloomer",
+    "description": "Just hit their growth spurt last month.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -1
+    }
+  },
+  "EARLY_BLOOMER": {
+    "id": "EARLY_BLOOMER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Early Bloomer",
+    "description": "Has looked 20 since they were 14.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1
+    }
+  },
+  "ALLERGIC_TO_PEANUTS": {
+    "id": "ALLERGIC_TO_PEANUTS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Allergic to Peanuts",
+    "description": "Carries an EpiPen everywhere.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "LACTOSE_INTOLERANT": {
+    "id": "LACTOSE_INTOLERANT",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Lactose Intolerant",
+    "description": "Risking it all every time they eat pizza.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "HAS_A_PET_IGUANA": {
+    "id": "HAS_A_PET_IGUANA",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Has a Pet Iguana",
+    "description": "Loves reptiles.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1
+    }
+  },
+  "HAS_3_CATS": {
+    "id": "HAS_3_CATS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Has 3 Cats",
+    "description": "A total cat person.",
+    "occurrence": 1,
+    "influences": {
+      "personality.introversion": 1
+    }
+  },
+  "HAS_A_GOLDEN_RETRIEVER": {
+    "id": "HAS_A_GOLDEN_RETRIEVER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Has a Golden Retriever",
+    "description": "A total dog person.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1
+    }
+  },
+  "CANT_SWIM": {
+    "id": "CANT_SWIM",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Can't Swim",
+    "description": "Never learned how.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "CANT_RIDE_A_BIKE": {
+    "id": "CANT_RIDE_A_BIKE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Can't Ride a Bike",
+    "description": "Somehow missed this childhood milestone.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": -1
+    }
+  },
+  "BROKE_NOSE_IN_PE": {
+    "id": "BROKE_NOSE_IN_PE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Broke Nose in PE",
+    "description": "Took a dodgeball to the face.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "NEVER_HAD_A_CAVITY": {
+    "id": "NEVER_HAD_A_CAVITY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Had a Cavity",
+    "description": "Impeccable dental hygiene.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "WISDOM_TEETH_REMOVED": {
+    "id": "WISDOM_TEETH_REMOVED",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Wisdom Teeth Removed",
+    "description": "Still has slightly puffy cheeks from the surgery.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": -1
+    }
+  },
+  "GLUTEN_INTOLERANCE": {
+    "id": "GLUTEN_INTOLERANCE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Gluten Intolerance",
+    "description": "Has to read every food label in the dorm.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "VEGAN_BY_CHOICE": {
+    "id": "VEGAN_BY_CHOICE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Vegan by Choice",
+    "description": "Doing it for the animals.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 2
+    }
+  },
+  "VEGETARIAN_SINCE_BIRTH": {
+    "id": "VEGETARIAN_SINCE_BIRTH",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Vegetarian since Birth",
+    "description": "Never tasted meat in their life.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "NEVER_HAD_FAST_FOOD": {
+    "id": "NEVER_HAD_FAST_FOOD",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Had Fast Food",
+    "description": "Raised by a health-nut mom.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "NEVER_HAD_SODA": {
+    "id": "NEVER_HAD_SODA",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Had Soda",
+    "description": "Only drinks water and juice.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "SLEEPS_WITH_A_STUFFED_ANIMAL": {
+    "id": "SLEEPS_WITH_A_STUFFED_ANIMAL",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Sleeps with a Stuffed Animal",
+    "description": "Brought their childhood bear to the dorms.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -2,
+      "aggregations.audienceRatio": 0.05
+    }
+  },
+  "STILL_WATCHES_CARTOONS": {
+    "id": "STILL_WATCHES_CARTOONS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Still Watches Cartoons",
+    "description": "Wakes up early on Saturday for animation.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1
+    }
+  },
+  "PLAYS_WITH_LEGOS": {
+    "id": "PLAYS_WITH_LEGOS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Plays with Legos",
+    "description": "Brought a set to build during downtime.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 1
+    }
+  },
+  "GREW_UP_WITHOUT_TV": {
+    "id": "GREW_UP_WITHOUT_TV",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Grew up without TV",
+    "description": "Parents didn't allow screens in the house.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2
+    }
+  },
+  "FIRST_SMARTPHONE": {
+    "id": "FIRST_SMARTPHONE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "First Smartphone",
+    "description": "Just got their first phone for the show.",
+    "occurrence": 1,
+    "influences": {
+      "personality.introversion": 1
+    }
+  },
+  "FIRST_TIME_ON_AIRPLANE": {
+    "id": "FIRST_TIME_ON_AIRPLANE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "First Time on Airplane",
+    "description": "Terrified during the flight to the studio.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "EAGLE_SCOUT": {
+    "id": "EAGLE_SCOUT",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Eagle Scout",
+    "description": "Achieved the highest rank in scouting.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.leadership": 2,
+      "personality.discipline": 2
+    }
+  },
+  "FORMER_ALTAR_BOY": {
+    "id": "FORMER_ALTAR_BOY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Former Altar Boy",
+    "description": "Served at their local church.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 1
+    }
+  },
+  "TRAVELING_MUSICIAN_PARENTS": {
+    "id": "TRAVELING_MUSICIAN_PARENTS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Traveling Musician Parents",
+    "description": "Grew up backstage at folk festivals.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.experience": 10
+    }
+  },
+  "LIVED_IN_AN_RV": {
+    "id": "LIVED_IN_AN_RV",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Lived in an RV",
+    "description": "Family traveled the country for a year.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "HOUSE_BURNED_DOWN": {
+    "id": "HOUSE_BURNED_DOWN",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "House Burned Down",
+    "description": "Lost everything as a kid. Very unattached to material things.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 3
+    }
+  },
+  "PIE_EATING_CHAMPION": {
+    "id": "PIE_EATING_CHAMPION",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Pie-Eating Champion",
+    "description": "Won a local county fair contest.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "CHILD_PAGEANT_STAR": {
+    "id": "CHILD_PAGEANT_STAR",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Child Pageant Star",
+    "description": "Used to do glitz pageants. Highly trained to smile.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": 1,
+      "personality.sincerity": -1
+    }
+  },
+  "CATALOGUE_MODEL": {
+    "id": "CATALOGUE_MODEL",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Catalogue Model",
+    "description": "Was in a JC Penney ad at age 8.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.experience": 5
+    }
+  },
+  "MOVIE_EXTRA": {
+    "id": "MOVIE_EXTRA",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Movie Extra",
+    "description": "Walked in the background of a B-movie once.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.experience": 2
+    }
+  },
+  "PLAYED_A_TREE": {
+    "id": "PLAYED_A_TREE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Played a Tree",
+    "description": "Their only acting experience is a school play.",
+    "occurrence": 1,
+    "influences": {
+      "personality.introversion": 1
+    }
+  },
+  "NEVER_HAD_A_PET": {
+    "id": "NEVER_HAD_A_PET",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Had a Pet",
+    "description": "Parents were strictly anti-animal.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -1
+    }
+  },
+  "GREW_UP_WITH_5_DOGS": {
+    "id": "GREW_UP_WITH_5_DOGS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Grew up with 5 Dogs",
+    "description": "House was always loud and chaotic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1
+    }
+  },
+  "GO_KART_RACER": {
+    "id": "GO_KART_RACER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Go-Kart Racer",
+    "description": "Used to race locally. Very competitive.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 1
+    }
+  },
+  "STUCK_IN_ELEVATOR": {
+    "id": "STUCK_IN_ELEVATOR",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Stuck in Elevator",
+    "description": "Was trapped for 5 hours once. Hates small spaces.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "LOST_IN_THE_WOODS": {
+    "id": "LOST_IN_THE_WOODS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Lost in the Woods",
+    "description": "Wandered off during a camping trip at age 6.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "MET_A_CELEBRITY": {
+    "id": "MET_A_CELEBRITY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Met a Celebrity",
+    "description": "Bumped into a famous actor at a mall.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1
+    }
+  },
+  "RADIO_CONTEST_WINNER": {
+    "id": "RADIO_CONTEST_WINNER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Radio Contest Winner",
+    "description": "Called in 100 times to win concert tickets.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "FORMER_MALL_GOTH": {
+    "id": "FORMER_MALL_GOTH",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Former Mall Goth",
+    "description": "Used to hang out at Hot Topic every weekend.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "BLEACHED_BLONDE_PHASE": {
+    "id": "BLEACHED_BLONDE_PHASE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Bleached Blonde Phase",
+    "description": "Fried their hair trying to look like Eminem.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": -1
+    }
+  },
+  "BUZZCUT_PHASE": {
+    "id": "BUZZCUT_PHASE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Buzzcut Phase",
+    "description": "Shaved their head on a dare.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "SCHOOL_UNIFORM_KID": {
+    "id": "SCHOOL_UNIFORM_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "School Uniform Kid",
+    "description": "Wore a tie to school for 12 years.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "NEVER_WENT_TO_PUBLIC_SCHOOL": {
+    "id": "NEVER_WENT_TO_PUBLIC_SCHOOL",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Went to Public School",
+    "description": "Only attended private academies.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1
+    }
+  },
+  "SWITCHED_SCHOOLS_8_TIMES": {
+    "id": "SWITCHED_SCHOOLS_8_TIMES",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Switched Schools 8 Times",
+    "description": "Always the 'new kid'. Highly adaptable.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2
+    }
+  },
+  "NEVER_MOVED_HOUSES": {
+    "id": "NEVER_MOVED_HOUSES",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Moved Houses",
+    "description": "Has slept in the same bedroom since birth.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "LIVED_IN_3_COUNTRIES": {
+    "id": "LIVED_IN_3_COUNTRIES",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Lived in 3 Countries",
+    "description": "Dad's job moved them around the globe.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2
+    }
+  },
+  "BEACH_KID": {
+    "id": "BEACH_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Beach Kid",
+    "description": "Grew up surfing and swimming.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "MOUNTAIN_KID": {
+    "id": "MOUNTAIN_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Mountain Kid",
+    "description": "Grew up hiking and skiing.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "FEAR_OF_SPIDERS": {
+    "id": "FEAR_OF_SPIDERS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Fear of Spiders",
+    "description": "Arachnophobic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "FEAR_OF_HEIGHTS": {
+    "id": "FEAR_OF_HEIGHTS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Fear of Heights",
+    "description": "Acrophobic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "FEAR_OF_THE_DARK": {
+    "id": "FEAR_OF_THE_DARK",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Fear of the Dark",
+    "description": "Nyctophobic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -1
+    }
+  },
+  "FEAR_OF_CLOWNS": {
+    "id": "FEAR_OF_CLOWNS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Fear of Clowns",
+    "description": "Coulrophobic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "LOVES_SCARY_MOVIES": {
+    "id": "LOVES_SCARY_MOVIES",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Loves Scary Movies",
+    "description": "Horror fanatic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1
+    }
+  },
+  "CANT_WATCH_SCARY_MOVIES": {
+    "id": "CANT_WATCH_SCARY_MOVIES",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Can't Watch Scary Movies",
+    "description": "Covers their eyes during trailers.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1
+    }
+  },
+  "BELIEVES_IN_GHOSTS": {
+    "id": "BELIEVES_IN_GHOSTS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Believes in Ghosts",
+    "description": "Refuses to play with Ouija boards.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1
+    }
+  },
+  "FAINTS_AT_BLOOD": {
+    "id": "FAINTS_AT_BLOOD",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Faints at Blood",
+    "description": "Cannot handle medical shows.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "DOUBLE_JOINTED_ELBOWS": {
+    "id": "DOUBLE_JOINTED_ELBOWS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Double-Jointed Elbows",
+    "description": "Looks broken when they stretch.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.acrobatics": 1
+    }
+  },
+  "CAN_ROLL_TONGUE": {
+    "id": "CAN_ROLL_TONGUE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Can Roll Tongue",
+    "description": "A genetic trait.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1
+    }
+  },
+  "HETEROCHROMIA": {
+    "id": "HETEROCHROMIA",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Heterochromia",
+    "description": "Has two different colored eyes.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 2,
+      "coreSkills.visual": 1
+    }
+  },
+  "STAR_BIRTHMARK": {
+    "id": "STAR_BIRTHMARK",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Star Birthmark",
+    "description": "Has a cool birthmark on their shoulder.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "EYEBROW_SCAR": {
+    "id": "EYEBROW_SCAR",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Eyebrow Scar",
+    "description": "Fell off a bike at age 7.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1
+    }
+  },
+  "FAKE_FRONT_TOOTH": {
+    "id": "FAKE_FRONT_TOOTH",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Fake Front Tooth",
+    "description": "Knocked it out playing basketball.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "WEARS_CONTACTS": {
+    "id": "WEARS_CONTACTS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Wears Contacts",
+    "description": "Blind as a bat without them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "COLORBLIND": {
+    "id": "COLORBLIND",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Colorblind",
+    "description": "Can't tell red from green.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": -1
+    }
+  },
+  "LEFT_HANDED": {
+    "id": "LEFT_HANDED",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Left-Handed",
+    "description": "Constantly bumping elbows at the dinner table.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "AMBIDEXTROUS": {
+    "id": "AMBIDEXTROUS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Ambidextrous",
+    "description": "Can write with both hands.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.learning": 1
+    }
+  },
+  "PERFECT_PITCH": {
+    "id": "PERFECT_PITCH",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Perfect Pitch",
+    "description": "Can identify any note instantly.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 2,
+      "utilitySkills.learning": 1
+    }
+  },
+  "TONE_DEAF_IN_DENIAL": {
+    "id": "TONE_DEAF_IN_DENIAL",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Tone Deaf (In Denial)",
+    "description": "Thinks they are amazing. They are not.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": -2,
+      "personality.sincerity": -1
+    }
+  },
+  "SLEEPS_ANYWHERE": {
+    "id": "SLEEPS_ANYWHERE",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Sleeps Anywhere",
+    "description": "Can nap on a concrete floor.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1
+    }
+  },
+  "NEEDS_10_HOURS_OF_SLEEP": {
+    "id": "NEEDS_10_HOURS_OF_SLEEP",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Needs 10 Hours of Sleep",
+    "description": "Useless if they don't get a full night.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": -1
+    }
+  },
+  "NIGHTLIGHT_SLEEPER": {
+    "id": "NIGHTLIGHT_SLEEPER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Nightlight Sleeper",
+    "description": "Still needs a dim light to fall asleep.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -1
+    }
+  },
+  "SLEEPS_WITH_TV_ON": {
+    "id": "SLEEPS_WITH_TV_ON",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Sleeps with TV On",
+    "description": "Needs the background noise.",
+    "occurrence": 1,
+    "influences": {
+      "personality.introversion": -1
+    }
+  },
+  "BACK_SLEEPER": {
+    "id": "BACK_SLEEPER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Back Sleeper",
+    "description": "Sleeps perfectly straight like a vampire.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1
+    }
+  },
+  "STOMACH_SLEEPER": {
+    "id": "STOMACH_SLEEPER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Stomach Sleeper",
+    "description": "Smothers their face in the pillow.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1
+    }
+  },
+  "LUCID_DREAMER": {
+    "id": "LUCID_DREAMER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Lucid Dreamer",
+    "description": "Can control their dreams.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1
+    }
+  },
+  "SLEEP_PARALYSIS": {
+    "id": "SLEEP_PARALYSIS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Sleep Paralysis",
+    "description": "Has terrifying waking nightmares.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1
+    }
+  },
+  "NEVER_REMEMBERS_DREAMS": {
+    "id": "NEVER_REMEMBERS_DREAMS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Never Remembers Dreams",
+    "description": "Wakes up with a blank slate.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": -1
+    }
+  },
+  "ALWAYS_REMEMBERS_DREAMS": {
+    "id": "ALWAYS_REMEMBERS_DREAMS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Always Remembers Dreams",
+    "description": "Tells everyone their weird dreams at breakfast.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1
+    }
+  },
+  "RAISED_IN_A_HAIR_SALON": {
+    "id": "RAISED_IN_A_HAIR_SALON",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Raised in a Hair Salon",
+    "description": "Spent their childhood sweeping hair for their mom. Knows all the town gossip.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1,
+      "utilitySkills.charisma": 1
+    }
+  },
+  "CONSTRUCTION_HELPER": {
+    "id": "CONSTRUCTION_HELPER",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Construction Helper",
+    "description": "Worked summers framing houses with their dad. Physically tough.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "personality.resilience": 1
+    }
+  },
+  "RECORD_STORE_CLERK": {
+    "id": "RECORD_STORE_CLERK",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Record Store Clerk",
+    "description": "Worked at a vintage music shop. A bit of a music snob.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1,
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "FAILED_TALENT_SHOW_CONTESTANT": {
+    "id": "FAILED_TALENT_SHOW_CONTESTANT",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Failed Talent Show Contestant",
+    "description": "Came in 4th place at the county fair. Has a chip on their shoulder.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 1,
+      "personality.resilience": -1
+    }
+  },
+  "LIVED_ABOVE_A_BAKERY": {
+    "id": "LIVED_ABOVE_A_BAKERY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Lived Above a Bakery",
+    "description": "Used to waking up at 3 AM to the smell of bread.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "personality.gentleness": 1
+    }
+  },
+  "PARENTS_ARE_DENTISTS": {
+    "id": "PARENTS_ARE_DENTISTS",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Parents are Dentists",
+    "description": "Has perfect teeth but absolute trauma from dental drills.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "personality.sensitivity": 1
+    }
+  },
+  "TOURIST_TOWN_LOCAL": {
+    "id": "TOURIST_TOWN_LOCAL",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Tourist Town Local",
+    "description": "Grew up in a beach town. Despises summer vacationers.",
+    "occurrence": 1,
+    "influences": {
+      "personality.introversion": 1,
+      "personality.maturity": 1
+    }
+  },
+  "HAUNTED_HOUSE_ACTOR": {
+    "id": "HAUNTED_HOUSE_ACTOR",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Haunted House Actor",
+    "description": "Worked as a scare-actor every October. Loves special effects.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": 1,
+      "personality.extroversion": 1
+    }
+  },
+  "OFF_THE_GRID_UPBRINGING": {
+    "id": "OFF_THE_GRID_UPBRINGING",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Off-the-Grid Upbringing",
+    "description": "Grew up in a cabin with spotty wifi. Fascinated by modern tech.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "personality.introversion": 1
+    }
+  },
+  "CHILDHOOD_ENTREPRENEUR": {
+    "id": "CHILDHOOD_ENTREPRENEUR",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Childhood Entrepreneur",
+    "description": "Ran a cutthroat lemonade stand empire at age 10.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 2,
+      "utilitySkills.leadership": 1
+    }
+  },
+  "FORMER_CHOIR_BOY": {
+    "id": "FORMER_CHOIR_BOY",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Former Choir Boy",
+    "description": "Got kicked out of the church choir for riffing too much.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "personality.discipline": -1
+    }
+  },
+  "HAND_ME_DOWN_KID": {
+    "id": "HAND_ME_DOWN_KID",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Hand-Me-Down Kid",
+    "description": "Never had new clothes growing up. Highly protective of their belongings.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1,
+      "personality.resilience": 1
+    }
+  },
+  "GREW_UP_IN_A_HOTEL": {
+    "id": "GREW_UP_IN_A_HOTEL",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Grew Up in a Hotel",
+    "description": "Parents managed a bed and breakfast. Used to transient guests.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1,
+      "personality.maturity": 1
+    }
+  },
+  "LOCAL_COMMERCIAL_ACTOR": {
+    "id": "LOCAL_COMMERCIAL_ACTOR",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Local Commercial Actor",
+    "description": "Was the face of a local used car dealership as a kid.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.experience": 5,
+      "utilitySkills.charisma": 1
+    }
+  },
+  "CRAMPED_APARTMENT_UPBRINGING": {
+    "id": "CRAMPED_APARTMENT_UPBRINGING",
+    "type": "history",
+    "group": "Mundane Life",
+    "name": "Cramped Apartment Upbringing",
+    "description": "Never had a bedroom door. Very used to zero privacy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "personality.extroversion": 1
+    }
+  },
+  "RAISED_IN_FOSTER_CARE": {
+    "id": "RAISED_IN_FOSTER_CARE",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised in Foster Care",
+    "description": "Bounced between homes growing up. Highly independent but struggles to trust others.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "personality.introversion": 1
+    }
+  },
+  "RAISED_BY_AUNT": {
+    "id": "RAISED_BY_AUNT",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised by Aunt",
+    "description": "Her house was always full of cousins. Values extended family above everything.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 1,
+      "personality.extroversion": 1
+    }
+  },
+  "RAISED_BY_UNCLE": {
+    "id": "RAISED_BY_UNCLE",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised by Uncle",
+    "description": "Taught them to change a tire and take a punch. A bit rough around the edges.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -1,
+      "personality.resilience": 1,
+      "utilitySkills.stamina": 1
+    }
+  },
+  "RAISED_BY_A_POLYAMOROUS_FAMILY": {
+    "id": "RAISED_BY_A_POLYAMOROUS_FAMILY",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised by a Polyamorous Family",
+    "description": "Grew up with three parental figures. Extremely open-minded and a great communicator.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2,
+      "personality.extroversion": 1
+    }
+  },
+  "RAISED_BY_OLDER_SIBLING": {
+    "id": "RAISED_BY_OLDER_SIBLING",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised by Older Sibling",
+    "description": "Brother/sister gave up their 20s to raise them. Feels a heavy debt to succeed for them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2,
+      "personality.ambition": 2,
+      "personality.investment": 1
+    }
+  },
+  "RAISED_BY_SINGLE_MOM": {
+    "id": "RAISED_BY_SINGLE_MOM",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised by Single Mom",
+    "description": "Watched her work three jobs to keep the lights on. Fiercely protective and driven.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "personality.investment": 2
+    }
+  },
+  "RAISED_BY_SINGLE_DAD": {
+    "id": "RAISED_BY_SINGLE_DAD",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised by Single Dad",
+    "description": "Best friends with their dad. Grew up on action movies and takeout.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "personality.extroversion": 1
+    }
+  },
+  "RAISED_IN_A_COMMUNE": {
+    "id": "RAISED_IN_A_COMMUNE",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised in a Commune",
+    "description": "Shared everything with 40 other people. Struggles with the concept of personal property.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2,
+      "coreSkills.uniqueness": 1
+    }
+  },
+  "RAISED_BY_GODPARENTS": {
+    "id": "RAISED_BY_GODPARENTS",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised by Godparents",
+    "description": "Taken in by close family friends. Endlessly polite and always trying to prove their worth.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1,
+      "personality.sincerity": 1,
+      "personality.discipline": 1
+    }
+  },
+  "RAISED_BY_NANNIES": {
+    "id": "RAISED_BY_NANNIES",
+    "type": "history",
+    "group": "Family Background",
+    "name": "Raised by Nannies",
+    "description": "Parents were rich but absent. Closer to the household staff than their own family.",
+    "occurrence": 1,
+    "influences": {
+      "personality.introversion": 1,
+      "personality.sensitivity": 1,
+      "aggregations.audienceRatio": -0.02
+    }
+  }
+}
