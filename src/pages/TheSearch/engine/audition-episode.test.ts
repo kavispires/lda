@@ -9,7 +9,7 @@ import { rankAuditions } from './audition-scoring';
 import { createSeasonSetup } from './season-setup';
 import { decodeSimulationState, SIMULATION_STORAGE_KEY } from './simulation-persistence';
 
-function setup(): SimulationState {
+function setup(useBias = false, biasCount = 0): SimulationState {
   const source = Object.fromEntries(
     Array.from({ length: 66 }, (_, index) => {
       const id = `audition-${index}`;
@@ -24,8 +24,20 @@ function setup(): SimulationState {
       ];
     }),
   );
+  if (biasCount)
+    for (const [index, contestant] of Object.values(source).entries()) {
+      contestant.bias = index < biasCount;
+      for (const key of Object.keys(contestant.coreSkills) as (keyof typeof contestant.coreSkills)[])
+        contestant.coreSkills[key] = contestant.bias ? 1 : 5;
+    }
   return {
-    ...createSeasonSetup(source, { seed: 12345, runId: 'episode-test', now: 1000, formatVersion: 1 }),
+    ...createSeasonSetup(source, {
+      seed: 12345,
+      runId: 'episode-test',
+      now: 1000,
+      formatVersion: 1,
+      useBias,
+    }),
     status: 'ready',
     persistenceError: null,
   };
@@ -72,6 +84,18 @@ function play(initial: SimulationState, reload: boolean): SimulationState {
   assert.equal(episode(state).phase, 'complete');
   return state;
 }
+
+test('bias protection also survives legacy broadcast choices, elimination reveals and every reload', () => {
+  const initial = setup(true, 30);
+  const direct = play(initial, false);
+  const restored = play(initial, true);
+  assert.deepEqual(JSON.parse(JSON.stringify(restored)), JSON.parse(JSON.stringify(direct)));
+  const ep = episode(restored);
+  assert.equal(ep.biasProtectionVersion, 1);
+  assert.ok(ep.biasScoreBoosts && Object.keys(ep.biasScoreBoosts).length > 0);
+  assert.equal(restored.contestants.filter((entry) => entry.status === 'ACTIVE').length, 30);
+  assert.ok(restored.contestants.filter((entry) => entry.bias).every((entry) => entry.status === 'ACTIVE'));
+});
 
 test('complete Auditions resumes identically after every scene and closes exactly once for all fifty', () => {
   const initial = setup();

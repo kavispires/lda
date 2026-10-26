@@ -8,6 +8,7 @@ import { processSimulationContestants } from '../utilities/card-assignment';
 import { TRACKS } from '../utilities/constants';
 import { createContestant } from '../utilities/contestant-factory';
 import { getSimulationDefinitions } from '../utilities/simulation-definitions';
+import { selectDiverseContestants } from '../utilities/simulation-helpers';
 import { createSeededRandom } from './random';
 import { createSeasonSetup } from './season-setup';
 import {
@@ -161,6 +162,24 @@ test('season setup excludes self from every contestant relationship map', () => 
       contestant.relationships,
     );
   }
+});
+
+test('bias selection never drops protected contestants when rounded track quotas overfill and rejects more than thirty', () => {
+  const source = sourcePool();
+  const protectedIds = Object.keys(source).slice(0, 1);
+  for (const id of protectedIds) source[id].bias = true;
+  for (let seed = 0; seed < 50; seed++) {
+    const random = createSeededRandom(seed);
+    const ids = selectDiverseContestants(source, true, random.next);
+    assert.equal(ids.length, 50);
+    assert.ok(protectedIds.every((id) => ids.includes(id)));
+  }
+  for (const id of Object.keys(source).slice(0, 31)) source[id].bias = true;
+  assert.throws(
+    () => createSeasonSetup(source, { ...options, useBias: true }),
+    /Only 30 contestants can survive Auditions/,
+  );
+  assert.equal(createSeasonSetup(source, { ...options, useBias: false }).contestants.length, 50);
 });
 
 test('seeded draws resume exactly from their persisted state and reject invalid seeds', () => {

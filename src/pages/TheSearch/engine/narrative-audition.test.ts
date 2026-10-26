@@ -6,15 +6,17 @@ import type { BattleAction } from '../types/battle-episode';
 import type { EpisodePreparation } from '../types/narrative';
 import type { SimulationState } from '../types/simulation';
 import { createContestant } from '../utilities/contestant-factory';
+import { createEpisodeRundown } from '../utilities/episode-rundown';
 import { getSimulationDefinitions } from '../utilities/simulation-definitions';
 import { MOOD_FIELDS } from './audition-episode';
-import { auditionGrade } from './audition-scoring';
+import { auditionGrade, rankAuditions } from './audition-scoring';
 import { completedAuditionsFixture, nextBattleAction } from './battle-fixtures';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from './narrative-audition';
+import { transitionBattleStory } from './narrative-battle';
 import { createSeasonSetup } from './season-setup';
 import { decodeSimulationState, encodeSimulationState } from './simulation-persistence';
 
-function setup(formatVersion: 2 | 3 = 2): SimulationState {
+function setup(formatVersion: 2 | 3 = 2, useBias = false, biasCount = 0): SimulationState {
   const definitions = getSimulationDefinitions();
   const source = Object.fromEntries(
     Array.from({ length: 65 }, (_, index) => {
@@ -28,6 +30,11 @@ function setup(formatVersion: 2 | 3 = 2): SimulationState {
       contestant.coreSkills.vocals = 1 + (index % 5);
       contestant.coreSkills.dance = 1 + ((index + 2) % 5);
       contestant.personality.gentleness = (index % 11) - 5;
+      if (biasCount) {
+        contestant.bias = index < biasCount;
+        for (const key of Object.keys(contestant.coreSkills) as (keyof typeof contestant.coreSkills)[])
+          contestant.coreSkills[key] = contestant.bias ? 1 : 5;
+      }
       for (const field of MOOD_FIELDS) {
         const choices = Object.keys(definitions.specialties[field]);
         contestant.specialties[field] = choices[index % choices.length];
@@ -36,7 +43,7 @@ function setup(formatVersion: 2 | 3 = 2): SimulationState {
     }),
   );
   return {
-    ...createSeasonSetup(source, { seed: 12345, runId: 'narrative-test', now: 1000, formatVersion }),
+    ...createSeasonSetup(source, { seed: 12345, runId: 'narrative-test', now: 1000, formatVersion, useBias }),
     status: 'ready',
     persistenceError: null,
   };
@@ -152,6 +159,79 @@ test('narrative Auditions plays all fifty in the exact story schedule and surviv
       (_, index) => (['john', 'megan', 'michael'] as const)[Math.floor(index / 7) % 3],
     ),
   );
+});
+
+test('bias-enabled auditions quietly advance all thirty weak favorites with exact reloads and private scores', () => {
+  const initial = setup(3, true, 30);
+  const direct = play(initial, false);
+  const restored = play(initial, true);
+  assert.deepEqual(JSON.parse(JSON.stringify(restored)), JSON.parse(JSON.stringify(direct)));
+  const ep = restored.runtime?.audition;
+  assert.ok(ep?.biasScoreBoosts);
+  const protectedIds = initial.contestants.filter((entry) => entry.bias === true).map((entry) => entry.id);
+  assert.equal(protectedIds.length, 30);
+  assert.deepEqual(new Set(ep.survivorIds), new Set(protectedIds));
+  assert.ok(Object.keys(ep.biasScoreBoosts).length > 0);
+  assert.ok(
+    rankAuditions(ep.evaluations)
+      .slice(30)
+      .some((entry) => protectedIds.includes(entry.contestantId)),
+    'without private scores these favorites really would have been cut',
+  );
+  assert.ok(restored.contestants.filter((entry) => entry.status === 'ACTIVE').every((entry) => entry.bias));
+  for (const entry of ep.evaluations) {
+    assert.ok(entry.panel?.rawFinalScore !== undefined);
+    assert.equal(entry.finalScore, entry.panel.rawFinalScore + 0.2 * (100 - entry.panel.rawFinalScore));
+    assert.equal(entry.grade, auditionGrade(entry.finalScore));
+  }
+  const story = JSON.stringify(ep.scenes);
+  const rundown = createEpisodeRundown(restored, 1);
+  assert.doesNotMatch(story + rundown, /biasScoreBoosts|biasProtectionVersion|bias protection/i);
+  const invalid = structuredClone(restored);
+  assert.ok(invalid.runtime?.audition?.biasScoreBoosts);
+  const id = Object.keys(invalid.runtime.audition.biasScoreBoosts)[0];
+  invalid.runtime.audition.biasScoreBoosts[id] += 1;
+  assert.throws(() => decodeSimulationState(JSON.stringify(invalid)), /bias protection/);
+  delete invalid.runtime.audition.biasScoreBoosts;
+  assert.throws(() => decodeSimulationState(JSON.stringify(invalid)), /bias protection/);
+  const premature = transitionNarrativeAudition(initial, { type: 'start' }, 0);
+  assert.ok(premature.runtime?.audition);
+  premature.runtime.audition.biasScoreBoosts = {};
+  assert.throws(() => decodeSimulationState(encodeSimulationState(premature)), /bias protection/);
+  const disabled = structuredClone(restored);
+  assert.ok(disabled.runtime);
+  disabled.runtime.setup.useBias = false;
+  assert.throws(() => decodeSimulationState(encodeSimulationState(disabled)), /bias protection/);
+  let next = transitionBattleStory(restored, { type: 'start' }, 0);
+  for (let count = 0; count < 4 && !next.runtime?.battle; count++) {
+    const { action, revision } = battleAction(next);
+    next = transitionBattleStory(next, action, revision);
+    assert.deepEqual(decodeSimulationState(encodeSimulationState(next)), JSON.parse(JSON.stringify(next)));
+  }
+  assert.ok(next.runtime?.battle);
+});
+
+test('unchecked bias and already-started legacy auditions retain their ordinary elimination scores', () => {
+  const unchecked = play(setup(3, false, 30), true);
+  assert.ok(unchecked.runtime?.audition);
+  assert.equal(unchecked.runtime.audition.biasProtectionVersion, undefined);
+  assert.equal(unchecked.runtime.audition.biasScoreBoosts, undefined);
+  assert.deepEqual(
+    unchecked.runtime.audition.rankedIds,
+    rankAuditions(unchecked.runtime.audition.evaluations).map((entry) => entry.contestantId),
+  );
+  let old = setup(3, true, 30);
+  old = transitionNarrativeAudition(old, { type: 'start' }, 0);
+  assert.ok(old.runtime?.audition);
+  delete old.runtime.audition.biasProtectionVersion;
+  const finished = play(decodeSimulationState(encodeSimulationState(old)), true);
+  assert.ok(finished.runtime?.audition);
+  assert.equal(finished.runtime.audition.biasScoreBoosts, undefined);
+  assert.deepEqual(
+    finished.runtime.audition.rankedIds,
+    rankAuditions(finished.runtime.audition.evaluations).map((entry) => entry.contestantId),
+  );
+  assert.ok(finished.contestants.some((entry) => entry.bias && entry.status === 'ELIMINATED'));
 });
 
 test('new current-format auditions freeze the gentler scale and preserve it across every beat and compressed reload', () => {

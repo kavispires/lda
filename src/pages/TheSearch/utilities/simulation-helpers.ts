@@ -69,9 +69,9 @@ export function selectDiverseContestants(
     const biasContestants = contestants.filter((c) => c.bias === true);
     selected.push(...biasContestants.map((c) => c.id));
 
-    if (selected.length > 50) {
+    if (selected.length > 30) {
       throw new Error(
-        `Too many bias contestants (${selected.length}). Cannot fit all in 50 slots. Please reduce bias contestants.`,
+        `Too many bias contestants (${selected.length}). Only 30 contestants can survive Auditions. Please reduce bias contestants.`,
       );
     }
   }
@@ -128,7 +128,7 @@ export function selectDiverseContestants(
     }
 
     // Take up to target number from this track
-    const toSelect = Math.min(target, available.length);
+    const toSelect = Math.min(target, available.length, 50 - selected.length);
     for (let i = 0; i < toSelect; i++) {
       selected.push(available[i].id);
     }

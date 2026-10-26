@@ -131,6 +131,8 @@ export type AuditionAction =
 export interface AuditionEpisode {
   version: 1 | 2;
   scoringVersion?: AuditionScoringVersion;
+  biasProtectionVersion?: 1;
+  biasScoreBoosts?: Record<string, number>;
   story?: NarrativeAuditionStory;
   relationshipPolicy: AuditionRelationshipPolicy;
   phase: AuditionPhase;

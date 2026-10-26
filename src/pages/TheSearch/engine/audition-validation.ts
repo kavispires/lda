@@ -15,7 +15,7 @@ import type { ChangeValue, PropertyChange } from '../types/common';
 import type { Contestant } from '../types/contestant';
 import type { SimulationDefinitions } from '../types/simulation';
 import { validateAuditionSongs } from '../utilities/audition-songs';
-import { rankAuditions } from './audition-scoring';
+import { auditionBiasScoreBoosts, rankAuditions } from './audition-scoring';
 
 function object(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value);
@@ -243,11 +243,43 @@ export function isAuditionAction(value: unknown): value is AuditionAction {
   );
 }
 
+export function validateAuditionBiasProtection(
+  value: unknown,
+  contestants: readonly Contestant[],
+  useBias: boolean,
+): Record<string, number> | undefined {
+  const invalid = (): never => {
+    throw new Error('The saved Auditions bias protection is invalid.');
+  };
+  if (!object(value)) return invalid();
+  if (value.biasProtectionVersion === undefined) {
+    if (value.biasScoreBoosts !== undefined) return invalid();
+    return;
+  }
+  if (value.biasProtectionVersion !== 1 || !useBias) return invalid();
+  const protectedIds = contestants.filter((entry) => entry.bias === true).map((entry) => entry.id);
+  if (protectedIds.length > 30) return invalid();
+  if (value.audience === null) {
+    if (value.biasScoreBoosts !== undefined) return invalid();
+    return;
+  }
+  if (!Array.isArray(value.evaluations) || !value.evaluations.every(evaluation)) return invalid();
+  const expected = auditionBiasScoreBoosts(value.evaluations, protectedIds);
+  const actual = value.biasScoreBoosts;
+  if (
+    !object(actual) ||
+    Object.keys(actual).length !== Object.keys(expected).length ||
+    Object.entries(expected).some(([id, boost]) => !Object.hasOwn(actual, id) || actual[id] !== boost)
+  )
+    return invalid();
+  return expected;
+}
+
 export function assertAuditionEpisode(
   value: unknown,
   contestants: readonly Contestant[],
   definitions: SimulationDefinitions,
-  { archived = false }: { archived?: boolean } = {},
+  { archived = false, useBias = false }: { archived?: boolean; useBias?: boolean } = {},
 ): asserts value is AuditionEpisode {
   const invalid = () => {
     throw new Error('The saved Auditions episode is invalid or incomplete.');
@@ -345,6 +377,7 @@ export function assertAuditionEpisode(
     !(value.secret === null || secret(value.secret))
   )
     return invalid();
+  const biasScoreBoosts = validateAuditionBiasProtection(value, contestants, useBias);
   const pool = validateAuditionSongs(value.pool, Object.keys(definitions.specialties.genreAffinity));
   if (
     pool.length !== 9 ||
@@ -462,7 +495,7 @@ export function assertAuditionEpisode(
       Object.keys(value.audience.receptions).length !== 50 ||
       !Object.keys(value.audience.receptions).every((id) => ids.has(id)) ||
       !Object.keys(value.audience.newFans).every((id) => ids.has(id)) ||
-      JSON.stringify(rankAuditions(evaluations).map((entry) => entry.contestantId)) !==
+      JSON.stringify(rankAuditions(evaluations, biasScoreBoosts).map((entry) => entry.contestantId)) !==
         JSON.stringify(value.rankedIds) ||
       JSON.stringify(value.rankedIds.slice(0, 30)) !== JSON.stringify(value.survivorIds) ||
       JSON.stringify(value.rankedIds.slice(30).reverse()) !== JSON.stringify(value.eliminatedIds)

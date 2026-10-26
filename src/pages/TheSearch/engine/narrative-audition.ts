@@ -13,7 +13,7 @@ import { chooseAuditionMvp, resolveNarrativeAudience } from './audition-audience
 import { transitionAudition } from './audition-episode';
 import { chooseAuditionSongs, resolveLiveAudition } from './audition-live';
 import { applyAuditionFarewells, scorePanelAudition } from './audition-panel';
-import { rankAuditions } from './audition-scoring';
+import { auditionBiasScoreBoosts, rankAuditions } from './audition-scoring';
 import { transitionBattle } from './battle-episode';
 import { recordContestantChanges } from './change-history';
 import { applyPreparation, initializePreparation, playOpening } from './episode-preparation';
@@ -393,7 +393,12 @@ function transitionNarrativeAuditionInternal(
       next.contestants = outcome.contestants;
       runtime.show = outcome.show;
       ep.audience = outcome.outcome;
-      ep.rankedIds = rankAuditions(ep.evaluations).map((entry) => entry.contestantId);
+      if (ep.biasProtectionVersion === 1)
+        ep.biasScoreBoosts = auditionBiasScoreBoosts(
+          ep.evaluations,
+          runtime.initialContestants.filter((entry) => entry.bias === true).map((entry) => entry.id),
+        );
+      ep.rankedIds = rankAuditions(ep.evaluations, ep.biasScoreBoosts).map((entry) => entry.contestantId);
       ep.survivorIds = ep.rankedIds.slice(0, 30);
       ep.eliminatedIds = ep.rankedIds.slice(30).reverse();
       applySeasonRanks(next);

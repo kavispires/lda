@@ -247,14 +247,53 @@ export function compareAuditions(left: AuditionEvaluation, right: AuditionEvalua
 }
 
 /** Returns a new ranked list; does not eliminate, mutate contestants, or close an episode. */
-export function rankAuditions(evaluations: readonly AuditionEvaluation[]): AuditionEvaluation[] {
+export function rankAuditions(
+  evaluations: readonly AuditionEvaluation[],
+  scoreBoosts?: Readonly<Record<string, number>>,
+): AuditionEvaluation[] {
   validateUniqueContestants(evaluations);
   for (const evaluation of evaluations) validateRanking(evaluation);
-  const ranked = [...evaluations].sort(compareAuditions);
+  if (scoreBoosts) {
+    const ids = new Set(evaluations.map((entry) => entry.contestantId));
+    for (const [id, boost] of Object.entries(scoreBoosts)) {
+      if (!ids.has(id) || !Number.isFinite(boost) || boost < 0 || boost > 101)
+        throw new Error('Audition score boosts must belong to the cast and be within 0-101.');
+    }
+  }
+  const compare = scoreBoosts
+    ? (left: AuditionEvaluation, right: AuditionEvaluation) =>
+        right.finalScore +
+          (scoreBoosts[right.contestantId] ?? 0) -
+          (left.finalScore + (scoreBoosts[left.contestantId] ?? 0)) || compareAuditions(left, right)
+    : compareAuditions;
+  const ranked = [...evaluations].sort(compare);
   for (let index = 1; index < ranked.length; index++) {
-    if (compareAuditions(ranked[index - 1], ranked[index]) === 0) {
+    if (compare(ranked[index - 1], ranked[index]) === 0) {
       throw new Error('Audition tie-break draw collision: persist a new seeded key before ranking.');
     }
   }
   return ranked;
+}
+
+export function auditionBiasScoreBoosts(
+  evaluations: readonly AuditionEvaluation[],
+  protectedIds: readonly string[],
+): Record<string, number> {
+  const ranked = rankAuditions(evaluations);
+  const protectedSet = new Set(protectedIds);
+  if (
+    ranked.length !== 50 ||
+    protectedSet.size !== protectedIds.length ||
+    protectedSet.size > 30 ||
+    protectedIds.some((id) => !ranked.some((entry) => entry.contestantId === id))
+  )
+    throw new Error('Audition bias protection requires fifty evaluations and at most thirty cast members.');
+  const cutoff = ranked.filter((entry) => !protectedSet.has(entry.contestantId))[30 - protectedSet.size];
+  // Clear the first excluded ordinary score, even when its public evaluation is already 100.
+  const boosts: Record<string, number> = {};
+  for (const entry of ranked) {
+    if (protectedSet.has(entry.contestantId) && compareAuditions(entry, cutoff) >= 0)
+      boosts[entry.contestantId] = cutoff.finalScore + 1 - entry.finalScore;
+  }
+  return boosts;
 }

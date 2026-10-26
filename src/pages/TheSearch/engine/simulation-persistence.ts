@@ -119,7 +119,11 @@ function isContestant(value: unknown): value is Contestant {
         migrateRankingChanges(entry.changes);
       }
   }
-  const template = createContestant({ id: 'validation', name: 'Validation', updatedAt: 1 });
+  const { bias: _bias, ...template } = createContestant({
+    id: 'validation',
+    name: 'Validation',
+    updatedAt: 1,
+  });
   return (
     hasShape(value, template) &&
     value.type === 'contestant' &&
@@ -513,10 +517,12 @@ export function decodeSimulationState(stored: string): SimulationState {
     if (runtime.version === 2 || runtime.version === 3) {
       assertNarrativeAudition(audition, archiveContestants, runtime.definitions, {
         archived: runtime.episode >= 2,
+        useBias: runtime.setup.useBias,
       });
     } else {
       assertAuditionEpisode(audition, archiveContestants, runtime.definitions, {
         archived: runtime.episode >= 2,
+        useBias: runtime.setup.useBias,
       });
     }
     if (runtime.episode === 1 && audition.audience && audition.audience.votingPopulation !== show.audience) {

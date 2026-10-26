@@ -6,7 +6,17 @@ import type { SimulationDefinitions } from '../types/simulation';
 import { validateAuditionSongs } from '../utilities/audition-songs';
 import { auditionPanelFinalScore } from './audition-panel';
 import { auditionGrade, rankAuditions } from './audition-scoring';
-import { change, check, evaluation, mvp, outcome, reaction, scene, secret } from './audition-validation';
+import {
+  change,
+  check,
+  evaluation,
+  mvp,
+  outcome,
+  reaction,
+  scene,
+  secret,
+  validateAuditionBiasProtection,
+} from './audition-validation';
 
 const fields = [
   'vocalColor',
@@ -124,13 +134,14 @@ export function assertNarrativeAudition(
   value: unknown,
   contestants: readonly Contestant[],
   definitions: SimulationDefinitions,
-  { archived = false }: { archived?: boolean } = {},
+  { archived = false, useBias = false }: { archived?: boolean; useBias?: boolean } = {},
 ): asserts value is AuditionEpisode {
   const fail = (reason: string): never => {
     throw new Error(`Invalid narrative Auditions: ${reason}.`);
   };
   if (!shape(value)) return fail('malformed story record');
   const ep = value;
+  const biasScoreBoosts = validateAuditionBiasProtection(ep, contestants, useBias);
   const story = ep.story;
   if (!story) return fail('missing story');
   const cast = new Set(contestants.map(({ id }) => id));
@@ -350,7 +361,7 @@ export function assertNarrativeAudition(
       fail('invalid montage introductions');
   }
   if (ep.audience) {
-    const ranked = rankAuditions(ep.evaluations).map(({ contestantId }) => contestantId);
+    const ranked = rankAuditions(ep.evaluations, biasScoreBoosts).map(({ contestantId }) => contestantId);
     if (
       ep.cursor !== 50 ||
       !same(ep.rankedIds, ranked) ||

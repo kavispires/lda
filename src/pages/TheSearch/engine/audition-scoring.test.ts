@@ -11,6 +11,7 @@ import type {
 import { getAuditionSongs, validateAuditionSongs } from '../utilities/audition-songs';
 import {
   AUDITION_BATCH_SIZES,
+  auditionBiasScoreBoosts,
   auditionGrade,
   auditionMinimumFace,
   compareAuditions,
@@ -410,6 +411,58 @@ test('ranking uses capped score, technical, stage presence, then persisted key; 
     impressions: { ...highSurplus.impressions, visual: { ...highSurplus.impressions.visual, score: 60 } },
   };
   assert.ok(compareAuditions(lowSurplus, highSurplus) < 0);
+});
+
+test('private cutoff scores protect every bias without altering grades or requiring capped performances', () => {
+  const base = scoreAudition(input());
+  const entries = Array.from({ length: 50 }, (_, index) => ({
+    ...base,
+    contestantId: `protected-${index}`,
+    finalScore: 100 - 2 * index,
+    tieBreakKey: index / 50,
+  }));
+  const before = structuredClone(entries);
+  const protectedIds = [entries[0].contestantId, entries[29].contestantId, entries[49].contestantId];
+  const boosts = auditionBiasScoreBoosts(entries, protectedIds);
+  assert.equal(boosts[entries[0].contestantId], undefined, 'a safe score needs no boost');
+  assert.deepEqual(Object.keys(boosts).sort(), protectedIds.slice(1).sort());
+  const ranked = rankAuditions(entries, boosts);
+  for (const id of protectedIds) assert.ok(ranked.slice(0, 30).some((entry) => entry.contestantId === id));
+  const ordinary = ranked.filter((entry) => !protectedIds.includes(entry.contestantId));
+  assert.deepEqual(
+    ordinary,
+    rankAuditions(entries).filter((entry) => !protectedIds.includes(entry.contestantId)),
+  );
+  assert.deepEqual(entries, before);
+  assert.deepEqual(auditionBiasScoreBoosts(entries, []), {});
+  assert.deepEqual(rankAuditions(entries, {}), rankAuditions(entries));
+
+  const tied = entries.map((entry) => ({ ...entry, finalScore: 100 }));
+  const thirty = tied.slice(20).map((entry) => entry.contestantId);
+  const tieBoosts = auditionBiasScoreBoosts(tied, thirty);
+  assert.equal(Object.keys(tieBoosts).length, 30);
+  assert.ok(Object.values(tieBoosts).every((value) => value === 1));
+  assert.deepEqual(
+    new Set(
+      rankAuditions(tied, tieBoosts)
+        .slice(0, 30)
+        .map((entry) => entry.contestantId),
+    ),
+    new Set(thirty),
+  );
+  assert.ok(tied.every((entry) => entry.finalScore === 100 && entry.grade === base.grade));
+  assert.throws(
+    () =>
+      auditionBiasScoreBoosts(
+        tied,
+        tied.slice(19).map((entry) => entry.contestantId),
+      ),
+    /thirty/,
+  );
+  assert.throws(() => auditionBiasScoreBoosts(tied, ['unknown']), /cast members/);
+  assert.throws(() => auditionBiasScoreBoosts(tied, [thirty[0], thirty[0]]), /cast members/);
+  assert.throws(() => rankAuditions(entries, { unknown: 1 }), /boosts/);
+  assert.throws(() => rankAuditions(entries, { [thirty[0]]: Number.POSITIVE_INFINITY }), /boosts/);
 });
 
 test('scoring rejects unsupported practice, bad levels/dice/preferences/IDs and invalid persisted keys', () => {

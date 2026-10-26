@@ -22,6 +22,7 @@ import { AUDITION_CONFIG } from './audition-config';
 import { chooseAuditionSongs, resolveLiveAudition, selectAuditionPool } from './audition-live';
 import {
   AUDITION_BATCH_SIZES,
+  auditionBiasScoreBoosts,
   drawAuditionTieBreakKey,
   rankAuditions,
   startAuditionBatch,
@@ -118,6 +119,8 @@ function finishEpisode(state: SimulationState): void {
 }
 
 function makeEpisode(runtime: SeasonRuntime, random: RandomSource): AuditionEpisode {
+  if (runtime.setup.useBias && runtime.initialContestants.filter((entry) => entry.bias === true).length > 30)
+    throw new Error('Only 30 bias contestants can be protected in Auditions.');
   validateSecretConsequences(runtime.definitions.cards.secret);
   const pool = runtime.setup.auditionPoolIds
     ? runtime.setup.auditionPoolIds.map((id) => {
@@ -134,6 +137,7 @@ function makeEpisode(runtime: SeasonRuntime, random: RandomSource): AuditionEpis
   };
   return {
     version: 1,
+    ...(runtime.setup.useBias ? { biasProtectionVersion: 1 as const } : {}),
     relationshipPolicy: 'everyone-forms-opinions',
     phase: 'mood',
     revision: 1,
@@ -374,7 +378,12 @@ function transitionAuditionInternal(
       runtime.show = result.show;
       episode.audience = result.outcome;
       episode.selectedCutId = cut.id;
-      const ranked = rankAuditions(episode.evaluations);
+      if (episode.biasProtectionVersion === 1)
+        episode.biasScoreBoosts = auditionBiasScoreBoosts(
+          episode.evaluations,
+          runtime.initialContestants.filter((entry) => entry.bias === true).map((entry) => entry.id),
+        );
+      const ranked = rankAuditions(episode.evaluations, episode.biasScoreBoosts);
       episode.rankedIds = ranked.map((evaluation) => evaluation.contestantId);
       episode.survivorIds = episode.rankedIds.slice(0, 30);
       episode.eliminatedIds = episode.rankedIds.slice(30).reverse();
