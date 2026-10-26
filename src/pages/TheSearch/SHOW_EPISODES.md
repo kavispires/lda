@@ -1776,3 +1776,96 @@ and stops at Episode 10. Each participant earns exactly +5 silent XP for two
 completed rehearsals and one solo. TV credit uses actual footage and stays
 separate from competition and copied narration. Viewer-only relationship notes
 compare Episodes 9/10 among all nine participants, including the departure.
+
+## Episode 11 - The Finale
+
+Eight finalists compete for exactly five places in **Squirrel Zone**. Confirm
+the usual retained/refilled opening portraits and six taste choices before
+Mike's briefing. Sequence 2 plays the opening and applies its ordinary +0.02
+audience preference once.
+
+| Sequence | What the audience watches                                                                     |
+| -------- | --------------------------------------------------------------------------------------------- |
+| 1        | Mike announces two originals. Ranks 1/2 captain two groups of four through six snake picks.   |
+| 2        | The confirmed opening portraits and shared theme.                                             |
+| 3        | Two substantive rehearsals, actual struggles and genuine teammate support.                    |
+| 4        | Seven judges return; grounded finalist nerves and panel introductions.                        |
+| 5        | Two original group acts, with individual attention to all eight performers.                   |
+| 6        | All eight perform the competitive, celebratory Squirrel Life live.                            |
+| 7        | Finalists wait while the public vote closes and final results are sealed.                     |
+| 8        | Five separate winner announcements, 5 through 1; official Center, confetti and fade to black. |
+
+### Draft, rehearsal and the private label decision
+
+Captain turns follow **1,2,2,1,1,2**. Equal normalized stage presence and
+utility consistency take priority over outgoing affection, with saved seeded
+ties. Each original has four real parts and legal arrangements for every
+primary track; a same-track cast remains valid. Captains act as leaders,
+not preselected performance centers.
+
+Two rehearsals test learning/memory/consistency and stamina/consistency/memory.
+Readiness remains episode-owned, not permanent practice or skill growth.
+A gentle, sincere teammate may help an actual struggling member; support is
+not guaranteed, and there is no additional coaching decision.
+
+After rehearsals, playback pauses for **exactly three manual executive
+selections**. This is private label access, not a broadcast announcement.
+Each selected finalist gains +0.50 production preference, capped at +1, and
+a once-only +50 final-point bonus. A capped preference still receives the
+full point bonus. The choice does not guarantee membership or improve
+judges' assessments or public-vote probabilities.
+
+**Auto-complete saves and stops at this modal.** It never chooses the three.
+After manual confirmation, auto-complete can finish the season normally.
+Escape/backdrop cannot dismiss the decision; failed writes preserve the
+current choice, state and randomness.
+
+### Performances and the seven-person panel
+
+John Stan, Megan Ryder and Michael Lion are joined by Jane Strauss, the
+actual Doubt Girls member from Episode 7, Roxana Michaels and Vivienne Voss.
+No guest is redrawn. High sensitivity can produce nerves without erasing a
+physical or more severe condition; there is no automatic numeric nerves penalty.
+
+Original technical quality uses 30% track, 20% stage presence, 25% stamina
+and 25% consistency, plus twice readiness. Theme quality uses 50% dance,
+20% stage presence, 15% stamina and 15% consistency, plus twice readiness.
+A low raw roll combined with actual weak-stamina/consistency evidence can
+cost 20 original points. Traits alone cannot force failure. Resilient,
+ambitious excellence can earn real praise, not a guaranteed flawless act.
+All eight receive +5 happiness once when their shared theme is completed.
+
+Original and theme count **50% each**. Each judge averages their two act
+perspectives equally. Final evaluation is **50% technical / 50% mean of all
+seven judges**, with no extra guest multiplier. Optional final score details
+retain each judge's recorded terms and full-precision arithmetic.
+
+Resolve public voting once. Finale points retain **100% of prior points**,
+then add 60% evaluation, 30% normalized public votes, 10% normalized
+production preference and the selected +50. Earlier episodes retain their
+existing 75% rule. There is **no MVP or secret investigation**.
+
+### Five reveals and the completed season
+
+Announce only the fifth, fourth, third, second and first members, each on its
+own advance. First place becomes the official Center. Other finalists are
+respectfully left out of the celebration focus, without announcing places
+6-8 or prolonged farewells. Profiles retain previous public ranks/points
+until all five are revealed; no future winner or Center leaks through Details.
+
+The season ends with five WINNER contestants, three newly marked "Not selected"
+and no ACTIVE contestants. Earlier positions9-50 remain fixed. Departure fans
+transfer once to the five actual winners. There is no Episode12 or forced reset.
+All finalists earn exactly +8 silent XP for two rehearsals and two performances;
+votes, selection, judging and winner reveals add none.
+
+After the fade, separate viewer-only references show full final scores, private
+executive accounting, Relationships Updates and the post-season outcome.
+Retained group fans = **floor(final audience × final satisfaction / 100)**.
+Show the retained share and non-retained viewers without modifying individual
+fan balances, live audience conservation, locked results or pending attrition.
+
+Every decision, act and individual winner reveal survives full-history
+compressed reload. Earlier archives/copies remain frozen. The completed rundown
+and eleven-episode combined story separate private label knowledge from
+broadcast narration; none of these notes grants the cast executive knowledge.

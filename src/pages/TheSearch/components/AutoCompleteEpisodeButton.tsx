@@ -29,13 +29,22 @@ export function AutoCompleteEpisodeButton({
     (episode === 7 && (runtime.version !== 3 || !isEpisodeComplete(state, 6))) ||
     (episode === 8 && (runtime.version !== 3 || !isEpisodeComplete(state, 7))) ||
     (episode === 9 && (runtime.version !== 3 || !isEpisodeComplete(state, 8))) ||
-    (episode === 10 && (runtime.version !== 3 || !isEpisodeComplete(state, 9)))
+    (episode === 10 && (runtime.version !== 3 || !isEpisodeComplete(state, 9))) ||
+    (episode === 11 && (runtime.version !== 3 || !isEpisodeComplete(state, 10))) ||
+    (episode === 11 && runtime.finale?.phase === 'executive-choice')
   )
     return null;
 
+  const manualDecisionAhead = episode === 11 && !runtime.finale?.executive;
   return (
     <Space orientation="vertical">
-      <Tooltip title="Finish this episode now, automatically choosing any remaining decisions. Existing choices and results are kept.">
+      <Tooltip
+        title={
+          manualDecisionAhead
+            ? 'Advance and save at the mandatory executive decision. You must choose the three contestants yourself.'
+            : 'Finish this episode now, automatically choosing any remaining decisions. Existing choices and results are kept.'
+        }
+      >
         <Button
           icon={<FastForwardOutlined />}
           loading={loading}
@@ -43,8 +52,8 @@ export function AutoCompleteEpisodeButton({
             setLoading(true);
             setError(null);
             try {
-              await simulationActions.autoCompleteEpisode(episode, state);
-              onCompleted?.();
+              const next = await simulationActions.autoCompleteEpisode(episode, state);
+              if (isEpisodeComplete(next, episode)) onCompleted?.();
             } catch (cause) {
               setError(cause instanceof Error ? cause.message : 'Could not auto-complete the episode.');
             } finally {
@@ -52,7 +61,7 @@ export function AutoCompleteEpisodeButton({
             }
           }}
         >
-          Auto-complete episode
+          {manualDecisionAhead ? 'Advance to executive decision' : 'Auto-complete episode'}
         </Button>
       </Tooltip>
       {error && <Alert role="alert" title={error} type="error" />}

@@ -3,6 +3,7 @@ import { transitionAudition } from '../engine/audition-episode';
 import { transitionBattle } from '../engine/battle-episode';
 import { transitionBootcamp } from '../engine/bootcamp-episode';
 import { autoCompleteEpisode, type EpisodeNumber } from '../engine/episode-auto-complete';
+import { transitionFinale } from '../engine/finale-episode';
 import { transitionMegaGroups } from '../engine/mega-groups-episode';
 import { transitionMusicVideo } from '../engine/music-video-episode';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from '../engine/narrative-audition';
@@ -23,6 +24,7 @@ import type { AuditionAction } from '../types/audition-episode';
 import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
+import type { FinaleAction } from '../types/finale-episode';
 import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { MusicVideoAction } from '../types/music-video-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
@@ -62,6 +64,7 @@ export const simulationActions = {
     if (simulationStore.state !== expectedState)
       throw new Error('The simulation changed during auto-completion. Your latest progress was kept.');
     if (next !== expectedState) commitState(next);
+    return next;
   },
 
   initializeSimulation(
@@ -143,6 +146,11 @@ export const simulationActions = {
   dispatchSpecialties(action: SpecialtiesAction, expectedRevision: number) {
     const current = simulationStore.state;
     const next = transitionSpecialties(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+  dispatchFinale(action: FinaleAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionFinale(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

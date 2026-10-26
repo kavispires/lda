@@ -138,6 +138,35 @@ export function projectEpisodeContestant(contestant: Contestant, runtime: Season
     return value;
   };
   const result = projectBattleReveals(contestant, runtime);
+  if (runtime.finale) {
+    const episode = runtime.finale;
+    const prior = episode.startingContestants.find((entry) => entry.id === contestant.id);
+    if (prior) {
+      result.aggregations.productionRatio = prior.aggregations.productionRatio;
+      if (!episode.resultsPublished) {
+        result.rank = prior.rank;
+        result.aggregations.rankingScore = prior.aggregations.rankingScore;
+        result.status = episode.revealedWinnerIds.includes(contestant.id) ? 'WINNER' : prior.status;
+        result.aggregations.center = prior.aggregations.center;
+        result.changeLog = result.changeLog.filter((entry) => entry.episode !== 11);
+      }
+    }
+    result.changeLog = result.changeLog.map((entry) =>
+      entry.episode !== 11
+        ? entry
+        : {
+            ...entry,
+            change: Object.fromEntries(
+              Object.entries(entry.change).filter(([path]) => path !== 'aggregations.productionRatio'),
+            ),
+            changes: entry.changes?.filter(
+              ({ path, cause }) =>
+                path !== 'aggregations.productionRatio' &&
+                !/\b(executive|secret production|label decision)\b/i.test(cause),
+            ),
+          },
+    );
+  }
   if (runtime.specialties && !runtime.specialties.rankRevealed) {
     const episode = runtime.specialties;
     const prior = episode.startingContestants.find((entry) => entry.id === contestant.id);

@@ -5,7 +5,7 @@ import { recordContestantChanges } from './change-history';
 
 type Tier = 0 | 1 | 3 | 6;
 type Activity = {
-  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
+  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11;
   contestantId: string;
   tv: Tier;
   experience: 0 | 1 | 3;
@@ -63,7 +63,7 @@ function activities(state: SimulationState): Map<string, Activity> {
     if (result.has(key)) throw new Error('Activity identity must be unique.');
     result.set(key, activity);
   };
-  for (const number of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10] as const) {
+  for (const number of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11] as const) {
     const episode =
       number === 1
         ? runtime.audition
@@ -83,7 +83,9 @@ function activities(state: SimulationState): Map<string, Activity> {
                       ? runtime.varietyShow
                       : number === 9
                         ? runtime.musicVideo
-                        : runtime.specialties;
+                        : number === 10
+                          ? runtime.specialties
+                          : runtime.finale;
     for (const scene of episode?.scenes ?? []) {
       if (scene.tvMoments === undefined) continue;
       if (scene.tvMoments === null || typeof scene.tvMoments !== 'object' || Array.isArray(scene.tvMoments))
@@ -250,6 +252,24 @@ function activities(state: SimulationState): Map<string, Activity> {
       tv: performance.observedScore >= 85 ? 6 : 3,
       experience: 3,
     });
+  for (const rehearsal of runtime.finale?.rehearsals ?? [])
+    add(`rehearsal:${rehearsal.session}`, {
+      episode: 11,
+      contestantId: rehearsal.contestantId,
+      tv: 0,
+      experience: 1,
+    });
+  for (const [act, performances] of [
+    ['original', runtime.finale?.originalPerformances ?? []],
+    ['theme', runtime.finale?.themePerformances ?? []],
+  ] as const)
+    for (const performance of performances)
+      add(act, {
+        episode: 11,
+        contestantId: performance.contestantId,
+        tv: performance.technical >= 85 ? 6 : 3,
+        experience: 3,
+      });
   return result;
 }
 
@@ -348,7 +368,9 @@ export function awardNewActivity(before: SimulationState, next: SimulationState)
                       ? next.runtime.varietyShow
                       : total.episode === 9
                         ? next.runtime.musicVideo
-                        : next.runtime.specialties;
+                        : total.episode === 10
+                          ? next.runtime.specialties
+                          : next.runtime.finale;
     if (!episode) throw new Error('Activity requires its recorded episode.');
     episode.changes[id] ??= [];
     episode.changes[id].push(...recorded);

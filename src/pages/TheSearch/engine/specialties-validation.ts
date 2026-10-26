@@ -4,7 +4,7 @@ import type { SimulationDefinitions, SimulationState } from '../types/simulation
 import type { SpecialtiesEpisode } from '../types/specialties-episode';
 import { validateSpecialtiesCatalog } from '../utilities/specialties-songs';
 import { recordContestantChanges } from './change-history';
-import { validateSpecialtiesPreparation } from './episode-preparation';
+import { validateFinalePreparation, validateSpecialtiesPreparation } from './episode-preparation';
 import { createSeededRandom } from './random';
 import {
   applySpecialtiesAction,
@@ -203,22 +203,34 @@ export function validateSpecialties(state: SimulationState): void {
   const ep = runtime.specialties;
   if (
     runtime.version !== 3 ||
-    runtime.episode !== 10 ||
-    runtime.phase !== (ep.phase === 'complete' ? 'episode-complete' : 'specialties')
+    (runtime.finale
+      ? runtime.episode !== 11 || ep.phase !== 'complete'
+      : runtime.episode !== 10 ||
+        runtime.phase !== (ep.phase === 'complete' ? 'episode-complete' : 'specialties'))
   )
     fail('runtime phase');
   const expected = replay(ep, runtime.definitions);
-  assertLiveCast(state.contestants, expected);
-  same(runtime.randomState, expected.runtime!.randomState, 'live seeded chronology');
-  same(runtime.show, expected.runtime!.show, 'live audience and fan transfer');
-  same(runtime.revealedSecrets, expected.runtime!.revealedSecrets, 'once-only revealed cards');
+  const next = runtime.finale;
+  assertLiveCast(next?.startingContestants ?? state.contestants, expected);
   same(
-    runtime.deferredConsequences,
+    runtime.preparations?.[11]?.randomAudit?.startState ?? runtime.randomState,
+    expected.runtime!.randomState,
+    'seeded episode boundary',
+  );
+  same(next?.startingShow ?? runtime.show, expected.runtime!.show, 'audience and fan transfer boundary');
+  same(
+    next?.startingRevealedSecrets ?? runtime.revealedSecrets,
+    expected.runtime!.revealedSecrets,
+    'once-only revealed cards',
+  );
+  same(
+    next?.startingDeferredConsequences ?? runtime.deferredConsequences,
     expected.runtime!.deferredConsequences,
     'once-only deferred consequences',
   );
   same(runtime.preparations![10], expected.runtime!.preparations![10], 'opening played once');
-  same(runtime.openingCast, ep.startingOpeningCast, 'locked opening cast');
+  if (!runtime.preparations?.[11]) same(runtime.openingCast, ep.startingOpeningCast, 'locked opening cast');
   same(ep.randomStartState, runtime.preparations![10]!.randomAudit!.endState, 'preparation RNG handoff');
   validateSpecialtiesPreparation(state);
+  validateFinalePreparation(state);
 }

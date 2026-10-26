@@ -14,6 +14,7 @@ import {
 } from './attribute-libraries';
 import { getAuditionSongs } from './audition-songs';
 import { BATTLE_SONGS, validateBattleSongs } from './battle-songs';
+import { getFinaleCatalog } from './finale-songs';
 import { getMegaGroupsCatalogs } from './mega-groups-catalogs';
 import { getMusicVideoCatalog } from './music-video-catalog';
 import { getPhotoshootConcepts } from './photoshoot-concepts';
@@ -52,5 +53,6 @@ export function getSimulationDefinitions(): SimulationDefinitions {
     varietyShowCatalog: getVarietyShowCatalog(),
     musicVideoCatalog: getMusicVideoCatalog(),
     specialtiesCatalog: getSpecialtiesCatalog(),
+    finaleCatalog: getFinaleCatalog(),
   });
 }

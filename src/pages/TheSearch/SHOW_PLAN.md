@@ -13,9 +13,9 @@ on player interaction and how the simulation systems connect.
   an additional story mechanic or a claim that its exact algebra was approved.
 
 Contestant management, card libraries, cast initialization, and playable
-Episodes 1 through 10 now exist. New simulations use the narrative format described
+Episodes 1 through 11 now exist. New simulations use the narrative format described
 below; version-1 and version-2 saves retain their original episode rules.
-Broader-season gaps still need design.
+The finale ends the season with five winners and an official Center.
 
 ### Silent TV value and artistic experience
 
@@ -887,7 +887,7 @@ separate performance-only elimination rule.
 competition-points total is a decaying cumulative record, not an equally weighted permanent
 sum and not an abrupt reset. Retain the original episode contributions in history.
 
-At each completed episode, retain 75% of the previous total, then add that episode's
+Through Episode 10, retain 75% of the previous total, then add that episode's
 new weighted contribution:
 
 ```text
@@ -896,6 +896,10 @@ new rankingScore = previous rankingScore * 0.75 + new episode contribution
 
 Apply the retention rule to the whole previous total. Older contributions retain
 the weights they received when earned; do not retroactively reweight their history.
+Episode 11 is the explicit exception: retain 100% of prior points, preserve the
+implemented 60% performance / 30% normalized votes / 10% production contribution,
+and add the selected finalists' once-only executive bonus. The proposed alternate
+episode-range weights above do not override the implemented episode formulas.
 
 **Established component scales:** Each new-episode component uses 0-100.
 Performance uses mission-specific evaluation; votes use leader-relative
@@ -2291,28 +2295,63 @@ Viewer-only Relationships Updates uses the actual previous/current endpoints.
 
 ### Episode 11 - Finale
 
-**Format:** Eight finalists perform in two groups of four, with one original song
-per group, plus one full-cast song. There are three performances total.
-Three contestants leave and the final five are revealed.
+**Implemented:** The exact eight Specialties survivors prepare the usual opening,
+then form two groups of four. Ranks 1/2 captain a six-pick snake draft
+1,2,2,1,1,2. Equal normalized stage presence/utility consistency determines
+ability; outgoing affection and saved ties break equality. Frozen originals
+have four real parts with legal Vocal/Rap/Dance arrangements even for a
+single-track cast. Captains lead once; no performance-center election.
 
-**Proposed small interaction:** Offer one final, bounded production decision without
-giving the player control of every group, role, performance, or final result.
+Two real rehearsals per finalist test learning/memory/consistency and
+stamina/consistency/memory, with the first skill doubled. Episode-owned readiness
+is monotonic and does not overwrite past practice. Actual struggles can receive
+one gentle, sincere support interaction per team; no guaranteed conflict or
+additional coaching modal. Each original and the shared Squirrel Life use one
+saved pair per performer: exactly 32 rehearsal/performance pairs overall.
 
-**Connections:** Season-long attachment, current performance, fanbase support, and
-the player's editorial history culminate in the final result and show viewership.
-Bias pushes may help contestants but cannot guarantee the canonical five win.
+**Private executive decision:** After rehearsals, a blocking modal requires
+exactly three distinct finalists. Each receives +0.50 productionRatio capped
+at +1 and +50 final ranking points once, even when the ratio is already capped.
+There is no guaranteed debut, judging bonus, public-vote bonus or extra footage.
+Auto-complete saves and pauses here; it cannot choose for the player.
 
-**Open:** Group formation, final vote weights/windows, tie-breakers, and whether
-production has any explicit final vote beyond its established ranking contribution.
-The continuing overall ranking determines the final five; do not replace it with
-an unrelated finale-only score.
+**Seven judges:** John Stan, Megan Ryder, Michael Lion, Jane Strauss, the actual
+Episode 7 Doubt Girls guest, Roxana Michaels and Vivienne Voss. Sensitivity >=5
+requests ANXIOUS while preserving physical/severe conditions; nerves have no
+automatic numerical deduction. Original quality weights track/stage/stamina/
+consistency 30/20/25/25; theme quality weights dance/stage/stamina/consistency
+50/20/15/15. Add twice readiness. Only a genuine low-roll, weak-stamina/
+consistency original breakdown costs 20. Resilient, ambitious excellence can
+earn grounded reception, never free technical points.
 
-**Established conclusion:** Include a post-season outcome showing how satisfaction
-affects the viewers who remain fans of the final group.
+Average the original and theme equally. Each judge averages their two act
+perspectives equally. Finale evaluation is 50% technical mean and 50% mean of
+all seven judges, with no extra guest multiplier. John assesses delivery;
+Megan expression/potential; Michael marketability/control; Jane dance/
+consistency; the returning artist delivery/presence; Roxana charisma/adaptability;
+Vivienne visuals/stamina/consistency. The shared theme grants +5 happiness once.
 
-**Proposed presentation:** Reveal all five winners, final audience size and
-satisfaction, and a season retrospective linking key player choices to contestant
-journeys before showing the post-season outcome.
+**Final tally:** Resolve one ordinary public audience. Retain all prior points,
+then add .60*evaluation + .30*normalizedVotes + .10*normalizedProduction
+- selected50. Saved seeded ties determine equal final totals. Executive choices
+  do not affect technical checks or public voting probabilities.
+
+**Conclusion:** No MVP, investigation or deferred-secret intervention.
+Seal all eight results; announce only five winners in five advances 5,4,3,2,1.
+The first-place winner becomes official Center once. Do not announce places6-8
+or stage prolonged farewells. Publish final profiles/history only after the
+Center reveal; five WINNER and three newly ELIMINATED ("Not selected"), zero
+ACTIVE. Preserve old positions9-50 and transfer the three fan pools once.
+Finish runtime episode11/season-complete, with no Episode12 or automatic reset.
+
+After the celebration and fade, show separate viewer-only final math, private
+label reference, relationship notes and a derived post-season outcome:
+floor(finalAudience*finalSatisfaction/100) retained group fans. This forecast
+does not change the conserved live audience ledger or apply attrition again.
+Silent activity gives exactly +8 XP per finalist (two rehearsals and two acts);
+TV credit comes only from actual footage. Native seeded replay, audited
+preparation11, historical archives, compressed full-history saves and copied
+stories preserve Episodes1-10 and never disclose future winners.
 
 ## 7. State, history, and player-facing screens
 

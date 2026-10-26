@@ -35,6 +35,7 @@ export function seasonRanks(
   const varietyDepartures = runtime.varietyShow?.eliminatedIds ?? [];
   const musicVideoDepartures = runtime.musicVideo?.eliminatedId ? [runtime.musicVideo.eliminatedId] : [];
   const specialtiesDepartures = runtime.specialties?.eliminatedId ? [runtime.specialties.eliminatedId] : [];
+  const finaleDepartures = runtime.finale?.resultsPublished ? runtime.finale.rankedIds.slice(5) : [];
   const departed = new Set([
     ...auditionDepartures,
     ...battleDepartures,
@@ -44,6 +45,7 @@ export function seasonRanks(
     ...varietyDepartures,
     ...musicVideoDepartures,
     ...specialtiesDepartures,
+    ...finaleDepartures,
   ]);
   const remaining = contestants
     .filter((entry) => !departed.has(entry.id))
@@ -51,6 +53,7 @@ export function seasonRanks(
     .map((entry) => entry.id);
   const ordered = [
     ...remaining,
+    ...finaleDepartures,
     ...specialtiesDepartures,
     ...musicVideoDepartures,
     ...varietyDepartures,

@@ -1,0 +1,107 @@
+{
+  "version": 1,
+  "originals": [
+    {
+      "id": "new-horizon",
+      "name": "New Horizon",
+      "description": "An original bright pop arrangement building from intimate entrances to a shared final refrain.",
+      "difficulty": 4,
+      "parts": [
+        {
+          "id": "opening",
+          "name": "Opening statement",
+          "staging": "Enter from the left wing and meet the first camera.",
+          "arrangements": {
+            "VOCAL": "A sustained melodic opening over instrumental backing.",
+            "RAP": "A measured rhythmic opening over a sung backing refrain.",
+            "DANCE": "An expressive opening movement over the recorded melodic backing."
+          }
+        },
+        {
+          "id": "response",
+          "name": "Answering phrase",
+          "staging": "Cross to the right diagonal and answer the opening.",
+          "arrangements": {
+            "VOCAL": "An answering melody with clean changes of register.",
+            "RAP": "An answering flow with distinct rhythmic accents.",
+            "DANCE": "An answering movement phrase with precise directional changes."
+          }
+        },
+        {
+          "id": "bridge",
+          "name": "Bridge",
+          "staging": "Move through the central diagonal while the others frame the bridge.",
+          "arrangements": {
+            "VOCAL": "A restrained bridge rising into the final refrain.",
+            "RAP": "A restrained bridge flow building toward the shared refrain.",
+            "DANCE": "A controlled bridge phrase expanding into the shared formation."
+          }
+        },
+        {
+          "id": "closing",
+          "name": "Closing lift",
+          "staging": "Lead the last transition before returning to the equal four-person line.",
+          "arrangements": {
+            "VOCAL": "A clear closing melodic lift with instrumental support.",
+            "RAP": "A closing rhythmic lift against the backing hook.",
+            "DANCE": "A closing movement lift against the recorded hook."
+          }
+        }
+      ]
+    },
+    {
+      "id": "after-the-rain",
+      "name": "After the Rain",
+      "description": "An original mid-tempo performance with interlocking responses and a warm ensemble finish.",
+      "difficulty": 4,
+      "parts": [
+        {
+          "id": "opening",
+          "name": "First light",
+          "staging": "Begin on the downstage diagonal before opening toward the ensemble.",
+          "arrangements": {
+            "VOCAL": "A quiet melodic entrance with a controlled rise.",
+            "RAP": "A quiet rhythmic entrance with a controlled rise.",
+            "DANCE": "A quiet movement entrance with a controlled expansion."
+          }
+        },
+        {
+          "id": "response",
+          "name": "Reflection",
+          "staging": "Mirror the opening from the opposite diagonal.",
+          "arrangements": {
+            "VOCAL": "A responsive melodic phrase over the instrumental pulse.",
+            "RAP": "A responsive flow over the instrumental pulse.",
+            "DANCE": "A responsive movement phrase over the backing melody."
+          }
+        },
+        {
+          "id": "bridge",
+          "name": "Turning point",
+          "staging": "Take the middle crossing while teammates hold the outer marks.",
+          "arrangements": {
+            "VOCAL": "A contrasting bridge requiring breath control.",
+            "RAP": "A contrasting bridge requiring clear breath placement.",
+            "DANCE": "A contrasting bridge requiring sustained movement control."
+          }
+        },
+        {
+          "id": "closing",
+          "name": "Together",
+          "staging": "Close the crossing and rejoin the shared four-person finish.",
+          "arrangements": {
+            "VOCAL": "A final melodic response before the ensemble ending.",
+            "RAP": "A final rhythmic response before the ensemble ending.",
+            "DANCE": "A final movement response before the ensemble ending."
+          }
+        }
+      ]
+    }
+  ],
+  "theme": {
+    "id": "squirrel-life",
+    "title": "Squirrel Life",
+    "difficulty": 3,
+    "staging": "All eight perform live in two interlocking lines, rotating the camera focus through every member and sharing the final formation. Instrumental and backing arrangements support each primary track."
+  }
+}

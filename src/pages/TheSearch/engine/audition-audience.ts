@@ -437,6 +437,7 @@ export function resolveNarrativeEvidenceAudience(input: {
   mood: MoodChoices;
   show: ShowAudience;
   random: RandomSource;
+  rankingRetention?: 0.75 | 1;
 }): AudienceResult {
   const ids = input.contestants.map(({ id }) => id);
   if (
@@ -465,7 +466,10 @@ function resolveEvidenceAudience(input: {
   scenes: readonly ShownScene[];
   creditScreenTime: boolean;
   rankingOrder?: readonly string[];
+  rankingRetention?: 0.75 | 1;
 }): AudienceResult {
+  if (input.rankingRetention !== undefined && input.rankingRetention !== 0.75 && input.rankingRetention !== 1)
+    throw new Error('Ranking retention must be 0.75 or 1.');
   const { contestants, evidence, reactions, mood, random } = input;
   const coverage = input.exposure;
   const { cast, byId } = validateEvidence(contestants, evidence);
@@ -589,7 +593,9 @@ function resolveEvidenceAudience(input: {
       CONFIG.voteContribution * (maximumVotes ? (100 * votes[id]) / maximumVotes : 0) +
       CONFIG.productionContribution * production;
     aggregations.rankingScore =
-      CONFIG.cumulativeRetention * finite(aggregations.rankingScore, 'Cumulative score') + contribution;
+      (input.rankingRetention ?? CONFIG.cumulativeRetention) *
+        finite(aggregations.rankingScore, 'Cumulative score') +
+      contribution;
   }
   const auditionOrder = new Map(
     (input.rankingOrder ?? evidence.map((evaluation) => evaluation.contestantId)).map((id, index) => [

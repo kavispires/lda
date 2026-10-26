@@ -81,6 +81,7 @@ interface ContestantDetailModalProps {
   definitions?: SimulationDefinitions;
   withdrawnEpisode?: number;
   expelledEpisode?: number;
+  notSelectedEpisode?: number;
 }
 
 export function ContestantDetailModal({
@@ -92,6 +93,7 @@ export function ContestantDetailModal({
   definitions,
   withdrawnEpisode,
   expelledEpisode,
+  notSelectedEpisode,
 }: ContestantDetailModalProps) {
   if (!contestant) return null;
 
@@ -105,6 +107,7 @@ export function ContestantDetailModal({
           expelledEpisode={expelledEpisode}
           hidePerformance={hidePerformance}
           hideSeasonRanking={hideSeasonRanking}
+          notSelectedEpisode={notSelectedEpisode}
           withdrawnEpisode={withdrawnEpisode}
         />
       ),
@@ -132,6 +135,7 @@ export function ContestantDetailModal({
           contestant={contestant}
           expelledEpisode={expelledEpisode}
           hideSeasonRanking={hideSeasonRanking}
+          notSelectedEpisode={notSelectedEpisode}
           withdrawnEpisode={withdrawnEpisode}
         />
       ),
@@ -173,12 +177,14 @@ function BasicInfoTab({
   hidePerformance,
   withdrawnEpisode,
   expelledEpisode,
+  notSelectedEpisode,
 }: {
   contestant: Contestant;
   hideSeasonRanking: boolean;
   hidePerformance: boolean;
   withdrawnEpisode?: number;
   expelledEpisode?: number;
+  notSelectedEpisode?: number;
 }) {
   return (
     <Space orientation="vertical" size="large" style={{ width: '100%' }}>
@@ -193,11 +199,13 @@ function BasicInfoTab({
             {hidePerformance ? 'Not performed' : contestant.grade}
           </Descriptions.Item>
           <Descriptions.Item label="Status">
-            {expelledEpisode && contestant.status === 'ELIMINATED'
-              ? 'EXPELLED'
-              : withdrawnEpisode && contestant.status === 'ELIMINATED'
-                ? 'WITHDREW'
-                : contestant.status}
+            {notSelectedEpisode && contestant.status === 'ELIMINATED'
+              ? 'NOT SELECTED'
+              : expelledEpisode && contestant.status === 'ELIMINATED'
+                ? 'EXPELLED'
+                : withdrawnEpisode && contestant.status === 'ELIMINATED'
+                  ? 'WITHDREW'
+                  : contestant.status}
           </Descriptions.Item>
           {!hideSeasonRanking && (
             <Descriptions.Item label="Rank">{contestant.rank || 'N/A'}</Descriptions.Item>
@@ -702,11 +710,13 @@ function ChangeLogTab({
   hideSeasonRanking,
   withdrawnEpisode,
   expelledEpisode,
+  notSelectedEpisode,
 }: {
   contestant: Contestant;
   hideSeasonRanking: boolean;
   withdrawnEpisode?: number;
   expelledEpisode?: number;
+  notSelectedEpisode?: number;
 }) {
   const columns = [
     {
@@ -734,11 +744,13 @@ function ChangeLogTab({
       width: 100,
       render: (status: string, entry: ChangeLogEntry) => (
         <Tag>
-          {expelledEpisode && entry.episode >= expelledEpisode && status === 'ELIMINATED'
-            ? 'EXPELLED'
-            : withdrawnEpisode && entry.episode >= withdrawnEpisode && status === 'ELIMINATED'
-              ? 'WITHDREW'
-              : status}
+          {notSelectedEpisode && entry.episode >= notSelectedEpisode && status === 'ELIMINATED'
+            ? 'NOT SELECTED'
+            : expelledEpisode && entry.episode >= expelledEpisode && status === 'ELIMINATED'
+              ? 'EXPELLED'
+              : withdrawnEpisode && entry.episode >= withdrawnEpisode && status === 'ELIMINATED'
+                ? 'WITHDREW'
+                : status}
         </Tag>
       ),
     },

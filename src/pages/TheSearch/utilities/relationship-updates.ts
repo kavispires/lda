@@ -48,6 +48,7 @@ export function episodeRelationshipUpdates(
     runtime.varietyShow,
     runtime.musicVideo,
     runtime.specialties,
+    runtime.finale,
   ];
   const current = records[episode - 1];
   if (!current) throw new Error('The relationship updates are missing their episode.');

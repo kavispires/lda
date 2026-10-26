@@ -212,7 +212,7 @@ export function validateMusicVideo(state: SimulationState): void {
   if (
     runtime.version !== 3 ||
     (runtime.specialties
-      ? runtime.episode !== 10 || runtime.musicVideo.phase !== 'complete'
+      ? ![10, 11].includes(runtime.episode) || runtime.musicVideo.phase !== 'complete'
       : runtime.episode !== 9 ||
         runtime.phase !== (runtime.musicVideo.phase === 'complete' ? 'episode-complete' : 'music-video'))
   )
