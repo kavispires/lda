@@ -1663,3 +1663,116 @@ shots/takes, the focus allocation, four judges, actual MVP/revelations, standing
 and farewell. Hidden cards and unsuccessful investigation scenes stay out.
 Viewer-only Relationships Updates compares Episodes 8 and 9 across all ten,
 including the departure. Auto-complete stops at Episode 9's final Top 9 screen.
+
+## Episode 10 - Specialties
+
+Nine Music Videos survivors receive tailored solo stages. Mike hosts the
+best-friend game; John Stan, Megan Ryder and Michael Lion judge the solos.
+No guest, trio, leader/center election or coaching choice is introduced.
+
+| Sequence | What plays                                                                                         |
+| -------- | -------------------------------------------------------------------------------------------------- |
+| 1        | Mike's solo-stage and best-friend briefing.                                                        |
+| 2        | Confirmed opening portraits and the ordinary one-time preference benefit.                          |
+| 3        | Nine locked private selections become public, with actual mutual matches and unrequited reactions. |
+| 4        | Nine tailored songs and two substantive individual rehearsals each.                                |
+| 5        | First five solos, each with individual attention and technical feedback.                           |
+| 6        | Remaining four solos, actual spotlight confidence/pressure and grounded praise.                    |
+| 7        | Nine secret complete peer rankings, received averages and final panel evaluation.                  |
+| 8        | Nine standings, rank-9 departure, eight-survivor MVP/investigation, farewell and Top 8 close.      |
+
+### Opening and best friends
+
+Retain surviving opening members, replace only vacancies from the strongest-core
+shortlist, and anchor the six tastes to Episode 9's highest/lowest final survivors.
+Confirm before the briefing. The normal +0.02 audienceRatio benefit applies once
+when Sequence 2 airs.
+
+All nine choices use the same frozen outgoing relationship snapshot. Choose the
+greatest affection among the other eight; saved random keys break ties. Lock
+every choice before the first reveal. A mutual match gives each person +20
+happiness, +0.10 audienceRatio and +0.10 fanbaseRatio once, with ordinary clamps.
+Apply the reward when both reciprocal selections have become public. After all
+reveals, sensitivity >=5 costs an unrequited chooser 3 happiness. There is no
+additional affection, technical-point or literal fan grant.
+
+### Tailored solos
+
+Frozen original song templates support nine valid distinct solos even when all
+performers share a track. Each arrangement matches its performer's primary
+specialty and visual vibe. Medium-difficulty normalized track and visual checks
+receive +10 each, capped at 100. Permanent skills, specialties, prior practice
+and the separate audience-taste rules do not change.
+
+Each contestant rehearses twice with a fresh saved pair per session. First:
+learning (double weight), memory, consistency. Second: stamina (double weight),
+consistency, memory. The weighted adjusted dice sum divided by four yields
+session practice min(5,floor(sum/2)); keep the higher session readiness.
+Consistency <3 plus a second-session stamina check below 50 records genuine
+endurance trouble and -5 readiness once. No leader roll, coordination or
+persistent exhaustion is invented for a solo.
+
+One new saved 2d6 pair supplies each performance's checks. Thus the complete
+episode uses 18 rehearsal pairs and nine performance pairs; judges do not reroll.
+Use the existing skill floors and normalize checks to 0-100. Define:
+- T = clamp(matched track +2*episode practice + actual readiness modifier).
+- John = T.
+- Megan = mean(stage presence, uniqueness, potential).
+- Michael = mean(matched visual, consistency, leadership).
+- B = (3*T+John+Megan+Michael)/6, the pre-peer observed performance.
+
+A shrinking moment requires introversion (extroversion <=-5) or leadership <3,
+an actual raw sum <=4 and stage check <50; it costs 5 stage-component points
+once. Introversion alone never guarantees failure. Trainer Awe requires
+stage-presence skill >=4, ambition >=5 and actual stage check >=85; its +5
+reception is not a technical bonus. Existing conditions are preserved.
+
+### Personality-dependent peer rankings
+
+Only after all nine solos, each person privately ranks every other contestant
+from first through eighth. No self-rank, omissions, duplicates or tied positions.
+Performance evidence is B, never future public votes, standings or the peer result.
+
+| Voter     | Priority and ordering                                                                                                         |
+| --------- | ----------------------------------------------------------------------------------------------------------------------------- |
+| Objective | Sincerity >=5 OR maturity >=5; descending B, overriding strategy.                                                             |
+| Strategic | Otherwise ambition >=5 AND sincerity <=-5; strongest eligible B eighth, second strongest seventh, remaining six descending B. |
+| Blended   | Everyone else: equal parts B and outgoing affection.                                                                          |
+
+Resolve equal preferences with saved random keys. Freeze voter evidence before
+casting all nine ballots. Each received position p becomes 100*(8-p)/7; average
+the eight received scores into P. The final evaluation is
+F=(3*T+John+Megan+Michael+2*P)/8, with existing grades and no intermediate rounding.
+Peer input is exactly 25% of this evaluation, not 25% of cumulative season points.
+Across all nine ballots, positions sum to 324 and received P values sum to 450.
+
+Contestants learn their received averages, not who tanked them. Full ballots,
+profiles and explanations are separate viewer-only Details/copied reference;
+they must not become host dialogue or fabricated contestant knowledge.
+
+### Closing, saves and archives
+
+Resolve the ordinary audience once using F as performance, B as observed
+artistry and real positive exposure for all nine. Friendship preference awards
+are not duplicated as fixed fan or technical benefits. Keep the ordinary
+0.75 prior / 0.60 performance / 0.30 public vote / 0.10 production formula.
+Previous public standings remain visible until Mike announces all nine places.
+
+Only rank 9 leaves, with departure fan transfer once and old positions 10-50
+unchanged. Only the eight survivors then cast no-self peer MVP ballots and enter
+the ordinary investigation, including legitimate misses and fewer candidates.
+Actual reveal consequences cannot rewrite sealed ranks or add another departure.
+The farewell comes last. Eight reach the upcoming finale; it has not begun.
+
+Preparation 10 audits actual initialization and every Randomize/mood/cast action
+from Episode 9's exact ending RNG. Strict native replay and historical starting
+cast/show/reveal boundaries retain all earlier records and copied stories,
+including a legitimately changed opening. Invalid draws/evidence are explicit
+load errors, not silent defaults.
+
+Full-history compressed reload, stale/duplicate actions, history and failed
+writes preserve decisions without rerolls. Auto-complete uses ordinary actions
+and stops at Episode 10. Each participant earns exactly +5 silent XP for two
+completed rehearsals and one solo. TV credit uses actual footage and stays
+separate from competition and copied narration. Viewer-only relationship notes
+compare Episodes 9/10 among all nine participants, including the departure.

@@ -11,6 +11,7 @@ import { validateMusicVideoCatalog } from '../utilities/music-video-catalog';
 import { validatePhotoshootConcepts } from '../utilities/photoshoot-concepts';
 import { applySeasonRanks } from '../utilities/season-ranking';
 import { freezeSimulationSnapshot } from '../utilities/simulation-definitions';
+import { validateSpecialtiesCatalog } from '../utilities/specialties-songs';
 import { validateTrackSpecialSongs } from '../utilities/track-special-songs';
 import { validateVarietyShowCatalog } from '../utilities/variety-show-catalog';
 import { validateVersatilityCatalogs } from '../utilities/versatility-catalogs';
@@ -18,12 +19,17 @@ import { restoreActivityProgression } from './activity-awards';
 import { assertAuditionEpisode, isDeferredConsequence, isShowAudience } from './audition-validation';
 import { assertBattleEpisode } from './battle-validation';
 import { assertBootcampEpisode } from './bootcamp-validation';
-import { assertPreparation, validateMusicVideoPreparation } from './episode-preparation';
+import {
+  assertPreparation,
+  validateMusicVideoPreparation,
+  validateSpecialtiesPreparation,
+} from './episode-preparation';
 import { assertMegaGroupsEpisode } from './mega-groups-validation';
 import { assertMusicVideoEpisode, validateMusicVideo } from './music-video-validation';
 import { assertNarrativeAudition } from './narrative-validation';
 import { assertPhotoshootEpisode } from './photoshoot-validation';
 import { createSeededRandom } from './random';
+import { assertSpecialtiesEpisode, validateSpecialties } from './specialties-validation';
 import { assertTrackSpecialsEpisode, validateTrackSpecials } from './track-specials-validation';
 import { assertVarietyShowEpisode, validateVarietyShow } from './variety-show-validation';
 import { assertVersatilityEpisode, validateVersatility } from './versatility-validation';
@@ -236,6 +242,7 @@ function assertDefinitions(value: unknown): asserts value is SimulationDefinitio
     validateVersatilityCatalogs(value.versatilitySongs, value.doubtGirls, specialties);
   if (value.varietyShowCatalog !== undefined) validateVarietyShowCatalog(value.varietyShowCatalog);
   if (value.musicVideoCatalog !== undefined) validateMusicVideoCatalog(value.musicVideoCatalog);
+  if (value.specialtiesCatalog !== undefined) validateSpecialtiesCatalog(value.specialtiesCatalog);
 }
 
 export function decodeSimulationState(stored: string): SimulationState {
@@ -290,7 +297,8 @@ export function decodeSimulationState(stored: string): SimulationState {
       runtime.episode !== 6 &&
       runtime.episode !== 7 &&
       runtime.episode !== 8 &&
-      runtime.episode !== 9) ||
+      runtime.episode !== 9 &&
+      runtime.episode !== 10) ||
     (runtime.phase !== 'setup-complete' &&
       runtime.phase !== 'auditions' &&
       runtime.phase !== 'battles' &&
@@ -301,6 +309,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       runtime.phase !== 'versatility' &&
       runtime.phase !== 'variety-show' &&
       runtime.phase !== 'music-video' &&
+      runtime.phase !== 'specialties' &&
       runtime.phase !== 'episode-complete') ||
     !isRecord(runtime.setup) ||
     typeof runtime.setup.useBias !== 'boolean' ||
@@ -332,6 +341,7 @@ export function decodeSimulationState(stored: string): SimulationState {
   const versatility = runtime.versatility ?? null;
   const varietyShow = runtime.varietyShow ?? null;
   const musicVideo = runtime.musicVideo ?? null;
+  const specialties = runtime.specialties ?? null;
   if (runtime.progression === undefined)
     for (const record of [
       audition,
@@ -343,6 +353,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       versatility,
       varietyShow,
       musicVideo,
+      specialties,
     ])
       if (isRecord(record) && isRecord(record.changes))
         for (const changes of Object.values(record.changes)) migrateRankingChanges(changes);
@@ -384,10 +395,22 @@ export function decodeSimulationState(stored: string): SimulationState {
     throw new Error('Variety Show requires a current-format Episode 8 season.');
   if (
     (runtime.episode === 9 && (runtime.version !== 3 || musicVideo === null)) ||
-    (musicVideo !== null && (runtime.version !== 3 || runtime.episode !== 9)) ||
+    (musicVideo !== null && (runtime.version !== 3 || runtime.episode < 9)) ||
     (runtime.phase === 'music-video' && runtime.episode !== 9)
   )
     throw new Error('Music Videos requires a current-format Episode 9 season.');
+  if (
+    (runtime.episode === 10 && (runtime.version !== 3 || specialties === null)) ||
+    (specialties !== null && (runtime.version !== 3 || runtime.episode !== 10)) ||
+    (runtime.phase === 'specialties' && runtime.episode !== 10)
+  )
+    throw new Error('Specialties requires a current-format Episode 10 season.');
+  let musicVideoContestants = currentContestants;
+  if (specialties !== null) {
+    if (!isRecord(specialties) || !isContestants(specialties.startingContestants))
+      throw new Error('The saved Specialties starting cast is invalid.');
+    musicVideoContestants = specialties.startingContestants;
+  }
   let varietyShowContestants = currentContestants;
   if (musicVideo !== null) {
     if (!isRecord(musicVideo) || !isContestants(musicVideo.startingContestants))
@@ -621,17 +644,36 @@ export function decodeSimulationState(stored: string): SimulationState {
   if (runtime.episode >= 9 && !varietyShow)
     throw new Error('Music Videos requires a completed Variety Show archive.');
   if (musicVideo !== null) {
-    assertMusicVideoEpisode(musicVideo, currentContestants, definitions);
+    assertMusicVideoEpisode(musicVideo, musicVideoContestants, definitions);
     freezeSimulationSnapshot(musicVideo.startingContestants);
     if (
       !varietyShow ||
       varietyShow.phase !== 'complete' ||
-      runtime.phase !== (musicVideo.phase === 'complete' ? 'episode-complete' : 'music-video') ||
+      (runtime.episode === 9 &&
+        runtime.phase !== (musicVideo.phase === 'complete' ? 'episode-complete' : 'music-video')) ||
+      (runtime.episode >= 10 && musicVideo.phase !== 'complete') ||
       musicVideo.participantIds.length !== varietyShow.survivorIds.length ||
       !musicVideo.participantIds.every((id) => varietyShow.survivorIds.includes(id)) ||
-      (musicVideo.audience !== null && musicVideo.audience.votingPopulation !== show.audience)
+      (runtime.episode === 9 &&
+        musicVideo.audience !== null &&
+        musicVideo.audience.votingPopulation !== show.audience)
     )
       throw new Error('The saved Music Videos progress does not match its archive, cast or audience.');
+  }
+  if (runtime.episode >= 10 && !musicVideo)
+    throw new Error('Specialties requires a completed Music Videos archive.');
+  if (specialties !== null) {
+    assertSpecialtiesEpisode(specialties, currentContestants, definitions);
+    freezeSimulationSnapshot(specialties.startingContestants);
+    if (
+      !musicVideo ||
+      musicVideo.phase !== 'complete' ||
+      runtime.phase !== (specialties.phase === 'complete' ? 'episode-complete' : 'specialties') ||
+      specialties.participantIds.length !== musicVideo.survivorIds.length ||
+      !specialties.participantIds.every((id) => musicVideo.survivorIds.includes(id)) ||
+      (specialties.audience !== null && specialties.audience.votingPopulation !== show.audience)
+    )
+      throw new Error('The saved Specialties progress does not match its archive, cast or audience.');
   }
   const auditionPoolIds = runtime.setup.auditionPoolIds;
   if (
@@ -699,6 +741,7 @@ export function decodeSimulationState(stored: string): SimulationState {
       ...(versatility ? { versatility } : {}),
       ...(varietyShow ? { varietyShow } : {}),
       ...(musicVideo ? { musicVideo } : {}),
+      ...(specialties ? { specialties } : {}),
       show,
       revealedSecrets,
       deferredConsequences,
@@ -730,13 +773,14 @@ export function decodeSimulationState(stored: string): SimulationState {
               key !== '6' &&
               key !== '7' &&
               key !== '8' &&
-              key !== '9') ||
+              key !== '9' &&
+              key !== '10') ||
               runtime.version !== 3),
         )
       )
         throw new Error('Invalid saved episode preparations.');
       restored.runtime.preparations = {};
-      for (const number of [9, 8, 7, 6, 5, 4, 3, 2, 1] as const) {
+      for (const number of [10, 9, 8, 7, 6, 5, 4, 3, 2, 1] as const) {
         const preparation = runtime.preparations[number];
         if (preparation === undefined) continue;
         assertPreparation(
@@ -756,6 +800,7 @@ export function decodeSimulationState(stored: string): SimulationState {
     const seventh = restored.runtime.preparations?.[7];
     const eighth = restored.runtime.preparations?.[8];
     const ninth = restored.runtime.preparations?.[9];
+    const tenth = restored.runtime.preparations?.[10];
     if (
       audition &&
       (!first ||
@@ -851,6 +896,16 @@ export function decodeSimulationState(stored: string): SimulationState {
       ninth.openingPlayed !== musicVideo.scenes.some((scene) => scene.title === 'Opening credits')
     )
       throw new Error('Music Videos credits do not match their recorded effect.');
+    if (tenth && musicVideo?.phase !== 'complete')
+      throw new Error('Episode 10 preparation requires completed Music Videos.');
+    if (specialties && (!tenth?.mood || tenth.slots.some((id) => id === null)))
+      throw new Error('Specialties preparation is missing.');
+    if (
+      specialties &&
+      tenth &&
+      tenth.openingPlayed !== specialties.scenes.some((scene) => scene.title === 'Opening credits')
+    )
+      throw new Error('Specialties credits do not match their recorded effect.');
     if (
       (first?.openingPlayed ||
         second?.openingPlayed ||
@@ -860,7 +915,8 @@ export function decodeSimulationState(stored: string): SimulationState {
         sixth?.openingPlayed ||
         seventh?.openingPlayed ||
         eighth?.openingPlayed ||
-        ninth?.openingPlayed) &&
+        ninth?.openingPlayed ||
+        tenth?.openingPlayed) &&
       !restored.runtime.openingCast
     )
       throw new Error('Opening credits are missing their cast.');
@@ -874,8 +930,10 @@ export function decodeSimulationState(stored: string): SimulationState {
   if (restored.runtime?.versatility)
     validateVersatility({ ...restored, contestants: versatilityContestants });
   validateMusicVideoPreparation(restored);
+  validateSpecialtiesPreparation(restored);
   if (restored.runtime?.varietyShow) validateVarietyShow(restored);
   if (restored.runtime?.musicVideo) validateMusicVideo(restored);
+  if (restored.runtime?.specialties) validateSpecialties(restored);
   return restored;
 }
 

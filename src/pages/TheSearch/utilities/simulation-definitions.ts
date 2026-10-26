@@ -17,6 +17,7 @@ import { BATTLE_SONGS, validateBattleSongs } from './battle-songs';
 import { getMegaGroupsCatalogs } from './mega-groups-catalogs';
 import { getMusicVideoCatalog } from './music-video-catalog';
 import { getPhotoshootConcepts } from './photoshoot-concepts';
+import { getSpecialtiesCatalog } from './specialties-songs';
 import { getTrackSpecialSongs } from './track-special-songs';
 import { getVarietyShowCatalog } from './variety-show-catalog';
 import { getVersatilityCatalogs } from './versatility-catalogs';
@@ -50,5 +51,6 @@ export function getSimulationDefinitions(): SimulationDefinitions {
     ...getVersatilityCatalogs(),
     varietyShowCatalog: getVarietyShowCatalog(),
     musicVideoCatalog: getMusicVideoCatalog(),
+    specialtiesCatalog: getSpecialtiesCatalog(),
   });
 }

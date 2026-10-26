@@ -5,6 +5,7 @@ import type { MusicVideoAction } from '../types/music-video-episode';
 import type { EpisodePreparation, PreparationAction } from '../types/narrative';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
+import type { SpecialtiesAction } from '../types/specialties-episode';
 import type { TrackSpecialsAction } from '../types/track-specials-episode';
 import type { VarietyShowAction } from '../types/variety-show-episode';
 import type { VersatilityAction } from '../types/versatility-episode';
@@ -16,11 +17,12 @@ import { transitionMusicVideo } from './music-video-episode';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from './narrative-audition';
 import { transitionBattleStory } from './narrative-battle';
 import { transitionPhotoshoot } from './photoshoot-episode';
+import { transitionSpecialties } from './specialties-episode';
 import { transitionTrackSpecials } from './track-specials-episode';
 import { transitionVarietyShow } from './variety-show-episode';
 import { transitionVersatility } from './versatility-episode';
 
-export type EpisodeNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+export type EpisodeNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10;
 
 export function isEpisodeComplete(state: SimulationState, episode: EpisodeNumber): boolean {
   const runtime = state.runtime;
@@ -41,7 +43,9 @@ export function isEpisodeComplete(state: SimulationState, episode: EpisodeNumber
                   ? runtime?.versatility
                   : episode === 8
                     ? runtime?.varietyShow
-                    : runtime?.musicVideo;
+                    : episode === 9
+                      ? runtime?.musicVideo
+                      : runtime?.specialties;
   return record?.phase === 'complete';
 }
 
@@ -128,6 +132,14 @@ function advanceAutomatically(state: SimulationState, episode: EpisodeNumber): S
           : transitionBattle;
     return transition(state, action, current?.revision ?? preparation?.revision ?? 0);
   }
+  if (episode === 10) {
+    const current = runtime.specialties;
+    const preparation = runtime.preparations?.[10];
+    let action: SpecialtiesAction = current ? { type: 'advance' } : preparationAction(preparation);
+    if (current?.phase === 'secret-choice')
+      action = { type: 'secret', contestantId: first(current.secretCandidates, 'secret candidate') };
+    return transitionSpecialties(state, action, current?.revision ?? preparation?.revision ?? 0);
+  }
   if (episode === 9) {
     const current = runtime.musicVideo;
     const preparation = runtime.preparations?.[9];
@@ -194,7 +206,7 @@ export async function autoCompleteEpisode(
   initial: SimulationState,
   episode: EpisodeNumber,
 ): Promise<SimulationState> {
-  if (![1, 2, 3, 4, 5, 6, 7, 8, 9].includes(episode)) throw new Error('Unknown episode.');
+  if (![1, 2, 3, 4, 5, 6, 7, 8, 9, 10].includes(episode)) throw new Error('Unknown episode.');
   if (initial.status !== 'ready' || !initial.runtime)
     throw new Error('Initialize a simulation before auto-completing an episode.');
   let state = initial;

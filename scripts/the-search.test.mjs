@@ -49,6 +49,8 @@ describe('The Search', async () => {
   await server.ssrLoadModule('/src/pages/TheSearch/engine/variety-show-integration.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/engine/music-video-episode.test.ts');
   await server.ssrLoadModule('/src/pages/TheSearch/engine/music-video-integration.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/engine/specialties-episode.test.ts');
+  await server.ssrLoadModule('/src/pages/TheSearch/engine/specialties-integration.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/engine/episode-auto-complete.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-visibility.test.ts');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/episode-rundown.test.tsx');

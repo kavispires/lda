@@ -15,6 +15,7 @@ import {
   loadSimulationState,
   SIMULATION_STORAGE_KEY,
 } from '../engine/simulation-persistence';
+import { transitionSpecialties } from '../engine/specialties-episode';
 import { transitionTrackSpecials } from '../engine/track-specials-episode';
 import { transitionVarietyShow } from '../engine/variety-show-episode';
 import { transitionVersatility } from '../engine/versatility-episode';
@@ -26,6 +27,7 @@ import type { MegaGroupsAction } from '../types/mega-groups-episode';
 import type { MusicVideoAction } from '../types/music-video-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
+import type { SpecialtiesAction } from '../types/specialties-episode';
 import type { TrackSpecialsAction } from '../types/track-specials-episode';
 import type { VarietyShowAction } from '../types/variety-show-episode';
 import type { VersatilityAction } from '../types/versatility-episode';
@@ -136,6 +138,11 @@ export const simulationActions = {
   dispatchMusicVideo(action: MusicVideoAction, expectedRevision: number) {
     const current = simulationStore.state;
     const next = transitionMusicVideo(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+  dispatchSpecialties(action: SpecialtiesAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionSpecialties(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

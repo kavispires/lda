@@ -13,7 +13,7 @@ on player interaction and how the simulation systems connect.
   an additional story mechanic or a claim that its exact algebra was approved.
 
 Contestant management, card libraries, cast initialization, and playable
-Episodes 1 through 8 now exist. New simulations use the narrative format described
+Episodes 1 through 10 now exist. New simulations use the narrative format described
 below; version-1 and version-2 saves retain their original episode rules.
 Broader-season gaps still need design.
 
@@ -2245,17 +2245,49 @@ shoot +3. Repeated takes/reset, overnight cues and closing decisions add no XP.
 
 ### Episode 10 - Specialties
 
-**Format:** Nine contestants perform in three trios focused on their strengths.
-Eliminate one, leaving eight.
+**Format:** Nine tailored solo stages, a best-friend mini-game and complete
+secret peer rankings. Eliminate rank 9, then run the eight-survivor MVP and
+standard investigation. The Top 8 reach the upcoming finale; do not start it.
 
-**Proposed small interaction:** Respond to competing requests for a standout
-opportunity, while contestants retain their mission-defined team and role decisions.
+**Opening and friendship:** Retain surviving opening members, refill only
+vacancies and choose six tastes from the highest/lowest final survivors.
+The normal +0.02 opening benefit applies once. Lock all nine best-friend choices
+from one outgoing-affection snapshot before any reveal; exclude self and save
+random ties. A reciprocal pair gives each person +20 happiness, +0.10 audienceRatio
+and +0.10 fanbaseRatio once. Sensitive unrequited choosers lose 3 happiness.
+No extra affection or technical reward.
 
-**Connections:** Specialty synergy and relationships compete with individual
-spotlight opportunities. The episode establishes momentum going into the finale.
+**Solo readiness:** Each song matches the performer's primary specialty and
+visual vibe. Add +10 to normalized track and visual checks, capped at 100;
+never change permanent skills or grant automatic six-taste audience matching.
+Two individual rehearsals use the standard learning/memory/consistency and
+stamina/consistency/memory arithmetic, with episode-owned practice. Genuine
+low-consistency endurance trouble can cost 5 readiness points. Perform five
+solos and then four in a saved shuffled order, without fake teams or role votes.
 
-**Open:** Who forms the trios and how to compare different specialty combinations.
-Elimination uses the cumulative overall ranking.
+**Judging and peers:** One saved performance pair supplies all checks.
+T is the tailored track result plus twice practice and actual readiness.
+John assesses T; Megan averages stage/uniqueness/potential; Michael averages
+tailored visual/consistency/leadership. Genuine stage-pressure and Trainer Awe
+events require the saved checks, not introversion or ambition alone.
+B=(3*T+John+Megan+Michael)/6 is observed pre-peer evidence.
+
+Every contestant secretly ranks all eight others. Sincerity >=5 OR maturity
+> =5 makes an objective voter, overriding strategy. Otherwise ambition >=5 AND
+> sincerity <=-5 puts the strongest two observed threats eighth/seventh and ranks
+> the other six honestly. Other voters blend equal parts B and outgoing affection.
+> Saved random keys resolve equal preferences. Received position p converts to
+> 100*(8-p)/7; average the eight received scores into P. The final evaluation is
+> (3*T+John+Megan+Michael+2*P)/8: peers contribute exactly 25%. Individual ballots
+> are viewer-only reference; contestants learn received averages, not voters.
+
+**Integration:** Resolve the normal cumulative audience/ranking once. Rank 9
+leaves before eight-person MVP/investigation; prior positions 10-50 remain fixed.
+Player decisions are opening preparation and investigation only. Native player,
+strict seeded replay, audited preparation, compressed full-history saves,
+historical cast/show boundaries, auto-complete and factual copied stories include
+Episode 10. Exactly +5 silent XP: two rehearsals +1 each and one solo +3.
+Viewer-only Relationships Updates uses the actual previous/current endpoints.
 
 ### Episode 11 - Finale
 

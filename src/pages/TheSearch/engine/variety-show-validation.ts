@@ -831,7 +831,7 @@ export function validateVarietyShow(state: SimulationState): void {
   const runtime = state.runtime;
   if (!runtime?.varietyShow) return;
   validateMusicVideoPreparation(state);
-  const archived = runtime.episode === 9 && !!runtime.musicVideo && runtime.varietyShow.phase === 'complete';
+  const archived = runtime.episode >= 9 && !!runtime.musicVideo && runtime.varietyShow.phase === 'complete';
   if (
     runtime.version !== 3 ||
     (!archived &&

@@ -4,7 +4,7 @@ import type { SimulationDefinitions, SimulationState } from '../types/simulation
 import type { VarietyShowEpisode } from '../types/variety-show-episode';
 import { validateMusicVideoCatalog } from '../utilities/music-video-catalog';
 import { recordContestantChanges } from './change-history';
-import { validateMusicVideoPreparation } from './episode-preparation';
+import { validateMusicVideoPreparation, validateSpecialtiesPreparation } from './episode-preparation';
 import { applyMusicVideoAction, captureMusicVideoStart, initializeMusicVideo } from './music-video-runtime';
 import { createSeededRandom } from './random';
 
@@ -211,23 +211,35 @@ export function validateMusicVideo(state: SimulationState): void {
   }
   if (
     runtime.version !== 3 ||
-    runtime.episode !== 9 ||
-    runtime.phase !== (runtime.musicVideo.phase === 'complete' ? 'episode-complete' : 'music-video')
+    (runtime.specialties
+      ? runtime.episode !== 10 || runtime.musicVideo.phase !== 'complete'
+      : runtime.episode !== 9 ||
+        runtime.phase !== (runtime.musicVideo.phase === 'complete' ? 'episode-complete' : 'music-video'))
   )
     fail('runtime phase');
   const ep = runtime.musicVideo;
   const expected = replay(ep, runtime.definitions);
-  assertLiveCast(state.contestants, expected);
-  same(runtime.randomState, expected.runtime!.randomState, 'live seeded chronology');
-  same(runtime.show, expected.runtime!.show, 'live audience and fan transfer');
-  same(runtime.revealedSecrets, expected.runtime!.revealedSecrets, 'once-only revealed cards');
+  const next = runtime.specialties;
+  assertLiveCast(next?.startingContestants ?? state.contestants, expected);
   same(
-    runtime.deferredConsequences,
+    runtime.preparations?.[10]?.randomAudit?.startState ?? runtime.randomState,
+    expected.runtime!.randomState,
+    'seeded episode boundary',
+  );
+  same(next?.startingShow ?? runtime.show, expected.runtime!.show, 'audience and fan transfer boundary');
+  same(
+    next?.startingRevealedSecrets ?? runtime.revealedSecrets,
+    expected.runtime!.revealedSecrets,
+    'once-only revealed cards',
+  );
+  same(
+    next?.startingDeferredConsequences ?? runtime.deferredConsequences,
     expected.runtime!.deferredConsequences,
     'once-only deferred consequences',
   );
   same(runtime.preparations![9], expected.runtime!.preparations![9], 'opening played once');
-  same(runtime.openingCast, ep.startingOpeningCast, 'locked opening cast');
+  if (!runtime.preparations?.[10]) same(runtime.openingCast, ep.startingOpeningCast, 'locked opening cast');
   same(ep.randomStartState, runtime.preparations![9]!.randomAudit!.endState, 'preparation RNG handoff');
   validateMusicVideoPreparation(state);
+  validateSpecialtiesPreparation(state);
 }
