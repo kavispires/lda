@@ -5,7 +5,7 @@ import { recordContestantChanges } from './change-history';
 
 type Tier = 0 | 1 | 3 | 6;
 type Activity = {
-  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   contestantId: string;
   tv: Tier;
   experience: 0 | 1 | 3;
@@ -63,7 +63,7 @@ function activities(state: SimulationState): Map<string, Activity> {
     if (result.has(key)) throw new Error('Activity identity must be unique.');
     result.set(key, activity);
   };
-  for (const number of [1, 2, 3, 4, 5, 6, 7, 8] as const) {
+  for (const number of [1, 2, 3, 4, 5, 6, 7, 8, 9] as const) {
     const episode =
       number === 1
         ? runtime.audition
@@ -79,7 +79,9 @@ function activities(state: SimulationState): Map<string, Activity> {
                   ? runtime.trackSpecials
                   : number === 7
                     ? runtime.versatility
-                    : runtime.varietyShow;
+                    : number === 8
+                      ? runtime.varietyShow
+                      : runtime.musicVideo;
     for (const scene of episode?.scenes ?? []) {
       if (scene.tvMoments === undefined) continue;
       if (scene.tvMoments === null || typeof scene.tvMoments !== 'object' || Array.isArray(scene.tvMoments))
@@ -214,6 +216,24 @@ function activities(state: SimulationState): Map<string, Activity> {
         tv: evaluation.personalScore >= 85 ? 6 : 3,
         experience: 3,
       });
+  for (const storyboard of runtime.musicVideo?.storyboards ?? [])
+    if (storyboard.completed)
+      add('storyboard', {
+        episode: 9,
+        contestantId: storyboard.contestantId,
+        tv: 0,
+        experience: 1,
+      });
+  for (const evaluation of runtime.musicVideo?.solos ?? [])
+    add('solo', {
+      episode: 9,
+      contestantId: evaluation.contestantId,
+      tv: evaluation.finalScore >= 85 ? 6 : 3,
+      experience: 3,
+    });
+  if (runtime.musicVideo?.filmingCompleted)
+    for (const contestantId of runtime.musicVideo.participantIds)
+      add('group-filming', { episode: 9, contestantId, tv: 3, experience: 3 });
   return result;
 }
 
@@ -308,7 +328,9 @@ export function awardNewActivity(before: SimulationState, next: SimulationState)
                   ? next.runtime.trackSpecials
                   : total.episode === 7
                     ? next.runtime.versatility
-                    : next.runtime.varietyShow;
+                    : total.episode === 8
+                      ? next.runtime.varietyShow
+                      : next.runtime.musicVideo;
     if (!episode) throw new Error('Activity requires its recorded episode.');
     episode.changes[id] ??= [];
     episode.changes[id].push(...recorded);

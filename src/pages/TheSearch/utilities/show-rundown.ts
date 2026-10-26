@@ -9,7 +9,7 @@ const introduction =
 
 export function createShowRundown(state: SimulationState): string {
   if (!state.runtime) throw new Error('Initialize the show before copying its story.');
-  const episodes = ([1, 2, 3, 4, 5, 6, 7, 8] as const)
+  const episodes = ([1, 2, 3, 4, 5, 6, 7, 8, 9] as const)
     .filter((episode) => isEpisodeComplete(state, episode))
     .map((episode) => createEpisodeRundown(state, episode).trim());
   return `${[introduction, showRundown(createSeasonCastProfiles(state.runtime)).trim(), ...episodes].join(

@@ -9,6 +9,7 @@ import {
 } from './audition-audience';
 import { revealAuditionSecret, revealExactAuditionSecret } from './audition-secrets';
 import { changeBattleRelationship, clampBattle } from './battle-scoring';
+import { validateMusicVideoPreparation } from './episode-preparation';
 import { createSeededRandom, shuffleWithRandom } from './random';
 import { assessVarietyShow, finalizeVarietyShowSegment, scoreVarietyShow } from './variety-show-scoring';
 import {
@@ -829,17 +830,25 @@ export function assertVarietyShowEpisode(
 export function validateVarietyShow(state: SimulationState): void {
   const runtime = state.runtime;
   if (!runtime?.varietyShow) return;
+  validateMusicVideoPreparation(state);
+  const archived = runtime.episode === 9 && !!runtime.musicVideo && runtime.varietyShow.phase === 'complete';
   if (
     runtime.version !== 3 ||
-    runtime.episode !== 8 ||
-    runtime.phase !== (runtime.varietyShow.phase === 'complete' ? 'episode-complete' : 'variety-show')
+    (!archived &&
+      (runtime.episode !== 8 ||
+        runtime.phase !== (runtime.varietyShow.phase === 'complete' ? 'episode-complete' : 'variety-show')))
   )
     fail('runtime boundary');
-  assertVarietyShowEpisode(runtime.varietyShow, state.contestants, runtime.definitions);
+  assertVarietyShowEpisode(
+    runtime.varietyShow,
+    archived ? runtime.musicVideo!.startingContestants : state.contestants,
+    runtime.definitions,
+  );
   const ep = runtime.varietyShow;
-  same(runtime.randomState, replaySeededDraws(ep), 'persisted random state');
+  const preparationAudit = runtime.preparations?.[9]?.randomAudit;
+  same(preparationAudit?.startState ?? runtime.randomState, replaySeededDraws(ep), 'persisted random state');
   const expectedShow = ep.fanTransfers.at(-1)?.after ?? ep.audienceAfter ?? ep.startingShow;
-  same(runtime.show, expectedShow, 'live audience');
+  same(archived ? runtime.musicVideo!.startingShow : runtime.show, expectedShow, 'audience boundary');
   same(ep.participantIds, runtime.versatility?.survivorIds, 'Episode 7 final survivor boundary');
   if (ep.audienceMood) same(ep.audienceMood, runtime.preparations?.[8]?.mood, 'frozen opening mood');
 }

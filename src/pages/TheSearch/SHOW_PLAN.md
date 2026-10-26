@@ -2189,35 +2189,59 @@ TV/XP never affect checks or results. Episode 9 is next, not started.
 
 ### Episode 9 - Music Videos
 
-**Format:** 10 contestants create their own music videos, involving acting.
-Contestants are encouraged to collaborate, but organize themselves autonomously.
-Do not prescribe a fixed number of videos or force equally sized teams. Eliminate
-one, leaving nine.
+**Implemented format:** The exact ten Variety Show survivors film ONE official
+"Squirrel Life" MV. Mike grants apparent creative control; after their substantive
+storyboards and opening, guest director Vivienne Voss discards those plans and
+directs the shoot. She joins all three regular judges. This replaces autonomous
+multiple videos, exclusion solos and video-count penalties.
 
-**Established group dynamics:** Let duos, trios, larger groups, and other voluntary
-arrangements emerge. This tests cooperation and reveals cliques, exclusion, and
-whether contestants want to work together.
+Retain surviving opening portraits, refill only vacancies from the strongest-core
+shortlist and anchor six opening tastes to the highest/lowest final survivors.
+Confirm before the briefing; play the shared opening in Sequence 2 and apply
+the ordinary +0.02 preference once. Vivienne's takeover is hidden until Sequence 3.
 
-The resulting video count affects the show as a whole. More than five videos makes
-the episode too repetitive/boring, which is bad for all contestants. A single video
-also creates a weak episode with too little material for the runtime. Do not
-silently rearrange groups to fix the episode; the consequences of their choices
-are part of the simulation.
+**Actual filming:** Ten comparable solo sets, one visual/charisma evaluation
+each, then five scheduled ten-person choreography takes. Saved 2d6 are reused
+across each person's checks within a shoot/take; no solo retries or new judge dice.
+Solo = 55% visual +45% charisma, minus 10 for a real sensitive low-roll freeze.
+An A-level solo without freezing earns One-Take Wonder and +0.10 audienceRatio
+once, capped at 1.
 
-**Established exclusion fallback:** A contestant who does not join a group must
-make a solo video. Exclusion does not excuse them from submitting a performance;
-their personality and emotional response can still affect how that solo unfolds.
+Group base = 60% dance +40% stage presence. Fatigue begins on actual take 3:
+`min(12, overnightFatigue + max(0, actualOrdinal-2)*(6-stamina))`.
+Subtract twice fatigue and an additional 10 on scheduled takes 4/5 for stamina<3.
+High-investment overnight expression rehearsal costs one fatigue, without skill
+growth. A Take 4 reset requires consistency<3, its actual check<50 and result<55.
+One or several culprits still cause only one extra reset, then Take 5. Average
+original/reset within scheduled slot 4, not a free best-of retry. Safe rest,
+real support/criticism and convincing idol smiles do not invent flawless dancing.
 
-**Proposed small interaction:** Respond to a concept/support request from a limited
-selection of contestants, rather than approving every concept or editing every video.
+**Recovery and cut:** A few-day break clears only episode-owned fatigue and
+exhaustion, preserving starting conditions. Use equal solo/late-result quality
+to select five featured edits with saved cutoff ties. They share 80% individual
+focus proportionally to `1+quality`; 20% is actual shared choreography with all
+ten. Group-only contestants are not erased. Per-person presence =20+focus and
+can sum above 100; normalize only for competitive audience exposure. Credit real
+MV footage once, separately from behind-the-scenes appearances. No rendered media.
 
-**Connections:** Uniqueness, stage presence, visual vibe, curiosity, and leadership
-support concept execution. Production allocation has visible fairness consequences.
+**Equal panel:** Technical =40% solo +60% mean of five scheduled slots.
+John uses dance; Megan solo charisma; Michael equal solo visual/late stage.
+Professionalism =60% consistency +40% late stage, with bounded actual pivot/smile
+events. Vivienne =35% solo +45% late result +20% professionalism. Technical,
+John, Megan, Michael and Vivienne each contribute 20%, without extra guest,
+One-Take, TV or XP points. Use one ordinary audience/cumulative-ranking resolution.
 
-**Open:** Negotiation and participation rules, emotional responses to exclusion,
-how acting is derived from existing stats, resource limits, and how video count
-affects audience/satisfaction and contestant outcomes.
-Elimination uses the cumulative overall ranking.
+**Closing:** Reveal all ten standings and eliminate rank 10, transferring fans
+once and preserving positions 11-50. Only the nine survivors then cast no-self
+peer MVP ballots and receive the standard modal investigation. Deferred secret
+consequences cannot rewrite sealed ranks or create another departure. The
+departing contestant's farewell comes last; stop with nine, not Episode 10.
+
+**Integration:** Native player, strict seeded evidence, repeated preparation
+Randomize audit, old-save continuation, full-history compressed reload, historical
+cast/show boundaries, auto-complete, factual copied stories and viewer relationship
+notes. Exactly +7 silent XP: substantive storyboard +1, solo +3, complete group
+shoot +3. Repeated takes/reset, overnight cues and closing decisions add no XP.
 
 ### Episode 10 - Specialties
 

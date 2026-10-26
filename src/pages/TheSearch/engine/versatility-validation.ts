@@ -837,7 +837,7 @@ export function validateVersatility(state: SimulationState): void {
   if (!runtime?.versatility) return;
   assertVersatilityEpisode(runtime.versatility, state.contestants, runtime.definitions);
   const ep = runtime.versatility;
-  const archived = runtime.episode === 8 && !!runtime.varietyShow && ep.phase === 'complete';
+  const archived = runtime.episode >= 8 && !!runtime.varietyShow && ep.phase === 'complete';
   if (
     !archived &&
     (runtime.episode !== 7 ||

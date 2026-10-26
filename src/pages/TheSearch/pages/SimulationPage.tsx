@@ -26,6 +26,7 @@ import { ContestantDetailModal } from '../components/ContestantDetailModal';
 import { CopyMarkdownButton } from '../components/CopyMarkdownButton';
 import { CopyShowSoFar } from '../components/CopyShowSoFar';
 import { MegaGroupsEpisodeView } from '../components/MegaGroupsEpisodeView';
+import { MusicVideoEpisodeView } from '../components/MusicVideoEpisodeView';
 import { NarrativeAuditionView, NarrativeBattleView } from '../components/NarrativeEpisodeView';
 import { PhotoshootEpisodeView } from '../components/PhotoshootEpisodeView';
 import { TrackSpecialsEpisodeView } from '../components/TrackSpecialsEpisodeView';
@@ -39,6 +40,7 @@ import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
 import type { MegaGroupsAction } from '../types/mega-groups-episode';
+import type { MusicVideoAction } from '../types/music-video-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import type { SeasonRuntime, SimulationState } from '../types/simulation';
 import type { TrackSpecialsAction } from '../types/track-specials-episode';
@@ -131,6 +133,14 @@ export function SimulationPage() {
       setError(err instanceof Error ? err.message : 'Could not save the next Variety Show scene.');
     }
   };
+  const handleMusicVideoAction = (action: MusicVideoAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchMusicVideo(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Music Videos scene.');
+    }
+  };
 
   const handleStartSimulation = async () => {
     setIsInitializing(true);
@@ -175,24 +185,42 @@ export function SimulationPage() {
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
-  const versatilityArchiveState: SimulationState = simulationState.runtime?.varietyShow
+  const varietyShowArchiveState: SimulationState = simulationState.runtime?.musicVideo
     ? {
         ...simulationState,
-        contestants: simulationState.runtime.varietyShow.startingContestants,
+        contestants: simulationState.runtime.musicVideo.startingContestants,
         runtime: {
           ...simulationState.runtime,
-          varietyShow: undefined,
-          episode: 7,
+          musicVideo: undefined,
+          episode: 8,
           phase: 'episode-complete',
-          show: simulationState.runtime.varietyShow.startingShow,
+          show: simulationState.runtime.musicVideo.startingShow,
           revealedSecrets: simulationState.runtime.revealedSecrets.filter((entry) =>
             simulationState
-              .runtime!.varietyShow!.startingContestants.find((person) => person.id === entry.contestantId)
+              .runtime!.musicVideo!.startingContestants.find((person) => person.id === entry.contestantId)
               ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
           ),
         },
       }
     : simulationState;
+  const versatilityArchiveState: SimulationState = varietyShowArchiveState.runtime?.varietyShow
+    ? {
+        ...varietyShowArchiveState,
+        contestants: varietyShowArchiveState.runtime.varietyShow.startingContestants,
+        runtime: {
+          ...varietyShowArchiveState.runtime,
+          varietyShow: undefined,
+          episode: 7,
+          phase: 'episode-complete',
+          show: varietyShowArchiveState.runtime.varietyShow.startingShow,
+          revealedSecrets: varietyShowArchiveState.runtime.revealedSecrets.filter((entry) =>
+            varietyShowArchiveState
+              .runtime!.varietyShow!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : varietyShowArchiveState;
   const trackSpecialsArchiveState: SimulationState = versatilityArchiveState.runtime?.versatility
     ? {
         ...versatilityArchiveState,
@@ -368,13 +396,51 @@ export function SimulationPage() {
                         <>
                           {simulationState.runtime.varietyShow ? (
                             <>
-                              <VarietyShowEpisodeView
-                                actionError={error}
-                                key={`${simulationState.runtime.runId}-variety-show`}
-                                onAction={handleVarietyShowAction}
-                                onInspect={inspectContestant}
-                                state={simulationState}
-                              />
+                              {simulationState.runtime.musicVideo ? (
+                                <>
+                                  <MusicVideoEpisodeView
+                                    actionError={error}
+                                    key={`${simulationState.runtime.runId}-music-video`}
+                                    onAction={handleMusicVideoAction}
+                                    onInspect={inspectContestant}
+                                    state={simulationState}
+                                  />
+                                  <Collapse
+                                    items={[
+                                      {
+                                        key: 'variety-show',
+                                        label: 'Episode 8 — Variety Show archive',
+                                        children: (
+                                          <VarietyShowEpisodeView
+                                            onAction={handleVarietyShowAction}
+                                            onInspect={(id) => inspectContestant(id, varietyShowArchiveState)}
+                                            state={varietyShowArchiveState}
+                                          />
+                                        ),
+                                      },
+                                    ]}
+                                    style={{ marginTop: 16 }}
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <VarietyShowEpisodeView
+                                    actionError={error}
+                                    key={`${simulationState.runtime.runId}-variety-show`}
+                                    onAction={handleVarietyShowAction}
+                                    onInspect={inspectContestant}
+                                    state={simulationState}
+                                  />
+                                  {simulationState.runtime.varietyShow.phase === 'complete' && (
+                                    <MusicVideoEpisodeView
+                                      actionError={error}
+                                      onAction={handleMusicVideoAction}
+                                      onInspect={inspectContestant}
+                                      state={simulationState}
+                                    />
+                                  )}
+                                </>
+                              )}
                               <Collapse
                                 items={[
                                   {
@@ -852,7 +918,13 @@ function SimulationOverview({
           <Typography.Paragraph>
             Inspect any of the {contestants.length} contestants without advancing the episode.
           </Typography.Paragraph>
-          {runtime?.varietyShow ? (
+          {runtime?.musicVideo ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.musicVideo.rankRevealed
+                ? 'Ranks and continuing scores: Episode 9.'
+                : 'Ranks and continuing scores: previous public Episode 8 final standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.varietyShow ? (
             <Typography.Paragraph type="secondary">
               {runtime.varietyShow.rankRevealed
                 ? 'Ranks and continuing scores: Episode 8.'
@@ -904,21 +976,23 @@ function SimulationOverview({
           <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
           <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
           <Descriptions.Item label="Status">
-            {runtime?.varietyShow
-              ? `Episode 8 — ${runtime.varietyShow.phase}`
-              : runtime?.versatility
-                ? `Episode 7 — ${runtime.versatility.phase}`
-                : runtime?.trackSpecials
-                  ? `Episode 6 — ${runtime.trackSpecials.phase}`
-                  : runtime?.photoshoot
-                    ? `Episode 5 — ${runtime.photoshoot.phase}`
-                    : runtime?.megaGroups
-                      ? `Episode 4 — ${runtime.megaGroups.phase}`
-                      : runtime?.bootcamp
-                        ? `Episode 3 — ${runtime.bootcamp.phase}`
-                        : runtime?.battle
-                          ? `Episode 2 — ${runtime.battle.phase}`
-                          : (runtime?.audition?.phase ?? 'Setup complete')}
+            {runtime?.musicVideo
+              ? `Episode 9 — ${runtime.musicVideo.phase}`
+              : runtime?.varietyShow
+                ? `Episode 8 — ${runtime.varietyShow.phase}`
+                : runtime?.versatility
+                  ? `Episode 7 — ${runtime.versatility.phase}`
+                  : runtime?.trackSpecials
+                    ? `Episode 6 — ${runtime.trackSpecials.phase}`
+                    : runtime?.photoshoot
+                      ? `Episode 5 — ${runtime.photoshoot.phase}`
+                      : runtime?.megaGroups
+                        ? `Episode 4 — ${runtime.megaGroups.phase}`
+                        : runtime?.bootcamp
+                          ? `Episode 3 — ${runtime.bootcamp.phase}`
+                          : runtime?.battle
+                            ? `Episode 2 — ${runtime.battle.phase}`
+                            : (runtime?.audition?.phase ?? 'Setup complete')}
           </Descriptions.Item>
         </Descriptions>
 

@@ -4,6 +4,7 @@ import { transitionBattle } from '../engine/battle-episode';
 import { transitionBootcamp } from '../engine/bootcamp-episode';
 import { autoCompleteEpisode, type EpisodeNumber } from '../engine/episode-auto-complete';
 import { transitionMegaGroups } from '../engine/mega-groups-episode';
+import { transitionMusicVideo } from '../engine/music-video-episode';
 import { transitionNarrativeAudition, transitionNarrativeBattle } from '../engine/narrative-audition';
 import { transitionBattleStory } from '../engine/narrative-battle';
 import { transitionPhotoshoot } from '../engine/photoshoot-episode';
@@ -22,6 +23,7 @@ import type { BattleAction } from '../types/battle-episode';
 import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
 import type { MegaGroupsAction } from '../types/mega-groups-episode';
+import type { MusicVideoAction } from '../types/music-video-episode';
 import type { PhotoshootAction } from '../types/photoshoot-episode';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
 import type { TrackSpecialsAction } from '../types/track-specials-episode';
@@ -129,6 +131,11 @@ export const simulationActions = {
   dispatchVarietyShow(action: VarietyShowAction, expectedRevision: number) {
     const current = simulationStore.state;
     const next = transitionVarietyShow(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+  dispatchMusicVideo(action: MusicVideoAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionMusicVideo(current, action, expectedRevision);
     if (next !== current) commitState(next);
   },
 };

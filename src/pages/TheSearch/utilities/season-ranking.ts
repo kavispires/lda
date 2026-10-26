@@ -33,6 +33,7 @@ export function seasonRanks(
     ...(runtime.versatility?.eliminatedIds ?? []),
   ];
   const varietyDepartures = runtime.varietyShow?.eliminatedIds ?? [];
+  const musicVideoDepartures = runtime.musicVideo?.eliminatedId ? [runtime.musicVideo.eliminatedId] : [];
   const departed = new Set([
     ...auditionDepartures,
     ...battleDepartures,
@@ -40,6 +41,7 @@ export function seasonRanks(
     ...trackDepartures,
     ...versatilityDepartures,
     ...varietyDepartures,
+    ...musicVideoDepartures,
   ]);
   const remaining = contestants
     .filter((entry) => !departed.has(entry.id))
@@ -47,6 +49,7 @@ export function seasonRanks(
     .map((entry) => entry.id);
   const ordered = [
     ...remaining,
+    ...musicVideoDepartures,
     ...varietyDepartures,
     ...versatilityDepartures,
     ...trackDepartures,

@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "theme": { "id": "squirrel-life", "title": "Squirrel Life" },
+  "director": { "id": "vivienne-voss", "name": "Vivienne Voss", "role": "Guest Director" },
+  "soloSets": [
+    {
+      "id": "rooftop",
+      "name": "City rooftop",
+      "description": "A low, enclosed rooftop set with a skyline backdrop and taped walking marks.",
+      "difficulty": 3
+    },
+    {
+      "id": "record-shop",
+      "name": "Record shop",
+      "description": "A record-store aisle with a turn toward the camera at the listening station.",
+      "difficulty": 3
+    },
+    {
+      "id": "bus-stop",
+      "name": "Evening bus stop",
+      "description": "A sheltered bench and a streetlight cue frame a hopeful look down the street.",
+      "difficulty": 3
+    },
+    {
+      "id": "arcade",
+      "name": "Neon arcade",
+      "description": "Unplugged arcade cabinets frame a timed reaction to a practical light cue.",
+      "difficulty": 3
+    },
+    {
+      "id": "laundrette",
+      "name": "Pastel laundrette",
+      "description": "A row of prop washing machines supports a measured walk and a playful glance.",
+      "difficulty": 3
+    },
+    {
+      "id": "cafe",
+      "name": "Corner cafe",
+      "description": "An empty cup, window light and a chair turn supply a small, complete acting beat.",
+      "difficulty": 3
+    },
+    {
+      "id": "phone-booth",
+      "name": "Phone booth",
+      "description": "An open prop booth frames a missed-call reaction followed by a direct camera look.",
+      "difficulty": 3
+    },
+    {
+      "id": "bedroom",
+      "name": "Poster bedroom",
+      "description": "A poster wall and a desk mirror provide an intimate expression-to-camera cue.",
+      "difficulty": 3
+    },
+    {
+      "id": "station",
+      "name": "Platform backdrop",
+      "description": "A stationary studio bench and painted platform provide a departure-and-return glance.",
+      "difficulty": 3
+    },
+    {
+      "id": "flower-stall",
+      "name": "Flower stall",
+      "description": "Paper flowers and a shop awning frame a small surprise and a held expression.",
+      "difficulty": 3
+    }
+  ],
+  "storyboardPrompts": [
+    {
+      "id": "small-triumph",
+      "name": "A small triumph",
+      "description": "Propose an ordinary moment that turns into a hopeful personal celebration."
+    },
+    {
+      "id": "missed-connection",
+      "name": "A missed connection",
+      "description": "Describe a missed meeting and the choice to keep moving with the group."
+    },
+    {
+      "id": "shared-city",
+      "name": "Our shared city",
+      "description": "Connect one personal location to the cast's shared city-day concept."
+    }
+  ]
+}

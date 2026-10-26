@@ -19,7 +19,7 @@ export interface PanelJudging {
 }
 
 export interface EpisodePreparation {
-  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  episode: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   revision: number;
   lastAction: { revision: number; action: PreparationAction } | null;
   moodOptions: MoodOptions;
@@ -29,6 +29,17 @@ export interface EpisodePreparation {
   slots: (string | null)[];
   requiredSelections: number;
   openingPlayed: boolean;
+  randomAudit?: {
+    version: 1;
+    startState: number;
+    initialDraws: number[];
+    steps: {
+      revision: number;
+      action: PreparationAction;
+      draws: number[];
+    }[];
+    endState: number;
+  };
 }
 
 export type PreparationAction =

@@ -1522,3 +1522,144 @@ and departures, but never private icebreaker evidence or unsuccessful checks.
 Relationships Updates compares Episode 7's ending with Episode 8's ending
 across all twelve, including the two departures. Auto-complete preserves
 choices and stops on Episode 8's Top 10 screen. Episode 9 has not begun.
+
+## Episode 9 - Music Videos
+
+Ten contestants film the official **Squirrel Life** music video. It is one
+shared production, not multiple self-organized videos or an exclusion challenge.
+Mike's promise of creative control is a fake-out: after the cast produces real
+storyboards, guest director **Vivienne Voss** takes over. She joins John Stan,
+Megan Ryder and Michael Lion rather than replacing anyone.
+
+### Preparation and eight sequences
+
+Retain surviving opening portraits and fill only vacancies from the usual
+strongest-core shortlist. The six tastes use the highest/lowest final Variety
+Show survivors' specialties. Confirm them before the briefing; the shared
+opening plays in Sequence 2 and grants its ordinary +0.02 preference once.
+Preparation does not reveal the director or discarded-plan twist.
+
+| Sequence | Individually advanced footage                                                                                                                                         |
+| -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1        | Mike announces the MV; all ten contribute actual storyboard ideas. Leadership/curiosity drive planning and high investment can prompt overnight expression rehearsal. |
+| 2        | Confirmed opening portraits and the existing title-theme display.                                                                                                     |
+| 3        | Vivienne arrives, discards the plans and demands professionalism. Actual ambitious proposers can feel disappointed while mature/resilient contestants pivot.          |
+| 4        | Ten distinct solo beauty/acting sets, saved checks and immediate director feedback, including real freezes or One-Take Wonder moments.                                |
+| 5        | Choreography Takes 1, 2 and 3; fatigue starts accumulating on the third actual take.                                                                                  |
+| 6        | Take 4, at most one genuinely triggered reset, then Take 5. No guaranteed perfect ending.                                                                             |
+| 7        | A few-day recovery break, the actual director's cut and all four judges' final assessments.                                                                           |
+| 8        | Ten-person standings, rank-10 departure, nine-survivor MVP and modal investigation, then the farewell and Top 9.                                                      |
+
+The shoot is autonomous. Opening preparation and the closing investigation are
+the only player decisions; there is no director override or new intervention.
+The existing local portraits and narrated shots represent the video, not a
+generated video/audio asset or new lyrics.
+
+### Solo work and One-Take Wonder
+
+Each person receives one saved raw 2d6 pair, shared across medium-difficulty
+visual and charisma checks normalized to 0-100. Solo quality is 55% visual
+and 45% charisma. Sensitivity >=5 with raw sum <=4 causes an actual frozen cue
+and -10 result points; sensitivity alone cannot cause failure. A freeze can
+delay direction, not grant another roll or extra completed activity.
+
+An actual result >=85 without freezing earns One-Take Wonder and +0.10
+audienceRatio once, capped at 1. It grants no extra technical points, guaranteed
+fans, permanent skill level or second competition bonus.
+
+### Five takes, fatigue and the reset
+
+Every actual take gives each contestant fresh 2d6, shared across dance, stage
+presence and consistency. Base quality is 60% dance and 40% stage presence.
+For actual ordinal k and stamina s:
+
+`fatigue = min(12, overnightFatigue + max(0, k-2)*(6-s))`
+
+Subtract twice fatigue from the base. Scheduled takes 4/5 impose another -10
+when stamina is below 3. Investment >=5 adds one overnight fatigue, without
+extra readiness, skill growth or activity credit.
+
+A Take 4 reset requires all three: consistency skill <3, actual consistency
+check <50 and take result <55. Save every qualifying mistake; one or several
+failures still trigger only one group reset immediately before Take 5.
+The reset has its own dice and actual-ordinal fatigue and cannot reset again.
+Its result is averaged with original Take 4 in the fourth scheduled scoring
+slot, never selected as a free best-of improvement.
+
+At most one actual critic and one practical helper react to the visible cause.
+Their bounded directed affection changes apply only to the people involved.
+Resilience/investment >=5, genuine fatigue and a late stage-presence check >=70
+can support a convincing idol smile with once-only reception/professionalism
+credit. A good expression cannot erase weak dancing or physical fatigue.
+
+The crew manages exertion safely, with rest and assisted marks when appropriate.
+No actual collapse or new lasting injury is generated. Low-stamina late work can
+record episode-owned EXHAUSTED without overwriting protected starting conditions.
+The few-day break clears only this shoot's fatigue/exhaustion; it does not cure
+pre-existing exhaustion, injury, recovery, depression, stress or anxiety.
+
+### The final cut and equal panel
+
+Use the real five scheduled results, averaging original/reset within slot 4.
+Late quality is the mean of that fourth slot and Take 5. Edit priority is equal
+solo and late quality. Five highest priorities, with saved seeded cutoff ties,
+receive 80% individual focus proportional to `1+priority`; the other five get
+no individual focus but remain in shared choreography occupying 20% of the MV.
+
+Per-person video presence is `20 + individualFocus`. Shared frames legitimately
+count for all ten, so presence sums above 100%. Normalize these positive values
+to sum one only for competitive audience exposure. Actual MV screen time is
+credited once, separately from behind-the-scenes footage; the audience helper
+must not credit the video again. Pride/disappointment follows actual focus and
+traits, not an automatic penalty for being edited down.
+
+Five contributions have **20% weight each**:
+- Technical performance: 40% solo and 60% five-slot choreography mean.
+- John: mean dance checks across the five scheduled slots.
+- Megan: solo charisma.
+- Michael: equal solo visual and late stage presence.
+- Vivienne: 35% solo, 45% late quality and 20% professionalism.
+
+Professionalism blends 60% consistency and 40% late stage presence, with bounded
+actual pivot/smile events. These comments use completed footage, not new dice.
+Keep full precision and ordinary grades. No separate guest bonus, permanent
+growth, primary-track advantage, TV or experience contribution applies.
+
+Resolve the audience and cumulative ranking once, retaining the existing
+75% prior-points/60% episode/30% normalized votes/10% production formula.
+Keep Episode 8's public standings visible until Mike announces the new ones.
+
+### A single departure and the nine-person close
+
+Announce all ten places with movement and real reactions. Rank 10 is eliminated;
+their fans transfer once and positions 11-50 remain locked. Exactly nine active
+contestants remain. Only those nine cast private no-self MVP ballots, using
+actual late-delivery/consistency and support evidence with existing
+affection/personality voting.
+
+The standard investigation then offers its saved unbiased shortlist among the
+same nine. Normal availability, misses, fewer candidates and exact-card support
+for another hidden card still apply. Its consequences cannot rewrite sealed
+results or create a second departure. The eliminated contestant's farewell
+follows these closing decisions. Episode 10 is next, not started.
+
+### Saves, progression and copied stories
+
+Definitions are editable but frozen for each season; old saves adopt only
+missing MV definitions during preparation. Every actual preparation random draw
+and chronological action is audited. Validation replays those actions from
+Episode 8's exact ending RNG, including repeated Randomize, before validating
+the native shoot's RNG chronology. Earlier archives use the next episode's
+starting cast/show, not later mutable conditions, skills, audience or secrets.
+
+Full-history compressed saves, stale/duplicate actions, failed-write atomicity,
+history and auto-complete preserve actual choices without rerolls. Each full
+participant gains exactly +7 silent activity experience: storyboard +1, solo
++3 and complete group shoot +3. Repeated takes/reset and overnight cues grant
+no extra XP. Actual aired TV awards remain separate from competition and copying.
+
+Copied episode and combined-show stories include all eight sequences, real
+shots/takes, the focus allocation, four judges, actual MVP/revelations, standings
+and farewell. Hidden cards and unsuccessful investigation scenes stay out.
+Viewer-only Relationships Updates compares Episodes 8 and 9 across all ten,
+including the departure. Auto-complete stops at Episode 9's final Top 9 screen.

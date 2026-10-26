@@ -18,6 +18,7 @@ function guestPortrait(color: string) {
 }
 
 const personnel: Partial<Record<string, { placeholder: ReactNode; src?: string }>> = {
+  'Vivienne Voss': { placeholder: guestPortrait('#b9c7d6') },
   'Roxana Michaels': { placeholder: guestPortrait('#efd3bc') },
   Diana: { placeholder: guestPortrait('#b8d9cf') },
   Una: { placeholder: guestPortrait('#d6c5ef') },

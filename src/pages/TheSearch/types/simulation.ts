@@ -5,6 +5,7 @@ import type { BootcampEpisode } from './bootcamp-episode';
 import type { AttributeCard } from './common';
 import type { Contestant, Specialties } from './contestant';
 import type { MegaGroupsEpisode, MegaGroupTestPair } from './mega-groups-episode';
+import type { MusicVideoCatalog, MusicVideoEpisode } from './music-video-episode';
 import type { EpisodePreparation } from './narrative';
 import type { PhotoshootConcept, PhotoshootEpisode } from './photoshoot-episode';
 import type { TrackSpecialSong, TrackSpecialsEpisode } from './track-specials-episode';
@@ -29,6 +30,7 @@ export interface SimulationDefinitions {
   versatilitySongs?: VersatilitySong[];
   doubtGirls?: DoubtGirlsMember[];
   varietyShowCatalog?: VarietyShowCatalog;
+  musicVideoCatalog?: MusicVideoCatalog;
 }
 
 export interface SeasonRuntime {
@@ -41,7 +43,7 @@ export interface SeasonRuntime {
   runId: string;
   seed: number;
   randomState: number;
-  episode: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8;
+  episode: 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
   phase:
     | 'setup-complete'
     | 'auditions'
@@ -52,6 +54,7 @@ export interface SeasonRuntime {
     | 'track-specials'
     | 'versatility'
     | 'variety-show'
+    | 'music-video'
     | 'episode-complete';
   setup: {
     useBias: boolean;
@@ -69,8 +72,9 @@ export interface SeasonRuntime {
   trackSpecials?: TrackSpecialsEpisode | null;
   versatility?: VersatilityEpisode | null;
   varietyShow?: VarietyShowEpisode | null;
+  musicVideo?: MusicVideoEpisode | null;
   openingCast?: string[];
-  preparations?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8, EpisodePreparation>>;
+  preparations?: Partial<Record<1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9, EpisodePreparation>>;
   show: ShowAudience;
   revealedSecrets: { contestantId: string; cardId: string }[];
   deferredConsequences: DeferredConsequence[];
