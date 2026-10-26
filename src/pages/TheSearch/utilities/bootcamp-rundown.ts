@@ -1,4 +1,5 @@
 import type { SimulationState } from '../types/simulation';
+import { findPublicAttributeCard } from './attribute-libraries';
 import { markdown } from './markdown';
 import { createRelationshipUpdatesMarkdown } from './relationship-updates';
 import { SHOW_PREMISE, showRundown } from './rundown-presentation';
@@ -38,7 +39,7 @@ export function createBootcampRundown(state: SimulationState): string {
     lines.push(`### ${name(id)}`, '', `${markdown(person.track)} track.`);
     for (const cardId of [person.persona, ...person.attributes.filter((entry) => entry !== person.persona)]) {
       if (Object.hasOwn(cards.secret, cardId)) continue;
-      const card = cards.persona[cardId] ?? cards.identity[cardId] ?? cards.interest[cardId];
+      const card = findPublicAttributeCard(cards, cardId);
       if (card) lines.push(`**${markdown(card.name)}:** ${markdown(card.description)}`);
     }
     lines.push(

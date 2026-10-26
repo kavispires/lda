@@ -1,10 +1,13 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
+import type { AttributeCard } from '../types/common';
 import type { Contestant } from '../types/contestant';
 import type { SimulationState } from '../types/simulation';
+import { processSimulationContestants } from '../utilities/card-assignment';
 import { TRACKS } from '../utilities/constants';
 import { createContestant } from '../utilities/contestant-factory';
+import { getSimulationDefinitions } from '../utilities/simulation-definitions';
 import { createSeededRandom } from './random';
 import { createSeasonSetup } from './season-setup';
 import {
@@ -36,6 +39,117 @@ function sourcePool(): Record<string, Contestant> {
 }
 
 const options = { seed: 12345, runId: 'test-season', now: 123456, formatVersion: 1 as const };
+
+test('new casts receive one season-unique lifestyle, history and quirk card each', () => {
+  const setup = createSeasonSetup(sourcePool(), options);
+  for (const type of ['lifestyle', 'history', 'quirk'] as const) {
+    const library = setup.runtime.definitions.cards[type];
+    assert.ok(library);
+    const assigned = setup.contestants.map((contestant) => {
+      const ids = contestant.attributes.filter((id) => Object.hasOwn(library, id));
+      assert.equal(ids.length, 1, `${contestant.id}: exactly one ${type}`);
+      assert.ok(contestant.changeLog[0].events.includes(ids[0]));
+      return ids[0];
+    });
+    assert.equal(new Set(assigned).size, 50);
+    assert.ok(Object.isFrozen(library[assigned[0]].influences));
+  }
+});
+
+test('character cards apply their influences and sets once and never skip or reuse required cards', () => {
+  const definitions = getSimulationDefinitions();
+  const source = Object.fromEntries(Object.entries(sourcePool()).slice(0, 4));
+  const before = structuredClone(source);
+  definitions.cards = { persona: {}, identity: {}, interest: {}, secret: {} };
+  for (const key of Object.keys(definitions.specialties) as (keyof typeof definitions.specialties)[])
+    definitions.specialties[key] = {};
+  definitions.zodiacSigns = {};
+  for (const type of ['lifestyle', 'history', 'quirk'] as const) {
+    const library: Record<string, AttributeCard> = {};
+    for (let index = 0; index < 4; index++) {
+      const id = `${type}-${index}`;
+      library[id] = {
+        id,
+        type,
+        name: id,
+        group: 'test',
+        description: 'Setup influence fixture',
+        occurrence: 1,
+        influences:
+          type === 'lifestyle'
+            ? { 'aggregations.happiness': 7 }
+            : type === 'history'
+              ? { 'utilitySkills.learning': 3 }
+              : { 'personality.curiosity': -4 },
+        ...(type === 'quirk' ? { set: { 'personality.maturity': 7 } } : {}),
+      };
+    }
+    library.incompatible = {
+      ...library[`${type}-0`],
+      id: 'incompatible',
+      influences: { 'coreSkills.dance': 5 },
+    };
+    definitions.cards[type] = library;
+  }
+  const process = () => {
+    const random = createSeededRandom(12345);
+    return processSimulationContestants(Object.keys(source), source, {
+      random: random.next,
+      definitions,
+      now: 1000,
+    });
+  };
+  const contestants = process();
+  assert.deepEqual(process(), contestants);
+  for (const contestant of contestants) {
+    assert.equal(contestant.attributes.length, 3);
+    assert.ok(!contestant.attributes.includes('incompatible'));
+    assert.equal(contestant.aggregations.happiness, before[contestant.id].aggregations.happiness + 7);
+    assert.equal(
+      contestant.utilitySkills.learning,
+      Math.min(5, Math.round((2 * before[contestant.id].utilitySkills.learning + 3) / 2)),
+    );
+    assert.equal(
+      contestant.personality.curiosity,
+      Math.round((2 * before[contestant.id].personality.curiosity - 4) / 2),
+    );
+    assert.equal(contestant.personality.maturity, 7);
+    for (const path of [
+      'aggregations.happiness',
+      'utilitySkills.learning',
+      'personality.curiosity',
+      'personality.maturity',
+    ])
+      assert.ok(
+        contestant.changeLog[0].changes?.some((change) => change.path === path),
+        path,
+      );
+  }
+  assert.deepEqual(source, before);
+  assert.ok(definitions.cards.lifestyle);
+  delete definitions.cards.lifestyle['lifestyle-3'];
+  assert.throws(process, /No compatible unused lifestyle card/);
+  assert.deepEqual(source, before);
+});
+
+test('old frozen definitions do not adopt character cards and malformed new libraries cannot reload', () => {
+  const definitions = getSimulationDefinitions();
+  delete definitions.cards.lifestyle;
+  delete definitions.cards.history;
+  delete definitions.cards.quirk;
+  const state: SimulationState = {
+    ...createSeasonSetup(sourcePool(), { ...options, definitions }),
+    status: 'ready',
+    persistenceError: null,
+  };
+  const restored = decodeSimulationState(encodeSimulationState(state));
+  assert.deepEqual(restored, JSON.parse(JSON.stringify(state)));
+  assert.deepEqual(restored.runtime?.definitions.cards, definitions.cards);
+  const corrupt = structuredClone(state);
+  assert.ok(corrupt.runtime);
+  Object.assign(corrupt.runtime.definitions.cards, { lifestyle: { BROKEN: { id: 'BROKEN' } } });
+  assert.throws(() => decodeSimulationState(JSON.stringify(corrupt)), /lifestyle card definitions/);
+});
 
 test('season setup excludes self from every contestant relationship map', () => {
   const setup = createSeasonSetup(sourcePool(), options);

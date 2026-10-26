@@ -1,5 +1,6 @@
 import type { ChangeValue } from '../types/common';
 import type { SimulationState } from '../types/simulation';
+import { findPublicAttributeCard } from './attribute-libraries';
 import { createBootcampRundown } from './bootcamp-rundown';
 import { createFinaleRundown } from './finale-rundown';
 import { markdown } from './markdown';
@@ -79,7 +80,7 @@ export function createEpisodeRundown(
       ...contestant.attributes
         .filter((cardId) => cardId !== contestant.persona && !Object.hasOwn(cards.secret, cardId))
         .map((cardId) => {
-          const card = cards.identity[cardId] ?? cards.interest[cardId] ?? cards.persona[cardId];
+          const card = findPublicAttributeCard(cards, cardId);
           if (!card) throw new Error(`The episode rundown has an unknown public card "${cardId}".`);
           return `**${markdown(card.name)}:** ${markdown(card.description)}`;
         }),

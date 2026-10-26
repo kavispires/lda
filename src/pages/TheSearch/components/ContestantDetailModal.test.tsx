@@ -5,6 +5,7 @@ import { isValidElement, type ReactNode } from 'react';
 import { renderToStaticMarkup } from 'react-dom/server';
 import type { Contestant } from '../types/contestant';
 import { createContestant } from '../utilities/contestant-factory';
+import { getSimulationDefinitions } from '../utilities/simulation-definitions';
 import { ContestantDetailModal } from './ContestantDetailModal';
 
 function renderRelationships(contestant: Contestant, allContestants: Contestant[]) {
@@ -16,6 +17,32 @@ function renderRelationships(contestant: Contestant, allContestants: Contestant[
   assert.ok(relationships);
   return renderToStaticMarkup(relationships.children);
 }
+
+test('assigned character cards display their frozen season names rather than unresolved IDs', () => {
+  const contestant = createContestant({ id: 'character', name: 'Character' });
+  const definitions = getSimulationDefinitions();
+  const names: string[] = [];
+  for (const type of ['lifestyle', 'history', 'quirk'] as const) {
+    const library = definitions.cards[type];
+    assert.ok(library);
+    const card = Object.values(library)[0];
+    card.name = `Frozen ${type} name`;
+    names.push(card.name);
+    contestant.attributes.push(card.id);
+  }
+  const modal = ContestantDetailModal({
+    contestant,
+    allContestants: [contestant],
+    definitions,
+    onClose: () => {},
+  });
+  assert.ok(isValidElement<{ children: ReactNode }>(modal));
+  assert.ok(isValidElement<TabsProps>(modal.props.children));
+  const tab = modal.props.children.props.items?.find((item) => item.key === 'personality');
+  assert.ok(tab);
+  const html = renderToStaticMarkup(tab.children);
+  for (const name of names) assert.ok(html.includes(name), name);
+});
 
 test('relationship rows exclude self even in old saves, while keeping other contestants with the same name', () => {
   const contestant = createContestant({ id: 'self', name: 'Alex' });

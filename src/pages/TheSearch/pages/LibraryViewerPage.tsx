@@ -24,12 +24,15 @@ import {
   Tag,
   Typography,
 } from 'antd';
-import { capitalize } from 'lodash';
+import capitalize from 'lodash/capitalize';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import historyCardsData from '../data/history-cards.json';
 import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';
+import lifestyleCardsData from '../data/lifestyle-cards.json';
 import personaCardsData from '../data/persona-cards.json';
+import quirksCardsData from '../data/quirks-cards.json';
 import secretCardsData from '../data/secret-cards.json';
 import type { AttributeCard } from '../types/common';
 import {
@@ -42,7 +45,16 @@ import {
   ZODIAC_SIGNS,
 } from '../utilities/attribute-libraries';
 
-type LibraryType = 'identity' | 'persona' | 'interest' | 'secrets' | 'specialties' | 'zodiac-signs';
+type LibraryType =
+  | 'identity'
+  | 'persona'
+  | 'interest'
+  | 'lifestyle'
+  | 'history'
+  | 'quirks'
+  | 'secrets'
+  | 'specialties'
+  | 'zodiac-signs';
 
 type LibraryConfig = {
   title: string;
@@ -65,6 +77,21 @@ const libraryConfigs: Record<LibraryType, LibraryConfig> = {
     title: 'Interest Cards',
     description: 'Hobbies, passions, and background interests that add depth to contestant personalities',
     data: Object.values(interestCardsData) as unknown as AttributeCard[],
+  },
+  lifestyle: {
+    title: 'Lifestyle Cards',
+    description: 'Everyday habits and routines that shape contestant personalities',
+    data: Object.values(lifestyleCardsData),
+  },
+  history: {
+    title: 'History Cards',
+    description: 'Past experiences and backgrounds that shape each contestant',
+    data: Object.values(historyCardsData),
+  },
+  quirks: {
+    title: 'Quirk Cards',
+    description: 'Distinctive mannerisms and personal quirks that make contestants memorable',
+    data: Object.values(quirksCardsData),
   },
   secrets: {
     title: 'Secret Cards',

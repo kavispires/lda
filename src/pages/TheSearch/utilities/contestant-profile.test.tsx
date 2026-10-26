@@ -80,6 +80,14 @@ test('contestant profile copies initialized appearance, descriptions, specialtie
     const card = runtime.definitions.cards.identity[id] ?? runtime.definitions.cards.interest[id];
     if (card) assert.ok(text.includes(card.description));
   }
+  for (const type of ['lifestyle', 'history', 'quirk'] as const) {
+    const library = runtime.definitions.cards[type];
+    assert.ok(library);
+    const id = contestant.attributes.find((entry) => Object.hasOwn(library, entry));
+    assert.ok(id);
+    assert.ok(text.includes(library[id].description));
+    assert.ok(text.includes(`### ${type[0].toUpperCase()}${type.slice(1)}:`));
+  }
   assert.equal(JSON.stringify(runtime), before);
 });
 

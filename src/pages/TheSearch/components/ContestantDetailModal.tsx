@@ -16,9 +16,12 @@ import {
 } from 'antd';
 import { useState } from 'react';
 import type { Dictionary } from 'types/common';
+import historyCardsData from '../data/history-cards.json';
 import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';
+import lifestyleCardsData from '../data/lifestyle-cards.json';
 import personaCardsData from '../data/persona-cards.json';
+import quirksCardsData from '../data/quirks-cards.json';
 import secretCardsData from '../data/secret-cards.json';
 import type { AttributeCard, PropertyChange } from '../types/common';
 import type { ChangeLogEntry, Contestant } from '../types/contestant';
@@ -47,6 +50,9 @@ const ALL_CARDS = {
   ...IDENTITY_CARDS,
   ...INTEREST_CARDS,
   ...SECRET_CARDS,
+  ...lifestyleCardsData,
+  ...historyCardsData,
+  ...quirksCardsData,
 };
 
 const ALL_SPECIALTIES = {
@@ -472,6 +478,9 @@ function PersonalityTab({
         ...definitions.cards.identity,
         ...definitions.cards.interest,
         ...definitions.cards.secret,
+        ...definitions.cards.lifestyle,
+        ...definitions.cards.history,
+        ...definitions.cards.quirk,
       }
     : ALL_CARDS;
   const getCardTooltip = (cardId: string): string => {

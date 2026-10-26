@@ -324,2124 +324,1912 @@
       "aggregations.productionRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_001": {
-    "id": "LIFESTYLE_VARIANT_001",
+  "LIFESTYLE_REAL_000": {
+    "id": "LIFESTYLE_REAL_000",
     "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 1",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Sleep Preference",
+    "name": "Blackout Curtains",
+    "description": "Refuses to sleep unless the room is pitch black. Tapes the edges of the windows.",
     "occurrence": 1,
     "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_002": {
-    "id": "LIFESTYLE_VARIANT_002",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 2",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_003": {
-    "id": "LIFESTYLE_VARIANT_003",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 3",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_004": {
-    "id": "LIFESTYLE_VARIANT_004",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 4",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
+      "personality.resilience": 1,
       "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_005": {
-    "id": "LIFESTYLE_VARIANT_005",
+  "LIFESTYLE_REAL_001": {
+    "id": "LIFESTYLE_REAL_001",
     "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 5",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Sleep Preference",
+    "name": "Fan Sleeper",
+    "description": "Needs a box fan on high blowing directly on their face to sleep.",
     "occurrence": 1,
     "influences": {
-      "personality.maturity": 1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_006": {
-    "id": "LIFESTYLE_VARIANT_006",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 6",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_007": {
-    "id": "LIFESTYLE_VARIANT_007",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 7",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_008": {
-    "id": "LIFESTYLE_VARIANT_008",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 8",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_009": {
-    "id": "LIFESTYLE_VARIANT_009",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 9",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 2,
+      "personality.resilience": 1,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_010": {
-    "id": "LIFESTYLE_VARIANT_010",
+  "LIFESTYLE_REAL_002": {
+    "id": "LIFESTYLE_REAL_002",
     "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 10",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Sleep Preference",
+    "name": "Floor Sleeper",
+    "description": "Prefers the hard dorm floor over the soft mattress provided.",
     "occurrence": 1,
     "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_011": {
-    "id": "LIFESTYLE_VARIANT_011",
+  "LIFESTYLE_REAL_003": {
+    "id": "LIFESTYLE_REAL_003",
     "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 11",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Dorm Environment",
+    "name": "Scented Candle Addict",
+    "description": "Constantly burning candles in the dorm. A major fire hazard.",
     "occurrence": 1,
     "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": 1
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_012": {
-    "id": "LIFESTYLE_VARIANT_012",
+  "LIFESTYLE_REAL_004": {
+    "id": "LIFESTYLE_REAL_004",
     "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 12",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Dorm Environment",
+    "name": "Humidifier User",
+    "description": "Runs a humidifier 24/7 to protect their vocal cords. Makes the room damp.",
     "occurrence": 1,
     "influences": {
-      "personality.extroversion": 1,
+      "personality.resilience": 1,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_013": {
-    "id": "LIFESTYLE_VARIANT_013",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 13",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 1,
-      "personality.sincerity": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_014": {
-    "id": "LIFESTYLE_VARIANT_014",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 14",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_015": {
-    "id": "LIFESTYLE_VARIANT_015",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 15",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_016": {
-    "id": "LIFESTYLE_VARIANT_016",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 16",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 2,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_017": {
-    "id": "LIFESTYLE_VARIANT_017",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 17",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_018": {
-    "id": "LIFESTYLE_VARIANT_018",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 18",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_019": {
-    "id": "LIFESTYLE_VARIANT_019",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 19",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_020": {
-    "id": "LIFESTYLE_VARIANT_020",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 20",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_021": {
-    "id": "LIFESTYLE_VARIANT_021",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 21",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 1,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_022": {
-    "id": "LIFESTYLE_VARIANT_022",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 22",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_023": {
-    "id": "LIFESTYLE_VARIANT_023",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 23",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_024": {
-    "id": "LIFESTYLE_VARIANT_024",
+  "LIFESTYLE_REAL_005": {
+    "id": "LIFESTYLE_REAL_005",
     "type": "lifestyle",
     "group": "Dorm Environment",
-    "name": "Lifestyle Variant 24",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Dehumidifier User",
+    "description": "Hates humidity. Runs a loud machine to keep the air dry.",
     "occurrence": 1,
     "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_025": {
-    "id": "LIFESTYLE_VARIANT_025",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 25",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 1,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_026": {
-    "id": "LIFESTYLE_VARIANT_026",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 26",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_027": {
-    "id": "LIFESTYLE_VARIANT_027",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 27",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_028": {
-    "id": "LIFESTYLE_VARIANT_028",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 28",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_029": {
-    "id": "LIFESTYLE_VARIANT_029",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 29",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_030": {
-    "id": "LIFESTYLE_VARIANT_030",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 30",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_031": {
-    "id": "LIFESTYLE_VARIANT_031",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 31",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_032": {
-    "id": "LIFESTYLE_VARIANT_032",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 32",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_033": {
-    "id": "LIFESTYLE_VARIANT_033",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 33",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 1,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_034": {
-    "id": "LIFESTYLE_VARIANT_034",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 34",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_035": {
-    "id": "LIFESTYLE_VARIANT_035",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 35",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_036": {
-    "id": "LIFESTYLE_VARIANT_036",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 36",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_037": {
-    "id": "LIFESTYLE_VARIANT_037",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 37",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_038": {
-    "id": "LIFESTYLE_VARIANT_038",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 38",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -2,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_039": {
-    "id": "LIFESTYLE_VARIANT_039",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 39",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_040": {
-    "id": "LIFESTYLE_VARIANT_040",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 40",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 2,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_041": {
-    "id": "LIFESTYLE_VARIANT_041",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 41",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_042": {
-    "id": "LIFESTYLE_VARIANT_042",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 42",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_043": {
-    "id": "LIFESTYLE_VARIANT_043",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 43",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -2,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_044": {
-    "id": "LIFESTYLE_VARIANT_044",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 44",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_045": {
-    "id": "LIFESTYLE_VARIANT_045",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 45",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_046": {
-    "id": "LIFESTYLE_VARIANT_046",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 46",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_047": {
-    "id": "LIFESTYLE_VARIANT_047",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 47",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_048": {
-    "id": "LIFESTYLE_VARIANT_048",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 48",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": 1,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_049": {
-    "id": "LIFESTYLE_VARIANT_049",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 49",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_050": {
-    "id": "LIFESTYLE_VARIANT_050",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 50",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_051": {
-    "id": "LIFESTYLE_VARIANT_051",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 51",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_052": {
-    "id": "LIFESTYLE_VARIANT_052",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 52",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_053": {
-    "id": "LIFESTYLE_VARIANT_053",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 53",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_054": {
-    "id": "LIFESTYLE_VARIANT_054",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 54",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_055": {
-    "id": "LIFESTYLE_VARIANT_055",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 55",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_056": {
-    "id": "LIFESTYLE_VARIANT_056",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 56",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_057": {
-    "id": "LIFESTYLE_VARIANT_057",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 57",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_058": {
-    "id": "LIFESTYLE_VARIANT_058",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 58",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 1,
-      "personality.sincerity": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_059": {
-    "id": "LIFESTYLE_VARIANT_059",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 59",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": -0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_060": {
-    "id": "LIFESTYLE_VARIANT_060",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 60",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_061": {
-    "id": "LIFESTYLE_VARIANT_061",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 61",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_062": {
-    "id": "LIFESTYLE_VARIANT_062",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 62",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_063": {
-    "id": "LIFESTYLE_VARIANT_063",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 63",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
+      "personality.resilience": -1,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_064": {
-    "id": "LIFESTYLE_VARIANT_064",
+  "LIFESTYLE_REAL_006": {
+    "id": "LIFESTYLE_REAL_006",
     "type": "lifestyle",
     "group": "Social Boundary",
-    "name": "Lifestyle Variant 64",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Door Wide Open",
+    "description": "Leaves the dorm door open at all times. Hates feeling enclosed.",
     "occurrence": 1,
     "influences": {
-      "personality.extroversion": -1,
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_007": {
+    "id": "LIFESTYLE_REAL_007",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Door Deadbolted",
+    "description": "Locks the door the second they enter. Very protective of their space.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_065": {
-    "id": "LIFESTYLE_VARIANT_065",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 65",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_066": {
-    "id": "LIFESTYLE_VARIANT_066",
+  "LIFESTYLE_REAL_008": {
+    "id": "LIFESTYLE_REAL_008",
     "type": "lifestyle",
     "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 66",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Shower Crier",
+    "description": "Uses the shower as their personal emotional breakdown space.",
     "occurrence": 1,
     "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 2
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
     }
   },
-  "LIFESTYLE_VARIANT_067": {
-    "id": "LIFESTYLE_VARIANT_067",
+  "LIFESTYLE_REAL_009": {
+    "id": "LIFESTYLE_REAL_009",
     "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 67",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Hygiene & Grooming",
+    "name": "2-Hour Bather",
+    "description": "Takes incredibly long baths, hogging the only dorm bathroom.",
     "occurrence": 1,
     "influences": {
-      "personality.discipline": 2,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_068": {
-    "id": "LIFESTYLE_VARIANT_068",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 68",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -2,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_069": {
-    "id": "LIFESTYLE_VARIANT_069",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 69",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 1,
+      "personality.resilience": 2,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_070": {
-    "id": "LIFESTYLE_VARIANT_070",
+  "LIFESTYLE_REAL_010": {
+    "id": "LIFESTYLE_REAL_010",
     "type": "lifestyle",
     "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 70",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "5-Minute Shower",
+    "description": "In and out before anyone realizes. Highly efficient.",
     "occurrence": 1,
     "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_071": {
-    "id": "LIFESTYLE_VARIANT_071",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 71",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_072": {
-    "id": "LIFESTYLE_VARIANT_072",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 72",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_073": {
-    "id": "LIFESTYLE_VARIANT_073",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 73",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_074": {
-    "id": "LIFESTYLE_VARIANT_074",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 74",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -2,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_075": {
-    "id": "LIFESTYLE_VARIANT_075",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 75",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_076": {
-    "id": "LIFESTYLE_VARIANT_076",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 76",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_077": {
-    "id": "LIFESTYLE_VARIANT_077",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 77",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_078": {
-    "id": "LIFESTYLE_VARIANT_078",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 78",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_079": {
-    "id": "LIFESTYLE_VARIANT_079",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 79",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_080": {
-    "id": "LIFESTYLE_VARIANT_080",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 80",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_081": {
-    "id": "LIFESTYLE_VARIANT_081",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 81",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_082": {
-    "id": "LIFESTYLE_VARIANT_082",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 82",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_083": {
-    "id": "LIFESTYLE_VARIANT_083",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 83",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 2,
+      "personality.resilience": 2,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_084": {
-    "id": "LIFESTYLE_VARIANT_084",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 84",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_085": {
-    "id": "LIFESTYLE_VARIANT_085",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 85",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_086": {
-    "id": "LIFESTYLE_VARIANT_086",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 86",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_087": {
-    "id": "LIFESTYLE_VARIANT_087",
+  "LIFESTYLE_REAL_011": {
+    "id": "LIFESTYLE_REAL_011",
     "type": "lifestyle",
     "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 87",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Expensive Skincare Only",
+    "description": "Will not use generic brands. Hoards luxury face creams.",
     "occurrence": 1,
     "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_088": {
-    "id": "LIFESTYLE_VARIANT_088",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 88",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 1,
-      "personality.sincerity": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_089": {
-    "id": "LIFESTYLE_VARIANT_089",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 89",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_090": {
-    "id": "LIFESTYLE_VARIANT_090",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 90",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_091": {
-    "id": "LIFESTYLE_VARIANT_091",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 91",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 2,
-      "aggregations.productionRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_092": {
-    "id": "LIFESTYLE_VARIANT_092",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 92",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_093": {
-    "id": "LIFESTYLE_VARIANT_093",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 93",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -2,
+      "personality.resilience": 2,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_094": {
-    "id": "LIFESTYLE_VARIANT_094",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 94",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_095": {
-    "id": "LIFESTYLE_VARIANT_095",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 95",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_096": {
-    "id": "LIFESTYLE_VARIANT_096",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 96",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_097": {
-    "id": "LIFESTYLE_VARIANT_097",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 97",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_098": {
-    "id": "LIFESTYLE_VARIANT_098",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 98",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_099": {
-    "id": "LIFESTYLE_VARIANT_099",
+  "LIFESTYLE_REAL_012": {
+    "id": "LIFESTYLE_REAL_012",
     "type": "lifestyle",
     "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 99",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Uses 3-in-1 Soap",
+    "description": "Washes their hair, face, and body with the same cheap soap.",
     "occurrence": 1,
     "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_100": {
-    "id": "LIFESTYLE_VARIANT_100",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 100",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 2,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_101": {
-    "id": "LIFESTYLE_VARIANT_101",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 101",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -2,
+      "personality.resilience": 1,
       "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_102": {
-    "id": "LIFESTYLE_VARIANT_102",
+  "LIFESTYLE_REAL_013": {
+    "id": "LIFESTYLE_REAL_013",
     "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 102",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Hygiene & Grooming",
+    "name": "Daily Face Mask",
+    "description": "Walks around the dorm every night in a terrifying sheet mask.",
     "occurrence": 1,
     "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": 2
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_103": {
-    "id": "LIFESTYLE_VARIANT_103",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 103",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_104": {
-    "id": "LIFESTYLE_VARIANT_104",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 104",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_105": {
-    "id": "LIFESTYLE_VARIANT_105",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 105",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_106": {
-    "id": "LIFESTYLE_VARIANT_106",
+  "LIFESTYLE_REAL_014": {
+    "id": "LIFESTYLE_REAL_014",
     "type": "lifestyle",
     "group": "Dorm Environment",
-    "name": "Lifestyle Variant 106",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Color-Coded Closet",
+    "description": "Their clothes are organized by a strict color gradient.",
     "occurrence": 1,
     "influences": {
-      "personality.gentleness": -2,
-      "aggregations.contestantsLikeness": -0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_107": {
-    "id": "LIFESTYLE_VARIANT_107",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 107",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_108": {
-    "id": "LIFESTYLE_VARIANT_108",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 108",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 2,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_109": {
-    "id": "LIFESTYLE_VARIANT_109",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 109",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
+      "personality.resilience": -1,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_110": {
-    "id": "LIFESTYLE_VARIANT_110",
+  "LIFESTYLE_REAL_015": {
+    "id": "LIFESTYLE_REAL_015",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Hangers Only",
+    "description": "Refuses to fold clothes. Everything must be hung up.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_016": {
+    "id": "LIFESTYLE_REAL_016",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Floordrobe",
+    "description": "Stores all of their clean clothes in a giant pile on the floor.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_017": {
+    "id": "LIFESTYLE_REAL_017",
     "type": "lifestyle",
     "group": "Resource Management",
-    "name": "Lifestyle Variant 110",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Steals Hoodies",
+    "description": "Constantly 'borrows' jackets from other contestants without asking.",
     "occurrence": 1,
     "influences": {
-      "personality.maturity": 1,
-      "personality.sincerity": 1
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_111": {
-    "id": "LIFESTYLE_VARIANT_111",
+  "LIFESTYLE_REAL_018": {
+    "id": "LIFESTYLE_REAL_018",
     "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 111",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Resource Management",
+    "name": "Hates Borrowers",
+    "description": "Will physically fight anyone who touches their belongings.",
     "occurrence": 1,
     "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": -0.01
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
     }
   },
-  "LIFESTYLE_VARIANT_112": {
-    "id": "LIFESTYLE_VARIANT_112",
+  "LIFESTYLE_REAL_019": {
+    "id": "LIFESTYLE_REAL_019",
     "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 112",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Hygiene & Grooming",
+    "name": "Washes Clothes Daily",
+    "description": "Does a load of laundry every single day. Wastes water.",
     "occurrence": 1,
     "influences": {
-      "personality.curiosity": 1,
-      "aggregations.fanbaseRatio": 0.01
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_113": {
-    "id": "LIFESTYLE_VARIANT_113",
+  "LIFESTYLE_REAL_020": {
+    "id": "LIFESTYLE_REAL_020",
     "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 113",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Hygiene & Grooming",
+    "name": "Never Does Laundry",
+    "description": "Wears the same practice shirt three days in a row.",
     "occurrence": 1,
     "influences": {
-      "personality.extroversion": -1,
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_021": {
+    "id": "LIFESTYLE_REAL_021",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Ironing Obsessed",
+    "description": "Irons their t-shirts and jeans before wearing them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_114": {
-    "id": "LIFESTYLE_VARIANT_114",
+  "LIFESTYLE_REAL_022": {
+    "id": "LIFESTYLE_REAL_022",
     "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 114",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Hygiene & Grooming",
+    "name": "Wrinkle Careless",
+    "description": "Pulls clothes directly from the dryer pile. Looks messy.",
     "occurrence": 1,
     "influences": {
-      "personality.extroversion": -1,
+      "personality.resilience": 1,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_115": {
-    "id": "LIFESTYLE_VARIANT_115",
+  "LIFESTYLE_REAL_023": {
+    "id": "LIFESTYLE_REAL_023",
     "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 115",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Dorm Environment",
+    "name": "Shoe Display",
+    "description": "Lines up their expensive sneakers like an art exhibit in the hall.",
     "occurrence": 1,
     "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_116": {
-    "id": "LIFESTYLE_VARIANT_116",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 116",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_117": {
-    "id": "LIFESTYLE_VARIANT_117",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 117",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -2,
+      "personality.resilience": -1,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_118": {
-    "id": "LIFESTYLE_VARIANT_118",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 118",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_119": {
-    "id": "LIFESTYLE_VARIANT_119",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 119",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_120": {
-    "id": "LIFESTYLE_VARIANT_120",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 120",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_121": {
-    "id": "LIFESTYLE_VARIANT_121",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 121",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_122": {
-    "id": "LIFESTYLE_VARIANT_122",
+  "LIFESTYLE_REAL_024": {
+    "id": "LIFESTYLE_REAL_024",
     "type": "lifestyle",
     "group": "Dorm Environment",
-    "name": "Lifestyle Variant 122",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Shoes in Bed",
+    "description": "Lays on the bed with their shoes still on. Disgusts roommates.",
     "occurrence": 1,
     "influences": {
-      "personality.gentleness": -2,
-      "aggregations.contestantsLikeness": -0.02
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
     }
   },
-  "LIFESTYLE_VARIANT_123": {
-    "id": "LIFESTYLE_VARIANT_123",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 123",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_124": {
-    "id": "LIFESTYLE_VARIANT_124",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 124",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_125": {
-    "id": "LIFESTYLE_VARIANT_125",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 125",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_126": {
-    "id": "LIFESTYLE_VARIANT_126",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 126",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_127": {
-    "id": "LIFESTYLE_VARIANT_127",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 127",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_128": {
-    "id": "LIFESTYLE_VARIANT_128",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 128",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_129": {
-    "id": "LIFESTYLE_VARIANT_129",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 129",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_130": {
-    "id": "LIFESTYLE_VARIANT_130",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 130",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 2,
-      "aggregations.productionRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_131": {
-    "id": "LIFESTYLE_VARIANT_131",
+  "LIFESTYLE_REAL_025": {
+    "id": "LIFESTYLE_REAL_025",
     "type": "lifestyle",
     "group": "Dorm Environment",
-    "name": "Lifestyle Variant 131",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Slippers Only",
+    "description": "Refuses to let bare feet touch the dorm floor.",
     "occurrence": 1,
     "influences": {
-      "personality.gentleness": -2,
-      "aggregations.contestantsLikeness": -0.03
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
     }
   },
-  "LIFESTYLE_VARIANT_132": {
-    "id": "LIFESTYLE_VARIANT_132",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 132",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_133": {
-    "id": "LIFESTYLE_VARIANT_133",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 133",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_134": {
-    "id": "LIFESTYLE_VARIANT_134",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 134",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -2,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_135": {
-    "id": "LIFESTYLE_VARIANT_135",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 135",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_136": {
-    "id": "LIFESTYLE_VARIANT_136",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 136",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_137": {
-    "id": "LIFESTYLE_VARIANT_137",
+  "LIFESTYLE_REAL_026": {
+    "id": "LIFESTYLE_REAL_026",
     "type": "lifestyle",
     "group": "Dorm Environment",
-    "name": "Lifestyle Variant 137",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Bed Maker",
+    "description": "Makes their bed with military precision every morning.",
     "occurrence": 1,
     "influences": {
-      "personality.gentleness": 1,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_138": {
-    "id": "LIFESTYLE_VARIANT_138",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 138",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_139": {
-    "id": "LIFESTYLE_VARIANT_139",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 139",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": 1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_140": {
-    "id": "LIFESTYLE_VARIANT_140",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 140",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_141": {
-    "id": "LIFESTYLE_VARIANT_141",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 141",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_142": {
-    "id": "LIFESTYLE_VARIANT_142",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 142",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_143": {
-    "id": "LIFESTYLE_VARIANT_143",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 143",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 2,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_144": {
-    "id": "LIFESTYLE_VARIANT_144",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 144",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_145": {
-    "id": "LIFESTYLE_VARIANT_145",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 145",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 1,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_146": {
-    "id": "LIFESTYLE_VARIANT_146",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 146",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": 2,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_147": {
-    "id": "LIFESTYLE_VARIANT_147",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 147",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_148": {
-    "id": "LIFESTYLE_VARIANT_148",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 148",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_149": {
-    "id": "LIFESTYLE_VARIANT_149",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 149",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_150": {
-    "id": "LIFESTYLE_VARIANT_150",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 150",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -2,
-      "aggregations.contestantsLikeness": -0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_151": {
-    "id": "LIFESTYLE_VARIANT_151",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 151",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_152": {
-    "id": "LIFESTYLE_VARIANT_152",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 152",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_153": {
-    "id": "LIFESTYLE_VARIANT_153",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 153",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_154": {
-    "id": "LIFESTYLE_VARIANT_154",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 154",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_155": {
-    "id": "LIFESTYLE_VARIANT_155",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 155",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_156": {
-    "id": "LIFESTYLE_VARIANT_156",
-    "type": "lifestyle",
-    "group": "Sleep Preference",
-    "name": "Lifestyle Variant 156",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.stamina": -1,
-      "personality.sensitivity": 1,
-      "aggregations.contestantsLikeness": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_157": {
-    "id": "LIFESTYLE_VARIANT_157",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 157",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 1,
-      "aggregations.fanbaseRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_158": {
-    "id": "LIFESTYLE_VARIANT_158",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 158",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 1,
-      "aggregations.fanbaseRatio": 0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_159": {
-    "id": "LIFESTYLE_VARIANT_159",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 159",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -1,
-      "aggregations.audienceRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_160": {
-    "id": "LIFESTYLE_VARIANT_160",
-    "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 160",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.curiosity": 2,
-      "aggregations.fanbaseRatio": 0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_161": {
-    "id": "LIFESTYLE_VARIANT_161",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 161",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": -0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_162": {
-    "id": "LIFESTYLE_VARIANT_162",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 162",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -1,
-      "aggregations.contestantsLikeness": -0.02
-    }
-  },
-  "LIFESTYLE_VARIANT_163": {
-    "id": "LIFESTYLE_VARIANT_163",
-    "type": "lifestyle",
-    "group": "Dietary Habit",
-    "name": "Lifestyle Variant 163",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.discipline": 1,
-      "aggregations.productionRatio": 0.01
-    }
-  },
-  "LIFESTYLE_VARIANT_164": {
-    "id": "LIFESTYLE_VARIANT_164",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 164",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": -1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_165": {
-    "id": "LIFESTYLE_VARIANT_165",
-    "type": "lifestyle",
-    "group": "Hygiene & Grooming",
-    "name": "Lifestyle Variant 165",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "coreSkills.visual": -1,
-      "personality.discipline": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_166": {
-    "id": "LIFESTYLE_VARIANT_166",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 166",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": -1
-    }
-  },
-  "LIFESTYLE_VARIANT_167": {
-    "id": "LIFESTYLE_VARIANT_167",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 167",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_168": {
-    "id": "LIFESTYLE_VARIANT_168",
-    "type": "lifestyle",
-    "group": "Dorm Environment",
-    "name": "Lifestyle Variant 168",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.gentleness": -2,
-      "aggregations.contestantsLikeness": -0.03
-    }
-  },
-  "LIFESTYLE_VARIANT_169": {
-    "id": "LIFESTYLE_VARIANT_169",
-    "type": "lifestyle",
-    "group": "Social Boundary",
-    "name": "Lifestyle Variant 169",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.extroversion": -2,
+      "personality.resilience": 2,
       "aggregations.audienceRatio": 0.01
     }
   },
-  "LIFESTYLE_VARIANT_170": {
-    "id": "LIFESTYLE_VARIANT_170",
+  "LIFESTYLE_REAL_027": {
+    "id": "LIFESTYLE_REAL_027",
     "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 170",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Dorm Environment",
+    "name": "Messy Bed",
+    "description": "Leaves the blankets in a twisted knot all day.",
     "occurrence": 1,
     "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": 2
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_171": {
-    "id": "LIFESTYLE_VARIANT_171",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 171",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": 2
-    }
-  },
-  "LIFESTYLE_VARIANT_172": {
-    "id": "LIFESTYLE_VARIANT_172",
-    "type": "lifestyle",
-    "group": "Practice Routine",
-    "name": "Lifestyle Variant 172",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "utilitySkills.learning": 1,
-      "personality.discipline": -2
-    }
-  },
-  "LIFESTYLE_VARIANT_173": {
-    "id": "LIFESTYLE_VARIANT_173",
-    "type": "lifestyle",
-    "group": "Resource Management",
-    "name": "Lifestyle Variant 173",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
-    "occurrence": 1,
-    "influences": {
-      "personality.maturity": -1,
-      "personality.sincerity": 1
-    }
-  },
-  "LIFESTYLE_VARIANT_174": {
-    "id": "LIFESTYLE_VARIANT_174",
+  "LIFESTYLE_REAL_028": {
+    "id": "LIFESTYLE_REAL_028",
     "type": "lifestyle",
     "group": "Sleep Preference",
-    "name": "Lifestyle Variant 174",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "name": "Blanket Kicker",
+    "description": "Kicks all the covers off the bed in their sleep.",
     "occurrence": 1,
     "influences": {
-      "utilitySkills.stamina": 1,
-      "personality.sensitivity": -1,
-      "aggregations.contestantsLikeness": -0.01
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
     }
   },
-  "LIFESTYLE_VARIANT_175": {
-    "id": "LIFESTYLE_VARIANT_175",
+  "LIFESTYLE_REAL_029": {
+    "id": "LIFESTYLE_REAL_029",
     "type": "lifestyle",
-    "group": "Media Consumption",
-    "name": "Lifestyle Variant 175",
-    "description": "A conscious daily preference that dictates how they live, practice, and interact in the dorms.",
+    "group": "Sleep Preference",
+    "name": "Mummy Sleeper",
+    "description": "Wraps the blankets so tight they can't move their arms.",
     "occurrence": 1,
     "influences": {
-      "personality.curiosity": 1,
-      "aggregations.fanbaseRatio": 0.01
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_030": {
+    "id": "LIFESTYLE_REAL_030",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Loud Snorer",
+    "description": "Sounds like a chainsaw. Requires roommates to wear earplugs.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_031": {
+    "id": "LIFESTYLE_REAL_031",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Night Terror Screamer",
+    "description": "Wakes up screaming once a week from the stress.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_032": {
+    "id": "LIFESTYLE_REAL_032",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "TV on to Sleep",
+    "description": "Needs the flickering light of a television to fall asleep.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_033": {
+    "id": "LIFESTYLE_REAL_033",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Podcast to Sleep",
+    "description": "Falls asleep listening to true crime podcasts.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_034": {
+    "id": "LIFESTYLE_REAL_034",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "White Noise App",
+    "description": "Blasts rain sounds from their phone all night.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_035": {
+    "id": "LIFESTYLE_REAL_035",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Window Open (Winter)",
+    "description": "Sleeps with the window open even when it's freezing outside.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_036": {
+    "id": "LIFESTYLE_REAL_036",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Window Closed (Summer)",
+    "description": "Refuses to open windows because they hate bugs.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_037": {
+    "id": "LIFESTYLE_REAL_037",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Constant Sweeper",
+    "description": "Sweeps the dorm floor multiple times a day.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_038": {
+    "id": "LIFESTYLE_REAL_038",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Trash Can Ignorer",
+    "description": "Leaves wrappers on the counter right next to the trash can.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_039": {
+    "id": "LIFESTYLE_REAL_039",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Plate Hoarder",
+    "description": "Has four dirty plates stacked under their bed right now.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_040": {
+    "id": "LIFESTYLE_REAL_040",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Dish Washer",
+    "description": "Washes dishes the second they finish eating.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_041": {
+    "id": "LIFESTYLE_REAL_041",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Dish Left in Sink",
+    "description": "Leaves crusty bowls in the sink 'to soak' for days.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_042": {
+    "id": "LIFESTYLE_REAL_042",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Expiration Date Enforcer",
+    "description": "Throws away milk the day before it expires.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_043": {
+    "id": "LIFESTYLE_REAL_043",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Eats Expired Food",
+    "description": "Treats expiration dates as 'suggestions'. Iron stomach.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_044": {
+    "id": "LIFESTYLE_REAL_044",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Fridge Organizer",
+    "description": "Lines up all the drinks so the labels face forward.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_045": {
+    "id": "LIFESTYLE_REAL_045",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Fridge Thief",
+    "description": "Eats other people's yogurt and claims they 'thought it was theirs'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_046": {
+    "id": "LIFESTYLE_REAL_046",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Label Maker User",
+    "description": "Puts their name on every single item they own.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_047": {
+    "id": "LIFESTYLE_REAL_047",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Shared Groceries",
+    "description": "Believes all food in the dorm belongs to everyone.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_048": {
+    "id": "LIFESTYLE_REAL_048",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Private Snack Stash",
+    "description": "Keeps a locked box of candy under their bed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_049": {
+    "id": "LIFESTYLE_REAL_049",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Meal Prepper",
+    "description": "Cooks all their meals on Sunday and stores them in plastic boxes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_050": {
+    "id": "LIFESTYLE_REAL_050",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Takeout Only",
+    "description": "Has not cooked a single meal since arriving at the dorm.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_051": {
+    "id": "LIFESTYLE_REAL_051",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Pizza Every Day",
+    "description": "Orders delivery constantly. Never eats the provided catering.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_052": {
+    "id": "LIFESTYLE_REAL_052",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Salad Only",
+    "description": "Eats purely greens to maintain their 'visual' physique.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_053": {
+    "id": "LIFESTYLE_REAL_053",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Keto Faster",
+    "description": "Refuses to eat carbs. Very difficult to share meals with.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_054": {
+    "id": "LIFESTYLE_REAL_054",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Intermittent Faster",
+    "description": "Doesn't eat until 2 PM. Very grumpy in the mornings.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_055": {
+    "id": "LIFESTYLE_REAL_055",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Sugar Addict",
+    "description": "Eats gummy worms for breakfast.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_056": {
+    "id": "LIFESTYLE_REAL_056",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Energy Drink Fiend",
+    "description": "Drinks three Monsters a day instead of sleeping.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_057": {
+    "id": "LIFESTYLE_REAL_057",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Black Coffee",
+    "description": "Drinks bitter coffee and judges people who use sugar.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_058": {
+    "id": "LIFESTYLE_REAL_058",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Sweet Tea Only",
+    "description": "Refuses to drink water unless it's flavored.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_059": {
+    "id": "LIFESTYLE_REAL_059",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Gallon Water Jug",
+    "description": "Carries a massive plastic jug everywhere they go.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_060": {
+    "id": "LIFESTYLE_REAL_060",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Never Drinks Water",
+    "description": "Survives entirely on soda and juice.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_061": {
+    "id": "LIFESTYLE_REAL_061",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Spicy Food Lover",
+    "description": "Covers everything in sriracha or chili flakes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_062": {
+    "id": "LIFESTYLE_REAL_062",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Zero Spice Tolerance",
+    "description": "Thinks black pepper is too spicy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_063": {
+    "id": "LIFESTYLE_REAL_063",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Picky Eater (No Greens)",
+    "description": "Picks the lettuce out of their burgers.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_064": {
+    "id": "LIFESTYLE_REAL_064",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Picky Eater (Textures)",
+    "description": "Cannot eat anything mushy like oatmeal or pudding.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_065": {
+    "id": "LIFESTYLE_REAL_065",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Vegan (Loud)",
+    "description": "Constantly reminds everyone else that meat is murder.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_066": {
+    "id": "LIFESTYLE_REAL_066",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Meat Only",
+    "description": "Tries to get 200 grams of protein a day. Always eating chicken breasts.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_067": {
+    "id": "LIFESTYLE_REAL_067",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Constant Gum Chewer",
+    "description": "Goes through a pack of gum a day to relieve stress.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_068": {
+    "id": "LIFESTYLE_REAL_068",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Midnight Snacker",
+    "description": "Always in the kitchen at 3 AM making cereal.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_069": {
+    "id": "LIFESTYLE_REAL_069",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Breakfast Skipper",
+    "description": "Wakes up 5 minutes before rehearsal and just leaves.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_070": {
+    "id": "LIFESTYLE_REAL_070",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Big Breakfast",
+    "description": "Wakes up an hour early to cook eggs and bacon.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_071": {
+    "id": "LIFESTYLE_REAL_071",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Pre-Workout Dry Scooper",
+    "description": "Eats pre-workout powder straight from the tub.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_072": {
+    "id": "LIFESTYLE_REAL_072",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Gym Twice a Day",
+    "description": "Lifts weights before and after dance practice.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_073": {
+    "id": "LIFESTYLE_REAL_073",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Yoga Every Morning",
+    "description": "Does a full sun salutation flow in the living room.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_074": {
+    "id": "LIFESTYLE_REAL_074",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Stretching Routine",
+    "description": "Spends 40 minutes stretching before dancing. Never gets injured.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_075": {
+    "id": "LIFESTYLE_REAL_075",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Meditation Hour",
+    "description": "Sits in absolute silence for an hour a day to stay sane.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_076": {
+    "id": "LIFESTYLE_REAL_076",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Never Exercises Off-Stage",
+    "description": "Conserves all their energy for the actual performance.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_077": {
+    "id": "LIFESTYLE_REAL_077",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Over-Practicer",
+    "description": "Stays in the studio until 4 AM. Burns themselves out.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_078": {
+    "id": "LIFESTYLE_REAL_078",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Minimum Effort Practice",
+    "description": "Only does exactly what the choreographers demand, nothing more.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_079": {
+    "id": "LIFESTYLE_REAL_079",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Mirror Hog",
+    "description": "Always fights for the center spot in the practice room mirror.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_080": {
+    "id": "LIFESTYLE_REAL_080",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Dark Room Practice",
+    "description": "Likes to practice dancing with the lights turned off.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_081": {
+    "id": "LIFESTYLE_REAL_081",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Records Every Practice",
+    "description": "Sets up their phone to film every single run-through.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_082": {
+    "id": "LIFESTYLE_REAL_082",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Refuses to Watch Playbacks",
+    "description": "Hates seeing themselves on screen. Trusts their 'feel'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_083": {
+    "id": "LIFESTYLE_REAL_083",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Vocal Warmup (Annoying)",
+    "description": "Does loud sirens and lip trills at 7 AM.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_084": {
+    "id": "LIFESTYLE_REAL_084",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Silent Warmup",
+    "description": "Warms up their cords using silent breathing techniques.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_085": {
+    "id": "LIFESTYLE_REAL_085",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Drinks Raw Eggs",
+    "description": "Old-school vocal technique that grosses out the team.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_086": {
+    "id": "LIFESTYLE_REAL_086",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Herbal Tea for Throat",
+    "description": "Always has a thermos of hot tea with honey.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_087": {
+    "id": "LIFESTYLE_REAL_087",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Avoids Talking Before Shows",
+    "description": "Goes on absolute vocal rest 12 hours before a stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_088": {
+    "id": "LIFESTYLE_REAL_088",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Screams to Hype Up",
+    "description": "Yells at the top of their lungs right before walking on stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_089": {
+    "id": "LIFESTYLE_REAL_089",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Heavy Metal Before Stage",
+    "description": "Listens to screamo to get their adrenaline pumping.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_090": {
+    "id": "LIFESTYLE_REAL_090",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Classical Music Before Stage",
+    "description": "Listens to Mozart to calm their nerves.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_091": {
+    "id": "LIFESTYLE_REAL_091",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Paces Backstage",
+    "description": "Walks back and forth endlessly in the waiting room.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_092": {
+    "id": "LIFESTYLE_REAL_092",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Naps Backstage",
+    "description": "Falls asleep on the floor 10 minutes before they perform.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_093": {
+    "id": "LIFESTYLE_REAL_093",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Chatty Backstage",
+    "description": "Burns nervous energy by talking to the camera crew.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_094": {
+    "id": "LIFESTYLE_REAL_094",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Isolates Before Stage",
+    "description": "Sits in a corner with headphones on, ignoring everyone.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_095": {
+    "id": "LIFESTYLE_REAL_095",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Hugs Everyone Before Stage",
+    "description": "Needs physical contact with all teammates to feel secure.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_096": {
+    "id": "LIFESTYLE_REAL_096",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Prays Before Stage",
+    "description": "Has a quiet religious ritual they perform before every show.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_097": {
+    "id": "LIFESTYLE_REAL_097",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Lucky Charm Holder",
+    "description": "Keeps a specific rock or coin in their pocket on stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_098": {
+    "id": "LIFESTYLE_REAL_098",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Specific Handshake",
+    "description": "Has a complex secret handshake with their best friend.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_099": {
+    "id": "LIFESTYLE_REAL_099",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Hates High Fives",
+    "description": "Refuses to touch hands with people. Offers fist bumps instead.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_100": {
+    "id": "LIFESTYLE_REAL_100",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Bows Constantly",
+    "description": "Incredibly polite. Bows to everyone, even the janitors.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_101": {
+    "id": "LIFESTYLE_REAL_101",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Avoids Eye Contact in Halls",
+    "description": "Looks at the floor when passing staff members.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_102": {
+    "id": "LIFESTYLE_REAL_102",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Greets Every Staff Member",
+    "description": "Knows all the camera operators by name.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_103": {
+    "id": "LIFESTYLE_REAL_103",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Ignores Junior Staff",
+    "description": "Only talks to the main producers and judges.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_104": {
+    "id": "LIFESTYLE_REAL_104",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Flirts with Stylists",
+    "description": "Uses their charm to get the best outfits.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_105": {
+    "id": "LIFESTYLE_REAL_105",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Argues with Stylists",
+    "description": "Hates what they are put in and fights for their own style.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_106": {
+    "id": "LIFESTYLE_REAL_106",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Customizes Outfits",
+    "description": "Rips sleeves or adds pins to their official uniforms.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_107": {
+    "id": "LIFESTYLE_REAL_107",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Refuses Makeup",
+    "description": "Hates the feeling of foundation on their skin.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_108": {
+    "id": "LIFESTYLE_REAL_108",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Does Own Makeup",
+    "description": "Doesn't trust the staff. Brings their own professional kit.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_109": {
+    "id": "LIFESTYLE_REAL_109",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Hair Gel Addict",
+    "description": "Uses half a bottle of gel a day to spike their hair.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_110": {
+    "id": "LIFESTYLE_REAL_110",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Hates Hairspray",
+    "description": "Refuses to let stylists spray their hair. Wants it 'natural'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_111": {
+    "id": "LIFESTYLE_REAL_111",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Constantly Dyeing Hair",
+    "description": "Changes their hair color every single episode.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_112": {
+    "id": "LIFESTYLE_REAL_112",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Wigs Only",
+    "description": "Refuses to dye their real hair to avoid damage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_113": {
+    "id": "LIFESTYLE_REAL_113",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Hat Indoors",
+    "description": "Wears a beanie or cap 24/7, even when eating.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_114": {
+    "id": "LIFESTYLE_REAL_114",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Sunglasses Indoors",
+    "description": "Thinks they are a rockstar. Wears shades in the dark.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_115": {
+    "id": "LIFESTYLE_REAL_115",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Hood Up Always",
+    "description": "Hides in their hoodie to avoid the cameras.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_116": {
+    "id": "LIFESTYLE_REAL_116",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Pajamas in Public",
+    "description": "Wears flannel pants to the grocery store.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_117": {
+    "id": "LIFESTYLE_REAL_117",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Full Suit to Rehearsal",
+    "description": "Dresses up just to sweat in the dance studio.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_118": {
+    "id": "LIFESTYLE_REAL_118",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Designer Brands Only",
+    "description": "Refuses to wear anything without a luxury logo.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_119": {
+    "id": "LIFESTYLE_REAL_119",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Thrift Store Exclusives",
+    "description": "Only wears vintage clothes they found in bargain bins.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_120": {
+    "id": "LIFESTYLE_REAL_120",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Sweats Only",
+    "description": "Values comfort above all else.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_121": {
+    "id": "LIFESTYLE_REAL_121",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Refuses to Wear Shirts",
+    "description": "Walks around the dorm shirtless constantly.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_122": {
+    "id": "LIFESTYLE_REAL_122",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Oversized Everything",
+    "description": "Wears clothes three sizes too big.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_123": {
+    "id": "LIFESTYLE_REAL_123",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Skin-Tight Clothing",
+    "description": "Shows off their gym results at all times.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_124": {
+    "id": "LIFESTYLE_REAL_124",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Excess Jewelry",
+    "description": "Wears 10 rings and 4 necklaces at once.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_125": {
+    "id": "LIFESTYLE_REAL_125",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "No Accessories",
+    "description": "Hates the feeling of metal on their skin.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_126": {
+    "id": "LIFESTYLE_REAL_126",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "AirPods Always In",
+    "description": "Never takes their headphones out, even when talking to you.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_127": {
+    "id": "LIFESTYLE_REAL_127",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Blasts Music on Speaker",
+    "description": "Forces the entire dorm to listen to their playlist.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_128": {
+    "id": "LIFESTYLE_REAL_128",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Sings Along Badly",
+    "description": "Ruins the songs they listen to by harmonizing poorly.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_129": {
+    "id": "LIFESTYLE_REAL_129",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Whistles Songs",
+    "description": "Whistles happily while doing chores.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_130": {
+    "id": "LIFESTYLE_REAL_130",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Beatboxes While Walking",
+    "description": "Provides a soundtrack to their own life.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_131": {
+    "id": "LIFESTYLE_REAL_131",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Taps on Walls",
+    "description": "Hits the walls as they walk down the hallway.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_132": {
+    "id": "LIFESTYLE_REAL_132",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Slams Doors",
+    "description": "Closes doors with maximum aggression.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_133": {
+    "id": "LIFESTYLE_REAL_133",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Closes Doors Silently",
+    "description": "Turns the handle to ensure the latch makes no noise.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_134": {
+    "id": "LIFESTYLE_REAL_134",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Heavy Footsteps",
+    "description": "Stomps around the dorm like a giant.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_135": {
+    "id": "LIFESTYLE_REAL_135",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Ninja Walker",
+    "description": "Moves completely silently. Scares people by appearing behind them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_136": {
+    "id": "LIFESTYLE_REAL_136",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Skips Instead of Walking",
+    "description": "Has too much energy. Literally skips down the hall.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_137": {
+    "id": "LIFESTYLE_REAL_137",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Runs Everywhere",
+    "description": "Treats every hallway like a 100m dash.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_138": {
+    "id": "LIFESTYLE_REAL_138",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Slow Walker",
+    "description": "Takes their absolute time getting anywhere.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_139": {
+    "id": "LIFESTYLE_REAL_139",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Stands in Doorways",
+    "description": "Blocks the exit to chat. Highly annoying.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_140": {
+    "id": "LIFESTYLE_REAL_140",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Sits on Floor",
+    "description": "Prefers sitting on the carpet over using a chair.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_141": {
+    "id": "LIFESTYLE_REAL_141",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Cross-Legged Always",
+    "description": "Sits 'criss-cross applesauce' even in formal chairs.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_142": {
+    "id": "LIFESTYLE_REAL_142",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Manspreader",
+    "description": "Takes up three seats on the dorm couch.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_143": {
+    "id": "LIFESTYLE_REAL_143",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Fetal Position Sitter",
+    "description": "Pulls their knees to their chest when sitting.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_144": {
+    "id": "LIFESTYLE_REAL_144",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Bounces on Balls",
+    "description": "Uses a yoga ball instead of a chair.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_145": {
+    "id": "LIFESTYLE_REAL_145",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Cannot Sit Still",
+    "description": "Is always shifting, standing up, or stretching.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_146": {
+    "id": "LIFESTYLE_REAL_146",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Falls Asleep Sitting Up",
+    "description": "Can sleep in a rigid chair on the tour bus.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_147": {
+    "id": "LIFESTYLE_REAL_147",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Reads Physical Books",
+    "description": "Carries a novel everywhere. Hates screens.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_148": {
+    "id": "LIFESTYLE_REAL_148",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "E-Reader User",
+    "description": "Has a Kindle with 10,000 books on it.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_149": {
+    "id": "LIFESTYLE_REAL_149",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Comic Book Hoarder",
+    "description": "Stacks of manga and comics by their bed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_150": {
+    "id": "LIFESTYLE_REAL_150",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Anime Binge Watcher",
+    "description": "Stays up late watching anime with subtitles.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_151": {
+    "id": "LIFESTYLE_REAL_151",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Reality TV Junkie",
+    "description": "Watches other survival shows to study the tactics.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_152": {
+    "id": "LIFESTYLE_REAL_152",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Documentary Nerd",
+    "description": "Only watches educational content.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_153": {
+    "id": "LIFESTYLE_REAL_153",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Doom Scroller",
+    "description": "Spends 6 hours a day on social media.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_154": {
+    "id": "LIFESTYLE_REAL_154",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "No Social Media",
+    "description": "Deleted all their apps to protect their mental health.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_155": {
+    "id": "LIFESTYLE_REAL_155",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Writes Fanmail Responses",
+    "description": "Spends hours writing back to fans by hand.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_156": {
+    "id": "LIFESTYLE_REAL_156",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Ignores the Cameras",
+    "description": "Pretends they are not filming a reality show.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_157": {
+    "id": "LIFESTYLE_REAL_157",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Plays to the Cameras",
+    "description": "Constantly winking and finding the red light.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_158": {
+    "id": "LIFESTYLE_REAL_158",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Hides from Cameras",
+    "description": "Ducks behind taller members to avoid screen time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
     }
   }
 }

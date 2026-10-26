@@ -1,6 +1,9 @@
+import history from '../data/history-cards.json';
 import identity from '../data/identity-cards.json';
 import interest from '../data/interest-cards.json';
+import lifestyle from '../data/lifestyle-cards.json';
 import persona from '../data/persona-cards.json';
+import quirk from '../data/quirks-cards.json';
 import secret from '../data/secret-cards.json';
 import type { SimulationDefinitions } from '../types/simulation';
 import {
@@ -34,7 +37,7 @@ export function freezeSimulationSnapshot<T>(value: T): T {
 export function getSimulationDefinitions(): SimulationDefinitions {
   validateBattleSongs(BATTLE_SONGS, Object.keys(GENRE_AFFINITIES));
   return structuredClone({
-    cards: { persona, identity, interest, secret },
+    cards: { persona, identity, interest, secret, lifestyle, history, quirk },
     specialties: {
       vocalColor: VOCAL_COLORS,
       danceStyle: DANCE_STYLES,

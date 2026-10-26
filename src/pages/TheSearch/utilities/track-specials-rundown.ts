@@ -1,4 +1,5 @@
 import type { SimulationState } from '../types/simulation';
+import { findPublicAttributeCard } from './attribute-libraries';
 import { markdown } from './markdown';
 import { createRelationshipUpdatesMarkdown } from './relationship-updates';
 import { rundownScenes, SHOW_PREMISE, showRundown } from './rundown-presentation';
@@ -37,7 +38,7 @@ export function createTrackSpecialsRundown(state: SimulationState): string {
     for (const cardId of new Set([contestant.persona, ...contestant.attributes])) {
       const cards = runtime.definitions.cards;
       if (Object.hasOwn(cards.secret, cardId)) continue;
-      const card = cards.persona[cardId] ?? cards.identity[cardId] ?? cards.interest[cardId];
+      const card = findPublicAttributeCard(cards, cardId);
       if (card) lines.push(`**${markdown(card.name)}:** ${markdown(card.description)}`);
     }
     for (const [label, values] of [

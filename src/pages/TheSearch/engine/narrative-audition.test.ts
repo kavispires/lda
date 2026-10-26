@@ -249,6 +249,14 @@ test('featured introductions reveal public identity before resolving their perfo
   assert.ok(cards);
   const persona = cards.persona[first.persona];
   assert.ok(introduction?.includes(`${persona.description} <Tag>${persona.name}</Tag>`));
+  for (const type of ['lifestyle', 'history', 'quirk'] as const) {
+    const library = cards[type];
+    assert.ok(library);
+    const id = first.attributes.find((entry) => Object.hasOwn(library, entry));
+    assert.ok(id);
+    const card = library[id];
+    assert.ok(introduction?.includes(`${card.description} <Tag>${card.name}</Tag>`));
+  }
   for (const id of first.attributes) {
     const card = cards.identity[id] ?? cards.interest[id];
     if (card) assert.ok(introduction?.includes(`${card.description} <Tag>${card.name}</Tag>`));

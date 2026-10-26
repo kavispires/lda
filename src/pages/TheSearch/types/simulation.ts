@@ -20,6 +20,9 @@ export interface SimulationDefinitions {
     identity: Record<string, AttributeCard>;
     interest: Record<string, AttributeCard>;
     secret: Record<string, AttributeCard>;
+    lifestyle?: Record<string, AttributeCard>;
+    history?: Record<string, AttributeCard>;
+    quirk?: Record<string, AttributeCard>;
   };
   specialties: Record<keyof Specialties, Record<string, AttributeCard>>;
   zodiacSigns: Record<string, AttributeCard>;

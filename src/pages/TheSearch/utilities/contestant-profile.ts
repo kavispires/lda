@@ -1,4 +1,5 @@
 import type { SeasonRuntime } from '../types/simulation';
+import { findPublicAttributeCard } from './attribute-libraries';
 import { markdown } from './markdown';
 
 function label(key: string): string {
@@ -83,15 +84,9 @@ export function createContestantProfile(runtime: SeasonRuntime, contestantId: st
   lines.push('', '## Attribute cards', '');
   for (const id of new Set(contestant.attributes)) {
     if (id === contestant.persona || (Object.hasOwn(cards.secret, id) && !revealed.has(id))) continue;
-    const card = cards.identity[id] ?? cards.interest[id] ?? cards.persona[id] ?? cards.secret[id];
+    const card = findPublicAttributeCard(cards, id) ?? cards.secret[id];
     if (!card) throw new Error(`The initialized profile has an unknown attribute card "${id}".`);
-    const category = Object.hasOwn(cards.identity, id)
-      ? 'Identity'
-      : Object.hasOwn(cards.interest, id)
-        ? 'Interest'
-        : Object.hasOwn(cards.persona, id)
-          ? 'Persona'
-          : 'Revealed secret';
+    const category = Object.hasOwn(cards.secret, id) ? 'Revealed secret' : label(card.type);
     lines.push(
       `### ${category}: ${markdown(card.name)} (${markdown(id)})`,
       '',

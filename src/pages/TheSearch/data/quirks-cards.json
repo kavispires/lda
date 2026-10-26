@@ -2397,20 +2397,32 @@
     "description": "Sings with a tight jaw, making them look angry during ballads.",
     "occurrence": 1,
     "influences": {
-      "coreSkills.visual": -1,
-      "personality.resilience": 1
+      "coreSkills.stagePresence": -1,
+      "personality.gentleness": -1
     }
   },
-  "QUIRK_VARIANT_EXTRA_2": {
-    "id": "QUIRK_VARIANT_EXTRA_2",
+  "NOSE_BUMPER": {
+    "id": "NOSE_BUMPER",
     "type": "quirk",
-    "group": "Performance Tic",
-    "name": "Quirk Variant Extra 2",
-    "description": "A subtle, unconscious habit that adds flavor to their daily interactions.",
+    "group": "Physical Fidget",
+    "name": "Nose Bumper",
+    "description": "Subconsciously taps the tip of their nose when deep in thought.",
     "occurrence": 1,
     "influences": {
-      "coreSkills.stagePresence": 1,
-      "aggregations.fanbaseRatio": 0.03
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "CUTICLE_PICKER": {
+    "id": "CUTICLE_PICKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Cuticle Picker",
+    "description": "Constantly picks at their cuticles, distracting themselves and others.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1,
+      "aggregations.audienceRatio": -0.01
     }
   }
 }

@@ -3,6 +3,7 @@ import type { BattleAction } from '../types/battle-episode';
 import type { Contestant } from '../types/contestant';
 import { auditionSequence } from '../types/narrative';
 import { isNarrativeSeason, type SimulationState } from '../types/simulation';
+import { findPublicAttributeCard } from '../utilities/attribute-libraries';
 import { selectAuditionHighlights } from '../utilities/audition-highlights';
 import { projectEpisodeContestant } from '../utilities/episode-visibility';
 import { applySeasonRanks } from '../utilities/season-ranking';
@@ -85,7 +86,7 @@ function intro(state: SimulationState, id: string): string[] {
   const attributes = contestant.attributes
     .filter((id) => id !== contestant.persona && !Object.hasOwn(cards.secret, id))
     .map((id) => {
-      const card = cards.identity[id] ?? cards.interest[id] ?? cards.persona[id];
+      const card = findPublicAttributeCard(cards, id);
       if (!card) throw new Error(`Unknown public introduction card "${id}".`);
       return card;
     });

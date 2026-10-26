@@ -59,6 +59,7 @@ describe('The Search', async () => {
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/show-rundown.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/bootcamp-rundown.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/utilities/contestant-profile.test.tsx');
+  await server.ssrLoadModule('/src/pages/TheSearch/pages/Libraries.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/EpisodeNarrative.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/BattleEpisodeView.test.tsx');
   await server.ssrLoadModule('/src/pages/TheSearch/components/ContestantDetailModal.test.tsx');

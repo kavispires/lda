@@ -18,6 +18,18 @@ const MAX_RETRY_ATTEMPTS = 10;
  */
 const MIN_SECRET_CARDS = 4;
 
+const CHARACTER_CARD_TYPES = ['lifestyle', 'history', 'quirk'] as const;
+type CharacterCardType = (typeof CHARACTER_CARD_TYPES)[number];
+type AssignedCards = {
+  personaId: string | null;
+  identityId: string | null;
+  interestId: string | null;
+  secretId: string | null;
+  lifestyleId: string | null;
+  historyId: string | null;
+  quirkId: string | null;
+};
+
 /**
  * Deep clone a contestant object to avoid modifying Firestore data.
  * Also normalizes the contestant to ensure all required fields exist,
@@ -149,12 +161,12 @@ export function assignAttributeCards(
   usedSecretCards: Set<string>,
   random: RandomSource = Math.random,
   cards = getSimulationDefinitions().cards,
-): {
-  personaId: string | null;
-  identityId: string | null;
-  interestId: string | null;
-  secretId: string | null;
-} {
+  usedCharacterCards: Record<CharacterCardType, Set<string>> = {
+    lifestyle: new Set(),
+    history: new Set(),
+    quirk: new Set(),
+  },
+): AssignedCards {
   // Collect existing influences from persona
   const existingInfluences: Record<string, number> = {};
 
@@ -226,7 +238,44 @@ export function assignAttributeCards(
     }
   }
 
-  return { personaId, identityId, interestId, secretId };
+  if (secretId) {
+    const card = cards.secret[secretId];
+    for (const [path, value] of Object.entries({ ...card.set, ...card.influences })) {
+      if (typeof value === 'number') existingInfluences[path] = (existingInfluences[path] ?? 0) + value;
+    }
+  }
+
+  const characterIds: Record<CharacterCardType, string | null> = {
+    lifestyle: null,
+    history: null,
+    quirk: null,
+  };
+  for (const type of CHARACTER_CARD_TYPES) {
+    const library = cards[type];
+    if (library === undefined) continue;
+    const available = Object.entries(library).filter(
+      ([id, card]) =>
+        !usedCharacterCards[type].has(id) && isCardCompatible(contestant, card, existingInfluences),
+    );
+    if (!available.length)
+      throw new Error(`No compatible unused ${type} card is available for "${contestant.id}".`);
+    const [id, card] = available[Math.floor(random() * available.length)];
+    characterIds[type] = id;
+    usedCharacterCards[type].add(id);
+    for (const [path, value] of Object.entries({ ...card.set, ...card.influences })) {
+      if (typeof value === 'number') existingInfluences[path] = (existingInfluences[path] ?? 0) + value;
+    }
+  }
+
+  return {
+    personaId,
+    identityId,
+    interestId,
+    secretId,
+    lifestyleId: characterIds.lifestyle,
+    historyId: characterIds.history,
+    quirkId: characterIds.quirk,
+  };
 }
 
 /**
@@ -255,12 +304,7 @@ export function selectSecretCardRecipients(
  */
 function collectAllInfluences(
   contestant: Contestant,
-  cardIds: {
-    personaId: string | null;
-    identityId: string | null;
-    interestId: string | null;
-    secretId: string | null;
-  },
+  cardIds: AssignedCards,
   definitions: SimulationDefinitions,
 ): Record<string, { values: number[]; sets: number | string | undefined }> {
   const influences: Record<string, { values: number[]; sets: number | string | undefined }> = {};
@@ -292,6 +336,18 @@ function collectAllInfluences(
       id: cardIds.interestId,
     },
     { card: cardIds.secretId ? definitions.cards.secret[cardIds.secretId] : undefined, id: cardIds.secretId },
+    {
+      card: cardIds.lifestyleId ? definitions.cards.lifestyle?.[cardIds.lifestyleId] : undefined,
+      id: cardIds.lifestyleId,
+    },
+    {
+      card: cardIds.historyId ? definitions.cards.history?.[cardIds.historyId] : undefined,
+      id: cardIds.historyId,
+    },
+    {
+      card: cardIds.quirkId ? definitions.cards.quirk?.[cardIds.quirkId] : undefined,
+      id: cardIds.quirkId,
+    },
   ];
 
   for (const { card } of cards) {
@@ -468,6 +524,11 @@ export function processSimulationContestants(
   const usedIdentityCards = new Set<string>();
   const usedInterestCards = new Set<string>();
   const usedSecretCards = new Set<string>();
+  const usedCharacterCards = {
+    lifestyle: new Set<string>(),
+    history: new Set<string>(),
+    quirk: new Set<string>(),
+  };
 
   for (let i = 0; i < selectedIds.length; i++) {
     const originalContestant = allContestants[selectedIds[i]];
@@ -497,6 +558,7 @@ export function processSimulationContestants(
       usedSecretCards,
       random,
       definitions.cards,
+      usedCharacterCards,
     );
 
     // Collect all influences
@@ -527,6 +589,9 @@ export function processSimulationContestants(
         cardIds.identityId,
         cardIds.interestId,
         cardIds.secretId,
+        cardIds.lifestyleId,
+        cardIds.historyId,
+        cardIds.quirkId,
       ].filter((id): id is string => id !== null);
       if (cardIds.personaId) contestant.persona = cardIds.personaId;
     });

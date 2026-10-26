@@ -229,6 +229,14 @@ function assertDefinitions(value: unknown): asserts value is SimulationDefinitio
     !isCardLibrary(value.zodiacSigns)
   )
     throw new Error('The saved simulation definitions are invalid.');
+  for (const type of ['lifestyle', 'history', 'quirk']) {
+    const library = cards[type];
+    if (
+      library !== undefined &&
+      (!isCardLibrary(library) || Object.values(library).some((card) => card.type !== type))
+    )
+      throw new Error(`The saved ${type} card definitions are invalid.`);
+  }
   const genres = specialties.genreAffinity;
   if (!isCardLibrary(genres)) throw new Error('The saved genre definitions are invalid.');
   validateAuditionSongs(value.auditionSongs, Object.keys(genres));

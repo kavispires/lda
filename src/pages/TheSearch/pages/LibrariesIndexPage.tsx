@@ -2,9 +2,12 @@ import { BookOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons';
 import { Content } from '@components/Content';
 import { Card, Col, Row, Typography } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import historyCardsData from '../data/history-cards.json';
 import identityCardsData from '../data/identity-cards.json';
 import interestCardsData from '../data/interest-cards.json';
+import lifestyleCardsData from '../data/lifestyle-cards.json';
 import personaCardsData from '../data/persona-cards.json';
+import quirksCardsData from '../data/quirks-cards.json';
 import secretCardsData from '../data/secret-cards.json';
 import {
   DANCE_STYLES,
@@ -41,6 +44,30 @@ const libraryCards = [
     icon: <HeartOutlined style={{ fontSize: '48px', color: '#eb2f96' }} />,
     count: Object.keys(interestCardsData).length,
     path: '/the-search/libraries/interest',
+  },
+  {
+    id: 'lifestyle',
+    title: 'Lifestyle Cards',
+    description: 'Everyday habits and routines that shape contestant personalities',
+    icon: <HeartOutlined style={{ fontSize: '48px', color: '#722ed1' }} />,
+    count: Object.keys(lifestyleCardsData).length,
+    path: '/the-search/libraries/lifestyle',
+  },
+  {
+    id: 'history',
+    title: 'History Cards',
+    description: 'Past experiences and backgrounds that shape each contestant',
+    icon: <BookOutlined style={{ fontSize: '48px', color: '#2f54eb' }} />,
+    count: Object.keys(historyCardsData).length,
+    path: '/the-search/libraries/history',
+  },
+  {
+    id: 'quirks',
+    title: 'Quirk Cards',
+    description: 'Distinctive mannerisms and personal quirks that make contestants memorable',
+    icon: <UserOutlined style={{ fontSize: '48px', color: '#eb2f96' }} />,
+    count: Object.keys(quirksCardsData).length,
+    path: '/the-search/libraries/quirks',
   },
   {
     id: 'secrets',

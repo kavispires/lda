@@ -392,7 +392,7 @@ export function SimulationPage() {
           <ul>
             <li>Select 50 diverse contestants from Firestore (~23 VOCAL, ~14 RAP, ~14 DANCE)</li>
             <li>Assign unique persona cards to each contestant</li>
-            <li>Add identity, interest, and secret attribute cards</li>
+            <li>Add identity, interest, lifestyle, history, quirk, and secret attribute cards</li>
             <li>Calculate influences from all cards and specialties</li>
             <li>Initialize relationships between all contestants</li>
             <li>Create baseline statistics for the competition</li>

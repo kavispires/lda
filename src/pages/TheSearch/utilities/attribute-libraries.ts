@@ -1,5 +1,17 @@
 import type { Dictionary } from 'types/common';
 import type { AttributeCard } from '../types/common';
+import type { SimulationDefinitions } from '../types/simulation';
+
+export function findPublicAttributeCard(
+  cards: SimulationDefinitions['cards'],
+  id: string,
+): AttributeCard | undefined {
+  if (Object.hasOwn(cards.secret, id)) return undefined;
+  for (const [type, library] of Object.entries(cards)) {
+    if (type !== 'secret' && library?.[id]) return library[id];
+  }
+  return undefined;
+}
 
 export const VOCAL_COLORS: Record<string, AttributeCard> = {
   STANDARD: {
