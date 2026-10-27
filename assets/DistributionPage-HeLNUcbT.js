@@ -1,0 +1,1 @@
+import{_a as e}from"./chunk-OB3PAWPO-BS2BeFSN.js";import{n as t,t as n}from"./Visualizer-DgXOdF7p.js";import{n as r,t as i}from"./SongDistributionProvider-BF6NePBY.js";var a=e();function o(){return(0,a.jsx)(i,{children:(0,a.jsx)(s,{})})}function s(){let{song:e,distribution:i}=r();return(0,a.jsx)(t,{distribution:i,song:e,children:(0,a.jsx)(n,{})})}export{o as DistributionPage};
