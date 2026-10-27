@@ -1,4 +1,3 @@
-import LZString from 'lz-string';
 import type { AttributeCard, ChangeValue, PropertyChange } from '../types/common';
 import type { ChangeLogEntry, Contestant } from '../types/contestant';
 import type { SimulationDefinitions, SimulationState } from '../types/simulation';
@@ -32,17 +31,15 @@ import { assertMusicVideoEpisode, validateMusicVideo } from './music-video-valid
 import { assertNarrativeAudition } from './narrative-validation';
 import { assertPhotoshootEpisode } from './photoshoot-validation';
 import { createSeededRandom } from './random';
+import { decodeSimulationSave, encodeSimulationSave } from './simulation-save-codec';
 import { assertSpecialtiesEpisode, validateSpecialties } from './specialties-validation';
 import { assertTrackSpecialsEpisode, validateTrackSpecials } from './track-specials-validation';
 import { assertVarietyShowEpisode, validateVarietyShow } from './variety-show-validation';
 import { assertVersatilityEpisode, validateVersatility } from './versatility-validation';
 
 export const SIMULATION_STORAGE_KEY = 'the-search-simulation-setup';
-const COMPRESSED_PREFIX = 'the-search:compressed:';
-const STORAGE_FORMAT = `${COMPRESSED_PREFIX}1:`;
-
 export function encodeSimulationState(state: SimulationState): string {
-  return STORAGE_FORMAT + LZString.compressToUTF16(JSON.stringify(state));
+  return encodeSimulationSave(state);
 }
 
 export function emptySimulationState(): SimulationState {
@@ -262,15 +259,7 @@ function assertDefinitions(value: unknown): asserts value is SimulationDefinitio
 }
 
 export function decodeSimulationState(stored: string): SimulationState {
-  let json = stored;
-  if (stored.startsWith(COMPRESSED_PREFIX)) {
-    if (!stored.startsWith(STORAGE_FORMAT))
-      throw new Error('The saved simulation uses an unsupported compression format.');
-    const decompressed = LZString.decompressFromUTF16(stored.slice(STORAGE_FORMAT.length));
-    if (!decompressed) throw new Error('The compressed simulation save is invalid.');
-    json = decompressed;
-  }
-  const value: unknown = JSON.parse(json);
+  const value = decodeSimulationSave(stored);
   if (isRecord(value) && isRecord(value.runtime) && value.runtime.progression === undefined)
     migrateLegacyRankingPaths(value);
   if (

@@ -194,6 +194,10 @@ eighteen survivors and does not automatically start Episode 3.
 New setups persist their seed/random state and frozen definitions/source snapshots.
 Older saved setups remain inspectable but do not acquire fabricated seeds or
 snapshots. A storage failure is surfaced rather than reported as a saved phase.
+Saves pack identical snapshot data before UTF-16 compression to stay within
+the browser's shared storage quota without pruning history. Plain JSON and
+original compressed saves remain readable and are repacked on the next write.
+Loading restores independent live profiles and historical snapshots.
 
 ### First playable milestone and blockers
 

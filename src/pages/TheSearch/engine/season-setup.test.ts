@@ -331,7 +331,7 @@ test('compressed saves preserve Unicode and reject corruption or unsupported sto
   state.contestants[0].name = 'Performer \u00e9 \ud83c\udfb5';
   const encoded = encodeSimulationState(state);
   assert.deepEqual(decodeSimulationState(encoded), JSON.parse(JSON.stringify(state)));
-  for (const stored of [encoded.slice(0, 32), encoded.replace(':1:', ':999:')]) {
+  for (const stored of [encoded.slice(0, 32), encoded.replace(/compressed:\d+:/, 'compressed:999:')]) {
     const restored = loadSimulationState({ getItem: () => stored });
     assert.match(restored.persistenceError ?? '', /Could not restore/);
     assert.equal(restored.runtime, null);

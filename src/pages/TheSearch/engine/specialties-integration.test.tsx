@@ -449,6 +449,9 @@ test('Specialties decisions block, failed writes preserve state and complete his
   let saved = JSON.stringify(initial);
   let writes = 0;
   let rejectWrites = true;
+  const quota = 5 * 1024 * 1024;
+  const otherStorageBytes = 2 * 1024 * 1024;
+  const storageBytes = (value: string) => 2 * (SIMULATION_STORAGE_KEY.length + value.length);
   Object.defineProperty(globalThis, 'window', {
     configurable: true,
     value: {
@@ -457,7 +460,11 @@ test('Specialties decisions block, failed writes preserve state and complete his
         setItem(key: string, value: string) {
           assert.equal(key, SIMULATION_STORAGE_KEY);
           if (rejectWrites) throw new Error('Storage unavailable');
-          if (value.length * 2 > 10 * 1024 * 1024) throw new Error('QuotaExceededError');
+          if (storageBytes(value) + otherStorageBytes > quota)
+            throw new DOMException(
+              'Simulation save exceeded the shared storage quota.',
+              'QuotaExceededError',
+            );
           saved = value;
           writes++;
         },
@@ -481,7 +488,7 @@ test('Specialties decisions block, failed writes preserve state and complete his
     await simulationActions.autoCompleteEpisode(10, prepared);
     assert.equal(simulationStore.state.runtime!.specialties!.phase, 'complete');
     assert.equal(simulationStore.state.runtime!.episode, 10);
-    assert.ok(saved.length * 2 < 10 * 1024 * 1024);
+    assert.ok(storageBytes(saved) + otherStorageBytes < quota);
     assert.deepEqual(normalized(decodeSimulationState(saved)), normalized(simulationStore.state));
     const current = simulationStore.state;
     const previousWrites = writes;

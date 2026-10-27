@@ -19,6 +19,7 @@ describe('The Search', async () => {
     'audition-panel',
     'episode-preparation',
     'season-setup',
+    'simulation-save-codec',
     'change-history',
     'audition-live',
     'audition-audience',
