@@ -1,0 +1,26 @@
+[
+  {
+    "id": "food",
+    "name": "Food",
+    "sides": [
+      { "name": "Hamburger", "image": "hamburger.svg", "traits": ["resilience", "maturity"] },
+      { "name": "Ice cream", "image": "ice-cream.svg", "traits": ["curiosity", "sensitivity"] }
+    ]
+  },
+  {
+    "id": "pets",
+    "name": "Pets",
+    "sides": [
+      { "name": "Cat", "image": "cat.svg", "traits": ["ambition", "gentleness"] },
+      { "name": "Dog", "image": "dog.svg", "traits": ["extroversion", "sincerity"] }
+    ]
+  },
+  {
+    "id": "activities",
+    "name": "Activities",
+    "sides": [
+      { "name": "Balloon", "image": "balloon.svg", "traits": ["curiosity", "extroversion"] },
+      { "name": "Skate", "image": "skate.svg", "traits": ["discipline", "resilience"] }
+    ]
+  }
+]

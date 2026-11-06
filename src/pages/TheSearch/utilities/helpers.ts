@@ -1,8 +1,9 @@
 import type { Dictionary } from 'types/common';
 import type { AttributeCard } from '../types/common';
-import type { Contestant, PersonalityTraits } from '../types/contestant';
+import type { Contestant, PersonalityTraits, Specialties } from '../types/contestant';
 import {
   DANCE_STYLES,
+  GENRE_AFFINITIES,
   LEADERSHIP_STYLES,
   RAP_STYLES,
   VISUAL_VIBES,
@@ -14,7 +15,7 @@ import { ALIGNMENTS } from './constants';
 /**
  * Type for specialty groups
  */
-export type SpecialtyType = 'vocalColor' | 'danceStyle' | 'rapStyle' | 'visualVibe' | 'leadershipStyle';
+export type SpecialtyType = keyof Specialties;
 
 /**
  * Gets the specialty dictionary for a given type
@@ -31,6 +32,8 @@ function getSpecialtyDictionary(type: SpecialtyType): Dictionary<AttributeCard> 
       return VISUAL_VIBES;
     case 'leadershipStyle':
       return LEADERSHIP_STYLES;
+    case 'genreAffinity':
+      return GENRE_AFFINITIES;
   }
 }
 
@@ -75,15 +78,20 @@ export function generateRandomSpecialty(
     weights[specialty.id] = value;
   }
 
-  const options = Object.entries(weights).flatMap(([id, weight]) => Array(weight).fill(id));
+  const weightedEntries = Object.entries(weights).filter(([, weight]) => weight > 0);
+  const totalWeight = weightedEntries.reduce((sum, [, weight]) => sum + weight, 0);
 
-  if (options.length === 0) {
+  if (totalWeight === 0) {
     // If all weights are zero, fallback to equal probability
     return entries[Math.floor(Math.random() * entries.length)].id;
   }
 
-  const randomIndex = Math.floor(Math.random() * options.length);
-  return options[randomIndex];
+  let remaining = Math.random() * totalWeight;
+  for (const [id, weight] of weightedEntries) {
+    remaining -= weight;
+    if (remaining < 0) return id;
+  }
+  return weightedEntries[weightedEntries.length - 1][0];
 }
 
 /**
@@ -103,6 +111,49 @@ export function getSpecialtyOptions(type: SpecialtyType): Array<{ value: string;
 export function getSpecialtyById(type: SpecialtyType, id: string): AttributeCard | undefined {
   const specialties = getSpecialtyDictionary(type);
   return specialties[id];
+}
+
+export function getSpecialtyUsageStats(
+  contestants: Contestant[],
+  type: SpecialtyType,
+  includeUnused = false,
+): Array<{ id: string; name: string; count: number; percentage: number }> {
+  const usageMap = new Map<string, number>(
+    includeUnused ? getSpecialtyOptions(type).map(({ value }) => [value, 0]) : [],
+  );
+
+  for (const contestant of contestants) {
+    const id = contestant.specialties?.[type];
+    if (id) usageMap.set(id, (usageMap.get(id) || 0) + 1);
+  }
+
+  const stats = Array.from(usageMap, ([id, count]) => ({
+    id,
+    name: getSpecialtyById(type, id)?.name || id,
+    count,
+    percentage: contestants.length ? Math.round((count / contestants.length) * 100) : 0,
+  })).sort((a, b) => b.count - a.count);
+
+  return includeUnused ? stats : stats.slice(0, 10);
+}
+
+export function generateSmartSpecialty(
+  type: SpecialtyType,
+  currentValue: string,
+  contestants: Contestant[],
+): string {
+  const usage = getSpecialtyUsageStats(contestants, type, true);
+  const currentUsage = usage.find((stat) => stat.id === currentValue);
+  const currentTarget = getSpecialtyById(type, currentValue)?.occurrence ?? 0;
+  if (currentValue && (!currentUsage || currentUsage.percentage <= currentTarget + 5)) {
+    return currentValue;
+  }
+
+  const underused = usage.filter((stat) => {
+    const specialty = getSpecialtyById(type, stat.id);
+    return specialty && stat.percentage < specialty.occurrence - 5;
+  });
+  return underused.length ? underused[Math.floor(Math.random() * underused.length)].id : currentValue;
 }
 
 /**

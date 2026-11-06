@@ -29,8 +29,8 @@ export default defineConfig({
   resolve: {
     tsconfigPaths: true,
     alias: {
-      screens: path.resolve(__dirname, './src/screens'),
-      'styles': path.resolve(__dirname, 'src/styles'),
+      screens: path.resolve(import.meta.dirname, './src/screens'),
+      'styles': path.resolve(import.meta.dirname, 'src/styles'),
     },
   },
   build: {

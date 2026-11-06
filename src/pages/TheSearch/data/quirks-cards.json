@@ -1,0 +1,2428 @@
+{
+  "PEN_CLICKER": {
+    "id": "PEN_CLICKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Pen Clicker",
+    "description": "Constantly clicks pens during interviews or judging. Annoys the audio department.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "KNEE_BOUNCER": {
+    "id": "KNEE_BOUNCER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Knee Bouncer",
+    "description": "Their leg never stops shaking when they sit down. Shows high nervous energy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "utilitySkills.stamina": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "NAIL_BITER": {
+    "id": "NAIL_BITER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Nail Biter",
+    "description": "Chews their nails down to the quick whenever elimination day approaches.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 3,
+      "personality.resilience": -2,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "HAIR_TWIRLER": {
+    "id": "HAIR_TWIRLER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Hair Twirler",
+    "description": "Subconsciously plays with their hair when bored or thinking.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1,
+      "coreSkills.visual": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIP_BITER": {
+    "id": "LIP_BITER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Lip Biter",
+    "description": "Bites their lip when focusing hard on choreography. Fans find it highly endearing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1,
+      "utilitySkills.charisma": 1,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "KNUCKLE_CRACKER": {
+    "id": "KNUCKLE_CRACKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Knuckle Cracker",
+    "description": "Loudly pops their joints before stepping on stage. Intimidating to some.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 1,
+      "personality.gentleness": -1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "NECK_CRACKER": {
+    "id": "NECK_CRACKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Neck Cracker",
+    "description": "Rolls and pops their neck when tension is high in the practice room.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "CLOTHING_ADJUSTER": {
+    "id": "CLOTHING_ADJUSTER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Clothing Adjuster",
+    "description": "Constantly tugging at their shirt hem or fixing their collar on camera.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1,
+      "coreSkills.visual": 1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "RING_SPINNER": {
+    "id": "RING_SPINNER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Ring Spinner",
+    "description": "Fidgets with their jewelry during serious conversations.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "TONGUE_CLICKER": {
+    "id": "TONGUE_CLICKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Tongue Clicker",
+    "description": "Makes a 'tsk' or clicking sound when they are thinking of an answer.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "TEETH_GRINDER": {
+    "id": "TEETH_GRINDER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Teeth Grinder",
+    "description": "Clenches their jaw visibly when receiving harsh feedback.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "personality.ambition": 2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "EYE_RUBBER": {
+    "id": "EYE_RUBBER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Eye Rubber",
+    "description": "Rubs their eyes frequently, always looking slightly exhausted.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 2,
+      "utilitySkills.stamina": -1,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "NOSE_SCRUNCHER": {
+    "id": "NOSE_SCRUNCHER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Nose Scruncher",
+    "description": "Scrunches their nose when they laugh or are confused. A highly meme-able trait.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1,
+      "utilitySkills.charisma": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "HEAD_SCRATCHER": {
+    "id": "HEAD_SCRATCHER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Head Scratcher",
+    "description": "Literally scratches the back of their head when they make a mistake.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 2,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "FOOT_TAPPER": {
+    "id": "FOOT_TAPPER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Foot Tapper",
+    "description": "Always tapping out a beat with their foot, even when sitting still.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "personality.curiosity": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "WATCH_CHECKER": {
+    "id": "WATCH_CHECKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Watch Checker",
+    "description": "Looks at their wrist habitually, even when they aren't wearing a watch.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "personality.maturity": 1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "POCKET_JINGLER": {
+    "id": "POCKET_JINGLER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Pocket Jingler",
+    "description": "Keeps their hands in their pockets and jingles coins or keys when nervous.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -2,
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "COLLAR_TUGGER": {
+    "id": "COLLAR_TUGGER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Collar Tugger",
+    "description": "Pulls at their collar when asked a difficult question by a judge.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "SHOELACE_TYER": {
+    "id": "SHOELACE_TYER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Shoelace Tyer",
+    "description": "Bends down to retie their perfectly fine shoelaces just to avoid eye contact.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -2,
+      "personality.sincerity": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "SLEEVE_PULLER": {
+    "id": "SLEEVE_PULLER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Sleeve Puller",
+    "description": "Pulls their sleeves down over their hands when feeling shy or cold.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "LOUD_LAUGHER": {
+    "id": "LOUD_LAUGHER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Loud Laugher",
+    "description": "Has a booming, distinct laugh that echoes across the studio.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 3,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.04
+    }
+  },
+  "MUMBLER": {
+    "id": "MUMBLER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Mumbler",
+    "description": "Speaks quietly and trails off. Producers always have to subtitle them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -3,
+      "utilitySkills.charisma": -1,
+      "aggregations.productionRatio": -0.04
+    }
+  },
+  "INTERRUPTER": {
+    "id": "INTERRUPTER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Interrupter",
+    "description": "Gets too excited and constantly talks over other people.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "personality.gentleness": -2,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "OVERSHARER": {
+    "id": "OVERSHARER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Oversharer",
+    "description": "Tells deeply personal stories to people they met five minutes ago.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 3,
+      "personality.maturity": -2,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "DEADPAN": {
+    "id": "DEADPAN",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Deadpan",
+    "description": "Delivers jokes with absolutely zero facial expression.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "FILLER_WORD_ABUSER": {
+    "id": "FILLER_WORD_ABUSER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Filler Word Abuser",
+    "description": "Says 'like' or 'literally' between every single word.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -2,
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "TALKS_TO_SELF": {
+    "id": "TALKS_TO_SELF",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Talks to Self",
+    "description": "Mumbles choreo counts or pep talks to themselves in the hallway.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "personality.discipline": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "FAST_TALKER": {
+    "id": "FAST_TALKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Fast Talker",
+    "description": "Speaks at 100 miles an hour when they get nervous or excited.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "personality.sensitivity": 1,
+      "aggregations.fanbaseRatio": 0.01
+    }
+  },
+  "SLOW_TALKER": {
+    "id": "SLOW_TALKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Slow Talker",
+    "description": "Takes a very, very long time to finish a thought.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.productionRatio": -0.03
+    }
+  },
+  "WHISPERER": {
+    "id": "WHISPERER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Whisperer",
+    "description": "Treats every piece of mundane information like it's a massive secret.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "CHRONIC_APOLOGIZER": {
+    "id": "CHRONIC_APOLOGIZER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Chronic Apologizer",
+    "description": "Says 'sorry' to inanimate objects when they bump into them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 3,
+      "personality.ambition": -2,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "OVER_EXPLAINER": {
+    "id": "OVER_EXPLAINER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Over-Explainer",
+    "description": "Gives a five-minute backstory to answer a simple yes or no question.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "UNINTENTIONAL_RHYMER": {
+    "id": "UNINTENTIONAL_RHYMER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Unintentional Rhymer",
+    "description": "Accidentally speaks in rhymes, making them sound like Dr. Seuss.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.rap": 1,
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "ECHOER": {
+    "id": "ECHOER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Echoer",
+    "description": "Repeats the last word of whatever the person before them just said.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "SIGH_MASTER": {
+    "id": "SIGH_MASTER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Sigh Master",
+    "description": "Breathes out heavy, dramatic sighs when mildly inconvenienced.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "BREATHY_TALKER": {
+    "id": "BREATHY_TALKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Breathy Talker",
+    "description": "Always sounds like they just finished running a mile when they speak.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": 1,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "VOLUME_ESCALATOR": {
+    "id": "VOLUME_ESCALATOR",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Volume Escalator",
+    "description": "Starts a sentence quietly and ends up shouting by the end of it.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "CLOSE_TALKER": {
+    "id": "CLOSE_TALKER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Close Talker",
+    "description": "Stands way too close to people during casual conversation.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "INTENSE_STARER": {
+    "id": "INTENSE_STARER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Intense Starer",
+    "description": "Makes unbreakable eye contact when listening to someone.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "EYE_CONTACT_AVOIDER": {
+    "id": "EYE_CONTACT_AVOIDER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Eye Contact Avoider",
+    "description": "Looks at the floor, the ceiling, or the wall\u2014anywhere but the person's eyes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "HAND_TALKER": {
+    "id": "HAND_TALKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Hand Talker",
+    "description": "Uses massive hand gestures. Dangerous to stand next to them when they are excited.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "SHOULDER_TOUCHER": {
+    "id": "SHOULDER_TOUCHER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Shoulder Toucher",
+    "description": "Always taps or squeezes someone's shoulder when talking to them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2,
+      "aggregations.contestantsLikeness": 0.02
+    }
+  },
+  "AGGRESSIVE_POINTER": {
+    "id": "AGGRESSIVE_POINTER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Aggressive Pointer",
+    "description": "Points directly at people's chests when making an argument.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "CHRONIC_HIGH_FIVER": {
+    "id": "CHRONIC_HIGH_FIVER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Chronic High-Fiver",
+    "description": "Offers a high-five for absolutely every minor achievement.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "HUG_INITIATOR": {
+    "id": "HUG_INITIATOR",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Hug Initiator",
+    "description": "Greets everyone with a full bear hug instead of a handshake.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 3,
+      "aggregations.contestantsLikeness": 0.03
+    }
+  },
+  "SPACE_INVADER": {
+    "id": "SPACE_INVADER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Space Invader",
+    "description": "Has zero concept of the personal bubble. Will sit on the same chair as someone else.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "NICKNAME_GIVER": {
+    "id": "NICKNAME_GIVER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Nickname Giver",
+    "description": "Refuses to use real names. Gives everyone a weird, mildly offensive nickname.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "NAME_FORGETTER": {
+    "id": "NAME_FORGETTER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Name Forgetter",
+    "description": "Calls people 'bro' or 'man' because they still don't know anyone's name by Episode 4.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": -2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "CHRONIC_WINKER": {
+    "id": "CHRONIC_WINKER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Chronic Winker",
+    "description": "Winks at people as a greeting. Sometimes charming, sometimes creepy.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "GOSSIP_WHISPERER": {
+    "id": "GOSSIP_WHISPERER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Gossip Whisperer",
+    "description": "Covers their mouth with their hand when talking, even if they aren't saying a secret.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "SARCASTIC_AGREER": {
+    "id": "SARCASTIC_AGREER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Sarcastic Agreer",
+    "description": "Says 'Totally' or 'Right' in a tone that implies they completely disagree.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "COMPLIMENT_DEFLECTOR": {
+    "id": "COMPLIMENT_DEFLECTOR",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Compliment Deflector",
+    "description": "Physically cringes and changes the subject when someone praises them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 2,
+      "personality.ambition": -1,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "OVER_AGREER": {
+    "id": "OVER_AGREER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Over-Agreer",
+    "description": "Nods their head vigorously the entire time someone else is speaking.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2,
+      "aggregations.contestantsLikeness": 0.02
+    }
+  },
+  "DEVILS_ADVOCATE": {
+    "id": "DEVILS_ADVOCATE",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Devil's Advocate",
+    "description": "Always takes the opposing side in trivial dorm debates just for the sake of arguing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "personality.gentleness": -1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "MUNDANE_ONE_UPPER": {
+    "id": "MUNDANE_ONE_UPPER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Mundane One-Upper",
+    "description": "If you slept 4 hours, they slept 3. Always has to slightly edge out your casual stories.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "THE_DEFLECTOR": {
+    "id": "THE_DEFLECTOR",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "The Deflector",
+    "description": "Answers every question with another question.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -1,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "SELF_LAUGHER": {
+    "id": "SELF_LAUGHER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Self-Laugher",
+    "description": "Starts laughing before they even finish the punchline to their own joke.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "utilitySkills.charisma": 1,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "NERVOUS_LAUGHER": {
+    "id": "NERVOUS_LAUGHER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Nervous Laugher",
+    "description": "Chuckles inappropriately when receiving bad news or harsh critiques.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "SILENT_JUDGER": {
+    "id": "SILENT_JUDGER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Silent Judger",
+    "description": "Squints slightly and purses their lips when they hear a bad idea, saying nothing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "ALWAYS_COLD": {
+    "id": "ALWAYS_COLD",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Always Cold",
+    "description": "Wears hoodies and sweatpants even during intense summer dance practices.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.fanbaseRatio": 0.01
+    }
+  },
+  "ALWAYS_HOT": {
+    "id": "ALWAYS_HOT",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Always Hot",
+    "description": "Sleeps with no blankets and constantly opens the dorm windows in winter.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "HEAVY_WALKER": {
+    "id": "HEAVY_WALKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Heavy Walker",
+    "description": "Stomps around the dorm. You can hear them coming from down the hall.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": -1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "DOOR_SLAMMER": {
+    "id": "DOOR_SLAMMER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Door Slammer",
+    "description": "Never gently closes a door. Everything is shut with maximum force.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "THE_HUMMER": {
+    "id": "THE_HUMMER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "The Hummer",
+    "description": "Constantly humming whatever song they are currently stuck practicing.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "SHOWER_SINGER": {
+    "id": "SHOWER_SINGER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Shower Singer",
+    "description": "Belts out high notes in the dorm bathroom at 6 AM.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "personality.extroversion": 2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "SLEEP_TALKER": {
+    "id": "SLEEP_TALKER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Sleep Talker",
+    "description": "Has full conversations in their sleep, terrified roommates.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "ALARM_SNOOZER": {
+    "id": "ALARM_SNOOZER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Alarm Snoozer",
+    "description": "Sets five alarms and hits snooze on all of them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -2,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "BAREFOOT_WALKER": {
+    "id": "BAREFOOT_WALKER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Barefoot Walker",
+    "description": "Refuses to wear socks or slippers in the shared spaces.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "BLANKET_HOG": {
+    "id": "BLANKET_HOG",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Blanket Hog",
+    "description": "Steals all the covers if they ever have to share a bed or couch.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": -1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "CHRONIC_BORROWER": {
+    "id": "CHRONIC_BORROWER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Chronic Borrower",
+    "description": "Always needs to borrow toothpaste, socks, or a charger.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -2,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "MESSY_EATER": {
+    "id": "MESSY_EATER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Messy Eater",
+    "description": "Always manages to drop crumbs or spill sauce on their practice shirts.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -1,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "FAST_EATER": {
+    "id": "FAST_EATER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Fast Eater",
+    "description": "Inhales their food in three minutes so they can get back to practicing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 2,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "SLOW_EATER": {
+    "id": "SLOW_EATER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Slow Eater",
+    "description": "Takes an hour to finish a single sandwich, talking the entire time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "ICE_CHEWER": {
+    "id": "ICE_CHEWER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Ice Chewer",
+    "description": "Loudly crunches the ice at the bottom of their drink cups.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "GUM_SMACKER": {
+    "id": "GUM_SMACKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Gum Smacker",
+    "description": "Chews their gum with their mouth open.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -2,
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "WATER_CHUGGER": {
+    "id": "WATER_CHUGGER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Water Chugger",
+    "description": "Always carrying a massive gallon jug of water and chugging it aggressively.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "aggregations.fanbaseRatio": 0.01
+    }
+  },
+  "CONSTANT_SNACKER": {
+    "id": "CONSTANT_SNACKER",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Constant Snacker",
+    "description": "Always has a granola bar or bag of chips in their hand.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "ALWAYS_HAS_TISSUES": {
+    "id": "ALWAYS_HAS_TISSUES",
+    "type": "quirk",
+    "group": "Dorm Habit",
+    "name": "Always Has Tissues",
+    "description": "The prepared one. Always has a tissue ready for crying teammates.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2,
+      "aggregations.contestantsLikeness": 0.03
+    }
+  },
+  "PHONE_CHECKER": {
+    "id": "PHONE_CHECKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Phone Checker",
+    "description": "Lights up their phone screen every two minutes just to check the time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "STRESS_CLEANER": {
+    "id": "STRESS_CLEANER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Stress Cleaner",
+    "description": "Starts aggressively scrubbing the dorm kitchen when they are nervous about a ranking.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "aggregations.contestantsLikeness": 0.03
+    }
+  },
+  "THE_PACER": {
+    "id": "THE_PACER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "The Pacer",
+    "description": "Walks in endless circles around the practice room while memorizing lyrics.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "BLANK_STARER": {
+    "id": "BLANK_STARER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Blank Starer",
+    "description": "Zones out completely when overwhelmed, staring into the void.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "TONGUE_BITER": {
+    "id": "TONGUE_BITER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Tongue Biter",
+    "description": "Sticks their tongue out of the side of their mouth when deeply focused.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 2,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "BREATH_HOLDER": {
+    "id": "BREATH_HOLDER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Breath Holder",
+    "description": "Subconsciously holds their breath during tense ranking announcements.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "MUTTERER": {
+    "id": "MUTTERER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Mutterer",
+    "description": "Whispers complaints to themselves under their breath when frustrated.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "FACE_HIDER": {
+    "id": "FACE_HIDER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Face Hider",
+    "description": "Buries their face in their hands whenever they are embarrassed or stressed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "THE_ROCKER": {
+    "id": "THE_ROCKER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "The Rocker",
+    "description": "Rocks back and forth on their heels when standing in front of the judges.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -2,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "STRESS_EATER": {
+    "id": "STRESS_EATER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Stress Eater",
+    "description": "Demolishes the craft services table right before a big performance.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "APPETITE_LOSER": {
+    "id": "APPETITE_LOSER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Appetite Loser",
+    "description": "Cannot stomach a single bite of food on stage days.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": -1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "EYEBROW_RAISER": {
+    "id": "EYEBROW_RAISER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Eyebrow Raiser",
+    "description": "Constantly speaks with one eyebrow raised, making them look permanently skeptical.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "HEAD_TILTER": {
+    "id": "HEAD_TILTER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Head Tilter",
+    "description": "Tilts their head like a confused puppy when receiving instructions.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "GHOST_SMILE": {
+    "id": "GHOST_SMILE",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Ghost Smile",
+    "description": "Maintains a frozen, dead-eyed smile when they are secretly panicking.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "SHOULDER_SHRUGGER": {
+    "id": "SHOULDER_SHRUGGER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Shoulder Shrugger",
+    "description": "Shrugs constantly instead of giving verbal answers.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "PEN_CHEWER": {
+    "id": "PEN_CHEWER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Pen Chewer",
+    "description": "Destroys the caps of all their pens while writing lyrics.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1,
+      "aggregations.fanbaseRatio": 0.01
+    }
+  },
+  "NAIL_TAPPER": {
+    "id": "NAIL_TAPPER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Nail Tapper",
+    "description": "Taps their fingernails rhythmically on every hard surface.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "CLOCK_WATCHER": {
+    "id": "CLOCK_WATCHER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Clock Watcher",
+    "description": "Their eyes constantly dart to the clock during long rehearsals.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": -1,
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "SWEATY_PALMS": {
+    "id": "SWEATY_PALMS",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Sweaty Palms",
+    "description": "Constantly wiping their hands on their jeans before holding a microphone.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "YAWNER_WHEN_NERVOUS": {
+    "id": "YAWNER_WHEN_NERVOUS",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Yawner When Nervous",
+    "description": "Yawns excessively when stressed, which mentors often mistake for laziness.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -2,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "NOSE_PICKER": {
+    "id": "NOSE_PICKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Nose Picker",
+    "description": "Subconsciously picks their nose when deep in thought. A nightmare for editors.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -2,
+      "aggregations.audienceRatio": -0.05
+    }
+  },
+  "THROAT_CLEARER": {
+    "id": "THROAT_CLEARER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Throat Clearer",
+    "description": "Constantly clears their throat before speaking, ruining clean audio takes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1,
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "SNIFFER": {
+    "id": "SNIFFER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Sniffer",
+    "description": "Sniffs audibly instead of blowing their nose. Deeply annoying in quiet rooms.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -1,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "SLEEVE_CHEWER": {
+    "id": "SLEEVE_CHEWER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Sleeve Chewer",
+    "description": "Chews on the strings of their hoodies when nervous.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -1,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "LIP_PEELER": {
+    "id": "LIP_PEELER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Lip Peeler",
+    "description": "Picks at dry skin on their lips constantly. Highly visual and distracting.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1,
+      "coreSkills.visual": -1
+    }
+  },
+  "NECK_SCRATCHER": {
+    "id": "NECK_SCRATCHER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Neck Scratcher",
+    "description": "Rubs the back of their neck whenever they are lying or embarrassed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "EYE_TWITCHER": {
+    "id": "EYE_TWITCHER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Eye Twitcher",
+    "description": "One eye twitches visibly when they are angry or exhausted.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "HAIR_FLIPPER": {
+    "id": "HAIR_FLIPPER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Hair Flipper",
+    "description": "Constantly whips their head to get hair out of their eyes instead of tying it back.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": 1,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "LOUD_SIGHER": {
+    "id": "LOUD_SIGHER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Loud Sigher",
+    "description": "Lets out dramatic, heavy sighs when bored or mildly inconvenienced.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "OVER_NODDER": {
+    "id": "OVER_NODDER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Over-Nodder",
+    "description": "Nods their head aggressively the entire time someone else is speaking.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2,
+      "personality.sincerity": 1
+    }
+  },
+  "NAME_REPEATER": {
+    "id": "NAME_REPEATER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Name Repeater",
+    "description": "Uses the other person's name constantly in conversation ('Well, John, I think...').",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "SENTENCE_FINISHER": {
+    "id": "SENTENCE_FINISHER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Sentence Finisher",
+    "description": "Always tries to guess the end of the other person's sentence out loud.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "MONOTONE_SPEAKER": {
+    "id": "MONOTONE_SPEAKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Monotone Speaker",
+    "description": "Speaks with absolutely zero pitch fluctuation. Very hard to read emotionally.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -3,
+      "coreSkills.stagePresence": -1
+    }
+  },
+  "GASPER": {
+    "id": "GASPER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Gasper",
+    "description": "Reacts to even mild news with a sharp, audible intake of breath.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "OVER_COMPLIMENTER": {
+    "id": "OVER_COMPLIMENTER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Over-Complimenter",
+    "description": "Lays praise on so thick it starts to sound sarcastic.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -2,
+      "personality.gentleness": 2
+    }
+  },
+  "CHEEK_PUFFER": {
+    "id": "CHEEK_PUFFER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Cheek Puffer",
+    "description": "Puffs out their cheeks and exhales when frustrated during choreography.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "CHIN_STROKER": {
+    "id": "CHIN_STROKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Chin Stroker",
+    "description": "Strokes their chin thoughtfully whenever a mentor speaks.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "POINTING_TALKER": {
+    "id": "POINTING_TALKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Pointing Talker",
+    "description": "Points directly at the person they are speaking to. Can feel aggressive.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1,
+      "utilitySkills.leadership": 1
+    }
+  },
+  "SLOUCHER": {
+    "id": "SLOUCHER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Sloucher",
+    "description": "Has terrible posture when sitting on the waiting room couches.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": -1,
+      "personality.discipline": -1
+    }
+  },
+  "STIFF_WALKER": {
+    "id": "STIFF_WALKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Stiff Walker",
+    "description": "Walks without swinging their arms. Looks like a marching soldier.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": -1,
+      "personality.discipline": 1
+    }
+  },
+  "CLAPPING_LAUGHER": {
+    "id": "CLAPPING_LAUGHER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Clapping Laugher",
+    "description": "Cannot laugh without enthusiastically clapping their hands.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "SNORTER": {
+    "id": "SNORTER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Snorter",
+    "description": "Lets out a loud snort when they laugh too hard, then gets embarrassed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 2,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "CHEST_PATTER": {
+    "id": "CHEST_PATTER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Chest Patter",
+    "description": "Pats their own chest to calm their heartbeat before going on stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "FOOT_SHUFFLER": {
+    "id": "FOOT_SHUFFLER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Foot Shuffler",
+    "description": "Drags their feet when walking, making a scuffing sound in the halls.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "POSTURE_CORRECTOR": {
+    "id": "POSTURE_CORRECTOR",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Posture Corrector",
+    "description": "Rolls their shoulders back and sits up straight when they spot a camera.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "HARD_SWALLOWER": {
+    "id": "HARD_SWALLOWER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Hard Swallower",
+    "description": "Gulps audibly when nervous or receiving judges' scores.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "HEEL_ROCKER": {
+    "id": "HEEL_ROCKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Heel Rocker",
+    "description": "Rocks back and forth on their heels when standing in line.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 1,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "AIR_PUNCHER": {
+    "id": "AIR_PUNCHER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Air Puncher",
+    "description": "Celebrates small victories with a tiny, aggressive fist pump.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "TEETH_CLICKER": {
+    "id": "TEETH_CLICKER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Teeth Clicker",
+    "description": "Rhythmically taps their teeth together when reading.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "personality.discipline": 1
+    }
+  },
+  "HAPPY_CRIER": {
+    "id": "HAPPY_CRIER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Happy Crier",
+    "description": "Bursts into tears when they get a good grade.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 3,
+      "aggregations.fanbaseRatio": 0.03
+    }
+  },
+  "ANGRY_CRIER": {
+    "id": "ANGRY_CRIER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Angry Crier",
+    "description": "Gets teary-eyed when frustrated, which makes them angrier.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "POUTER": {
+    "id": "POUTER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Pouter",
+    "description": "Sticks their bottom lip out unconsciously when they don't get their way.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "NOSTRIL_FLARER": {
+    "id": "NOSTRIL_FLARER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Nostril Flarer",
+    "description": "Nose flares visibly when trying not to snap at a judge.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "RED_BLUSHER": {
+    "id": "RED_BLUSHER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Red Blusher",
+    "description": "Ears and neck turn bright red the second they are put on the spot.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "HAND_WRINGER": {
+    "id": "HAND_WRINGER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Hand Wringer",
+    "description": "Twists their hands together painfully when watching friends face elimination.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "WINCE_SMILE": {
+    "id": "WINCE_SMILE",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Wince-Smile",
+    "description": "Smiles through the pain when receiving a terrible grade.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "THROAT_SWALLOWER": {
+    "id": "THROAT_SWALLOWER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Throat Swallower",
+    "description": "Audibly gulps when intimidated.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "BLINKING_STARRER": {
+    "id": "BLINKING_STARRER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Blinking Starrer",
+    "description": "Stares without blinking for uncomfortably long periods of time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "HUMMING_THINKER": {
+    "id": "HUMMING_THINKER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Humming Thinker",
+    "description": "Hums a single note when trying to remember something.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": 1,
+      "coreSkills.vocals": 1
+    }
+  },
+  "YAWNING_STRETCHER": {
+    "id": "YAWNING_STRETCHER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Yawning Stretcher",
+    "description": "Makes a loud vocal noise whenever they stretch.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 1,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "CHEEK_BITER": {
+    "id": "CHEEK_BITER",
+    "type": "quirk",
+    "group": "Stress Response",
+    "name": "Cheek Biter",
+    "description": "Chews the inside of their cheek when anxious.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1,
+      "aggregations.fanbaseRatio": 0.01
+    }
+  },
+  "LIP_PURSOR": {
+    "id": "LIP_PURSOR",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Lip Pursor",
+    "description": "Purses their lips tightly when disagreeing but staying silent.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "FINGER_DRUMMER": {
+    "id": "FINGER_DRUMMER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Finger Drummer",
+    "description": "Taps out rhythms on their legs during quiet moments.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "personality.curiosity": 1
+    }
+  },
+  "EAR_TAGGER": {
+    "id": "EAR_TAGGER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Ear Tagger",
+    "description": "Pulls on their earlobe when confused.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 1,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "THUMB_TWIDDLER": {
+    "id": "THUMB_TWIDDLER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Thumb Twiddler",
+    "description": "Folds hands and twiddles thumbs when waiting patiently.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 1,
+      "personality.maturity": 1
+    }
+  },
+  "SHOE_SCUFFER": {
+    "id": "SHOE_SCUFFER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Shoe Scuffer",
+    "description": "Kicks the ground lightly when feeling awkward.",
+    "occurrence": 1,
+    "influences": {
+      "personality.introversion": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "WRIST_GRABBER": {
+    "id": "WRIST_GRABBER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Wrist Grabber",
+    "description": "Holds their own wrist behind their back when standing still.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 1,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "NECK_RUBBER": {
+    "id": "NECK_RUBBER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Neck Rubber",
+    "description": "Rubs the back of their neck when apologizing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": 1,
+      "personality.gentleness": 1
+    }
+  },
+  "EYE_ROLLER": {
+    "id": "EYE_ROLLER",
+    "type": "quirk",
+    "group": "Social Quirk",
+    "name": "Eye Roller",
+    "description": "Cannot control their eyes rolling when they hear something stupid.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -2,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "LIP_SMACKER": {
+    "id": "LIP_SMACKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Lip Smacker",
+    "description": "Smacks their lips loudly before starting a sentence.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": -1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "WORD_STUMBLER": {
+    "id": "WORD_STUMBLER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Word Stumbler",
+    "description": "Trips over their words when excited, requiring a restart.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "WHISPER_YELLER": {
+    "id": "WHISPER_YELLER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Whisper Yeller",
+    "description": "Tries to whisper but is still incredibly loud.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.contestantsLikeness": -0.01
+    }
+  },
+  "QUESTION_REPEATER": {
+    "id": "QUESTION_REPEATER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Question Repeater",
+    "description": "Repeats the question out loud before answering it.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": -1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "STORY_EXAGGERATOR": {
+    "id": "STORY_EXAGGERATOR",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Story Exaggerator",
+    "description": "Always makes their anecdotes 10% more dramatic than reality.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "VOCAL_FRY": {
+    "id": "VOCAL_FRY",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Vocal Fry",
+    "description": "Speaks with a heavy, crackling vocal fry. Very polarizing.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": -1,
+      "aggregations.audienceRatio": -0.02
+    }
+  },
+  "UP_TALKER": {
+    "id": "UP_TALKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Up-Talker",
+    "description": "Ends every sentence sounding like a question?",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "MOUTH_BREATHER": {
+    "id": "MOUTH_BREATHER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Mouth Breather",
+    "description": "Breathes audibly through their mouth when resting.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": -1,
+      "aggregations.audienceRatio": -0.02
+    }
+  },
+  "NOSE_WHISTLER": {
+    "id": "NOSE_WHISTLER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Nose Whistler",
+    "description": "Has a faint whistle in their nose when they breathe.",
+    "occurrence": 1,
+    "influences": {
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "THROAT_SINGER": {
+    "id": "THROAT_SINGER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Throat Singer",
+    "description": "Makes weird, deep guttural noises to clear their vocal cords.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "LIP_TRILLER": {
+    "id": "LIP_TRILLER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Lip Triller",
+    "description": "Constantly doing vocal warmups (lip trills) in the dorm.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "personality.discipline": 1
+    }
+  },
+  "PITCH_MATCHER": {
+    "id": "PITCH_MATCHER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Pitch Matcher",
+    "description": "Subconsciously tries to harmonize with random background noises.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 2,
+      "personality.curiosity": 1
+    }
+  },
+  "CAMERA_GLANCER": {
+    "id": "CAMERA_GLANCER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Camera Glancer",
+    "description": "Cannot stop looking directly into the camera lens during group shots.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "MARK_MISSER": {
+    "id": "MARK_MISSER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Mark Misser",
+    "description": "Always stands slightly off their designated X on stage.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": -2,
+      "personality.discipline": -1
+    }
+  },
+  "OVER_DANCER": {
+    "id": "OVER_DANCER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Over-Dancer",
+    "description": "Puts 150% energy into every move, often looking out of sync with the group.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "utilitySkills.consistency": -1
+    }
+  },
+  "LIP_SYNCER": {
+    "id": "LIP_SYNCER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Lip-Syncer",
+    "description": "Mouths the words to other people's parts when they are not singing.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 2,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "WINK_ABUSER": {
+    "id": "WINK_ABUSER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Wink Abuser",
+    "description": "Winks at the camera too much. Goes from charming to cringe quickly.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": -1,
+      "aggregations.audienceRatio": -0.02
+    }
+  },
+  "SWEAT_WIPER": {
+    "id": "SWEAT_WIPER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Sweat Wiper",
+    "description": "Constantly wiping their forehead on stage, ruining the sleek image.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": -1,
+      "coreSkills.visual": -1
+    }
+  },
+  "MIC_DROPPER": {
+    "id": "MIC_DROPPER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Mic Dropper",
+    "description": "Clumsy with the microphone. Has dropped it twice in rehearsals.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": -2,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "HEAVY_BREATHER": {
+    "id": "HEAVY_BREATHER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Heavy Breather",
+    "description": "Breathes directly into the mic after a dance break.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": -2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "STARING_CONTEST": {
+    "id": "STARING_CONTEST",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Staring Contest",
+    "description": "Locks eyes with one specific audience member for an uncomfortable amount of time.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": 1,
+      "aggregations.fanbaseRatio": 0.01
+    }
+  },
+  "CHOREO_MUTTERER": {
+    "id": "CHOREO_MUTTERER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Choreo Mutterer",
+    "description": "You can clearly see them mouthing '1, 2, 3, 4' during the dance.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.memory": -1,
+      "coreSkills.dance": -1
+    }
+  },
+  "WARDROBE_FIDGETER": {
+    "id": "WARDROBE_FIDGETER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Wardrobe Fidgeter",
+    "description": "Pulls down their jacket or hikes up their pants mid-performance.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1,
+      "utilitySkills.consistency": -1
+    }
+  },
+  "EARLY_ENTRANT": {
+    "id": "EARLY_ENTRANT",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Early Entrant",
+    "description": "Always steps forward a half-second too early for their solo.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 1,
+      "utilitySkills.consistency": -1
+    }
+  },
+  "LATE_EXIT": {
+    "id": "LATE_EXIT",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Late Exit",
+    "description": "Lingers in the center for a second too long after their part is over.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 2,
+      "coreSkills.stagePresence": 1
+    }
+  },
+  "FAKE_CRIER": {
+    "id": "FAKE_CRIER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Fake Crier",
+    "description": "Forces tears during emotional ballads to get a better edit.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -3,
+      "aggregations.productionRatio": 0.04
+    }
+  },
+  "OVER_BOWER": {
+    "id": "OVER_BOWER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Over-Bower",
+    "description": "Bows at a perfect 90-degree angle for far too long after a set.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "personality.sincerity": 1
+    }
+  },
+  "SALUTER": {
+    "id": "SALUTER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Saluter",
+    "description": "Always ends a performance with a cheesy two-finger salute.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.charisma": 1,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "FINGER_GUNNER": {
+    "id": "FINGER_GUNNER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Finger Gunner",
+    "description": "Shoots finger guns at the judges when they get a compliment.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "LIP_BITER_STAGE": {
+    "id": "LIP_BITER_STAGE",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Lip Biter (Stage)",
+    "description": "Does a highly choreographed lip bite during their center time.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "aggregations.fanbaseRatio": 0.05
+    }
+  },
+  "HAIR_BRUSHER": {
+    "id": "HAIR_BRUSHER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Hair Brusher",
+    "description": "Runs their hand through their hair dramatically before the beat drops.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": 1,
+      "aggregations.fanbaseRatio": 0.04
+    }
+  },
+  "JACKET_DROPPER": {
+    "id": "JACKET_DROPPER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Jacket Dropper",
+    "description": "Always lets one side of their jacket slide off their shoulder.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "aggregations.audienceRatio": 0.03
+    }
+  },
+  "MIC_STAND_LEANER": {
+    "id": "MIC_STAND_LEANER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Mic Stand Leaner",
+    "description": "Leans way too far back on the mic stand. Looks cool until they fall.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": 1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "SPINNING_ADDICT": {
+    "id": "SPINNING_ADDICT",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Spinning Addict",
+    "description": "Adds an unnecessary spin to every walking transition on stage.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "utilitySkills.consistency": -1
+    }
+  },
+  "FLOOR_LOOKER": {
+    "id": "FLOOR_LOOKER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Floor Looker",
+    "description": "Looks at the floor during dance breaks instead of the audience.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": -2,
+      "personality.introversion": 1
+    }
+  },
+  "CEILING_STARRER": {
+    "id": "CEILING_STARRER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Ceiling Starrer",
+    "description": "Looks up at the rafters when hitting a high note. Dramatic but disconnects from the crowd.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "AGGRESSIVE_STOMPER": {
+    "id": "AGGRESSIVE_STOMPER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Aggressive Stomper",
+    "description": "Hits the stage floor so hard during dance breaks you can hear it over the music.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.dance": 1,
+      "utilitySkills.stamina": 1
+    }
+  },
+  "BREATH_CATCHER": {
+    "id": "BREATH_CATCHER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Breath Catcher",
+    "description": "Visibly completely out of breath the second the music stops.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": -2,
+      "aggregations.audienceRatio": -0.02
+    }
+  },
+  "ENDING_FAIRY_FREEZE": {
+    "id": "ENDING_FAIRY_FREEZE",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Ending Fairy Freeze",
+    "description": "Holds their final pose so perfectly still they look like a statue.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "coreSkills.visual": 1
+    }
+  },
+  "WOBBLER": {
+    "id": "WOBBLER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Wobbler",
+    "description": "Always loses their balance slightly on the final pose.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": -2,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "PANTING_SMILER": {
+    "id": "PANTING_SMILER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Panting Smiler",
+    "description": "Tries to smile through intense physical exhaustion. Looks slightly unhinged.",
+    "occurrence": 1,
+    "influences": {
+      "personality.investment": 2,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "TEAR_WIPER": {
+    "id": "TEAR_WIPER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Tear Wiper",
+    "description": "Wipes away non-existent sweat/tears to look like they worked harder.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -2,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "MIC_SWITCHER": {
+    "id": "MIC_SWITCHER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Mic Switcher",
+    "description": "Constantly moves the mic from left hand to right hand for no reason.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": -1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "CORD_TRIPPER": {
+    "id": "CORD_TRIPPER",
+    "type": "quirk",
+    "group": "Performance Tic",
+    "name": "Cord Tripper",
+    "description": "Always getting tangled in the microphone cord if it isn't wireless.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.consistency": -2,
+      "aggregations.productionRatio": 0.03
+    }
+  },
+  "OVER_SINGER": {
+    "id": "OVER_SINGER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Over-Singer",
+    "description": "Adds too many runs and riffs to a simple vocal line.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": 1,
+      "personality.ambition": 2,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "UNDER_SINGER": {
+    "id": "UNDER_SINGER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Under-Singer",
+    "description": "Sings so quietly the sound engineers have to boost their mic.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": -1,
+      "personality.introversion": 2
+    }
+  },
+  "PITCH_SLIDER": {
+    "id": "PITCH_SLIDER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Pitch Slider",
+    "description": "Always scoops up to a note instead of hitting it dead on.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": -1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "AGGRESSIVE_POPPER": {
+    "id": "AGGRESSIVE_POPPER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Aggressive Popper",
+    "description": "Hits the 'P' and 'T' sounds so hard it pops the microphone.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.rap": 1,
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "NASAL_SINGER": {
+    "id": "NASAL_SINGER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Nasal Singer",
+    "description": "Sings entirely through their nose when they get nervous.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.vocals": -2,
+      "personality.sensitivity": 1
+    }
+  },
+  "BREATH_SKIPPER": {
+    "id": "BREATH_SKIPPER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Breath Skipper",
+    "description": "Forgets to breathe in the right spots and runs out of air mid-sentence.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": -1,
+      "coreSkills.vocals": -1
+    }
+  },
+  "JAW_CLENCHER": {
+    "id": "JAW_CLENCHER",
+    "type": "quirk",
+    "group": "Vocal Quirk",
+    "name": "Jaw Clencher",
+    "description": "Sings with a tight jaw, making them look angry during ballads.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.stagePresence": -1,
+      "personality.gentleness": -1
+    }
+  },
+  "NOSE_BUMPER": {
+    "id": "NOSE_BUMPER",
+    "type": "quirk",
+    "group": "Physical Fidget",
+    "name": "Nose Bumper",
+    "description": "Subconsciously taps the tip of their nose when deep in thought.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "CUTICLE_PICKER": {
+    "id": "CUTICLE_PICKER",
+    "type": "quirk",
+    "group": "Conversational Tic",
+    "name": "Cuticle Picker",
+    "description": "Constantly picks at their cuticles, distracting themselves and others.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  }
+}

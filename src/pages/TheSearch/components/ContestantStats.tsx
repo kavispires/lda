@@ -1,5 +1,6 @@
 import { Card, Progress, Space, Typography } from 'antd';
 import type { Contestant } from '../types/contestant';
+import { getSpecialtyById } from '../utilities/helpers';
 
 type ContestantStatsProps = {
   existingContestants: Contestant[];
@@ -41,6 +42,7 @@ export function ContestantStats({ existingContestants, currentContestant }: Cont
   const danceStyleCounts: Record<string, number> = {};
   const rapStyleCounts: Record<string, number> = {};
   const visualVibeCounts: Record<string, number> = {};
+  const genreAffinityCounts: Record<string, number> = {};
 
   for (const contestant of existingContestants) {
     if (contestant.specialties.vocalColor) {
@@ -58,6 +60,10 @@ export function ContestantStats({ existingContestants, currentContestant }: Cont
     if (contestant.specialties.visualVibe) {
       visualVibeCounts[contestant.specialties.visualVibe] =
         (visualVibeCounts[contestant.specialties.visualVibe] || 0) + 1;
+    }
+    if (contestant.specialties.genreAffinity) {
+      genreAffinityCounts[contestant.specialties.genreAffinity] =
+        (genreAffinityCounts[contestant.specialties.genreAffinity] || 0) + 1;
     }
   }
 
@@ -92,7 +98,12 @@ export function ContestantStats({ existingContestants, currentContestant }: Cont
     </div>
   );
 
-  const renderSpecialtyStats = (title: string, counts: Record<string, number>, currentValue?: string) => {
+  const renderSpecialtyStats = (
+    title: string,
+    counts: Record<string, number>,
+    currentValue?: string,
+    getLabel: (id: string) => string = (id) => id,
+  ) => {
     const entries = Object.entries(counts);
     if (entries.length === 0) {
       return null;
@@ -107,7 +118,7 @@ export function ContestantStats({ existingContestants, currentContestant }: Cont
           .sort(([, a], [, b]) => b - a)
           .slice(0, 5)
           .map(([key, count]) => (
-            <div key={key}>{renderStatRow(key, count, currentValue === key)}</div>
+            <div key={key}>{renderStatRow(getLabel(key), count, currentValue === key)}</div>
           ))}
       </div>
     );
@@ -135,6 +146,12 @@ export function ContestantStats({ existingContestants, currentContestant }: Cont
       {renderSpecialtyStats('Top Dance Styles', danceStyleCounts, currentContestant?.specialties?.danceStyle)}
       {renderSpecialtyStats('Top Rap Styles', rapStyleCounts, currentContestant?.specialties?.rapStyle)}
       {renderSpecialtyStats('Top Visual Vibes', visualVibeCounts, currentContestant?.specialties?.visualVibe)}
+      {renderSpecialtyStats(
+        'Top Genre Affinities',
+        genreAffinityCounts,
+        currentContestant?.specialties?.genreAffinity,
+        (id) => getSpecialtyById('genreAffinity', id)?.name || id,
+      )}
     </Card>
   );
 }

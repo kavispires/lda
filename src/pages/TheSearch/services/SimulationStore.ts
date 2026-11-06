@@ -1,163 +1,156 @@
 import { Store } from '@tanstack/react-store';
-import { runEpisode1 } from '../engine/episode-runner';
-import type { PerformanceSong } from '../types/common';
+import { transitionAudition } from '../engine/audition-episode';
+import { transitionBattle } from '../engine/battle-episode';
+import { transitionBootcamp } from '../engine/bootcamp-episode';
+import { autoCompleteEpisode, type EpisodeNumber } from '../engine/episode-auto-complete';
+import { transitionFinale } from '../engine/finale-episode';
+import { transitionMegaGroups } from '../engine/mega-groups-episode';
+import { transitionMusicVideo } from '../engine/music-video-episode';
+import { transitionNarrativeAudition, transitionNarrativeBattle } from '../engine/narrative-audition';
+import { transitionBattleStory } from '../engine/narrative-battle';
+import { transitionPhotoshoot } from '../engine/photoshoot-episode';
+import { createSeasonSetup } from '../engine/season-setup';
+import {
+  emptySimulationState,
+  encodeSimulationState,
+  loadSimulationState,
+  SIMULATION_STORAGE_KEY,
+} from '../engine/simulation-persistence';
+import { transitionSpecialties } from '../engine/specialties-episode';
+import { transitionTrackSpecials } from '../engine/track-specials-episode';
+import { transitionVarietyShow } from '../engine/variety-show-episode';
+import { transitionVersatility } from '../engine/versatility-episode';
+import type { AuditionAction } from '../types/audition-episode';
+import type { BattleAction } from '../types/battle-episode';
+import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
+import type { FinaleAction } from '../types/finale-episode';
+import type { MegaGroupsAction } from '../types/mega-groups-episode';
+import type { MusicVideoAction } from '../types/music-video-episode';
+import type { PhotoshootAction } from '../types/photoshoot-episode';
+import { isNarrativeSeason, type SimulationState } from '../types/simulation';
+import type { SpecialtiesAction } from '../types/specialties-episode';
+import type { TrackSpecialsAction } from '../types/track-specials-episode';
+import type { VarietyShowAction } from '../types/variety-show-episode';
+import type { VersatilityAction } from '../types/versatility-episode';
 
-/**
- * Simulation state structure
- */
-export interface SimulationState {
-  /**
-   * Array of contestants in the current simulation
-   */
-  contestants: Contestant[];
-  /**
-   * Current episode number (0 = initialization)
-   */
-  episode: number;
-  /**
-   * Simulation status
-   */
-  status: 'idle' | 'initializing' | 'ready' | 'running' | 'paused' | 'completed';
-  /**
-   * Timestamp when simulation was created
-   */
-  createdAt: number;
-  /**
-   * Episode history snapshots (for future use)
-   */
-  history: unknown[];
-}
+export type { SimulationState } from '../types/simulation';
 
-/**
- * Initial simulation state
- */
-const initialState: SimulationState = {
-  contestants: [],
-  episode: 0,
-  status: 'idle',
-  createdAt: 0,
-  history: [],
-};
-
-/**
- * LocalStorage key for persisting simulation state
- */
-const STORAGE_KEY = 'the-search-simulation-state';
-
-/**
- * Load simulation state from localStorage
- */
 function loadFromStorage(): SimulationState {
+  if (typeof window === 'undefined') return emptySimulationState();
   try {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    if (stored) {
-      return JSON.parse(stored);
-    }
-  } catch {
-    // Silent error - return initial state
-  }
-  return initialState;
-}
-
-/**
- * Save simulation state to localStorage
- */
-function saveToStorage(state: SimulationState): void {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  } catch {
-    // Silent error - localStorage might be full or unavailable
+    return loadSimulationState(window.localStorage);
+  } catch (error) {
+    return {
+      ...emptySimulationState(),
+      persistenceError: `Could not access simulation storage: ${error instanceof Error ? error.message : String(error)}`,
+    };
   }
 }
 
-/**
- * Create the simulation store with localStorage persistence
- */
 export const simulationStore = new Store<SimulationState>(loadFromStorage());
 
-/**
- * Subscribe to store changes and persist to localStorage
- */
-simulationStore.subscribe(() => {
-  saveToStorage(simulationStore.state);
-});
+function commitState(next: SimulationState): void {
+  // Save before publishing state so a failed write cannot look like a completed phase.
+  window.localStorage.setItem(SIMULATION_STORAGE_KEY, encodeSimulationState(next));
+  simulationStore.setState(() => next);
+}
 
-/**
- * Store actions
- */
 export const simulationActions = {
-  /**
-   * Initialize a new simulation with contestants
-   */
-  initializeSimulation(contestants: Contestant[]) {
-    simulationStore.setState((state) => ({
-      ...state,
-      contestants,
-      episode: 0,
-      status: 'ready',
-      createdAt: Date.now(),
-      history: [],
-    }));
+  async autoCompleteEpisode(episode: EpisodeNumber, expectedState: SimulationState) {
+    if (simulationStore.state !== expectedState)
+      throw new Error('The simulation changed. Retry auto-completing the current episode.');
+    const next = await autoCompleteEpisode(expectedState, episode);
+    if (simulationStore.state !== expectedState)
+      throw new Error('The simulation changed during auto-completion. Your latest progress was kept.');
+    if (next !== expectedState) commitState(next);
+    return next;
   },
 
-  /**
-   * Update simulation status
-   */
-  setStatus(status: SimulationState['status']) {
-    simulationStore.setState((state) => ({
-      ...state,
-      status,
-    }));
+  initializeSimulation(
+    sourceContestants: Record<string, Contestant>,
+    options: { useBias?: boolean; seed?: number } = {},
+  ) {
+    const setup = createSeasonSetup(sourceContestants, {
+      seed: options.seed ?? crypto.getRandomValues(new Uint32Array(1))[0],
+      runId: crypto.randomUUID(),
+      now: Date.now(),
+      useBias: options.useBias,
+    });
+    commitState({ ...setup, status: 'ready', persistenceError: null });
   },
 
-  /**
-   * Clear the simulation
-   */
   clearSimulation() {
-    simulationStore.setState(() => initialState);
-    localStorage.removeItem(STORAGE_KEY);
+    window.localStorage.removeItem(SIMULATION_STORAGE_KEY);
+    simulationStore.setState(emptySimulationState);
   },
 
-  /**
-   * Update contestants
-   */
-  updateContestants(contestants: Contestant[]) {
-    simulationStore.setState((state) => ({
-      ...state,
-      contestants,
-    }));
+  dispatchAudition(action: AuditionAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = isNarrativeSeason(current.runtime)
+      ? transitionNarrativeAudition(current, action, expectedRevision)
+      : transitionAudition(current, action, expectedRevision);
+    if (next !== current) commitState(next);
   },
 
-  /**
-   * Run Episode 1 (Audition)
-   */
-  runEpisode1(songs: PerformanceSong[]) {
-    const currentState = simulationStore.state;
+  dispatchBattle(action: BattleAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next =
+      current.runtime?.version === 3
+        ? transitionBattleStory(current, action, expectedRevision)
+        : current.runtime?.version === 2
+          ? transitionNarrativeBattle(current, action, expectedRevision)
+          : transitionBattle(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
 
-    if (currentState.episode !== 0) {
-      throw new Error('Episode 1 can only be run after initialization (episode 0)');
-    }
+  dispatchBootcamp(action: BootcampAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionBootcamp(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
 
-    if (currentState.contestants.length === 0) {
-      throw new Error('No contestants in simulation');
-    }
+  dispatchMegaGroups(action: MegaGroupsAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionMegaGroups(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
 
-    // Set status to running
-    simulationStore.setState((state) => ({
-      ...state,
-      status: 'running',
-    }));
+  dispatchPhotoshoot(action: PhotoshootAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionPhotoshoot(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
 
-    // Run episode
-    const updatedContestants = runEpisode1(currentState.contestants, songs);
+  dispatchTrackSpecials(action: TrackSpecialsAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionTrackSpecials(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
 
-    // Update state with results
-    simulationStore.setState((state) => ({
-      ...state,
-      contestants: updatedContestants,
-      episode: 1,
-      status: 'ready',
-    }));
+  dispatchVersatility(action: VersatilityAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionVersatility(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+  dispatchVarietyShow(action: VarietyShowAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionVarietyShow(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+  dispatchMusicVideo(action: MusicVideoAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionMusicVideo(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+  dispatchSpecialties(action: SpecialtiesAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionSpecialties(current, action, expectedRevision);
+    if (next !== current) commitState(next);
+  },
+  dispatchFinale(action: FinaleAction, expectedRevision: number) {
+    const current = simulationStore.state;
+    const next = transitionFinale(current, action, expectedRevision);
+    if (next !== current) commitState(next);
   },
 };

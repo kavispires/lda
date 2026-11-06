@@ -1,6 +1,6 @@
 import type { ValuesOf } from '@types';
 import type { ALIGNMENTS, GRADES, STATUSES, TRACKS } from '../utilities/constants';
-import type { ChangeRecord } from './common';
+import type { ChangeRecord, ChangeValue, PropertyChange } from './common';
 
 /**
  * Squirrel Zone: The Search
@@ -189,12 +189,21 @@ export interface Specialties {
    * The style of leadership
    */
   leadershipStyle: string;
+  /**
+   * Preferred musical genre cluster, independent of track.
+   */
+  genreAffinity: string;
 }
 
 /**
  * Mutable values that change over the course of the simulation, representing the contestant's current state in terms of popularity, experience, and screen presence.
  */
 export interface Aggregations {
+  /**
+   * Temporary episode-wide preparation, calculated by practice sessions.
+   * Zero means not practiced.
+   */
+  practice: number;
   /**
    * Current happiness level, influenced by narrative events and performance outcomes. High happiness can boost performance, while low happiness can lead to burnout or quitting events.
    * Range: 0-100, starts at 50 (neutral)
@@ -220,11 +229,15 @@ export interface Aggregations {
    */
   fanbaseRatio: number;
   /**
-   * Total score points gained in the simulation.
+   * Cumulative television value. Owner-facing only; never affects competition outcomes.
    */
   score: number;
   /**
-   * Baseline proficiency gained from historical training/work.
+   * Competition points used by the existing audience and ranking calculations.
+   */
+  rankingScore: number;
+  /**
+   * Historical experience plus completed practice and performance activity.
    */
   experience: number;
   /**
@@ -392,5 +405,7 @@ export interface ChangeLogEntry {
   /**
    * A record of changes to the contestant's attributes, skills, or other properties during the episode.
    */
-  change: ChangeRecord;
+  change: ChangeRecord<ChangeValue>;
+  phaseId?: string;
+  changes?: PropertyChange[];
 }

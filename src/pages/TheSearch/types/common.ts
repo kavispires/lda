@@ -8,6 +8,15 @@ import type { TRACKS } from '../utilities/constants';
  */
 export type ChangeRecord<T = number | string> = Record<string, T>;
 
+export type ChangeValue = string | number | boolean | null | ChangeValue[] | { [key: string]: ChangeValue };
+
+export interface PropertyChange {
+  path: string;
+  before?: ChangeValue;
+  after?: ChangeValue;
+  cause: string;
+}
+
 export type AttributeCard = {
   /**
    * Unique identifier
@@ -83,6 +92,7 @@ export interface PerformancePart {
     rapStyle?: string;
     danceStyle?: string;
     visualVibe?: string;
+    genreAffinity?: string;
   };
   /**
    * The raw difficulty (1-5) to perform this part.

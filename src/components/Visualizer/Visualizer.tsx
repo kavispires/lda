@@ -3,16 +3,20 @@ import clsx from 'clsx';
 import './Visualizer.scss';
 import { ControlledVideo } from '@components/Video/ControlledVideo';
 import { useMemo } from 'react';
-import { useToggle } from 'react-use';
+import { useMedia, useToggle } from 'react-use';
 import { AdlibsScroller } from './AdlibsScroller';
 import { BarsBox } from './BarsBox';
 import { LyricsScroller } from './LyricsScroller';
 import { SeekBar } from './SeekBar';
 import { UpNext } from './UpNext';
 import { VisualizerControls } from './VisualizerControls';
+import { VisualizerMobile } from './VisualizerMobile';
+
+export const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
 
 export function Visualizer() {
   const [areControlsVisible, setControlsVisible] = useToggle(false);
+  const isMobile = useMedia(MOBILE_MEDIA_QUERY, false);
 
   const {
     song,
@@ -60,6 +64,10 @@ export function Visualizer() {
 
     return barSnapshots[lastTimestamp];
   }, [barSnapshots, timestamp]);
+
+  if (isMobile) {
+    return <VisualizerMobile currentBarSnapshot={currentBarSnapshot} timestamp={timestamp} />;
+  }
 
   return (
     // biome-ignore lint/a11y/noStaticElementInteractions: TODO

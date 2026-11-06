@@ -42,6 +42,10 @@ export const serializeSong = (song: Song): FirestoreSong => {
   // Delete any dismissible and adlib properties from the song lines if false
   Object.values(copy.content).forEach((entry) => {
     if (entry.type === 'line') {
+      // Remove empty or dangling harmony references
+      if (!entry.harmonyOf || copy.content[entry.harmonyOf]?.type !== 'line') {
+        delete entry.harmonyOf;
+      }
       if (entry.dismissible === false) {
         // TODO: Verify if it won't cagar everything
         entry.dismissible = undefined;

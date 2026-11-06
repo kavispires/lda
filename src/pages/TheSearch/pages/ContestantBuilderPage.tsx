@@ -14,7 +14,7 @@ import { StepSpecialties } from '../components/builder/StepSpecialties';
 import { StepUtilitySkills } from '../components/builder/StepUtilitySkills';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import type { Contestant } from '../types/contestant';
-import { createContestant, generateContestantId } from '../utilities/contestant-factory';
+import { createContestant, generateContestantId, normalizeContestant } from '../utilities/contestant-factory';
 
 const TEMP_CONTESTANT_DRAFT = 'TEMP_CONTESTANT_DRAFT';
 
@@ -43,7 +43,7 @@ export function ContestantBuilderPage() {
     }
     // If creating new contestant, restore from draft or create new
     if (draftContestant && Object.keys(draftContestant).length > 0) {
-      return draftContestant;
+      return normalizeContestant(draftContestant);
     }
     const existingIds = contestantsData ? Object.keys(contestantsData) : [];
     const newId = generateContestantId(existingIds);

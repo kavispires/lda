@@ -1,0 +1,47 @@
+[
+  {
+    "id": "diana",
+    "name": "Diana",
+    "role": "Doubt Girls leader and vocalist",
+    "favoredSpecialties": [
+      { "field": "leadershipStyle", "value": "CARETAKER" },
+      { "field": "vocalColor", "value": "STANDARD" }
+    ]
+  },
+  {
+    "id": "una",
+    "name": "Una",
+    "role": "Doubt Girls dancer and rapper",
+    "favoredSpecialties": [
+      { "field": "danceStyle", "value": "POPPING" },
+      { "field": "rapStyle", "value": "FLOW" }
+    ]
+  },
+  {
+    "id": "tracy",
+    "name": "Tracy",
+    "role": "Doubt Girls rapper",
+    "favoredSpecialties": [
+      { "field": "rapStyle", "value": "SWAG" },
+      { "field": "visualVibe", "value": "REBEL" }
+    ]
+  },
+  {
+    "id": "brittany",
+    "name": "Brittany",
+    "role": "Doubt Girls vocalist",
+    "favoredSpecialties": [
+      { "field": "vocalColor", "value": "HIGH_PITCH" },
+      { "field": "visualVibe", "value": "MASCULINE" }
+    ]
+  },
+  {
+    "id": "olive",
+    "name": "Olive",
+    "role": "Doubt Girls visual and dancer",
+    "favoredSpecialties": [
+      { "field": "visualVibe", "value": "CUTE" },
+      { "field": "visualVibe", "value": "FLOWER_BOY" }
+    ]
+  }
+]

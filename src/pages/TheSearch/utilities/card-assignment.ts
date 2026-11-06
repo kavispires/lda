@@ -1,29 +1,12 @@
 import type { Dictionary } from 'types/common';
-import identityCardsData from '../data/identity-cards.json';
-import interestCardsData from '../data/interest-cards.json';
-import personaCardsData from '../data/persona-cards.json';
-import secretCardsData from '../data/secret-cards.json';
-import type { AttributeCard } from '../types/common';
+import { appendContestantHistory, recordContestantChanges } from '../engine/change-history';
+import type { RandomSource } from '../engine/random';
+import type { AttributeCard, PropertyChange } from '../types/common';
 import type { Contestant } from '../types/contestant';
-import {
-  DANCE_STYLES,
-  LEADERSHIP_STYLES,
-  RAP_STYLES,
-  VISUAL_VIBES,
-  VOCAL_COLORS,
-  ZODIAC_SIGNS,
-} from './attribute-libraries';
-import { STATUSES } from './constants';
+import type { SimulationDefinitions } from '../types/simulation';
 import { normalizeContestant } from './contestant-factory';
 import { getAlignment } from './helpers';
-
-/**
- * Card libraries
- */
-const PERSONA_CARDS = personaCardsData as Dictionary<AttributeCard>;
-const IDENTITY_CARDS = identityCardsData as Dictionary<AttributeCard>;
-const INTEREST_CARDS = interestCardsData as Dictionary<AttributeCard>;
-const SECRET_CARDS = secretCardsData as Dictionary<AttributeCard>;
+import { getSimulationDefinitions } from './simulation-definitions';
 
 /**
  * Maximum retry attempts for card compatibility checks
@@ -34,6 +17,18 @@ const MAX_RETRY_ATTEMPTS = 10;
  * Minimum number of contestants that should receive secret cards
  */
 const MIN_SECRET_CARDS = 4;
+
+const CHARACTER_CARD_TYPES = ['lifestyle', 'history', 'quirk'] as const;
+type CharacterCardType = (typeof CHARACTER_CARD_TYPES)[number];
+type AssignedCards = {
+  personaId: string | null;
+  identityId: string | null;
+  interestId: string | null;
+  secretId: string | null;
+  lifestyleId: string | null;
+  historyId: string | null;
+  quirkId: string | null;
+};
 
 /**
  * Deep clone a contestant object to avoid modifying Firestore data.
@@ -61,14 +56,18 @@ function getUsedPersonaIds(allContestants: Dictionary<Contestant>): Set<string> 
 /**
  * Select a random persona card that hasn't been used yet
  */
-function selectRandomPersona(usedPersonas: Set<string>): string | null {
-  const available = Object.keys(PERSONA_CARDS).filter((id) => !usedPersonas.has(id));
+function selectRandomPersona(
+  usedPersonas: Set<string>,
+  random: RandomSource,
+  library: Dictionary<AttributeCard>,
+): string | null {
+  const available = Object.keys(library).filter((id) => !usedPersonas.has(id));
 
   if (available.length === 0) {
     return null;
   }
 
-  return available[Math.floor(Math.random() * available.length)];
+  return available[Math.floor(random() * available.length)];
 }
 
 /**
@@ -128,6 +127,7 @@ function selectCompatibleCard(
   contestant: Contestant,
   existingInfluences: Record<string, number>,
   usedCards: Set<string>,
+  random: RandomSource,
 ): string | null {
   const availableCardIds = Object.keys(cardLibrary).filter((id) => !usedCards.has(id));
 
@@ -136,7 +136,7 @@ function selectCompatibleCard(
   }
 
   for (let attempt = 0; attempt < MAX_RETRY_ATTEMPTS; attempt++) {
-    const randomId = availableCardIds[Math.floor(Math.random() * availableCardIds.length)];
+    const randomId = availableCardIds[Math.floor(random() * availableCardIds.length)];
     const card = cardLibrary[randomId];
 
     if (isCardCompatible(contestant, card, existingInfluences)) {
@@ -159,31 +159,33 @@ export function assignAttributeCards(
   usedIdentityCards: Set<string>,
   usedInterestCards: Set<string>,
   usedSecretCards: Set<string>,
-): {
-  personaId: string | null;
-  identityId: string | null;
-  interestId: string | null;
-  secretId: string | null;
-} {
+  random: RandomSource = Math.random,
+  cards = getSimulationDefinitions().cards,
+  usedCharacterCards: Record<CharacterCardType, Set<string>> = {
+    lifestyle: new Set(),
+    history: new Set(),
+    quirk: new Set(),
+  },
+): AssignedCards {
   // Collect existing influences from persona
   const existingInfluences: Record<string, number> = {};
 
   // Assign persona (use existing if available, otherwise select random)
   let personaId: string | null = null;
-  if (contestant.persona && PERSONA_CARDS[contestant.persona]) {
+  if (contestant.persona && cards.persona[contestant.persona]) {
     // Use the contestant's existing persona
     personaId = contestant.persona;
     usedPersonas.add(personaId);
   } else {
     // Assign a new random persona (ensuring uniqueness)
-    personaId = selectRandomPersona(usedPersonas);
+    personaId = selectRandomPersona(usedPersonas, random, cards.persona);
     if (personaId) {
       usedPersonas.add(personaId);
     }
   }
 
   if (personaId) {
-    const personaCard = PERSONA_CARDS[personaId];
+    const personaCard = cards.persona[personaId];
     for (const [path, value] of Object.entries({ ...personaCard.set, ...personaCard.influences })) {
       if (typeof value === 'number') {
         existingInfluences[path] = value;
@@ -192,10 +194,16 @@ export function assignAttributeCards(
   }
 
   // Assign identity card
-  const identityId = selectCompatibleCard(IDENTITY_CARDS, contestant, existingInfluences, usedIdentityCards);
+  const identityId = selectCompatibleCard(
+    cards.identity,
+    contestant,
+    existingInfluences,
+    usedIdentityCards,
+    random,
+  );
   if (identityId) {
     usedIdentityCards.add(identityId);
-    const identityCard = IDENTITY_CARDS[identityId];
+    const identityCard = cards.identity[identityId];
     for (const [path, value] of Object.entries({ ...identityCard.set, ...identityCard.influences })) {
       if (typeof value === 'number') {
         existingInfluences[path] = (existingInfluences[path] || 0) + value;
@@ -204,10 +212,16 @@ export function assignAttributeCards(
   }
 
   // Assign interest card
-  const interestId = selectCompatibleCard(INTEREST_CARDS, contestant, existingInfluences, usedInterestCards);
+  const interestId = selectCompatibleCard(
+    cards.interest,
+    contestant,
+    existingInfluences,
+    usedInterestCards,
+    random,
+  );
   if (interestId) {
     usedInterestCards.add(interestId);
-    const interestCard = INTEREST_CARDS[interestId];
+    const interestCard = cards.interest[interestId];
     for (const [path, value] of Object.entries({ ...interestCard.set, ...interestCard.influences })) {
       if (typeof value === 'number') {
         existingInfluences[path] = (existingInfluences[path] || 0) + value;
@@ -218,25 +232,68 @@ export function assignAttributeCards(
   // Assign secret card (if this contestant should get one)
   let secretId: string | null = null;
   if (secretCardIndices.has(currentIndex)) {
-    secretId = selectCompatibleCard(SECRET_CARDS, contestant, existingInfluences, usedSecretCards);
+    secretId = selectCompatibleCard(cards.secret, contestant, existingInfluences, usedSecretCards, random);
     if (secretId) {
       usedSecretCards.add(secretId);
     }
   }
 
-  return { personaId, identityId, interestId, secretId };
+  if (secretId) {
+    const card = cards.secret[secretId];
+    for (const [path, value] of Object.entries({ ...card.set, ...card.influences })) {
+      if (typeof value === 'number') existingInfluences[path] = (existingInfluences[path] ?? 0) + value;
+    }
+  }
+
+  const characterIds: Record<CharacterCardType, string | null> = {
+    lifestyle: null,
+    history: null,
+    quirk: null,
+  };
+  for (const type of CHARACTER_CARD_TYPES) {
+    const library = cards[type];
+    if (library === undefined) continue;
+    const available = Object.entries(library).filter(
+      ([id, card]) =>
+        !usedCharacterCards[type].has(id) && isCardCompatible(contestant, card, existingInfluences),
+    );
+    if (!available.length)
+      throw new Error(`No compatible unused ${type} card is available for "${contestant.id}".`);
+    const [id, card] = available[Math.floor(random() * available.length)];
+    characterIds[type] = id;
+    usedCharacterCards[type].add(id);
+    for (const [path, value] of Object.entries({ ...card.set, ...card.influences })) {
+      if (typeof value === 'number') existingInfluences[path] = (existingInfluences[path] ?? 0) + value;
+    }
+  }
+
+  return {
+    personaId,
+    identityId,
+    interestId,
+    secretId,
+    lifestyleId: characterIds.lifestyle,
+    historyId: characterIds.history,
+    quirkId: characterIds.quirk,
+  };
 }
 
 /**
  * Determine which contestants should receive secret cards
  * At least 4 contestants should get secrets (~13-15%)
  */
-export function selectSecretCardRecipients(totalContestants: number): Set<number> {
+export function selectSecretCardRecipients(
+  totalContestants: number,
+  random: RandomSource = Math.random,
+): Set<number> {
+  if (!Number.isInteger(totalContestants) || totalContestants < MIN_SECRET_CARDS) {
+    throw new Error(`Secret assignment requires at least ${MIN_SECRET_CARDS} contestants.`);
+  }
   const numSecrets = Math.max(MIN_SECRET_CARDS, Math.floor(totalContestants * 0.14));
   const indices = new Set<number>();
 
   while (indices.size < numSecrets) {
-    indices.add(Math.floor(Math.random() * totalContestants));
+    indices.add(Math.floor(random() * totalContestants));
   }
 
   return indices;
@@ -247,12 +304,8 @@ export function selectSecretCardRecipients(totalContestants: number): Set<number
  */
 function collectAllInfluences(
   contestant: Contestant,
-  cardIds: {
-    personaId: string | null;
-    identityId: string | null;
-    interestId: string | null;
-    secretId: string | null;
-  },
+  cardIds: AssignedCards,
+  definitions: SimulationDefinitions,
 ): Record<string, { values: number[]; sets: number | string | undefined }> {
   const influences: Record<string, { values: number[]; sets: number | string | undefined }> = {};
 
@@ -270,10 +323,31 @@ function collectAllInfluences(
 
   // Collect from attribute cards
   const cards: Array<{ card: AttributeCard | undefined; id: string | null }> = [
-    { card: cardIds.personaId ? PERSONA_CARDS[cardIds.personaId] : undefined, id: cardIds.personaId },
-    { card: cardIds.identityId ? IDENTITY_CARDS[cardIds.identityId] : undefined, id: cardIds.identityId },
-    { card: cardIds.interestId ? INTEREST_CARDS[cardIds.interestId] : undefined, id: cardIds.interestId },
-    { card: cardIds.secretId ? SECRET_CARDS[cardIds.secretId] : undefined, id: cardIds.secretId },
+    {
+      card: cardIds.personaId ? definitions.cards.persona[cardIds.personaId] : undefined,
+      id: cardIds.personaId,
+    },
+    {
+      card: cardIds.identityId ? definitions.cards.identity[cardIds.identityId] : undefined,
+      id: cardIds.identityId,
+    },
+    {
+      card: cardIds.interestId ? definitions.cards.interest[cardIds.interestId] : undefined,
+      id: cardIds.interestId,
+    },
+    { card: cardIds.secretId ? definitions.cards.secret[cardIds.secretId] : undefined, id: cardIds.secretId },
+    {
+      card: cardIds.lifestyleId ? definitions.cards.lifestyle?.[cardIds.lifestyleId] : undefined,
+      id: cardIds.lifestyleId,
+    },
+    {
+      card: cardIds.historyId ? definitions.cards.history?.[cardIds.historyId] : undefined,
+      id: cardIds.historyId,
+    },
+    {
+      card: cardIds.quirkId ? definitions.cards.quirk?.[cardIds.quirkId] : undefined,
+      id: cardIds.quirkId,
+    },
   ];
 
   for (const { card } of cards) {
@@ -296,11 +370,12 @@ function collectAllInfluences(
 
   // Collect from specialty attributes
   const specialties = [
-    { type: 'vocalColor', value: contestant.specialties.vocalColor, library: VOCAL_COLORS },
-    { type: 'danceStyle', value: contestant.specialties.danceStyle, library: DANCE_STYLES },
-    { type: 'rapStyle', value: contestant.specialties.rapStyle, library: RAP_STYLES },
-    { type: 'visualVibe', value: contestant.specialties.visualVibe, library: VISUAL_VIBES },
-    { type: 'leadershipStyle', value: contestant.specialties.leadershipStyle, library: LEADERSHIP_STYLES },
+    { value: contestant.specialties.vocalColor, library: definitions.specialties.vocalColor },
+    { value: contestant.specialties.danceStyle, library: definitions.specialties.danceStyle },
+    { value: contestant.specialties.rapStyle, library: definitions.specialties.rapStyle },
+    { value: contestant.specialties.visualVibe, library: definitions.specialties.visualVibe },
+    { value: contestant.specialties.leadershipStyle, library: definitions.specialties.leadershipStyle },
+    { value: contestant.specialties.genreAffinity, library: definitions.specialties.genreAffinity },
   ];
 
   for (const { value, library } of specialties) {
@@ -313,7 +388,7 @@ function collectAllInfluences(
   }
 
   // Collect from zodiac sign
-  const zodiacCard = ZODIAC_SIGNS[contestant.zodiacSign];
+  const zodiacCard = definitions.zodiacSigns[contestant.zodiacSign];
   if (zodiacCard?.influences) {
     for (const [path, value] of Object.entries(zodiacCard.influences)) {
       addInfluence(path, value, false);
@@ -409,12 +484,13 @@ function applyInfluences(
 
 /**
  * Initialize relationships for a contestant
- * All contestants start with a relationship score of 50 with everyone (including themselves)
+ * All contestants start with a relationship score of 50 with every other contestant.
  */
-function initializeRelationships(contestantIds: string[]): Record<string, number[]> {
+function initializeRelationships(contestantIds: string[], ownerId: string): Record<string, number[]> {
   const relationships: Record<string, number[]> = {};
 
   for (const id of contestantIds) {
+    if (id === ownerId) continue;
     relationships[id] = [50];
   }
 
@@ -433,8 +509,14 @@ function initializeRelationships(contestantIds: string[]): Record<string, number
 export function processSimulationContestants(
   selectedIds: string[],
   allContestants: Dictionary<Contestant>,
+  options: { random?: RandomSource; definitions?: SimulationDefinitions; now?: number } = {},
 ): Contestant[] {
-  const secretCardRecipients = selectSecretCardRecipients(selectedIds.length);
+  const random = options.random ?? Math.random;
+  const definitions = options.definitions ?? getSimulationDefinitions();
+  const now = options.now ?? Date.now();
+  if (new Set(selectedIds).size !== selectedIds.length)
+    throw new Error('The selected cast contains duplicate IDs.');
+  const secretCardRecipients = selectSecretCardRecipients(selectedIds.length, random);
   const processedContestants: Contestant[] = [];
 
   // Track used cards to ensure no duplicates across all contestants
@@ -442,13 +524,28 @@ export function processSimulationContestants(
   const usedIdentityCards = new Set<string>();
   const usedInterestCards = new Set<string>();
   const usedSecretCards = new Set<string>();
+  const usedCharacterCards = {
+    lifestyle: new Set<string>(),
+    history: new Set<string>(),
+    quirk: new Set<string>(),
+  };
 
   for (let i = 0; i < selectedIds.length; i++) {
     const originalContestant = allContestants[selectedIds[i]];
-    if (!originalContestant) continue;
+    if (!originalContestant) throw new Error(`Selected contestant "${selectedIds[i]}" does not exist.`);
 
     // Deep clone to avoid modifying Firestore data
-    const contestant = deepCloneContestant(originalContestant);
+    let contestant = deepCloneContestant(originalContestant);
+    const changes: PropertyChange[] = recordContestantChanges(
+      originalContestant,
+      contestant,
+      'Normalize source profile',
+    );
+    const recordMutation = (cause: string, mutate: () => void) => {
+      const before = structuredClone(contestant);
+      mutate();
+      changes.push(...recordContestantChanges(before, contestant, cause));
+    };
 
     // Assign attribute cards with uniqueness tracking
     const cardIds = assignAttributeCards(
@@ -459,66 +556,69 @@ export function processSimulationContestants(
       usedIdentityCards,
       usedInterestCards,
       usedSecretCards,
+      random,
+      definitions.cards,
+      usedCharacterCards,
     );
 
     // Collect all influences
-    const influences = collectAllInfluences(contestant, cardIds);
+    const influences = collectAllInfluences(contestant, cardIds, definitions);
 
     // Apply influences and get changes
-    const propertyChanges = applyInfluences(contestant, influences);
+    recordMutation('Apply assigned card, specialty and zodiac influences', () => {
+      applyInfluences(contestant, influences);
+    });
 
     // Recalculate alignment based on new personality traits
     const newAlignment = getAlignment(contestant.personality);
     if (newAlignment !== contestant.alignment) {
-      contestant.alignment = newAlignment;
-      propertyChanges.alignment = newAlignment;
+      recordMutation('Recalculate alignment after setup influences', () => {
+        contestant.alignment = newAlignment;
+      });
     }
 
     // Initialize relationships
-    contestant.relationships = initializeRelationships(selectedIds);
+    recordMutation('Initialize cast relationships', () => {
+      contestant.relationships = initializeRelationships(selectedIds, contestant.id);
+    });
 
     // Update attributes array with assigned card IDs
-    contestant.attributes = [
-      cardIds.personaId,
-      cardIds.identityId,
-      cardIds.interestId,
-      cardIds.secretId,
-    ].filter((id): id is string => id !== null);
+    recordMutation('Assign setup cards and persona', () => {
+      contestant.attributes = [
+        cardIds.personaId,
+        cardIds.identityId,
+        cardIds.interestId,
+        cardIds.secretId,
+        cardIds.lifestyleId,
+        cardIds.historyId,
+        cardIds.quirkId,
+      ].filter((id): id is string => id !== null);
+      if (cardIds.personaId) contestant.persona = cardIds.personaId;
+    });
 
-    // Update persona
-    if (cardIds.personaId) {
-      contestant.persona = cardIds.personaId;
-    }
-
-    // Create initial change log entry
-    const relationshipChanges: Record<string, number> = {};
-    for (const id of selectedIds) {
-      relationshipChanges[`relationships.${id}`] = 50;
-    }
-
-    contestant.changeLog = [
+    recordMutation('Initialize hidden season rank, reset episode Practice and timestamp setup', () => {
+      contestant.rank = i + 1;
+      contestant.aggregations.practice = 0;
+      contestant.aggregations.score = 0;
+      contestant.updatedAt = now;
+    });
+    contestant = appendContestantHistory(
+      contestant,
       {
+        phaseId: 'setup',
         episode: 0,
-        missionRating: 0,
-        rank: 0,
-        score: 0,
-        status: STATUSES.ACTIVE,
+        missionRating: contestant.missionRating,
+        rank: contestant.rank,
+        score: contestant.aggregations.rankingScore,
+        status: contestant.status,
         summary: 'Initial Setup',
         events: contestant.attributes,
-        change: {
-          ...propertyChanges,
-          ...relationshipChanges,
-        },
       },
-    ];
-
-    // Update timestamp
-    contestant.updatedAt = Date.now();
+      changes,
+    );
 
     processedContestants.push(contestant);
   }
 
   return processedContestants;
 }
-
-// Part 2 will be in the next section...

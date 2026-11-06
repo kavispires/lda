@@ -1,0 +1,84 @@
+{
+  "version": 1,
+  "guest": { "id": "roxana", "name": "Roxana Michaels", "role": "Actress" },
+  "physicalGames": [
+    {
+      "id": "foam-relay",
+      "name": "The Foam Parcel Relay",
+      "description": "Pass oversized foam parcels along a low padded course, balancing each parcel before the next handoff. A dropped parcel is simply retrieved; no climbing or risky stunts.",
+      "difficulty": 3
+    },
+    {
+      "id": "balloon-delivery",
+      "name": "Balloon Delivery",
+      "description": "Carry soft balloon bundles between floor markers and invent a celebratory delivery pose. All movement stays on the padded studio floor.",
+      "difficulty": 3
+    }
+  ],
+  "interviewPrompts": [
+    {
+      "id": "public-interest",
+      "name": "An interest worth sharing",
+      "description": "Tell us about a public hobby or interest and give a playful demonstration using imaginary objects.",
+      "difficulty": 3
+    },
+    {
+      "id": "aired-learning",
+      "name": "A lesson from the stage",
+      "description": "Describe something you learned during an earlier aired performance, then give the lesson a funny title.",
+      "difficulty": 3
+    },
+    {
+      "id": "team-introduction",
+      "name": "Introduce your team",
+      "description": "Introduce the teammates standing beside you as a fictional neighborhood club, using only what happened here today.",
+      "difficulty": 3
+    },
+    {
+      "id": "ordinary-day",
+      "name": "An ordinary day",
+      "description": "Describe your ideal free afternoon and explain one harmless thing that could turn it upside down.",
+      "difficulty": 3
+    }
+  ],
+  "improvScenes": [
+    {
+      "id": "lost-property",
+      "name": "The Lost Property Office",
+      "description": "A clerk, two visitors and a delivery worker try to return an ordinary object with an absurdly elaborate claim form.",
+      "difficulty": 3
+    },
+    {
+      "id": "weather-desk",
+      "name": "The Neighborhood Weather Desk",
+      "description": "A presenter and three correspondents report an imaginary shower of household objects while trying to keep the forecast useful.",
+      "difficulty": 3
+    },
+    {
+      "id": "late-cafe",
+      "name": "The Almost Open Cafe",
+      "description": "Four coworkers prepare to open a cafe while discovering that every everyday tool has been given the wrong label.",
+      "difficulty": 3
+    }
+  ],
+  "propBoxes": [
+    {
+      "id": "office-box",
+      "name": "Office Odds and Ends",
+      "description": "A foam telephone, blank clipboard, cloth hat and oversized cardboard key.",
+      "difficulty": 3
+    },
+    {
+      "id": "picnic-box",
+      "name": "Picnic Mix-up",
+      "description": "A soft basket, fabric napkin, foam loaf and empty plastic cup.",
+      "difficulty": 3
+    },
+    {
+      "id": "household-box",
+      "name": "Household Surprises",
+      "description": "A cardboard clock, feather duster, cloth scarf and soft toy parcel.",
+      "difficulty": 3
+    }
+  ]
+}

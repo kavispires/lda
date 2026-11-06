@@ -1,0 +1,230 @@
+[
+  {
+    "id": "mega-daybreak",
+    "title": "Daybreak Radio",
+    "description": "Editable placeholder: a bright nine-voice pop ensemble.",
+    "genre": "MAINSTREAM_POP",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "harmony-high",
+        "name": "High harmony",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }]
+      },
+      {
+        "id": "harmony-low",
+        "name": "Low harmony",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "rap-first",
+        "name": "First rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "rap-second",
+        "name": "Second rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }]
+      },
+      {
+        "id": "dance-lead",
+        "name": "Lead dance break",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }]
+      },
+      {
+        "id": "dance-response",
+        "name": "Dance response",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      },
+      {
+        "id": "bridge",
+        "name": "Melodic bridge",
+        "testedSkills": [
+          { "skill": "vocals", "requiredLevel": 3 },
+          { "skill": "uniqueness", "requiredLevel": 3 }
+        ]
+      },
+      {
+        "id": "hook",
+        "name": "Closing hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "mega-satellite",
+    "title": "Satellite Hearts",
+    "description": "Editable placeholder: a melodic nine-person pop performance.",
+    "genre": "MAINSTREAM_POP",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "harmony-high",
+        "name": "High harmony",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }]
+      },
+      {
+        "id": "harmony-low",
+        "name": "Low harmony",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "rap-first",
+        "name": "First rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "rap-second",
+        "name": "Second rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }]
+      },
+      {
+        "id": "dance-lead",
+        "name": "Lead dance break",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }]
+      },
+      {
+        "id": "dance-response",
+        "name": "Dance response",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      },
+      {
+        "id": "bridge",
+        "name": "Melodic bridge",
+        "testedSkills": [
+          { "skill": "vocals", "requiredLevel": 3 },
+          { "skill": "uniqueness", "requiredLevel": 3 }
+        ]
+      },
+      {
+        "id": "hook",
+        "name": "Closing hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "mega-sidewalk",
+    "title": "Sidewalk Stereo",
+    "description": "Editable placeholder: a nine-person rhythm crossover.",
+    "genre": "HIP_HOP",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "harmony-high",
+        "name": "High harmony",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }]
+      },
+      {
+        "id": "harmony-low",
+        "name": "Low harmony",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "rap-first",
+        "name": "First rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "rap-second",
+        "name": "Second rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }]
+      },
+      {
+        "id": "dance-lead",
+        "name": "Lead dance break",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }]
+      },
+      {
+        "id": "dance-response",
+        "name": "Dance response",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      },
+      {
+        "id": "bridge",
+        "name": "Melodic bridge",
+        "testedSkills": [
+          { "skill": "vocals", "requiredLevel": 3 },
+          { "skill": "uniqueness", "requiredLevel": 3 }
+        ]
+      },
+      {
+        "id": "hook",
+        "name": "Closing hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  },
+  {
+    "id": "mega-afterglow",
+    "title": "Afterglow Avenue",
+    "description": "Editable placeholder: a nine-person evening anthem.",
+    "genre": "HIP_HOP",
+    "difficulty": 3,
+    "parts": [
+      {
+        "id": "lead",
+        "name": "Lead melody",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 4 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "harmony-high",
+        "name": "High harmony",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }]
+      },
+      {
+        "id": "harmony-low",
+        "name": "Low harmony",
+        "testedSkills": [{ "skill": "vocals", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "rap-first",
+        "name": "First rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }, { "skill": "dance", "requiredLevel": 2 }]
+      },
+      {
+        "id": "rap-second",
+        "name": "Second rhythm verse",
+        "testedSkills": [{ "skill": "rap", "requiredLevel": 3 }]
+      },
+      {
+        "id": "dance-lead",
+        "name": "Lead dance break",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 4 }]
+      },
+      {
+        "id": "dance-response",
+        "name": "Dance response",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      },
+      {
+        "id": "bridge",
+        "name": "Melodic bridge",
+        "testedSkills": [
+          { "skill": "vocals", "requiredLevel": 3 },
+          { "skill": "uniqueness", "requiredLevel": 3 }
+        ]
+      },
+      {
+        "id": "hook",
+        "name": "Closing hook",
+        "testedSkills": [{ "skill": "dance", "requiredLevel": 3 }, { "skill": "vocals", "requiredLevel": 2 }]
+      }
+    ]
+  }
+]

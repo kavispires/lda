@@ -1,13 +1,18 @@
 import { ArtistBar } from '@components/Artist';
 import { type AssigneeSnapshot, RATE } from '@services/DistributionVisualizerProvider';
 import type { Artist, Dictionary } from '@types';
+import clsx from 'clsx';
 import { memo } from 'react';
 import { useMeasure } from 'react-use';
 
 type BarsBoxProps = {
   assignees: Artist[];
   snapshots: Dictionary<AssigneeSnapshot>;
+  /** Smaller fixed-height rows (used on mobile to fit many singers) */
+  compact?: boolean;
 };
+
+export const COMPACT_BAR_ROW_HEIGHT = 28;
 
 const getTranslatePosition = (height: number, pos: number, assigneeCount: number) => {
   if (pos < 0) {
@@ -16,14 +21,20 @@ const getTranslatePosition = (height: number, pos: number, assigneeCount: number
   return Math.min(height, 40) * pos + 6;
 };
 
-export const BarsBox = memo(function BarsBox({ assignees, snapshots }: BarsBoxProps) {
+export const BarsBox = memo(function BarsBox({ assignees, snapshots, compact = false }: BarsBoxProps) {
   const [boxRef, { width }] = useMeasure<HTMLDivElement>();
   const [entryRef, { height }] = useMeasure<HTMLDivElement>();
 
   const barHeight = height || 48;
 
   return (
-    <div className="bars-box" ref={boxRef} style={{ height: (barHeight + 8) * assignees.length }}>
+    <div
+      className={clsx('bars-box', compact && 'bars-box--compact')}
+      ref={boxRef}
+      style={{
+        height: compact ? COMPACT_BAR_ROW_HEIGHT * assignees.length + 8 : (barHeight + 8) * assignees.length,
+      }}
+    >
       {assignees.map((assignee, index, allAssignees) => {
         const {
           rank = -1,
@@ -47,7 +58,11 @@ export const BarsBox = memo(function BarsBox({ assignees, snapshots }: BarsBoxPr
                 width,
                 top: 0,
                 // TODO: Fix proportion
-                transform: `translateY(${getTranslatePosition(barHeight, rank, allAssignees.length) * 1.25}px)`,
+                transform: `translateY(${
+                  compact
+                    ? (rank < 0 ? allAssignees.length : rank) * COMPACT_BAR_ROW_HEIGHT
+                    : getTranslatePosition(barHeight, rank, allAssignees.length) * 1.25
+                }px)`,
               }}
               value={`${(fullDuration / (1000 / RATE)).toFixed(1)}s`}
             />

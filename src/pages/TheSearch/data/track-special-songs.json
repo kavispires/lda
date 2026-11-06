@@ -1,0 +1,314 @@
+[
+  {
+    "id": "vocal-lantern",
+    "title": "Paper Lanterns",
+    "description": "A warm vocal arrangement, with exposed entrances and a shared final refrain.",
+    "track": "VOCAL",
+    "genre": "SOUL_GROOVE",
+    "favoredSpecialties": ["STANDARD", "VELVET"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete melody", "requiredLevel": 3 }],
+      "2": [
+        { "id": "verse", "name": "Low verse", "requiredLevel": 2 },
+        { "id": "refrain", "name": "High refrain", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "verse", "name": "Opening verse", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Bridge melody", "requiredLevel": 3 },
+        { "id": "refrain", "name": "High refrain", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "opening", "name": "Opening melody", "requiredLevel": 2 },
+        { "id": "verse", "name": "Second verse", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Bridge melody", "requiredLevel": 3 },
+        { "id": "refrain", "name": "High refrain", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "vocal-midnight",
+    "title": "Midnight Windows",
+    "description": "An intimate vocal performance with delicate phrasing and clear harmonies.",
+    "track": "VOCAL",
+    "genre": "ACOUSTIC_BALLAD",
+    "favoredSpecialties": ["SWEET", "HIGH_PITCH"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete melody", "requiredLevel": 3 }],
+      "2": [
+        { "id": "verse", "name": "Quiet verse", "requiredLevel": 2 },
+        { "id": "refrain", "name": "Sustained refrain", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "verse", "name": "Quiet verse", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Rising bridge", "requiredLevel": 3 },
+        { "id": "refrain", "name": "Sustained refrain", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "opening", "name": "Opening phrase", "requiredLevel": 2 },
+        { "id": "verse", "name": "Quiet verse", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Rising bridge", "requiredLevel": 3 },
+        { "id": "refrain", "name": "Sustained refrain", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "vocal-sunrise",
+    "title": "Sunrise Radio",
+    "description": "A bright pop-vocal set with rhythmic verses and an open chorus.",
+    "track": "VOCAL",
+    "genre": "MAINSTREAM_POP",
+    "favoredSpecialties": ["STANDARD", "HIGH_PITCH"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete melody", "requiredLevel": 3 }],
+      "2": [
+        { "id": "verse", "name": "Rhythmic verse", "requiredLevel": 2 },
+        { "id": "chorus", "name": "Open chorus", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "verse", "name": "Rhythmic verse", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Lifted bridge", "requiredLevel": 3 },
+        { "id": "chorus", "name": "Open chorus", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "opening", "name": "Opening hook", "requiredLevel": 2 },
+        { "id": "verse", "name": "Rhythmic verse", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Lifted bridge", "requiredLevel": 3 },
+        { "id": "chorus", "name": "Open chorus", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "vocal-weather",
+    "title": "Changing Weather",
+    "description": "A textured vocal piece built around contrasts of restraint and release.",
+    "track": "VOCAL",
+    "genre": "ROCK_EDGE",
+    "favoredSpecialties": ["HUSKY", "GRITTY", "DEEP_BASS"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete melody", "requiredLevel": 3 }],
+      "2": [
+        { "id": "verse", "name": "Restrained verse", "requiredLevel": 2 },
+        { "id": "chorus", "name": "Released chorus", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "verse", "name": "Restrained verse", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Textured bridge", "requiredLevel": 3 },
+        { "id": "chorus", "name": "Released chorus", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "opening", "name": "Opening phrase", "requiredLevel": 2 },
+        { "id": "verse", "name": "Restrained verse", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Textured bridge", "requiredLevel": 3 },
+        { "id": "chorus", "name": "Released chorus", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "rap-city",
+    "title": "City Lines",
+    "description": "An original rap set with clear handovers and contrasting flows.",
+    "track": "RAP",
+    "genre": "HIP_HOP",
+    "favoredSpecialties": ["FLOW", "BASIC"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete verse cycle", "requiredLevel": 3 }],
+      "2": [
+        { "id": "verse", "name": "Opening flow", "requiredLevel": 2 },
+        { "id": "closer", "name": "Closing flow", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "verse", "name": "Opening flow", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Middle flow", "requiredLevel": 3 },
+        { "id": "closer", "name": "Closing flow", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "opening", "name": "Opening bars", "requiredLevel": 2 },
+        { "id": "verse", "name": "Second verse", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Middle flow", "requiredLevel": 3 },
+        { "id": "closer", "name": "Closing flow", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "rap-signal",
+    "title": "Signal Check",
+    "description": "A crisp rap performance with precise articulation over an electronic beat.",
+    "track": "RAP",
+    "genre": "ELECTRONIC",
+    "favoredSpecialties": ["TECHNICAL", "FLOW"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete verse cycle", "requiredLevel": 3 }],
+      "2": [
+        { "id": "verse", "name": "Measured bars", "requiredLevel": 2 },
+        { "id": "closer", "name": "Rapid closing bars", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "verse", "name": "Measured bars", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Double-time bridge", "requiredLevel": 3 },
+        { "id": "closer", "name": "Rapid closing bars", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "opening", "name": "Opening signal", "requiredLevel": 2 },
+        { "id": "verse", "name": "Measured bars", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Double-time bridge", "requiredLevel": 3 },
+        { "id": "closer", "name": "Rapid closing bars", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "rap-postcard",
+    "title": "Postcard Home",
+    "description": "A story-led rap set with intimate verses and a melodic hook.",
+    "track": "RAP",
+    "genre": "SOUL_GROOVE",
+    "favoredSpecialties": ["MELODIC", "CLASSIC"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete story", "requiredLevel": 3 }],
+      "2": [
+        { "id": "verse", "name": "First chapter", "requiredLevel": 2 },
+        { "id": "closer", "name": "Final chapter", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "verse", "name": "First chapter", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Middle chapter", "requiredLevel": 3 },
+        { "id": "closer", "name": "Final chapter", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "opening", "name": "Introduction", "requiredLevel": 2 },
+        { "id": "verse", "name": "First chapter", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Middle chapter", "requiredLevel": 3 },
+        { "id": "closer", "name": "Final chapter", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "rap-pressure",
+    "title": "Under Pressure",
+    "description": "A forceful rap set with grounded delivery and a demanding final passage.",
+    "track": "RAP",
+    "genre": "ROCK_EDGE",
+    "favoredSpecialties": ["GRITTY", "SWAG"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete verse cycle", "requiredLevel": 3 }],
+      "2": [
+        { "id": "verse", "name": "Grounded verse", "requiredLevel": 2 },
+        { "id": "closer", "name": "Forceful close", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "verse", "name": "Grounded verse", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Tension bridge", "requiredLevel": 3 },
+        { "id": "closer", "name": "Forceful close", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "opening", "name": "Opening statement", "requiredLevel": 2 },
+        { "id": "verse", "name": "Grounded verse", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Tension bridge", "requiredLevel": 3 },
+        { "id": "closer", "name": "Forceful close", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "dance-neon",
+    "title": "Neon Steps",
+    "description": "A rhythmic dance arrangement with sharp isolations and clean transitions.",
+    "track": "DANCE",
+    "genre": "ELECTRONIC",
+    "favoredSpecialties": ["POPPING", "LOCKING"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete solo", "requiredLevel": 3 }],
+      "2": [
+        { "id": "opening", "name": "Isolation phrase", "requiredLevel": 2 },
+        { "id": "finale", "name": "Precision finale", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "opening", "name": "Isolation phrase", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Transition phrase", "requiredLevel": 3 },
+        { "id": "finale", "name": "Precision finale", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "intro", "name": "Opening steps", "requiredLevel": 2 },
+        { "id": "opening", "name": "Isolation phrase", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Transition phrase", "requiredLevel": 3 },
+        { "id": "finale", "name": "Precision finale", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "dance-current",
+    "title": "Open Current",
+    "description": "A flowing dance arrangement with sustained lines and controlled floorwork.",
+    "track": "DANCE",
+    "genre": "ACOUSTIC_BALLAD",
+    "favoredSpecialties": ["LYRICAL", "SMOOTH"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete solo", "requiredLevel": 3 }],
+      "2": [
+        { "id": "opening", "name": "Sustained lines", "requiredLevel": 2 },
+        { "id": "finale", "name": "Floorwork finale", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "opening", "name": "Sustained lines", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Flowing transition", "requiredLevel": 3 },
+        { "id": "finale", "name": "Floorwork finale", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "intro", "name": "Opening movement", "requiredLevel": 2 },
+        { "id": "opening", "name": "Sustained lines", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Flowing transition", "requiredLevel": 3 },
+        { "id": "finale", "name": "Floorwork finale", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "dance-pavement",
+    "title": "Pavement Pulse",
+    "description": "A grounded dance set with athletic accents and a strong rhythmic finish.",
+    "track": "DANCE",
+    "genre": "HIP_HOP",
+    "favoredSpecialties": ["URBAN", "B_BOY"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete solo", "requiredLevel": 3 }],
+      "2": [
+        { "id": "opening", "name": "Grounded phrase", "requiredLevel": 2 },
+        { "id": "finale", "name": "Athletic finish", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "opening", "name": "Grounded phrase", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Rhythmic bridge", "requiredLevel": 3 },
+        { "id": "finale", "name": "Athletic finish", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "intro", "name": "Opening pulse", "requiredLevel": 2 },
+        { "id": "opening", "name": "Grounded phrase", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Rhythmic bridge", "requiredLevel": 3 },
+        { "id": "finale", "name": "Athletic finish", "requiredLevel": 4 }
+      ]
+    }
+  },
+  {
+    "id": "dance-spotlight",
+    "title": "Spotlight Turn",
+    "description": "An expressive dance set with character changes and a theatrical finish.",
+    "track": "DANCE",
+    "genre": "THEATRICAL_POP",
+    "favoredSpecialties": ["ACROBATIC", "SMOOTH"],
+    "arrangements": {
+      "1": [{ "id": "lead", "name": "Complete solo", "requiredLevel": 3 }],
+      "2": [
+        { "id": "opening", "name": "Character entrance", "requiredLevel": 2 },
+        { "id": "finale", "name": "Theatrical finish", "requiredLevel": 4 }
+      ],
+      "3": [
+        { "id": "opening", "name": "Character entrance", "requiredLevel": 2 },
+        { "id": "bridge", "name": "Turning bridge", "requiredLevel": 3 },
+        { "id": "finale", "name": "Theatrical finish", "requiredLevel": 4 }
+      ],
+      "4": [
+        { "id": "intro", "name": "Opening shape", "requiredLevel": 2 },
+        { "id": "opening", "name": "Character entrance", "requiredLevel": 3 },
+        { "id": "bridge", "name": "Turning bridge", "requiredLevel": 3 },
+        { "id": "finale", "name": "Theatrical finish", "requiredLevel": 4 }
+      ]
+    }
+  }
+]

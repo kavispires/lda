@@ -1,0 +1,302 @@
+[
+  {
+    "id": "high-fashion",
+    "name": "High Fashion / Chic",
+    "description": "Sculptural silhouettes and an uncompromising editorial gaze.",
+    "preferredTraits": ["ambition", "discipline"],
+    "vibeFit": {
+      "WARM": 0,
+      "CUTE": 0,
+      "FLOWER_BOY": 50,
+      "MASCULINE": 50,
+      "MYSTERIOUS": 100,
+      "CHIC": 100,
+      "REBEL": 50
+    },
+    "outfits": [
+      {
+        "id": "tailored-black",
+        "name": "Sculpted black tailoring",
+        "novelty": 20,
+        "vibeFit": {
+          "WARM": 0,
+          "CUTE": 0,
+          "FLOWER_BOY": 50,
+          "MASCULINE": 100,
+          "MYSTERIOUS": 100,
+          "CHIC": 100,
+          "REBEL": 50
+        }
+      },
+      {
+        "id": "silver-asymmetry",
+        "name": "Asymmetric silver coat",
+        "novelty": 90,
+        "vibeFit": {
+          "WARM": 0,
+          "CUTE": 0,
+          "FLOWER_BOY": 100,
+          "MASCULINE": 50,
+          "MYSTERIOUS": 100,
+          "CHIC": 100,
+          "REBEL": 100
+        }
+      }
+    ],
+    "props": [
+      {
+        "id": "mirror",
+        "name": "Angular mirror",
+        "novelty": 30,
+        "vibeFit": {
+          "WARM": 0,
+          "CUTE": 0,
+          "FLOWER_BOY": 50,
+          "MASCULINE": 50,
+          "MYSTERIOUS": 100,
+          "CHIC": 100,
+          "REBEL": 50
+        }
+      },
+      {
+        "id": "chrome-frame",
+        "name": "Chrome picture frame",
+        "novelty": 85,
+        "vibeFit": {
+          "WARM": 0,
+          "CUTE": 0,
+          "FLOWER_BOY": 50,
+          "MASCULINE": 50,
+          "MYSTERIOUS": 100,
+          "CHIC": 100,
+          "REBEL": 50
+        }
+      }
+    ]
+  },
+  {
+    "id": "streetwear",
+    "name": "Streetwear / Rebel",
+    "description": "Concrete, loose layers and rebellious city energy.",
+    "preferredTraits": ["ambition", "extroversion"],
+    "vibeFit": {
+      "WARM": 50,
+      "CUTE": 50,
+      "FLOWER_BOY": 0,
+      "MASCULINE": 100,
+      "MYSTERIOUS": 50,
+      "CHIC": 50,
+      "REBEL": 100
+    },
+    "outfits": [
+      {
+        "id": "denim",
+        "name": "Distressed denim layers",
+        "novelty": 20,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 50,
+          "FLOWER_BOY": 0,
+          "MASCULINE": 100,
+          "MYSTERIOUS": 50,
+          "CHIC": 50,
+          "REBEL": 100
+        }
+      },
+      {
+        "id": "neon",
+        "name": "Neon technical jacket",
+        "novelty": 90,
+        "vibeFit": {
+          "WARM": 50,
+          "CUTE": 100,
+          "FLOWER_BOY": 0,
+          "MASCULINE": 100,
+          "MYSTERIOUS": 100,
+          "CHIC": 50,
+          "REBEL": 100
+        }
+      }
+    ],
+    "props": [
+      {
+        "id": "skateboard",
+        "name": "Painted skateboard",
+        "novelty": 25,
+        "vibeFit": {
+          "WARM": 50,
+          "CUTE": 50,
+          "FLOWER_BOY": 0,
+          "MASCULINE": 100,
+          "MYSTERIOUS": 50,
+          "CHIC": 50,
+          "REBEL": 100
+        }
+      },
+      {
+        "id": "boombox",
+        "name": "Oversized boombox",
+        "novelty": 80,
+        "vibeFit": {
+          "WARM": 50,
+          "CUTE": 50,
+          "FLOWER_BOY": 0,
+          "MASCULINE": 100,
+          "MYSTERIOUS": 50,
+          "CHIC": 50,
+          "REBEL": 100
+        }
+      }
+    ]
+  },
+  {
+    "id": "ethereal",
+    "name": "Ethereal / Flower Boy",
+    "description": "Soft light, botanical textures and a dreamlike storybook mood.",
+    "preferredTraits": ["curiosity", "sensitivity"],
+    "vibeFit": {
+      "WARM": 100,
+      "CUTE": 50,
+      "FLOWER_BOY": 100,
+      "MASCULINE": 0,
+      "MYSTERIOUS": 50,
+      "CHIC": 50,
+      "REBEL": 0
+    },
+    "outfits": [
+      {
+        "id": "ivory",
+        "name": "Ivory linen and petals",
+        "novelty": 20,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 100,
+          "FLOWER_BOY": 100,
+          "MASCULINE": 0,
+          "MYSTERIOUS": 50,
+          "CHIC": 50,
+          "REBEL": 0
+        }
+      },
+      {
+        "id": "organza",
+        "name": "Layered floating organza",
+        "novelty": 90,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 50,
+          "FLOWER_BOY": 100,
+          "MASCULINE": 0,
+          "MYSTERIOUS": 100,
+          "CHIC": 100,
+          "REBEL": 0
+        }
+      }
+    ],
+    "props": [
+      {
+        "id": "flowers",
+        "name": "Wildflower bouquet",
+        "novelty": 20,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 50,
+          "FLOWER_BOY": 100,
+          "MASCULINE": 0,
+          "MYSTERIOUS": 50,
+          "CHIC": 50,
+          "REBEL": 0
+        }
+      },
+      {
+        "id": "glass-orb",
+        "name": "Dew-filled glass orb",
+        "novelty": 85,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 50,
+          "FLOWER_BOY": 100,
+          "MASCULINE": 0,
+          "MYSTERIOUS": 50,
+          "CHIC": 50,
+          "REBEL": 0
+        }
+      }
+    ]
+  },
+  {
+    "id": "retro",
+    "name": "Retro / Classic",
+    "description": "Warm film grain, vintage tailoring and timeless screen charm.",
+    "preferredTraits": ["maturity", "sincerity"],
+    "vibeFit": {
+      "WARM": 100,
+      "CUTE": 100,
+      "FLOWER_BOY": 50,
+      "MASCULINE": 50,
+      "MYSTERIOUS": 50,
+      "CHIC": 100,
+      "REBEL": 50
+    },
+    "outfits": [
+      {
+        "id": "suit",
+        "name": "Vintage checked suit",
+        "novelty": 20,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 100,
+          "FLOWER_BOY": 50,
+          "MASCULINE": 100,
+          "MYSTERIOUS": 50,
+          "CHIC": 100,
+          "REBEL": 50
+        }
+      },
+      {
+        "id": "velvet",
+        "name": "Color-block velvet jacket",
+        "novelty": 85,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 100,
+          "FLOWER_BOY": 100,
+          "MASCULINE": 50,
+          "MYSTERIOUS": 100,
+          "CHIC": 100,
+          "REBEL": 100
+        }
+      }
+    ],
+    "props": [
+      {
+        "id": "telephone",
+        "name": "Rotary telephone",
+        "novelty": 20,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 100,
+          "FLOWER_BOY": 50,
+          "MASCULINE": 50,
+          "MYSTERIOUS": 50,
+          "CHIC": 100,
+          "REBEL": 50
+        }
+      },
+      {
+        "id": "record",
+        "name": "Translucent vinyl record",
+        "novelty": 80,
+        "vibeFit": {
+          "WARM": 100,
+          "CUTE": 100,
+          "FLOWER_BOY": 50,
+          "MASCULINE": 50,
+          "MYSTERIOUS": 50,
+          "CHIC": 100,
+          "REBEL": 50
+        }
+      }
+    ]
+  }
+]

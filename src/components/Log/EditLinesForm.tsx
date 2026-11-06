@@ -76,6 +76,12 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
         });
         return acc;
       }, {});
+      // Adlibs can't be harmonies
+      if (values.adlib) {
+        linesIds.forEach((lineId) => {
+          updates[`content.${lineId}.harmonyOf`] = '';
+        });
+      }
       onBatchUpdateSong(updates);
       setDirty(false);
       onClose();

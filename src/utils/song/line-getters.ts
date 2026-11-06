@@ -100,6 +100,23 @@ export const getLineText = (lineId: string, song: Song): string => {
     .join(' ');
 };
 
+const normalizeForMatch = (text: string) =>
+  text
+    .toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+/**
+ * Checks if a harmony text is fully or partially contained in a target line text
+ * (case, punctuation, and extra spaces are ignored).
+ */
+export const isHarmonyTextMatch = (harmonyText: string, targetText: string): boolean => {
+  const harmony = normalizeForMatch(harmonyText);
+  if (!harmony) return false;
+  return normalizeForMatch(targetText).includes(harmony);
+};
+
 /**
  * Retrieves the start time of a line.
  * @param lineId - The ID of the line.

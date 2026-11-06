@@ -1,4 +1,5 @@
 import type { Contestant } from '../types/contestant';
+import { normalizeContestant } from './contestant-factory';
 
 /**
  * Serializes a Contestant object to a JSON string
@@ -15,7 +16,7 @@ export function serializeContestant(contestant: Contestant): string {
  * @returns The deserialized Contestant object
  */
 export function deserializeContestant(json: string): Contestant {
-  return JSON.parse(json) as Contestant;
+  return normalizeContestant(JSON.parse(json));
 }
 
 /**

@@ -1,4 +1,4 @@
-import { AppstoreOutlined, RocketOutlined, TableOutlined, ThunderboltOutlined } from '@ant-design/icons';
+import { AppstoreOutlined, RocketOutlined, TableOutlined } from '@ant-design/icons';
 import { Content } from '@components/Content';
 import { useSelector } from '@tanstack/react-store';
 import {
@@ -7,42 +7,160 @@ import {
   Card,
   Checkbox,
   Col,
+  Collapse,
   Descriptions,
   Progress,
   Row,
   Space,
   Table,
-  Tabs,
   Tag,
   Typography,
 } from 'antd';
-import { useState } from 'react';
-import type { Dictionary, ValuesOf } from 'types/common';
+import { type Key, useState } from 'react';
+import type { ValuesOf } from 'types/common';
+import { AuditionEpisodeView } from '../components/AuditionEpisodeView';
+import { BattleEpisodeView } from '../components/BattleEpisodeView';
+import { BootcampEpisodeView } from '../components/BootcampEpisodeView';
 import { ContestantAvatar } from '../components/ContestantAvatar';
 import { ContestantDetailModal } from '../components/ContestantDetailModal';
+import { CopyMarkdownButton } from '../components/CopyMarkdownButton';
+import { CopyShowSoFar } from '../components/CopyShowSoFar';
+import { FinaleEpisodeView } from '../components/FinaleEpisodeView';
+import { MegaGroupsEpisodeView } from '../components/MegaGroupsEpisodeView';
+import { MusicVideoEpisodeView } from '../components/MusicVideoEpisodeView';
+import { NarrativeAuditionView, NarrativeBattleView } from '../components/NarrativeEpisodeView';
+import { PhotoshootEpisodeView } from '../components/PhotoshootEpisodeView';
+import { SpecialtiesEpisodeView } from '../components/SpecialtiesEpisodeView';
+import { TrackSpecialsEpisodeView } from '../components/TrackSpecialsEpisodeView';
 import { TrackTag } from '../components/TrackTag';
-import auditionSongsData from '../data/audition-songs.json';
-import secretCardsData from '../data/secret-cards.json';
+import { VarietyShowEpisodeView } from '../components/VarietyShowEpisodeView';
+import { VersatilityEpisodeView } from '../components/VersatilityEpisodeView';
 import { useContestantsContext } from '../services/ContestantsProvider';
 import { simulationActions, simulationStore } from '../services/SimulationStore';
-import type { AttributeCard, PerformanceSong } from '../types/common';
+import type { AuditionAction } from '../types/audition-episode';
+import type { BattleAction } from '../types/battle-episode';
+import type { BootcampAction } from '../types/bootcamp-episode';
 import type { Contestant } from '../types/contestant';
-import { processSimulationContestants } from '../utilities/card-assignment';
+import type { FinaleAction } from '../types/finale-episode';
+import type { MegaGroupsAction } from '../types/mega-groups-episode';
+import type { MusicVideoAction } from '../types/music-video-episode';
+import type { PhotoshootAction } from '../types/photoshoot-episode';
+import type { SeasonRuntime, SimulationState } from '../types/simulation';
+import type { SpecialtiesAction } from '../types/specialties-episode';
+import type { TrackSpecialsAction } from '../types/track-specials-episode';
+import type { VarietyShowAction } from '../types/variety-show-episode';
+import type { VersatilityAction } from '../types/versatility-episode';
 import type { TRACKS } from '../utilities/constants';
-import { selectDiverseContestants } from '../utilities/simulation-helpers';
-
-const SECRET_CARDS = secretCardsData as Dictionary<AttributeCard>;
-const AUDITION_SONGS = auditionSongsData as PerformanceSong[];
+import { createSeasonCastProfiles } from '../utilities/contestant-profile';
+import { isSeasonRankingVisible, projectSeasonCast } from '../utilities/episode-visibility';
 
 export function SimulationPage() {
   const { contestants: contestantsData } = useContestantsContext();
   const simulationState = useSelector(simulationStore, (state) => state);
   const [isInitializing, setIsInitializing] = useState(false);
-  const [isRunningEpisode, setIsRunningEpisode] = useState(false);
   const [progress, setProgress] = useState(0);
   const [progressText, setProgressText] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [useBias, setUseBias] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [inspectionSnapshot, setInspectionSnapshot] = useState<SimulationState | null>(null);
+  const inspectContestant = (id: string | null, snapshot: SimulationState | null = null) => {
+    setInspectionSnapshot(snapshot);
+    setSelectedId(id);
+  };
+
+  const handleAuditionAction = (action: AuditionAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchAudition(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next audition scene.');
+    }
+  };
+
+  const handleBattleAction = (action: BattleAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchBattle(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next battle scene.');
+    }
+  };
+
+  const handleBootcampAction = (action: BootcampAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchBootcamp(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Boot Camp scene.');
+    }
+  };
+
+  const handleMegaGroupsAction = (action: MegaGroupsAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchMegaGroups(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Mega Groups scene.');
+    }
+  };
+
+  const handlePhotoshootAction = (action: PhotoshootAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchPhotoshoot(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Photoshoot scene.');
+    }
+  };
+  const handleTrackSpecialsAction = (action: TrackSpecialsAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchTrackSpecials(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Track Specials scene.');
+    }
+  };
+  const handleVersatilityAction = (action: VersatilityAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchVersatility(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Versatility scene.');
+    }
+  };
+  const handleVarietyShowAction = (action: VarietyShowAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchVarietyShow(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Variety Show scene.');
+    }
+  };
+  const handleMusicVideoAction = (action: MusicVideoAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchMusicVideo(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Music Videos scene.');
+    }
+  };
+  const handleSpecialtiesAction = (action: SpecialtiesAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchSpecialties(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Specialties scene.');
+    }
+  };
+  const handleFinaleAction = (action: FinaleAction, revision: number) => {
+    try {
+      setError(null);
+      simulationActions.dispatchFinale(action, revision);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Could not save the next Finale scene.');
+    }
+  };
 
   const handleStartSimulation = async () => {
     setIsInitializing(true);
@@ -50,32 +168,24 @@ export function SimulationPage() {
     setProgress(0);
 
     try {
-      // Step 1: Select 50 diverse contestants
       setProgressText('Selecting 50 diverse contestants...');
       setProgress(20);
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const selectedIds = selectDiverseContestants(contestantsData, useBias);
-
-      // Step 2: Assign cards and apply influences
       setProgressText('Assigning attribute cards and calculating influences...');
       setProgress(40);
       await new Promise((resolve) => setTimeout(resolve, 300));
 
-      const processedContestants = processSimulationContestants(selectedIds, contestantsData);
-
-      // Step 3: Initialize simulation
       setProgressText('Initializing simulation state...');
       setProgress(80);
       await new Promise((resolve) => setTimeout(resolve, 200));
 
-      simulationActions.initializeSimulation(processedContestants);
+      simulationActions.initializeSimulation(contestantsData, { useBias });
 
       setProgressText('Simulation ready!');
       setProgress(100);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
-      simulationActions.setStatus('idle');
     } finally {
       setIsInitializing(false);
     }
@@ -83,48 +193,155 @@ export function SimulationPage() {
 
   const handleClearSimulation = () => {
     if (window.confirm('Are you sure you want to clear the current simulation? This cannot be undone.')) {
-      simulationActions.clearSimulation();
-      setProgress(0);
-      setProgressText('');
-      setError(null);
-    }
-  };
-
-  const handleRunEpisode1 = async () => {
-    setIsRunningEpisode(true);
-    setError(null);
-    setProgress(0);
-
-    try {
-      setProgressText('Running Episode 1: Auditions...');
-      setProgress(20);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      setProgressText('Contestants selecting songs...');
-      setProgress(40);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      setProgressText('Calculating performances and grading...');
-      setProgress(60);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-
-      // Run episode
-      simulationActions.runEpisode1(AUDITION_SONGS);
-
-      setProgressText('Episode 1 complete!');
-      setProgress(100);
-      await new Promise((resolve) => setTimeout(resolve, 500));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
-    } finally {
-      setIsRunningEpisode(false);
-      setProgress(0);
-      setProgressText('');
+      try {
+        simulationActions.clearSimulation();
+        setProgress(0);
+        setProgressText('');
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Could not clear the saved simulation.');
+      }
     }
   };
 
   const hasSimulation = simulationState.contestants.length > 0;
-  const currentEpisode = simulationState.episode;
+  const specialtiesArchiveState: SimulationState = simulationState.runtime?.finale
+    ? {
+        ...simulationState,
+        contestants: simulationState.runtime.finale.startingContestants,
+        runtime: {
+          ...simulationState.runtime,
+          finale: undefined,
+          episode: 10,
+          phase: 'episode-complete',
+          show: simulationState.runtime.finale.startingShow,
+          revealedSecrets: simulationState.runtime.finale.startingRevealedSecrets,
+          deferredConsequences: simulationState.runtime.finale.startingDeferredConsequences,
+        },
+      }
+    : simulationState;
+  const musicVideoArchiveState: SimulationState = specialtiesArchiveState.runtime?.specialties
+    ? {
+        ...specialtiesArchiveState,
+        contestants: specialtiesArchiveState.runtime.specialties.startingContestants,
+        runtime: {
+          ...specialtiesArchiveState.runtime,
+          specialties: undefined,
+          episode: 9,
+          phase: 'episode-complete',
+          show: specialtiesArchiveState.runtime.specialties.startingShow,
+          revealedSecrets: specialtiesArchiveState.runtime.specialties.startingRevealedSecrets,
+          deferredConsequences: specialtiesArchiveState.runtime.specialties.startingDeferredConsequences,
+        },
+      }
+    : specialtiesArchiveState;
+  const varietyShowArchiveState: SimulationState = musicVideoArchiveState.runtime?.musicVideo
+    ? {
+        ...musicVideoArchiveState,
+        contestants: musicVideoArchiveState.runtime.musicVideo.startingContestants,
+        runtime: {
+          ...musicVideoArchiveState.runtime,
+          musicVideo: undefined,
+          episode: 8,
+          phase: 'episode-complete',
+          show: musicVideoArchiveState.runtime.musicVideo.startingShow,
+          revealedSecrets: musicVideoArchiveState.runtime.revealedSecrets.filter((entry) =>
+            musicVideoArchiveState
+              .runtime!.musicVideo!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : musicVideoArchiveState;
+  const versatilityArchiveState: SimulationState = varietyShowArchiveState.runtime?.varietyShow
+    ? {
+        ...varietyShowArchiveState,
+        contestants: varietyShowArchiveState.runtime.varietyShow.startingContestants,
+        runtime: {
+          ...varietyShowArchiveState.runtime,
+          varietyShow: undefined,
+          episode: 7,
+          phase: 'episode-complete',
+          show: varietyShowArchiveState.runtime.varietyShow.startingShow,
+          revealedSecrets: varietyShowArchiveState.runtime.revealedSecrets.filter((entry) =>
+            varietyShowArchiveState
+              .runtime!.varietyShow!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : varietyShowArchiveState;
+  const trackSpecialsArchiveState: SimulationState = versatilityArchiveState.runtime?.versatility
+    ? {
+        ...versatilityArchiveState,
+        contestants: versatilityArchiveState.runtime.versatility.startingContestants,
+        runtime: {
+          ...versatilityArchiveState.runtime,
+          versatility: undefined,
+          episode: 6,
+          phase: 'episode-complete',
+          revealedSecrets: versatilityArchiveState.runtime.revealedSecrets.filter((entry) =>
+            versatilityArchiveState
+              .runtime!.versatility!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : versatilityArchiveState;
+  const photoshootArchiveState: SimulationState = trackSpecialsArchiveState.runtime?.trackSpecials
+    ? {
+        ...trackSpecialsArchiveState,
+        contestants: trackSpecialsArchiveState.runtime.trackSpecials.startingContestants,
+        runtime: {
+          ...trackSpecialsArchiveState.runtime,
+          trackSpecials: undefined,
+          episode: 5,
+          phase: 'episode-complete',
+          revealedSecrets: trackSpecialsArchiveState.runtime.revealedSecrets.filter((entry) =>
+            trackSpecialsArchiveState
+              .runtime!.trackSpecials!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : trackSpecialsArchiveState;
+  const megaGroupsArchiveState = photoshootArchiveState.runtime?.photoshoot
+    ? {
+        ...photoshootArchiveState,
+        contestants: photoshootArchiveState.runtime.photoshoot.startingContestants,
+        runtime: {
+          ...photoshootArchiveState.runtime,
+          photoshoot: undefined,
+          revealedSecrets: photoshootArchiveState.runtime.revealedSecrets.filter((entry) =>
+            photoshootArchiveState
+              .runtime!.photoshoot!.startingContestants.find((person) => person.id === entry.contestantId)
+              ?.events.includes(`SECRET_REVEALED:${entry.cardId}`),
+          ),
+        },
+      }
+    : photoshootArchiveState;
+  const bootcampArchiveState = megaGroupsArchiveState.runtime?.megaGroups
+    ? {
+        ...megaGroupsArchiveState,
+        contestants: megaGroupsArchiveState.runtime.megaGroups.startingContestants,
+        runtime: { ...megaGroupsArchiveState.runtime, megaGroups: undefined },
+      }
+    : megaGroupsArchiveState;
+  const archivedState = bootcampArchiveState.runtime?.bootcamp
+    ? {
+        ...bootcampArchiveState,
+        contestants: bootcampArchiveState.runtime.bootcamp.startingContestants,
+        runtime: { ...bootcampArchiveState.runtime, bootcamp: undefined },
+      }
+    : bootcampArchiveState;
+  const AuditionView =
+    simulationState.runtime && simulationState.runtime.version !== 1
+      ? NarrativeAuditionView
+      : AuditionEpisodeView;
+  const BattleView =
+    simulationState.runtime && simulationState.runtime.version !== 1
+      ? NarrativeBattleView
+      : BattleEpisodeView;
 
   return (
     <Content>
@@ -135,6 +352,27 @@ export function SimulationPage() {
         Initialize a new survival show simulation with 50 diverse contestants. The system will automatically
         assign personas, attributes, and calculate initial statistics.
       </Typography.Paragraph>
+      <Alert
+        description={
+          simulationState.runtime && simulationState.runtime.version !== 3
+            ? 'Follow fifty contestants through Auditions, then the final thirty into dorm life, team drafts and Group Battles. Eighteen will survive Episode 2.'
+            : 'Follow fifty contestants through Auditions, then thirty into dorm life, captain-led drafts and The Battles. Discover the results as each episode unfolds.'
+        }
+        showIcon
+        style={{ marginBottom: '1rem' }}
+        title="The Search"
+        type="info"
+      />
+
+      {simulationState.persistenceError && (
+        <Alert
+          description={simulationState.persistenceError}
+          showIcon
+          style={{ marginBottom: '1rem' }}
+          title="Saved Simulation Error"
+          type="error"
+        />
+      )}
 
       {error && (
         <Alert
@@ -142,7 +380,7 @@ export function SimulationPage() {
           description={error}
           showIcon
           style={{ marginBottom: '1rem' }}
-          title="Initialization Error"
+          title="Simulation Error"
           type="error"
         />
       )}
@@ -154,7 +392,7 @@ export function SimulationPage() {
           <ul>
             <li>Select 50 diverse contestants from Firestore (~23 VOCAL, ~14 RAP, ~14 DANCE)</li>
             <li>Assign unique persona cards to each contestant</li>
-            <li>Add identity, interest, and secret attribute cards</li>
+            <li>Add identity, interest, lifestyle, history, quirk, and secret attribute cards</li>
             <li>Calculate influences from all cards and specialties</li>
             <li>Initialize relationships between all contestants</li>
             <li>Create baseline statistics for the competition</li>
@@ -190,232 +428,514 @@ export function SimulationPage() {
         </Card>
       )}
 
-      {isRunningEpisode && (
-        <Card style={{ marginTop: '2rem', maxWidth: '800px' }}>
-          <Typography.Title level={3}>Running Episode {currentEpisode + 1}...</Typography.Title>
-          <Progress percent={progress} status="active" />
-          <Typography.Paragraph style={{ marginTop: '1rem' }}>{progressText}</Typography.Paragraph>
-        </Card>
-      )}
-
       {hasSimulation && !isInitializing && (
         <>
-          <EpisodeTimeline
-            currentEpisode={currentEpisode}
-            isRunningEpisode={isRunningEpisode}
-            onClearSimulation={handleClearSimulation}
-            onRunEpisode1={handleRunEpisode1}
+          {simulationState.runtime ? (
+            <>
+              {simulationState.runtime.version === 1 && (
+                <Typography.Paragraph type="secondary">
+                  Seed: {simulationState.runtime.seed}. Songs, source profiles and definitions are frozen for
+                  this season.
+                </Typography.Paragraph>
+              )}
+              {simulationState.runtime.photoshoot ? (
+                <>
+                  {simulationState.runtime.trackSpecials ? (
+                    <>
+                      {simulationState.runtime.versatility ? (
+                        <>
+                          {simulationState.runtime.varietyShow ? (
+                            <>
+                              {simulationState.runtime.musicVideo ? (
+                                <>
+                                  {simulationState.runtime.specialties ? (
+                                    <>
+                                      {simulationState.runtime.finale ? (
+                                        <>
+                                          <FinaleEpisodeView
+                                            actionError={error}
+                                            key={`${simulationState.runtime.runId}-finale`}
+                                            onAction={handleFinaleAction}
+                                            onInspect={inspectContestant}
+                                            state={simulationState}
+                                          />
+                                          <Collapse
+                                            items={[
+                                              {
+                                                key: 'specialties',
+                                                label: 'Episode 10 — Specialties archive',
+                                                children: (
+                                                  <SpecialtiesEpisodeView
+                                                    onAction={handleSpecialtiesAction}
+                                                    onInspect={(id) =>
+                                                      inspectContestant(id, specialtiesArchiveState)
+                                                    }
+                                                    state={specialtiesArchiveState}
+                                                  />
+                                                ),
+                                              },
+                                            ]}
+                                            style={{ marginTop: 16 }}
+                                          />
+                                        </>
+                                      ) : (
+                                        <>
+                                          <SpecialtiesEpisodeView
+                                            actionError={error}
+                                            key={`${simulationState.runtime.runId}-specialties`}
+                                            onAction={handleSpecialtiesAction}
+                                            onInspect={inspectContestant}
+                                            state={simulationState}
+                                          />
+                                          {simulationState.runtime.specialties.phase === 'complete' && (
+                                            <FinaleEpisodeView
+                                              actionError={error}
+                                              onAction={handleFinaleAction}
+                                              onInspect={inspectContestant}
+                                              state={simulationState}
+                                            />
+                                          )}
+                                        </>
+                                      )}
+                                      <Collapse
+                                        items={[
+                                          {
+                                            key: 'music-video',
+                                            label: 'Episode 9 — Music Videos archive',
+                                            children: (
+                                              <MusicVideoEpisodeView
+                                                onAction={handleMusicVideoAction}
+                                                onInspect={(id) =>
+                                                  inspectContestant(id, musicVideoArchiveState)
+                                                }
+                                                state={musicVideoArchiveState}
+                                              />
+                                            ),
+                                          },
+                                        ]}
+                                        style={{ marginTop: 16 }}
+                                      />
+                                    </>
+                                  ) : (
+                                    <>
+                                      <MusicVideoEpisodeView
+                                        actionError={error}
+                                        key={`${simulationState.runtime.runId}-music-video`}
+                                        onAction={handleMusicVideoAction}
+                                        onInspect={inspectContestant}
+                                        state={simulationState}
+                                      />
+                                      {simulationState.runtime.musicVideo.phase === 'complete' && (
+                                        <SpecialtiesEpisodeView
+                                          actionError={error}
+                                          onAction={handleSpecialtiesAction}
+                                          onInspect={inspectContestant}
+                                          state={simulationState}
+                                        />
+                                      )}
+                                    </>
+                                  )}
+                                  <Collapse
+                                    items={[
+                                      {
+                                        key: 'variety-show',
+                                        label: 'Episode 8 — Variety Show archive',
+                                        children: (
+                                          <VarietyShowEpisodeView
+                                            onAction={handleVarietyShowAction}
+                                            onInspect={(id) => inspectContestant(id, varietyShowArchiveState)}
+                                            state={varietyShowArchiveState}
+                                          />
+                                        ),
+                                      },
+                                    ]}
+                                    style={{ marginTop: 16 }}
+                                  />
+                                </>
+                              ) : (
+                                <>
+                                  <VarietyShowEpisodeView
+                                    actionError={error}
+                                    key={`${simulationState.runtime.runId}-variety-show`}
+                                    onAction={handleVarietyShowAction}
+                                    onInspect={inspectContestant}
+                                    state={simulationState}
+                                  />
+                                  {simulationState.runtime.varietyShow.phase === 'complete' && (
+                                    <MusicVideoEpisodeView
+                                      actionError={error}
+                                      onAction={handleMusicVideoAction}
+                                      onInspect={inspectContestant}
+                                      state={simulationState}
+                                    />
+                                  )}
+                                </>
+                              )}
+                              <Collapse
+                                items={[
+                                  {
+                                    key: 'versatility',
+                                    label: 'Episode 7 — Versatility archive',
+                                    children: (
+                                      <VersatilityEpisodeView
+                                        onAction={handleVersatilityAction}
+                                        onInspect={(id) => inspectContestant(id, versatilityArchiveState)}
+                                        state={versatilityArchiveState}
+                                      />
+                                    ),
+                                  },
+                                ]}
+                                style={{ marginTop: 16 }}
+                              />
+                            </>
+                          ) : (
+                            <>
+                              <VersatilityEpisodeView
+                                actionError={error}
+                                key={`${simulationState.runtime.runId}-versatility`}
+                                onAction={handleVersatilityAction}
+                                onInspect={inspectContestant}
+                                state={simulationState}
+                              />
+                              {simulationState.runtime.versatility.phase === 'complete' && (
+                                <VarietyShowEpisodeView
+                                  actionError={error}
+                                  onAction={handleVarietyShowAction}
+                                  onInspect={inspectContestant}
+                                  state={simulationState}
+                                />
+                              )}
+                            </>
+                          )}
+                          <Collapse
+                            items={[
+                              {
+                                key: 'track-specials',
+                                label: 'Episode 6 — Track Specials archive',
+                                children: (
+                                  <TrackSpecialsEpisodeView
+                                    onAction={handleTrackSpecialsAction}
+                                    onInspect={(id) => inspectContestant(id, trackSpecialsArchiveState)}
+                                    state={trackSpecialsArchiveState}
+                                  />
+                                ),
+                              },
+                            ]}
+                            style={{ marginTop: 16 }}
+                          />
+                        </>
+                      ) : (
+                        <>
+                          <TrackSpecialsEpisodeView
+                            actionError={error}
+                            key={`${simulationState.runtime.runId}-track-specials`}
+                            onAction={handleTrackSpecialsAction}
+                            onInspect={inspectContestant}
+                            state={simulationState}
+                          />
+                          {simulationState.runtime.trackSpecials.phase === 'complete' && (
+                            <VersatilityEpisodeView
+                              actionError={error}
+                              onAction={handleVersatilityAction}
+                              onInspect={inspectContestant}
+                              state={simulationState}
+                            />
+                          )}
+                        </>
+                      )}
+                      <Collapse
+                        items={[
+                          {
+                            key: 'photoshoot',
+                            label: 'Episode 5 — The Photoshoot archive',
+                            children: (
+                              <PhotoshootEpisodeView
+                                onAction={handlePhotoshootAction}
+                                onInspect={(id) => inspectContestant(id, photoshootArchiveState)}
+                                state={photoshootArchiveState}
+                              />
+                            ),
+                          },
+                        ]}
+                        style={{ marginTop: 16 }}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <PhotoshootEpisodeView
+                        actionError={error}
+                        key={`${simulationState.runtime.runId}-photoshoot`}
+                        onAction={handlePhotoshootAction}
+                        onInspect={inspectContestant}
+                        state={simulationState}
+                      />
+                      {simulationState.runtime.photoshoot.phase === 'complete' && (
+                        <TrackSpecialsEpisodeView
+                          actionError={error}
+                          onAction={handleTrackSpecialsAction}
+                          onInspect={inspectContestant}
+                          state={simulationState}
+                        />
+                      )}
+                    </>
+                  )}
+                  <Collapse
+                    items={[
+                      {
+                        key: 'mega-groups',
+                        label: 'Episode 4 — Mega Groups archive',
+                        children: (
+                          <MegaGroupsEpisodeView
+                            onAction={handleMegaGroupsAction}
+                            onInspect={(id) => inspectContestant(id, megaGroupsArchiveState)}
+                            state={megaGroupsArchiveState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'bootcamp',
+                        label: 'Episode 3 — Boot Camp archive',
+                        children: (
+                          <BootcampEpisodeView
+                            onAction={handleBootcampAction}
+                            onInspect={(id) => inspectContestant(id, bootcampArchiveState)}
+                            state={bootcampArchiveState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'battles',
+                        label: 'Episode 2 — The Battles archive',
+                        children: (
+                          <BattleView
+                            onAction={handleBattleAction}
+                            onInspect={(id) => inspectContestant(id, archivedState)}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'auditions',
+                        label: 'Episode 1 — Auditions archive',
+                        children: (
+                          <AuditionView
+                            onAction={handleAuditionAction}
+                            onInspect={(id) => inspectContestant(id, archivedState)}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                    ]}
+                    style={{ marginTop: 16 }}
+                  />
+                </>
+              ) : simulationState.runtime.megaGroups ? (
+                <>
+                  <MegaGroupsEpisodeView
+                    actionError={error}
+                    key={`${simulationState.runtime.runId}-mega-groups`}
+                    onAction={handleMegaGroupsAction}
+                    onInspect={setSelectedId}
+                    state={simulationState}
+                  />
+                  {simulationState.runtime.megaGroups.phase === 'complete' && (
+                    <PhotoshootEpisodeView
+                      actionError={error}
+                      onAction={handlePhotoshootAction}
+                      onInspect={setSelectedId}
+                      state={simulationState}
+                    />
+                  )}
+                  <Collapse
+                    items={[
+                      {
+                        key: 'bootcamp',
+                        label: 'Episode 3 — Boot Camp archive',
+                        children: (
+                          <BootcampEpisodeView
+                            onAction={handleBootcampAction}
+                            onInspect={setSelectedId}
+                            state={bootcampArchiveState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'battles',
+                        label: 'Episode 2 — The Battles archive',
+                        children: (
+                          <BattleView
+                            onAction={handleBattleAction}
+                            onInspect={setSelectedId}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'auditions',
+                        label: 'Episode 1 — Auditions archive',
+                        children: (
+                          <AuditionView
+                            onAction={handleAuditionAction}
+                            onInspect={setSelectedId}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                    ]}
+                    style={{ marginTop: 16 }}
+                  />
+                </>
+              ) : simulationState.runtime.bootcamp ? (
+                <>
+                  <BootcampEpisodeView
+                    actionError={error}
+                    key={`${simulationState.runtime.runId}-bootcamp`}
+                    onAction={handleBootcampAction}
+                    onInspect={setSelectedId}
+                    state={simulationState}
+                  />
+                  {simulationState.runtime.bootcamp.phase === 'complete' && (
+                    <MegaGroupsEpisodeView
+                      actionError={error}
+                      onAction={handleMegaGroupsAction}
+                      onInspect={setSelectedId}
+                      state={simulationState}
+                    />
+                  )}
+                  <Collapse
+                    items={[
+                      {
+                        key: 'battles',
+                        label: 'Episode 2 — The Battles archive',
+                        children: (
+                          <BattleView
+                            onAction={handleBattleAction}
+                            onInspect={setSelectedId}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                      {
+                        key: 'auditions',
+                        label: 'Episode 1 — Auditions archive',
+                        children: (
+                          <AuditionView
+                            onAction={handleAuditionAction}
+                            onInspect={setSelectedId}
+                            state={archivedState}
+                          />
+                        ),
+                      },
+                    ]}
+                    style={{ marginTop: 16 }}
+                  />
+                </>
+              ) : simulationState.runtime.battle ? (
+                <>
+                  <BattleView
+                    actionError={error ?? undefined}
+                    key={`${simulationState.runtime.runId}-battles`}
+                    onAction={handleBattleAction}
+                    onInspect={setSelectedId}
+                    state={simulationState}
+                  />
+                  {simulationState.runtime.version === 3 &&
+                    simulationState.runtime.battle.phase === 'complete' && (
+                      <BootcampEpisodeView
+                        actionError={error}
+                        onAction={handleBootcampAction}
+                        onInspect={setSelectedId}
+                        state={simulationState}
+                      />
+                    )}
+                  <Collapse
+                    items={[
+                      {
+                        key: 'auditions',
+                        label: 'Episode 1 — Auditions archive',
+                        children: (
+                          <AuditionView
+                            onAction={handleAuditionAction}
+                            onInspect={setSelectedId}
+                            state={simulationState}
+                          />
+                        ),
+                      },
+                    ]}
+                    style={{ marginTop: 16 }}
+                  />
+                </>
+              ) : (
+                <>
+                  <AuditionView
+                    actionError={error ?? undefined}
+                    key={simulationState.runtime.runId}
+                    onAction={handleAuditionAction}
+                    onInspect={setSelectedId}
+                    state={simulationState}
+                  />
+                  {simulationState.runtime.audition?.phase === 'complete' && (
+                    <BattleView
+                      actionError={error ?? undefined}
+                      onAction={handleBattleAction}
+                      onInspect={setSelectedId}
+                      state={simulationState}
+                    />
+                  )}
+                </>
+              )}
+            </>
+          ) : (
+            <Alert
+              description="This older setup has no seed or frozen definitions. You can inspect it, but start a new simulation to use the audition foundations."
+              showIcon
+              style={{ marginTop: '1rem' }}
+              title="Legacy Setup"
+              type="warning"
+            />
+          )}
+          <Space align="start" style={{ marginTop: '2rem' }} wrap>
+            <Button danger onClick={handleClearSimulation}>
+              Clear Simulation
+            </Button>
+            <CopyShowSoFar key={simulationState.runtime?.runId} state={simulationState} />
+          </Space>
+          <SimulationOverview
+            contestants={simulationState.contestants}
+            inspectionSnapshot={inspectionSnapshot}
+            onSelect={inspectContestant}
+            runtime={simulationState.runtime}
+            selectedId={selectedId}
           />
-
-          <SimulationTabs contestants={simulationState.contestants} currentEpisode={currentEpisode} />
         </>
       )}
     </Content>
   );
 }
 
-interface EpisodeTimelineProps {
-  currentEpisode: number;
-  isRunningEpisode: boolean;
-  onRunEpisode1: () => void;
-  onClearSimulation: () => void;
-}
-
-function EpisodeTimeline({
-  currentEpisode,
-  isRunningEpisode,
-  onRunEpisode1,
-  onClearSimulation,
-}: EpisodeTimelineProps) {
-  const episodes = [
-    {
-      number: 1,
-      title: 'Auditions',
-      description: 'All 50 contestants perform their audition songs and receive grades',
-      details: [
-        'Contestants select songs based on skill match and personality',
-        'Performance scores calculated with execution, modifiers, and RNG variance',
-        "Grades assigned with producer interference and quotas (6 A's, 20 F's)",
-        'Relationships updated and screen time allocated via narrative tiers',
-      ],
-    },
-    {
-      number: 2,
-      title: 'Episode 2',
-      description: 'Coming soon...',
-      details: [],
-    },
-    {
-      number: 3,
-      title: 'Episode 3',
-      description: 'Coming soon...',
-      details: [],
-    },
-  ];
-
-  const getEpisodeStatus = (episodeNum: number) => {
-    if (episodeNum < currentEpisode) return 'completed';
-    if (episodeNum === currentEpisode) return 'current';
-    return 'locked';
-  };
-
-  const getStatusTag = (episodeNum: number) => {
-    const status = getEpisodeStatus(episodeNum);
-    if (status === 'completed') return <Tag color="green">Completed</Tag>;
-    if (status === 'current') return <Tag color="blue">Available</Tag>;
-    return <Tag>Locked</Tag>;
-  };
-
-  return (
-    <Card style={{ marginTop: '2rem' }}>
-      <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-        <div>
-          <Typography.Title level={2}>
-            <RocketOutlined /> Episode Timeline
-          </Typography.Title>
-          <Typography.Paragraph>
-            Progress through the competition by running episodes. Each episode simulates key events and
-            updates contestant stats.
-          </Typography.Paragraph>
-        </div>
-
-        <Row gutter={[16, 16]}>
-          {episodes.map((ep) => {
-            const status = getEpisodeStatus(ep.number);
-            const isAvailable = ep.number === currentEpisode + 1;
-            const isImplemented = ep.number === 1; // Only Episode 1 is implemented
-
-            return (
-              <Col key={ep.number} lg={8} md={12} sm={24} xs={24}>
-                <Card
-                  size="small"
-                  style={{
-                    backgroundColor:
-                      status === 'completed' ? '#f6ffed' : status === 'current' ? '#e6f7ff' : '#fafafa',
-                    borderColor:
-                      status === 'completed' ? '#52c41a' : status === 'current' ? '#1890ff' : '#d9d9d9',
-                  }}
-                  title={
-                    <Space>
-                      <Typography.Text strong>
-                        Episode {ep.number}: {ep.title}
-                      </Typography.Text>
-                      {getStatusTag(ep.number)}
-                    </Space>
-                  }
-                >
-                  <Typography.Paragraph>{ep.description}</Typography.Paragraph>
-                  {ep.details.length > 0 && (
-                    <ul style={{ fontSize: '12px', marginBottom: '1rem', paddingLeft: '1.2rem' }}>
-                      {ep.details.map((detail, idx) => (
-                        <li key={idx}>{detail}</li>
-                      ))}
-                    </ul>
-                  )}
-                  {isAvailable && isImplemented && (
-                    <Button
-                      block
-                      disabled={isRunningEpisode}
-                      icon={<ThunderboltOutlined />}
-                      loading={isRunningEpisode}
-                      onClick={ep.number === 1 ? onRunEpisode1 : undefined}
-                      type="primary"
-                    >
-                      Run Episode {ep.number}
-                    </Button>
-                  )}
-                  {isAvailable && !isImplemented && (
-                    <Button block disabled type="default">
-                      Coming Soon
-                    </Button>
-                  )}
-                  {status === 'completed' && (
-                    <Tag color="success" style={{ width: '100%', textAlign: 'center' }}>
-                      ✓ Episode Completed
-                    </Tag>
-                  )}
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
-
-        <div style={{ borderTop: '1px solid #f0f0f0', paddingTop: '1rem' }}>
-          <Space>
-            <Typography.Text type="secondary">
-              Current Episode: {currentEpisode} | Next: Episode {currentEpisode + 1}
-            </Typography.Text>
-            <Button danger onClick={onClearSimulation}>
-              Clear Simulation
-            </Button>
-          </Space>
-        </div>
-      </Space>
-    </Card>
-  );
-}
-
-interface SimulationTabsProps {
+function SimulationOverview({
+  contestants: canonicalContestants,
+  runtime,
+  inspectionSnapshot,
+  selectedId,
+  onSelect,
+}: {
   contestants: Contestant[];
-  currentEpisode: number;
-}
-
-function SimulationTabs({ contestants, currentEpisode }: SimulationTabsProps) {
-  const tabItems = [
-    {
-      key: 'contestants',
-      label: (
-        <span>
-          <TableOutlined /> Contestants
-        </span>
-      ),
-      children: <SimulationOverview contestants={contestants} episode={currentEpisode} />,
-    },
-  ];
-
-  // Add episode tabs for completed episodes
-  if (currentEpisode >= 1) {
-    tabItems.push({
-      key: 'episode-1',
-      label: (
-        <span>
-          <RocketOutlined /> Episode 1: Auditions
-        </span>
-      ),
-      children: <EpisodeNarrative contestants={contestants} episode={1} />,
-    });
-  }
-
-  // Add placeholders for future episodes
-  if (currentEpisode >= 2) {
-    tabItems.push({
-      key: 'episode-2',
-      label: (
-        <span>
-          <RocketOutlined /> Episode 2
-        </span>
-      ),
-      children: <EpisodeNarrative contestants={contestants} episode={2} />,
-    });
-  }
-
-  return (
-    <div style={{ marginTop: '2rem' }}>
-      <Tabs defaultActiveKey="contestants" items={tabItems} size="large" type="card" />
-    </div>
-  );
-}
-
-interface SimulationOverviewProps {
-  contestants: Contestant[];
-  episode: number;
-  onClear?: () => void; // Optional now since EpisodeTimeline has the main clear button
-}
-
-function SimulationOverview({ contestants, episode }: SimulationOverviewProps) {
+  runtime: SeasonRuntime | null;
+  inspectionSnapshot: SimulationState | null;
+  selectedId: string | null;
+  onSelect: (id: string | null) => void;
+}) {
   const [viewMode, setViewMode] = useState<'table' | 'cards'>('table');
-  const [selectedContestant, setSelectedContestant] = useState<Contestant | null>(null);
   const [pageSize, setPageSize] = useState(10);
+  const contestants = runtime ? projectSeasonCast(canonicalContestants, runtime) : canonicalContestants;
+  const inspectionRuntime = inspectionSnapshot?.runtime ?? runtime;
+  const inspectionCast = inspectionSnapshot?.runtime
+    ? projectSeasonCast(inspectionSnapshot.contestants, inspectionSnapshot.runtime)
+    : contestants;
+  const selectedContestant = inspectionCast.find((contestant) => contestant.id === selectedId) ?? null;
+  const evaluatedIds = new Set(runtime?.audition?.evaluations.map((evaluation) => evaluation.contestantId));
+  const hasGrade = (id: string) => !runtime || evaluatedIds.has(id);
   const trackCounts = contestants.reduce(
     (acc, c) => {
       acc[c.track] = (acc[c.track] || 0) + 1;
@@ -424,26 +944,32 @@ function SimulationOverview({ contestants, episode }: SimulationOverviewProps) {
     {} as Record<string, number>,
   );
 
-  const gradeCounts = contestants.reduce(
-    (acc, c) => {
-      acc[c.grade] = (acc[c.grade] || 0) + 1;
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
+  const gradeCounts = contestants
+    .filter((contestant) => hasGrade(contestant.id))
+    .reduce(
+      (acc, c) => {
+        acc[c.grade] = (acc[c.grade] || 0) + 1;
+        return acc;
+      },
+      {} as Record<string, number>,
+    );
 
-  const secretCount = contestants.filter((c) => c.attributes.some((id) => SECRET_CARDS[id])).length;
-
+  const activeStatusLabel =
+    runtime?.audition && ['mvp', 'secret', 'complete'].includes(runtime.audition.phase)
+      ? 'Surviving'
+      : 'In cast';
   const columns = [
-    {
-      title: 'Rank',
-      dataIndex: 'rank',
-      key: 'rank',
-      width: 80,
-      render: (rank: number) => (rank > 0 ? `#${rank}` : '—'),
-      sorter: (a: Contestant, b: Contestant) => a.rank - b.rank,
-      defaultSortOrder: 'ascend' as const,
-    },
+    ...(isSeasonRankingVisible(runtime)
+      ? [
+          {
+            title: 'Rank',
+            dataIndex: 'rank',
+            key: 'rank',
+            width: 75,
+            sorter: (a: Contestant, b: Contestant) => a.rank - b.rank,
+          },
+        ]
+      : []),
     {
       title: 'ID',
       dataIndex: 'id',
@@ -475,29 +1001,40 @@ function SimulationOverview({ contestants, episode }: SimulationOverviewProps) {
       sorter: (a: Contestant, b: Contestant) => a.track.localeCompare(b.track),
     },
     {
-      title: 'Grade',
+      title: runtime?.battle ? 'Latest grade' : 'Grade',
       dataIndex: 'grade',
       key: 'grade',
       width: 80,
-      sorter: (a: Contestant, b: Contestant) => a.grade.localeCompare(b.grade),
+      render: (grade: string, contestant: Contestant) => (hasGrade(contestant.id) ? grade : 'Not performed'),
+      sorter: (a: Contestant, b: Contestant) =>
+        (hasGrade(a.id) ? a.grade : 'Not performed').localeCompare(
+          hasGrade(b.id) ? b.grade : 'Not performed',
+        ),
     },
     {
       title: 'Status',
       dataIndex: 'status',
       key: 'status',
-      width: 100,
-      render: (status: string) => {
-        const color =
-          status === 'ACTIVE'
-            ? 'green'
-            : status === 'ELIMINATED'
-              ? 'red'
-              : status === 'WINNER'
-                ? 'gold'
-                : 'default';
-        return <Tag color={color}>{status}</Tag>;
-      },
       sorter: (a: Contestant, b: Contestant) => a.status.localeCompare(b.status),
+      filters: [
+        { text: activeStatusLabel, value: 'ACTIVE' },
+        { text: 'Departed', value: 'ELIMINATED' },
+      ],
+      onFilter: (value: Key | boolean, record: Contestant) => record.status === value,
+      render: (status: string, contestant: Contestant) =>
+        status === 'ELIMINATED'
+          ? runtime?.finale?.resultsPublished && runtime.finale.participantIds.includes(contestant.id)
+            ? 'Not selected'
+            : runtime?.versatility?.expelledId === contestant.id
+              ? 'Expelled'
+              : runtime?.megaGroups?.withdrawnId === contestant.id
+                ? 'Withdrew'
+                : 'Eliminated'
+          : status === 'WINNER'
+            ? runtime?.finale?.centerId === contestant.id
+              ? 'Center — Squirrel Zone'
+              : 'Squirrel Zone'
+            : activeStatusLabel,
     },
     {
       title: 'Persona',
@@ -507,517 +1044,218 @@ function SimulationOverview({ contestants, episode }: SimulationOverviewProps) {
       render: (persona: string) => persona || '—',
       sorter: (a: Contestant, b: Contestant) => (a.persona || '').localeCompare(b.persona || ''),
     },
-    {
-      title: 'Score',
-      dataIndex: ['aggregations', 'score'],
-      key: 'score',
-      width: 80,
-      sorter: (a: Contestant, b: Contestant) => a.aggregations.score - b.aggregations.score,
-    },
-    {
-      title: 'Rating',
-      dataIndex: 'missionRating',
-      key: 'missionRating',
-      width: 80,
-      render: (rating: number) => (
-        <Tag color={rating >= 4 ? 'green' : rating >= 3 ? 'blue' : rating >= 2 ? 'orange' : 'red'}>
-          {rating > 0 ? rating : '—'}
-        </Tag>
-      ),
-      sorter: (a: Contestant, b: Contestant) => a.missionRating - b.missionRating,
-    },
-    {
-      title: 'Screen Time',
-      dataIndex: ['aggregations', 'screenTime'],
-      key: 'screenTime',
-      width: 110,
-      render: (screenTime: number) => (screenTime > 0 ? `${screenTime.toFixed(1)}m` : '—'),
-      sorter: (a: Contestant, b: Contestant) => a.aggregations.screenTime - b.aggregations.screenTime,
-    },
-    {
-      title: 'Experience',
-      dataIndex: ['aggregations', 'experience'],
-      key: 'experience',
-      width: 100,
-      sorter: (a: Contestant, b: Contestant) => a.aggregations.experience - b.aggregations.experience,
-    },
   ];
 
-  return (
-    <div style={{ marginTop: '2rem' }}>
-      <Card>
-        <Space align="start" orientation="vertical" size="large" style={{ width: '100%' }}>
-          <div>
-            <Typography.Title level={2}>
-              {episode === 0 ? 'Simulation Ready' : `Episode ${episode} Complete`}
-            </Typography.Title>
-            <Typography.Paragraph>
-              {episode === 0
-                ? `Successfully initialized simulation with ${contestants.length} contestants.`
-                : `Episode ${episode} completed with ${contestants.length} contestants.`}
-            </Typography.Paragraph>
-          </div>
-
-          <Descriptions bordered column={2}>
-            <Descriptions.Item label="Total Contestants">{contestants.length}</Descriptions.Item>
-            <Descriptions.Item label="Current Episode">{episode}</Descriptions.Item>
-            <Descriptions.Item label="Secret Cards">{secretCount}</Descriptions.Item>
-            <Descriptions.Item label="VOCAL Track">{trackCounts.VOCAL || 0}</Descriptions.Item>
-            <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
-            <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
-            <Descriptions.Item label="Status">Ready</Descriptions.Item>
-          </Descriptions>
-
-          <div>
-            <Typography.Title level={4}>Grade Distribution</Typography.Title>
-            <Typography.Text>
-              A: {gradeCounts.A || 0} | B: {gradeCounts.B || 0} | C: {gradeCounts.C || 0} | D:{' '}
-              {gradeCounts.D || 0} | F: {gradeCounts.F || 0}
-            </Typography.Text>
-          </div>
-
-          <Space style={{ marginBottom: '1rem' }}>
-            <Button
-              icon={<TableOutlined />}
-              onClick={() => setViewMode('table')}
-              type={viewMode === 'table' ? 'primary' : 'default'}
-            >
-              Table View
-            </Button>
-            <Button
-              icon={<AppstoreOutlined />}
-              onClick={() => setViewMode('cards')}
-              type={viewMode === 'cards' ? 'primary' : 'default'}
-            >
-              Card View
-            </Button>
-          </Space>
-
-          {viewMode === 'table' ? (
-            <Table
-              columns={columns}
-              dataSource={contestants}
-              onRow={(record) => ({
-                onClick: () => setSelectedContestant(record),
-                style: { cursor: 'pointer' },
-              })}
-              pagination={{
-                pageSize,
-                showSizeChanger: true,
-                pageSizeOptions: [10, 20, 30, 50],
-                showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} contestants`,
-                onShowSizeChange: (_, newPageSize) => setPageSize(newPageSize),
-              }}
-              rowKey="id"
-              scroll={{ x: 800 }}
-              size="small"
-            />
-          ) : (
-            <Row gutter={[16, 16]}>
-              {contestants.map((contestant) => (
-                <Col key={contestant.id} lg={6} md={8} sm={12} xs={24}>
-                  <Card
-                    hoverable
-                    onClick={() => setSelectedContestant(contestant)}
-                    style={{ textAlign: 'center' }}
-                  >
-                    <ContestantAvatar
-                      enablePreview={false}
-                      id={contestant.id}
-                      name={contestant.name}
-                      size={80}
-                    />
-                    <Typography.Title level={5} style={{ marginTop: '0.5rem', marginBottom: '0.25rem' }}>
-                      {contestant.name}
-                    </Typography.Title>
-                    <Typography.Text type="secondary">{contestant.id}</Typography.Text>
-                    <div style={{ marginTop: '0.5rem' }}>
-                      <TrackTag track={contestant.track} />
-                      <Tag>{contestant.grade}</Tag>
-                    </div>
-                  </Card>
-                </Col>
-              ))}
-            </Row>
-          )}
-        </Space>
-      </Card>
-
-      <ContestantDetailModal
-        allContestants={contestants}
-        contestant={selectedContestant}
-        onClose={() => setSelectedContestant(null)}
-      />
-    </div>
-  );
-}
-
-interface EpisodeNarrativeProps {
-  contestants: Contestant[];
-  episode: number;
-}
-
-function EpisodeNarrative({ contestants, episode }: EpisodeNarrativeProps) {
-  const [selectedContestant, setSelectedContestant] = useState<Contestant | null>(null);
-
-  // Get episode data from changeLog
-  const episodeData = contestants
-    .map((c) => {
-      const log = c.changeLog.find((l) => l.episode === episode);
-      return {
-        contestant: c,
-        log,
-        tier: (log?.change.tier as number) || 5,
-        songId: (log?.change.songId as string) || '',
-        segment: (log?.change.segment as number) || 1,
-        commercialBreakAfter: log?.change.commercialBreakAfter as string | undefined,
-        summary: log?.summary || '',
-        grade: c.grade,
-        missionRating: log?.missionRating || 0,
-        rank: log?.rank || 0,
-      };
-    })
-    .filter((d) => d.log); // Only contestants with episode data
-
-  // Group by segment instead of tier
-  const segmentGroups = episodeData.reduce(
-    (acc, data) => {
-      const seg = data.segment;
-      if (!acc[seg]) {
-        acc[seg] = [];
-      }
-      acc[seg].push(data);
-      return acc;
-    },
-    {} as Record<number, typeof episodeData>,
-  );
-
-  // Sort contestants within each segment by rank (edit order)
-  Object.values(segmentGroups).forEach((group) => {
-    group.sort((a, b) => a.rank - b.rank);
-  });
-
-  // Calculate statistics
-  const gradeCounts = contestants.reduce(
-    (acc, c) => {
-      acc[c.grade] = (acc[c.grade] || 0) + 1;
-      return acc;
-    },
-    {} as Record<string, number>,
-  );
-
-  const tierNames: Record<number, string> = {
-    1.5: 'Ace Closer',
-    1: 'Spotlight',
-    2: 'Quad Split',
-    3: 'Montage Featured',
-    4: 'Montage Quick',
-    5: 'Montage Flash',
-    6: 'Not Broadcast',
-  };
-
-  const segmentNames: Record<number, string> = {
-    1: 'Opening Act',
-    2: 'Rising Tension',
-    3: 'Building Momentum',
-    4: 'Grand Finale',
-  };
-
-  // Get song info
-  const songMap = AUDITION_SONGS.reduce(
-    (acc, song) => {
-      acc[song.id] = song.title;
-      return acc;
-    },
-    {} as Record<string, string>,
-  );
-
-  // Check for episode ending announcement
-  const episodeEndingStr = contestants[0]?.changeLog.find((l) => l.episode === episode)?.change
-    .episodeEnding as string | undefined;
-
-  const episodeEnding = episodeEndingStr
-    ? (JSON.parse(episodeEndingStr) as {
-        type: string;
-        message: string;
-        top5?: Array<{ id: string; name: string; rank: number }>;
-        eliminated?: Array<{ id: string; name: string; rank: number }>;
-      })
-    : undefined;
-
-  return (
-    <div style={{ marginTop: '2rem' }}>
-      <Card>
-        <Space align="start" orientation="vertical" size="large" style={{ width: '100%' }}>
-          <div>
-            <Typography.Title level={2}>Episode {episode}: Auditions - The Narrative</Typography.Title>
-            <Typography.Paragraph>
-              Watch the story unfold as 50 contestants take the stage, each hoping to secure their spot in the
-              competition.
-            </Typography.Paragraph>
-          </div>
-
-          <Card size="small" style={{ backgroundColor: '#f0f2f5' }}>
-            <Typography.Title level={4}>Episode Facts</Typography.Title>
-            <Row gutter={[16, 16]}>
-              <Col span={24}>
-                <Descriptions bordered column={3} size="small">
-                  <Descriptions.Item label="Total Performances">{contestants.length}</Descriptions.Item>
-                  <Descriptions.Item label="Songs Available">{AUDITION_SONGS.length}</Descriptions.Item>
-                  <Descriptions.Item label="Grade A (Top Tier)">
-                    {gradeCounts.A || 0} contestants
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Grade B">{gradeCounts.B || 0} contestants</Descriptions.Item>
-                  <Descriptions.Item label="Grade C">{gradeCounts.C || 0} contestants</Descriptions.Item>
-                  <Descriptions.Item label="Grade D">{gradeCounts.D || 0} contestants</Descriptions.Item>
-                  <Descriptions.Item label="Grade F (Bottom Tier)">
-                    {gradeCounts.F || 0} contestants
-                  </Descriptions.Item>
-                  <Descriptions.Item label="Total Screen Time">
-                    {contestants.reduce((sum, c) => sum + c.aggregations.screenTime, 0).toFixed(1)} minutes
-                  </Descriptions.Item>
-                </Descriptions>
-              </Col>
-            </Row>
-          </Card>
-
-          <div>
-            <Typography.Title level={3}>The Audition Story</Typography.Title>
+  const overview = (
+    <Card>
+      <Space align="start" orientation="vertical" size="large" style={{ width: '100%' }}>
+        <div>
+          <Typography.Title level={2}>Season Cast</Typography.Title>
+          <Typography.Paragraph>
+            Inspect any of the {contestants.length} contestants without advancing the episode.
+          </Typography.Paragraph>
+          {runtime?.finale ? (
             <Typography.Paragraph type="secondary">
-              Experience the episode as it aired, complete with commercial breaks and the dramatic flow of the
-              edited show. Contestants are shown in chronological order within each segment.
+              {runtime.finale.revealedWinnerIds.length === 5
+                ? 'Viewer-only final season placements and scores. The broadcast announces the five members only.'
+                : 'Ranks and continuing scores: previous public Episode 10 final standings. Final results remain sealed.'}
             </Typography.Paragraph>
-          </div>
-
-          {[1, 2, 3, 4].map((segmentNum) => {
-            const segmentData = segmentGroups[segmentNum];
-            if (!segmentData || segmentData.length === 0) return null;
-
-            // Find if there's a commercial break after this segment
-            const commercialBreak = segmentData.find((d) => d.commercialBreakAfter)?.commercialBreakAfter;
-
-            return (
-              <div key={segmentNum}>
-                <Card
-                  size="small"
-                  style={{ marginBottom: '1rem' }}
-                  title={
-                    <Space>
-                      <Tag color="blue">Segment {segmentNum}</Tag>
-                      <Typography.Text strong>{segmentNames[segmentNum]}</Typography.Text>
-                      <Typography.Text type="secondary">
-                        ({segmentData.length} {segmentData.length === 1 ? 'performance' : 'performances'})
-                      </Typography.Text>
-                    </Space>
-                  }
-                >
-                  <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
-                    {segmentData.map((data) => (
-                      <Card
-                        hoverable
-                        key={data.contestant.id}
-                        onClick={() => setSelectedContestant(data.contestant)}
-                        size="small"
-                        style={{ cursor: 'pointer' }}
-                      >
-                        <Row align="middle" gutter={16}>
-                          <Col>
-                            <ContestantAvatar
-                              enablePreview={false}
-                              id={data.contestant.id}
-                              name={data.contestant.name}
-                              size={64}
-                            />
-                          </Col>
-                          <Col flex="auto">
-                            <Space orientation="vertical" size="small" style={{ width: '100%' }}>
-                              <Space>
-                                <Typography.Text strong style={{ fontSize: '16px' }}>
-                                  {data.contestant.name}
-                                </Typography.Text>
-                                <TrackTag track={data.contestant.track} />
-                                <Tag
-                                  color={
-                                    data.grade === 'A' || data.grade === 'B'
-                                      ? 'green'
-                                      : data.grade === 'C'
-                                        ? 'blue'
-                                        : data.grade === 'D'
-                                          ? 'orange'
-                                          : 'red'
-                                  }
-                                >
-                                  Grade {data.grade}
-                                </Tag>
-                                <Tag color="default">{tierNames[data.tier]}</Tag>
-                                {data.songId && (
-                                  <Tag color="purple">🎵 {songMap[data.songId] || 'Unknown Song'}</Tag>
-                                )}
-                              </Space>
-                              <Typography.Paragraph style={{ marginBottom: 0, fontStyle: 'italic' }}>
-                                {data.summary}
-                              </Typography.Paragraph>
-                              <Space size="large">
-                                <Typography.Text type="secondary">
-                                  Screen Time: {data.contestant.aggregations.screenTime.toFixed(1)}m
-                                </Typography.Text>
-                                <Typography.Text type="secondary">
-                                  Score: {data.contestant.aggregations.score}
-                                </Typography.Text>
-                                <Typography.Text type="secondary">
-                                  Rating: {'⭐'.repeat(data.missionRating)}
-                                </Typography.Text>
-                              </Space>
-                            </Space>
-                          </Col>
-                        </Row>
-                      </Card>
-                    ))}
-                  </Space>
-                </Card>
-
-                {commercialBreak && (
-                  <Alert
-                    key={`break-${segmentNum}`}
-                    showIcon
-                    style={{ marginBottom: '1rem' }}
-                    title={commercialBreak}
-                    type="info"
-                  />
-                )}
-              </div>
-            );
-          })}
-
-          {/* Tier 6: Not Broadcast Section */}
-          {episodeData.filter((d) => d.tier === 6).length > 0 && (
-            <Card
-              size="small"
-              style={{ marginTop: '1rem', backgroundColor: '#fff7e6', borderColor: '#ffa940' }}
-            >
-              <Space orientation="vertical" size="middle" style={{ width: '100%' }}>
-                <div>
-                  <Typography.Title level={4}>
-                    📺 Auditions Not Broadcast ({episodeData.filter((d) => d.tier === 6).length} contestants)
-                  </Typography.Title>
-                  <Typography.Paragraph type="secondary">
-                    These contestants auditioned but their performances were not shown in the broadcast
-                    episode. They will still participate in the competition.
-                  </Typography.Paragraph>
-                </div>
-
-                <Row gutter={[8, 8]}>
-                  {episodeData
-                    .filter((d) => d.tier === 6)
-                    .sort((a, b) => a.rank - b.rank)
-                    .map((data) => (
-                      <Col key={data.contestant.id} lg={6} md={8} sm={12} xs={24}>
-                        <Space
-                          onClick={() => setSelectedContestant(data.contestant)}
-                          style={{ cursor: 'pointer' }}
-                        >
-                          <ContestantAvatar
-                            enablePreview={false}
-                            id={data.contestant.id}
-                            name={data.contestant.name}
-                            size={32}
-                          />
-                          <div>
-                            <Typography.Text strong style={{ fontSize: '14px' }}>
-                              {data.contestant.name}
-                            </Typography.Text>
-                            <br />
-                            <Typography.Text style={{ fontSize: '12px' }} type="secondary">
-                              #{data.rank} · Grade {data.grade}
-                            </Typography.Text>
-                          </div>
-                        </Space>
-                      </Col>
-                    ))}
-                </Row>
-              </Space>
-            </Card>
+          ) : runtime?.specialties ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.specialties.rankRevealed
+                ? 'Ranks and continuing scores: Episode 10.'
+                : 'Ranks and continuing scores: previous public Episode 9 final standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.musicVideo ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.musicVideo.rankRevealed
+                ? 'Ranks and continuing scores: Episode 9.'
+                : 'Ranks and continuing scores: previous public Episode 8 final standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.varietyShow ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.varietyShow.rankRevealed
+                ? 'Ranks and continuing scores: Episode 8.'
+                : 'Ranks and continuing scores: previous public Episode 7 final standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.versatility ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.versatility.expelledId
+                ? 'Final season placements after Episode 7 departures.'
+                : runtime.versatility.rankRevealed
+                  ? 'Announced Episode 7 performance ranking.'
+                  : 'Ranks and continuing scores: previous public Episode 6 standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.trackSpecials ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.trackSpecials.rankRevealed
+                ? 'Ranks and continuing scores: Episode 6.'
+                : 'Ranks and continuing scores: previous public Episode 5 standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.photoshoot ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.photoshoot.rankRevealed
+                ? 'Ranks and continuing scores: Episode 5.'
+                : 'Ranks and continuing scores: previous public Episode 4 final standings.'}
+            </Typography.Paragraph>
+          ) : runtime?.megaGroups ? (
+            <Typography.Paragraph type="secondary">
+              {runtime.megaGroups.phase === 'complete'
+                ? 'Final season placements after Episode 4 departures.'
+                : runtime.megaGroups.rankRevealed
+                  ? 'Announced Episode 4 performance ranking.'
+                  : 'Ranks and continuing scores: previous public Episode 3 standings.'}
+            </Typography.Paragraph>
+          ) : (
+            runtime?.bootcamp && (
+              <Typography.Paragraph type="secondary">
+                {runtime.bootcamp.rankRevealed
+                  ? 'Ranks and continuing scores: Episode 3.'
+                  : 'Ranks and continuing scores: previous public Episode 2 standings.'}
+              </Typography.Paragraph>
+            )
           )}
+        </div>
 
-          {episodeEnding && (
-            <Card
-              size="small"
-              style={{ marginTop: '1rem', backgroundColor: '#f6ffed', borderColor: '#52c41a' }}
-            >
-              <Space orientation="vertical" size="large" style={{ width: '100%' }}>
-                <Alert description={episodeEnding.message} showIcon title="Episode Ending" type="success" />
+        <Descriptions bordered column={2}>
+          <Descriptions.Item label="Total Contestants">{contestants.length}</Descriptions.Item>
+          <Descriptions.Item label="Resolved Auditions">{evaluatedIds.size}</Descriptions.Item>
+          <Descriptions.Item label="VOCAL Track">{trackCounts.VOCAL || 0}</Descriptions.Item>
+          <Descriptions.Item label="RAP Track">{trackCounts.RAP || 0}</Descriptions.Item>
+          <Descriptions.Item label="DANCE Track">{trackCounts.DANCE || 0}</Descriptions.Item>
+          <Descriptions.Item label="Status">
+            {runtime?.finale
+              ? runtime.phase === 'season-complete'
+                ? 'Season complete — Squirrel Zone has debuted'
+                : `Episode 11 — ${runtime.finale.phase}`
+              : runtime?.specialties
+                ? `Episode 10 — ${runtime.specialties.phase}`
+                : runtime?.musicVideo
+                  ? `Episode 9 — ${runtime.musicVideo.phase}`
+                  : runtime?.varietyShow
+                    ? `Episode 8 — ${runtime.varietyShow.phase}`
+                    : runtime?.versatility
+                      ? `Episode 7 — ${runtime.versatility.phase}`
+                      : runtime?.trackSpecials
+                        ? `Episode 6 — ${runtime.trackSpecials.phase}`
+                        : runtime?.photoshoot
+                          ? `Episode 5 — ${runtime.photoshoot.phase}`
+                          : runtime?.megaGroups
+                            ? `Episode 4 — ${runtime.megaGroups.phase}`
+                            : runtime?.bootcamp
+                              ? `Episode 3 — ${runtime.bootcamp.phase}`
+                              : runtime?.battle
+                                ? `Episode 2 — ${runtime.battle.phase}`
+                                : (runtime?.audition?.phase ?? 'Setup complete')}
+          </Descriptions.Item>
+        </Descriptions>
 
-                {episodeEnding.top5 && episodeEnding.top5.length > 0 && (
-                  <div>
-                    <Typography.Title level={5}>
-                      🏆 If the show ended now, these would be the chosen ones:
-                    </Typography.Title>
-                    <Row gutter={[8, 8]}>
-                      {episodeEnding.top5.map((contestant) => {
-                        const fullContestant = contestants.find((c) => c.id === contestant.id);
-                        return (
-                          <Col key={contestant.id} span={24}>
-                            <Space
-                              onClick={() => fullContestant && setSelectedContestant(fullContestant)}
-                              style={{ cursor: 'pointer' }}
-                            >
-                              <ContestantAvatar
-                                enablePreview={false}
-                                id={contestant.id}
-                                name={contestant.name}
-                                size={40}
-                              />
-                              <Typography.Text strong>
-                                #{contestant.rank} {contestant.name}
-                              </Typography.Text>
-                            </Space>
-                          </Col>
-                        );
-                      })}
-                    </Row>
-                  </div>
-                )}
+        <div>
+          <Typography.Title level={4}>Revealed Grade Distribution</Typography.Title>
+          <Typography.Text>
+            A: {gradeCounts.A || 0} | B: {gradeCounts.B || 0} | C: {gradeCounts.C || 0} | D:{' '}
+            {gradeCounts.D || 0} | F: {gradeCounts.F || 0}
+          </Typography.Text>
+        </div>
 
-                {episodeEnding.eliminated && episodeEnding.eliminated.length > 0 && (
-                  <div>
-                    <Typography.Title level={5}>
-                      💔 Eliminated Contestants ({episodeEnding.eliminated.length}):
-                    </Typography.Title>
-                    <Row gutter={[8, 8]}>
-                      {episodeEnding.eliminated.map((contestant) => {
-                        const fullContestant = contestants.find((c) => c.id === contestant.id);
-                        return (
-                          <Col key={contestant.id} lg={8} md={12} sm={12} xs={24}>
-                            <Space
-                              onClick={() => fullContestant && setSelectedContestant(fullContestant)}
-                              style={{ cursor: 'pointer' }}
-                            >
-                              <ContestantAvatar
-                                enablePreview={false}
-                                id={contestant.id}
-                                name={contestant.name}
-                                size={32}
-                              />
-                              <Typography.Text type="secondary">
-                                #{contestant.rank} {contestant.name}
-                              </Typography.Text>
-                            </Space>
-                          </Col>
-                        );
-                      })}
-                    </Row>
-                  </div>
-                )}
-              </Space>
-            </Card>
+        <Space style={{ marginBottom: '1rem' }}>
+          {runtime && (
+            <CopyMarkdownButton
+              createText={() => createSeasonCastProfiles(runtime)}
+              key={runtime.runId}
+              label="Copy all contestant profiles"
+              successMessage="All contestant profiles copied as Markdown."
+            />
           )}
+          <Button
+            icon={<TableOutlined />}
+            onClick={() => setViewMode('table')}
+            type={viewMode === 'table' ? 'primary' : 'default'}
+          >
+            Table View
+          </Button>
+          <Button
+            icon={<AppstoreOutlined />}
+            onClick={() => setViewMode('cards')}
+            type={viewMode === 'cards' ? 'primary' : 'default'}
+          >
+            Card View
+          </Button>
         </Space>
-      </Card>
 
+        {viewMode === 'table' ? (
+          <Table
+            columns={columns}
+            dataSource={contestants}
+            onRow={(record) => ({
+              onClick: () => onSelect(record.id),
+              style: { cursor: 'pointer' },
+            })}
+            pagination={{
+              pageSize,
+              showSizeChanger: true,
+              pageSizeOptions: [10, 20, 30, 50],
+              showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} contestants`,
+              onShowSizeChange: (_, newPageSize) => setPageSize(newPageSize),
+            }}
+            rowKey="id"
+            scroll={{ x: 800 }}
+            size="small"
+          />
+        ) : (
+          <Row gutter={[16, 16]}>
+            {contestants.map((contestant) => (
+              <Col key={contestant.id} lg={6} md={8} sm={12} xs={24}>
+                <Card hoverable onClick={() => onSelect(contestant.id)} style={{ textAlign: 'center' }}>
+                  <ContestantAvatar
+                    enablePreview={false}
+                    id={contestant.id}
+                    name={contestant.name}
+                    size={80}
+                  />
+                  <Typography.Title level={5} style={{ marginTop: '0.5rem', marginBottom: '0.25rem' }}>
+                    {contestant.name}
+                  </Typography.Title>
+                  <Typography.Text type="secondary">{contestant.id}</Typography.Text>
+                  <div style={{ marginTop: '0.5rem' }}>
+                    <TrackTag track={contestant.track} />
+                    <Tag>{hasGrade(contestant.id) ? contestant.grade : 'Not performed'}</Tag>
+                  </div>
+                </Card>
+              </Col>
+            ))}
+          </Row>
+        )}
+      </Space>
+    </Card>
+  );
+  return (
+    <div style={{ marginTop: '2rem' }}>
+      {runtime && runtime.version !== 1 ? (
+        <Collapse items={[{ key: 'cast', label: 'Details — season cast', children: overview }]} />
+      ) : (
+        overview
+      )}
       <ContestantDetailModal
-        allContestants={contestants}
+        allContestants={inspectionCast}
         contestant={selectedContestant}
-        onClose={() => setSelectedContestant(null)}
+        definitions={inspectionRuntime?.definitions}
+        expelledEpisode={
+          selectedId && inspectionRuntime?.versatility?.expelledId === selectedId ? 7 : undefined
+        }
+        hidePerformance={!!runtime && !!selectedId && !hasGrade(selectedId)}
+        hideSeasonRanking={!isSeasonRankingVisible(inspectionRuntime)}
+        notSelectedEpisode={
+          selectedId &&
+          inspectionRuntime?.finale?.resultsPublished &&
+          inspectionRuntime.finale.rankedIds.slice(5).includes(selectedId)
+            ? 11
+            : undefined
+        }
+        onClose={() => onSelect(null)}
+        withdrawnEpisode={
+          selectedId && inspectionRuntime?.megaGroups?.withdrawnId === selectedId ? 4 : undefined
+        }
       />
     </div>
   );

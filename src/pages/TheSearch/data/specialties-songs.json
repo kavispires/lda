@@ -1,0 +1,104 @@
+{
+  "version": 1,
+  "songs": [
+    {
+      "id": "paper-lantern",
+      "name": "Paper Lantern",
+      "description": "A small light guides a walk home, building from intimacy to resolve.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "A sustained melodic line rises into a clear final refrain.",
+        "RAP": "Measured narrative bars open into a rhythmic refrain.",
+        "DANCE": "Compact gestures expand into traveling steps and a held finish."
+      }
+    },
+    {
+      "id": "bright-platform",
+      "name": "Bright Platform",
+      "description": "A departure platform becomes the setting for an independent beginning.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "An even verse leads into an open ascending hook.",
+        "RAP": "Precise syncopated verses resolve in a repeated response.",
+        "DANCE": "Directional footwork traces a departure and decisive return."
+      }
+    },
+    {
+      "id": "blueprint-heart",
+      "name": "Blueprint Heart",
+      "description": "Careful plans give way to an honest personal statement.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "Controlled phrases contrast with a warmer chorus.",
+        "RAP": "Clipped opening bars loosen into a flowing central section.",
+        "DANCE": "Geometric isolations soften into continuous movement."
+      }
+    },
+    {
+      "id": "after-the-rain",
+      "name": "After the Rain",
+      "description": "An empty street brightens as its traveler finds a fresh rhythm.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "Gentle entrances grow into a resilient melodic refrain.",
+        "RAP": "Spacious storytelling develops into a buoyant rhythmic hook.",
+        "DANCE": "Grounded opening steps develop into buoyant traveling phrases."
+      }
+    },
+    {
+      "id": "signal-window",
+      "name": "Signal Window",
+      "description": "A distant window answers a signal sent across the evening.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "Call-and-response phrases are performed as one expressive solo.",
+        "RAP": "Alternating rhythmic motifs create the question and answer.",
+        "DANCE": "Reaching motifs contrast with sharp answering accents."
+      }
+    },
+    {
+      "id": "small-orbit",
+      "name": "Small Orbit",
+      "description": "Familiar routines become a confident journey beyond the usual circle.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "A repeating motif develops through dynamic contrast.",
+        "RAP": "Recurring rhyme shapes gain changing accents and emphasis.",
+        "DANCE": "Circular pathways open into straight, committed lines."
+      }
+    },
+    {
+      "id": "velvet-compass",
+      "name": "Velvet Compass",
+      "description": "A quiet sense of direction survives a crowded night.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "A restrained verse gives way to a supported sustained hook.",
+        "RAP": "Low-key opening bars sharpen into a deliberate final statement.",
+        "DANCE": "Soft transitions frame clean stops and an assured finishing pose."
+      }
+    },
+    {
+      "id": "first-current",
+      "name": "First Current",
+      "description": "An uncertain first step finds momentum without losing its character.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "Short initial phrases join into a continuous melodic arc.",
+        "RAP": "Separated rhythmic figures connect into a steady extended flow.",
+        "DANCE": "Interrupted movements connect into an uninterrupted final phrase."
+      }
+    },
+    {
+      "id": "amber-minute",
+      "name": "Amber Minute",
+      "description": "One ordinary minute is held and made memorable through detail.",
+      "difficulty": 3,
+      "arrangements": {
+        "VOCAL": "Detailed articulation supports a direct and lyrical chorus.",
+        "RAP": "Concrete observations build into a sharply articulated refrain.",
+        "DANCE": "Small expressive details build toward a clearly framed final image."
+      }
+    }
+  ]
+}

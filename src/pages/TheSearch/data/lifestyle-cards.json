@@ -1,0 +1,2235 @@
+{
+  "EARLY_BIRD": {
+    "id": "EARLY_BIRD",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Early Bird",
+    "description": "Wakes up at 5 AM regardless of the schedule. Often makes too much noise in the kitchen while others sleep.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 2,
+      "utilitySkills.stamina": 1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "NIGHT_OWL": {
+    "id": "NIGHT_OWL",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Night Owl",
+    "description": "Cannot fall asleep before 3 AM. Usually the one keeping the room awake with their phone screen.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -1,
+      "utilitySkills.stamina": -1,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "LIGHT_SLEEPER": {
+    "id": "LIGHT_SLEEPER",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Light Sleeper",
+    "description": "Needs total darkness and absolute silence. Frequently clashes with roommates who snore or talk late.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 3,
+      "personality.resilience": -2,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "HEAVY_SLEEPER": {
+    "id": "HEAVY_SLEEPER",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Heavy Sleeper",
+    "description": "Could sleep through a fire alarm. Their alarms often wake up everyone except them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "personality.gentleness": -1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "NEAT_FREAK": {
+    "id": "NEAT_FREAK",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Neat Freak",
+    "description": "Requires the dorm to be spotless. Will aggressively reorganize their roommates' belongings.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 3,
+      "personality.gentleness": -2,
+      "aggregations.productionRatio": 0.02
+    }
+  },
+  "CLUTTER_BLIND": {
+    "id": "CLUTTER_BLIND",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Clutter Blind",
+    "description": "Literally does not notice messes. Leaves clothes everywhere, acting as a massive friction point.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": -3,
+      "personality.maturity": -1,
+      "aggregations.contestantsLikeness": -0.04
+    }
+  },
+  "TOP_BUNKER": {
+    "id": "TOP_BUNKER",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Top Bunker",
+    "description": "Refuses to sleep on the bottom bunk. Will actively argue for the top spot on day one.",
+    "occurrence": 1,
+    "influences": {
+      "personality.ambition": 1,
+      "personality.gentleness": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "BOTTOM_BUNKER": {
+    "id": "BOTTOM_BUNKER",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Bottom Bunker",
+    "description": "Needs the bottom bunk to feel secure. Often willing to trade favors for it.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 1,
+      "personality.maturity": 1,
+      "aggregations.contestantsLikeness": 0.01
+    }
+  },
+  "WINDOW_OPENER": {
+    "id": "WINDOW_OPENER",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Window Opener",
+    "description": "Needs fresh air at all times. Will open the dorm windows even in the dead of winter.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "personality.gentleness": -1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "HEATER_HOG": {
+    "id": "HEATER_HOG",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Heater Hog",
+    "description": "Runs cold constantly. Turns the dorm thermostat up to 80 degrees, suffocating everyone else.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "utilitySkills.stamina": -1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "STRICT_VEGAN": {
+    "id": "STRICT_VEGAN",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Strict Vegan",
+    "description": "Has intense dietary restrictions. Forces production to order separate catering, isolating them at meals.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 3,
+      "personality.sincerity": 1,
+      "aggregations.productionRatio": -0.02
+    }
+  },
+  "CARNIVORE": {
+    "id": "CARNIVORE",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Carnivore",
+    "description": "Refuses to eat vegetables. Relies entirely on meat and protein shakes. Smells like whey protein.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -1,
+      "utilitySkills.stamina": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "SNACK_STASHER": {
+    "id": "SNACK_STASHER",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Snack Stasher",
+    "description": "Hides the best snacks from craft services under their bed so roommates can't eat them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sincerity": -2,
+      "personality.ambition": 1,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "THE_SHARER": {
+    "id": "THE_SHARER",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "The Sharer",
+    "description": "Buys food and drinks for the entire dorm with their own money. Buys loyalty through calories.",
+    "occurrence": 1,
+    "influences": {
+      "personality.gentleness": 3,
+      "personality.ambition": 1,
+      "aggregations.contestantsLikeness": 0.04
+    }
+  },
+  "LONG_SHOWERER": {
+    "id": "LONG_SHOWERER",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Long Showerer",
+    "description": "Spends 45 minutes in the shared dorm bathroom. A primary source of morning arguments.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "personality.gentleness": -2,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "COLD_SHOWERER": {
+    "id": "COLD_SHOWERER",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Cold Showerer",
+    "description": "Takes 3-minute ice-cold showers to 'build discipline'. Deeply intense.",
+    "occurrence": 1,
+    "influences": {
+      "personality.discipline": 3,
+      "personality.resilience": 2,
+      "aggregations.fanbaseRatio": 0.02
+    }
+  },
+  "PERFUME_BATHER": {
+    "id": "PERFUME_BATHER",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Perfume Bather",
+    "description": "Sprays an overwhelming amount of cologne every morning. Gives their roommates headaches.",
+    "occurrence": 1,
+    "influences": {
+      "coreSkills.visual": 1,
+      "personality.sensitivity": -1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "AROMATHERAPIST": {
+    "id": "AROMATHERAPIST",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Aromatherapist",
+    "description": "Constantly diffusing essential oils or burning sage in the dorm to 'cleanse the energy'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.curiosity": 2,
+      "personality.sensitivity": 1,
+      "aggregations.productionRatio": 0.01
+    }
+  },
+  "SILENCE_DEMANDER": {
+    "id": "SILENCE_DEMANDER",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Silence Demander",
+    "description": "Requires absolute quiet when they are in the room. Will explicitly tell others to shut up.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": -3,
+      "personality.gentleness": -2,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "BACKGROUND_NOISE": {
+    "id": "BACKGROUND_NOISE",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Background Noise",
+    "description": "Cannot relax or sleep without a TV, podcast, or music playing out loud.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 2,
+      "personality.discipline": -1,
+      "aggregations.contestantsLikeness": -0.02
+    }
+  },
+  "MINIMALIST_PACKER": {
+    "id": "MINIMALIST_PACKER",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Minimalist Packer",
+    "description": "Brought only two bags to the dorms. Takes up almost no space in the shared closets.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": 2,
+      "personality.discipline": 1,
+      "aggregations.contestantsLikeness": 0.02
+    }
+  },
+  "OVER_PACKER": {
+    "id": "OVER_PACKER",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Over-Packer",
+    "description": "Brought six massive suitcases. Their stuff constantly spills over into everyone else's space.",
+    "occurrence": 1,
+    "influences": {
+      "personality.maturity": -2,
+      "coreSkills.visual": 1,
+      "aggregations.contestantsLikeness": -0.03
+    }
+  },
+  "DOOR_LOCKER": {
+    "id": "DOOR_LOCKER",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Door Locker",
+    "description": "Always locks the dorm door or bathroom door, even when just grabbing something quick. Highly guarded.",
+    "occurrence": 1,
+    "influences": {
+      "personality.sensitivity": 2,
+      "personality.sincerity": -1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "OPEN_DOOR_POLICY": {
+    "id": "OPEN_DOOR_POLICY",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Open Door Policy",
+    "description": "Leaves the dorm door wide open at all times to encourage visitors. Has zero concept of privacy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.extroversion": 3,
+      "personality.maturity": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "HYDRATION_FREAK": {
+    "id": "HYDRATION_FREAK",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Hydration Freak",
+    "description": "Drinks a gallon of water a day. Constantly going to the bathroom, interrupting rehearsals.",
+    "occurrence": 1,
+    "influences": {
+      "utilitySkills.stamina": 1,
+      "personality.discipline": 1,
+      "aggregations.productionRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_000": {
+    "id": "LIFESTYLE_REAL_000",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Blackout Curtains",
+    "description": "Refuses to sleep unless the room is pitch black. Tapes the edges of the windows.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_001": {
+    "id": "LIFESTYLE_REAL_001",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Fan Sleeper",
+    "description": "Needs a box fan on high blowing directly on their face to sleep.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_002": {
+    "id": "LIFESTYLE_REAL_002",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Floor Sleeper",
+    "description": "Prefers the hard dorm floor over the soft mattress provided.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_003": {
+    "id": "LIFESTYLE_REAL_003",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Scented Candle Addict",
+    "description": "Constantly burning candles in the dorm. A major fire hazard.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_004": {
+    "id": "LIFESTYLE_REAL_004",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Humidifier User",
+    "description": "Runs a humidifier 24/7 to protect their vocal cords. Makes the room damp.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_005": {
+    "id": "LIFESTYLE_REAL_005",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Dehumidifier User",
+    "description": "Hates humidity. Runs a loud machine to keep the air dry.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_006": {
+    "id": "LIFESTYLE_REAL_006",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Door Wide Open",
+    "description": "Leaves the dorm door open at all times. Hates feeling enclosed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_007": {
+    "id": "LIFESTYLE_REAL_007",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Door Deadbolted",
+    "description": "Locks the door the second they enter. Very protective of their space.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_008": {
+    "id": "LIFESTYLE_REAL_008",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Shower Crier",
+    "description": "Uses the shower as their personal emotional breakdown space.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_009": {
+    "id": "LIFESTYLE_REAL_009",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "2-Hour Bather",
+    "description": "Takes incredibly long baths, hogging the only dorm bathroom.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_010": {
+    "id": "LIFESTYLE_REAL_010",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "5-Minute Shower",
+    "description": "In and out before anyone realizes. Highly efficient.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_011": {
+    "id": "LIFESTYLE_REAL_011",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Expensive Skincare Only",
+    "description": "Will not use generic brands. Hoards luxury face creams.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_012": {
+    "id": "LIFESTYLE_REAL_012",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Uses 3-in-1 Soap",
+    "description": "Washes their hair, face, and body with the same cheap soap.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_013": {
+    "id": "LIFESTYLE_REAL_013",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Daily Face Mask",
+    "description": "Walks around the dorm every night in a terrifying sheet mask.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_014": {
+    "id": "LIFESTYLE_REAL_014",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Color-Coded Closet",
+    "description": "Their clothes are organized by a strict color gradient.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_015": {
+    "id": "LIFESTYLE_REAL_015",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Hangers Only",
+    "description": "Refuses to fold clothes. Everything must be hung up.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_016": {
+    "id": "LIFESTYLE_REAL_016",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Floordrobe",
+    "description": "Stores all of their clean clothes in a giant pile on the floor.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_017": {
+    "id": "LIFESTYLE_REAL_017",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Steals Hoodies",
+    "description": "Constantly 'borrows' jackets from other contestants without asking.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_018": {
+    "id": "LIFESTYLE_REAL_018",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Hates Borrowers",
+    "description": "Will physically fight anyone who touches their belongings.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_019": {
+    "id": "LIFESTYLE_REAL_019",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Washes Clothes Daily",
+    "description": "Does a load of laundry every single day. Wastes water.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_020": {
+    "id": "LIFESTYLE_REAL_020",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Never Does Laundry",
+    "description": "Wears the same practice shirt three days in a row.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_021": {
+    "id": "LIFESTYLE_REAL_021",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Ironing Obsessed",
+    "description": "Irons their t-shirts and jeans before wearing them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_022": {
+    "id": "LIFESTYLE_REAL_022",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Wrinkle Careless",
+    "description": "Pulls clothes directly from the dryer pile. Looks messy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_023": {
+    "id": "LIFESTYLE_REAL_023",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Shoe Display",
+    "description": "Lines up their expensive sneakers like an art exhibit in the hall.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_024": {
+    "id": "LIFESTYLE_REAL_024",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Shoes in Bed",
+    "description": "Lays on the bed with their shoes still on. Disgusts roommates.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_025": {
+    "id": "LIFESTYLE_REAL_025",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Slippers Only",
+    "description": "Refuses to let bare feet touch the dorm floor.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_026": {
+    "id": "LIFESTYLE_REAL_026",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Bed Maker",
+    "description": "Makes their bed with military precision every morning.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_027": {
+    "id": "LIFESTYLE_REAL_027",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Messy Bed",
+    "description": "Leaves the blankets in a twisted knot all day.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_028": {
+    "id": "LIFESTYLE_REAL_028",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Blanket Kicker",
+    "description": "Kicks all the covers off the bed in their sleep.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_029": {
+    "id": "LIFESTYLE_REAL_029",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Mummy Sleeper",
+    "description": "Wraps the blankets so tight they can't move their arms.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_030": {
+    "id": "LIFESTYLE_REAL_030",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Loud Snorer",
+    "description": "Sounds like a chainsaw. Requires roommates to wear earplugs.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_031": {
+    "id": "LIFESTYLE_REAL_031",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Night Terror Screamer",
+    "description": "Wakes up screaming once a week from the stress.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_032": {
+    "id": "LIFESTYLE_REAL_032",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "TV on to Sleep",
+    "description": "Needs the flickering light of a television to fall asleep.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_033": {
+    "id": "LIFESTYLE_REAL_033",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Podcast to Sleep",
+    "description": "Falls asleep listening to true crime podcasts.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_034": {
+    "id": "LIFESTYLE_REAL_034",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "White Noise App",
+    "description": "Blasts rain sounds from their phone all night.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_035": {
+    "id": "LIFESTYLE_REAL_035",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Window Open (Winter)",
+    "description": "Sleeps with the window open even when it's freezing outside.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_036": {
+    "id": "LIFESTYLE_REAL_036",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Window Closed (Summer)",
+    "description": "Refuses to open windows because they hate bugs.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_037": {
+    "id": "LIFESTYLE_REAL_037",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Constant Sweeper",
+    "description": "Sweeps the dorm floor multiple times a day.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_038": {
+    "id": "LIFESTYLE_REAL_038",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Trash Can Ignorer",
+    "description": "Leaves wrappers on the counter right next to the trash can.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_039": {
+    "id": "LIFESTYLE_REAL_039",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Plate Hoarder",
+    "description": "Has four dirty plates stacked under their bed right now.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_040": {
+    "id": "LIFESTYLE_REAL_040",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Dish Washer",
+    "description": "Washes dishes the second they finish eating.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_041": {
+    "id": "LIFESTYLE_REAL_041",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Dish Left in Sink",
+    "description": "Leaves crusty bowls in the sink 'to soak' for days.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_042": {
+    "id": "LIFESTYLE_REAL_042",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Expiration Date Enforcer",
+    "description": "Throws away milk the day before it expires.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_043": {
+    "id": "LIFESTYLE_REAL_043",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Eats Expired Food",
+    "description": "Treats expiration dates as 'suggestions'. Iron stomach.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_044": {
+    "id": "LIFESTYLE_REAL_044",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Fridge Organizer",
+    "description": "Lines up all the drinks so the labels face forward.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_045": {
+    "id": "LIFESTYLE_REAL_045",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Fridge Thief",
+    "description": "Eats other people's yogurt and claims they 'thought it was theirs'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_046": {
+    "id": "LIFESTYLE_REAL_046",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Label Maker User",
+    "description": "Puts their name on every single item they own.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_047": {
+    "id": "LIFESTYLE_REAL_047",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Shared Groceries",
+    "description": "Believes all food in the dorm belongs to everyone.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_048": {
+    "id": "LIFESTYLE_REAL_048",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Private Snack Stash",
+    "description": "Keeps a locked box of candy under their bed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_049": {
+    "id": "LIFESTYLE_REAL_049",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Meal Prepper",
+    "description": "Cooks all their meals on Sunday and stores them in plastic boxes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_050": {
+    "id": "LIFESTYLE_REAL_050",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Takeout Only",
+    "description": "Has not cooked a single meal since arriving at the dorm.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_051": {
+    "id": "LIFESTYLE_REAL_051",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Pizza Every Day",
+    "description": "Orders delivery constantly. Never eats the provided catering.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_052": {
+    "id": "LIFESTYLE_REAL_052",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Salad Only",
+    "description": "Eats purely greens to maintain their 'visual' physique.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_053": {
+    "id": "LIFESTYLE_REAL_053",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Keto Faster",
+    "description": "Refuses to eat carbs. Very difficult to share meals with.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_054": {
+    "id": "LIFESTYLE_REAL_054",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Intermittent Faster",
+    "description": "Doesn't eat until 2 PM. Very grumpy in the mornings.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_055": {
+    "id": "LIFESTYLE_REAL_055",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Sugar Addict",
+    "description": "Eats gummy worms for breakfast.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_056": {
+    "id": "LIFESTYLE_REAL_056",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Energy Drink Fiend",
+    "description": "Drinks three Monsters a day instead of sleeping.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_057": {
+    "id": "LIFESTYLE_REAL_057",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Black Coffee",
+    "description": "Drinks bitter coffee and judges people who use sugar.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_058": {
+    "id": "LIFESTYLE_REAL_058",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Sweet Tea Only",
+    "description": "Refuses to drink water unless it's flavored.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_059": {
+    "id": "LIFESTYLE_REAL_059",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Gallon Water Jug",
+    "description": "Carries a massive plastic jug everywhere they go.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_060": {
+    "id": "LIFESTYLE_REAL_060",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Never Drinks Water",
+    "description": "Survives entirely on soda and juice.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_061": {
+    "id": "LIFESTYLE_REAL_061",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Spicy Food Lover",
+    "description": "Covers everything in sriracha or chili flakes.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_062": {
+    "id": "LIFESTYLE_REAL_062",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Zero Spice Tolerance",
+    "description": "Thinks black pepper is too spicy.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_063": {
+    "id": "LIFESTYLE_REAL_063",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Picky Eater (No Greens)",
+    "description": "Picks the lettuce out of their burgers.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_064": {
+    "id": "LIFESTYLE_REAL_064",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Picky Eater (Textures)",
+    "description": "Cannot eat anything mushy like oatmeal or pudding.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_065": {
+    "id": "LIFESTYLE_REAL_065",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Vegan (Loud)",
+    "description": "Constantly reminds everyone else that meat is murder.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_066": {
+    "id": "LIFESTYLE_REAL_066",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Meat Only",
+    "description": "Tries to get 200 grams of protein a day. Always eating chicken breasts.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_067": {
+    "id": "LIFESTYLE_REAL_067",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Constant Gum Chewer",
+    "description": "Goes through a pack of gum a day to relieve stress.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_068": {
+    "id": "LIFESTYLE_REAL_068",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Midnight Snacker",
+    "description": "Always in the kitchen at 3 AM making cereal.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_069": {
+    "id": "LIFESTYLE_REAL_069",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Breakfast Skipper",
+    "description": "Wakes up 5 minutes before rehearsal and just leaves.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_070": {
+    "id": "LIFESTYLE_REAL_070",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Big Breakfast",
+    "description": "Wakes up an hour early to cook eggs and bacon.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_071": {
+    "id": "LIFESTYLE_REAL_071",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Pre-Workout Dry Scooper",
+    "description": "Eats pre-workout powder straight from the tub.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_072": {
+    "id": "LIFESTYLE_REAL_072",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Gym Twice a Day",
+    "description": "Lifts weights before and after dance practice.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_073": {
+    "id": "LIFESTYLE_REAL_073",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Yoga Every Morning",
+    "description": "Does a full sun salutation flow in the living room.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_074": {
+    "id": "LIFESTYLE_REAL_074",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Stretching Routine",
+    "description": "Spends 40 minutes stretching before dancing. Never gets injured.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_075": {
+    "id": "LIFESTYLE_REAL_075",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Meditation Hour",
+    "description": "Sits in absolute silence for an hour a day to stay sane.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_076": {
+    "id": "LIFESTYLE_REAL_076",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Never Exercises Off-Stage",
+    "description": "Conserves all their energy for the actual performance.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_077": {
+    "id": "LIFESTYLE_REAL_077",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Over-Practicer",
+    "description": "Stays in the studio until 4 AM. Burns themselves out.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_078": {
+    "id": "LIFESTYLE_REAL_078",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Minimum Effort Practice",
+    "description": "Only does exactly what the choreographers demand, nothing more.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_079": {
+    "id": "LIFESTYLE_REAL_079",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Mirror Hog",
+    "description": "Always fights for the center spot in the practice room mirror.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_080": {
+    "id": "LIFESTYLE_REAL_080",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Dark Room Practice",
+    "description": "Likes to practice dancing with the lights turned off.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_081": {
+    "id": "LIFESTYLE_REAL_081",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Records Every Practice",
+    "description": "Sets up their phone to film every single run-through.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_082": {
+    "id": "LIFESTYLE_REAL_082",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Refuses to Watch Playbacks",
+    "description": "Hates seeing themselves on screen. Trusts their 'feel'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_083": {
+    "id": "LIFESTYLE_REAL_083",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Vocal Warmup (Annoying)",
+    "description": "Does loud sirens and lip trills at 7 AM.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_084": {
+    "id": "LIFESTYLE_REAL_084",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Silent Warmup",
+    "description": "Warms up their cords using silent breathing techniques.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_085": {
+    "id": "LIFESTYLE_REAL_085",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Drinks Raw Eggs",
+    "description": "Old-school vocal technique that grosses out the team.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_086": {
+    "id": "LIFESTYLE_REAL_086",
+    "type": "lifestyle",
+    "group": "Dietary Habit",
+    "name": "Herbal Tea for Throat",
+    "description": "Always has a thermos of hot tea with honey.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_087": {
+    "id": "LIFESTYLE_REAL_087",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Avoids Talking Before Shows",
+    "description": "Goes on absolute vocal rest 12 hours before a stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_088": {
+    "id": "LIFESTYLE_REAL_088",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Screams to Hype Up",
+    "description": "Yells at the top of their lungs right before walking on stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_089": {
+    "id": "LIFESTYLE_REAL_089",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Heavy Metal Before Stage",
+    "description": "Listens to screamo to get their adrenaline pumping.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_090": {
+    "id": "LIFESTYLE_REAL_090",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Classical Music Before Stage",
+    "description": "Listens to Mozart to calm their nerves.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_091": {
+    "id": "LIFESTYLE_REAL_091",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Paces Backstage",
+    "description": "Walks back and forth endlessly in the waiting room.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_092": {
+    "id": "LIFESTYLE_REAL_092",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Naps Backstage",
+    "description": "Falls asleep on the floor 10 minutes before they perform.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_093": {
+    "id": "LIFESTYLE_REAL_093",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Chatty Backstage",
+    "description": "Burns nervous energy by talking to the camera crew.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_094": {
+    "id": "LIFESTYLE_REAL_094",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Isolates Before Stage",
+    "description": "Sits in a corner with headphones on, ignoring everyone.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_095": {
+    "id": "LIFESTYLE_REAL_095",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Hugs Everyone Before Stage",
+    "description": "Needs physical contact with all teammates to feel secure.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_096": {
+    "id": "LIFESTYLE_REAL_096",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Prays Before Stage",
+    "description": "Has a quiet religious ritual they perform before every show.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_097": {
+    "id": "LIFESTYLE_REAL_097",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Lucky Charm Holder",
+    "description": "Keeps a specific rock or coin in their pocket on stage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_098": {
+    "id": "LIFESTYLE_REAL_098",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Specific Handshake",
+    "description": "Has a complex secret handshake with their best friend.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_099": {
+    "id": "LIFESTYLE_REAL_099",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Hates High Fives",
+    "description": "Refuses to touch hands with people. Offers fist bumps instead.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_100": {
+    "id": "LIFESTYLE_REAL_100",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Bows Constantly",
+    "description": "Incredibly polite. Bows to everyone, even the janitors.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_101": {
+    "id": "LIFESTYLE_REAL_101",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Avoids Eye Contact in Halls",
+    "description": "Looks at the floor when passing staff members.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_102": {
+    "id": "LIFESTYLE_REAL_102",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Greets Every Staff Member",
+    "description": "Knows all the camera operators by name.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_103": {
+    "id": "LIFESTYLE_REAL_103",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Ignores Junior Staff",
+    "description": "Only talks to the main producers and judges.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_104": {
+    "id": "LIFESTYLE_REAL_104",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Flirts with Stylists",
+    "description": "Uses their charm to get the best outfits.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_105": {
+    "id": "LIFESTYLE_REAL_105",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Argues with Stylists",
+    "description": "Hates what they are put in and fights for their own style.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_106": {
+    "id": "LIFESTYLE_REAL_106",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Customizes Outfits",
+    "description": "Rips sleeves or adds pins to their official uniforms.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_107": {
+    "id": "LIFESTYLE_REAL_107",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Refuses Makeup",
+    "description": "Hates the feeling of foundation on their skin.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_108": {
+    "id": "LIFESTYLE_REAL_108",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Does Own Makeup",
+    "description": "Doesn't trust the staff. Brings their own professional kit.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_109": {
+    "id": "LIFESTYLE_REAL_109",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Hair Gel Addict",
+    "description": "Uses half a bottle of gel a day to spike their hair.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_110": {
+    "id": "LIFESTYLE_REAL_110",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Hates Hairspray",
+    "description": "Refuses to let stylists spray their hair. Wants it 'natural'.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_111": {
+    "id": "LIFESTYLE_REAL_111",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Constantly Dyeing Hair",
+    "description": "Changes their hair color every single episode.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_112": {
+    "id": "LIFESTYLE_REAL_112",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Wigs Only",
+    "description": "Refuses to dye their real hair to avoid damage.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_113": {
+    "id": "LIFESTYLE_REAL_113",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Hat Indoors",
+    "description": "Wears a beanie or cap 24/7, even when eating.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_114": {
+    "id": "LIFESTYLE_REAL_114",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Sunglasses Indoors",
+    "description": "Thinks they are a rockstar. Wears shades in the dark.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_115": {
+    "id": "LIFESTYLE_REAL_115",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Hood Up Always",
+    "description": "Hides in their hoodie to avoid the cameras.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_116": {
+    "id": "LIFESTYLE_REAL_116",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Pajamas in Public",
+    "description": "Wears flannel pants to the grocery store.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_117": {
+    "id": "LIFESTYLE_REAL_117",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Full Suit to Rehearsal",
+    "description": "Dresses up just to sweat in the dance studio.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_118": {
+    "id": "LIFESTYLE_REAL_118",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Designer Brands Only",
+    "description": "Refuses to wear anything without a luxury logo.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_119": {
+    "id": "LIFESTYLE_REAL_119",
+    "type": "lifestyle",
+    "group": "Resource Management",
+    "name": "Thrift Store Exclusives",
+    "description": "Only wears vintage clothes they found in bargain bins.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_120": {
+    "id": "LIFESTYLE_REAL_120",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Sweats Only",
+    "description": "Values comfort above all else.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_121": {
+    "id": "LIFESTYLE_REAL_121",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Refuses to Wear Shirts",
+    "description": "Walks around the dorm shirtless constantly.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_122": {
+    "id": "LIFESTYLE_REAL_122",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Oversized Everything",
+    "description": "Wears clothes three sizes too big.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_123": {
+    "id": "LIFESTYLE_REAL_123",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Skin-Tight Clothing",
+    "description": "Shows off their gym results at all times.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_124": {
+    "id": "LIFESTYLE_REAL_124",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "Excess Jewelry",
+    "description": "Wears 10 rings and 4 necklaces at once.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_125": {
+    "id": "LIFESTYLE_REAL_125",
+    "type": "lifestyle",
+    "group": "Hygiene & Grooming",
+    "name": "No Accessories",
+    "description": "Hates the feeling of metal on their skin.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_126": {
+    "id": "LIFESTYLE_REAL_126",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "AirPods Always In",
+    "description": "Never takes their headphones out, even when talking to you.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_127": {
+    "id": "LIFESTYLE_REAL_127",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Blasts Music on Speaker",
+    "description": "Forces the entire dorm to listen to their playlist.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_128": {
+    "id": "LIFESTYLE_REAL_128",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Sings Along Badly",
+    "description": "Ruins the songs they listen to by harmonizing poorly.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_129": {
+    "id": "LIFESTYLE_REAL_129",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Whistles Songs",
+    "description": "Whistles happily while doing chores.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_130": {
+    "id": "LIFESTYLE_REAL_130",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Beatboxes While Walking",
+    "description": "Provides a soundtrack to their own life.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_131": {
+    "id": "LIFESTYLE_REAL_131",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Taps on Walls",
+    "description": "Hits the walls as they walk down the hallway.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_132": {
+    "id": "LIFESTYLE_REAL_132",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Slams Doors",
+    "description": "Closes doors with maximum aggression.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_133": {
+    "id": "LIFESTYLE_REAL_133",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Closes Doors Silently",
+    "description": "Turns the handle to ensure the latch makes no noise.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_134": {
+    "id": "LIFESTYLE_REAL_134",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Heavy Footsteps",
+    "description": "Stomps around the dorm like a giant.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_135": {
+    "id": "LIFESTYLE_REAL_135",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Ninja Walker",
+    "description": "Moves completely silently. Scares people by appearing behind them.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_136": {
+    "id": "LIFESTYLE_REAL_136",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Skips Instead of Walking",
+    "description": "Has too much energy. Literally skips down the hall.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_137": {
+    "id": "LIFESTYLE_REAL_137",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Runs Everywhere",
+    "description": "Treats every hallway like a 100m dash.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_138": {
+    "id": "LIFESTYLE_REAL_138",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Slow Walker",
+    "description": "Takes their absolute time getting anywhere.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_139": {
+    "id": "LIFESTYLE_REAL_139",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Stands in Doorways",
+    "description": "Blocks the exit to chat. Highly annoying.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_140": {
+    "id": "LIFESTYLE_REAL_140",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Sits on Floor",
+    "description": "Prefers sitting on the carpet over using a chair.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_141": {
+    "id": "LIFESTYLE_REAL_141",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Cross-Legged Always",
+    "description": "Sits 'criss-cross applesauce' even in formal chairs.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_142": {
+    "id": "LIFESTYLE_REAL_142",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Manspreader",
+    "description": "Takes up three seats on the dorm couch.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_143": {
+    "id": "LIFESTYLE_REAL_143",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Fetal Position Sitter",
+    "description": "Pulls their knees to their chest when sitting.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_144": {
+    "id": "LIFESTYLE_REAL_144",
+    "type": "lifestyle",
+    "group": "Dorm Environment",
+    "name": "Bounces on Balls",
+    "description": "Uses a yoga ball instead of a chair.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_145": {
+    "id": "LIFESTYLE_REAL_145",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Cannot Sit Still",
+    "description": "Is always shifting, standing up, or stretching.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_146": {
+    "id": "LIFESTYLE_REAL_146",
+    "type": "lifestyle",
+    "group": "Sleep Preference",
+    "name": "Falls Asleep Sitting Up",
+    "description": "Can sleep in a rigid chair on the tour bus.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_147": {
+    "id": "LIFESTYLE_REAL_147",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Reads Physical Books",
+    "description": "Carries a novel everywhere. Hates screens.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_148": {
+    "id": "LIFESTYLE_REAL_148",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "E-Reader User",
+    "description": "Has a Kindle with 10,000 books on it.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_149": {
+    "id": "LIFESTYLE_REAL_149",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Comic Book Hoarder",
+    "description": "Stacks of manga and comics by their bed.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_150": {
+    "id": "LIFESTYLE_REAL_150",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Anime Binge Watcher",
+    "description": "Stays up late watching anime with subtitles.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_151": {
+    "id": "LIFESTYLE_REAL_151",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Reality TV Junkie",
+    "description": "Watches other survival shows to study the tactics.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 1,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_152": {
+    "id": "LIFESTYLE_REAL_152",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Documentary Nerd",
+    "description": "Only watches educational content.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_153": {
+    "id": "LIFESTYLE_REAL_153",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "Doom Scroller",
+    "description": "Spends 6 hours a day on social media.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_154": {
+    "id": "LIFESTYLE_REAL_154",
+    "type": "lifestyle",
+    "group": "Media Consumption",
+    "name": "No Social Media",
+    "description": "Deleted all their apps to protect their mental health.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_155": {
+    "id": "LIFESTYLE_REAL_155",
+    "type": "lifestyle",
+    "group": "Practice Routine",
+    "name": "Writes Fanmail Responses",
+    "description": "Spends hours writing back to fans by hand.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": -0.01
+    }
+  },
+  "LIFESTYLE_REAL_156": {
+    "id": "LIFESTYLE_REAL_156",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Ignores the Cameras",
+    "description": "Pretends they are not filming a reality show.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.01
+    }
+  },
+  "LIFESTYLE_REAL_157": {
+    "id": "LIFESTYLE_REAL_157",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Plays to the Cameras",
+    "description": "Constantly winking and finding the red light.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": 2,
+      "aggregations.audienceRatio": 0.02
+    }
+  },
+  "LIFESTYLE_REAL_158": {
+    "id": "LIFESTYLE_REAL_158",
+    "type": "lifestyle",
+    "group": "Social Boundary",
+    "name": "Hides from Cameras",
+    "description": "Ducks behind taller members to avoid screen time.",
+    "occurrence": 1,
+    "influences": {
+      "personality.resilience": -1,
+      "aggregations.audienceRatio": 0.01
+    }
+  }
+}

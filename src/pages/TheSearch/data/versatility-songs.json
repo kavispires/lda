@@ -1,0 +1,161 @@
+[
+  {
+    "id": "dg-paper-moon",
+    "title": "Paper Moon Parade",
+    "concept": "A playful rooftop celebration with crisp gestures and bright character changes.",
+    "genre": "MAINSTREAM_POP",
+    "parts": [
+      {
+        "id": "moon-invitation",
+        "name": "Invitation",
+        "alternatives": {
+          "VOCAL": { "difficulty": 2, "action": "Open with a clear melodic invitation." },
+          "RAP": { "difficulty": 2, "action": "Introduce the rooftop with a clipped rhythmic verse." },
+          "DANCE": { "difficulty": 2, "action": "Lead the opening wrist-and-step motif." }
+        }
+      },
+      {
+        "id": "moon-lantern",
+        "name": "Lantern verse",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Carry the buoyant verse through a register change." },
+          "RAP": { "difficulty": 3, "action": "Place syncopated accents around the backing hook." },
+          "DANCE": { "difficulty": 3, "action": "Trace the lantern pattern through the formation." }
+        }
+      },
+      {
+        "id": "moon-chorus",
+        "name": "Parade hook",
+        "alternatives": {
+          "VOCAL": { "difficulty": 4, "action": "Sustain the chorus above the backing harmonies." },
+          "RAP": { "difficulty": 4, "action": "Build a fast call-and-response refrain." },
+          "DANCE": { "difficulty": 4, "action": "Anchor the sharp chorus formation changes." }
+        }
+      },
+      {
+        "id": "moon-bridge",
+        "name": "Quiet rooftop",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Shape the softer bridge with supported breath." },
+          "RAP": { "difficulty": 3, "action": "Deliver the sparse bridge with precise rests." },
+          "DANCE": { "difficulty": 3, "action": "Control the bridge isolation sequence." }
+        }
+      },
+      {
+        "id": "moon-finale",
+        "name": "Final flourish",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Resolve the final response in tune." },
+          "RAP": { "difficulty": 3, "action": "Close with an articulated rhythmic response." },
+          "DANCE": { "difficulty": 3, "action": "Finish the turning phrase on the final beat." }
+        }
+      }
+    ]
+  },
+  {
+    "id": "dg-cherry-static",
+    "title": "Cherry Static",
+    "concept": "A cheeky arcade challenge, mixing tiny character gestures with bold synchronized accents.",
+    "genre": "HIP_HOP",
+    "parts": [
+      {
+        "id": "static-token",
+        "name": "First token",
+        "alternatives": {
+          "VOCAL": { "difficulty": 2, "action": "Open the melody with bright articulation." },
+          "RAP": { "difficulty": 2, "action": "Set the beat with a compact introductory flow." },
+          "DANCE": { "difficulty": 2, "action": "Start the arcade-step motif with clean angles." }
+        }
+      },
+      {
+        "id": "static-level",
+        "name": "Level up",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Keep the climbing phrase supported." },
+          "RAP": { "difficulty": 3, "action": "Maintain a steady flow across the verse." },
+          "DANCE": { "difficulty": 3, "action": "Navigate the diagonal travelling steps." }
+        }
+      },
+      {
+        "id": "static-bonus",
+        "name": "Bonus round",
+        "alternatives": {
+          "VOCAL": { "difficulty": 4, "action": "Deliver the exposed hook with controlled projection." },
+          "RAP": { "difficulty": 4, "action": "Land the rapid bonus-round rhythm." },
+          "DANCE": { "difficulty": 4, "action": "Lead the popping sequence through the hook." }
+        }
+      },
+      {
+        "id": "static-pause",
+        "name": "Pause screen",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Hold the bridge without losing pitch." },
+          "RAP": { "difficulty": 3, "action": "Contrast the hook with a restrained half-time flow." },
+          "DANCE": { "difficulty": 3, "action": "Sustain the slow-motion bridge with balance." }
+        }
+      },
+      {
+        "id": "static-score",
+        "name": "High score",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Lift the final phrase without straining." },
+          "RAP": { "difficulty": 3, "action": "Articulate the final rhythmic flourish." },
+          "DANCE": { "difficulty": 3, "action": "Hit the final sequence and shared freeze." }
+        }
+      }
+    ]
+  },
+  {
+    "id": "dg-sugar-compass",
+    "title": "Sugar Compass",
+    "concept": "A candy-colored train journey with warm storytelling and precise partner-free formations.",
+    "genre": "SOUL_GROOVE",
+    "parts": [
+      {
+        "id": "compass-ticket",
+        "name": "Ticket window",
+        "alternatives": {
+          "VOCAL": { "difficulty": 2, "action": "Set a warm and steady opening tone." },
+          "RAP": { "difficulty": 2, "action": "Introduce the journey with an unhurried flow." },
+          "DANCE": { "difficulty": 2, "action": "Begin the travelling motif with soft footwork." }
+        }
+      },
+      {
+        "id": "compass-platform",
+        "name": "Platform lights",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Connect the verse phrases with breath control." },
+          "RAP": { "difficulty": 3, "action": "Keep the verse accents behind the beat." },
+          "DANCE": { "difficulty": 3, "action": "Connect the platform turns smoothly." }
+        }
+      },
+      {
+        "id": "compass-north",
+        "name": "True north",
+        "alternatives": {
+          "VOCAL": { "difficulty": 4, "action": "Support the sustained central hook." },
+          "RAP": { "difficulty": 4, "action": "Anchor the hook with a dense rhythmic counterline." },
+          "DANCE": { "difficulty": 4, "action": "Lead the central formation with precise extensions." }
+        }
+      },
+      {
+        "id": "compass-window",
+        "name": "Window seat",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Give the bridge a distinct intimate color." },
+          "RAP": { "difficulty": 3, "action": "Shape the reflective bridge with measured pauses." },
+          "DANCE": { "difficulty": 3, "action": "Control the expressive bridge isolations." }
+        }
+      },
+      {
+        "id": "compass-arrival",
+        "name": "Arrival",
+        "alternatives": {
+          "VOCAL": { "difficulty": 3, "action": "Resolve the final hook with gentle projection." },
+          "RAP": { "difficulty": 3, "action": "Bring the concluding rhythm cleanly home." },
+          "DANCE": { "difficulty": 3, "action": "Complete the arrival sequence in formation." }
+        }
+      }
+    ]
+  }
+]
