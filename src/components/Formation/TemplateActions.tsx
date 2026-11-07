@@ -6,10 +6,12 @@ import { useState } from 'react';
 
 export function TemplateActions({
   positions,
+  centerCandidates = [],
   onApply,
   disabled = false,
 }: {
   positions: FormationPose;
+  centerCandidates?: string[];
   onApply: (positions: FormationPose) => void;
   disabled?: boolean;
 }) {
@@ -37,7 +39,7 @@ export function TemplateActions({
               return;
             }
             try {
-              onApply(assignTemplate(positions, template));
+              onApply(assignTemplate(positions, template, centerCandidates));
             } catch (error) {
               message.error(error instanceof Error ? error.message : String(error));
             }

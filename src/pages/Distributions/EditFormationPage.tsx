@@ -18,6 +18,7 @@ import {
   dancerIds,
   deleteFormationSnapshot,
   formatFormationTime,
+  formationCenterCandidates,
   formationErrors,
   initialPose,
   reconcileCast,
@@ -99,6 +100,7 @@ function FormationEditor({ initial, saved }: { initial: Formation; saved: Format
     saved.assigneesIds.length !== ids.length || ids.some((id) => !saved.assigneesIds.includes(id));
   const selected = formation.snapshots.find((s) => s.id === selectedId) ?? formation.snapshots[0];
   const selectedIndex = formation.snapshots.indexOf(selected);
+  const centerCandidates = formationCenterCandidates(song, distribution, selected.timestamp);
   const errors = formationErrors(formation, song, ids);
   const inPreview = (preview || videoControls.isPlaying) && errors.length === 0;
   const locked = mutation.isPending || inPreview;
@@ -464,10 +466,11 @@ function FormationEditor({ initial, saved }: { initial: Formation; saved: Format
                   disabled={!clipboard || locked}
                   onClick={() =>
                     act(() => {
-                      if (clipboard) editPose(assignCopiedPose(selected.positions, clipboard));
+                      if (clipboard)
+                        editPose(assignCopiedPose(selected.positions, clipboard, centerCandidates));
                     })
                   }
-                  title="Minimize total travel; ties favor dancers closer to the audience, then center"
+                  title="Center the current or next non-adlib singer at this snapshot; then minimize total travel, with existing audience and center tie-breaks"
                 >
                   Paste by closest dancer
                 </Button>
@@ -496,7 +499,12 @@ function FormationEditor({ initial, saved }: { initial: Formation; saved: Format
                   </Button>
                 </Popconfirm>
               </Space>
-              <TemplateActions disabled={locked} onApply={editPose} positions={selected.positions} />
+              <TemplateActions
+                centerCandidates={centerCandidates}
+                disabled={locked}
+                onApply={editPose}
+                positions={selected.positions}
+              />
               {formation.assigneesIds.join('|') !== ids.join('|') && (
                 <Button
                   disabled={mutation.isPending}

@@ -16,6 +16,7 @@ import {
   dancerIds,
   deleteFormationSnapshot,
   deserializeFormation,
+  formationCenterCandidates,
   formationCenterDurations,
   formationErrors,
   initialPose,
@@ -385,6 +386,131 @@ function assignmentCost(source: FormationPose, target: FormationPose) {
     0,
   );
 }
+
+test('center candidates prefer current non-adlib singers, then the earliest assigned regular part', () => {
+  const { song, distribution } = fixture();
+  song.content = {
+    line: { id: 'line', type: 'line', sectionId: 's', partsIds: ['p', 'q', 'r', 'last'] },
+    adlib: { id: 'adlib', type: 'line', sectionId: 's', partsIds: ['extra'], adlib: true, inline: true },
+    harmony: {
+      id: 'harmony',
+      type: 'line',
+      sectionId: 's',
+      partsIds: ['h'],
+      dismissible: true,
+      harmonyOf: 'line',
+    },
+    ...Object.fromEntries(
+      [
+        ['p', 'line', 3000, 5000],
+        ['q', 'line', 5000, 7000],
+        ['r', 'line', 5000, 6000],
+        ['last', 'line', 9000, 10000],
+        ['extra', 'adlib', 2000, 12000],
+        ['h', 'harmony', 5000, 7000],
+      ].map(([id, lineId, startTime, endTime]) => [
+        id,
+        { id, type: 'part', lineId, startTime, endTime, text: 'test', recommendedAssignee: '' },
+      ]),
+    ),
+  };
+  distribution.mapping = { p: ['a'], q: ['c'], r: ['d'], last: ['e'], extra: ['b'], h: ['e'] };
+  assert.deepEqual(formationCenterCandidates(song, distribution, 2000), ['a']);
+  assert.deepEqual(formationCenterCandidates(song, distribution, 3500), ['a']);
+  assert.deepEqual(formationCenterCandidates(song, distribution, 5000), ['c', 'd', 'e']);
+  assert.deepEqual(formationCenterCandidates(song, distribution, 7000), ['e']);
+  assert.deepEqual(formationCenterCandidates(song, distribution, 10000), []);
+  assert.deepEqual(formationCenterCandidates(song, distribution, song.endAt), []);
+  distribution.mapping.p = [NONE_ID, 'departed'];
+  assert.deepEqual(formationCenterCandidates(song, distribution, 3500), ['c', 'd', 'e']);
+  distribution.mapping.q = [ALL_ID, NONE_ID];
+  assert.deepEqual(formationCenterCandidates(song, distribution, 5000), dancerIds(distribution));
+});
+
+test('singer-first template and closest-paste matching override travel and use horizontal center before audience proximity', () => {
+  const source = initialPose(['a', 'b', 'c', 'd', 'e']);
+  const copied = structuredClone(source);
+  const template = { dancerCount: 5 as const, positions: Object.values(copied) };
+  for (const result of [assignCopiedPose(source, copied, ['a']), assignTemplate(source, template, ['a'])]) {
+    assert.deepEqual(result.a, copied.c, 'The singer must displace the already-centered nonsinger');
+    assert.equal(assignmentCost(source, result), 8);
+    assert.deepEqual(poseErrors(result), []);
+  }
+  const targets = [
+    { x: 13.5, y: 1.5 },
+    { x: 12.5, y: 15.5 },
+    { x: 14.5, y: 17.5 },
+    { x: 4.5, y: 9.5 },
+    { x: 22.5, y: 9.5 },
+  ];
+  assert.deepEqual(assignTemplate(source, { dancerCount: 5, positions: targets }, ['a']).a, targets[0]);
+  targets[0] = { x: 5.5, y: 1.5 };
+  assert.deepEqual(assignTemplate(source, { dancerCount: 5, positions: targets }, ['a']).a, targets[2]);
+  assert.deepEqual(
+    assignCopiedPose(source, Object.fromEntries(targets.map((pos, i) => [String(i), pos])), ['a']).a,
+    targets[2],
+  );
+  assert.deepEqual(source, copied);
+  assert.deepEqual(assignCopiedPose({ solo: { x: 1.5, y: 1.5 } }, { slot: { x: 13.5, y: 9.5 } }, ['solo']), {
+    solo: { x: 13.5, y: 9.5 },
+  });
+  assert.throws(() => assignCopiedPose(source, copied, ['departed']), /current dancer/);
+  assert.throws(() => assignTemplate(source, template, ['departed']), /current dancer/);
+});
+
+test('eligible center singers retain globally optimal travel and existing deterministic matching ties', () => {
+  for (const count of [3, 5, 7] as const) {
+    const source = initialPose(Array.from({ length: count }, (_, i) => `d${i}`));
+    const targets = Object.values(source).map((pos, i) => ({ x: pos.x + (i % 2), y: pos.y + (i % 3) }));
+    const copied = Object.fromEntries(targets.map((pos, i) => [`slot${i}`, pos]));
+    const ids = Object.keys(source);
+    const eligible = [ids[0], ids[ids.length - 1]];
+    const center = targets.reduce((best, pos, i) => {
+      const difference = Math.abs(pos.x - 13.5) - Math.abs(targets[best].x - 13.5);
+      return difference < 0 || (difference === 0 && pos.y > targets[best].y) ? i : best;
+    }, 0);
+    let minimum = Number.POSITIVE_INFINITY;
+    function enumerate(available: number[], index: number, cost: number) {
+      if (!available.length) {
+        minimum = Math.min(minimum, cost);
+        return;
+      }
+      for (const target of available) {
+        if (target === center && !eligible.includes(ids[index])) continue;
+        const from = source[ids[index]];
+        const to = targets[target];
+        enumerate(
+          available.filter((item) => item !== target),
+          index + 1,
+          cost + Math.hypot(from.x - to.x, from.y - to.y),
+        );
+      }
+    }
+    enumerate(
+      targets.map((_, i) => i),
+      0,
+      0,
+    );
+    const before = structuredClone({ source, copied });
+    const results = [assignCopiedPose(source, copied, eligible)];
+    if (count !== 3)
+      results.push(assignTemplate(source, { dancerCount: count, positions: targets }, eligible));
+    for (const result of results) {
+      assert.ok(Math.abs(assignmentCost(source, result) - minimum) < 1e-8);
+      assert.ok(
+        eligible.some((id) => result[id].x === targets[center].x && result[id].y === targets[center].y),
+      );
+    }
+    assert.deepEqual(assignCopiedPose(source, copied, ids), assignCopiedPose(source, copied));
+    assert.deepEqual(assignCopiedPose(source, copied, [...eligible].reverse()), results[0]);
+    if (count !== 3) {
+      const template = { dancerCount: count, positions: targets };
+      assert.deepEqual(assignTemplate(source, template, ids), assignTemplate(source, template));
+      assert.deepEqual(assignTemplate(source, template, [...eligible].reverse()), results[1]);
+    }
+    assert.deepEqual({ source, copied }, before);
+  }
+});
 
 test('copied poses reassign every slot by minimum total travel, not copied identity or greedy proximity', () => {
   const source = Object.fromEntries([2, 3, 8, 13, 18].map((x, i) => [String(i), { x, y: 9 }]));

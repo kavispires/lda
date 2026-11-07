@@ -505,10 +505,42 @@ export function readFormationTemplate(value: unknown, id: string): FormationTemp
   };
 }
 
-function minimumTravelAssignment(costs: number[][]): number[] {
+function minimumTravelAssignment(
+  costs: number[][],
+  centerChoices: { row: number; column: number }[] = [],
+): number[] {
   const count = costs.length;
   if (costs.some((row) => row.some((cost) => !Number.isFinite(cost)))) {
     throw new Error('Current dancer coordinates must be finite.');
+  }
+  if (centerChoices.length) {
+    if (centerChoices.some(({ row, column }) => row < 0 || column < 0 || row >= count || column >= count))
+      throw new Error('Center singer must be a current dancer.');
+    const unrestricted = minimumTravelAssignment(costs);
+    if (centerChoices.some(({ row, column }) => unrestricted[row] === column)) return unrestricted;
+    let best: number[] = [];
+    let minimum = Number.POSITIVE_INFINITY;
+    for (const { row, column } of centerChoices) {
+      const rows = costs.map((_, index) => index).filter((index) => index !== row);
+      const columns = costs.map((_, index) => index).filter((index) => index !== column);
+      // Reserve the singer's center slot, then optimize everybody else's travel normally.
+      const remaining = minimumTravelAssignment(rows.map((r) => columns.map((c) => costs[r][c])));
+      const assignment = Array<number>(count);
+      assignment[row] = column;
+      rows.forEach((r, index) => {
+        assignment[r] = columns[remaining[index]];
+      });
+      const cost = assignment.reduce((sum, c, r) => sum + costs[r][c], 0);
+      const difference = assignment.findIndex((c, r) => c !== best[r]);
+      if (
+        cost < minimum - EPSILON ||
+        (Math.abs(cost - minimum) <= EPSILON && difference >= 0 && assignment[difference] < best[difference])
+      ) {
+        minimum = cost;
+        best = assignment;
+      }
+    }
+    return best;
   }
   const rowPotential = Array<number>(count + 1).fill(0);
   const columnPotential = Array<number>(count + 1).fill(0);
@@ -591,7 +623,21 @@ function minimumTravelAssignment(costs: number[][]): number[] {
   return result;
 }
 
-export function assignCopiedPose(positions: FormationPose, copied: FormationPose): FormationPose {
+function centerSlotIndex(positions: StagePosition[]): number {
+  return positions.reduce((best, position, index) => {
+    const distance = Math.abs(position.x - STAGE_WIDTH / 2);
+    const bestDistance = Math.abs(positions[best].x - STAGE_WIDTH / 2);
+    return distance < bestDistance || (distance === bestDistance && position.y > positions[best].y)
+      ? index
+      : best;
+  }, 0);
+}
+
+export function assignCopiedPose(
+  positions: FormationPose,
+  copied: FormationPose,
+  centerCandidates: string[] = [],
+): FormationPose {
   const ids = Object.keys(positions);
   const targets = Object.values(copied);
   if (!ids.length || ids.length !== targets.length) {
@@ -607,6 +653,7 @@ export function assignCopiedPose(positions: FormationPose, copied: FormationPose
     targets.map((target) =>
       ids.map((id) => Math.hypot(positions[id].x - target.x, positions[id].y - target.y)),
     ),
+    centerCandidates.map((id) => ({ row: centerSlotIndex(targets), column: ids.indexOf(id) })),
   );
   return Object.fromEntries(assignment.map((dancer, index) => [ids[dancer], { ...targets[index] }]));
 }
@@ -614,6 +661,7 @@ export function assignCopiedPose(positions: FormationPose, copied: FormationPose
 export function assignTemplate(
   positions: FormationPose,
   template: Pick<FormationTemplate, 'dancerCount' | 'positions'>,
+  centerCandidates: string[] = [],
 ): FormationPose {
   const ids = Object.keys(positions).sort();
   if (
@@ -629,8 +677,51 @@ export function assignTemplate(
     ids.map((id) =>
       template.positions.map((target) => Math.hypot(positions[id].x - target.x, positions[id].y - target.y)),
     ),
+    centerCandidates.map((id) => ({ row: ids.indexOf(id), column: centerSlotIndex(template.positions) })),
   );
   return Object.fromEntries(ids.map((id, index) => [id, { ...template.positions[assignment[index]] }]));
+}
+
+export function formationCenterCandidates(
+  song: Song,
+  distribution: Distribution,
+  timestamp: number,
+): string[] {
+  if (!Number.isFinite(timestamp)) throw new Error('Snapshot time must be finite.');
+  if (timestamp < song.startAt || timestamp >= song.endAt) return [];
+  const ids = dancerIds(distribution);
+  const current = new Set<string>();
+  const upcoming = new Set<string>();
+  let nextStart = Number.POSITIVE_INFINITY;
+  for (const part of Object.values(song.content)) {
+    if (part.type !== 'part') continue;
+    const line = song.content[part.lineId];
+    if (line?.type !== 'line' || line.adlib) continue;
+    const start = Math.max(part.startTime, song.startAt);
+    const end = Math.min(part.endTime, song.endAt);
+    if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start || end <= timestamp) continue;
+    const assigned = new Set<string>();
+    for (const id of distribution.mapping[part.id] ?? []) {
+      if (id === ALL_ID)
+        ids.forEach((dancer) => {
+          assigned.add(dancer);
+        });
+      else if (id !== NONE_ID && ids.includes(id)) assigned.add(id);
+    }
+    if (!assigned.size) continue;
+    if (start <= timestamp) {
+      assigned.forEach((id) => {
+        current.add(id);
+      });
+    } else if (start <= nextStart) {
+      if (start < nextStart) upcoming.clear();
+      nextStart = start;
+      assigned.forEach((id) => {
+        upcoming.add(id);
+      });
+    }
+  }
+  return [...(current.size ? current : upcoming)].sort();
 }
 
 export function activeFormationSingers(song: Song, distribution: Distribution, timestamp: number): string[] {
