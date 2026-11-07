@@ -116,6 +116,10 @@ export type SongLine = {
    */
   adlib?: boolean;
   /**
+   * Display a nondismissible adlib in the main lyrics without changing its adlib accounting.
+   */
+  inline?: boolean;
+  /**
    * Id of the line this line is sung on top of (harmony). Its text must be fully or partially contained in the target line.
    * Harmony lines are mutually exclusive with adlibs and are usually dismissible, but always count in the main duration.
    */

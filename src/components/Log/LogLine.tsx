@@ -89,14 +89,14 @@ export function LogLine({
 
           {onClick ? (
             <Button className="log-line__line-text" onClick={() => onClick(id)} type="text">
-              {!!line.adlib && '> '}
+              {!!line.adlib && (line.inline ? '> ' : '>> ')}
               {!!line.dismissible && '* '}
               {!!line.harmonyOf && '& '}
               {text}
             </Button>
           ) : (
             <span className="log-line__line-text">
-              {!!line.adlib && '> '}
+              {!!line.adlib && (line.inline ? '> ' : '>> ')}
               {!!line.dismissible && '* '}
               {!!line.harmonyOf && '& '}
               {text}

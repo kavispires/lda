@@ -175,7 +175,7 @@ export const RATE = 100;
  * @param song - The song with all its parts and timing information
  * @returns Dictionary of snapshots keyed by time unit, each containing a snapshot per artist
  */
-const buildBarSnapshots = (distribution: Distribution, song: Song) => {
+export const buildBarSnapshots = (distribution: Distribution, song: Song) => {
   // Step 1: Map each time unit to the parts that are active during that unit
   const partsInUnits: Dictionary<UID[]> = {};
   // For each part in the song, calculate which time units it spans
@@ -346,6 +346,7 @@ export type LyricSnapshot = {
   startTime: number; // Start time for this snapshot (in units)
   endTime: number; // End time for this snapshot
   lines: {
+    inline?: boolean;
     parts: Array<{
       text: string;
       colors: string[];
@@ -362,7 +363,7 @@ export type LyricSnapshot = {
  * @param song - The song with lyrics and timing
  * @returns Object with separate snapshots for main lyrics and adlibs
  */
-const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
+export const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
   const lyricsSnapshots: Dictionary<LyricSnapshot> = {};
   const adlibsSnapshots: Dictionary<LyricSnapshot> = {};
 
@@ -382,8 +383,8 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
     // Collect all artists assigned to this line's parts
     const assigneesIds = removeDuplicates(line.partsIds.flatMap((partId) => distribution.mapping[partId]));
 
-    // Handle ad-libs separately (they appear in parentheses)
-    if (line.adlib) {
+    // Only side-panel adlibs bypass the main lyric flow.
+    if (line.adlib && !line.inline) {
       const parts = line.partsIds.map((partId) => {
         const part = distributor.getPart(partId, song);
         const partText = part.text.replace(/^\(|\)$/g, '');
@@ -429,7 +430,10 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
         };
       });
 
-      lyricsSnapshots[latestTimestamp].lines.push({ parts });
+      lyricsSnapshots[latestTimestamp].lines.push({
+        parts,
+        ...(line.adlib && line.inline ? { inline: true } : {}),
+      });
       return;
     }
 
@@ -464,7 +468,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       assigneesIds: assigneesIds,
       startTime: startTime / RATE,
       endTime: endTime / RATE,
-      lines: [{ parts }],
+      lines: [{ parts, ...(line.adlib && line.inline ? { inline: true } : {}) }],
     };
 
     lyricsSnapshots[adjustedTimestamp] = newLyricSnapshot;
@@ -599,7 +603,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
  * @param song - The song with timing information
  * @returns Object with upNext and adlibUpNext dictionaries keyed by timestamp
  */
-const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
+export const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
   const upNext: Dictionary<UpNextItem[]> = {};
   const adlibUpNext: Dictionary<UpNextItem[]> = {};
 
@@ -647,7 +651,7 @@ const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
     const key = sortBy(assigneesIds).join('::');
 
     // Route to appropriate snapshot dictionary based on whether it's an adlib
-    if (line.adlib) {
+    if (line.adlib && !line.inline) {
       if (latestAdlibKey === key) {
         // Merge with existing snapshot, removing duplicates by name
         const existingItems = adlibUpNext[latestAdlibTimestamp] || [];
