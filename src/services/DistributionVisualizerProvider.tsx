@@ -1,11 +1,13 @@
+import { useDanceFormationQuery } from '@hooks/useDanceFormation';
 import { useVideoControls } from '@hooks/useVideoControls';
 import {
   type UseVisualizerMeasurementsResult,
   useVisualizerMeasurements,
 } from '@hooks/useVisualizerMeasurements';
-import type { Artist, Dictionary, Distribution, Song, UID } from '@types';
+import type { Artist, Dictionary, Distribution, Formation, Song, UID } from '@types';
 import { distributor, removeDuplicates } from '@utils';
 import { ALL_ID, NONE_ID } from '@utils/constants';
+import { dancerIds, formationErrors } from '@utils/formation';
 import { keyBy, orderBy, sortBy } from 'lodash';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { useLocalStorage, useToggle } from 'react-use';
@@ -48,6 +50,11 @@ type DistributionVisualizerContextType = {
   videoControls: ReturnType<typeof useVideoControls>;
   // Core data
   song: Song;
+  distribution: Distribution;
+  formation: Formation | null | undefined;
+  formationError: string | undefined;
+  formationLoading: boolean;
+  hasFormation: boolean;
   assignees: Artist[]; // Ordered list of artists
   assigneesDict: Dictionary<Artist>; // Artist lookup by ID
   // Layout measurements
@@ -87,6 +94,16 @@ export const DistributionVisualizerProvider = ({
   const [ref, measurements] = useVisualizerMeasurements(fullScreenMode);
 
   const videoControls = useVideoControls({ startAt: song.startAt, endAt: song.endAt });
+  const formationQuery = useDanceFormationQuery(distribution.formationId);
+  const formation = formationQuery.data;
+  const formationError = useMemo(() => {
+    if (formationQuery.isError) return formationQuery.error.message;
+    if (!formation) return undefined;
+    if (formation.distributionId !== distribution.id || formation.groupId !== distribution.groupId) {
+      return 'Formation belongs to another distribution or group.';
+    }
+    return formationErrors(formation, song, dancerIds(distribution)).join(' ') || undefined;
+  }, [formationQuery.isError, formationQuery.error, formation, distribution, song]);
 
   // Compute all visualization data (memoized to prevent unnecessary recalculations)
   // This generates time-based snapshots for bars, lyrics, and upcoming singers
@@ -119,6 +136,11 @@ export const DistributionVisualizerProvider = ({
         setShowDismissibleLines,
         videoControls,
         song,
+        distribution,
+        formation,
+        formationError,
+        formationLoading: formationQuery.isLoading,
+        hasFormation: !!distribution.formationId,
         measurements,
         assignees,
         assigneesDict: distribution.assignees,
@@ -175,7 +197,7 @@ export const RATE = 100;
  * @param song - The song with all its parts and timing information
  * @returns Dictionary of snapshots keyed by time unit, each containing a snapshot per artist
  */
-const buildBarSnapshots = (distribution: Distribution, song: Song) => {
+export const buildBarSnapshots = (distribution: Distribution, song: Song) => {
   // Step 1: Map each time unit to the parts that are active during that unit
   const partsInUnits: Dictionary<UID[]> = {};
   // For each part in the song, calculate which time units it spans
@@ -346,6 +368,7 @@ export type LyricSnapshot = {
   startTime: number; // Start time for this snapshot (in units)
   endTime: number; // End time for this snapshot
   lines: {
+    inline?: boolean;
     parts: Array<{
       text: string;
       colors: string[];
@@ -362,7 +385,7 @@ export type LyricSnapshot = {
  * @param song - The song with lyrics and timing
  * @returns Object with separate snapshots for main lyrics and adlibs
  */
-const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
+export const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
   const lyricsSnapshots: Dictionary<LyricSnapshot> = {};
   const adlibsSnapshots: Dictionary<LyricSnapshot> = {};
 
@@ -382,8 +405,8 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
     // Collect all artists assigned to this line's parts
     const assigneesIds = removeDuplicates(line.partsIds.flatMap((partId) => distribution.mapping[partId]));
 
-    // Handle ad-libs separately (they appear in parentheses)
-    if (line.adlib) {
+    // Only side-panel adlibs bypass the main lyric flow.
+    if (line.adlib && !line.inline) {
       const parts = line.partsIds.map((partId) => {
         const part = distributor.getPart(partId, song);
         const partText = part.text.replace(/^\(|\)$/g, '');
@@ -429,7 +452,10 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
         };
       });
 
-      lyricsSnapshots[latestTimestamp].lines.push({ parts });
+      lyricsSnapshots[latestTimestamp].lines.push({
+        parts,
+        ...(line.adlib && line.inline ? { inline: true } : {}),
+      });
       return;
     }
 
@@ -464,7 +490,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
       assigneesIds: assigneesIds,
       startTime: startTime / RATE,
       endTime: endTime / RATE,
-      lines: [{ parts }],
+      lines: [{ parts, ...(line.adlib && line.inline ? { inline: true } : {}) }],
     };
 
     lyricsSnapshots[adjustedTimestamp] = newLyricSnapshot;
@@ -599,7 +625,7 @@ const buildLyricsSnapshots = (distribution: Distribution, song: Song) => {
  * @param song - The song with timing information
  * @returns Object with upNext and adlibUpNext dictionaries keyed by timestamp
  */
-const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
+export const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
   const upNext: Dictionary<UpNextItem[]> = {};
   const adlibUpNext: Dictionary<UpNextItem[]> = {};
 
@@ -647,7 +673,7 @@ const buildUpNextSnapshots = (distribution: Distribution, song: Song) => {
     const key = sortBy(assigneesIds).join('::');
 
     // Route to appropriate snapshot dictionary based on whether it's an adlib
-    if (line.adlib) {
+    if (line.adlib && !line.inline) {
       if (latestAdlibKey === key) {
         // Merge with existing snapshot, removing duplicates by name
         const existingItems = adlibUpNext[latestAdlibTimestamp] || [];

@@ -9,6 +9,7 @@ import type { useVideoControls } from '@hooks/useVideoControls';
 import type { DistributionFreshness } from '@services/DistributionVisualizerProvider';
 import { Badge, Button, Popover, Segmented, Typography } from 'antd';
 import clsx from 'clsx';
+import type { ReactNode } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useKeyPressEvent } from 'react-use';
 
@@ -21,6 +22,7 @@ type VisualizerControlsProps = {
   isMobile?: boolean;
   displayMode?: DisplayMode;
   onDisplayModeChange?: (mode: DisplayMode) => void;
+  children?: ReactNode;
 };
 
 export type DisplayMode = 'regular' | 'barsOnly' | 'lyricsOnly';
@@ -39,6 +41,7 @@ export function VisualizerControls({
   isMobile = false,
   displayMode,
   onDisplayModeChange,
+  children,
 }: VisualizerControlsProps) {
   const { isPlaying, pauseVideo, playVideo, seekToStart, seekToEnd, onRestart } = videoControls;
   const navigate = useNavigate();
@@ -80,6 +83,7 @@ export function VisualizerControls({
       </Button>
       <Button onClick={() => navigate(`/distributions/${distributionId}/edit`)}>Edit Distribution</Button>
       <Button onClick={() => navigate(`/songs/${songId}/edit`)}>Edit Song</Button>
+      {children}
       {freshness.outdated && (
         <Popover
           content={

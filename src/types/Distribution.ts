@@ -18,6 +18,7 @@ export type Distribution = {
    * The group id
    */
   groupId: FUID;
+  formationId?: FUID;
   /**
    * The assignees
    */
@@ -50,6 +51,7 @@ export type DistributionListingData = {
    * Format per artist divided by `::`, with each segment formatted as `<color>|<percentage>|<name>`
    */
   snippet: string;
+  formationSnippet?: string;
   /**
    * The group id of the distribution
    */

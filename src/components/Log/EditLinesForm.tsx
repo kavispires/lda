@@ -1,21 +1,28 @@
+import { InfoCircleOutlined } from '@ant-design/icons';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
 import type { Dictionary, Song, SongLine, UID, UpdateValue } from '@types';
 import { distributor } from '@utils';
 import { LINE_SKILL } from '@utils/constants';
+import { applyLineFlagChanges, isInlineEligible } from '@utils/song/line-flags';
 import { Button, Divider, Flex, Form, Input, Popconfirm, Rate, Select, Switch, Typography } from 'antd';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { MoveLinesToSectionSelector } from './MoveLinesToSectionSelector';
 
-type CommonLineProps = Pick<SongLine, 'skill' | 'adlib' | 'dismissible'>;
+type CommonLineProps = Pick<SongLine, 'skill' | 'adlib' | 'dismissible' | 'inline'>;
+type BulkLineChanges = Partial<Pick<SongLine, 'adlib' | 'dismissible' | 'inline'>> & {
+  'skill.type'?: string;
+  'skill.level'?: number;
+};
 
 const getInitialValue = (linesIds: string[], song: Song): CommonLineProps => {
   const lines = linesIds.map((lineId) => distributor.getLine(lineId, song));
   const baseSkillType = lines?.[0]?.skill?.type;
   const baseSkillLevel = lines?.[0]?.skill?.level ?? 0;
-  const baseAdlib = lines?.[0]?.adlib;
-  const baseDismissible = lines?.[0]?.dismissible;
+  const baseAdlib = !!lines?.[0]?.adlib;
+  const baseDismissible = !!lines?.[0]?.dismissible;
+  const baseInline = !!lines?.[0]?.inline;
 
   const initialSkillType = lines.every((line) => line?.skill?.type === baseSkillType)
     ? baseSkillType
@@ -29,10 +36,30 @@ const getInitialValue = (linesIds: string[], song: Song): CommonLineProps => {
       initialSkillType && initialSkillLevel
         ? { type: initialSkillType, level: initialSkillLevel }
         : undefined,
-    adlib: lines.every((line) => line?.adlib === baseAdlib) ? baseAdlib : undefined,
-    dismissible: lines.every((line) => line?.dismissible === baseDismissible) ? baseDismissible : undefined,
+    adlib: lines.every((line) => !!line?.adlib === baseAdlib) ? baseAdlib : undefined,
+    dismissible: lines.every((line) => !!line?.dismissible === baseDismissible) ? baseDismissible : undefined,
+    inline: lines.every((line) => !!line?.inline === baseInline) ? baseInline : undefined,
   };
 };
+
+export function buildBulkLineUpdates(lines: SongLine[], changes: BulkLineChanges): Dictionary<UpdateValue> {
+  const updates: Dictionary<UpdateValue> = {};
+  for (const line of lines) {
+    const next = applyLineFlagChanges(line, changes);
+    for (const [key, value] of Object.entries(changes)) {
+      if (value !== undefined) {
+        updates[`content.${line.id}.${key}`] = value;
+      }
+    }
+    if (next.inline !== line.inline || changes.inline !== undefined) {
+      updates[`content.${line.id}.inline`] = !!next.inline;
+    }
+    if (changes.adlib) {
+      updates[`content.${line.id}.harmonyOf`] = '';
+    }
+  }
+  return updates;
+}
 
 const LINE_SKILL_OPTIONS = Object.values(LINE_SKILL).map((skill) => ({ label: skill, value: skill }));
 
@@ -45,13 +72,28 @@ type EditLinesFormProps = {
 export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProps) {
   const { song } = useSongEditContext();
   const { onBatchUpdateSong, onMergeLines } = useSongActions();
-  const [groupedLine, setTempLine] = useState<CommonLineProps>(getInitialValue(linesIds, song));
+  const [groupedLine] = useState<CommonLineProps>(getInitialValue(linesIds, song));
+  const [changes, setChanges] = useState<BulkLineChanges>({});
+  const lines = linesIds.map((lineId) => distributor.getLine(lineId, song));
+  const inlineEligible = lines.every((line) => isInlineEligible(applyLineFlagChanges(line, changes)));
 
   const [form] = Form.useForm<SongLine>();
   const isDirty = form.isFieldsTouched();
 
-  const onValuesChange = (changedValues: Partial<SongLine>) => {
-    setTempLine({ ...groupedLine, ...changedValues });
+  const onValuesChange = (changedValues: BulkLineChanges) => {
+    const nextChanges = { ...changes, ...changedValues };
+    if (
+      nextChanges.inline &&
+      !lines.every((line) => isInlineEligible(applyLineFlagChanges(line, nextChanges)))
+    ) {
+      nextChanges.inline = false;
+      form.setFieldsValue({ inline: false });
+    }
+    if (nextChanges.adlib === false || nextChanges.dismissible === true) {
+      nextChanges.inline = false;
+      form.setFieldsValue({ inline: false });
+    }
+    setChanges(nextChanges);
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: a function shouldn't be part of this dependency
@@ -60,28 +102,8 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
   }, [isDirty]);
 
   const onApplyChanges = () => {
-    const values = form.getFieldsValue();
-    if (values.adlib || values.dismissible || values.skill) {
-      const updates = linesIds.reduce((acc: Dictionary<UpdateValue>, lineId) => {
-        Object.entries(values).forEach(([key, value]) => {
-          if (value === undefined) return;
-
-          if (typeof value !== 'object') {
-            acc[`content.${lineId}.${key}`] = value;
-          } else {
-            Object.entries(values).forEach(([key, value]) => {
-              acc[`content.${lineId}.${key}`] = value;
-            });
-          }
-        });
-        return acc;
-      }, {});
-      // Adlibs can't be harmonies
-      if (values.adlib) {
-        linesIds.forEach((lineId) => {
-          updates[`content.${lineId}.harmonyOf`] = '';
-        });
-      }
+    const updates = buildBulkLineUpdates(lines, changes);
+    if (Object.keys(updates).length > 0) {
       onBatchUpdateSong(updates);
       setDirty(false);
       onClose();
@@ -110,29 +132,48 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
         </Form.Item>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-3 gap-2">
         <Form.Item
-          help="Check if line is an adlib not in the flow of the song."
           label="Adlib"
           name="adlib"
+          tooltip={{
+            title:
+              'Set line as an adlib. Adlibs are marked with >> in the main log and displayed on the side unless Inline is enabled.',
+            icon: <InfoCircleOutlined />,
+          }}
           valuePropName="checked"
         >
           <Switch />
         </Form.Item>
 
         <Form.Item
-          help="Check if line does not need to be displayed (vocalizing or effects)."
+          label="Inline"
+          name="inline"
+          tooltip={{
+            title:
+              'Display this adlib in the main lyrics while keeping its adlib totals. Inline Adlib is represented in the log but a single >.',
+            icon: <InfoCircleOutlined />,
+          }}
+          valuePropName="checked"
+        >
+          <Switch disabled={!inlineEligible} />
+        </Form.Item>
+
+        <Form.Item
           label="Dismissible"
           name="dismissible"
+          tooltip={{
+            title: 'Check if line does not need to be displayed (vocalizing or effects).',
+            icon: <InfoCircleOutlined />,
+          }}
           valuePropName="checked"
         >
           <Switch />
         </Form.Item>
       </div>
 
-      <Divider className="my-4" />
-
       <Divider />
+
       <Form.Item>
         <Flex gap={6}>
           <Button onClick={onClose}>Cancel</Button>

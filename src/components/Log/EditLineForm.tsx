@@ -1,10 +1,11 @@
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useLogLine } from '@hooks/useLogInstances';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
 import type { SongLine, UID } from '@types';
 import { distributor, getCompletionPercentage } from '@utils';
 import { LINE_SKILL } from '@utils/constants';
+import { applyLineFlagChanges, isInlineEligible } from '@utils/song/line-flags';
 import {
   Button,
   Divider,
@@ -63,17 +64,9 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
     !!tempLine.harmonyOf && !harmonyOptions.some((option) => option.value === tempLine.harmonyOf);
 
   const onValuesChange = (changedValues: Partial<SongLine>) => {
-    const updates: Partial<SongLine> = { ...changedValues };
-    // Harmony lines are dismissible by default (can be switched back off) and are never adlibs
-    if (changedValues.harmonyOf) {
-      updates.dismissible = true;
-      updates.adlib = false;
-    }
-    if (changedValues.adlib) {
-      updates.harmonyOf = undefined;
-    }
-    form.setFieldsValue(updates);
-    setTempLine({ ...tempLine, ...updates });
+    const next = applyLineFlagChanges(tempLine, changedValues);
+    form.setFieldsValue(next);
+    setTempLine(next);
   };
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: idk
@@ -110,20 +103,40 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
         </Form.Item>
       </div>
 
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-3 gap-2">
         <Form.Item
-          help="Check if line is an adlib not in the flow of the song."
           label="Adlib"
           name="adlib"
+          tooltip={{
+            title:
+              'Set line as an adlib. Adlibs are marked with >> in the main log and displayed on the side unless Inline is enabled.',
+            icon: <InfoCircleOutlined />,
+          }}
           valuePropName="checked"
         >
           <Switch />
         </Form.Item>
 
         <Form.Item
-          help="Check if line does not need to be displayed (vocalizing or effects)."
+          label="Inline"
+          name="inline"
+          tooltip={{
+            title:
+              'Display this adlib in the main lyrics while keeping its adlib totals. Inline Adlib is represented in the log but a single >.',
+            icon: <InfoCircleOutlined />,
+          }}
+          valuePropName="checked"
+        >
+          <Switch disabled={!isInlineEligible(tempLine)} />
+        </Form.Item>
+
+        <Form.Item
           label="Dismissible"
           name="dismissible"
+          tooltip={{
+            title: 'Check if line does not need to be displayed (vocalizing or effects).',
+            icon: <InfoCircleOutlined />,
+          }}
           valuePropName="checked"
         >
           <Switch />

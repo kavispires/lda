@@ -1,38 +1,32 @@
 import type { FUID, RecordTimestamps } from './common';
 
+export type StagePosition = { x: number; y: number };
+export type FormationPose = Record<FUID, StagePosition>;
+
+export type FormationSnapshot = {
+  id: string;
+  timestamp: number;
+  /** Milliseconds of movement immediately before this destination. */
+  transition: number;
+  positions: FormationPose;
+};
+
 export type Formation = {
-  /**
-   * Unique identifier
-   */
   id: FUID;
-  /**
-   * The type of the entity
-   */
   type: 'formation';
-  /**
-   * The distribution id
-   */
+  version: 2;
   distributionId: FUID;
-  /**
-   * The song id
-   */
   songId: FUID;
-  /**
-   * The group id
-   */
   groupId: FUID;
-  /**
-   * The assignees object
-   */
   assigneesIds: FUID[];
-  /**
-   * Mapping of timestamp and { assigneeId: position }
-   * This mapping should show the position of all assignees of each timestamp
-   * The value format is positionX::positionY and the index respects the same index as in assigneesIds
-   */
-  timeline: Record<string, string[]>;
+  snapshots: FormationSnapshot[];
 } & RecordTimestamps;
 
-export type FirestoreFormation = Omit<Formation, 'timeline'> & {
-  timeline: string;
-};
+export type FirestoreFormation = Omit<Formation, 'snapshots'> & { snapshots: string };
+
+export type FormationTemplate = {
+  id: FUID;
+  name: string;
+  dancerCount: 5 | 7;
+  positions: StagePosition[];
+} & RecordTimestamps;

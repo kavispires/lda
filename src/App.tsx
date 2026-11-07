@@ -4,7 +4,7 @@ import { AuthProvider } from '@services/AuthProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { App as AntApp } from 'antd';
 import { lazy, Suspense } from 'react';
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { createHashRouter, createRoutesFromElements, Outlet, Route, RouterProvider } from 'react-router-dom';
 import { HomePage } from './pages/Home';
 
 // Lazy load feature areas for code splitting
@@ -24,6 +24,9 @@ const EditFormationPage = lazy(() =>
 );
 const NewDistributionPage = lazy(() =>
   import('@pages/Distributions/NewDistributionPage').then((m) => ({ default: m.NewDistributionPage })),
+);
+const FormationTemplatesPage = lazy(() =>
+  import('@pages/Formations/FormationTemplatesPage').then((m) => ({ default: m.FormationTemplatesPage })),
 );
 
 const EditSongPage = lazy(() =>
@@ -53,39 +56,48 @@ const queryClient = new QueryClient({
   },
 });
 
+function AppLayout() {
+  return (
+    <AuthProvider>
+      <Layout>
+        <Suspense fallback={<ContentLoading />}>
+          <Outlet />
+        </Suspense>
+      </Layout>
+    </AuthProvider>
+  );
+}
+
+const router = createHashRouter(
+  createRoutesFromElements(
+    <Route element={<AppLayout />}>
+      <Route element={<HomePage />} path="/" />
+
+      <Route element={<NewDistributionPage />} path="/distributions/new" />
+      <Route element={<DistributionPage />} path="/distributions/:distributionId" />
+      <Route element={<EditDistributionPage />} path="/distributions/:distributionId/edit" />
+      <Route element={<EditFormationPage />} path="/distributions/:distributionId/formation/:formationId" />
+      <Route element={<DistributionsListingPage />} path="/distributions" />
+      <Route element={<FormationTemplatesPage />} path="/formation-templates" />
+      <Route element={<FormationTemplatesPage />} path="/formation-templates/:templateId" />
+
+      <Route element={<GroupsListingPage />} path="/groups" />
+
+      <Route element={<NewSongPage />} path="/songs/new" />
+      <Route element={<div>Song</div>} path="/songs/:songId" />
+      <Route element={<EditSongPage />} path="/songs/:songId/edit" />
+      <Route element={<SongsListingPage />} path="/songs" />
+
+      <Route element={<TheSearchRoutes />} path="/the-search/*" />
+    </Route>,
+  ),
+);
+
 function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AntApp>
-        <HashRouter>
-          <AuthProvider>
-            <Layout>
-              <Suspense fallback={<ContentLoading />}>
-                <Routes>
-                  <Route element={<HomePage />} path="/" />
-
-                  <Route element={<NewDistributionPage />} path="/distributions/new" />
-                  <Route element={<DistributionPage />} path="/distributions/:distributionId" />
-                  <Route element={<EditDistributionPage />} path="/distributions/:distributionId/edit" />
-                  <Route
-                    element={<EditFormationPage />}
-                    path="/distributions/:distributionId/formation/:formationId"
-                  />
-                  <Route element={<DistributionsListingPage />} path="/distributions" />
-
-                  <Route element={<GroupsListingPage />} path="/groups" />
-
-                  <Route element={<NewSongPage />} path="/songs/new" />
-                  <Route element={<div>Song</div>} path="/songs/:songId" />
-                  <Route element={<EditSongPage />} path="/songs/:songId/edit" />
-                  <Route element={<SongsListingPage />} path="/songs" />
-
-                  <Route element={<TheSearchRoutes />} path="/the-search/*" />
-                </Routes>
-              </Suspense>
-            </Layout>
-          </AuthProvider>
-        </HashRouter>
+        <RouterProvider router={router} />
       </AntApp>
     </QueryClientProvider>
   );

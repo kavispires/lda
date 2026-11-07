@@ -28,6 +28,12 @@ export function Menu() {
           </Tooltip>
         </NavLink>
 
+        <NavLink className="ld-menu__nav-link" to="/formation-templates">
+          <Tooltip arrow placement="right" title="Formation Templates">
+            <i className="fi fi-rr-marker" />
+          </Tooltip>
+        </NavLink>
+
         <NavLink className="ld-menu__nav-link" to="/the-search">
           <Tooltip arrow placement="right" title="The Search">
             <i className="fi fi-rr-trophy-star" />

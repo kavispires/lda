@@ -8,36 +8,98 @@
   border-radius: var(--border-radius);
 
   &__stats {
+    min-width: 0;
+    overflow-y: auto;
     background: black;
+  }
+
+  &__panels {
+    padding: 8px;
+    .ant-checkbox-wrapper {
+      color: #fff;
+    }
+  }
+
+  &__primary {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
+    background: #111827;
+  }
+
+  &__primary > &__distribution {
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &--bars-only {
+    grid-template-columns: 1fr;
+  }
+
+  &--bars-only &__primary {
+    display: none;
+  }
+
+  &--formation &__video {
+    position: static;
+    display: flex;
+    justify-content: center;
+    height: auto;
+    opacity: 1;
+    transform: none;
+  }
+
+  &--formation &__title {
+    padding: 8px;
   }
 
   &__seek-bar {
     background: lightblue;
   }
 
+  .formation-playback {
+    display: grid;
+    flex: 2;
+    place-items: center;
+    min-height: 0;
+    padding: 8px;
+    container-type: size;
+    overflow: hidden;
+
+    .formation-stage {
+      width: min(calc(100cqw - 4px), calc((100cqh - 7px) * 27 / 19));
+      max-width: 100%;
+      height: auto;
+      max-height: 100%;
+    }
+  }
+
   &__metadata {
-    background: get-color("black", 9);
     position: relative;
     overflow: hidden;
+    background: get-color("black", 9);
   }
 
   &__video {
-    opacity: 0.25;
     position: absolute;
     top: 0;
     left: 50%;
-    transform: translate(-50%, -50%);
-    height: 0;
     z-index: 0;
+    height: 0;
+    opacity: 0.25;
+    transform: translate(-50%, -50%);
   }
 
   &__title {
+    z-index: 2;
     display: grid;
     place-items: center;
+    padding: get-unit(10);
     color: get-color("white");
     text-shadow: 3px 3px 0px get-color("black", 5, 0.75);
-    padding: get-unit(10);
-    z-index: 2;
 
     h3 {
       margin: 0;
@@ -49,50 +111,50 @@
   }
 
   &__distribution {
-    background: linear-gradient(45deg, get-color("black", 6), get-color("black", 4));
     display: grid;
-    grid-template-columns: 3fr 1fr;
     grid-template-rows: 1fr 2rem;
+    grid-template-columns: 3fr 1fr;
 
     color: get-color("white");
+    background: linear-gradient(45deg, get-color("black", 6), get-color("black", 4));
   }
 
   &__lyrics {
     padding: get-unit(6);
     overflow: hidden;
     font-family: "Inconsolata", monospace;
-    font-optical-sizing: auto;
-    font-weight: 900;
-    font-style: normal;
     font-variation-settings: "wdth" 100;
+    font-style: normal;
+    font-weight: 900;
+    font-optical-sizing: auto;
   }
 
   &__adlibs {
-    padding: get-unit(6);
-    overflow: hidden;
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
+    padding: get-unit(6);
+    overflow: hidden;
     font-family: "Inconsolata", monospace;
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
     font-variation-settings: "wdth" 100;
+    font-style: normal;
+    font-weight: 700;
+    font-optical-sizing: auto;
   }
 
   &__up-next {
-    font-style: italic;
-    padding: get-unit(0 6);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding: get-unit(0 6);
+    font-style: italic;
     opacity: 0.5;
   }
 
   &__up-next-section {
     display: flex;
-    align-items: center;
     gap: get-unit(2);
+    align-items: center;
     opacity: 50%;
   }
 
@@ -101,13 +163,13 @@
   }
 
   &__up-next-badge {
-    font-size: 0.75em;
     display: inline-block;
     padding: get-unit(0.5 2);
-    border-radius: get-unit(4);
+    font-size: 0.75em;
     font-style: normal;
 
     color: get-color("black");
+    border-radius: get-unit(4);
     animation: upNext 2s forwards;
   }
 }
@@ -131,13 +193,13 @@
 }
 
 .bars-box {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: get-unit(2);
   padding: get-unit(2);
-  color: get-color("white");
-  position: relative;
   contain: layout style paint;
+  color: get-color("white");
   will-change: transform;
 }
 
@@ -167,16 +229,16 @@
   }
 
   &__content {
+    padding: get-unit(2 6 3);
     background: get-color("black", 9);
     border-radius: get-unit(4);
-    padding: get-unit(2 6 3);
   }
 
   &__speakers {
-    text-transform: uppercase;
-    font-size: 0.85em;
     display: flex;
     gap: get-unit(2);
+    font-size: 0.85em;
+    text-transform: uppercase;
   }
 
   // Each word paints its own gradient with a clipped text fill, so the container must not
@@ -202,16 +264,15 @@
   // font-size: 1em;
 
   &__content {
+    padding: get-unit(2 4);
     background: get-color("gray", 9, 0.3);
     border-radius: get-unit(4);
-    padding: get-unit(2 4);
   }
 
   &__speakers {
-    text-transform: uppercase;
-    // font-size: 0.75em;
     display: flex;
     gap: get-unit(2);
+    text-transform: uppercase;
   }
 
   // Each word paints its own gradient with a clipped text fill, so the container must not
@@ -232,13 +293,13 @@
 
 .visualizer-seek-bar {
   display: grid;
+  padding: get-unit(1);
   background: get-color("black", 8);
   border-top-left-radius: var(--border-radius);
-  padding: get-unit(1);
 
   &__slider {
-    margin-left: get-unit(4);
     margin-right: get-unit(4);
+    margin-left: get-unit(4);
 
     & .ant-slider-rail {
       background: get-color("gray", 9, 0.5);
@@ -247,17 +308,24 @@
 }
 
 .visualizer-controls {
-  z-index: 300;
-  bottom: 0;
   position: absolute;
+  bottom: 0;
+  z-index: 300;
   display: flex;
   gap: get-unit(1);
+  padding: get-unit(1);
   background: get-color("black");
   border: 2px solid get-color("black");
   border-radius: var(--border-radius);
-  padding: get-unit(1);
   opacity: 0;
   transition: opacity 1s;
+
+  &:not(&--mobile) {
+    box-sizing: border-box;
+    flex-wrap: wrap;
+    align-items: center;
+    max-width: 100%;
+  }
 
   &--visible {
     opacity: 1;
@@ -271,16 +339,16 @@
   z-index: 100;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
-  background: black;
-  color: get-color("white");
   height: 100dvh;
+  overflow: hidden;
+  color: get-color("white");
+  background: black;
 
   &__backdrop {
     position: absolute;
     inset: -24px;
-    background-size: cover;
     background-position: center;
+    background-size: cover;
     filter: blur(16px);
   }
 
@@ -304,8 +372,8 @@
     position: relative;
     z-index: 1;
     display: flex;
-    flex-direction: column;
     flex: 1;
+    flex-direction: column;
     min-height: 0;
   }
 
@@ -315,8 +383,8 @@
   }
 
   &__title {
-    text-align: center;
     padding: get-unit(1 4);
+    text-align: center;
     text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.75);
 
     h3 {
@@ -334,8 +402,8 @@
     flex: 0 0 auto;
     // Fits 9 compact rows by default, scrolls beyond that
     max-height: 260px;
-    overflow-y: auto;
     padding: get-unit(0 2);
+    overflow-y: auto;
 
     &--full {
       flex: 1;
@@ -344,10 +412,10 @@
   }
 
   &__lyrics {
-    flex: 1;
-    min-height: 0;
     display: flex;
+    flex: 1;
     flex-direction: column;
+    min-height: 0;
     overflow: hidden;
 
     .lyric-box__content {
@@ -378,20 +446,20 @@
   }
 
   &__up-next {
-    font-size: 0.75em;
     padding-bottom: 3.5rem;
+    font-size: 0.75em;
   }
 
   .visualizer-controls--mobile {
     position: fixed;
-    left: 0;
     right: 0;
     bottom: 0;
+    left: 0;
     flex-wrap: wrap;
-    justify-content: center;
     align-items: center;
-    border-radius: 0;
+    justify-content: center;
     pointer-events: none;
+    border-radius: 0;
 
     &.visualizer-controls--visible {
       pointer-events: auto;
@@ -400,14 +468,14 @@
 }
 
 .bars-box--compact {
-  padding: get-unit(1 2);
   gap: 0;
+  padding: get-unit(1 2);
   font-size: 0.75em;
 
   .bar {
-    height: 28px;
-    align-items: center;
     gap: get-unit(1);
+    align-items: center;
+    height: 28px;
   }
 
   .bar__track {
@@ -422,8 +490,8 @@
   .ant-avatar {
     width: 22px;
     height: 22px;
-    line-height: 18px;
     font-size: 0.8em;
+    line-height: 18px;
   }
 
   .bar__progress,

@@ -107,11 +107,14 @@ export function useDistributionMutation() {
         const listingData: DistributionListingData = {
           snippet: buildDistributionListingSnippet(data),
           groupId: data.groupId,
+          ...(data.formationId ? { formationId: data.formationId } : {}),
         };
         await updateDocQueryFunction('listings', 'distributions', {
           [`${data.id}.updatedAt`]: updatedAt,
           [`${data.id}.name`]: name,
-          [`${data.id}.data`]: listingData,
+          [`${data.id}.data.snippet`]: listingData.snippet,
+          [`${data.id}.data.groupId`]: listingData.groupId,
+          ...(data.formationId ? { [`${data.id}.data.formationId`]: data.formationId } : {}),
         });
 
         // Optimistically update the listing cache instead of refetching from the server
@@ -127,7 +130,7 @@ export function useDistributionMutation() {
                 ...previous[data.id],
                 name,
                 updatedAt,
-                data: listingData,
+                data: { ...previous[data.id].data, ...listingData },
               },
             };
           },

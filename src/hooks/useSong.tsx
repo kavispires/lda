@@ -2,6 +2,7 @@ import { deleteDocQueryFunction, getDocQueryFunction, updateDocQueryFunction } f
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { FirestoreSong, Song, UID } from '@types';
 import { distributor } from '@utils';
+import { isInlineEligible } from '@utils/song/line-flags';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
 import { cloneDeep } from 'lodash';
@@ -53,6 +54,9 @@ export const serializeSong = (song: Song): FirestoreSong => {
       if (entry.adlib === false) {
         // TODO: Verify if it won't cagar everything
         entry.adlib = undefined;
+      }
+      if (!entry.inline || !isInlineEligible(entry)) {
+        delete entry.inline;
       }
     }
   });

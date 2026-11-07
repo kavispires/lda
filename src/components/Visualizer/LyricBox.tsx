@@ -80,7 +80,7 @@ export const LyricBox = memo(function LyricBox({ snapshot, assignees, timestamp 
                     style={{
                       display: 'inline-block',
                       marginRight: '0.5em',
-                      fontStyle: isAllOrNone ? 'italic' : 'normal',
+                      fontStyle: isAllOrNone || line.inline ? 'italic' : 'normal',
                     }}
                   >
                     {words.map((word, wordIndex) => {
@@ -170,7 +170,7 @@ export const AdlibBox = memo(function AdlibBox({ snapshot, assignees }: Omit<Lyr
               );
             })}
         </div>
-        <div className="adlib-box__text">
+        <div className="adlib-box__text" style={{ fontStyle: 'italic' }}>
           {snapshot.lines.map((line, lineIndex) => (
             <div className="adlib-box__line" key={`line-${lineIndex}`}>
               {line.parts.map((part, partIndex) => (
