@@ -80,5 +80,22 @@
     "formatter": {
       "quoteStyle": "single"
     }
-  }
+  },
+  "overrides": [
+    {
+      "includes": ["src/pages/Distributions/EditDistributionPage.scss"],
+      "linter": {
+        "rules": {
+          "correctness": {
+            "noUnknownFunction": {
+              "level": "error",
+              "options": {
+                "ignore": ["get-color", "get-unit"]
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
 }

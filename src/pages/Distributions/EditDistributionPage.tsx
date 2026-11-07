@@ -12,6 +12,7 @@ import { Button, Flex, Progress, Space, Typography } from 'antd';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMeasure } from 'react-use';
 import { DistributionLiveStats } from './DistributionLiveStats';
+import { DistributionTimeline } from './DistributionTimeline';
 
 export function EditDistributionPage() {
   const location = useLocation();
@@ -25,7 +26,7 @@ export function EditDistributionPage() {
 }
 
 function EditDistributionContent() {
-  const { song, group, videoControls, mappingProgress, onSave, isSaving, distribution } =
+  const { song, group, videoControls, mapping, mappingProgress, onSave, isSaving, distribution } =
     useSongDistributionContext();
   const navigate = useNavigate();
   const [ref, { width }] = useMeasure<HTMLElement>();
@@ -70,7 +71,8 @@ function EditDistributionContent() {
 
         <DistributionLog />
       </div>
-      <Flex className="surface my-2" justify="space-between">
+      <Flex className="surface my-2 distribution-actions" gap="middle" vertical>
+        <DistributionTimeline assignees={distribution.assignees} mapping={mapping} song={song} />
         <Space>
           <Button icon={<SaveOutlined />} loading={isSaving} onClick={onSave} size="large" type="primary">
             {distribution.id === '$draft' ? 'Create Distribution' : 'Save Changes'}
