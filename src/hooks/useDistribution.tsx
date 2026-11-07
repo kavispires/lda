@@ -107,6 +107,7 @@ export function useDistributionMutation() {
         const listingData: DistributionListingData = {
           snippet: buildDistributionListingSnippet(data),
           groupId: data.groupId,
+          ...(data.formationId ? { formationId: data.formationId } : {}),
         };
         await updateDocQueryFunction('listings', 'distributions', {
           [`${data.id}.updatedAt`]: updatedAt,

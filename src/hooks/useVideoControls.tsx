@@ -2,6 +2,7 @@ import { wait } from '@utils';
 import { useEffect, useRef, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { useEffectOnce } from 'react-use';
+import type YouTube from 'react-youtube';
 import type { YouTubeEvent } from 'react-youtube';
 
 type UseVideoControlsOptions = {
@@ -21,20 +22,20 @@ export function useVideoControls(
     endAt: 0,
   },
 ) {
-  const playerRef = useRef<any>(null);
-  const intervalId = useRef<any>(null);
+  const playerRef = useRef<YouTube | null>(null);
+  const intervalId = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
 
   const [isPlaying, setPlaying] = useState(false);
   const [isEnd, setEnd] = useState(false);
 
   const startAt = options.startAt || 0;
-  const [duration, setDuration] = useState(0);
-  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(options.endAt);
+  const [currentTime, setCurrentTime] = useState(options.startAt);
   const [refreshKey, setRefreshKey] = useState(0);
 
   useEffectOnce(() => {
     if (!duration) {
-      playerRef?.current?.internalPlayer.getDuration().then((d: number) => {
+      playerRef?.current?.internalPlayer?.getDuration().then((d: number) => {
         setDuration(options.endAt || d * 1000);
       });
     }
@@ -57,30 +58,58 @@ export function useVideoControls(
   };
 
   const seekAndPlay = (timestamp: number) => {
-    playerRef?.current?.internalPlayer?.seekTo(timestamp / 1000);
+    playerRef?.current?.internalPlayer?.seekTo(timestamp / 1000, true);
+    setCurrentTime(timestamp);
     playerRef?.current?.internalPlayer?.playVideo();
     setPlaying(true);
   };
 
   const seekToStart = () => {
-    playerRef?.current?.internalPlayer?.seekTo(startAt / 1000);
+    playerRef?.current?.internalPlayer?.seekTo(startAt / 1000, true);
+    setCurrentTime(startAt);
   };
 
   const seekToEnd = () => {
     pauseVideo();
-    playerRef?.current?.internalPlayer?.seekTo(duration / 1000);
+    playerRef?.current?.internalPlayer?.seekTo(duration / 1000, true);
+    setCurrentTime(duration);
+  };
+
+  const seekTo = (timestamp: number) => {
+    const time = Math.max(startAt, Math.min(options.endAt || duration, timestamp));
+    pauseVideo();
+    playerRef?.current?.internalPlayer?.seekTo(time / 1000, true);
+    setCurrentTime(time);
   };
 
   const onStateChange = (event: YouTubeEvent<number>) => {
+    clearInterval(intervalId.current);
     if (event.data === 1) {
+      setPlaying(true);
       intervalId.current = setInterval(async () => {
-        setCurrentTime((await event.target.getCurrentTime()) * 1000);
+        const time = (await event.target.getCurrentTime()) * 1000;
+        if (options.endAt && time >= options.endAt) {
+          event.target.pauseVideo();
+          setCurrentTime(options.endAt);
+          setPlaying(false);
+          setEnd(true);
+          clearInterval(intervalId.current);
+        } else {
+          setCurrentTime(time);
+        }
       }, 1000 / 30);
     } else {
+      setPlaying(false);
       // Kill interval
       clearInterval(intervalId?.current);
     }
   };
+
+  useEffect(() => {
+    if (options.endAt) setDuration(options.endAt);
+  }, [options.endAt]);
+
+  useEffect(() => () => clearInterval(intervalId.current), []);
 
   const onRestart = async () => {
     flushSync(() => {
@@ -116,6 +145,7 @@ export function useVideoControls(
     playVideo,
     pauseVideo,
     seekAndPlay,
+    seekTo,
     onStateChange,
     currentTime,
     second: currentTime / 1000,

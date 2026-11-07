@@ -1,88 +1,153 @@
-import { createDocWithId, getDocQueryFunction, updateDocQueryFunction } from '@services/firebase';
+import { firestore } from '@services/firebase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { FirestoreFormation, Formation } from '@types';
+import type { FirestoreFormation, Formation, FormationTemplate } from '@types';
+import { dancerIds, deserializeFormation, formationErrors, readFormationTemplate } from '@utils/formation';
 import { App } from 'antd';
-import { useNavigate } from 'react-router-dom';
+import { collection, deleteDoc, doc, getDoc, getDocs, runTransaction, setDoc } from 'firebase/firestore';
 
-/**
- * Deserializes a FirestoreFormation object into a Formation object.
- * @param fbFormation - The FirestoreFormation object to deserialize.
- * @returns The deserialized Formation object.
- */
-const deserializeFormation = (fbFormation: FirestoreFormation): Formation => {
-  return {
-    ...fbFormation,
-    timeline: JSON.parse(fbFormation.timeline),
-  };
-};
-
-export function useDanceFormationQuery(formationId: string, draftData: Formation) {
-  return useQuery<FirestoreFormation, Error, Formation>({
-    queryKey: ['formation', formationId],
+export function useDanceFormationQuery(formationId?: string, legacyDistributionId?: string) {
+  const id = formationId || legacyDistributionId;
+  return useQuery({
+    queryKey: ['formation', id],
+    enabled: !!id,
     queryFn: async () => {
-      if (formationId === '$draft' && draftData) {
-        return serializeFormation(draftData);
+      if (!id) throw new Error('Missing formation identifier.');
+      const snapshot = await getDoc(doc(firestore, 'formations', id));
+      if (!snapshot.exists()) {
+        if (formationId) throw new Error('The saved formation could not be found.');
+        return null;
       }
-
-      return await getDocQueryFunction<FirestoreFormation>('formations', formationId);
+      return deserializeFormation(snapshot.data(), snapshot.id);
     },
-    select: (data) => {
-      return deserializeFormation(data);
-    },
-    enabled: !!formationId,
   });
 }
 
-/**
- * Serializes a Formation object into a FirestoreFormation object.
- * @param formation - The Formation object to be serialized.
- * @returns The serialized FirestoreFormation object.
- */
-const serializeFormation = (formation: Formation): FirestoreFormation => {
-  return {
-    ...formation,
-    timeline: JSON.stringify(formation.timeline),
-  };
-};
+export function serializeFormation(formation: Formation): FirestoreFormation {
+  return { ...formation, snapshots: JSON.stringify(formation.snapshots) };
+}
+
+export async function saveFormation(formation: Formation) {
+  const id = formation.id === '$draft' ? formation.distributionId : formation.id;
+  const saved = { ...formation, id, updatedAt: Date.now() };
+  await runTransaction(firestore, async (transaction) => {
+    const distributionRef = doc(firestore, 'distributions', formation.distributionId);
+    const formationRef = doc(firestore, 'formations', id);
+    const songRef = doc(firestore, 'songs', formation.songId);
+    const [distributionDoc, formationDoc, songDoc] = await Promise.all([
+      transaction.get(distributionRef),
+      transaction.get(formationRef),
+      transaction.get(songRef),
+    ]);
+    if (!distributionDoc.exists() || !songDoc.exists())
+      throw new Error('Distribution or song no longer exists.');
+    const distribution = distributionDoc.data();
+    const song = songDoc.data();
+    if (
+      distribution.songId !== formation.songId ||
+      distribution.groupId !== formation.groupId ||
+      (distribution.formationId && distribution.formationId !== id)
+    ) {
+      throw new Error('The distribution changed. Reload before saving this formation.');
+    }
+    if (
+      formationDoc.exists() &&
+      (formation.id === '$draft' || formationDoc.data().distributionId !== formation.distributionId)
+    ) {
+      throw new Error('A formation already exists. Reload and edit the existing choreography.');
+    }
+    if (formationDoc.exists() && formationDoc.data().updatedAt !== formation.updatedAt) {
+      throw new Error('This formation was edited elsewhere. Reload before saving.');
+    }
+    if (
+      typeof song.startAt !== 'number' ||
+      typeof song.endAt !== 'number' ||
+      !distribution.assignees ||
+      typeof distribution.assignees !== 'object'
+    ) {
+      throw new Error('Distribution cast or song bounds are invalid.');
+    }
+    const errors = formationErrors(
+      saved,
+      { id: songDoc.id, startAt: song.startAt, endAt: song.endAt },
+      dancerIds({ assignees: distribution.assignees }),
+    );
+    if (errors.length) throw new Error(errors.join(' '));
+    transaction.set(formationRef, serializeFormation(saved));
+    transaction.update(distributionRef, { formationId: id });
+    transaction.set(
+      doc(firestore, 'listings', 'distributions'),
+      {
+        [formation.distributionId]: { data: { formationId: id }, updatedAt: saved.updatedAt },
+      },
+      { merge: true },
+    );
+  });
+  return saved;
+}
 
 export function useFormationMutation() {
   const { notification } = App.useApp();
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: saveFormation,
+    onSuccess: async (saved) => {
+      client.setQueryData(['formation', saved.id], saved);
+      await Promise.all([
+        client.invalidateQueries({ queryKey: ['distribution', saved.distributionId] }),
+        client.invalidateQueries({ queryKey: ['listings', 'distributions'] }),
+      ]);
+      notification.success({ title: 'Formation saved' });
+    },
+    onError: (error) => notification.error({ title: 'Could not save formation', description: error.message }),
+  });
+}
 
-  return useMutation<FirestoreFormation, Error, Formation>({
-    mutationFn: async (data) => {
-      if (data.id === '$draft') {
-        const serializedFormation = serializeFormation(data);
-        serializedFormation.id = data.distributionId;
-        const dataWithId = await createDocWithId(
-          'formations',
-          serializedFormation.id,
-          serializeFormation(data),
+export function useFormationTemplatesQuery(enabled = true) {
+  return useQuery({
+    queryKey: ['formationTemplates'],
+    enabled,
+    queryFn: async () => {
+      const snapshots = await getDocs(collection(firestore, 'formationTemplates'));
+      return snapshots.docs
+        .map((snapshot) => readFormationTemplate(snapshot.data(), snapshot.id))
+        .sort(
+          (a, b) => a.dancerCount - b.dancerCount || a.name.localeCompare(b.name) || a.id.localeCompare(b.id),
         );
-        queryClient.setQueryData(['formations', serializedFormation.id], serializedFormation);
-        return dataWithId;
-      }
-
-      const serializedFormation = serializeFormation(data);
-      await updateDocQueryFunction('formations', data.distributionId, serializedFormation);
-
-      queryClient.setQueryData(['formations', data.id], serializedFormation);
-
-      return serializedFormation;
     },
-    onSuccess(data) {
-      notification.success({
-        title: 'Success',
-        description: 'Formation updated successfully',
-      });
-      navigate(`/distributions/${data.distributionId}/formation/${data.id}`);
+  });
+}
+
+export function useSaveFormationTemplateMutation() {
+  const { notification } = App.useApp();
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: async (template: FormationTemplate) => {
+      const ref =
+        template.id === '$draft'
+          ? doc(collection(firestore, 'formationTemplates'))
+          : doc(firestore, 'formationTemplates', template.id);
+      const saved = readFormationTemplate({ ...template, updatedAt: Date.now() }, ref.id);
+      await setDoc(ref, saved);
+      return saved;
     },
-    onError(error) {
-      notification.error({
-        title: 'Error',
-        description: error.message,
-      });
+    onSuccess: async () => {
+      await client.invalidateQueries({ queryKey: ['formationTemplates'] });
+      notification.success({ title: 'Template saved' });
     },
+    onError: (error) => notification.error({ title: 'Could not save template', description: error.message }),
+  });
+}
+
+export function useDeleteFormationTemplateMutation() {
+  const { notification } = App.useApp();
+  const client = useQueryClient();
+  return useMutation({
+    mutationFn: (id: string) => deleteDoc(doc(firestore, 'formationTemplates', id)),
+    onSuccess: async () => {
+      await client.invalidateQueries({ queryKey: ['formationTemplates'] });
+      notification.success({ title: 'Template deleted' });
+    },
+    onError: (error) =>
+      notification.error({ title: 'Could not delete template', description: error.message }),
   });
 }

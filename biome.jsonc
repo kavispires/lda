@@ -83,7 +83,10 @@
   },
   "overrides": [
     {
-      "includes": ["src/pages/Distributions/EditDistributionPage.scss"],
+      "includes": [
+        "src/pages/Distributions/EditDistributionPage.scss",
+        "src/components/Visualizer/Visualizer.scss"
+      ],
       "linter": {
         "rules": {
           "correctness": {

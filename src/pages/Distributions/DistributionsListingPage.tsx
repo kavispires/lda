@@ -94,10 +94,10 @@ export function DistributionsListingPage() {
       title: 'Formation',
       render: (record: ListingEntry<DistributionListingData>) => (
         <Space size="middle">
-          {record?.data?.formationId ? (
+          {record.data?.formationId ? (
             <Button
               icon={<i className="fi fi-rr-map-marker-edit"></i>}
-              onClick={() => navigate(`/distributions/${record.id}/formation/${record?.data?.formationId}`)}
+              onClick={() => navigate(`/distributions/${record.id}/formation/${record.data?.formationId}`)}
               size="small"
               type="link"
             >
@@ -108,6 +108,7 @@ export function DistributionsListingPage() {
               icon={<i className="fi fi-rr-marker"></i>}
               onClick={() => navigate(`/distributions/${record.id}/formation/$draft`)}
               size="small"
+              type="link"
             >
               Create
             </Button>

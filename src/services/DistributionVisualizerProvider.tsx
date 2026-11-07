@@ -1,11 +1,13 @@
+import { useDanceFormationQuery } from '@hooks/useDanceFormation';
 import { useVideoControls } from '@hooks/useVideoControls';
 import {
   type UseVisualizerMeasurementsResult,
   useVisualizerMeasurements,
 } from '@hooks/useVisualizerMeasurements';
-import type { Artist, Dictionary, Distribution, Song, UID } from '@types';
+import type { Artist, Dictionary, Distribution, Formation, Song, UID } from '@types';
 import { distributor, removeDuplicates } from '@utils';
 import { ALL_ID, NONE_ID } from '@utils/constants';
+import { dancerIds, formationErrors } from '@utils/formation';
 import { keyBy, orderBy, sortBy } from 'lodash';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
 import { useLocalStorage, useToggle } from 'react-use';
@@ -48,6 +50,11 @@ type DistributionVisualizerContextType = {
   videoControls: ReturnType<typeof useVideoControls>;
   // Core data
   song: Song;
+  distribution: Distribution;
+  formation: Formation | null | undefined;
+  formationError: string | undefined;
+  formationLoading: boolean;
+  hasFormation: boolean;
   assignees: Artist[]; // Ordered list of artists
   assigneesDict: Dictionary<Artist>; // Artist lookup by ID
   // Layout measurements
@@ -87,6 +94,16 @@ export const DistributionVisualizerProvider = ({
   const [ref, measurements] = useVisualizerMeasurements(fullScreenMode);
 
   const videoControls = useVideoControls({ startAt: song.startAt, endAt: song.endAt });
+  const formationQuery = useDanceFormationQuery(distribution.formationId);
+  const formation = formationQuery.data;
+  const formationError = useMemo(() => {
+    if (formationQuery.isError) return formationQuery.error.message;
+    if (!formation) return undefined;
+    if (formation.distributionId !== distribution.id || formation.groupId !== distribution.groupId) {
+      return 'Formation belongs to another distribution or group.';
+    }
+    return formationErrors(formation, song, dancerIds(distribution)).join(' ') || undefined;
+  }, [formationQuery.isError, formationQuery.error, formation, distribution, song]);
 
   // Compute all visualization data (memoized to prevent unnecessary recalculations)
   // This generates time-based snapshots for bars, lyrics, and upcoming singers
@@ -119,6 +136,11 @@ export const DistributionVisualizerProvider = ({
         setShowDismissibleLines,
         videoControls,
         song,
+        distribution,
+        formation,
+        formationError,
+        formationLoading: formationQuery.isLoading,
+        hasFormation: !!distribution.formationId,
         measurements,
         assignees,
         assigneesDict: distribution.assignees,

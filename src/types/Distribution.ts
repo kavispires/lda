@@ -18,6 +18,7 @@ export type Distribution = {
    * The group id
    */
   groupId: FUID;
+  formationId?: FUID;
   /**
    * The assignees
    */
