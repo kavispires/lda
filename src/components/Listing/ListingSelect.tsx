@@ -45,8 +45,8 @@ export function ListingSearch({ searchQuery, setSearchQuery, placeholder, classN
   );
 }
 
-export const useListingSelect = (
-  listingData: ReturnType<typeof useListingQuery>['data'],
+export const useListingSelect = <TData = unknown>(
+  listingData: ReturnType<typeof useListingQuery<TData>>['data'],
   paramKey: string,
   allKey: string,
   storageKey?: string,

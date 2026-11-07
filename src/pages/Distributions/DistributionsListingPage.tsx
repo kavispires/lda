@@ -28,7 +28,7 @@ import { useNavigate } from 'react-router-dom';
 const ALL_GROUPS = 'All Groups';
 
 export function DistributionsListingPage() {
-  const distributionsQuery = useListingQuery('distributions');
+  const distributionsQuery = useListingQuery<DistributionListingData>('distributions');
   const deleteDistributionMutation = useDeleteDistributionMutation();
   const navigate = useNavigate();
 
@@ -55,7 +55,7 @@ export function DistributionsListingPage() {
     return <ContentError>{distributionsQuery.error.message}</ContentError>;
   }
 
-  const columns: TableProps<ListingEntry>['columns'] = [
+  const columns: TableProps<ListingEntry<DistributionListingData>>['columns'] = [
     {
       title: 'Name',
       dataIndex: 'name',
@@ -88,7 +88,14 @@ export function DistributionsListingPage() {
       title: 'Snippet',
       dataIndex: ['data', 'snippet'],
       key: 'snippet',
-      render: (snippet: string) => <DistributionSnippet snippet={snippet} />,
+      render: (snippet: string, record: ListingEntry<DistributionListingData>) => (
+        <Flex gap={4} vertical>
+          <DistributionSnippet snippet={snippet} />
+          {record.data?.formationSnippet && (
+            <DistributionSnippet compact snippet={record.data.formationSnippet} />
+          )}
+        </Flex>
+      ),
     },
     {
       title: 'Formation',
@@ -194,9 +201,10 @@ export function DistributionsListingPage() {
 
 type DistributionSnippetProps = {
   snippet: string;
+  compact?: boolean;
 };
 
-function DistributionSnippet({ snippet = '' }: DistributionSnippetProps) {
+function DistributionSnippet({ snippet = '', compact = false }: DistributionSnippetProps) {
   const { queryParams } = useQueryParams();
   const snippedOrder = queryParams.get('snippetOrdered') || 'default';
 
@@ -212,12 +220,27 @@ function DistributionSnippet({ snippet = '' }: DistributionSnippetProps) {
     return <Typography.Text type="secondary">No data</Typography.Text>;
   }
 
-  // Parsed snippet is an array of [color, percentage, name], create a 200px wide bar that has segments with the corresponding colors and widths based on the percentage, and show the tooltip name on hover
-
   return (
-    <div style={{ display: 'flex', width: '284px', height: '24px', borderRadius: '4px', overflow: 'hidden' }}>
+    <div
+      aria-label={compact ? 'Formation center time' : 'Distribution shares'}
+      role="group"
+      style={{
+        display: 'flex',
+        width: '284px',
+        height: compact ? '6px' : '24px',
+        borderRadius: '4px',
+        overflow: 'hidden',
+      }}
+    >
       {parsedSnippet.map(([color, percentage, name], index) => (
-        <Tooltip key={index} title={`${name}: ${percentage}%`}>
+        <Tooltip
+          key={index}
+          title={
+            compact
+              ? `${name}: ${Number(percentage).toFixed(1)}% of song at center`
+              : `${name}: ${percentage}%`
+          }
+        >
           <div
             style={{
               backgroundColor: color,
@@ -232,7 +255,7 @@ function DistributionSnippet({ snippet = '' }: DistributionSnippetProps) {
               flexShrink: 0,
             }}
           >
-            {percentage}
+            {!compact && percentage}
           </div>
         </Tooltip>
       ))}

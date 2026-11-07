@@ -7,7 +7,7 @@ import type {
   Song,
   StagePosition,
 } from '@types';
-import { ALL_ID, NONE_ID } from './constants';
+import { ALL_ID, NONE_ID, SEPARATOR } from './constants';
 
 export const STAGE_WIDTH = 27;
 export const STAGE_HEIGHT = 19;
@@ -320,6 +320,95 @@ export function resolveFormationPose(snapshots: FormationSnapshot[], timestamp: 
     );
   }
   return structuredClone(previous.positions);
+}
+
+export function formationCenterDurations(
+  formation: Formation,
+  song: Pick<Song, 'id' | 'startAt' | 'endAt'>,
+): Record<string, number> {
+  const errors = formationErrors(formation, song, formation.assigneesIds);
+  if (errors.length) throw new Error(errors.join(' '));
+  const ids = [...formation.assigneesIds].sort();
+  const durations = Object.fromEntries(ids.map((id) => [id, 0]));
+  const nearlyEqual = (a: number, b: number) =>
+    Number.isFinite(a) &&
+    Number.isFinite(b) &&
+    Math.abs(a - b) <= 16 * Number.EPSILON * Math.max(1, Math.abs(a), Math.abs(b));
+
+  const countInterval = (from: FormationPose, to: FormationPose, duration: number) => {
+    if (duration <= 0) return;
+    const boundaries = new Set([0, 1]);
+    const addRoot = (offset: number, slope: number) => {
+      if (slope === 0) return;
+      const root = -offset / slope;
+      if (root > 0 && root < 1) boundaries.add(root);
+    };
+    for (let i = 0; i < ids.length; i++) {
+      for (const other of ids.slice(i + 1)) {
+        const a = from[ids[i]];
+        const b = from[other];
+        const dxA = to[ids[i]].x - a.x;
+        const dxB = to[other].x - b.x;
+        // Equal horizontal distance occurs on either side of the absolute-value equation.
+        addRoot(a.x - b.x, dxA - dxB);
+        addRoot(a.x + b.x - STAGE_WIDTH, dxA + dxB);
+        addRoot(a.y - b.y, to[ids[i]].y - a.y - (to[other].y - b.y));
+      }
+    }
+    const points = [...boundaries].sort((a, b) => a - b);
+    for (let index = 1; index < points.length; index++) {
+      const midpoint = (points[index - 1] + points[index]) / 2;
+      let winner = ids[0];
+      let closest = Number.POSITIVE_INFINITY;
+      let front = Number.NEGATIVE_INFINITY;
+      for (const id of ids) {
+        const x = from[id].x + (to[id].x - from[id].x) * midpoint;
+        const y = from[id].y + (to[id].y - from[id].y) * midpoint;
+        const distance = Math.abs(x - STAGE_WIDTH / 2);
+        const tied = nearlyEqual(distance, closest);
+        if ((!tied && distance < closest) || (tied && !nearlyEqual(y, front) && y > front)) {
+          winner = id;
+          closest = distance;
+          front = y;
+        }
+      }
+      durations[winner] += (points[index] - points[index - 1]) * duration;
+    }
+  };
+
+  const snapshots = [...formation.snapshots].sort((a, b) => a.timestamp - b.timestamp);
+  snapshots.forEach((snapshot, index) => {
+    const next = snapshots[index + 1];
+    const holdEnd = next ? next.timestamp - next.transition : song.endAt;
+    countInterval(snapshot.positions, snapshot.positions, holdEnd - snapshot.timestamp);
+    if (next?.transition) countInterval(snapshot.positions, next.positions, next.transition);
+  });
+  return durations;
+}
+
+export function buildFormationListingSnippet(
+  formation: Formation,
+  song: Pick<Song, 'id' | 'startAt' | 'endAt'>,
+  assignees: Distribution['assignees'],
+): string {
+  const durations = formationCenterDurations(formation, song);
+  const ids = Object.keys(durations);
+  for (const id of ids) {
+    if (typeof assignees[id]?.name !== 'string' || typeof assignees[id]?.color !== 'string')
+      throw new Error(`Invalid artist ${id} for the formation snippet.`);
+  }
+  return ids
+    .sort((a, b) => {
+      const first = assignees[a].name;
+      const second = assignees[b].name;
+      return first < second ? -1 : first > second ? 1 : a < b ? -1 : a > b ? 1 : 0;
+    })
+    .map((id) =>
+      [assignees[id].color, (durations[id] / (song.endAt - song.startAt)) * 100, assignees[id].name].join(
+        '|',
+      ),
+    )
+    .join(SEPARATOR);
 }
 
 export function addFormationSnapshot(

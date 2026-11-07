@@ -4,11 +4,13 @@ const database = {
   records,
   failWrite: false,
   writes: 0,
+  reads: [],
   reset(entries = []) {
     records.clear();
     for (const [path, value] of entries) records.set(path, structuredClone(value));
     database.failWrite = false;
     database.writes = 0;
+    database.reads.length = 0;
   },
 };
 globalThis.__formationTestDb = database;
@@ -22,7 +24,10 @@ export const doc = (databaseOrCollection, path, id) => {
 function snapshot(ref) {
   return { id: ref.id, exists: () => records.has(ref.path), data: () => structuredClone(records.get(ref.path)) };
 }
-export const getDoc = async (ref) => snapshot(ref);
+export const getDoc = async (ref) => {
+  database.reads.push(ref.path);
+  return snapshot(ref);
+};
 export const getDocs = async (ref) => {
   const docs = [...records.keys()].filter((path) => path.startsWith(`${ref.path}/`))
     .map((path) => snapshot({ path, id: path.split('/').at(-1) }));
@@ -50,6 +55,20 @@ export async function runTransaction(_database, callback) {
   database.writes += writes.length;
 }
 export const setDoc = (ref, value) => runTransaction(null, async (transaction) => transaction.set(ref, value));
+export async function updateDoc(ref, value) {
+  if (!records.has(ref.path)) throw new Error(`Missing document ${ref.path}`);
+  const updated = structuredClone(records.get(ref.path));
+  for (const [path, entry] of Object.entries(value)) {
+    const keys = path.split('.');
+    let target = updated;
+    for (const key of keys.slice(0, -1)) {
+      if (!target[key] || typeof target[key] !== 'object') target[key] = {};
+      target = target[key];
+    }
+    target[keys.at(-1)] = structuredClone(entry);
+  }
+  await setDoc(ref, updated);
+}
 export const deleteDoc = async (ref) => {
   if (database.failWrite) throw new Error('Simulated failed write');
   records.delete(ref.path);

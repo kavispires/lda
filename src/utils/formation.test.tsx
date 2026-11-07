@@ -11,10 +11,12 @@ import {
   addFormationSnapshot,
   assignCopiedPose,
   assignTemplate,
+  buildFormationListingSnippet,
   createFormation,
   dancerIds,
   deleteFormationSnapshot,
   deserializeFormation,
+  formationCenterDurations,
   formationErrors,
   initialPose,
   moveFormationDancers,
@@ -101,6 +103,84 @@ test('new formations use only real dancers, one anchored pose and valid scalable
     assert.equal(Object.keys(positions).length, count);
     assert.deepEqual(poseErrors(positions), []);
   }
+});
+
+test('formation center time uses horizontal distance, audience priority and stable IDs without mutating poses', () => {
+  const { formation, song } = fixture(3);
+  const original = structuredClone(formation);
+  assert.deepEqual(formationCenterDurations(formation, song), { a: 0, b: 10000, c: 0 });
+  assert.deepEqual(formation, original);
+  const pair = fixture(2);
+  pair.formation.snapshots[0].positions = { a: { x: 12.5, y: 3 }, b: { x: 14.5, y: 8 } };
+  assert.deepEqual(formationCenterDurations(pair.formation, pair.song), { a: 0, b: 10000 });
+  pair.formation.snapshots[0].positions.b.y = 3;
+  pair.formation.assigneesIds.reverse();
+  assert.deepEqual(formationCenterDurations(pair.formation, pair.song), { a: 10000, b: 0 });
+  const solo = fixture(1);
+  assert.deepEqual(formationCenterDurations(solo.formation, solo.song), { a: 10000 });
+  assert.throws(() => formationCenterDurations(formation, { ...song, endAt: song.startAt }), /bounds/);
+});
+
+test('formation center accounting includes exact transition crossings, hard cuts and the final hold', () => {
+  const { formation, song, distribution } = fixture(2);
+  formation.snapshots[0].positions = { a: { x: 13.5, y: 3 }, b: { x: 17.5, y: 7 } };
+  formation.snapshots.push({
+    id: 'destination',
+    timestamp: 8000,
+    transition: 1000,
+    positions: { a: { x: 9.5, y: 3 }, b: { x: 13.5, y: 7 } },
+  });
+  assert.deepEqual(formationCenterDurations(formation, song), { a: 5500, b: 4500 });
+  formation.snapshots[1].transition = 0;
+  assert.deepEqual(formationCenterDurations(formation, song), { a: 6000, b: 4000 });
+  formation.snapshots[0].positions = { a: { x: 8.5, y: 3 }, b: { x: 15.5, y: 7 } };
+  formation.snapshots[1] = {
+    id: 'destination',
+    timestamp: 7000,
+    transition: 1000,
+    positions: { a: { x: 15.5, y: 3 }, b: { x: 15.5, y: 7 } },
+  };
+  const durations = formationCenterDurations(formation, song);
+  assert.ok(
+    Math.abs(durations.a - 4000 / 7) < 1e-9,
+    'Crossing at 3/7 must not be rounded to a sampled frame',
+  );
+  assert.ok(Math.abs(durations.a + durations.b - 10000) < 1e-9);
+  const percentage = Number(
+    buildFormationListingSnippet(formation, song, distribution.assignees).split('::')[0].split('|')[1],
+  );
+  assert.ok(Math.abs(percentage - 40 / 7) < 1e-12, 'Stored shares must retain fractional precision');
+  formation.snapshots[1].positions.a.x = 18.5;
+  assert.ok(
+    Math.abs(formationCenterDurations(formation, song).a - 400) < 1e-9,
+    'Count both absolute-distance crossings',
+  );
+});
+
+test('symmetrically centered dancers can exchange audience priority during movement and serialize precise shares', () => {
+  const { formation, song, distribution } = fixture(2);
+  formation.snapshots[0].positions = { a: { x: 12.5, y: 3 }, b: { x: 14.5, y: 9 } };
+  formation.snapshots.push({
+    id: 'destination',
+    timestamp: 8000,
+    transition: 1000,
+    positions: { a: { x: 12.5, y: 9 }, b: { x: 14.5, y: 3 } },
+  });
+  assert.deepEqual(formationCenterDurations(formation, song), { a: 4500, b: 5500 });
+  distribution.assignees.a.color = '#ff0000';
+  distribution.assignees.b.color = '#0000ff';
+  const segments = buildFormationListingSnippet(formation, song, distribution.assignees)
+    .split('::')
+    .map((segment) => segment.split('|'));
+  assert.deepEqual(
+    segments.map(([color, , name]) => [color, name]),
+    [
+      ['#ff0000', 'A'],
+      ['#0000ff', 'B'],
+    ],
+  );
+  assert.ok(Math.abs(Number(segments[0][1]) - 45) < 1e-10);
+  assert.ok(Math.abs(Number(segments[1][1]) - 55) < 1e-10);
 });
 
 test('section sidebar follows the playhead, retains hidden/adlib assignments and highlights only active parts', () => {
@@ -526,7 +606,12 @@ test('formation save atomically links the actual document, distribution and list
     id: 'dist',
     name: 'Original listing',
     updatedAt: saved.updatedAt,
-    data: { snippet: 'original', groupId: 'group', formationId: 'dist' },
+    data: {
+      snippet: 'original',
+      groupId: 'group',
+      formationId: 'dist',
+      formationSnippet: '#123456|0|A::#123456|0|B::#123456|100|C::#123456|0|D::#123456|0|E',
+    },
   });
   assert.deepEqual(deserializeFormation(__formationTestDb.records.get('formations/dist'), 'dist'), saved);
   const custom = { ...saved, id: 'custom-id' };
@@ -536,9 +621,24 @@ test('formation save atomically links the actual document, distribution and list
     formationId: 'custom-id',
   });
   __formationTestDb.records.set('formations/custom-id', { ...serializeFormation(custom) });
-  await saveFormation(custom);
+  const customSaved = await saveFormation(custom);
   assert.equal(__formationTestDb.records.has('formations/dist'), false);
   assert.equal(__formationTestDb.records.get('distributions/dist')?.formationId, 'custom-id');
+  const recentered = structuredClone(customSaved);
+  const positions = recentered.snapshots[0].positions;
+  [positions.a, positions.c] = [positions.c, positions.a];
+  const refreshed = await saveFormation(recentered);
+  assert.deepEqual(__formationTestDb.records.get('listings/distributions')?.dist, {
+    id: 'dist',
+    name: 'Original listing',
+    updatedAt: refreshed.updatedAt,
+    data: {
+      snippet: 'original',
+      groupId: 'group',
+      formationId: 'custom-id',
+      formationSnippet: '#123456|100|A::#123456|0|B::#123456|0|C::#123456|0|D::#123456|0|E',
+    },
+  });
 });
 
 test('failed writes, stale cast/window and concurrent edits never partially save or overwrite choreography', async () => {

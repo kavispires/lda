@@ -1,7 +1,13 @@
 import { firestore } from '@services/firebase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { FirestoreFormation, Formation, FormationTemplate } from '@types';
-import { dancerIds, deserializeFormation, formationErrors, readFormationTemplate } from '@utils/formation';
+import {
+  buildFormationListingSnippet,
+  dancerIds,
+  deserializeFormation,
+  formationErrors,
+  readFormationTemplate,
+} from '@utils/formation';
 import { App } from 'antd';
 import { collection, deleteDoc, doc, getDoc, getDocs, runTransaction, setDoc } from 'firebase/firestore';
 
@@ -72,12 +78,20 @@ export async function saveFormation(formation: Formation) {
       dancerIds({ assignees: distribution.assignees }),
     );
     if (errors.length) throw new Error(errors.join(' '));
+    const formationSnippet = buildFormationListingSnippet(
+      saved,
+      { id: songDoc.id, startAt: song.startAt, endAt: song.endAt },
+      distribution.assignees,
+    );
     transaction.set(formationRef, serializeFormation(saved));
     transaction.update(distributionRef, { formationId: id });
     transaction.set(
       doc(firestore, 'listings', 'distributions'),
       {
-        [formation.distributionId]: { data: { formationId: id }, updatedAt: saved.updatedAt },
+        [formation.distributionId]: {
+          data: { formationId: id, formationSnippet },
+          updatedAt: saved.updatedAt,
+        },
       },
       { merge: true },
     );
