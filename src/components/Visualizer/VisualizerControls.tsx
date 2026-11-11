@@ -10,7 +10,7 @@ import type { useVideoControls } from '@hooks/useVideoControls';
 import type { DistributionFreshness } from '@services/DistributionVisualizerProvider';
 import type { Song } from '@types';
 import { getSectionSummary } from '@utils/song/section-getters';
-import { Badge, Button, Popover, Segmented, Tooltip, Typography } from 'antd';
+import { Badge, Button, Flex, Popover, Segmented, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
 import { type ReactNode, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -156,12 +156,11 @@ export function VisualizerControls({
         </div>
       )}
       <div className="visualizer-controls__edit">
-        <Button onClick={() => navigate(`/distributions/${distributionId}/edit`)} size="small">
-          Edit distribution
-        </Button>
-        <Button onClick={() => navigate(`/songs/${song.id}/edit`)} size="small">
-          Edit song
-        </Button>
+        <Flex gap="small" justify="center">
+          <Button onClick={() => navigate(`/distributions/${distributionId}/edit`)}>Edit distribution</Button>
+          <Button onClick={() => navigate(`/songs/${song.id}/edit`)}>Edit song</Button>
+        </Flex>
+
         {freshness.outdated && (
           <Popover
             content={
