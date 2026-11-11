@@ -21,8 +21,8 @@ export const MOBILE_MEDIA_QUERY = '(max-width: 767px)';
 export function Visualizer() {
   const [areControlsVisible, setControlsVisible] = useToggle(false);
   const isMobile = useMedia(MOBILE_MEDIA_QUERY, false);
+  const canHover = useMedia('(hover: hover)', false);
   const [panels, setPanels] = useState({ formation: false, lyrics: true, bars: true });
-  const [mirrorFormation, setMirrorFormation] = useState(false);
   const [lyricsRef, lyricsSize] = useMeasure<HTMLDivElement>();
   const {
     song,
@@ -57,17 +57,12 @@ export function Visualizer() {
   const activeCount = Number(showFormation) + Number(showLyrics) + Number(panels.bars);
   const currentPose: FormationPose =
     showFormation && formation ? resolveFormationPose(formation.snapshots, videoControls.currentTime) : {};
-  const stagePose = mirrorFormation
-    ? Object.fromEntries(
-        Object.entries(currentPose).map(([id, position]) => [
-          id,
-          { ...position, y: STAGE_HEIGHT - position.y },
-        ]),
-      )
-    : currentPose;
+  const stagePose = Object.fromEntries(
+    Object.entries(currentPose).map(([id, position]) => [id, { ...position, y: STAGE_HEIGHT - position.y }]),
+  );
 
   return (
-    // biome-ignore lint/a11y/noStaticElementInteractions: hover reveals existing playback controls
+    // biome-ignore lint/a11y/noStaticElementInteractions: hover or touch toggles existing playback controls
     <div
       className={clsx(
         'visualizer',
@@ -76,16 +71,23 @@ export function Visualizer() {
         !showFormation && !showLyrics && 'visualizer--bars-only',
       )}
       key={videoControls.refreshKey}
-      onMouseEnter={() => setControlsVisible(true)}
-      onMouseLeave={() => setControlsVisible(false)}
+      onClick={() => {
+        if (!canHover) setControlsVisible();
+      }}
+      onMouseEnter={() => {
+        if (canHover) setControlsVisible(true);
+      }}
+      onMouseLeave={() => {
+        if (canHover) setControlsVisible(false);
+      }}
     >
       <VisualizerControls
         freshness={freshness}
         isVisible={areControlsVisible}
-        songId={song.id}
+        song={song}
         videoControls={videoControls}
       >
-        <Flex className="visualizer__panels" gap={12} wrap>
+        <Flex className="visualizer__panels" gap={16} wrap>
           {hasFormation && (
             <Tooltip title={formationError ?? 'Show dance formation'}>
               <Checkbox
@@ -111,17 +113,6 @@ export function Visualizer() {
           >
             Bars
           </Checkbox>
-          {hasFormation && (
-            <Tooltip title="Flip front and back for practice without changing the saved formation">
-              <Checkbox
-                checked={mirrorFormation}
-                disabled={!showFormation}
-                onChange={(event) => setMirrorFormation(event.target.checked)}
-              >
-                Mirror formation
-              </Checkbox>
-            </Tooltip>
-          )}
         </Flex>
       </VisualizerControls>
       <div className="visualizer__stats">
@@ -142,7 +133,7 @@ export function Visualizer() {
             setEnd={videoControls.setEnd}
             setPlaying={videoControls.setPlaying}
             videoId={song.videoId}
-            width={showFormation ? Math.min(measurements.stats.width, 320) : measurements.stats.width}
+            width={measurements.stats.width}
           />
         </div>
         {panels.bars && (
@@ -157,7 +148,7 @@ export function Visualizer() {
             <Stage
               activeIds={activeFormationSingers(song, distribution, videoControls.currentTime)}
               artists={assigneesDict}
-              frontAtTop={mirrorFormation}
+              frontAtTop
               positions={stagePose}
             />
           </div>

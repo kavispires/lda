@@ -110,7 +110,7 @@ export function VisualizerMobile({ currentBarSnapshot, timestamp }: VisualizerMo
         isMobile
         isVisible={areControlsVisible}
         onDisplayModeChange={setDisplayMode}
-        songId={song.id}
+        song={song}
         videoControls={videoControls}
       />
     </div>

@@ -38,6 +38,7 @@
     "build": "tsc -b && vite build",
     "test:the-search": "node --test scripts/the-search.test.mjs",
     "test:distributions": "node --test scripts/distributions.test.mjs",
+    "test:visualizer": "node --test scripts/visualizer.test.mjs",
     "serve": "vite preview",
     "format": "biome check --write --no-errors-on-unmatched",
     "lint": "biome check --staged --write --no-errors-on-unmatched",
