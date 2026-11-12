@@ -1,4 +1,3 @@
-import { DeleteOutlined } from '@ant-design/icons';
 import { useLogSection } from '@hooks/useLogInstances';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
@@ -18,6 +17,7 @@ import {
   Space,
   Typography,
 } from 'antd';
+import { TrashIcon } from 'lucide-react';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -137,7 +137,7 @@ export function EditSectionForm({ sectionId, onClose, setDirty }: EditSectionFor
           }}
           title="Are you sure you want to delete this section?"
         >
-          <Button block danger ghost icon={<DeleteOutlined />} type="primary">
+          <Button block danger ghost icon={<TrashIcon />} type="primary">
             Delete This Section
           </Button>
         </Popconfirm>

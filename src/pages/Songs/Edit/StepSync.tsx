@@ -1,4 +1,3 @@
-import { PlayCircleOutlined } from '@ant-design/icons';
 import { ControlledVideo } from '@components/Video/ControlledVideo';
 import { useSongActions } from '@hooks/useSongActions';
 import { useVideoControls } from '@hooks/useVideoControls';
@@ -8,6 +7,7 @@ import { distributor } from '@utils';
 import { DEFAULT_ASSIGNEE } from '@utils/constants';
 import { Button, Flex, Progress, Typography } from 'antd';
 import clsx from 'clsx';
+import { CirclePlayIcon } from 'lucide-react';
 import { type Ref, useMemo, useState } from 'react';
 import type YouTube from 'react-youtube';
 import { KeyCapture, type RecordingTimestamp } from './SyncComponents/KeyCapture';
@@ -89,7 +89,7 @@ export function StepSync({ videoWidth }: StepSyncProps) {
               block
               className={clsx('mb-4', isRecording && 'recording')}
               danger={true}
-              icon={<PlayCircleOutlined />}
+              icon={<CirclePlayIcon />}
               onClick={toggleRecording}
               type={isRecording ? 'primary' : 'default'}
             >

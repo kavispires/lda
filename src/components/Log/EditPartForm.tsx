@@ -1,4 +1,3 @@
-import { DeleteOutlined, LogoutOutlined, ScissorOutlined } from '@ant-design/icons';
 import { useLogPart } from '@hooks/useLogInstances';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
@@ -19,6 +18,7 @@ import {
   Space,
   Tooltip,
 } from 'antd';
+import { LogOutIcon, ScissorsIcon, TrashIcon } from 'lucide-react';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -107,7 +107,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
             <Tooltip title="Split into parts by |">
               <Button
                 disabled={!tempPart.text.includes('|')}
-                icon={<ScissorOutlined />}
+                icon={<ScissorsIcon />}
                 onClick={onSplit}
                 size="small"
                 type="text"
@@ -155,7 +155,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
 
       <Form.Item help="Permanently delete this entire part." label="">
         <Popconfirm onConfirm={() => onDeletePart(partId)} title="Are you sure you want to delete this part?">
-          <Button block danger ghost icon={<DeleteOutlined />} type="primary">
+          <Button block danger ghost icon={<TrashIcon />} type="primary">
             Delete This Part
           </Button>
         </Popconfirm>
@@ -166,7 +166,7 @@ export function EditPartForm({ partId, onClose, setDirty }: EditPartFormProps) {
           onConfirm={() => onConvertPartToNewLine(partId)}
           title="Are you sure you want to convert this part to a new line?"
         >
-          <Button block ghost icon={<LogoutOutlined />} type="primary">
+          <Button block ghost icon={<LogOutIcon />} type="primary">
             Convert to New Line
           </Button>
         </Popconfirm>

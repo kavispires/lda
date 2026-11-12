@@ -1,5 +1,5 @@
-import { CopyOutlined } from '@ant-design/icons';
 import { Alert, Button, Space, Typography } from 'antd';
+import { CopyIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export async function copyMarkdown(text: string): Promise<void> {
@@ -25,7 +25,7 @@ export function CopyMarkdownButton({
   return (
     <Space orientation="vertical">
       <Button
-        icon={<CopyOutlined />}
+        icon={<CopyIcon />}
         loading={copying}
         onClick={async () => {
           setCopying(true);

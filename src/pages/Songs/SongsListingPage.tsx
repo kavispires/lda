@@ -1,4 +1,3 @@
-import { BarChartOutlined, DeleteFilled, FormOutlined } from '@ant-design/icons';
 import { FirestoreConsoleLink } from '@components/Common/FirestoreConsoleLink';
 import { Timestamp } from '@components/Common/Timestamp';
 import { Content, ContentError, ContentLoading } from '@components/Content';
@@ -9,6 +8,7 @@ import { useDeleteSongMutation } from '@hooks/useSong';
 import { useTablePagination } from '@hooks/useTablePagination';
 import type { ListingEntry, UID } from '@types';
 import { Button, Divider, Flex, Popconfirm, Space, Table, type TableProps, Typography } from 'antd';
+import { ChartColumnIcon, SquarePenIcon, TrashIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const ALL_SONGS = 'All Songs';
@@ -52,11 +52,11 @@ export function SongsListingPage() {
       key: 'actions',
       render: (record: ListingEntry) => (
         <Space separator={<Divider orientation="vertical" />} size="small">
-          <Button icon={<FormOutlined />} onClick={() => navigate(`/songs/${record.id}/edit`)} type="link">
+          <Button icon={<SquarePenIcon />} onClick={() => navigate(`/songs/${record.id}/edit`)} type="link">
             Edit
           </Button>
           <Button
-            icon={<BarChartOutlined />}
+            icon={<ChartColumnIcon />}
             onClick={() => navigate(`/distributions/new?songId=${record.id}`)}
             type="link"
           >
@@ -70,11 +70,6 @@ export function SongsListingPage() {
       dataIndex: 'id',
       key: 'id',
       render: (id: UID) => <FirestoreConsoleLink label={id} path={`songs/${id}`} />,
-    },
-    {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type',
     },
     {
       title: 'Last Updated',
@@ -92,7 +87,7 @@ export function SongsListingPage() {
             onConfirm={() => deleteSongMutation.mutate(songId)}
             title="Are you sure you want to delete this song?"
           >
-            <Button danger icon={<DeleteFilled />} loading={deleteSongMutation.isPending} size="small" />
+            <Button danger icon={<TrashIcon />} loading={deleteSongMutation.isPending} size="small" />
           </Popconfirm>
         </Space>
       ),

@@ -1,4 +1,5 @@
 import { Divider, Layout, Tooltip } from 'antd';
+import { DiscAlbumIcon, ListMusicIcon, MapPinIcon, PlusIcon, TrophyIcon, UsersIcon } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 import './Menu.scss';
 
@@ -12,31 +13,31 @@ export function Menu() {
 
         <NavLink className="ld-menu__nav-link" to="/songs">
           <Tooltip arrow placement="right" title="Songs">
-            <i className="fi fi-rr-calendar" />
+            <DiscAlbumIcon />
           </Tooltip>
         </NavLink>
 
         <NavLink className="ld-menu__nav-link" to="/distributions">
           <Tooltip arrow placement="right" title="Distributions">
-            <i className="fi fi-rs-list-music" />
+            <ListMusicIcon />
           </Tooltip>
         </NavLink>
 
         <NavLink className="ld-menu__nav-link" to="/groups">
           <Tooltip arrow placement="right" title="Groups">
-            <i className="fi fi-rr-users-alt" />
+            <UsersIcon />
           </Tooltip>
         </NavLink>
 
         <NavLink className="ld-menu__nav-link" to="/formation-templates">
           <Tooltip arrow placement="right" title="Formation Templates">
-            <i className="fi fi-rr-marker" />
+            <MapPinIcon />
           </Tooltip>
         </NavLink>
 
         <NavLink className="ld-menu__nav-link" to="/the-search">
           <Tooltip arrow placement="right" title="The Search">
-            <i className="fi fi-rr-trophy-star" />
+            <TrophyIcon />
           </Tooltip>
         </NavLink>
 
@@ -44,7 +45,10 @@ export function Menu() {
 
         <NavLink className="ld-menu__nav-link" to="/songs/new">
           <Tooltip arrow placement="right" title="Create Song">
-            <i className="fi fi-rs-album-circle-plus" />
+            <span aria-hidden="true" className="ld-menu__create-song-icon">
+              <DiscAlbumIcon />
+              <PlusIcon className="ld-menu__create-song-plus" />
+            </span>
           </Tooltip>
         </NavLink>
       </nav>

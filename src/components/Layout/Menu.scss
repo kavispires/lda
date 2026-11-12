@@ -7,8 +7,8 @@
 .ld-menu {
   &__nav {
     display: grid;
-    width: 100%;
     justify-items: center;
+    width: 100%;
   }
 
   &__home {
@@ -21,18 +21,35 @@
     width: 2rem;
   }
 
+  &__create-song-icon {
+    position: relative;
+    display: inline-flex;
+    width: 1em;
+    height: 1em;
+  }
+
+  &__create-song-icon &__create-song-plus {
+    position: absolute;
+    right: -0.25em;
+    bottom: -0.15em;
+    width: 0.65em;
+    height: 0.65em;
+    background: #161d36;
+    border-radius: 50%;
+  }
+
   &__nav-link {
-    font-size: 1.1em;
     display: flex;
-    margin: get-unit(1 0);
-    padding: get-unit(3);
     align-items: center;
-    border-radius: var(--border-radius);
+    padding: get-unit(3);
+    margin: get-unit(1 0);
+    font-size: 1.1em;
     color: get-color("white");
+    border-radius: var(--border-radius);
 
     &:hover {
-      background-color: get-color("blue", 5, 0.5);
       color: get-color("white", 5, 0.5);
+      background-color: get-color("blue", 5, 0.5);
     }
   }
 

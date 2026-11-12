@@ -1,10 +1,10 @@
 import './EditSongPage.scss';
 
-import { SaveFilled } from '@ant-design/icons';
 import { Content } from '@components/Content';
 import { CopyLyricsButton } from '@components/Lyrics/CopyLyricsButton';
 import { SongEditProvider, useSongEditContext } from '@services/SongEditProvider';
 import { Button, Flex, Space, Tag, Tooltip, Typography } from 'antd';
+import { SaveIcon } from 'lucide-react';
 import { useMeasure } from 'react-use';
 import { EditSongStepper } from './Edit/EditSongStepper';
 import { StepCategorizer } from './Edit/StepCategorizer';
@@ -55,7 +55,7 @@ function EditSongContent() {
           </Tooltip>
         </div>
         <Button disabled={!isDirty} loading={isSaving} onClick={saveSong} size="large" type="primary">
-          <SaveFilled /> Save
+          <SaveIcon /> Save
         </Button>
       </Space>
     </Content>

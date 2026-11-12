@@ -1,6 +1,6 @@
-import { DatabaseFilled, MessageFilled, NotificationFilled } from '@ant-design/icons';
 import type { Song, SongLine, SongPart, SongSection, UID } from '@types';
 import { NULL } from '@utils/constants';
+import { DatabaseIcon, MegaphoneIcon, MessageSquareIcon } from 'lucide-react';
 
 type NewSongQuickLogProps = {
   song: Song;
@@ -34,7 +34,7 @@ function SectionEntry({ kind, linesIds, content }: SectionEntryProps) {
   return (
     <li className="lyrics-quick-log__section-entry">
       <span>
-        <DatabaseFilled /> Section {kind && kind !== NULL ? kind : 'X'}
+        <DatabaseIcon /> Section {kind && kind !== NULL ? kind : 'X'}
       </span>
       <ul className="lyrics-quick-log__lines">
         {linesIds.map((lineId) => {
@@ -55,7 +55,7 @@ type LineEntryProps = {
 function LineEntry({ partsIds, content }: LineEntryProps) {
   return (
     <li className="lyrics-quick-log__line-entry">
-      <MessageFilled />
+      <MessageSquareIcon />
       <ul className="lyrics-quick-log__parts">
         {partsIds.map((partId) => {
           const part = content[partId] as SongPart;
@@ -74,7 +74,7 @@ type PartEntryProps = {
 function PartEntry({ text }: PartEntryProps) {
   return (
     <li className="lyrics-quick-log__part-entry">
-      <NotificationFilled />
+      <MegaphoneIcon />
       {text}
     </li>
   );

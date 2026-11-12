@@ -1,4 +1,3 @@
-import { SwapOutlined } from '@ant-design/icons';
 import { Content, ContentError, ContentLoading } from '@components/Content';
 import { CurrentSectionDistribution } from '@components/Formation/CurrentSectionDistribution';
 import { SnapshotTimeline } from '@components/Formation/SnapshotTimeline';
@@ -39,6 +38,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
+import { ArrowLeftRightIcon } from 'lucide-react';
 import { useCallback, useEffect, useState } from 'react';
 import { flushSync } from 'react-dom';
 import { Link, useNavigate, useParams } from 'react-router-dom';
@@ -314,7 +314,7 @@ function FormationEditor({ initial, saved }: { initial: Formation; saved: Format
                 <Button
                   aria-label="Swap positions"
                   disabled={locked || selectedDancers.length !== 2}
-                  icon={<SwapOutlined />}
+                  icon={<ArrowLeftRightIcon />}
                   onClick={() =>
                     act(() => {
                       const [first, second] = selectedDancers;

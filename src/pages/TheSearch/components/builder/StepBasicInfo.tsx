@@ -1,6 +1,6 @@
-import { RedoOutlined } from '@ant-design/icons';
 import { Button, Checkbox, ColorPicker, Flex, Form, Input, Progress, Select, Space, Typography } from 'antd';
 import type { AggregationColor } from 'antd/es/color-picker/color';
+import { RotateCwIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import NAMES from '../../data/names.json';
 import type { Contestant } from '../../types/contestant';
@@ -183,7 +183,7 @@ export function StepBasicInfo({
           >
             <Space.Compact style={{ width: '100%' }}>
               <Input placeholder="Contestant name" style={{ flex: 1 }} />
-              <Button icon={<RedoOutlined />} onClick={handleRandomName} type="default">
+              <Button icon={<RotateCwIcon />} onClick={handleRandomName} type="default">
                 Random
               </Button>
             </Space.Compact>

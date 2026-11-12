@@ -1,20 +1,21 @@
-import {
-  CheckCircleOutlined,
-  CopyOutlined,
-  DatabaseFilled,
-  EditOutlined,
-  FontColorsOutlined,
-  FontSizeOutlined,
-  MenuUnfoldOutlined,
-  PlayCircleFilled,
-  PlusOutlined,
-  UnorderedListOutlined,
-} from '@ant-design/icons';
 import { useLogPart, useLogSection } from '@hooks/useLogInstances';
 import type { Song, UID } from '@types';
 import { distributor } from '@utils';
 import { NULL } from '@utils/constants';
 import { Alert, Button, Checkbox, Divider, Flex, Popconfirm, Popover, Progress, Space, Tooltip } from 'antd';
+import {
+  ALargeSmallIcon,
+  BaselineIcon,
+  CircleCheckIcon,
+  CirclePlayIcon,
+  ClipboardPasteIcon,
+  CopyIcon,
+  DatabaseIcon,
+  IndentIncreaseIcon,
+  ListIcon,
+  PencilIcon,
+  PlusIcon,
+} from 'lucide-react';
 import { type ReactNode, useCallback, useMemo, useState } from 'react';
 import { getSectionKindSuggestions } from './sectionSuggestionEngine';
 
@@ -165,11 +166,11 @@ export function LogSection({
   }, [onSelectParts, partIds, song]);
 
   const icon = useMemo(() => {
-    if (overrideComplete === 'complete') return <CheckCircleOutlined className="log-icon--green" />;
-    if (overrideComplete === 'partial') return <CheckCircleOutlined className="log-icon--orange" />;
-    if (overrideComplete === 'incomplete') return <DatabaseFilled className="log-icon--yellow" />;
-    if (status === 'complete') return <CheckCircleOutlined className="log-icon--green" />;
-    return <DatabaseFilled />;
+    if (overrideComplete === 'complete') return <CircleCheckIcon className="log-icon--green" />;
+    if (overrideComplete === 'partial') return <CircleCheckIcon className="log-icon--orange" />;
+    if (overrideComplete === 'incomplete') return <DatabaseIcon className="log-icon--yellow" />;
+    if (status === 'complete') return <CircleCheckIcon className="log-icon--green" />;
+    return <DatabaseIcon />;
   }, [overrideComplete, status]);
 
   if (!section?.id)
@@ -187,7 +188,7 @@ export function LogSection({
           {!!onPlay && (
             <Tooltip title={part ? `Play from ${part.startTime} ms` : 'No parts to play'}>
               <Button
-                icon={<PlayCircleFilled />}
+                icon={<CirclePlayIcon />}
                 onClick={() => onPlay(part.startTime)}
                 shape="circle"
                 size="small"
@@ -230,12 +231,12 @@ export function LogSection({
                 title="Select section kind"
                 trigger="click"
               >
-                <Button danger icon={icon ?? <EditOutlined />} shape="round">
+                <Button danger icon={icon ?? <PencilIcon />} shape="round">
                   {name}
                 </Button>
               </Popover>
             ) : (
-              <Button icon={icon ?? <EditOutlined />} onClick={() => onClick(id)} shape="round">
+              <Button icon={icon ?? <PencilIcon />} onClick={() => onClick(id)} shape="round">
                 {name}
               </Button>
             )
@@ -251,7 +252,7 @@ export function LogSection({
             {!!onSelectParts && (
               <Tooltip title="Select all parts">
                 <Button
-                  icon={<UnorderedListOutlined />}
+                  icon={<ListIcon />}
                   onClick={() => onSelectParts(partIds)}
                   shape="square"
                   size="small"
@@ -261,30 +262,20 @@ export function LogSection({
 
             {!!onSelectParts && (
               <Tooltip title="Select only regular parts">
-                <Button
-                  icon={<FontColorsOutlined />}
-                  onClick={onSelectRegularParts}
-                  shape="square"
-                  size="small"
-                />
+                <Button icon={<BaselineIcon />} onClick={onSelectRegularParts} shape="square" size="small" />
               </Tooltip>
             )}
 
             {!!onSelectParts && (
               <Tooltip title="Select only (ad-lib) parts">
-                <Button
-                  icon={<FontSizeOutlined />}
-                  onClick={onSelectAdLibParts}
-                  shape="square"
-                  size="small"
-                />
+                <Button icon={<ALargeSmallIcon />} onClick={onSelectAdLibParts} shape="square" size="small" />
               </Tooltip>
             )}
 
             {!!onSelectParts && enableSelectRemainingParts && hasRemainingParts && (
               <Tooltip title="Select missing parts">
                 <Button
-                  icon={<MenuUnfoldOutlined />}
+                  icon={<IndentIncreaseIcon />}
                   onClick={onSelectRemainingParts}
                   shape="square"
                   size="small"
@@ -307,7 +298,7 @@ export function LogSection({
 
           {!!onAddLine && (
             <Tooltip title="Add content to section">
-              <Button icon={<PlusOutlined />} onClick={() => onAddLine(id)} shape="round" size="small" />
+              <Button icon={<PlusIcon />} onClick={() => onAddLine(id)} shape="round" size="small" />
             </Tooltip>
           )}
 
@@ -315,7 +306,7 @@ export function LogSection({
             <Tooltip title="Copy section">
               <Button
                 disabled={!overrideComplete || overrideComplete === 'incomplete'}
-                icon={<CopyOutlined />}
+                icon={<CopyIcon />}
                 onClick={() => onCopy(id)}
                 size="small"
               />
@@ -327,7 +318,7 @@ export function LogSection({
               onConfirm={() => onPaste(id)}
               title="Are you sure you want to paste the copied section here?"
             >
-              <Button icon={<i className="fi fi-rr-paste"></i>} size="small" />
+              <Button icon={<ClipboardPasteIcon />} size="small" />
             </Popconfirm>
           )}
         </span>

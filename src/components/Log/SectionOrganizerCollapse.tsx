@@ -1,4 +1,3 @@
-import { UnorderedListOutlined } from '@ant-design/icons';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
 import type { UID } from '@types';
@@ -6,6 +5,7 @@ import { distributor } from '@utils';
 import { NULL } from '@utils/constants';
 import type { CollapseProps } from 'antd';
 import { App, Button, Collapse, Divider, Flex, Form, Input, Typography } from 'antd';
+import { ListIcon, ListOrderedIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 
 export function SectionOrganizerCollapse() {
@@ -26,7 +26,7 @@ export function SectionOrganizerCollapse() {
   return (
     <Collapse
       activeKey={activePanel}
-      expandIcon={({ isActive }) => <UnorderedListOutlined rotate={isActive ? 180 : 0} />}
+      expandIcon={({ isActive }) => <ListIcon style={{ transform: `rotate(${isActive ? 180 : 0}deg)` }} />}
       items={items}
       onChange={(keys) => {
         onDeselectAll();
@@ -134,7 +134,7 @@ function SectionOrganizerFlow({ setActivePanel }: SectionOrganizerFlowProps) {
       <Button
         block
         disabled={isAnySectionKindNull}
-        icon={<i className="fi fi-ss-arrow-progress" />}
+        icon={<ListOrderedIcon />}
         onClick={() => {
           onNumberSections();
           setActivePanel([]);

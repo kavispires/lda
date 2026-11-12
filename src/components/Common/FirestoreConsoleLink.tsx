@@ -1,5 +1,5 @@
-import { ArrowUpOutlined, GoogleOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
+import { ArrowUpRightIcon, DatabaseIcon } from 'lucide-react';
 
 type FirestoreConsoleLinkProps = {
   path: string;
@@ -12,7 +12,7 @@ export function FirestoreConsoleLink({ path, label, disabled, ...rest }: Firesto
 
   return (
     <Typography.Link disabled={disabled} href={getConsoleUrl(path)} target="_blank" {...rest}>
-      <GoogleOutlined /> {label ?? 'Console'} <ArrowUpOutlined style={{ rotate: '45deg' }} />
+      <DatabaseIcon /> {label ?? 'Console'} <ArrowUpRightIcon />
     </Typography.Link>
   );
 }

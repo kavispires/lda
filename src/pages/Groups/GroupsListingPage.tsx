@@ -1,6 +1,5 @@
 import './GroupsListingPage.scss';
 
-import { CalculatorOutlined } from '@ant-design/icons';
 import { ArtistAvatar } from '@components/Artist';
 import { Content, ContentError, ContentLoading } from '@components/Content';
 import { useCalculateGroupStatsMutation } from '@hooks/useCalculateGroupStatsMutation';
@@ -22,6 +21,7 @@ import {
   Typography,
 } from 'antd';
 import { orderBy, sum } from 'lodash';
+import { CalculatorIcon } from 'lucide-react';
 import { useMemo } from 'react';
 import { EditArtistDrawer } from './EditArtistDrawer';
 import { NewArtistDrawer } from './NewArtistDrawer';
@@ -82,7 +82,7 @@ export function GroupsListingPage() {
           title="Are you sure you want to calculate stats for this group?"
         >
           <Button
-            icon={<CalculatorOutlined />}
+            icon={<CalculatorIcon />}
             loading={calculateStatsMutation.isPending}
             size="small"
             type="link"

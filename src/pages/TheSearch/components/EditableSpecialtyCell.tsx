@@ -1,5 +1,5 @@
-import { EditOutlined, RedoOutlined } from '@ant-design/icons';
 import { Alert, Button, Flex, Popover, Radio, Typography } from 'antd';
+import { PencilIcon, RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { Contestant } from '../types/contestant';
 import {
@@ -51,7 +51,7 @@ export function EditableSpecialtyCell({
           <Flex gap="small">
             <Button
               disabled={disabled}
-              icon={<RedoOutlined />}
+              icon={<RotateCwIcon />}
               onClick={() => applyChange(generateRandomSpecialty(type, contestants, true))}
             >
               Random
@@ -118,7 +118,7 @@ export function EditableSpecialtyCell({
       <Button
         aria-label={`Edit ${label} for ${contestantName}`}
         disabled={disabled}
-        icon={<EditOutlined />}
+        icon={<PencilIcon />}
         size="small"
         style={{
           height: 'auto',

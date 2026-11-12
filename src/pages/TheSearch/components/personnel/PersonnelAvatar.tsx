@@ -1,5 +1,5 @@
-import { UserOutlined } from '@ant-design/icons';
 import { Avatar, type AvatarProps } from 'antd';
+import { UserIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 function guestPortrait(color: string) {
@@ -132,7 +132,7 @@ export function PersonnelAvatar({
       {...props}
       alt={name}
       aria-label={`${name} portrait`}
-      icon={person?.placeholder ?? <UserOutlined />}
+      icon={person?.placeholder ?? <UserIcon />}
       size={size}
       src={src ?? person?.src}
     />

@@ -1,6 +1,5 @@
 import './EditDistributionPage.scss';
 
-import { SaveOutlined } from '@ant-design/icons';
 import { Content } from '@components/Content';
 import { DistributionLog } from '@components/Log/DistributionLog';
 import { CopyLyricsButton } from '@components/Lyrics/CopyLyricsButton';
@@ -9,6 +8,7 @@ import { VideoControls } from '@components/Video/VideoControls';
 import { SongDistributionProvider, useSongDistributionContext } from '@services/SongDistributionProvider';
 import type { Distribution } from '@types';
 import { Button, Flex, Progress, Space, Typography } from 'antd';
+import { SaveIcon } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useMeasure } from 'react-use';
 import { DistributionLiveStats } from './DistributionLiveStats';
@@ -74,7 +74,7 @@ function EditDistributionContent() {
       <Flex className="surface my-2 distribution-actions" gap="middle" vertical>
         <DistributionTimeline assignees={distribution.assignees} mapping={mapping} song={song} />
         <Space>
-          <Button icon={<SaveOutlined />} loading={isSaving} onClick={onSave} size="large" type="primary">
+          <Button icon={<SaveIcon />} loading={isSaving} onClick={onSave} size="large" type="primary">
             {distribution.id === '$draft' ? 'Create Distribution' : 'Save Changes'}
           </Button>
           <Button

@@ -1,4 +1,3 @@
-import { ArrowDownOutlined, ArrowUpOutlined, MinusOutlined } from '@ant-design/icons';
 import {
   Button,
   Col,
@@ -14,6 +13,7 @@ import {
   Tooltip,
   Typography,
 } from 'antd';
+import { ArrowDownIcon, ArrowUpIcon, MinusIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { Dictionary } from 'types/common';
 import historyCardsData from '../data/history-cards.json';
@@ -661,9 +661,9 @@ function RelationshipsTab({
       key: 'change',
       width: 80,
       render: (change: 'up' | 'down' | 'same') => {
-        if (change === 'up') return <ArrowUpOutlined style={{ color: '#52c41a' }} />;
-        if (change === 'down') return <ArrowDownOutlined style={{ color: '#ff4d4f' }} />;
-        return <MinusOutlined style={{ color: '#8c8c8c' }} />;
+        if (change === 'up') return <ArrowUpIcon style={{ color: '#52c41a' }} />;
+        if (change === 'down') return <ArrowDownIcon style={{ color: '#ff4d4f' }} />;
+        return <MinusIcon style={{ color: '#8c8c8c' }} />;
       },
     },
   ];

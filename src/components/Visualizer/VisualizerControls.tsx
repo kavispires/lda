@@ -1,17 +1,17 @@
-import {
-  BackwardOutlined,
-  ForwardOutlined,
-  PauseCircleOutlined,
-  PlayCircleOutlined,
-  StepBackwardOutlined,
-  StepForwardOutlined,
-} from '@ant-design/icons';
 import type { useVideoControls } from '@hooks/useVideoControls';
 import type { DistributionFreshness } from '@services/DistributionVisualizerProvider';
 import type { Song } from '@types';
 import { getSectionSummary } from '@utils/song/section-getters';
 import { Badge, Button, Flex, Popover, Segmented, Tooltip, Typography } from 'antd';
 import clsx from 'clsx';
+import {
+  CirclePauseIcon,
+  CirclePlayIcon,
+  FastForwardIcon,
+  RewindIcon,
+  SkipBackIcon,
+  SkipForwardIcon,
+} from 'lucide-react';
 import { type ReactNode, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useKeyPressEvent } from 'react-use';
@@ -94,7 +94,7 @@ export function VisualizerControls({
         <Tooltip title={isPlaying ? 'Pause' : 'Play'}>
           <Button
             aria-label={isPlaying ? 'Pause' : 'Play'}
-            icon={isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
+            icon={isPlaying ? <CirclePauseIcon /> : <CirclePlayIcon />}
             onClick={isPlaying ? pauseVideo : playVideo}
             size="large"
             type="primary"
@@ -104,19 +104,13 @@ export function VisualizerControls({
           <Button
             aria-label="Go to beginning"
             ghost
-            icon={<StepBackwardOutlined />}
+            icon={<SkipBackIcon />}
             onClick={seekToStart}
             size="large"
           />
         </Tooltip>
         <Tooltip title="Go to end">
-          <Button
-            aria-label="Go to end"
-            ghost
-            icon={<StepForwardOutlined />}
-            onClick={seekToEnd}
-            size="large"
-          />
+          <Button aria-label="Go to end" ghost icon={<SkipForwardIcon />} onClick={seekToEnd} size="large" />
         </Tooltip>
         <div className="visualizer-controls__section-navigation">
           <Tooltip title={previousSection ? `${previousSection.name} (2s lead-in)` : 'No previous section'}>
@@ -124,7 +118,7 @@ export function VisualizerControls({
               aria-label="Previous section"
               disabled={!previousSection}
               ghost
-              icon={<BackwardOutlined />}
+              icon={<RewindIcon />}
               onClick={() => previousSection && seekToSection(previousSection.time)}
               size="large"
             />
@@ -134,7 +128,7 @@ export function VisualizerControls({
               aria-label="Next section"
               disabled={!nextSection}
               ghost
-              icon={<ForwardOutlined />}
+              icon={<FastForwardIcon />}
               onClick={() => nextSection && seekToSection(nextSection.time)}
               size="large"
             />

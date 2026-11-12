@@ -1,8 +1,8 @@
 import './ArtistBar.scss';
 
-import { PushpinFilled } from '@ant-design/icons';
 import type { Artist } from '@types';
 import clsx from 'clsx';
+import { PinIcon } from 'lucide-react';
 import { forwardRef } from 'react';
 import { ArtistAvatar } from './ArtistAvatar';
 
@@ -49,7 +49,7 @@ export const ArtistBar = forwardRef<HTMLDivElement, ArtistBarProps>(
         <div className="bar__data">
           <div className="bar__artist">
             <span className="bar__name">
-              {artist.name} {done && <PushpinFilled className="bar__avatar-done" />}
+              {artist.name} {done && <PinIcon className="bar__avatar-done" />}
             </span>
             •<span className="bar__track">{artist.track}</span>
           </div>

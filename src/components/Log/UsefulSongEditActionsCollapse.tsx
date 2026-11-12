@@ -1,8 +1,8 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
 import { distributor } from '@utils';
 import { Button, Collapse, type CollapseProps, Popconfirm, Space } from 'antd';
+import { InfoIcon } from 'lucide-react';
 import { useState } from 'react';
 
 export function UsefulSongEditActionsCollapse() {
@@ -22,7 +22,7 @@ export function UsefulSongEditActionsCollapse() {
   return (
     <Collapse
       activeKey={activePanel}
-      expandIcon={() => <InfoCircleOutlined />}
+      expandIcon={() => <InfoIcon />}
       items={items}
       onChange={(keys) => {
         onDeselectAll();

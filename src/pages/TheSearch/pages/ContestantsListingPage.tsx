@@ -1,11 +1,3 @@
-import {
-  DeleteOutlined,
-  EditOutlined,
-  EyeOutlined,
-  PlusOutlined,
-  SaveOutlined,
-  WarningOutlined,
-} from '@ant-design/icons';
 import { DownloadButton } from '@components/Common/DownloadButton';
 import { FirestoreConsoleLink } from '@components/Common/FirestoreConsoleLink';
 import { Content } from '@components/Content';
@@ -26,6 +18,14 @@ import {
 } from 'antd';
 import type { ColumnType, TablePaginationConfig } from 'antd/es/table';
 import type { FilterValue, SorterResult } from 'antd/es/table/interface';
+import {
+  EyeIcon,
+  PencilIcon,
+  PlusIcon,
+  SaveIcon,
+  TrashIcon,
+  TriangleExclamationPointIcon,
+} from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ContestantAvatar } from '../components/ContestantAvatar';
@@ -982,7 +982,7 @@ export function ContestantsListingPage() {
       },
     },
     {
-      title: <WarningOutlined />,
+      title: <TriangleExclamationPointIcon />,
       key: 'incomplete',
       width: 60,
       align: 'center',
@@ -992,7 +992,7 @@ export function ContestantsListingPage() {
         if (record.incompleteCount === 0) return null;
         return (
           <Tooltip title={`Missing: ${record.incompleteMissing.join(', ')}`}>
-            <WarningOutlined style={{ color: '#faad14', fontSize: '16px' }} />
+            <TriangleExclamationPointIcon style={{ color: '#faad14', fontSize: '16px' }} />
           </Tooltip>
         );
       },
@@ -1004,7 +1004,7 @@ export function ContestantsListingPage() {
       render: (_value: unknown, record: Contestant) => (
         <Space>
           <Button
-            icon={<EditOutlined />}
+            icon={<PencilIcon />}
             onClick={() => navigate(`/the-search/edit?id=${record.id}`)}
             size="small"
             type="link"
@@ -1017,7 +1017,7 @@ export function ContestantsListingPage() {
             onConfirm={() => deleteLocalContestant(record.id)}
             title="Delete this contestant?"
           >
-            <Button danger icon={<DeleteOutlined />} size="small" type="link">
+            <Button danger icon={<TrashIcon />} size="small" type="link">
               Delete
             </Button>
           </Popconfirm>
@@ -1096,7 +1096,7 @@ export function ContestantsListingPage() {
               </Popconfirm>
               <Button
                 danger
-                icon={<SaveOutlined />}
+                icon={<SaveIcon />}
                 loading={isSaving}
                 onClick={() => saveAll()}
                 size="large"
@@ -1108,7 +1108,7 @@ export function ContestantsListingPage() {
           )}
           <Button
             disabled
-            icon={<PlusOutlined />}
+            icon={<PlusIcon />}
             onClick={() => navigate('/the-search/new')}
             type={hasDirtyChanges ? 'default' : 'primary'}
           >
@@ -1154,7 +1154,7 @@ export function ContestantsListingPage() {
           popupRender={() => columnSelectorMenu}
           trigger={['click']}
         >
-          <Button icon={<EyeOutlined />} size="large">
+          <Button icon={<EyeIcon />} size="large">
             Columns
           </Button>
         </Dropdown>

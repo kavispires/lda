@@ -4,6 +4,7 @@ import type { Dictionary, Song, SongSection, UID, UpdateValue } from '@types';
 import { distributor } from '@utils';
 import { SECTION_KINDS } from '@utils/constants';
 import { Button, Divider, Flex, Form, Popconfirm, Select, Typography } from 'antd';
+import { MergeIcon } from 'lucide-react';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 
@@ -92,7 +93,7 @@ export function EditSectionsForm({ sectionsIds, onClose, setDirty }: EditSection
           }}
           title="Are you sure you want to merge these sections?"
         >
-          <Button block icon={<i className="fi fi-rr-arrows-to-line" />}>
+          <Button block icon={<MergeIcon />}>
             Merge sections into one section
           </Button>
         </Popconfirm>

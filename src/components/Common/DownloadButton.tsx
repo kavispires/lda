@@ -1,8 +1,8 @@
-import { CheckSquareOutlined, DownOutlined } from '@ant-design/icons';
 import { useQuery } from '@tanstack/react-query';
 import { wait } from '@utils';
 import { Alert, Badge, Button, Cascader, Dropdown, type DropdownProps, Modal, Space, Spin } from 'antd';
 import { isEmpty } from 'lodash';
+import { ChevronDownIcon, SquareCheckIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 
 // biome-ignore lint/suspicious/noExplicitAny: on purpose
@@ -87,7 +87,7 @@ export function DownloadButton({
     {
       key: 'selective',
       label: 'Selective Download',
-      icon: <CheckSquareOutlined />,
+      icon: <SquareCheckIcon />,
     },
   ];
 
@@ -115,7 +115,7 @@ export function DownloadButton({
           {hasNewData && <Badge status="warning" />}
         </Button>
         <Dropdown menu={{ items, onClick: onMenuClick }} {...props}>
-          <Button disabled={loading} icon={icon ?? <DownOutlined />} />
+          <Button disabled={loading} icon={icon ?? <ChevronDownIcon />} />
         </Dropdown>
       </Space.Compact>
       <SelectiveModal

@@ -78,6 +78,7 @@ describe('Distributions', async () => {
   });
   try {
     await server.ssrLoadModule('/src/pages/Distributions/distribution-timeline.test.tsx');
+    await server.ssrLoadModule('/src/components/Log/LogPart.test.tsx');
     await server.ssrLoadModule('/src/services/inline-adlibs.test.tsx');
     await server.ssrLoadModule('/src/utils/formation.test.tsx');
   } catch (error) {

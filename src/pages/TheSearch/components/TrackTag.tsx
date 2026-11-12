@@ -1,5 +1,6 @@
 import type { ValuesOf } from '@types';
 import { Tag } from 'antd';
+import { MicIcon, PersonStandingIcon, ZapIcon } from 'lucide-react';
 import type { TRACKS } from '../utilities/constants';
 
 interface TrackTagProps {
@@ -8,15 +9,15 @@ interface TrackTagProps {
 
 const TRACK_CONFIG = {
   VOCAL: {
-    icon: 'fi fi-rr-microphone',
+    icon: MicIcon,
     label: 'Vocal',
   },
   RAP: {
-    icon: 'fi fi-rr-bolt',
+    icon: ZapIcon,
     label: 'Rap',
   },
   DANCE: {
-    icon: 'fi fi-rr-running',
+    icon: PersonStandingIcon,
     label: 'Dance',
   },
 } as const;
@@ -28,5 +29,6 @@ export function TrackTag({ track }: TrackTagProps) {
     return <Tag>{track}</Tag>;
   }
 
-  return <Tag icon={<i className={config.icon} />}> {config.label}</Tag>;
+  const TrackIcon = config.icon;
+  return <Tag icon={<TrackIcon />}> {config.label}</Tag>;
 }

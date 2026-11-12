@@ -2,6 +2,7 @@ import { ContentLoading } from '@components/Content';
 import { useListingDataQuery } from '@hooks/useListingQuery';
 import type { Artist, Group } from '@types';
 import { Button, Divider, Space, Typography } from 'antd';
+import { CheckIcon, UserIcon, UsersIcon } from 'lucide-react';
 
 type ArtistsSelectionStepProps = {
   selectedArtists: Artist[];
@@ -63,7 +64,7 @@ export function ArtistsSelectionStep({
             const isSelected = selectedGroup?.id === group.id;
             return (
               <Button
-                icon={isSelected ? <i className="fi fi-rr-check"></i> : <i className="fi fi-rr-users" />}
+                icon={isSelected ? <CheckIcon /> : <UsersIcon />}
                 key={group.id}
                 onClick={() => onSelectGroup(group)}
               >
@@ -82,7 +83,7 @@ export function ArtistsSelectionStep({
             const isSelected = checkIsSelected(artist.id);
             return (
               <Button
-                icon={isSelected ? <i className="fi fi-rr-check"></i> : <i className="fi fi-rr-user" />}
+                icon={isSelected ? <CheckIcon /> : <UserIcon />}
                 key={artist.id}
                 onClick={() =>
                   setSelectedArtists((prev) =>

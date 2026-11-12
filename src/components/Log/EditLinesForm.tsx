@@ -1,4 +1,3 @@
-import { InfoCircleOutlined } from '@ant-design/icons';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
 import type { Dictionary, Song, SongLine, UID, UpdateValue } from '@types';
@@ -6,6 +5,7 @@ import { distributor } from '@utils';
 import { LINE_SKILL } from '@utils/constants';
 import { applyLineFlagChanges, isInlineEligible } from '@utils/song/line-flags';
 import { Button, Divider, Flex, Form, Input, Popconfirm, Rate, Select, Switch, Typography } from 'antd';
+import { InfoIcon, MergeIcon } from 'lucide-react';
 import type React from 'react';
 import { useEffect, useState } from 'react';
 import { MoveLinesToSectionSelector } from './MoveLinesToSectionSelector';
@@ -139,7 +139,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
           tooltip={{
             title:
               'Set line as an adlib. Adlibs are marked with >> in the main log and displayed on the side unless Inline is enabled.',
-            icon: <InfoCircleOutlined />,
+            icon: <InfoIcon />,
           }}
           valuePropName="checked"
         >
@@ -152,7 +152,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
           tooltip={{
             title:
               'Display this adlib in the main lyrics while keeping its adlib totals. Inline Adlib is represented in the log but a single >.',
-            icon: <InfoCircleOutlined />,
+            icon: <InfoIcon />,
           }}
           valuePropName="checked"
         >
@@ -164,7 +164,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
           name="dismissible"
           tooltip={{
             title: 'Check if line does not need to be displayed (vocalizing or effects).',
-            icon: <InfoCircleOutlined />,
+            icon: <InfoIcon />,
           }}
           valuePropName="checked"
         >
@@ -195,7 +195,7 @@ export function EditLinesForm({ linesIds, onClose, setDirty }: EditLinesFormProp
           }}
           title="Are you sure you want to merge these lines?"
         >
-          <Button block icon={<i className="fi fi-rr-arrows-to-line" />}>
+          <Button block icon={<MergeIcon />}>
             Merge lines
           </Button>
         </Popconfirm>

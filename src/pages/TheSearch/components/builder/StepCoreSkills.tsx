@@ -1,5 +1,5 @@
-import { RedoOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Flex, Form, Rate, Typography } from 'antd';
+import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { Contestant, CoreSkills } from '../../types/contestant';
 import { TRACKS } from '../../utilities/constants';
@@ -260,7 +260,7 @@ export function StepCoreSkills({
       </div>
 
       <Button
-        icon={<RedoOutlined />}
+        icon={<RotateCwIcon />}
         onClick={handleRandomize}
         style={{ marginBottom: '1rem' }}
         type="default"

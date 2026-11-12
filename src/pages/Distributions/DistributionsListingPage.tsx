@@ -1,4 +1,3 @@
-import { BarChartOutlined, DeleteFilled, FormOutlined } from '@ant-design/icons';
 import { FirestoreConsoleLink } from '@components/Common/FirestoreConsoleLink';
 import { Timestamp } from '@components/Common/Timestamp';
 import { Content, ContentError, ContentLoading } from '@components/Content';
@@ -22,6 +21,7 @@ import {
   Typography,
 } from 'antd';
 import { orderBy } from 'lodash';
+import { ChartColumnIcon, MapPinIcon, MapPinPenIcon, SquarePenIcon, TrashIcon } from 'lucide-react';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -68,14 +68,14 @@ export function DistributionsListingPage() {
       render: (record: ListingEntry) => (
         <Space separator={<Divider orientation="vertical" />} size="small">
           <Button
-            icon={<BarChartOutlined />}
+            icon={<ChartColumnIcon />}
             onClick={() => navigate(`/distributions/${record.id}`)}
             type="link"
           >
             View
           </Button>
           <Button
-            icon={<FormOutlined />}
+            icon={<SquarePenIcon />}
             onClick={() => navigate(`/distributions/${record.id}/edit`)}
             type="link"
           >
@@ -103,7 +103,7 @@ export function DistributionsListingPage() {
         <Space size="middle">
           {record.data?.formationId ? (
             <Button
-              icon={<i className="fi fi-rr-map-marker-edit"></i>}
+              icon={<MapPinPenIcon />}
               onClick={() => navigate(`/distributions/${record.id}/formation/${record.data?.formationId}`)}
               size="small"
               type="link"
@@ -112,7 +112,7 @@ export function DistributionsListingPage() {
             </Button>
           ) : (
             <Button
-              icon={<i className="fi fi-rr-marker"></i>}
+              icon={<MapPinIcon />}
               onClick={() => navigate(`/distributions/${record.id}/formation/$draft`)}
               size="small"
               type="link"
@@ -130,11 +130,6 @@ export function DistributionsListingPage() {
       render: (id: UID) => <FirestoreConsoleLink label={id} path={`songs/${id}`} />,
     },
     {
-      title: 'Type',
-      dataIndex: 'type',
-      key: 'type',
-    },
-    {
       title: 'Last Updated',
       dataIndex: 'updatedAt',
       key: 'updatedAt',
@@ -150,12 +145,7 @@ export function DistributionsListingPage() {
             onConfirm={() => deleteDistributionMutation.mutate(songId)}
             title="Are you sure you want to delete this distribution?"
           >
-            <Button
-              danger
-              icon={<DeleteFilled />}
-              loading={deleteDistributionMutation.isPending}
-              size="small"
-            />
+            <Button danger icon={<TrashIcon />} loading={deleteDistributionMutation.isPending} size="small" />
           </Popconfirm>
         </Space>
       ),

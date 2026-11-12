@@ -1,6 +1,6 @@
-import { BookOutlined, HeartOutlined, UserOutlined } from '@ant-design/icons';
 import { Content } from '@components/Content';
 import { Card, Col, Row, Typography } from 'antd';
+import { BookIcon, HeartIcon, UserIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import historyCardsData from '../data/history-cards.json';
 import identityCardsData from '../data/identity-cards.json';
@@ -25,7 +25,7 @@ const libraryCards = [
     title: 'Identity Cards',
     description:
       'Personality archetypes and character traits that define how contestants behave and interact',
-    icon: <UserOutlined style={{ fontSize: '48px', color: '#1890ff' }} />,
+    icon: <UserIcon style={{ fontSize: '48px', color: '#1890ff' }} />,
     count: Object.keys(identityCardsData).length,
     path: '/the-search/libraries/identity',
   },
@@ -33,7 +33,7 @@ const libraryCards = [
     id: 'persona',
     title: 'Persona Cards',
     description: 'Public-facing personas and audience-targeted character concepts for contestants',
-    icon: <BookOutlined style={{ fontSize: '48px', color: '#52c41a' }} />,
+    icon: <BookIcon style={{ fontSize: '48px', color: '#52c41a' }} />,
     count: Object.keys(personaCardsData).length,
     path: '/the-search/libraries/persona',
   },
@@ -41,7 +41,7 @@ const libraryCards = [
     id: 'interest',
     title: 'Interest Cards',
     description: 'Hobbies, passions, and background interests that add depth to contestant personalities',
-    icon: <HeartOutlined style={{ fontSize: '48px', color: '#eb2f96' }} />,
+    icon: <HeartIcon style={{ fontSize: '48px', color: '#eb2f96' }} />,
     count: Object.keys(interestCardsData).length,
     path: '/the-search/libraries/interest',
   },
@@ -49,7 +49,7 @@ const libraryCards = [
     id: 'lifestyle',
     title: 'Lifestyle Cards',
     description: 'Everyday habits and routines that shape contestant personalities',
-    icon: <HeartOutlined style={{ fontSize: '48px', color: '#722ed1' }} />,
+    icon: <HeartIcon style={{ fontSize: '48px', color: '#722ed1' }} />,
     count: Object.keys(lifestyleCardsData).length,
     path: '/the-search/libraries/lifestyle',
   },
@@ -57,7 +57,7 @@ const libraryCards = [
     id: 'history',
     title: 'History Cards',
     description: 'Past experiences and backgrounds that shape each contestant',
-    icon: <BookOutlined style={{ fontSize: '48px', color: '#2f54eb' }} />,
+    icon: <BookIcon style={{ fontSize: '48px', color: '#2f54eb' }} />,
     count: Object.keys(historyCardsData).length,
     path: '/the-search/libraries/history',
   },
@@ -65,7 +65,7 @@ const libraryCards = [
     id: 'quirks',
     title: 'Quirk Cards',
     description: 'Distinctive mannerisms and personal quirks that make contestants memorable',
-    icon: <UserOutlined style={{ fontSize: '48px', color: '#eb2f96' }} />,
+    icon: <UserIcon style={{ fontSize: '48px', color: '#eb2f96' }} />,
     count: Object.keys(quirksCardsData).length,
     path: '/the-search/libraries/quirks',
   },
@@ -73,7 +73,7 @@ const libraryCards = [
     id: 'secrets',
     title: 'Secret Cards',
     description: 'Hidden attributes and special abilities that can influence gameplay in unexpected ways',
-    icon: <BookOutlined style={{ fontSize: '48px', color: '#faad14' }} />,
+    icon: <BookIcon style={{ fontSize: '48px', color: '#faad14' }} />,
     count: Object.keys(secretCardsData).length,
     path: '/the-search/libraries/secrets',
   },
@@ -81,7 +81,7 @@ const libraryCards = [
     id: 'specialties',
     title: 'Specialties',
     description: 'Vocal colors, dance and rap styles, visual vibes, leadership styles, and genre affinities',
-    icon: <BookOutlined style={{ fontSize: '48px', color: '#13c2c2' }} />,
+    icon: <BookIcon style={{ fontSize: '48px', color: '#13c2c2' }} />,
     count: [VOCAL_COLORS, DANCE_STYLES, RAP_STYLES, VISUAL_VIBES, LEADERSHIP_STYLES, GENRE_AFFINITIES].reduce(
       (count, library) => count + Object.keys(library).length,
       0,
@@ -92,7 +92,7 @@ const libraryCards = [
     id: 'zodiac-signs',
     title: 'Zodiac Signs',
     description: 'Zodiac archetypes and their configured attributes',
-    icon: <BookOutlined style={{ fontSize: '48px', color: '#fa8c16' }} />,
+    icon: <BookIcon style={{ fontSize: '48px', color: '#fa8c16' }} />,
     count: Object.keys(ZODIAC_SIGNS).length,
     path: '/the-search/libraries/zodiac-signs',
   },

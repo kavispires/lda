@@ -1,7 +1,7 @@
-import { ApiOutlined, ClearOutlined, ClockCircleOutlined, DeleteOutlined } from '@ant-design/icons';
 import { ASSIGNEES } from '@utils/constants';
 import { Button, Flex, Popconfirm, Typography } from 'antd';
 import clsx from 'clsx';
+import { ClockIcon, EraserIcon, PlugIcon, TrashIcon } from 'lucide-react';
 
 import type { RecordingTimestamp } from './KeyCapture';
 
@@ -46,14 +46,14 @@ export function TimestampsManagement({
         <Typography.Text strong>Unassigned Timestamps ({unassignedTimestamps.length})</Typography.Text>
         <Flex gap={6}>
           <Button disabled={!activeTimestamp} onClick={onDeleteTimestamp} size="small">
-            <DeleteOutlined />
+            <TrashIcon />
           </Button>
           <Popconfirm
             onConfirm={onDeleteAllTimestamps}
             title="Are you sure you want to delete all unassigned timestamps?"
           >
             <Button danger disabled={unassignedTimestamps.length === 0} size="small" type="primary">
-              <ClearOutlined />
+              <EraserIcon />
             </Button>
           </Popconfirm>
         </Flex>
@@ -65,7 +65,7 @@ export function TimestampsManagement({
             return (
               <Button
                 className={clsx(isActive && 'pulse')}
-                icon={isActive ? <ApiOutlined /> : <ClockCircleOutlined />}
+                icon={isActive ? <PlugIcon /> : <ClockIcon />}
                 key={timestamp.id}
                 onClick={() => onActivateTimestamp(timestamp)}
                 shape="round"

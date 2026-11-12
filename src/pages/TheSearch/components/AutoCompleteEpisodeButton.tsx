@@ -1,5 +1,5 @@
-import { FastForwardOutlined } from '@ant-design/icons';
 import { Alert, Button, Space, Tooltip } from 'antd';
+import { FastForwardIcon } from 'lucide-react';
 import { useState } from 'react';
 import { type EpisodeNumber, isEpisodeComplete } from '../engine/episode-auto-complete';
 import { simulationActions } from '../services/SimulationStore';
@@ -46,7 +46,7 @@ export function AutoCompleteEpisodeButton({
         }
       >
         <Button
-          icon={<FastForwardOutlined />}
+          icon={<FastForwardIcon />}
           loading={loading}
           onClick={async () => {
             setLoading(true);

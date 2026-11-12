@@ -1,4 +1,3 @@
-import { DatabaseFilled, MessageFilled, NotificationFilled } from '@ant-design/icons';
 import { PlaybackVideo } from '@components/Video/PlaybackVideo';
 import { useCreateSongMutation } from '@hooks/useCreateSongMutation';
 import type { Song, UID } from '@types';
@@ -6,6 +5,7 @@ import { distributor } from '@utils';
 import { SECTION_KINDS } from '@utils/constants';
 import { Button, Divider, Input, Space, Typography } from 'antd';
 import { cloneDeep } from 'lodash';
+import { DatabaseIcon, MegaphoneIcon, MessageSquareIcon } from 'lucide-react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLocalStorage } from 'react-use';
@@ -73,8 +73,8 @@ export function StepLyrics({ newSong }: StepLyricsProps) {
             An line break creates a Line, a double line break generates a Section, and <code>|</code>{' '}
             generates parts.
             <br />
-            Click on each Section <DatabaseFilled />, Line <MessageFilled />, and Part <NotificationFilled />{' '}
-            to edit their options.
+            Click on each Section <DatabaseIcon />, Line <MessageSquareIcon />, and Part <MegaphoneIcon /> to
+            edit their options.
           </Typography.Paragraph>
         </div>
 

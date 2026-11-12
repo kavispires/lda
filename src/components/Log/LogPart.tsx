@@ -1,8 +1,8 @@
-import { ApiFilled, ApiOutlined, CheckCircleOutlined, NotificationFilled } from '@ant-design/icons';
 import { useLogPart } from '@hooks/useLogInstances';
 import type { Song, UID } from '@types';
 import { ASSIGNEES } from '@utils/constants';
 import { Alert, Button, Checkbox } from 'antd';
+import { CircleCheckIcon, MegaphoneIcon, PlugIcon, UnplugIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 type LogPartProps = {
@@ -68,9 +68,9 @@ export function LogPart({
     );
 
   const icon = hideStatusIcon ? null : status === 'complete' ? (
-    <CheckCircleOutlined className="log-icon--green" />
+    <CircleCheckIcon className="log-icon--green" />
   ) : (
-    <NotificationFilled />
+    <MegaphoneIcon />
   );
 
   return (
@@ -89,7 +89,7 @@ export function LogPart({
 
       {!!onConnect && (
         <Button
-          icon={duration > 0 ? <ApiFilled /> : <ApiOutlined />}
+          icon={duration > 0 ? <PlugIcon /> : <UnplugIcon />}
           onClick={() => onConnect(id)}
           shape="circle"
           size="small"

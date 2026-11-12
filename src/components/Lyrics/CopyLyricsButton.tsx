@@ -1,6 +1,6 @@
-import { CopyOutlined, SettingOutlined } from '@ant-design/icons';
 import type { Distribution, Song } from '@types';
 import { App, Button, Popover, Radio, Space, Typography } from 'antd';
+import { CopyIcon, SettingsIcon } from 'lucide-react';
 import { useState } from 'react';
 import { type AdlibMode, buildLyricsText, type DistributionMode, type SectionMode } from './copyLyricsUtils';
 
@@ -92,9 +92,9 @@ export function CopyLyricsButton({ song, distribution }: CopyLyricsButtonProps) 
         title="Copy Lyrics Options"
         trigger="click"
       >
-        <Button icon={<SettingOutlined />} size="large" />
+        <Button icon={<SettingsIcon />} size="large" />
       </Popover>
-      <Button icon={<CopyOutlined />} onClick={handleCopyLyrics} size="large">
+      <Button icon={<CopyIcon />} onClick={handleCopyLyrics} size="large">
         Copy Lyrics
       </Button>
     </Space.Compact>

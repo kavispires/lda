@@ -84,8 +84,10 @@
   "overrides": [
     {
       "includes": [
+        "src/components/Layout/Menu.scss",
         "src/pages/Distributions/EditDistributionPage.scss",
-        "src/components/Visualizer/Visualizer.scss"
+        "src/components/Visualizer/Visualizer.scss",
+        "src/styles/global.scss"
       ],
       "linter": {
         "rules": {

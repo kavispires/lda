@@ -1,11 +1,3 @@
-import {
-  ArrowLeftOutlined,
-  CopyOutlined,
-  DownloadOutlined,
-  FilterOutlined,
-  SortAscendingOutlined,
-  TableOutlined,
-} from '@ant-design/icons';
 import { Content } from '@components/Content';
 import {
   Badge,
@@ -25,6 +17,14 @@ import {
   Typography,
 } from 'antd';
 import capitalize from 'lodash/capitalize';
+import {
+  ArrowDownAZIcon,
+  ArrowLeftIcon,
+  CopyIcon,
+  DownloadIcon,
+  ListFilterIcon,
+  TableIcon,
+} from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import historyCardsData from '../data/history-cards.json';
@@ -359,7 +359,7 @@ export function LibraryViewerPage() {
   return (
     <Content>
       <Flex align="center" gap="middle" style={{ marginBottom: '1rem' }}>
-        <Button icon={<ArrowLeftOutlined />} onClick={() => navigate('/the-search/libraries')}>
+        <Button icon={<ArrowLeftIcon />} onClick={() => navigate('/the-search/libraries')}>
           Back
         </Button>
         <div style={{ flex: 1 }}>
@@ -368,10 +368,10 @@ export function LibraryViewerPage() {
           </Typography.Title>
           <Typography.Text type="secondary">{config.description}</Typography.Text>
         </div>
-        <Button icon={<CopyOutlined />} onClick={handleCopy}>
+        <Button icon={<CopyIcon />} onClick={handleCopy}>
           Copy
         </Button>
-        <Button icon={<DownloadOutlined />} onClick={handleDownload}>
+        <Button icon={<DownloadIcon />} onClick={handleDownload}>
           Download
         </Button>
       </Flex>
@@ -391,7 +391,7 @@ export function LibraryViewerPage() {
             onChange={setSelectedGroup}
             options={filterByGroupOptions}
             placeholder="Filter by group"
-            prefix={<FilterOutlined />}
+            prefix={<ListFilterIcon />}
             style={{ width: '200px' }}
             value={selectedGroup}
           />
@@ -400,13 +400,13 @@ export function LibraryViewerPage() {
             onChange={setSortBy}
             options={sortByOptions}
             placeholder="Sort by"
-            prefix={<SortAscendingOutlined />}
+            prefix={<ArrowDownAZIcon />}
             style={{ width: '200px' }}
             value={sortBy}
           />
 
           <Badge count={filteredAndSortedCards.length} showZero>
-            <Button icon={<TableOutlined />}>Results</Button>
+            <Button icon={<TableIcon />}>Results</Button>
           </Badge>
         </Flex>
       </Card>

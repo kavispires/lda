@@ -29,8 +29,8 @@ export function ContestantBuilderStepper({
   );
 }
 
-import { CheckOutlined, StepBackwardOutlined, StepForwardOutlined, TableOutlined } from '@ant-design/icons';
 import { Button, Flex, Space } from 'antd';
+import { CheckIcon, SkipBackIcon, SkipForwardIcon, TableIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 type ContestantBuilderStepperControlsProps = {
@@ -112,24 +112,24 @@ export function ContestantBuilderStepperControls({
           <Space.Compact>
             <Button
               disabled={!hasPrevious}
-              icon={<StepBackwardOutlined />}
+              icon={<SkipBackIcon />}
               onClick={navigateToPrevious}
               size="large"
               title="Previous Contestant"
             />
-            <Button icon={<TableOutlined />} onClick={() => navigate('/the-search/contestants')} size="large">
+            <Button icon={<TableIcon />} onClick={() => navigate('/the-search/contestants')} size="large">
               Listing
             </Button>
             <Button
               disabled={!hasNext}
-              icon={<StepForwardOutlined />}
+              icon={<SkipForwardIcon />}
               onClick={navigateToNext}
               size="large"
               title="Next Contestant"
             />
           </Space.Compact>
           {onApplyChanges && (
-            <Button icon={<CheckOutlined />} onClick={onApplyChanges} size="large" type="default">
+            <Button icon={<CheckIcon />} onClick={onApplyChanges} size="large" type="default">
               Apply Changes
             </Button>
           )}

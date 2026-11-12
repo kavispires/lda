@@ -1,6 +1,6 @@
-import { BookOutlined, RocketOutlined, TeamOutlined, TrophyOutlined } from '@ant-design/icons';
 import { Content } from '@components/Content';
 import { Card, Col, Row, Typography } from 'antd';
+import { BookIcon, RocketIcon, TrophyIcon, UsersIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const navigationCards = [
@@ -8,7 +8,7 @@ const navigationCards = [
     id: 'contestants',
     title: 'Contestants',
     description: 'View, create, and manage all contestants in The Search survival show',
-    icon: <TeamOutlined style={{ fontSize: '64px', color: '#1890ff' }} />,
+    icon: <UsersIcon style={{ fontSize: '64px', color: '#1890ff' }} />,
     path: '/the-search/contestants',
     color: '#e6f7ff',
   },
@@ -16,7 +16,7 @@ const navigationCards = [
     id: 'libraries',
     title: 'Libraries',
     description: 'Browse card libraries including identity cards, persona cards, and more',
-    icon: <BookOutlined style={{ fontSize: '64px', color: '#52c41a' }} />,
+    icon: <BookIcon style={{ fontSize: '64px', color: '#52c41a' }} />,
     path: '/the-search/libraries',
     color: '#f6ffed',
   },
@@ -24,7 +24,7 @@ const navigationCards = [
     id: 'simulation',
     title: 'Simulation',
     description: 'Initialize a cast of 50 contestants with assigned cards and starting statistics',
-    icon: <RocketOutlined style={{ fontSize: '64px', color: '#722ed1' }} />,
+    icon: <RocketIcon style={{ fontSize: '64px', color: '#722ed1' }} />,
     path: '/the-search/simulation',
     color: '#f9f0ff',
   },
@@ -32,7 +32,7 @@ const navigationCards = [
     id: 'rankings',
     title: 'Rankings',
     description: 'View contestant rankings, statistics, and performance analytics (Coming Soon)',
-    icon: <TrophyOutlined style={{ fontSize: '64px', color: '#faad14' }} />,
+    icon: <TrophyIcon style={{ fontSize: '64px', color: '#faad14' }} />,
     path: '#',
     color: '#fffbe6',
     disabled: true,

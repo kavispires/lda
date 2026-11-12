@@ -1,6 +1,6 @@
-import { RedoOutlined } from '@ant-design/icons';
 import { useQueryParams } from '@hooks/useQueryParams';
 import { Alert, Button, Card, Flex, Form, Select, Tooltip, Typography } from 'antd';
+import { RotateCwIcon } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { Contestant, Specialties } from '../../types/contestant';
 import {
@@ -204,7 +204,7 @@ export function StepSpecialties({
                 placeholder={`Select ${label.toLowerCase()}`}
               />
             </Form.Item>
-            <Button icon={<RedoOutlined />} onClick={() => handleRandomSelection(type, field)} type="default">
+            <Button icon={<RotateCwIcon />} onClick={() => handleRandomSelection(type, field)} type="default">
               Random
             </Button>
           </Flex>
@@ -270,7 +270,7 @@ export function StepSpecialties({
         {/* Left Column: Form */}
         <div style={{ flex: 1 }}>
           <Flex align="center" gap={16} style={{ marginBottom: '1rem' }} wrap>
-            <Button icon={<RedoOutlined />} onClick={handleRandomizeAll} type="default">
+            <Button icon={<RotateCwIcon />} onClick={handleRandomizeAll} type="default">
               Randomize All Specialties
             </Button>
             <Tooltip title="Fill missing or red over-target specialties with yellow underused choices. Keep existing values when no replacement is available.">

@@ -1,5 +1,5 @@
-import { ArrowDownOutlined, ArrowUpOutlined } from '@ant-design/icons';
 import { Tooltip, Typography } from 'antd';
+import { ArrowDownIcon, ArrowUpIcon } from 'lucide-react';
 import type { PropertyChange } from '../types/common';
 
 type ChangeMetric = 'happiness';
@@ -13,9 +13,9 @@ function changeColor(change: number, metric?: ChangeMetric): string | undefined 
 export function ChangeDirection({ change, metric }: { change: number; metric?: ChangeMetric }) {
   if (change === 0) return null;
   return change > 0 ? (
-    <ArrowUpOutlined aria-label="Increased" style={{ color: changeColor(change, metric) }} />
+    <ArrowUpIcon aria-label="Increased" style={{ color: changeColor(change, metric) }} />
   ) : (
-    <ArrowDownOutlined aria-label="Decreased" style={{ color: changeColor(change, metric) }} />
+    <ArrowDownIcon aria-label="Decreased" style={{ color: changeColor(change, metric) }} />
   );
 }
 

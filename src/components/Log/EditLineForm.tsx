@@ -1,4 +1,3 @@
-import { DeleteOutlined, InfoCircleOutlined } from '@ant-design/icons';
 import { useLogLine } from '@hooks/useLogInstances';
 import { useSongActions } from '@hooks/useSongActions';
 import { useSongEditContext } from '@services/SongEditProvider';
@@ -20,6 +19,7 @@ import {
   Switch,
   Typography,
 } from 'antd';
+import { InfoIcon, TrashIcon } from 'lucide-react';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -110,7 +110,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
           tooltip={{
             title:
               'Set line as an adlib. Adlibs are marked with >> in the main log and displayed on the side unless Inline is enabled.',
-            icon: <InfoCircleOutlined />,
+            icon: <InfoIcon />,
           }}
           valuePropName="checked"
         >
@@ -123,7 +123,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
           tooltip={{
             title:
               'Display this adlib in the main lyrics while keeping its adlib totals. Inline Adlib is represented in the log but a single >.',
-            icon: <InfoCircleOutlined />,
+            icon: <InfoIcon />,
           }}
           valuePropName="checked"
         >
@@ -135,7 +135,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
           name="dismissible"
           tooltip={{
             title: 'Check if line does not need to be displayed (vocalizing or effects).',
-            icon: <InfoCircleOutlined />,
+            icon: <InfoIcon />,
           }}
           valuePropName="checked"
         >
@@ -187,14 +187,7 @@ export function EditLineForm({ lineId, onClose, setDirty }: EditLineFormProps) {
 
       <Form.Item help="You can only delete a line without any parts" label="" name="text">
         <Popconfirm onConfirm={() => onDeleteLine(lineId)} title="Are you sure you want to delete this line?">
-          <Button
-            block
-            danger
-            disabled={line.partsIds.length > 0}
-            ghost
-            icon={<DeleteOutlined />}
-            type="primary"
-          >
+          <Button block danger disabled={line.partsIds.length > 0} ghost icon={<TrashIcon />} type="primary">
             Delete This Line
           </Button>
         </Popconfirm>

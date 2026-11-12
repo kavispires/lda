@@ -4,6 +4,7 @@ import type { Dictionary, Song, SongPart, UID, UpdateValue } from '@types';
 import { distributor } from '@utils';
 import { ASSIGNEES, DEFAULT_ASSIGNEE } from '@utils/constants';
 import { Button, Divider, Flex, Form, Popconfirm, Radio, Typography } from 'antd';
+import { ListEndIcon, MergeIcon } from 'lucide-react';
 import type React from 'react';
 import { useEffect, useMemo, useState } from 'react';
 
@@ -110,7 +111,7 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
           }}
           title="Are you sure you want to merge these parts?"
         >
-          <Button block disabled={!isSameLine} icon={<i className="fi fi-rr-arrows-to-line" />}>
+          <Button block disabled={!isSameLine} icon={<MergeIcon />}>
             Merge parts into one part
           </Button>
         </Popconfirm>
@@ -121,7 +122,7 @@ export function EditPartsForm({ partsIds, onClose, setDirty }: EditPartsFormProp
           onConfirm={() => onMovePartsTogether(partsIds)}
           title="Are you sure you want to move these parts to the same line?"
         >
-          <Button block disabled={isSameLine} icon={<i className="fi fi-rr-arrows-to-dotted-line" />}>
+          <Button block disabled={isSameLine} icon={<ListEndIcon />}>
             Move parts to the same line
           </Button>
         </Popconfirm>

@@ -5,6 +5,20 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import type { AuditionReaction } from '../types/audition-episode';
 import { EpisodeContestantList, EpisodeNarrative, EpisodeSceneNarrative } from './EpisodeNarrative';
 import { PropertyChangeValue } from './SimulationChange';
+import { TrackTag } from './TrackTag';
+
+test('track tags render local SVG icons with their existing labels', () => {
+  const cases = [
+    ['VOCAL', 'Vocal', 'mic'],
+    ['RAP', 'Rap', 'zap'],
+    ['DANCE', 'Dance', 'person-standing'],
+  ] as const;
+  for (const [track, label, icon] of cases) {
+    const html = renderToStaticMarkup(<TrackTag track={track} />);
+    assert.match(html, new RegExp(`<svg[^>]*class="[^"]*\\blucide-${icon}\\b`));
+    assert.ok(html.includes(label));
+  }
+});
 
 test('introductions render track and card-name tags without treating card names as contestant mentions', () => {
   const html = renderToStaticMarkup(

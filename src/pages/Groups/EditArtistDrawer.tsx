@@ -1,6 +1,6 @@
-import { EditOutlined } from '@ant-design/icons';
 import type { Artist, Group } from '@types';
 import { Button, Drawer } from 'antd';
+import { PencilIcon } from 'lucide-react';
 import { useToggle } from 'react-use';
 
 import { EditArtistForm } from './EditArtistForm';
@@ -15,7 +15,7 @@ export function EditArtistDrawer({ artist, group }: EditArtistDrawerProps) {
 
   return (
     <>
-      <Button icon={<EditOutlined />} onClick={() => toggleOpen(true)} size="small" type="text">
+      <Button icon={<PencilIcon />} onClick={() => toggleOpen(true)} size="small" type="text">
         Edit
       </Button>
       <Drawer onClose={() => toggleOpen(false)} open={open} title={`Edit ${artist.name}`}>

@@ -1,4 +1,3 @@
-import { ApiOutlined } from '@ant-design/icons';
 import { ArtistAvatar } from '@components/Artist';
 import { useSongDistributionContext } from '@services/SongDistributionProvider';
 import type { Artist, Dictionary, SongPart, UID } from '@types';
@@ -6,6 +5,7 @@ import { distributor, getCompletionPercentage } from '@utils';
 import { ALL_ID } from '@utils/constants';
 import { App, Avatar, Button, Flex } from 'antd';
 import clsx from 'clsx';
+import { UnplugIcon } from 'lucide-react';
 import { useState } from 'react';
 import { LogLine } from './LogLine';
 import { LogPart } from './LogPart';
@@ -238,7 +238,7 @@ function PartAssignees({ mapping, partId, assignees }: PartAssigneesProps) {
   }
 
   if (mapping[partId].length === 0) {
-    return <ApiOutlined />;
+    return <UnplugIcon />;
   }
 
   return (

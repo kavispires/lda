@@ -1,12 +1,7 @@
-import {
-  PauseCircleOutlined,
-  PlayCircleOutlined,
-  StepBackwardOutlined,
-  StepForwardOutlined,
-} from '@ant-design/icons';
 import type { useVideoControls } from '@hooks/useVideoControls';
 import { Button, Slider, type SliderSingleProps } from 'antd';
 import clsx from 'clsx';
+import { CirclePauseIcon, CirclePlayIcon, SkipBackIcon, SkipForwardIcon } from 'lucide-react';
 import './VideoControls.scss';
 
 type VideoControlsProps = {
@@ -30,13 +25,13 @@ export function VideoControls({ className, videoControls }: VideoControlsProps) 
   return (
     <div className={clsx('video-controls', className)}>
       <Button ghost onClick={isPlaying ? pauseVideo : playVideo}>
-        {videoControls.isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
+        {videoControls.isPlaying ? <CirclePauseIcon /> : <CirclePlayIcon />}
       </Button>
       <Button ghost onClick={seekToStart}>
-        <StepBackwardOutlined />
+        <SkipBackIcon />
       </Button>
       <Button ghost onClick={seekToEnd}>
-        <StepForwardOutlined />
+        <SkipForwardIcon />
       </Button>
       <div className="video-controls__slider">
         <Slider

@@ -1,5 +1,5 @@
-import { CheckCircleOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { Typography } from 'antd';
+import { CircleCheckIcon, CircleExclamationPointIcon } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 type CriteriaRuleProps = {
@@ -10,7 +10,7 @@ type CriteriaRuleProps = {
 export function CriteriaRule({ label, value }: CriteriaRuleProps) {
   return (
     <Typography.Text>
-      {value ? <CheckCircleOutlined /> : <ExclamationCircleOutlined className="log-icon--red" />} {label}
+      {value ? <CircleCheckIcon /> : <CircleExclamationPointIcon className="log-icon--red" />} {label}
     </Typography.Text>
   );
 }

@@ -1,4 +1,3 @@
-import { AppstoreOutlined, RocketOutlined, TableOutlined } from '@ant-design/icons';
 import { Content } from '@components/Content';
 import { useSelector } from '@tanstack/react-store';
 import {
@@ -16,6 +15,7 @@ import {
   Tag,
   Typography,
 } from 'antd';
+import { LayoutGridIcon, RocketIcon, TableIcon } from 'lucide-react';
 import { type Key, useState } from 'react';
 import type { ValuesOf } from 'types/common';
 import { AuditionEpisodeView } from '../components/AuditionEpisodeView';
@@ -346,7 +346,7 @@ export function SimulationPage() {
   return (
     <Content>
       <Typography.Title level={1}>
-        <RocketOutlined /> Simulation
+        <RocketIcon /> Simulation
       </Typography.Title>
       <Typography.Paragraph style={{ fontSize: '16px' }}>
         Initialize a new survival show simulation with 50 diverse contestants. The system will automatically
@@ -408,7 +408,7 @@ export function SimulationPage() {
             </Checkbox>
 
             <Button
-              icon={<RocketOutlined />}
+              icon={<RocketIcon />}
               loading={isInitializing}
               onClick={handleStartSimulation}
               size="large"
@@ -1168,14 +1168,14 @@ function SimulationOverview({
             />
           )}
           <Button
-            icon={<TableOutlined />}
+            icon={<TableIcon />}
             onClick={() => setViewMode('table')}
             type={viewMode === 'table' ? 'primary' : 'default'}
           >
             Table View
           </Button>
           <Button
-            icon={<AppstoreOutlined />}
+            icon={<LayoutGridIcon />}
             onClick={() => setViewMode('cards')}
             type={viewMode === 'cards' ? 'primary' : 'default'}
           >

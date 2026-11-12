@@ -1,14 +1,14 @@
-import {
-  CheckCircleOutlined,
-  DoubleRightOutlined,
-  MessageFilled,
-  SubnodeOutlined,
-  UnorderedListOutlined,
-} from '@ant-design/icons';
 import { useLogLine } from '@hooks/useLogInstances';
 import type { Song, UID } from '@types';
 import { Alert, Button, Checkbox, Tooltip } from 'antd';
 import clsx from 'clsx';
+import {
+  ChevronsRightIcon,
+  CircleCheckIcon,
+  GitBranchPlusIcon,
+  ListIcon,
+  MessageSquareIcon,
+} from 'lucide-react';
 import type { ReactNode } from 'react';
 
 type LogLineProps = {
@@ -80,12 +80,12 @@ export function LogLine({
   return (
     <li className={clsx('log-line', showPartsOnly && 'log-line--inline')}>
       {!!onApplyToLine && (
-        <Button icon={<DoubleRightOutlined />} onClick={() => onApplyToLine(id)} size="small" />
+        <Button icon={<ChevronsRightIcon />} onClick={() => onApplyToLine(id)} size="small" />
       )}
       {!showPartsOnly && (
         <span className="log-line__line">
           {!!onSelect && <Checkbox checked={selected} onChange={() => onSelect(id)} />}
-          {status === 'complete' ? <CheckCircleOutlined className="log-icon--green" /> : <MessageFilled />}
+          {status === 'complete' ? <CircleCheckIcon className="log-icon--green" /> : <MessageSquareIcon />}
 
           {onClick ? (
             <Button className="log-line__line-text" onClick={() => onClick(id)} type="text">
@@ -106,7 +106,7 @@ export function LogLine({
           {!!onSelectParts && (
             <Tooltip title="Select all parts">
               <Button
-                icon={<UnorderedListOutlined />}
+                icon={<ListIcon />}
                 onClick={() => onSelectParts(line.partsIds)}
                 shape="circle"
                 size="small"
@@ -116,7 +116,12 @@ export function LogLine({
 
           {!!onAddPart && (
             <Tooltip title="Add parts to line">
-              <Button icon={<SubnodeOutlined />} onClick={() => onAddPart(id)} shape="circle" size="small" />
+              <Button
+                icon={<GitBranchPlusIcon />}
+                onClick={() => onAddPart(id)}
+                shape="circle"
+                size="small"
+              />
             </Tooltip>
           )}
         </span>

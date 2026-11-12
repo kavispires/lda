@@ -1,30 +1,37 @@
 @use "./sass" as *;
 
 html {
-  margin: 0;
-  padding: 0;
   height: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 body {
-  margin: 0;
-  padding: 0;
   height: 100%;
+  padding: 0;
+  margin: 0;
   font-family: "Lato", sans-serif;
-  background: hsl(209, 97%, 13%);
   color: rgba($color: #ffffff, $alpha: 0.85);
+  background: hsl(209, 97%, 13%);
+}
+
+.lucide {
+  flex-shrink: 0;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.125em;
 }
 
 .container-center {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
 
 .surface {
-  border-radius: var(--border-radius);
-  background: var(--surface-color);
   padding: get-unit(1);
+  background: var(--surface-color);
+  border-radius: var(--border-radius);
 }
 
 .bordered {
@@ -75,6 +82,6 @@ body {
 .header {
   display: flex;
   gap: get-unit(2);
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
 }

@@ -1,5 +1,5 @@
-import { RedoOutlined } from '@ant-design/icons';
 import { Alert, Button, Card, Flex, Form, Rate, Typography } from 'antd';
+import { RotateCwIcon } from 'lucide-react';
 import { useState } from 'react';
 import type { Contestant, UtilitySkills } from '../../types/contestant';
 import { TRACKS } from '../../utilities/constants';
@@ -245,7 +245,7 @@ export function StepUtilitySkills({
       )}
 
       <Flex align="center" gap={16} style={{ marginBottom: '1rem' }}>
-        <Button icon={<RedoOutlined />} onClick={handleRandomDistribution} type="default">
+        <Button icon={<RotateCwIcon />} onClick={handleRandomDistribution} type="default">
           Randomize Utility Skills
         </Button>
         <div style={{ display: 'flex', gap: '2rem' }}>
