@@ -208,7 +208,7 @@ test('focus shares normalize accumulated positional and singing time without dou
     untimed: { ...part, id: 'untimed', startTime: 4000, endTime: 4000 },
   };
   distribution.mapping = {
-    first: ['b', 'b', NONE_ID, 'departed'],
+    first: ['b', 'b', 'departed'],
     overlapping: ['b'],
     centered: ['a'],
     last: ['c'],
@@ -283,7 +283,7 @@ test('focus singing credit includes hidden adlibs and ALL assignments without du
       endTime: 4001,
     },
   };
-  distribution.mapping = { all: [ALL_ID, 'b', NONE_ID] };
+  distribution.mapping = { all: [ALL_ID, 'b'] };
   assert.deepEqual(formationFocusDurations(formation, song, distribution), {
     a: 1000,
     b: 10000,
@@ -530,8 +530,10 @@ test('center candidates prefer current non-adlib singers, then the earliest assi
   assert.deepEqual(formationCenterCandidates(song, distribution, song.endAt), []);
   distribution.mapping.p = [NONE_ID, 'departed'];
   assert.deepEqual(formationCenterCandidates(song, distribution, 3500), ['c', 'd', 'e']);
-  distribution.mapping.q = [ALL_ID, NONE_ID];
+  distribution.mapping.q = [ALL_ID];
   assert.deepEqual(formationCenterCandidates(song, distribution, 5000), dancerIds(distribution));
+  distribution.mapping.q = [ALL_ID, NONE_ID];
+  assert.deepEqual(formationCenterCandidates(song, distribution, 5000), ['d', 'e']);
 });
 
 test('singer-first template and closest-paste matching override travel and use horizontal center before audience proximity', () => {
@@ -781,7 +783,7 @@ test('template validation enforces anonymous five/seven geometry and determinist
   );
 });
 
-test('singing highlights union regular, hidden, adlib and ALL assignments at exact half-open times', () => {
+test('singing highlights exclude NONE-marked assignments and expand ALL at exact half-open times', () => {
   const { song, distribution } = fixture();
   song.content = {
     hidden: { id: 'hidden', type: 'line', dismissible: true, adlib: true, sectionId: 's', partsIds: ['p'] },
@@ -806,7 +808,7 @@ test('singing highlights union regular, hidden, adlib and ALL assignments at exa
   };
   distribution.mapping = { p: ['a', 'b', NONE_ID], q: [ALL_ID] };
   assert.deepEqual(activeFormationSingers(song, distribution, 3000), []);
-  assert.deepEqual(activeFormationSingers(song, distribution, 3001), ['a', 'b']);
+  assert.deepEqual(activeFormationSingers(song, distribution, 3001), []);
   assert.deepEqual(activeFormationSingers(song, distribution, 3550).sort(), dancerIds(distribution));
   assert.deepEqual(activeFormationSingers(song, distribution, 4001), []);
   const markup = renderToStaticMarkup(
@@ -814,6 +816,40 @@ test('singing highlights union regular, hidden, adlib and ALL assignments at exa
   );
   assert.equal((markup.match(/formation-stage__dancer--singing/g) ?? []).length, 1);
   assert.ok(markup.includes('B, singing'));
+});
+
+test('recorded assignments do not affect singing focus or centering, but independent live singing still counts', () => {
+  const { song, distribution, formation } = fixture(3);
+  song.content = {
+    line: { id: 'line', type: 'line', sectionId: 'section', partsIds: ['recorded', 'live'] },
+    recorded: {
+      id: 'recorded',
+      type: 'part',
+      lineId: 'line',
+      text: 'Recorded',
+      recommendedAssignee: '',
+      startTime: 2000,
+      endTime: 12000,
+    },
+    live: {
+      id: 'live',
+      type: 'part',
+      lineId: 'line',
+      text: 'Live',
+      recommendedAssignee: '',
+      startTime: 3000,
+      endTime: 4000,
+    },
+  };
+  distribution.mapping = { recorded: [NONE_ID, 'a', 'c'], live: ['c'] };
+  assert.deepEqual(activeFormationSingers(song, distribution, 2500), []);
+  assert.deepEqual(activeFormationSingers(song, distribution, 3500), ['c']);
+  assert.deepEqual(formationCenterCandidates(song, distribution, 2500), ['c']);
+  assert.deepEqual(formationCenterCandidates(song, distribution, 4500), []);
+  const durations = formationFocusDurations(formation, song, distribution);
+  assert.ok(Math.abs(durations.a) < 1e-9);
+  assert.ok(Math.abs(durations.b - 10000) < 1e-9);
+  assert.ok(Math.abs(durations.c - 1000) < 1e-9);
 });
 
 function seedPersistence() {
@@ -919,6 +955,7 @@ test('invalid saved singing data prevents formation writes', async () => {
   for (const [path, field, value] of [
     ['songs/song', 'content', '{broken'],
     ['distributions/dist', 'mapping', 'null'],
+    ['distributions/dist', 'mapping', JSON.stringify({ part: [NONE_ID, ALL_ID] })],
   ]) {
     const { formation } = seedPersistence();
     __formationTestDb.records.set(path, { ...__formationTestDb.records.get(path), [field]: value });

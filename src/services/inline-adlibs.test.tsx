@@ -5,9 +5,12 @@ import { LogLine } from '@components/Log/LogLine';
 import { buildLyricsText } from '@components/Lyrics/copyLyricsUtils';
 import { AdlibBox, LyricBox } from '@components/Visualizer/LyricBox';
 import { serializeSong } from '@hooks/useSong';
+import { calculateLiveProgress } from '@pages/Distributions/DistributionLiveStats';
 import { buildDistributionTimeline } from '@pages/Distributions/distribution-timeline';
 import type { Artist, Distribution, Song, SongLine } from '@types';
 import { distributor } from '@utils';
+import { ALL_ID, NONE_ID } from '@utils/constants';
+import { buildDistributionSummary } from '@utils/distribution-assignments';
 import { applyLineFlagChanges, isInlineEligible } from '@utils/song/line-flags';
 import { renderToStaticMarkup } from 'react-dom/server';
 import {
@@ -118,6 +121,134 @@ test('inline adlibs use only main lyrics and main Up Next; legacy adlibs retain 
       .map((item) => item.name),
     ['Ana'],
   );
+});
+
+test('NONE plus members renders pale italic attributed lyrics without exposing NONE as a performer', () => {
+  const { song, distribution } = fixture();
+  distribution.mapping.p1 = [NONE_ID, 'a', 'b'];
+  const snapshot = buildLyricsSnapshots(distribution, song).lyricsSnapshots[20];
+  assert.deepEqual(snapshot.assigneesIds, ['a', 'b']);
+  assert.deepEqual(snapshot.lines[0].parts[0].colors, ['#f1f1f1']);
+  assert.equal(snapshot.lines[0].parts[0].recorded, true);
+  const markup = renderToStaticMarkup(<LyricBox assignees={artists} snapshot={snapshot} timestamp={25} />);
+  assert.match(markup, /Ana/);
+  assert.match(markup, /Ben/);
+  assert.doesNotMatch(markup, /NONE/);
+  assert.match(markup, /font-style:italic/);
+  assert.match(markup, /background:#f1f1f1/);
+  assert.match(markup, /class="lyric-box__avatars"/);
+  assert.match(markup, /class="lyric-box__speakers"><span style="color:#ff0000">Ana/);
+  assert.equal(
+    buildLyricsText(song, {
+      sectionMode: 'none',
+      adlibMode: 'none',
+      distribution: { mapping: distribution.mapping, assignees: artists, mode: 'all' },
+    }),
+    '[Ana/Ben] Main phrase',
+  );
+});
+
+test('recorded side and inline adlibs retain attribution but never generate Up Next', () => {
+  for (const inline of [false, true]) {
+    const { song, distribution } = fixture({ inline });
+    distribution.mapping.p2 = [NONE_ID, 'b'];
+    const lyrics = buildLyricsSnapshots(distribution, song);
+    const snapshot = (inline ? lyrics.lyricsSnapshots : lyrics.adlibsSnapshots)[30];
+    assert.deepEqual(snapshot.assigneesIds, ['b']);
+    assert.deepEqual(snapshot.lines[0].parts[0].colors, ['#f1f1f1']);
+    const markup = renderToStaticMarkup(
+      inline ? (
+        <LyricBox assignees={artists} snapshot={snapshot} timestamp={35} />
+      ) : (
+        <AdlibBox assignees={artists} snapshot={snapshot} />
+      ),
+    );
+    assert.match(markup, /Ben/);
+    assert.doesNotMatch(markup, /NONE/);
+    assert.match(markup, /font-style:italic/);
+    assert.deepEqual(buildUpNextSnapshots(distribution, song).adlibUpNext, {});
+    assert.ok(
+      Object.values(buildUpNextSnapshots(distribution, song).upNext)
+        .flat()
+        .every((item) => item.name !== 'Ben'),
+    );
+  }
+});
+
+test('mixed lyric lines style only recorded parts and announce only the live part at its own lead-in', () => {
+  const { song, distribution } = fixture();
+  song.content.live = {
+    ...distributor.getPart('p1', song),
+    id: 'live',
+    text: 'Live phrase',
+    startTime: 5500,
+    endTime: 6500,
+  };
+  distributor.getLine('regular', song).partsIds.push('live');
+  distribution.mapping = { p1: [NONE_ID, 'a'], p2: [NONE_ID, 'b'], live: ['b'] };
+  const snapshot = buildLyricsSnapshots(distribution, song).lyricsSnapshots[20];
+  assert.deepEqual(snapshot.assigneesIds, ['a', 'b']);
+  assert.equal(snapshot.lines[0].parts[0].recorded, true);
+  assert.equal(snapshot.lines[0].parts[1].recorded, undefined);
+  assert.deepEqual(snapshot.lines[0].parts[1].colors, ['#0000ff']);
+  const markup = renderToStaticMarkup(<LyricBox assignees={artists} snapshot={snapshot} timestamp={60} />);
+  assert.match(markup, /font-style:italic/);
+  assert.match(markup, /font-style:normal/);
+  const previews = buildUpNextSnapshots(distribution, song);
+  assert.deepEqual(previews.upNext, { 43: [{ name: 'Ben', color: '#0000ff' }] });
+  assert.deepEqual(previews.adlibUpNext, {});
+});
+
+test('recorded parts do not credit bars, summaries, timeline singers, or any editor statistics', () => {
+  const { song, distribution } = fixture();
+  distribution.mapping.p1 = [NONE_ID, 'a'];
+  distribution.maxAssigneeDuration = 999000;
+  assert.deepEqual(buildDistributionSummary(song, distribution.mapping, artists), {
+    summary: { a: 0, b: 3000 },
+    maxAssigneeDuration: 3000,
+  });
+  const progress = calculateLiveProgress(song, distribution.mapping, artists);
+  assert.equal(progress.a.duration, 0);
+  assert.equal(progress[NONE_ID].duration, 0);
+  assert.equal(progress.b.totalSongPercentage, 100);
+  const bars = buildBarSnapshots(distribution, song);
+  assert.equal(bars[60].a.fullDuration, 0);
+  assert.equal(bars[60].a.rank, -1);
+  assert.equal(bars[30].a.active, false);
+  assert.equal(bars[60].b.fullDuration, 30);
+  const reference = {
+    ...distribution,
+    mapping: { ...distribution.mapping, p1: [NONE_ID] },
+    maxAssigneeDuration: 3000,
+  };
+  assert.deepEqual(
+    bars,
+    buildBarSnapshots(reference, song),
+    'Stale persisted normalization must not affect playback',
+  );
+  assert.deepEqual(
+    buildDistributionTimeline(song, distribution.mapping, artists),
+    buildDistributionTimeline(song, reference.mapping, artists),
+  );
+  assert.equal(calculateLiveProgress(song, reference.mapping, artists)[NONE_ID].duration, 3);
+});
+
+test('all-recorded distributions have finite zero statistics and no playback activity or previews', () => {
+  const { song, distribution } = fixture();
+  distribution.mapping = { p1: [NONE_ID, 'a'], p2: [NONE_ID, 'b'] };
+  const progress = calculateLiveProgress(song, distribution.mapping, artists);
+  for (const id of ['a', 'b', NONE_ID, ALL_ID]) {
+    assert.ok(Object.values(progress[id]).every((value) => value === 0));
+  }
+  for (const snapshot of Object.values(buildBarSnapshots(distribution, song))) {
+    for (const member of Object.values(snapshot)) {
+      assert.equal(member.duration, 0);
+      assert.equal(member.fullPercentage, 0);
+      assert.equal(member.active, false);
+      assert.equal(member.rank, -1);
+    }
+  }
+  assert.deepEqual(buildUpNextSnapshots(distribution, song), { upNext: {}, adlibUpNext: {} });
 });
 
 test('inline placement follows regular grouping and overlap behavior exactly', () => {

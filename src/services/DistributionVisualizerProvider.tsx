@@ -7,6 +7,7 @@ import {
 import type { Artist, Dictionary, Distribution, Formation, Song, UID } from '@types';
 import { distributor, removeDuplicates } from '@utils';
 import { ALL_ID, NONE_ID } from '@utils/constants';
+import { buildDistributionSummary, liveAssigneeIds, lyricAssigneeIds } from '@utils/distribution-assignments';
 import { dancerIds, formationErrors } from '@utils/formation';
 import { keyBy, orderBy, sortBy } from 'lodash';
 import { createContext, type ReactNode, useContext, useMemo, useState } from 'react';
@@ -215,7 +216,12 @@ export const buildBarSnapshots = (distribution: Distribution, song: Song) => {
   });
 
   // Step 2: Calculate the maximum duration for percentage calculations
-  const maxAssigneeDuration = Math.round(distribution.maxAssigneeDuration / RATE) + 1;
+  const { maxAssigneeDuration: currentMaxDuration } = buildDistributionSummary(
+    song,
+    distribution.mapping,
+    distribution.assignees,
+  );
+  const maxAssigneeDuration = Math.round(currentMaxDuration / RATE) + 1;
 
   // Get list of all assignee IDs for iteration
   const assigneesIdsList = Object.keys(distribution.assignees);
@@ -277,7 +283,7 @@ export const buildBarSnapshots = (distribution: Distribution, song: Song) => {
 
     // Process each active part at this time unit
     partsIds.forEach((partId) => {
-      const assigneeIds = distribution.mapping[partId];
+      const assigneeIds = liveAssigneeIds(distribution.mapping[partId] ?? []);
       // Filter out special IDs (ALL and NONE)
       const cleanupAssigneesIds = assigneeIds.filter((assigneeId) => ![ALL_ID, NONE_ID].includes(assigneeId));
       assigneesInUnit.push(...cleanupAssigneesIds);
@@ -374,6 +380,7 @@ export type LyricSnapshot = {
       colors: string[];
       startTime: number;
       endTime: number;
+      recorded?: boolean;
     }>;
   }[];
 };
@@ -391,6 +398,20 @@ export const buildLyricsSnapshots = (distribution: Distribution, song: Song) => 
 
   let latestTimestamp = 0;
   let latestKey = ''; // Used to group consecutive lines with same singers
+  const buildLyricPart = (partId: UID): LyricSnapshot['lines'][number]['parts'][number] => {
+    const part = distributor.getPart(partId, song);
+    const ids = distribution.mapping[partId] ?? [];
+    const recorded = ids.includes(NONE_ID);
+    return {
+      text: part.text.replace(/^\(|\)$/g, ''),
+      colors: recorded
+        ? ['#f1f1f1']
+        : ids.map((id) => (id === ALL_ID ? '#f1f1f1' : distribution.assignees[id].color)),
+      startTime: part.startTime / RATE,
+      endTime: part.endTime / RATE,
+      ...(recorded ? { recorded: true } : {}),
+    };
+  };
 
   // Process each line in the song
   distributor.getAllLines(song).forEach((line) => {
@@ -403,23 +424,13 @@ export const buildLyricsSnapshots = (distribution: Distribution, song: Song) => 
     const timestamp = Math.floor(startTime / RATE);
 
     // Collect all artists assigned to this line's parts
-    const assigneesIds = removeDuplicates(line.partsIds.flatMap((partId) => distribution.mapping[partId]));
+    const assigneesIds = lyricAssigneeIds(
+      removeDuplicates(line.partsIds.flatMap((partId) => distribution.mapping[partId] ?? [])),
+    );
 
     // Only side-panel adlibs bypass the main lyric flow.
     if (line.adlib && !line.inline) {
-      const parts = line.partsIds.map((partId) => {
-        const part = distributor.getPart(partId, song);
-        const partText = part.text.replace(/^\(|\)$/g, '');
-        const partColors = distribution.mapping[partId].map((assigneeId) =>
-          [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
-        );
-        return {
-          text: partText,
-          colors: partColors,
-          startTime: part.startTime / RATE,
-          endTime: part.endTime / RATE,
-        };
-      });
+      const parts = line.partsIds.map(buildLyricPart);
 
       const newAdlibSnapshot: LyricSnapshot = {
         id: line.id,
@@ -438,19 +449,7 @@ export const buildLyricsSnapshots = (distribution: Distribution, song: Song) => 
 
     // If this line has the same singers as the previous line, append it to that snapshot
     if (latestKey === key) {
-      const parts = line.partsIds.map((partId) => {
-        const part = distributor.getPart(partId, song);
-        const partText = part.text.replace(/^\(|\)$/g, '');
-        const partColors = distribution.mapping[partId].map((assigneeId) =>
-          [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
-        );
-        return {
-          text: partText,
-          colors: partColors,
-          startTime: part.startTime / RATE,
-          endTime: part.endTime / RATE,
-        };
-      });
+      const parts = line.partsIds.map(buildLyricPart);
 
       lyricsSnapshots[latestTimestamp].lines.push({
         parts,
@@ -471,19 +470,7 @@ export const buildLyricsSnapshots = (distribution: Distribution, song: Song) => 
     latestKey = key;
     latestTimestamp = adjustedTimestamp;
 
-    const parts = line.partsIds.map((partId) => {
-      const part = distributor.getPart(partId, song);
-      const partText = part.text.replace(/^\(|\)$/g, '');
-      const partColors = distribution.mapping[partId].map((assigneeId) =>
-        [ALL_ID, NONE_ID].includes(assigneeId) ? '#f1f1f1' : distribution.assignees[assigneeId].color,
-      );
-      return {
-        text: partText,
-        colors: partColors,
-        startTime: part.startTime / RATE,
-        endTime: part.endTime / RATE,
-      };
-    });
+    const parts = line.partsIds.map(buildLyricPart);
 
     const newLyricSnapshot: LyricSnapshot = {
       id: line.id,
@@ -644,14 +631,24 @@ export const buildUpNextSnapshots = (distribution: Distribution, song: Song) => 
       return;
     }
 
-    const { startTime } = distributor.getLineSummary(line.id, song);
-    // Calculate when to show the notification (THRESHOLD before the line starts)
-    const timestamp = Math.floor(Math.max(startTime - THRESHOLD, 0) / RATE);
-
     // Get all artists for this line (filter out ALL and NONE)
+    const liveParts = line.partsIds.filter(
+      (id) => liveAssigneeIds(distribution.mapping[id] ?? []).length > 0,
+    );
     const assigneesIds = removeDuplicates(
-      line.partsIds.flatMap((partId) => distribution.mapping[partId]),
+      liveParts.flatMap((partId) => distribution.mapping[partId] ?? []),
     ).filter((assigneeId) => ![ALL_ID, NONE_ID].includes(assigneeId));
+    if (!assigneesIds.length) {
+      if (line.adlib && !line.inline) latestAdlibKey = '';
+      else latestRegularKey = '';
+      return;
+    }
+    const startTime = Math.min(
+      ...liveParts
+        .filter((id) => (distribution.mapping[id] ?? []).some((assignee) => assigneesIds.includes(assignee)))
+        .map((id) => distributor.getPart(id, song).startTime),
+    );
+    const timestamp = Math.floor(Math.max(startTime - THRESHOLD, 0) / RATE);
 
     // Convert IDs to UpNextItems with name and color
     const assigneeItems: UpNextItem[] = assigneesIds.map((assigneeId) => {

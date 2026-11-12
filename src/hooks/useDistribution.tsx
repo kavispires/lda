@@ -14,6 +14,7 @@ import type {
   UID,
 } from '@types';
 import { SEPARATOR } from '@utils/constants';
+import { ASSIGNMENT_CONFLICT_MESSAGE, hasAssignmentConflict } from '@utils/distribution-assignments';
 import { App } from 'antd';
 import { deleteField } from 'firebase/firestore';
 import { orderBy } from 'lodash';
@@ -72,6 +73,7 @@ export function useDistributionMutation() {
 
   return useMutation<FirestoreDistribution, Error, Distribution>({
     mutationFn: async (data) => {
+      if (hasAssignmentConflict(data.mapping)) throw new Error(ASSIGNMENT_CONFLICT_MESSAGE);
       // Handle draft creation (first save)
       if (data.id === '$draft') {
         const serializedDistribution = serializeDistribution(data);

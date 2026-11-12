@@ -1,5 +1,6 @@
 import type { Distribution, Song } from '@types';
-import { ALL_ID, NONE_ID } from '@utils/constants';
+import { ALL_ID } from '@utils/constants';
+import { liveAssigneeIds } from '@utils/distribution-assignments';
 
 export type DistributionTimelineSegment = {
   startTime: number;
@@ -49,7 +50,7 @@ export function buildDistributionTimeline(
       return { segments: [], error: 'Timeline unavailable: a song part is missing its line.' };
     }
 
-    const assigneeIds = (mapping[part.id] ?? []).filter((id) => id !== NONE_ID);
+    const assigneeIds = liveAssigneeIds(mapping[part.id] ?? []);
     if (assigneeIds.some((id) => id !== ALL_ID && !assignees[id])) {
       return { segments: [], error: 'Timeline unavailable: an assigned artist is missing.' };
     }

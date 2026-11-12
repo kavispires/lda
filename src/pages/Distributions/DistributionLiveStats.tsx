@@ -2,6 +2,7 @@ import { useSongDistributionContext } from '@services/SongDistributionProvider';
 import type { Dictionary, Distribution, FUID, Song } from '@types';
 import { distributor } from '@utils';
 import { ALL_ID, NONE_ID } from '@utils/constants';
+import { isRecordedAssignment } from '@utils/distribution-assignments';
 import { Divider, Flex, Switch, Tooltip } from 'antd';
 import clsx from 'clsx';
 import { orderBy } from 'lodash';
@@ -135,7 +136,7 @@ type AssigneeProgress = {
   adlibSongPercentage: number;
 };
 
-const calculateLiveProgress = (
+export const calculateLiveProgress = (
   song: Song,
   mapping: Distribution['mapping'],
   assignees: Distribution['assignees'],
@@ -158,6 +159,7 @@ const calculateLiveProgress = (
   });
 
   Object.entries(mapping).forEach(([partId, assignees]) => {
+    if (isRecordedAssignment(assignees)) return;
     const duration = distributor.getPartDuration(partId, song);
     const part = distributor.getPart(partId, song);
     const line = distributor.getLine(part.lineId, song);
@@ -193,43 +195,44 @@ const calculateLiveProgress = (
     });
   });
 
-  const maxAssigneeDuration = Math.max(...Object.values(progressPerAssignee));
+  const maxAssigneeDuration = Math.max(0, ...Object.values(progressPerAssignee));
+  const percentage = (duration: number, total: number) => (total > 0 ? (duration / total) * 100 : 0);
 
   return {
     [ALL_ID]: {
       duration: getSecondValue(progressForALL),
-      percentage: (progressForALL / totalDuration) * 100,
-      regularPercentage: (regularProgressForALL / totalDuration) * 100,
+      percentage: percentage(progressForALL, totalDuration),
+      regularPercentage: percentage(regularProgressForALL, totalDuration),
       regularDuration: getSecondValue(regularProgressForALL),
       adlibDuration: getSecondValue(adlibProgressForALL),
-      adlibPercentage: (adlibProgressForALL / totalDuration) * 100,
-      totalSongPercentage: (progressForALL / totalDuration) * 100,
-      regularSongPercentage: (regularProgressForALL / totalDuration) * 100,
-      adlibSongPercentage: (adlibProgressForALL / totalDuration) * 100,
+      adlibPercentage: percentage(adlibProgressForALL, totalDuration),
+      totalSongPercentage: percentage(progressForALL, totalDuration),
+      regularSongPercentage: percentage(regularProgressForALL, totalDuration),
+      adlibSongPercentage: percentage(adlibProgressForALL, totalDuration),
     },
     [NONE_ID]: {
       duration: getSecondValue(progressForNONE),
-      percentage: (progressForNONE / totalDuration) * 100,
-      regularPercentage: (regularProgressForNONE / totalDuration) * 100,
+      percentage: percentage(progressForNONE, totalDuration),
+      regularPercentage: percentage(regularProgressForNONE, totalDuration),
       regularDuration: getSecondValue(regularProgressForNONE),
       adlibDuration: getSecondValue(adlibProgressForNONE),
-      adlibPercentage: (adlibProgressForNONE / totalDuration) * 100,
-      totalSongPercentage: (progressForNONE / totalDuration) * 100,
-      regularSongPercentage: (regularProgressForNONE / totalDuration) * 100,
-      adlibSongPercentage: (adlibProgressForNONE / totalDuration) * 100,
+      adlibPercentage: percentage(adlibProgressForNONE, totalDuration),
+      totalSongPercentage: percentage(progressForNONE, totalDuration),
+      regularSongPercentage: percentage(regularProgressForNONE, totalDuration),
+      adlibSongPercentage: percentage(adlibProgressForNONE, totalDuration),
     },
     ...Object.entries(progressPerAssignee).reduce(
       (acc: Record<FUID, AssigneeProgress>, [assignee, duration]) => {
         acc[assignee] = {
           duration: getSecondValue(duration),
-          percentage: (duration / maxAssigneeDuration) * 100,
-          regularPercentage: (regularProgressPerAssignee[assignee] / maxAssigneeDuration) * 100,
+          percentage: percentage(duration, maxAssigneeDuration),
+          regularPercentage: percentage(regularProgressPerAssignee[assignee], maxAssigneeDuration),
           regularDuration: getSecondValue(regularProgressPerAssignee[assignee]),
           adlibDuration: getSecondValue(adlibProgressPerAssignee[assignee] || 0),
-          adlibPercentage: ((adlibProgressPerAssignee[assignee] || 0) / maxAssigneeDuration) * 100,
-          totalSongPercentage: (duration / totalDuration) * 100,
-          regularSongPercentage: (regularProgressPerAssignee[assignee] / totalDuration) * 100,
-          adlibSongPercentage: ((adlibProgressPerAssignee[assignee] || 0) / totalDuration) * 100,
+          adlibPercentage: percentage(adlibProgressPerAssignee[assignee] || 0, maxAssigneeDuration),
+          totalSongPercentage: percentage(duration, totalDuration),
+          regularSongPercentage: percentage(regularProgressPerAssignee[assignee], totalDuration),
+          adlibSongPercentage: percentage(adlibProgressPerAssignee[assignee] || 0, totalDuration),
         };
         return acc;
       },

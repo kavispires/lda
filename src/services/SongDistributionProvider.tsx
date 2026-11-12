@@ -5,10 +5,25 @@ import { useListingDataQuery } from '@hooks/useListingQuery';
 import { useSongQuery } from '@hooks/useSong';
 import { useVideoControls } from '@hooks/useVideoControls';
 import type { Dictionary, Distribution, FUID, Group, Song, UID } from '@types';
-import { distributor, removeDuplicates } from '@utils';
-import { ALL_ID, NONE_ID } from '@utils/constants';
+import { distributor } from '@utils';
+import { ALL_ID } from '@utils/constants';
+import {
+  addAssignmentBatch,
+  buildDistributionSummary,
+  type PartAssignmentUpdate,
+  updatePartAssignments,
+} from '@utils/distribution-assignments';
+import { App } from 'antd';
 import { isEmpty } from 'lodash';
-import { createContext, type PropsWithChildren, useContext, useEffect, useMemo, useState } from 'react';
+import {
+  createContext,
+  type PropsWithChildren,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { useParams } from 'react-router-dom';
 
 type SongDistributionType = {
@@ -19,6 +34,7 @@ type SongDistributionType = {
   mapping: Dictionary<FUID[]>;
   onAssign: (partId: UID, assignee: FUID) => void;
   onAssignMany: (partsIds: UID[], assignee: FUID) => void;
+  onAssignBatch: (updates: PartAssignmentUpdate[]) => boolean;
   activeAssignee: FUID;
   onActivateAssignee: (assignee: FUID) => void;
   mappingProgress: number;
@@ -33,6 +49,7 @@ type SongDistributionProviderProps = PropsWithChildren & {
 };
 
 export const SongDistributionProvider = ({ children, draftDistribution }: SongDistributionProviderProps) => {
+  const { message } = App.useApp();
   const { distributionId } = useParams();
   const distributionQuery = useDistributionQuery(distributionId ?? '', draftDistribution);
   const songQuery = useSongQuery(distributionQuery.data?.songId ?? '');
@@ -46,6 +63,7 @@ export const SongDistributionProvider = ({ children, draftDistribution }: SongDi
   const videoControls = useVideoControls({ startAt: song?.startAt ?? 0, endAt: song?.endAt || 1 });
 
   const [mapping, setMapping] = useState<Dictionary<FUID[]>>({});
+  const mappingRef = useRef(mapping);
 
   // biome-ignore lint/correctness/useExhaustiveDependencies: only the song.id is important to retrigger the effect
   useEffect(() => {
@@ -57,6 +75,7 @@ export const SongDistributionProvider = ({ children, draftDistribution }: SongDi
       allParts.forEach((part) => {
         newMapping[part.id] = distribution.mapping[part.id] ?? [];
       });
+      mappingRef.current = newMapping;
       setMapping(newMapping);
     }
   }, [song?.id, distribution?.mapping]);
@@ -105,29 +124,24 @@ export const SongDistributionProvider = ({ children, draftDistribution }: SongDi
     return <ContentLoading>Gathering data...</ContentLoading>;
   }
 
-  const onAssign = (partId: UID, assignee: FUID) => {
-    setMapping((prev) => {
-      const copy = { ...prev };
-      const current = copy[partId] || [];
-      if (current.includes(assignee)) {
-        copy[partId] = current.filter((a) => a !== assignee);
-      } else {
-        copy[partId] = [...current, assignee];
-      }
-      return copy;
-    });
+  const commitAssignments = (result: ReturnType<typeof updatePartAssignments>) => {
+    if (!result.ok) {
+      message.error(result.message);
+      return false;
+    }
+    mappingRef.current = result.mapping;
+    setMapping(result.mapping);
+    return true;
   };
 
-  const onAssignMany = (partsIds: UID[], assignee: FUID) => {
-    setMapping((prev) => {
-      const copy = { ...prev };
-      partsIds.forEach((partId) => {
-        copy[partId].push(assignee);
-        copy[partId] = removeDuplicates(copy[partId]);
-      });
-      return copy;
-    });
-  };
+  const onAssign = (partId: UID, assignee: FUID) =>
+    commitAssignments(updatePartAssignments(mappingRef.current, [partId], assignee, 'toggle'));
+
+  const onAssignMany = (partsIds: UID[], assignee: FUID) =>
+    commitAssignments(updatePartAssignments(mappingRef.current, partsIds, assignee, 'add'));
+
+  const onAssignBatch = (updates: PartAssignmentUpdate[]) =>
+    commitAssignments(addAssignmentBatch(mappingRef.current, updates));
 
   const onActivateAssignee = (assignee: FUID) => {
     setActiveAssignee((prev) => {
@@ -139,14 +153,18 @@ export const SongDistributionProvider = ({ children, draftDistribution }: SongDi
   };
 
   const onSave = () => {
-    const { summary, maxAssigneeDuration } = buildSummary(song, mapping, distribution.assignees);
+    const { summary, maxAssigneeDuration } = buildDistributionSummary(
+      song,
+      mappingRef.current,
+      distribution.assignees,
+    );
     // Re-derive the name on every save in case the song's original artist (or the group's
     // name) changed since the distribution was created/last saved.
     const name = generateDistributionName(group, song);
     distributionMutation.mutate({
       ...distribution,
       name,
-      mapping,
+      mapping: mappingRef.current,
       summary,
       maxAssigneeDuration,
     });
@@ -162,6 +180,7 @@ export const SongDistributionProvider = ({ children, draftDistribution }: SongDi
         mapping,
         onAssign,
         onAssignMany,
+        onAssignBatch,
         activeAssignee,
         onActivateAssignee,
         mappingProgress,
@@ -182,31 +201,4 @@ export const useSongDistributionContext = () => {
   }
 
   return context;
-};
-
-const buildSummary = (song: Song, mapping: Distribution['mapping'], assignees: Distribution['assignees']) => {
-  const progressPerAssignee: Dictionary<number> = {};
-
-  Object.keys(assignees).forEach((assignee) => {
-    progressPerAssignee[assignee] = 0;
-  });
-
-  Object.entries(mapping).forEach(([partId, assignees]) => {
-    const duration = distributor.getPartDuration(partId, song);
-
-    assignees.forEach((assignee) => {
-      if (assignee === ALL_ID || assignee === NONE_ID) {
-        return;
-      }
-
-      progressPerAssignee[assignee] = (progressPerAssignee[assignee] || 0) + duration;
-    });
-  });
-
-  const maxAssigneeDuration = Math.max(...Object.values(progressPerAssignee));
-
-  return {
-    maxAssigneeDuration,
-    summary: progressPerAssignee,
-  };
 };

@@ -52,6 +52,7 @@ const server = await createServer({
             export const getDocQueryFunction = unavailable;
             export const updateDocQueryFunction = unavailable;
             export const deleteDocQueryFunction = unavailable;
+            export const createDoc = unavailable;
           `;
         }
       },
@@ -81,6 +82,7 @@ describe('Distributions', async () => {
     await server.ssrLoadModule('/src/components/Log/LogPart.test.tsx');
     await server.ssrLoadModule('/src/services/inline-adlibs.test.tsx');
     await server.ssrLoadModule('/src/utils/formation.test.tsx');
+    await server.ssrLoadModule('/src/utils/distribution-assignments.test.ts');
   } catch (error) {
     process.exitCode = 1;
     throw error;

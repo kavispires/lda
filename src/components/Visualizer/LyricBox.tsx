@@ -80,14 +80,15 @@ export const LyricBox = memo(function LyricBox({ snapshot, assignees, timestamp 
                     style={{
                       display: 'inline-block',
                       marginRight: '0.5em',
-                      fontStyle: isAllOrNone || line.inline ? 'italic' : 'normal',
+                      fontStyle: part.recorded || isAllOrNone || line.inline ? 'italic' : 'normal',
                     }}
                   >
                     {words.map((word, wordIndex) => {
                       const wordDelay = (elapsedWeight / totalWeight) * animationDuration;
                       const wordDuration = ((word.length + 1) / totalWeight) * animationDuration;
                       elapsedWeight += word.length + 1;
-                      const gradient = `linear-gradient(180deg, ${colors.join(', ')})`;
+                      const gradient =
+                        colors.length === 1 ? colors[0] : `linear-gradient(180deg, ${colors.join(', ')})`;
 
                       return (
                         <span
@@ -177,7 +178,10 @@ export const AdlibBox = memo(function AdlibBox({ snapshot, assignees }: Omit<Lyr
                 <span
                   key={`${part.text}-${partIndex}`}
                   style={{
-                    background: `linear-gradient(to right, ${part.colors.join(', ')})`,
+                    background:
+                      part.colors.length === 1
+                        ? part.colors[0]
+                        : `linear-gradient(to right, ${part.colors.join(', ')})`,
                     backgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
                   }}

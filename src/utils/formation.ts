@@ -8,6 +8,7 @@ import type {
   StagePosition,
 } from '@types';
 import { ALL_ID, NONE_ID, SEPARATOR } from './constants';
+import { liveAssigneeIds } from './distribution-assignments';
 
 export const STAGE_WIDTH = 27;
 export const STAGE_HEIGHT = 19;
@@ -714,7 +715,7 @@ export function formationCenterCandidates(
     const end = Math.min(part.endTime, song.endAt);
     if (!Number.isFinite(start) || !Number.isFinite(end) || end <= start || end <= timestamp) continue;
     const assigned = new Set<string>();
-    for (const id of distribution.mapping[part.id] ?? []) {
+    for (const id of liveAssigneeIds(distribution.mapping[part.id] ?? [])) {
       if (id === ALL_ID)
         ids.forEach((dancer) => {
           assigned.add(dancer);
@@ -747,7 +748,7 @@ export function activeFormationSingers(
   const ids = dancerIds(distribution);
   for (const part of Object.values(song.content)) {
     if (part.type !== 'part' || timestamp < part.startTime || timestamp >= part.endTime) continue;
-    for (const id of distribution.mapping[part.id] ?? []) {
+    for (const id of liveAssigneeIds(distribution.mapping[part.id] ?? [])) {
       if (id === ALL_ID)
         ids.forEach((dancer) => {
           active.add(dancer);

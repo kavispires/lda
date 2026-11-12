@@ -23,6 +23,7 @@ export function DistributionLog({ className }: LogProps) {
     activeAssignee,
     onAssign,
     onAssignMany,
+    onAssignBatch,
     mapping,
     distribution: { assignees },
   } = useSongDistributionContext();
@@ -174,12 +175,12 @@ export function DistributionLog({ className }: LogProps) {
       });
     }
 
-    // Use onAssignMany for each assignee across all their target parts
-    Object.entries(assigneeToPartsMap).forEach(([assigneeId, partIds]) => {
-      onAssignMany(partIds, assigneeId);
-    });
-
-    message.success(`Pasted assignments from section ${copiedSectionId} to section ${sectionId}`);
+    const applied = onAssignBatch(
+      Object.entries(assigneeToPartsMap).map(([assignee, partIds]) => ({ assignee, partIds })),
+    );
+    if (applied) {
+      message.success(`Pasted assignments from section ${copiedSectionId} to section ${sectionId}`);
+    }
   };
 
   return (

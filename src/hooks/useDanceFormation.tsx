@@ -1,6 +1,7 @@
 import { firestore } from '@services/firebase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import type { Distribution, FirestoreFormation, Formation, FormationTemplate, Song } from '@types';
+import { ASSIGNMENT_CONFLICT_MESSAGE, hasAssignmentConflict } from '@utils/distribution-assignments';
 import {
   buildFormationListingSnippet,
   dancerIds,
@@ -93,6 +94,7 @@ export async function saveFormation(formation: Formation) {
     ) {
       throw new Error('Song timings or distribution assignments are invalid.');
     }
+    if (hasAssignmentConflict(mapping)) throw new Error(ASSIGNMENT_CONFLICT_MESSAGE);
     const formationSnippet = buildFormationListingSnippet(
       saved,
       { id: songDoc.id, startAt: song.startAt, endAt: song.endAt, content },
