@@ -1,6 +1,6 @@
 import { firestore } from '@services/firebase';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import type { FirestoreFormation, Formation, FormationTemplate } from '@types';
+import type { Distribution, FirestoreFormation, Formation, FormationTemplate, Song } from '@types';
 import {
   buildFormationListingSnippet,
   dancerIds,
@@ -78,10 +78,25 @@ export async function saveFormation(formation: Formation) {
       dancerIds({ assignees: distribution.assignees }),
     );
     if (errors.length) throw new Error(errors.join(' '));
+    if (typeof song.content !== 'string' || typeof distribution.mapping !== 'string') {
+      throw new Error('Song timings or distribution assignments are invalid.');
+    }
+    const content: Song['content'] = JSON.parse(song.content);
+    const mapping: Distribution['mapping'] = JSON.parse(distribution.mapping);
+    if (
+      !content ||
+      typeof content !== 'object' ||
+      Array.isArray(content) ||
+      !mapping ||
+      typeof mapping !== 'object' ||
+      Array.isArray(mapping)
+    ) {
+      throw new Error('Song timings or distribution assignments are invalid.');
+    }
     const formationSnippet = buildFormationListingSnippet(
       saved,
-      { id: songDoc.id, startAt: song.startAt, endAt: song.endAt },
-      distribution.assignees,
+      { id: songDoc.id, startAt: song.startAt, endAt: song.endAt, content },
+      { assignees: distribution.assignees, mapping },
     );
     transaction.set(formationRef, serializeFormation(saved));
     transaction.update(distributionRef, { formationId: id });

@@ -48,10 +48,12 @@
   }
 
   .formation-playback {
+    box-sizing: border-box;
     display: grid;
     flex: 2;
     place-items: center;
     min-height: 0;
+    max-height: 60%;
     padding: 8px;
     container-type: size;
     overflow: hidden;

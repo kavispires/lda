@@ -322,11 +322,12 @@ export function resolveFormationPose(snapshots: FormationSnapshot[], timestamp: 
   return structuredClone(previous.positions);
 }
 
-export function formationCenterDurations(
+export function formationFocusDurations(
   formation: Formation,
-  song: Pick<Song, 'id' | 'startAt' | 'endAt'>,
+  song: Pick<Song, 'id' | 'startAt' | 'endAt' | 'content'>,
+  distribution: Pick<Distribution, 'assignees' | 'mapping'>,
 ): Record<string, number> {
-  const errors = formationErrors(formation, song, formation.assigneesIds);
+  const errors = formationErrors(formation, song, dancerIds(distribution));
   if (errors.length) throw new Error(errors.join(' '));
   const ids = [...formation.assigneesIds].sort();
   const durations = Object.fromEntries(ids.map((id) => [id, 0]));
@@ -335,9 +336,17 @@ export function formationCenterDurations(
     Number.isFinite(b) &&
     Math.abs(a - b) <= 16 * Number.EPSILON * Math.max(1, Math.abs(a), Math.abs(b));
 
-  const countInterval = (from: FormationPose, to: FormationPose, duration: number) => {
+  const parts = Object.values(song.content).filter((entry) => entry.type === 'part');
+  const countInterval = (from: FormationPose, to: FormationPose, start: number, end: number) => {
+    const duration = end - start;
     if (duration <= 0) return;
     const boundaries = new Set([0, 1]);
+    for (const part of parts) {
+      for (const timestamp of [part.startTime, part.endTime]) {
+        const progress = (timestamp - start) / duration;
+        if (progress > 0 && progress < 1) boundaries.add(progress);
+      }
+    }
     const addRoot = (offset: number, slope: number) => {
       if (slope === 0) return;
       const root = -offset / slope;
@@ -372,7 +381,13 @@ export function formationCenterDurations(
           front = y;
         }
       }
-      durations[winner] += (points[index] - points[index - 1]) * duration;
+      const focused = new Set([
+        winner,
+        ...activeFormationSingers(song, distribution, start + midpoint * duration),
+      ]);
+      for (const id of focused) {
+        durations[id] += (points[index] - points[index - 1]) * duration;
+      }
     }
   };
 
@@ -380,18 +395,20 @@ export function formationCenterDurations(
   snapshots.forEach((snapshot, index) => {
     const next = snapshots[index + 1];
     const holdEnd = next ? next.timestamp - next.transition : song.endAt;
-    countInterval(snapshot.positions, snapshot.positions, holdEnd - snapshot.timestamp);
-    if (next?.transition) countInterval(snapshot.positions, next.positions, next.transition);
+    countInterval(snapshot.positions, snapshot.positions, snapshot.timestamp, holdEnd);
+    if (next?.transition) countInterval(snapshot.positions, next.positions, holdEnd, next.timestamp);
   });
   return durations;
 }
 
 export function buildFormationListingSnippet(
   formation: Formation,
-  song: Pick<Song, 'id' | 'startAt' | 'endAt'>,
-  assignees: Distribution['assignees'],
+  song: Pick<Song, 'id' | 'startAt' | 'endAt' | 'content'>,
+  distribution: Pick<Distribution, 'assignees' | 'mapping'>,
 ): string {
-  const durations = formationCenterDurations(formation, song);
+  const durations = formationFocusDurations(formation, song, distribution);
+  const total = Object.values(durations).reduce((sum, duration) => sum + duration, 0);
+  const { assignees } = distribution;
   const ids = Object.keys(durations);
   for (const id of ids) {
     if (typeof assignees[id]?.name !== 'string' || typeof assignees[id]?.color !== 'string')
@@ -403,11 +420,7 @@ export function buildFormationListingSnippet(
       const second = assignees[b].name;
       return first < second ? -1 : first > second ? 1 : a < b ? -1 : a > b ? 1 : 0;
     })
-    .map((id) =>
-      [assignees[id].color, (durations[id] / (song.endAt - song.startAt)) * 100, assignees[id].name].join(
-        '|',
-      ),
-    )
+    .map((id) => [assignees[id].color, (durations[id] / total) * 100, assignees[id].name].join('|'))
     .join(SEPARATOR);
 }
 
@@ -724,7 +737,11 @@ export function formationCenterCandidates(
   return [...(current.size ? current : upcoming)].sort();
 }
 
-export function activeFormationSingers(song: Song, distribution: Distribution, timestamp: number): string[] {
+export function activeFormationSingers(
+  song: Pick<Song, 'startAt' | 'endAt' | 'content'>,
+  distribution: Pick<Distribution, 'assignees' | 'mapping'>,
+  timestamp: number,
+): string[] {
   const active = new Set<string>();
   if (timestamp < song.startAt || timestamp >= song.endAt) return [];
   const ids = dancerIds(distribution);

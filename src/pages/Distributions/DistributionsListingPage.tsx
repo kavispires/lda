@@ -212,7 +212,7 @@ function DistributionSnippet({ snippet = '', compact = false }: DistributionSnip
 
   return (
     <div
-      aria-label={compact ? 'Formation center time' : 'Distribution shares'}
+      aria-label={compact ? 'Formation song focus' : 'Distribution shares'}
       role="group"
       style={{
         display: 'flex',
@@ -226,9 +226,7 @@ function DistributionSnippet({ snippet = '', compact = false }: DistributionSnip
         <Tooltip
           key={index}
           title={
-            compact
-              ? `${name}: ${Number(percentage).toFixed(1)}% of song at center`
-              : `${name}: ${percentage}%`
+            compact ? `${name}: ${Number(percentage).toFixed(1)}% of song focus` : `${name}: ${percentage}%`
           }
         >
           <div
